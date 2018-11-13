@@ -1,0 +1,69 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/rule.css">
+<style>
+    .header_nav{
+        background: #fff;
+    }
+    .header_tit span {
+        color: #333;
+    }
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="rule">
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>保证金定义</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>保证金全称叫做消费者保障保证金。当如果涉及理赔时，可利用消保金进行支付；如没有理赔，消保金可全额退回的一种保证金机制</span>
+            </div>
+        </div>
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>保证金收缴</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>商品发布时，将根据结算价来设定保证金</span>
+            </div>
+            <div class="rule_mian_text">
+                <span>1.结算价为1-1000元的，缴纳1000元</span>
+            </div>
+            <div class="rule_mian_text">
+                <span>2.结算价为1000-10000元的，缴纳5000元</span>
+            </div>
+            <div class="rule_mian_text">
+                <span>3.结算价为10000元以上，缴纳10000元</span>
+            </div>
+            <div class="rule_mian_text rule_margin">
+                <span>PS.用户拍走商品后，发现商品有质量问题后，与商家协调不成功。投诉到平台后，平台有权从保证金中扣取相关费用倍偿用户，并督促商家继续补足保证金</span>
+            </div>
+        </div>
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>保证金退还</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>商家退出平台时，可以向平台要求退返保证金，平台按相关规定，在一定的期限内退还商家保证金</span>
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

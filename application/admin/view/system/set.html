@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>系统管理|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link href="__CSS__/style.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script>
+function check() {
+	var UPLOAD_CAPACITY = $('#cdl .qtext').eq(0).val();
+	var UPLOAD_USER_CAPACITY = $('#cdl .qtext').eq(1).val();
+	var UPLOAD_FILE_PIC_SIZE = $('#cdl .qtext').eq(2).val();
+	var UPLOAD_FILE_PIC_TYPE = $('#cdl .qtext').eq(3).val();
+	var UPLOAD_FILE_FILE_SIZE = $('#cdl .qtext').eq(4).val();
+	var UPLOAD_FILE_FILE_TYPE = $('#cdl .qtext').eq(5).val();
+	//验证并判断
+	if (!tcheck(UPLOAD_CAPACITY,'','云空间大小不能为空')) { return false; }
+	if (!tcheck(UPLOAD_CAPACITY,'number','云空间大小必须是数字')) { return false; }
+	if (!tcheck(UPLOAD_USER_CAPACITY,'','请给用户分配空间容量')) { return false; }
+	if (!tcheck(UPLOAD_USER_CAPACITY,'number','空间大小必须是数字')) { return false; }
+	if (!tcheck(UPLOAD_FILE_PIC_SIZE,'','图片大小限制必须是数字')) { return false; }
+	if (!tcheck(UPLOAD_FILE_PIC_SIZE,'number','图片大小限制必须是数字')) { return false; }
+	if (!tcheck(UPLOAD_FILE_PIC_TYPE,'2,100','图片类型长度不符合','length')) { return false; }
+	if (!tcheck(UPLOAD_FILE_PIC_TYPE,/^([a-zA-Z0-9]{2,6}\|)*([a-zA-Z0-9]{2,6})$/g,'图片类型填写不正确，多种类型请用“|”隔开','regexp')) { return false; }
+	if (!tcheck(UPLOAD_FILE_FILE_SIZE,'','文件大小限制必须是数字')) { return false; }
+	if (!tcheck(UPLOAD_FILE_FILE_SIZE,'number','文件大小限制必须是数字')) { return false; }
+	if (!tcheck(UPLOAD_FILE_FILE_TYPE,'2,100','文件类型长度不符合','length')) { return false; }
+	if (!tcheck(UPLOAD_FILE_FILE_TYPE,/^([a-zA-Z0-9]{2,6}\|)*([a-zA-Z0-9]{2,6})$/g,'文件类型填写不正确，多种类型请用“|”隔开','regexp')) { return false; }
+	return true;
+}
+$(function(){
+	$("#logo_pic").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'],  
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+	    {if condition="$result['WEB_LOGO'] neq ''"}
+        initialPreview: [
+           "__ROOT__/uploads/logo/{$result['WEB_LOGO']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "200px", url: "{:url('page/deleteimage')}", key: {$result['id']}},
+        ]
+		{/if}
+	});
+});
+</script>
+</head>
+
+<body>
+
+<div id="content">
+	<h1>首页 &gt; 系统管理 &gt; 核心配置</h1>
+    <h2>
+    	<div class="h2_left">
+        	<a href="javascript:;" class="f5" onclick="f5();">刷新</a>
+            <a href="javascript:history.back();" class="Retreat">后退</a>
+            <a href="javascript:history.go(1);" class="Advance">前进</a>
+        </div>
+    </h2>
+    <h3>
+    	<a href="#" class="h3a">网站设置</a>
+    	<a href="#">系统配置</a>
+        <a href="#" >核心配置</a>
+    </h3>
+    <form action="" method="post" id="form" onsubmit="return check();">
+    <dl id="cdl">
+    	<dd>
+        	<span class="dd_left">云端总容量：</span>
+            <span class="dd_right">
+            	<input type="text" name="UPLOAD_CAPACITY" class="qtext" value="100">
+                <font>网站总空间，单位M（兆）</font>
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">用户空间分配：</span>
+            <span class="dd_right">
+            	<input type="text" name="UPLOAD_USER_CAPACITY" class="qtext" value="50">
+                <font>给每个用户分配的空间大小，单位M（兆）</font>
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">图片大小限制：</span>
+            <span class="dd_right">
+            	<input type="text" name="UPLOAD_FILE_PIC_SIZE" class="qtext" value="1024">
+                <font>单位为KB</font>
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">LOGO图片：</span>
+            <span class="dd_right">
+            	<input type="file" class="form-control" id="logo_pic" name="WEB_LOGO" aria-required="true" aria-invalid="true">
+                <font></font>
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">版权：</span>
+            <span class="dd_right">
+            	<input type="text" name="UPLOAD_FILE_FILE_SIZE" class="qtext" value="">
+                <font></font>
+            </span>
+    	</dd>
+		<dd>
+        	<span class="dd_left">关键字：</span>
+            <span class="dd_right">
+            	<input type="text" name="UPLOAD_FILE_FILE_TYPE" class="qtext" value="">
+                <font>多个后缀请用英文逗号“ , ”分隔开</font>
+            </span>
+        </dd>
+		<input type="hidden" name="array" class="qtext" value="WEB">
+        <dd><input type="submit" value="提交" class="submit"></dd>
+    </dl>
+    </form>
+</div>
+</body>
+</html>

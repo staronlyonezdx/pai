@@ -1,0 +1,217 @@
+{extend name="index/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/index/search_winners.css">
+<style>
+    /*.mescroll-upwarp {*/
+    /*padding: 0.5rem 0 1.6rem 0;*/
+    /*}*/
+
+    /*.layui-layer-msg {*/
+    /*width: 3.8rem;*/
+    /*}*/
+</style>
+{/block}
+{block name="content"}
+<main>
+
+    <div class="search">
+        <!--搜索框-->
+        <div class="index_search_pop_top clear">
+            <a href="/">
+                <div class="index_pop_text lf">
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+                </div>
+            </a>
+            <div class="index_search_pop_view clear lf">
+                <div class="index_search_lfimg" class="lf">
+                    <img src="__STATIC__/image/index/searchbar_icon_search1@2x.png">
+                </div>
+                <input type="text" name="keyword" class="index_pop_inp lf" autofocus="autofocus">
+
+                <div class="index_search_cancel rt">
+                    <img src="__STATIC__/image/index/icon_qingchu1@2x.png" alt="">
+                </div>
+            </div>
+            <!-- <button type="submit" class="index_pop_sousuo rt"> 搜索</button> -->
+            <a class="index_pop_sousuo rt"> 搜索</a>
+        </div>
+
+
+    </div>
+    <!--搜索出的列表-->
+    <div class="index_pop_search_main" id="mescroll">
+        <ul class="index_pop_search_ul data-list" id="dataList">
+
+        </ul>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script>
+
+    $(function () {
+
+        // 格式化时间戳
+        function formatDate(date) {
+
+            var now = new Date(date)
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            if (second < 10) {
+                second = "0" + second;
+            }
+            if (minute < 10) {
+                minute = "0" + minute;
+            }
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+
+        }
+
+        // window.sessionStorage.setItem("type",type);//存数据到sessionStorage
+        //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+        var mescroll = new MeScroll("body", {
+            //下拉刷新
+            down: {
+                isLock: true, //锁定下拉
+            },
+            //上拉加载的配置项
+            up: {
+                callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                empty: {
+                    icon: "/static/image/index/no-cont.png", //图标,默认null
+                    tip: "吖吖这里没有您搜索的信息呢", //提示
+                },
+                clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                toTop: {
+                    //配置回到顶部按钮
+                    src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    //offset : 1000
+                }
+            }
+        });
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            getListDataFromNet(page.num, page.size, function (curPageData) {
+                //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                mescroll.endSuccess(curPageData.length);
+
+                //设置列表数据
+                setListData(curPageData);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescroll.endErr();
+            });
+        }
+
+        //清空搜索框
+        $('.index_search_cancel').on("click", function () {
+            $(this).siblings("input").val("");
+            $(this).siblings("input").focus();
+            $('.search_history').hide();
+        });
+        //点击搜索
+        $(".index_pop_sousuo").click(function () {
+            $(".shop_index_tab_list").removeClass("shop_index_tab_bold");
+            $(".shop_index_tab_list").eq(0).addClass("shop_index_tab_bold");
+
+            //重置列表数据
+            mescroll.resetUpScroll();
+            //隐藏回到顶部按钮
+            mescroll.hideTopBtn();
+        })
+        /*设置列表数据*/
+        function setListData(curPageData) {
+            var listDom = document.getElementById("dataList");
+                for (var i = 0; i < curPageData.length; i++) {
+
+                    var pd = curPageData[i];
+
+                    var award_time = formatDate(pd.award_time * 1000);
+                    var str = '<li class="all_list_item clear">';
+                    str += '<div class="all_list_left lf">';
+                    str += ' <p class="all_list_name">【第245期】人气王中奖者公布运气也太好了吧!喜提iPhone X</p>';
+                    // str += ' <div class="all_list_info">';
+                    // str += '<img src="" alt="" class="winner_avert">';
+                    // str += ' <span class="winner_name">超**鱼</span>';
+                    // str += ' <img src="__STATIC__/image/index/icon_zhognjiang1@2x.png" alt="" class="winner_tip">';
+                    // str += '</div>';
+
+                    str += '<div class="details_tit_top clear">';
+                    str += '<div class="details_imgs lf">';
+                    str += '<img src="" alt="">';
+                    str += ' </div>';
+                    str += '<div class="details_imgs lf">';
+                    str += '<img src="" alt="">';
+                    str += ' </div>';
+                    str += '<div class="details_imgs lf">';
+                    str += '<img src="" alt="">';
+                    str += ' </div>';
+                    str += '<p class="lf">等共17人团中</p>';
+                    str += ' </div>';
+
+
+
+                    str += '<div class="all_list_data">';
+                    str += '2018-10-24 15:24 · 52评论';
+                    str += '</div>';
+                    str += '</div>';
+                    str += '<img src="" alt="" class="rt all_list_img">';
+                    str += ' </li>';
+
+                    var liDom = document.createElement("a");
+                    liDom.setAttribute('href', '/pointpai/Pointgoods/index/g_id/' + pd.g_id);
+                    liDom.innerHTML = str;
+                    listDom.appendChild(liDom);
+                }
+
+            }
+
+        /*联网加载列表数据
+        在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+        请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+        实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+        * */
+        function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/index/index/search_index',
+                    data: {
+                        keyword: $('input[name="keyword"]').val(),
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.list.length; i++) {
+                            listData.push(data.list[i]);
+                        }
+
+                        //回调
+                        successCallback(listData);
+                    },
+                    error: errorCallback
+                });
+            }, 1000)
+        }
+
+    });
+
+</script>
+{/block}

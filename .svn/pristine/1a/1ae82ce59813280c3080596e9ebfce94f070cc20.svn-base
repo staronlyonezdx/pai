@@ -1,0 +1,248 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/my_publish1.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/search_index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+{/block} {block name="header"} 
+{include file="common/header" /} {/block} {block name="content"}
+
+<main style="margin: 0.88rem 0 0 0">
+    <!--展示上拉加载的数据列表-->
+    <div id="dataList" class="data-list"></div>
+</main>
+
+{/block} {block name="script"} {include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script type="text/javascript" src="__JS__/md5.js"></script>
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script>
+    // 毫秒数转标准时间
+    function msToDate (msec) {
+        var datetime = new Date(msec);
+        var year = datetime.getFullYear();
+        var month = datetime.getMonth();
+        var date = datetime.getDate();
+        var hour = datetime.getHours();
+        var minute = datetime.getMinutes();
+        var second = datetime.getSeconds();
+
+        var result0 = year + 
+                    '-' + 
+                    ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) + 
+                    '-' + 
+                    ((date + 1) < 10 ? '0' + date : date) + 
+                    ' ' + 
+                    ((hour + 1) < 10 ? '0' + hour : hour) +
+                    ':' + 
+                    ((minute + 1) < 10 ? '0' + minute : minute);
+
+        var result1 = year + 
+                    '-' + 
+                    ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) + 
+                    '-' + 
+                    ((date + 1) < 10 ? '0' + date : date) + 
+                    ' ' + 
+                    ((hour + 1) < 10 ? '0' + hour : hour) +
+                    ':' + 
+                    ((minute + 1) < 10 ? '0' + minute : minute) + 
+                    ':' + 
+                    ((second + 1) < 10 ? '0' + second : second);
+
+        var result2 = year + 
+                    '-' + 
+                    ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) + 
+                    '-' + 
+                    ((date + 1) < 10 ? '0' + date : date);
+
+        var result = {
+            wasTime: result0,
+            hasTime: result1,
+            withoutTime: result2
+        };
+        return result;
+    }
+
+    $(function () {
+        //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+        var mescroll = new MeScroll("body", {
+            //下拉刷新
+            down: {
+                isLock: true, //锁定下拉
+            },
+            //上拉加载的配置项
+            up: {
+                callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                empty: {
+                    icon: "/static/image/index/no-cont.png", //图标,默认null
+                    tip: "暂无搜索结果~", //提示
+                    btntext: "先去逛逛", //按钮,默认""
+                    btnClick: function(){
+                        window.location.href="/pointpai/Pointorder/orderlist/"
+                    },
+                },
+                clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                toTop: {
+                    //配置回到顶部按钮
+                    src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    //offset : 1000
+                }
+            }
+        });
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            getListDataFromNet(page.num, page.size, function (curPageData,total_num) {
+                //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                //必传参数(当前页的数据个数, 总数据量)
+                mescroll.endBySize(curPageData.length, total_num);
+
+                //设置列表数据
+                setListData(curPageData);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescroll.endErr();
+            });
+        }
+
+        /*设置列表数据*/
+        function setListData(curPageData) {
+            var listDom = document.getElementById("dataList");
+            for (var i = 0; i < curPageData.length; i++) {
+                var pd = curPageData[i];
+                var fh = '';
+                var bt = '';
+                var time = '';
+                var pay = '';          
+                if (pd.o_paystate == 1) {
+                    if(pd.live_paytime > 0 && pd.o_isdelete < 2) {
+                        fh = '<span class="my_publish_hint rt">等待付款</span>';
+                        time = '<p class="rt">截止时间：'+ msToDate(pd.g_endtime * 1000).wasTime +'</p>';
+                        pay = '<div class="zfs fl">需支付 '+ pd.o_totalpoint +' 积分</div>';
+                        // bt = '<div class="my_publish_share rt hs" data-id="' + pd.o_id + '" price="' + pd.o_totalpoint + '" onclick="pay(this)"><span>付款</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="cancel(this)"><span>取消订单</span></div>';
+                    }else {
+                        // bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                    }                   
+                } else if (pd.o_paystate > 1) {
+                    if(pd.o_state == 1) {
+                        fh = '<span class="my_publish_hint rt">等待揭晓</span>';
+                        time = '<p class="rt">截止时间：' + msToDate(pd.g_endtime * 1000).wasTime +'</p>';
+                        // bt = '<div class="my_publish_share rt my_pub_share" onclick="share(this)" url="'+ pd.url +'" desc="'+ pd.share_desc +'" tit="'+ pd.share_title +'" imgs="'+ pd.gp_img +'" code="'+ pd.code +'" data-id="' + pd.o_id + '"><img src="__STATIC__/image/orderpai/fenxiang.png" /><span>分享商品</span></div>';
+                    }
+                    if(pd.o_state == 2) {
+                        fh = '<span class="my_publish_hint rt">等待发货</span>';
+                        time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                        // bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a href="tel:400-027-1888">联系客服</span></a></div>';
+                    }
+                    if(pd.o_state == 3) {
+                        fh = '<span class="my_publish_hint rt">等待收货</span>';
+                        time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                        // bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="logistics_info(this)">发货信息</span></div><div class="my_publish_share rt hs" data-id="' + pd.o_id + '" onclick="confirms(this)"><span>确认收货</span></div>';
+                    }
+                    if(pd.o_state == 4) {
+                        fh = '<span class="my_publish_hint rt">等待评价</span>';
+                        time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                        // bt = '<div class="my_publish_share rt hs" data-id="' + pd.o_id + '"><span onclick="review_order(this)">评价商品</span></div>';
+                    }
+                    if(pd.o_state == 5) {
+                        fh = '<span class="my_publish_hint rt ls">已完成订单</span>';
+                        time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                        // bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span>随便逛逛</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                    }
+                    if(pd.o_state == 10 || pd.o_state == 11) {
+                        if(pd.o_paystate == 3) {
+                            fh = '<span class="my_publish_hint rt">退款中</span>';
+                            time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>'; 
+                        }
+                        if(pd.o_paystate == 4) {
+                            fh = '<span class="my_publish_hint rt ls">已完成退款</span>';
+                            time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                            // bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                        }                            
+                    }
+                }
+
+                var str = '<div class="my_publish_tit clear">';
+                str += '<a href="/member/shop/index/store_id/'+ pd.store_id + '">';
+                str += '<span class="my_publish_bh lf">';
+                str += '<img src="' + pd.store_logo + '" alt="">' + pd.stroe_name + '</span></a>';
+                str += fh;
+                str += '</div>';
+                str += '<a href="/pointpai/Pointorder/index/o_id/' + pd.o_id + '">';
+                str += '<div class="my_publish_main clear">';
+                str += '<div class="my_publish_img lf pmg">';
+                str += '<img src="' + pd.gp_img + '">';
+                str += '</div>';
+                str += '<div class="my_publish_text lf pmgd">';
+                str += '<p>' + pd.g_name + '</p>';
+                str += '<div class="my_publish_price clear">';
+                str += '<span class="my_publish_new">' + pd.o_point;
+                if(pd.o_point != pd.gp_market_price) {
+                    str += '<span>' + pd.gp_market_price + '</span>';
+                }                
+                str += '</span>';
+                str += '<span class="my_publish_inventory rt">x';
+                str += '<span>' + pd.gp_num + '</span>';
+                str += '</span>';
+                str += '</div>';
+                str += '</div>';
+                str += '</div>';
+                str += '</a>';
+                str += '<div class="my_publish_data clear">';
+                str += '<p class="lf">含' + pd.pai_num + '份吖吖码</p>';
+                str += time;
+                str += '</div>';
+                str += '<div class="my_publish_btn clear">';
+                str += pay;
+                str += bt;
+                str += '</div>';
+
+                var liDom = document.createElement("div");
+                liDom.className = "my_publish_list";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+
+        /*联网加载列表数据
+        在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+        请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+        实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+        * */
+        function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/pointpai/Pointorder/getorderlist/',
+                    data: {
+                        keyword: '{$keyword}',
+                        page: pageNum,
+                        size: pageSize
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.data.length; i++) {
+                            listData.push(data.data[i]);
+                        }
+
+                        //回调
+                        successCallback(listData,data.total_num);
+                    },
+                    error: errorCallback
+                });
+            }, 1000)
+        }
+    });
+</script> 
+{/block}

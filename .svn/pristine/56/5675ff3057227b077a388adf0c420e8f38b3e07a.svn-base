@@ -1,0 +1,43 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>角色列表</label>
+            </div>
+            <div class="form-group  from_add">
+                <a href="{:url('Adminrole/roleedit')}">新增角色</a>
+            </div>
+            {empty name="$list"}
+            <div class="form-group form_part">没有数据</div>
+            {else/}
+            {volist name="$list" id="vo"}
+                <div class="form-group form_part">
+                    <label>{$vo.role_name}</label>
+                    &nbsp;
+                    <a href="{:url('Adminrole/roleedit',['role_id' => $vo.role_id])}"> 编辑</a>
+                    <span>|</span>
+                    <a href="{:url('Adminrole/roledel',['role_id' => $vo.role_id])}" class="authoritylist_dele_btn">删除</a>
+                </div>
+
+                {notempty name="$vo.role_auth"}
+                <div class="form-group form-list-span">
+                    {volist name="$vo.role_auth" id="vo_auth"}
+                        <span>
+                            <label>{$vo_auth.authority_name}</label>
+                            <a href="{:url('Adminrole/role_authdel',['authority_id' => $vo_auth.authority_id,'role_id'=>$vo.role_id])}" class="authoritylist_dele_btn">删除</a>
+                        </span>
+                    {/volist}
+                </div>
+                {/notempty}
+            {/volist}
+            {/empty}
+        </div>
+    </div>
+</div>
+{/block}
+

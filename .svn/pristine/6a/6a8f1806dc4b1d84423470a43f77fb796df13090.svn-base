@@ -1,0 +1,165 @@
+{extend name="common/base" /}
+{block name="script"}
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+{/block}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/datareport_member.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/timepicker/css/jquery-ui.css" />
+<style>
+    .max_img {
+        position: fixed;
+        top: 30%;
+        right: 10%;
+        display:none;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <label>活动列表</label>
+            <div class="form-group  from_add_authority">
+                <label> 状态:</label>
+                <a href="/admin/channelactivity/activity_list/ca_state/0" type="button" class="btn {eq name='ca_state' value='0'}btn-success {else /} btn-info {/eq} btn-xs">全部</a>
+                <a href="/admin/channelactivity/activity_list/ca_state/1" type="button" class="btn {eq name='ca_state' value='1'}btn-success {else /} btn-info {/eq} btn-xs">未发布</a>
+                <a href="/admin/channelactivity/activity_list/ca_state/2" type="button" class="btn {eq name='ca_state' value='2'}btn-success {else /} btn-info {/eq} btn-xs">已发布</a>
+
+                <a class="pull-right" href="{:url('channelactivity/add_activity')}">添加活动</a>
+            </div>
+            <div class="doc-dd" style="padding: 10px 0 0 0">
+                <label>注册时间</label>
+                <input name="act_start_time" id="startdate" type="text" class="text-box" value="" placeholder="开始时间" title="开始时间" readonly="readonly" style="cursor:pointer;"/>
+                <input name="act_stop_time" id="enddate" type="text" class="text-box" value="" placeholder="结束时间" title="结束时间>开始时间" readonly="readonly" style="cursor:pointer;"/>
+                <input type="text" id="ca_name" name="ca_name" placeholder="活动名称">
+                <button class="btn" type="button" style="padding: 3px 12px" id="search"><strong>搜 索</strong></button>
+            </div>
+            <script type="text/javascript">
+                $( "input[name='act_start_time'],input[name='act_stop_time']" ).datetimepicker();
+            </script>
+
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>活动ID</th>
+                    <th>活动名称</th>
+                    <th>渠道名称</th>
+                    <th>Logo</th>
+                    <th>活动链接</th>
+                    <th>活动二维码</th>
+                    <th>状态</th>
+                    <th>添加日期</th>
+                    <th>更新日期</th>
+                    <th>结束日期</th>
+                    <th>添加管理员ID</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.ca_id}</th>
+                    <td>{$vo.ca_name}</td>
+                    <td>{$vo.c_name}</td>
+                    <td><img src="{$vo.ca_img|default=''}"></td>
+                    <td>{$vo.ca_link}</td>
+                    <td><img src="{$vo.ca_code|default=''}" class="img"></td>
+                    <td>{if condition="$vo.ca_state == 1"}未发布{else/}已发布{/if}</td>
+                    <td>{notempty name='vo.add_time'}{$vo.add_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.update_time'}{$vo.update_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.end_time'}{$vo.end_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>{$vo.admin_id}</td>
+                    <td>
+                        {if condition="$vo.ca_state == 1"}
+                            <a href="{:url('channelactivity/pub_activity',['ca_id' => $vo.ca_id])}">
+                                发布
+                            </a>|
+                            <a href="{:url('channelactivity/add_activity',['ca_id' => $vo.ca_id])}">
+                                编辑
+                            </a>|
+                        {/if}
+                        <a href="{:url('channelactivity/del_activity',['ca_id' => $vo.ca_id])}" class="dele_btn" onclick="return confirm('确认要删除？');">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="page_box">
+        {$page}
+        <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+    </div>
+</div>
+<img class="max_img" src="https://ss0.baidu.com/73x1bjeh1BF3odCf/it/u=138126325,1485620701&fm=85&s=7FAB2EC3909A35D01E299C1A030010D2" alt="" width='300' height='300' >
+<script>
+    $('.img').hover(function(){
+        var url = $(this).attr('src')
+        $('.max_img').show().attr('src',url);
+    },function(){
+        $('.max_img').hide().attr('src','');
+    })
+
+    $("#search").click(function(){
+        var startdate=$("#startdate").val();
+        var enddate=$("#enddate").val();
+        var protocol = window.location.protocol;
+        protocol+="//";
+        var host = window.location.host;
+        var port = window.location.port;
+        var pathname = window.location.pathname;
+        var url=protocol+host+port+pathname;
+        var ca_name=$("#ca_name").val();
+        if(startdate==''&& enddate==''&& ca_name==''){
+            location.href=url;
+            return;
+        }
+        // var sdate = new Date(startdate);
+        // var edate = new Date(enddate);
+        // var starttime = Date.parse(sdate)/1000;
+        // var endtime = Date.parse(edate)/1000;
+        var date1 = new Date(startdate.replace(/-/g, '/'));
+        var date2 = new Date(enddate.replace(/-/g, '/'));
+        var starttime = date1.getTime()/1000;
+        var endtime = date2.getTime()/1000;
+
+        if(isNaN(starttime)){
+            starttime=0;
+        }
+        if(isNaN(endtime)){
+            endtime=0;
+        }
+        if(endtime<starttime){
+            alert('起始日期不能大于结束日期');
+        }
+
+        url+="?starttime="+starttime+"&endtime="+endtime;
+
+        if(ca_name!=''){
+            url+="&ca_name="+ca_name;
+        }
+
+        location.href=url;
+
+    });
+</script>
+
+{/block}

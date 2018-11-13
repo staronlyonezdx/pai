@@ -1,0 +1,88 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>拍品订单评价列表</label>
+                <!--<a class="pull-right" href="{:url('review/edit')}">添加评价</a>-->
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>评分</th>
+                    <th>评价详情</th>
+                    <th>评价图片</th>
+                    <th>评价时间</th>
+                    <th>用户</th>
+                    <th>商品名称</th>
+                    <th>店铺名称</th>
+                    <th>显示状态</th>
+                    <th>评价管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <td scope="row" class="sid">{$vo.ro_id}</td>
+                    <td>
+                        <p>拍品评分:{$vo.goods_score|default='无'}</p>
+                        <p>店铺评分:{$vo.service_score|default='无'}</p>
+                        <p>物流评分:{$vo.logistics_score|default='无'}</p>
+                    </td>
+                    <td>{$vo.rg_content|default=''}</td>
+                    <td>
+                        {notempty name="vo.img_list"}
+                        {volist name="$vo.img_list" id="voo"}
+                        <img src="__CDN_PATH__{$voo.img_url|default=''}" alt=""/>
+                        {/volist}
+                        {/notempty}
+                    </td>
+                    <td>{$vo.add_time|date='y-m-d h:i:s',###}</td>
+                    <td>
+                        <p>{$vo.m_name}</p>
+                        {if condition="$vo.rg_showname == 1"}
+                        <p>(匿名)</p>
+                        {/if}
+                    </td>
+                    <td>{$vo.g_name}</td>
+                    <td>{$vo.stroe_name}</td>
+                    <td>
+                        {if condition="$vo.state == 1"}
+                        已关闭
+                        {else/}
+                        正常
+                        {/if}
+                    </td>
+                    <td>
+                        <a href="{:url('Review/delete',['ro_id' => $vo.ro_id])}" class="dele_btn">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+            <div>
+                {$page}
+                <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+

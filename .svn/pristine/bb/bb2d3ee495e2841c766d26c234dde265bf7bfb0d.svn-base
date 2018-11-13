@@ -1,0 +1,107 @@
+
+.header_nav {
+    border: none;
+}
+
+.title {
+    width: 100%;
+    height: 0.72rem;
+    position: fixed;
+    background: white;
+
+}
+
+.title_name {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    line-height: 0.72rem;
+    font-size: 0.26rem;
+    font-family: PingFangSC-Medium;
+    font-weight: 600;
+    color: rgba(170, 170, 170, 1);
+}
+
+.title_name.active {
+    color: rgba(0, 0, 0, 1);
+}
+
+
+.swiper-container {
+    position: fixed;
+    width: 7.5rem;
+    top: 1.76rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+}
+
+.all_list_item {
+    border-bottom: 0.01rem rgba(245,245,245,1) solid;
+}
+
+.all_list_left {
+    margin-left: 0.31rem;
+    margin-top: 0.3rem;
+    width: 4.1rem;
+    margin-bottom: 0.39rem;
+}
+
+.all_list_name {
+    font-size: 0.3rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 2; /** 显示的行数 **/
+    overflow: hidden;  /** 隐藏超出的内容 **/
+
+}
+
+.all_list_info {
+    margin-top: 0.13rem;
+    margin-bottom: 0.14rem;
+}
+
+.winner_avert {
+    width: 0.38rem;
+    height: 0.38rem;
+    background: #0a70c2;
+}
+
+.winner_name {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(21, 21, 21, 1);
+    line-height: 0.3rem;
+    margin-left: 0.2rem;
+}
+
+.winner_tip {
+    width: 0.5rem;
+    height: 0.3rem;
+    margin-left: 0.16rem;
+}
+
+.all_list_data {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(170, 170, 170, 1);
+    line-height: 0.4rem;
+}
+
+.all_list_img {
+    width: 2.4rem;
+    height: 1.8rem;
+    background: #0C0C0C;
+    margin-top: 0.3rem;
+    margin-right: 0.3rem;
+    margin-left: 0.37rem;
+    border-radius: 0.1rem;
+}

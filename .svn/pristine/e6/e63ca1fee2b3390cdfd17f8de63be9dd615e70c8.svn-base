@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+#content .qtext {
+    width: 680px;
+    height: 30px;
+    line-height: 30px;
+}
+
+#content .textarea {
+	width:680px;
+	height:auto;
+	padding:15px;
+	font-size:15px;
+}
+
+#content .goodspid {
+	height:34px;
+	width: auto;
+    padding: 1px 4px 1px 0px;
+    border: solid 1px #ccc;
+    background: url(../image/textbg.jpg) repeat-x left top;
+}
+
+#content .select {
+	width:370px;
+}
+
+.container {
+	width:100%;
+}
+
+#content .dtext {
+	width:130px;
+}
+
+.krajee-default.file-preview-frame .kv-file-content {
+	height: 100px;
+}
+
+
+

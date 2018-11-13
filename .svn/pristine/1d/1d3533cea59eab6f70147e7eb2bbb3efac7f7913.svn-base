@@ -1,0 +1,204 @@
+
+{extend name="index:base" /}
+{block name="title"}<title>Guangzhou Congfei Hardware Products Co., Ltd</title>{/block}
+		{block name="style"}	
+        <link rel="stylesheet" href="__HOME_CSS__/bootstrap.min.css">
+        <link rel="stylesheet" href="__HOME_CSS__/icomoon-social.css">
+
+        <link rel="stylesheet" href="__HOME_CSS__/leaflet.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/main.css">
+
+        <script src="__HOME_JS__/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		<!--缩略图-->
+		<link href="__HOME_CSS__/lrtk.css" type="text/css" rel="stylesheet">
+		<link href="__HOME_CSS__/magiczoomplus.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="__HOME_JS__/mzp-packed.js"></script>		
+		<link rel="stylesheet" href="__HOME_CSS__/cmm.css">
+		{/block}
+		{block name="style2"}
+		{/block}
+<!-- 广告 -->
+{block name="ad"}
+         <!-- 广告开始 -->
+        <div class="homepage-slider">
+        	<div id="sequence">
+				<ul class="sequence-canvas">
+					<li class="bg1" style="background-image:url('__HOME_IMG__/homepage-slider/product.jpg');">
+					</li>
+				</ul>
+			</div>
+        </div>
+        <!-- 广告结束 -->
+{/block}
+{block name="body"}
+		  <!-- 产品详情 -->
+        <div class="section">
+	    	<div class="container">
+	    		<div class="row">
+					<!-- 产品分类导航 -->
+					{include file="public/goodsnav" /}
+					<div class="col-sm-9" id="goo">
+					
+					<h2 class="mune-empty"></h2>
+					<h4 class="mune-title-son">{$goods.goods_name}</h4>
+	    			<!-- 产品内容 -->
+	    			<div class="col-md-5">
+						<!-- 产品图片 缩放 -->
+						 <div class="goods-item">
+							<div class="image">									
+								<a href="{$goods.goods_image1}" id="zoom1" class="MagicZoom MagicThumb" ><img src="__CDN_PATH__{$goods.minpic1}" id="main_img" class="main_img"/></a>
+							</div>
+						</div>
+						
+						<!-- 多张图片切换 -->
+	    				<div class="colors">
+							<div class="t1" >							
+								<div class="control swiper-button-prev" >
+									<img src="__HOME_IMG__/left.gif" >
+							    </div>	
+								<div class="controller swiper-container" id="idTransformView2">
+									<ul id="showArea" class="swiper-wrapper">									 
+										{if condition="$goods.goods_image1 neq ''"}
+										 <li class="swiper-slide"><a href="{$goods.goods_image1}" rel="zoom1" rev="{$goods.minpic1}"><img src="__CDN_PATH__{$goods.minpic1}" /></a></li>
+										{/if}
+										{if condition="$goods.goods_image2 neq ''"}
+										 <li class="swiper-slide"><a href="{$goods.goods_image2}" rel="zoom1" rev="{$goods.minpic2}"><img src="__CDN_PATH__{$goods.minpic2}" /></a></li>
+										 {/if}
+										 {if condition="$goods.goods_image3 neq ''"}
+										  <li class="swiper-slide"><a href="{$goods.goods_image3}" rel="zoom1" rev="{$goods.minpic3}"><img src="__CDN_PATH__{$goods.minpic3}" /></a></li>
+										  {/if}
+										{if condition="$goods.goods_image4 neq ''"}
+										 <li class="swiper-slide"> <a href="{$goods.goods_image4}" rel="zoom1" rev="{$goods.minpic4}"><img src="__CDN_PATH__{$goods.minpic4}" /></a></li>
+										 {/if}
+										{if condition="$goods.goods_image5 neq ''"}
+										 <li class="swiper-slide"><a href="{$goods.goods_image5}" rel="zoom1" rev="{$goods.minpic5}"><img src="__CDN_PATH__{$goods.minpic5}" /></a></li>
+										 {/if}
+										 
+									</ul>
+								</div>
+								<div class="control-right swiper-button-next">
+									<img src="__HOME_IMG__/right.gif" />
+								</div>
+							</div>
+						</div>
+				
+	    			</div>
+					
+					<!--产品标题和属性-->
+					<div id="goos">
+						<div class="col-md-7 product-details">
+							<table class="jobs-list">
+								<tbody>
+	<!-- 							<tr>
+									<th>Position</th>
+								</tr> -->
+								<tr>
+									<td class="job-position">
+										Name：<font style="color:#AE340F;font-size:16px;">{$goods.goods_name}</font>
+									</td>
+								</tr>
+								<tr>
+									<td class="job-position">
+										Model：<font style="color:#b9b9b9;"> {$goods.goods_sn} </font>
+									</td>
+								</tr>
+								<tr>
+									<td class="job-position">
+										Category： <a href="" style="color:#fff;">{$goods.p_name}</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="job-position">
+										FOB Price：<a href="" style="color:#fff;">{$goods.price}</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="job-position">
+										Brand Name：{$goods.barcode}
+									</td>
+								</tr>
+								<tr>
+									<td class="job-position">
+										Alibaba link address：<a href="{$goods.download}" target="_blank" style="color:#fff;"> Go to Buy </a>
+									</td>
+								</tr>
+								
+							  </tbody>
+							</table>
+							</br>
+							<p style="color:#AE340F;font-weight:600;">Product Features：</p>
+							<p>{$goods.description}</p>
+						</div>
+					</div>					
+	    			<!--产品标题和属性 结束-->
+	    			
+	    			<!-- 产品内容介绍 -->
+	    			<div class="col-sm-12">
+	    				<div class="tabbable" id="tabbable">
+						
+							<ul class="nav nav-tabs product-details-nav">
+								<li class="active"><a href="#tab1" data-toggle="tab">Description</a></li>
+								<li class=""><a href="#tab2" data-toggle="tab">Product Detail</a></li>
+							</ul>
+							<!-- Tab Content (Full Description) -->
+							<div class="tab-content product-detail-info">
+								<div class="tab-pane active" id="tab1">
+									{$goods['goods_content']|htmlspecialchars_decode}
+
+								</div>
+								<!-- Tab Content (Specification) -->
+								<div class="tab-pane" id="tab2">
+										<table>
+										{foreach name="organizers" item="vo" key="k" }
+											<tr>
+												<td>{$k}</td>
+												<td>{$vo}</td>
+											</tr>
+											{/foreach}
+										</table>
+								</div>
+							</div>
+							<h2 class="mune-empty" style="margin-top:1em;"></h2>
+							<h5 class="">
+								<font class="active"><a href="#" data-toggle="tab">Related Products</a></font>
+							</h5>
+						</div>
+	    			</div>
+				 </div>
+	    			<!-- End Full Description & Specification -->
+	    		</div>
+			</div>
+		</div>
+
+{/block}
+ {block name="script"}
+{include file="common/js_sdk" /}
+ 		<script src="__HOME_JS__/swiper.js"></script>
+		
+		<script>
+		var appendNumber = 5;//图片数量
+		var prependNumber = 1;
+		var swiper = new Swiper('.swiper-container', {
+			pagination: '.swiper-pagination',
+			nextButton: '.swiper-button-next',
+			prevButton: '.swiper-button-prev',
+			slidesPerView: 4,
+			centeredSlides: true,
+			paginationClickable: true,
+			spaceBetween: 0,
+		});
+
+		</script>
+		
+		<script>
+			//产品图片
+			jQuery(function($) {
+				// 图片切换效果
+				$(".controller li").first().addClass('current');
+				$('.controller').find('li').mouseover(function() {
+					//console.log(href);					
+					$(this).first().addClass("current").siblings().removeClass("current");
+				});
+			});
+		</script>
+ {/block}	      

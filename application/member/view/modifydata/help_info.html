@@ -1,0 +1,45 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/modifydata/help_info.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="help_info">
+        <p>{$info.a_name ?? ''}</p>
+        <div class="help_info_main">
+            <div>
+                {$info.a_description ?? '' }
+            </div>
+        </div>
+        <!--<p>花生是什么？</p>-->
+        <!--<div class="help_info_main">-->
+        <!--<div>-->
+        <!--<p>1. </p><span>花生与人民币的比值：1：1等额价值；</span>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<p>2. </p><span>生只能在<a>诺丁百利</a>商城中用于购买商品时抵扣货款；</span>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<p>3. </p><span>花生不得转让，不得兑换人民币。</span>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<p>4. </p><span>拍吖吖平台有权对拍吖吖花生规则随时进行调整，新规则自公布之日起生效。</span>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<p>5. </p><span>拍吖吖花生规则最终解释权归属于拍吖吖平台。</span>-->
+        <!--</div>-->
+        <!--</div>-->
+
+
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+
+</script>
+{/block}

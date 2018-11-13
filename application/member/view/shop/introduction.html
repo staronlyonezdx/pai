@@ -1,0 +1,88 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/shop/introduction.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="introduction_top clear">
+        <!--用户不可修改头像但是有关注按钮-->
+        <div class="introduction_head lf">
+            <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$store_info.store_logo}">
+        </div>
+        <div class="introduction_head_name lf">
+            <p>{$store_info.stroe_name ?? ''}</p>
+            <span>{$store_info.num ?? 0}人关注</span>
+        </div>
+        <div class="introduction_head_guanzhu rt" onclick="collection({$store_info.store_id})">{if condition='$store_info.is_collection == 1'}已关注{else /} 关注 {/if}</div>
+    </div>
+    
+    <!--商家有设置背景墙功能结束-->
+    <div class="introduction_view">
+        <div class="introduction_bg">
+            <span class="introduction_class">店铺类别</span>
+            <span>{$store_info.store_categoryid}</span>
+        </div>
+        <div class="introduction_bg">
+            <span class="introduction_class">所在地</span>
+            <span >{$store_info.address}</span>
+        </div>
+        <div class="introduction_bg">
+            <span class="introduction_class">入驻时间</span>
+            <span >{$store_info.add_time|date='Y-m-d',###}</span>
+        </div>
+    </div>
+    <div class="introduction_view">
+        <div class="introduction_bg">
+            <span class="introduction_class">商品描述</span>
+            <span class="introduction_color">{$store_info.g_score ?? 5.0}</span>
+        </div>
+        <div class="introduction_bg introduction_color">
+            <span class="introduction_class">卖家服务</span>
+            <span class="introduction_color">{$store_info.s_score ?? 5.0}</span>
+        </div>
+        <div class="introduction_bg introduction_color">
+            <span class="introduction_class">物流服务</span>
+            <span class="introduction_color">{$store_info.e_score ?? 5.0}</span>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    //关注和取消关注店铺
+    function collection(id) {
+        var is_login = "{$store_info.is_login}";
+        if (!is_login) {
+            layer.confirm("您还没有登录，请登录！", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['知道啦', '前去登录'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    window.location.href = '/member/login/index';
+                }
+            })
+        } else {
+            // alert('前台发送此商家'+id+'后台判定是收藏还是取消关注res.states 0失败，1删除收藏成功 2收藏成功');
+            $.post("/member/storecollection/store_collection", { store_id: id }, function (res) {
+                var p_num = parseInt($('.p_num').html());
+                if (res.status == 1) {
+                    $('.introduction_head_guanzhu').html('关注');
+                    p_num = p_num - 1;
+                    layer.msg('<span style="color:#fff">您已取消关注该店铺</span>',{time:2000});
+                } else if (res.status == 2) {
+                    $('.introduction_head_guanzhu').html('已关注');
+                    layer.msg('<span style="color:#fff">您已关注该店铺</span>',{time:2000});
+                    p_num = p_num + 1
+                }
+                $('.p_num').html(p_num)
+            })
+        }
+    }
+</script>
+{/block}

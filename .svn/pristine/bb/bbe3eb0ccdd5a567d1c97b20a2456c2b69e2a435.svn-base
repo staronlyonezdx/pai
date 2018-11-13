@@ -1,0 +1,213 @@
+.transaction_header{
+    width:7.5rem;
+    height:0.88rem;
+    line-height: 0.88rem;
+    margin-bottom:0.16rem;
+    background: #fff;
+}
+.transaction_tab_list{
+    width:2.5rem;
+    text-align: center;
+    color:#B3B3B3;
+    font-size: 0.3rem;
+}
+.transaction_tab_pitch{
+    color:#333333;
+    font-size: 0.3rem;
+    font-weight: 600;
+}
+.transaction_tab_list img{
+    width:0.2rem;
+    height:0.12rem;
+}
+.transaction_tit{
+    background: #fff;
+    height:0.8rem;
+    line-height: 0.8rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+.transaction_tit p{
+    width:1.9rem;
+    color:#666666;
+    font-size: 0.26rem;
+}
+.transaction_tit .transaction_tit_rt{
+    text-align: right;
+    width:2.5rem;
+}
+.transaction_tit p .transaction_shouru{
+    color:#12D155;
+}
+.transaction_tit p .transaction_zhichu{
+    color:#FF3939;
+}
+.transaction_list_view{
+    background: #fff;
+    padding-top:0.27rem ;
+    padding-bottom: 0.27rem;
+    border-top: 0.01rem solid #f5f5f5;
+}
+.transaction_list{
+    margin-left:0.3rem;
+    margin-right: 0.3rem;
+}
+.transaction_list div{
+    /*width:2rem;*/
+    overflow: hidden;
+}
+
+.transaction_list div:nth-child(1){
+    width: 2.2rem;
+}
+.transaction_list .transaction_list_money{
+    width:2.9rem;
+}
+
+.transaction_list .transaction_list_rt{
+    text-align: right;
+}
+.transaction_list div p{
+    color:#333333;
+    font-size: 0.26rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+.transaction_list div span{
+    font-size:0.24rem;
+    color:#666666;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    display: block;
+}
+.transaction_list div .transaction_list_shouru{
+    color:#12D155;
+    font-size: 0.36rem;
+    padding-top: 0.2rem;
+    display: inline-block;
+}
+.transaction_list div .transaction_list_zhichu{
+    color:#FF3939;
+    font-size: 0.36rem;
+    padding-top: 0.2rem;
+    display: inline-block;
+}
+.transaction_list div .transaction_list_con{
+    padding-top: 0.28rem;
+    display: inline-block;
+}
+.transaction_pop{
+    background: rgba(0,0,0,0.12);
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom:0;
+    right:0;
+    z-index:100;
+    display: none;
+}
+.transaction_select{
+    width:1.36rem;
+    height:1.94rem;
+    position: absolute;
+    top:1.61rem;
+    left: 3.09rem;
+
+}
+.transaction_select_list{
+    width:1.36rem;
+    height:1.86rem;
+    background: #fff;
+}
+.transaction_select_text{
+    height:0.62rem;
+    line-height: 0.62rem;
+    color:#333333;
+    font-size: 0.26rem;
+    text-align: center;
+    font-weight: 600;
+    border-bottom: 0.01rem solid #f2f2f2;
+}
+.transaction_sanjiao{
+    width:0;
+    height:0;
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    border-bottom:8px solid #fff;
+    margin-left:0.5rem ;
+}
+.transaction_pop_dis{
+    display: block;
+}
+/*菜单*/
+.head-blue {
+    width:7.5rem;
+    height:0.88rem;
+    background:linear-gradient(179deg,rgba(112,133,255,1),rgba(111,117,255,1));
+    position: fixed;
+    top: 0;
+}
+.back-withe {
+    width: 0.56rem;
+    height: 0.56rem;
+    position: absolute;
+    top: 0.15rem;
+    left: 0.3rem;
+    background: url(../../image/wallet/icon_nav_back@2x.png) no-repeat;
+    background-size: 100%;
+    z-index: 3;
+}
+
+.nav{
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    text-align: center;
+}
+.nav p{
+    display: inline-block;
+    width: 20%;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.3rem;
+    position: relative;
+}
+.nav p:after {
+    position: absolute;
+    height: 2px;
+    width: 0.6rem;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: '';
+}
+.nav .active{
+    color: #fff;
+}
+.nav .active:after {
+    background: #fff;
+}
+/*列表*/
+.swiper-container{
+    position: fixed;
+    top: 0.88rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.transation_tab_shouyi {
+    width: 0.2rem;
+    height: 0.12rem;
+}
+
+.transaction_list_img img{
+    width: 0.56rem;
+    height: 0.56rem;
+    margin-top: 0.2rem;
+}

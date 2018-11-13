@@ -1,0 +1,164 @@
+.payment_success{
+	background: #fff;
+	padding-bottom: 0.21rem;
+}
+.payment_success_tit{
+	background: #fff;
+	border-top: 0.02rem solid #F2F2F2;
+}
+.payment_success_con{
+	margin-left: 0.3rem;
+	margin-right: 0.3rem;
+	padding-top: 0.42rem;
+	padding-bottom: 0.42rem;
+	border-bottom: 0.04rem solid #f2f2f2;
+}
+.payment_success_con span{
+	vertical-align: middle;
+	color:#000000;
+	font-size: 0.34rem;
+	font-family:SourceHanSansCN-Bold;
+	font-weight: 600;
+	padding-left: 0.2rem;
+}
+.payment_success_con span img{
+	width:0.7rem;
+	height:0.7rem;
+	vertical-align: middle;
+    margin-right:0.35rem ;
+}
+.payment_success_con div{
+	/*width:1.2rem;*/
+    padding:0 0.1rem;
+	height:0.48rem;
+	border:0.02rem solid #333333;
+	border-radius: 0.09rem;
+	line-height: 0.48rem;
+	text-align: center;
+	margin-right: 0.2rem;
+	margin-top: 0.1rem;
+}
+.payment_success_bottom{
+	padding-bottom: 0.1rem;
+	/*border-bottom: 0.06rem solid #f2f2f2;*/
+}
+.payment_success_list{
+	background: #fff;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+	padding-top: 0.31rem;
+	padding-bottom: 0.31rem;
+	margin-top: 0.06rem;
+	border-top: 0.02rem solid #f2f2f2;
+}
+.payment_success_list:last-child{
+	border-bottom: 0.02rem solid #f2f2f2;
+}
+.payment_success_list p{
+	color:#000000;
+	font-size: 0.26rem;
+	font-weight: 600;
+}
+.payment_success_chilun{
+	width:7.5rem;
+	height:0.32rem;
+	margin-top: -0.16rem;
+}
+.payment_success_chilun img{
+	width:100%;
+	height:100%;
+}
+.payment_success_border{
+	height:0.04rem;
+	margin-left: 0.3rem;
+	margin-right: 0.3rem;
+	background: #f2f2f2;
+}
+.payment_success_btn{
+	width:6.9rem;
+	height:0.88rem;
+	background: #FFE500;
+	border-radius: 0.18rem;
+	line-height: 0.88rem;
+	text-align: center;
+	font-size: 0.3rem;
+	color:#000000;
+	margin:0 auto;
+	margin-top: 0.71rem;
+	font-weight: bold;
+}
+.payment_failure_btn{
+	width:6.9rem;
+	height:0.88rem;
+	background-image: linear-gradient(0deg,
+	#FFE500 0%,
+	#FFED50 100%),
+		linear-gradient(
+			#FFE500,
+			#FFE500);
+	color: #000000;
+	border-radius: 0.18rem;
+	line-height: 0.88rem;
+	font-size: 0.3rem;
+	margin:0 auto;
+	margin-top: 0.95rem;
+	font-weight: bold;
+	text-align: center;
+
+}
+.payment_failure{
+	width:3.2rem;
+	margin:0 auto;
+	margin-top: 0.8rem;
+}
+.payment_failure_img{
+	width:0.7rem;
+	height:0.7rem;
+	margin:0 auto;
+}
+.payment_failure_img img{
+	width:100%;
+	height:100%;
+}
+.payment_failure p{
+	font-size: 0.34rem;
+	color:#000000;
+	text-align: center;
+	margin-top: 0.38rem;
+	margin-bottom: 0.19rem;
+}
+.payment_failure span{
+	display: block;
+	text-align: center;
+	font-size: 0.26rem;
+	color:#aaaaaa;
+
+}
+.payment_success_tit p{
+    width:4rem;
+    font-size:0.24rem;
+    color:#aaaaaa;
+    margin-left: 1.36rem;
+}
+.payment_huasheng {
+    width:5.62rem;
+    margin:0 auto;
+    margin-top: 0.63rem;
+    padding-bottom: 0.44rem;
+}
+.payment_huasheng div{
+    padding:0.01rem 0.58rem;
+    background-image: linear-gradient(0deg,
+    #FFE500 0%,
+    #FFED50 100%),
+    linear-gradient(
+        #FFE500,
+        #FFE500);
+    color:#333333;
+    border-radius: 0.1rem;
+    text-align: center;
+    line-height: 0.6rem;
+    font-weight: 600;
+    font-size: 0.32rem;
+
+}

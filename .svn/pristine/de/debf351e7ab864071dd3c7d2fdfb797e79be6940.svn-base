@@ -1,0 +1,158 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/my_publish1.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/search_index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/integralman/integralman.css">
+{/block}
+{block name="header"}
+{include file="common/header"/}
+{/block}
+{block name="content"}
+<main>
+    <!--搜索-->
+    <div class="my_goods_search_img">
+        <img src="__STATIC__/image/goods/icon_nav_sousuo@2x.png" alt=""/>
+    </div>
+    <!--搜索框弹窗-->
+    <form action="">
+        <div class="index_search_pop">
+            <div class="index_search_pop_top clear">
+                <div class="index_pop_text lf">
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+                </div>
+                <div class="index_search_pop_view clear lf">
+                    <div class="index_search_lfimg" class="lf">
+                        <img src="__STATIC__/image/index/searchbar_icon_search@2x.png">
+                    </div>
+                    <input type="text" name="keyword" class="index_pop_inp lf">
+
+                    <div class="index_search_cancel rt">
+                        <img src="__STATIC__/image/index/icon_search_clear@2x.png" alt="">
+                    </div>
+                </div>
+                <button type="submit" class="index_pop_sousuo rt"> 搜索</button>
+            </div>
+            {notempty name='$searchs.self'}
+            <!--历史搜索-->
+            <div class="index_pop_history_view history">
+                <div class="index_pop_history clear">
+                    <p class="lf">历史搜索</p>
+
+                    <div class="rt del_search">清除</div>
+                </div>
+                <div class="index_pop_history_main clear">
+                    {volist name='searchs.self' id='vo'}
+                    <div class="lf">{$vo}</div>
+                    {/volist}
+                </div>
+            </div>
+            {/notempty}
+            <!--搜索出的列表-->
+            <div class="index_pop_search_main">
+                <ul class="index_pop_search_ul">
+
+                </ul>
+            </div>
+        </div>
+    </form>
+    <!--tab导航-->
+    <div class="integral_top">
+        <div class="integral_tab">
+            <div class="integral_tab_list lf">
+                我参团的
+            </div>
+            <div class="lf">
+                我团中的
+            </div>
+        </div>
+    </div>
+    <!--我参团的 二级导航-->
+    <div class="top-nav">
+        <div class="scrollx mescroll-touch-x">
+            <div id="scrollxContent" class="scrollx-content">
+                <ul id="nav" class="nav">
+                    <li i="0">全部</li>
+                    <li i="1">待付款</li>
+                    <li i="2">参团中</li>
+                    <li i="3">未团中</li>
+                    <li i="4">已关闭</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--我参团的轮播-->
+    <div id="swiper" class="swiper-container">
+        <div id="swiperWrapper" class="swiper-wrapper">
+            <!--全部-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <ul id="dataList0" class="data-list">
+                    <div class="my_publish_tit clear">
+                        <a href="##">
+                           <span class="my_publish_bh lf">
+                               <img src="__STATIC__/image/orderpai/dp@2x.png" alt="">
+                               dgfgf
+                           </span>
+                        </a>
+                        <span class="my_publish_hint rt">等待付款</span>
+                    </div>
+                    <a href="##">
+                </ul>
+            </div>
+
+            <!--待付款-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <ul id="dataList1" class="data-list"> 发射点发射点</ul>
+            </div>
+
+            <!--参团中-->
+            <div id="mescroll2" class="swiper-slide mescroll">
+                <ul id="dataList2" class="data-list">发射点范德萨 </ul>
+            </div>
+
+            <!--未团中-->
+            <div id="mescroll3" class="swiper-slide mescroll">da's
+                <ul id="dataList3" class="data-list"> 发射点仿盛大</ul>
+            </div>
+
+            <!--已关闭-->
+            <div id="mescroll4" class="swiper-slide mescroll">
+                <ul id="dataList4" class="data-list"> 阿斯蒂芬</ul>
+            </div>
+
+        </div>
+    </div>
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script>
+    $(function(){
+//        点击搜索
+        $(".my_goods_search_img").click(function(){
+            $(".index_search_pop").addClass("index_pop_block");
+            $(".index_search_pop_view input").focus();
+        })
+        //点击叉号
+        $(".index_search_cancel").click(function () {
+            $(this).siblings("input").val("");
+            $(this).siblings("input").focus();
+            $(".index_pop_search_li").css({ display: "block" });
+        })
+        //点击取消
+        $(".index_pop_text").click(function () {
+            $(".index_search_pop").removeClass("index_pop_block");
+        })
+        //订单类型
+        var type = "{$type}";
+        //导航菜单
+        if (type > 0) {
+            var mescrollArr = new Array(6);//每个菜单对应一个mescroll对象
+        } else {
+            var mescrollArr = new Array(5);//每个菜单对应一个mescroll对象
+        }
+    })
+</script>
+{/block}

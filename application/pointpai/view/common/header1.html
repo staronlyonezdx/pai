@@ -1,0 +1,12 @@
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>{$header_title ?? ''}</span>
+            <div class="header_back"
+            {empty name='header_path'} onClick="javascript:history.back(-1);" {else/}
+            onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+                <img src="__STATIC__/icon/goodsproduct/icon_nav_back2@2x.png" name='out' class="smt">
+             </div>
+        </div>
+    </div>
+</div>

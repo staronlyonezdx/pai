@@ -1,0 +1,394 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/core/upgrade.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/core/continue_invitation.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main style="margin-top: 0">
+<div class="upgrade_top">
+    <div class="upgrade_progress-bar">
+        <div class="upgrade_bar"></div>
+        <div class="upgrade_bar active"></div>
+        {if condition="($info.m_levelid == 1)"}
+        <div class="upgrade_active upgrade_item">
+                <div class="upgrade_cycle">
+                        {empty name='info.m_avatar'}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png"> {else /}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__{$info.m_avatar}"> {/empty}
+                </div>
+                <div class="upgrade_text active">普通会员</div>
+            </div>
+            
+            <div class="upgrade_item2">
+                <div class="upgrade_cycle">
+                </div>
+                <div class="upgrade_text">白银会员</div>
+            </div>
+            
+            <div class="upgrade_item3">
+                <div class="upgrade_cycle"></div>
+                <div class="upgrade_text">黄金会员</div>
+            </div>
+            
+            <div class="upgrade_item4">                
+                <div class="upgrade_cycle"></div>
+                <div class="upgrade_text">黑金会员</div>
+            </div>
+        {elseif condition="($info.m_levelid == 2)" /}
+        <div class="upgrade_item">
+                <div class="upgrade_cycle active"></div>
+                <div class="upgrade_text active">普通会员</div>
+            </div>
+            
+            <div class="upgrade_active upgrade_item2">
+                <div class="upgrade_cycle">
+                        {empty name='info.m_avatar'}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png"> {else /}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__{$info.m_avatar}"> {/empty}
+                </div>
+                <div class="upgrade_text">白银会员</div>
+            </div>
+            
+            <div class="upgrade_item3">
+                <div class="upgrade_cycle"></div>
+                <div class="upgrade_text">黄金会员</div>
+            </div>
+            
+            <div class="upgrade_item4">                
+                <div class="upgrade_cycle"></div>
+                <div class="upgrade_text">黑金会员</div>
+            </div>
+        {elseif condition="($info.m_levelid == 3)" /}
+        <div class="upgrade_item">
+                <div class="upgrade_cycle active"></div>
+                <div class="upgrade_text active">普通会员</div>
+            </div>
+            
+            <div class="upgrade_item2">
+                <div class="upgrade_cycle active">
+                </div>
+                <div class="upgrade_text active">白银会员</div>
+            </div>
+            
+            <div class="upgrade_active upgrade_item3">
+                <div class="upgrade_cycle">
+                        {empty name='info.m_avatar'}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png"> {else /}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__{$info.m_avatar}"> {/empty}
+                </div>
+                <div class="upgrade_text">黄金会员</div>
+            </div>
+            
+            <div class="upgrade_item4">                
+                <div class="upgrade_cycle"></div>
+                <div class="upgrade_text">黑金会员</div>
+            </div>
+        {elseif condition="($info.m_levelid == 4)" /}
+        <div class="upgrade_item">
+                <div class="upgrade_cycle active"></div>
+                <div class="upgrade_text active">普通会员</div>
+            </div>
+            
+            <div class="upgrade_item2">
+                <div class="upgrade_cycle active">                    
+                </div>
+                <div class="upgrade_text active">白银会员</div>
+            </div>
+            
+            <div class="upgrade_item3">
+                <div class="upgrade_cycle active"></div>
+                <div class="upgrade_text active">黄金会员</div>
+            </div>
+            
+            <div class="upgrade_active upgrade_item4">                
+                <div class="upgrade_cycle">
+                        {empty name='info.m_avatar'}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png"> {else /}
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__{$info.m_avatar}"> {/empty}
+                </div>
+                <div class="upgrade_text">黑金会员</div>
+            </div>
+        {/if}            
+    </div>
+    <p>还差<span>{$info.ml_tj2 - $info.experience}</span>经验即可升级{$info.next_name}</p>
+</div>
+    <div class="upgrade_main">
+        <div class="upgrade_tit">成长攻略</div>
+        <div class="upgrade_main_con">
+            <div class="upgrade_main_top clear">
+                <div class="upgrade_main_img lf">
+                    <img src="__STATIC__/image/core/icon_member_consume@2x.png" alt="">
+                </div>
+                <p class="lf">消费得经验值</p>
+            </div>                
+            <div class="upgrade_main_text">每消费（含参团）1元——得1经验值。 </div>
+        </div>
+        <div class="upgrade_main_con">
+            <div class="upgrade_main_top clear">
+                <div class="upgrade_main_img lf">
+                    <img src="__STATIC__/image/core/icon_member_invite@2x.png" alt="">
+                </div>
+                <p class="lf">邀请好友</p>
+            </div>
+            <div class="upgrade_main_text">
+                <p>
+                    1、邀请新会员注册并参团得100经验值/人。
+                </p>
+                <!-- <p>
+                    2、所属会员成为白银会员——5个经验值/人。
+                </p>
+                <p>
+                    3、所属会员成为黄金会员——10个经验值/人。
+                </p>
+                <p>
+                    4、所属会员成为黑金会员——15个经验值/人。
+                </p> -->
+            </div>
+        </div>
+        <div class="upgrade_btn phonex">
+            <a href="/index/index/price_range/type/1"><div class="upgrade_gopaly lf">去消费</div></a>
+            <a><div class="upgrade_goinvite lf">去邀请</div></a>
+        </div>
+    </div>
+</main>
+
+        <!--分享弹框-->
+        <div class="continue_pop">
+                <div class="continue_con">
+                    <div class="continue_con_top">
+                        <img src="__STATIC__/image/core/icon_yaoqingma@2x.png" alt="">
+                    </div>
+                    <div class="continue_con_code">
+                        <img src="{$info.m_code ?? ''}" alt="">
+                    </div>
+                    <!-- <div class="continue_con_btn clear"> -->
+                        <div class="bc-btn">长按保存二维码到本地</div>
+                        <div data-clipboard-text="{$share_link}" class="copy-btn">复制链接</div>
+                    <!-- </div> -->
+                    <!--<div class="continue_con_list clear">-->
+                        <!--<div class="continue_con_list_div lf">-->
+                            <!--<div>-->
+                                <!--<img src="__STATIC__/image/core/wx@2x.png" alt="">-->
+                            <!--</div>-->
+                            <!--<p>微信好友</p>-->
+                        <!--</div>-->
+                        <!--<div class="continue_con_list_div lf">-->
+                            <!--<div>-->
+                                <!--<img src="__STATIC__/image/core/pyq@2x.png" alt="">-->
+                            <!--</div>-->
+                            <!--<p>朋友圈</p>-->
+                        <!--</div>-->
+                        <!--<div class="continue_con_list_div lf">-->
+                            <!--<div>-->
+                                <!--<img src="__STATIC__/image/core/qq@2x.png" alt="">-->
+                            <!--</div>-->
+                            <!--<p>QQ好友</p>-->
+                        <!--</div>-->
+                        <!--<div class="continue_con_list_div lf">-->
+                            <!--<div>-->
+                                <!--<img src="__STATIC__/image/core/xl@2x.png" alt="">-->
+                            <!--</div>-->
+                            <!--<p>新浪微博</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <!-- 安卓，ios分享效果 S -->
+            <div class="details_fenxiang">
+                    <div class="details_fxcon">
+                        <div class="details_fxtit">
+                            邀请好友
+                        </div>
+                        <div class="details_fxlist clear">
+                            <div class="details_fx_img lf" onclick="app(0)">
+                                <img src="__STATIC__/image/details/wx.png">
+                                微信好友
+                            </div>
+                            <div class="details_fx_img lf" onclick="app(1)">
+                                <img src="__STATIC__/image/details/pyq.png">
+                                朋友圈
+                            </div>
+                            <!-- <div class="details_fx_img lf">
+                                <img src="__STATIC__/image/details/iconqq@2x.png">
+                                QQ好友
+                            </div>
+                            <div class="details_fx_img lf">
+                                <img src="__STATIC__/image/details/icon微博@2x.png">
+                                新浪微博
+                            </div> -->
+                            <div class="details_fx_img lf" onclick="copyUrl()">
+                                <img src="__STATIC__/image/details/link.png">
+                                复制链接
+                            </div>
+                        </div>
+                        <div class="details_fx_cancel">
+                            取消
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="app" />
+                <!-- 安卓，ios分享效果 E -->
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script>
+    //iosapp
+    /*这段代码是固定的，必须要放到js中*/
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+
+    /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+    setupWebViewJavascriptBridge(function(bridge) {
+        /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+        bridge.callHandler('isApp',function(str) {
+            $('#app').val(str);
+        })
+    })
+
+    //关闭app分享弹窗
+    $(".details_fx_cancel").click(function () {
+        $(".details_fenxiang").hide();
+    })
+    function app(id) {
+        var is_share_to_firend_circle = '';
+        if(id == 0) {
+            is_share_to_firend_circle = false;
+        }else {
+            is_share_to_firend_circle = true;
+        }
+
+        var data = '{"share_title": "'+title+'","share_content": "'+desc+'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": '+is_share_to_firend_circle+'}';
+
+        if($('#app').val() != '') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                bridge.callHandler('getShareParams',data);
+            })
+        }else {
+            // 非微信浏览器端安卓分享
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        window.android.getShareParams(data);
+                    }
+                }
+            }
+        }       
+        $('.details_fenxiang').hide();
+    }
+
+    function copyUrl() {
+        var data = '{"copy_url": "'+ link +'"}';
+        if($('#app').val() != '') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                bridge.callHandler('getCopyUrl',data);
+            })
+        }else {
+            // 非微信浏览器端安卓复制链接
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        window.android.getCopyUrl(data);
+                    }
+                }
+            }
+        }
+        $('.details_fenxiang').hide();
+    }
+
+    $(function(){
+        //会员进度条
+
+        var pag = "{$info.m_levelid}";
+        var wh = {$info.experience}/{$info.ml_tj2}*100;
+        var wid = ""; 
+        if(pag == 1) {
+            wid = (33.33*wh)/100;
+        }else if(pag == 2) {
+            wid = ((33.33*wh)/100)+33.33;
+        }else if(pag == 3) {
+            wid = ((33.33*wh)/100)+66.66;
+        }else if(pag == 4) {
+            wid = 100;
+        }
+
+        $('.upgrade_bar').eq(1).css("width",wid+'%');
+
+        $(".header_back img").attr("src","__STATIC__/image/wallet/icon_nav_back@2x.png");
+        
+        var share_qr_image = "https://"+ document.domain + "{$info.m_code ?? ''}";
+        //分享弹窗
+        $(".upgrade_goinvite").click(function(){
+            var data = '{"share_title": "'+title+'","share_content": "'+desc+'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": "1","share_qr_image": "'+ share_qr_image +'"}';
+            if($('#app').val() != '') {                
+                $('.details_fenxiang').show();                
+            }else {
+                // 非微信浏览器端安卓分享
+                if(hideFlag){
+                    if (typeof(window.android) != "undefined") {
+                        if(androidIos() == 'android') {
+                            if(getCookie("version") == null) {
+                                $('.details_fenxiang').show();
+                            }else {
+                                window.android.getShareParams(data);
+                            }
+                        }
+                    }else {
+                        $(".continue_pop").css({ display: "block" });
+                    }
+                }else {
+                    $(".continue_pop").css({ display: "block" });
+                }
+            }
+        })
+        $(".continue_pop").click(function(){
+            $(".continue_pop").css({display:"none"});
+        })
+        $(".continue_con").click(function(e){
+            e.stopPropagation();
+        })
+
+        //滚动条改变头部
+        $(window).scroll(function () {
+            var scro = $(window).scrollTop();
+            if (scro > 10) {
+                $(".header_tit").css({ color: "#000000" });
+                $(".header_nav").css({ backgroundColor: "#fff" });
+                $('.header_back').find('img').attr('src','/static/icon/publish/icon_nav_back@2x.png');
+            } else {
+                $(".header_tit").css({ color: "#fff" });
+                $(".header_nav").css({ backgroundColor: "transparent" });
+                $('.header_back').find('img').attr('src','/static/image/wallet/icon_nav_back@2x.png');
+            }
+        })
+    })
+
+    //复制功能
+    var btns = document.querySelectorAll('.copy-btn');
+    var clipboard = new ClipboardJS(btns);
+
+    clipboard.on('success', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+
+    clipboard.on('error', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+</script>
+{/block}

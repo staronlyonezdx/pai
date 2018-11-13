@@ -1,0 +1,210 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/bindingcard.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+<div class="bangdingcard_view">
+    <div class="bangdingcard_tit">请绑定持卡人本人的银行卡</div>
+    <div class="bangdingcard_list_view">
+        <div class="bangdingcard_list clear">
+            <p class="lf">持卡人</p>
+            <input type="text" id="name" class="rt" value='{$info.real_name ?? ""}' {notempty name="$info.real_name"}readonly="readonly"{/notempty} placeholder="请输入真实姓名">
+        </div>
+    </div>
+    
+    <div class="bangdingcard_list_view">
+        <div class="bangdingcard_list clear">
+            <p class="lf">身份证</p>
+            <input type="text" id="identification" class="rt" value='{$info.identification ?? ""}' {notempty name="$info.identification"}readonly="readonly"{/notempty}
+            placeholder="请输入身份证">
+        </div>
+    </div>
+    <div class="bangdingcard_list_view">
+        <div class="bangdingcard_list clear">
+            <p class="lf">银行卡 </p>
+            <input type="number" id="card" class="rt" placeholder="请输入银行卡号">
+        </div>
+    </div>
+    <div class="bangdingcard_list_view">
+        <div class="bangdingcard_list clear">
+            <p class="lf">开户行</p>
+            <input type="text" id="bank" class="rt" placeholder="请输入开户行">
+        </div>
+    </div>
+    <div class="band-ts">需要填写到具体支行/分行，例如招商银行深圳威盛大厦支行</div>
+    <div class="bangdingcard_list_view">
+        <div class="bangdingcard_list clear">
+            <p class="lf">手机号</p>
+            <input type="number" id="phone" class="rt m_mobile" placeholder="银行预留手机号" oninput="if(value.length>11)value=value.slice(0,11)">
+        </div>
+    </div>
+    <div class="bangdingcard_list_view">
+        <div class="bangdingcard_list bangdingcard_yanzhengma clear">
+            <p class="lf">验证码</p>
+            <input type="number" id="code" class="rt" placeholder="请输入验证码" oninput="if(value.length>6)value=value.slice(0,6)">
+            <button class="bangdingcard_code">发送验证码</button>
+        </div>
+    </div>
+</div>
+    <!--<div class="bangdingcard_agreements">-->
+        <!--<p>-->
+            <!--<img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="bangdingcard_radio">-->
+            <!--<img src="__STATIC__/image/register/icon_weixuanze@2x.png" class="">-->
+            <!--<span> 同意 </span>-->
+            <!--<a href="/index/index/agreement/at_name/支付协议">《拍吖吖支付服务协议》</a>-->
+        <!--</p>-->
+    <!--</div>-->
+    <div class="bangdingcard_btn">绑定银行卡</div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+
+    $(function(){
+
+        console.log(window.location.pathname);
+        var InterValObj; //timer变量，控制时间
+        var count = 60; //间隔函数，1秒执行
+        var curCount;//当前剩余秒数
+        //点击发送验证码
+        $(".bangdingcard_code").click(function(){
+            var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            var m_mobile = $('.m_mobile').val();
+            if(!myreg.test(m_mobile)){
+                //弹框
+                    layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
+                        time:2000
+                    });
+                return false;
+            }else{
+                curCount=count;
+                $('.bangdingcard_code').attr("disabled","true");
+                $(".bangdingcard_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none",width:"2.3rem"});
+                $('.bangdingcard_code').text(curCount+"s后可重新发送");
+                InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                $.ajax({
+                    type:"post",
+                    url:"/member/wallet/send_msg",
+                    data: {
+                        m_mobile: m_mobile
+                    },
+                    success: function(res){                        
+                        layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{time:2000});                        
+                    }
+                })
+            }
+        })
+        //timer处理函数
+        function SetRemainTime(){
+            if(curCount==0){
+                window.clearInterval(InterValObj);//停止计时器
+                $(".bangdingcard_code").css({background:"transparent",color:"#2B2B2B",border:"0.02rem solid #000000",width:"1.69rem"});
+                $(".bangdingcard_code").removeAttr("disabled");//启用按钮
+                $(".bangdingcard_code").text("重新发送");
+            }else{
+                curCount--;
+                $(".bangdingcard_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+                $(".bangdingcard_code").text(curCount+"s后可重新发送");
+            }
+        }
+        //点击同意协议
+        $(".bangdingcard_agreements img").click(function(){
+            $(this).siblings("img").toggleClass("bangdingcard_radio");
+            $(this).toggleClass("bangdingcard_radio");
+        })
+    })
+
+    $('.bangdingcard_btn').click(function(){
+        var identification = $.trim($('#identification').val());
+        console.log(identification);
+        if(!identification) {
+            layer.msg('<span style="color:#fff">身份证不能为空</span>',{time:2000});
+            return false;
+        }
+
+        var pattern = /^[1-9]{1}[0-9]{14}$|^[1-9]{1}[0-9]{16}([0-9]|[xX])$/;
+        var checkId = pattern.test(identification);
+        if(!checkId) {
+            layer.msg('<span style="color:#fff">身份证验证不通过</span>',{time:2000});
+            return false;
+        }
+
+        if($('#name').val() == '') {
+            layer.msg('<span style="color:#fff">持卡人不能为空</span>',{time:2000});
+            return false;
+        }
+
+        if($('#card').val() == '') {
+            layer.msg('<span style="color:#fff">银行卡号不能为空</span>',{time:2000});
+            return false;
+        }
+
+        if($('#bank').val() == '') {
+           layer.msg('<span style="color:#fff">开户行不能为空</span>',{time:2000});
+           return false;
+        }
+
+//        if($('#phone').val() == '') {
+//            layer.msg('<span style="color:#fff">手机号不能为空</span>',{time:2000});
+//            return false;
+//        }
+        var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        if(!myreg.test($('#phone').val())) {
+            //弹框
+            layer.msg("<span style='color:#fff'>手机号输入有误</span>", {
+                time: 2000
+            });
+            return false;
+        }
+
+        if($('#code').val() == '') {
+            layer.msg('<span style="color:#fff">验证码不能为空</span>',{time:2000});
+            return false;
+        }
+
+        $.ajax({
+            type:"post",
+            url:"/member/wallet/bindingcard",
+            data: {
+                m_bankowner: $('#name').val(),
+                m_identification: identification,
+                m_bank_branch: $('#bank').val(),
+                m_bankaccount: $('#card').val(),
+                m_bank_phone: $('#phone').val(),
+                verification: $('#code').val()
+            },
+            success: function(res){
+                if(res.status == 1) {
+                    layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{time:2000},function(){
+                        var path = window.location.pathname;
+                        if(path == '/member/wallet/bindingCard/from/1'){
+                            // alert(11);
+                            window.location.href = '/member/promoters/index'
+                        }else{
+                            window.history.go(-1);
+                        }
+
+                    });
+                }else {
+                    layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{time:2000});
+                }
+            }
+        })
+
+        // if(window.location.pathname == '/member/wallet/bindingCard/from/1'){
+        //     alert(22)
+        //     window.location.href = '/member/promoters/index'
+        // }else{
+        //     alert(11)
+        //     window.history.go(-1);
+        // }
+
+    })
+</script>
+
+{/block}

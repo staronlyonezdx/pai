@@ -1,0 +1,480 @@
+$(function () {
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    $(".register_code").click(function () {
+        //验证手机号
+        var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        var m_mobile = $('.m_mobile').val();
+        if (!myreg.test(m_mobile)) {
+            //弹框
+            layui.use("layer", function () {/*layui的规则*/
+                var layer = layui.layer;
+                layer.msg("<span style='color:#fff'>手机号输入有误</span>", {
+                    time: 2000
+                });
+            })
+            return false;
+        } else {
+            curCount = count;
+            //设置button效果，开始计时
+            var m_mobile = $('.m_mobile').val();
+            $.ajax({
+                type: "POST",//用post方式传输
+                dataType: "JSON",//数据格式：JSON
+                url: "/member/register/register_code",//目标地址
+                data: {
+                    m_mobile: m_mobile
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.status == 1) {
+                        $('.register_code').attr("disabled", "true");
+                        $(".register_code").css({background: "#F2F2F2", color: "#aaaaaa", border: "none"});
+                        $('.register_code').text(curCount + "s后可重新发送");
+                        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                    } else if (res.status == 2) {
+                        layer.confirm(res.msg, {
+                            title: false, /*标题*/
+                            closeBtn: 0,
+                            btnAlign: 'c',
+                            btn: ['前去登录'], //按钮
+                            btn1: function () {//按钮2的回调
+                                location.href = "/member/login/index";
+                            }
+                        })
+                    } else {
+                        //提示弹窗
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            });
+                        })
+                    }
+                }
+            })
+        }
+    })
+
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            $(".register_code").css({background: "transparent", color: "#2B2B2B", border: "0.02rem solid #000000"});
+            $(".register_code").removeAttr("disabled");//启用按钮
+            $(".register_code").text("重新发送");
+        } else {
+            curCount--;
+            $(".register_code").css({background: "#F2F2F2", color: "#aaaaaa", border: "none"});
+            $(".register_code").text(curCount + "s后可重新发送");
+        }
+    }
+
+    var m_pwd = '';
+    var re_pwd = '';
+    var type = '';
+    var tj_mobile = '';
+    var ip = '';
+    var index = '';
+    var address = '';
+    var m_mobile = '';
+    var verification = ''
+    $(".register").click(function () {
+        if ($(this).attr("disabled")) {
+            return false;
+        } else {
+            // 	//手机
+            var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            m_mobile = $('.m_mobile').val();
+            if (!myreg.test(m_mobile)) {
+                layui.use("layer", function () {/*layui的规则*/
+                    var layer = layui.layer;
+                    layer.msg("<span style='color:#fff'>手机号输入有误</span>", {
+                        time: 2000
+                    });
+                })
+                return false;
+            }
+            //验证码
+            verification = $('.verification').val();
+            if (verification == "") {
+                layui.use("layer", function () {/*layui的规则*/
+                    var layer = layui.layer;
+                    layer.msg("<span style='color:#fff'>验证码不能为空</span>", {
+                        time: 2000
+                    });
+                })
+                return false;
+            }
+            //密码
+            var kaiguan1 = $("#kaiguan1").attr("name"),
+                kaiguan2 = $("#kaiguan2").attr("name"),
+                p1 = $("#p1").val(),
+                p2=$("#p2").val(),
+                t1=$("#t1").val(),
+                t2=$("#t2").val(),
+                grey=$(".register_agreements img").eq(0).css("display"),
+                m_mima = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+            if (kaiguan1 == "p1" && kaiguan2 == "p2") {//两个都是密码框
+                $("#t1").val(p1);
+                $("#t2").val(p2);
+
+                if (m_mobile != "" && verification != "" && p1 != "" && p2 != "" && grey == "inline-block") {
+                    //两次密码不一致
+                    if (p1 != p2) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>两次密码不一致</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    //验证密码的正则
+                    if (!m_mima.test(p1)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    if (!m_mima.test(p2)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                }
+            } else if (kaiguan1 == "t1" && kaiguan2 == "p2") {//设置密码是文本框，确认密码是密码框
+                $("#p1").val(t1);
+                $("#t2").val(p2);
+                if (m_mobile != "" && verification != "" && t1 != "" && p2 != "" && grey == "inline-block") {
+                    //两次密码不一致
+                    if (t1 != p2) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>两次密码不一致</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    //验证密码的正则
+                    if (!m_mima.test(t1)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    if (!m_mima.test(p2)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                }
+            }
+            else if (kaiguan1 == "p1" && kaiguan2 == "t2") {//设置密码是密码框，确认密码是文本框
+                $("#t1").val(p1);
+                $("#p2").val(t2);
+                if (m_mobile != "" && verification != "" && p1 != "" && t2 != "" && grey == "inline-block") {
+                    //两次密码不一致
+                    if (p1 != t2) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>两次密码不一致</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    //验证密码的正则
+                    if (!m_mima.test(p1)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    if (!m_mima.test(t2)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                }
+            }
+            else if (kaiguan1 == "t1" && kaiguan2 == "t2") {//设置密码是文本框，确认密码是文本框
+                $("#p1").val(t1);
+                $("#p2").val(t2);
+                if (m_mobile != "" && verification != "" && t1 != "" && t2 != "" && grey == "inline-block") {
+                    //两次密码不一致
+                    console.log(t1);
+                    console.log(t2);
+                    if (t1 == t2) {
+                    } else {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>两次密码不一致</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    //验证密码的正则
+                    if (!m_mima.test(t1)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                    if (!m_mima.test(t2)) {
+                        layui.use("layer", function () {/*layui的规则*/
+                            var layer = layui.layer;
+                            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>", {
+                                time: 2000
+                            });
+                        })
+                        return false;
+                    }
+                }
+            }
+            // var m_pwd=$("#p1").val();
+            //    var re_pwd = $('#p2').val();
+            //    var type = $('.type').val();
+            //    var tj_mobile = $('.tj_mobile').val();
+            //    var ip = $('.ip').val();
+            //    var index = layer.load(0, {shade: false});
+            // var address = '';
+
+            m_pwd = $("#p1").val();
+            re_pwd = $('#p2').val();
+            type = $('.type').val();
+            tj_mobile = $('.tj_mobile').val();
+            ip = $('.ip').val();
+
+            $('.register_address').show();
+
+        }
+    });
+
+
+    $(".address_input").on("input propertychange",function(){
+        address = $('.address_input').val();
+        console.log(address);
+        if (address != '') {
+            console.log(22);
+            $(".success_register").attr("disabled", false);
+            $('.success_register').css({
+                'background':'linear-gradient(0deg,rgba(255,229,0,1),rgba(255,237,80,1))',
+                'boxShow':'0 0.18rem 0.21rem 0',
+                'color':'rgba(0,0,0,1)'
+            })
+        }
+    });
+
+
+
+    $('.success_register').click(function () {
+        if ($(this).attr("disabled")) {
+            return false;
+        } else {
+
+
+            $.post("/member/register/register_start", {
+                m_mobile: "" + m_mobile + "",
+                verification: "" + verification + "",
+                m_pwd: "" + m_pwd + "",
+                re_pwd: "" + re_pwd + "",
+                type: "" + type + "",
+                tj_mobile: "" + tj_mobile + "",
+                ip: "" + ip + "",
+                address: "" + address + ""
+            }, function (res) {
+                if (res.status == 1) {
+                    layer.close(index);
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                        time: 2000
+                    });
+                    location.href = '/member/login/index'
+                    // layer.confirm(res.msg, {
+                    //    		title:false,/*标题*/
+                    // 	    closeBtn: 0,
+                    //         btnAlign: 'c',
+                    //         btn: ['知道啦','前去登录'], //按钮
+                    //         // 按钮2的回调
+                    //         btn2:function(){
+                    //         	location.href="/member/login/index";
+                    //         }
+                    // 	})
+                    // location.href='/member/login/index'
+                } else {
+                    layer.close(index);
+                    layui.use("layer", function () {/*layui的规则*/
+                        var layer = layui.layer;
+                        layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                            time: 2000
+                        });
+                    })
+                }
+            });
+        }
+
+    });
+    $('.close_address').click(function () {
+        $('.register_address').hide();
+    })
+    $(".register_agreements img").click(function () {
+        $(".register_agreements img").eq(0).toggleClass("register_radios");
+        $(".register_agreements img").eq(1).toggleClass("register_radios");
+        var $v1 = $("#pwd").val(),
+            $v3 = $("#pwd3").val(),
+            $v5 = $(".m_mobile").val(),
+            $v6 = $(".verification").val(),
+            $v7 = $(".register_agreements img").eq(0).css("display");
+        if ($v1 != "" && $v3 != "" && $v5 != "" && $v6 != "" && $v7 == "inline-block") {
+            $(".register_btn").attr("disabled", false);
+            $(".register_btn").addClass("register_yellow");
+        } else {
+            $(".register_btn").attr("disabled", true);
+            $(".register_btn").removeClass("register_yellow");
+        }
+    })
+
+    $(".register_pass input").keyup(function () {//设置密码有值的时候出现取消按钮
+        var p1 = $("#p1").val(),
+            t1 = $("#t1").val();
+        if (p1 != "" || t1 != "") {
+            $(".register_cancel_icon").css({display: "block"});
+        } else {
+            $(".register_cancel_icon").css({display: "none"});
+        }
+    })
+    $(".register_pass2 input").keyup(function () {//确认密码有值的时候出现取消按钮
+        var p2 = $("#p2").val(),
+            t2 = $("#t2").val();
+
+        if (p2 != "" || t2 != "") {
+            $(".register_cancel_icons").css({display: "block"});
+        } else {
+            $(".register_cancel_icons").css({display: "none"});
+        }
+    })
+    $(".register_inp input").keyup(function () {//
+        var m_mobile = $(".m_mobile").val(),
+            verification = $(".verification").val(),
+            kaiguan1 = $("#kaiguan1").attr("name"),
+            kaiguan2 = $("#kaiguan2").attr("name"),
+            p1 = $("#p1").val(),
+            p2 = $("#p2").val(),
+            t1 = $("#t1").val(),
+            t2 = $("#t2").val(),
+            grey = $(".register_agreements img").eq(0).css("display");
+        if (kaiguan1 == "p1" && kaiguan2 == "p2") {//两个都是密码框
+            if (m_mobile != "" && verification != "" && p1 != "" && p2 != "" && grey == "inline-block") {
+                $(".register_btn").attr("disabled", false);
+                $(".register_btn").addClass("register_yellow");
+            }
+        } else if (kaiguan1 == "t1" && kaiguan2 == "p2") {//设置密码是文本框，确认密码是密码框
+            if (m_mobile != "" && verification != "" && t1 != "" && p2 != "" && grey == "inline-block") {
+                $(".register_btn").attr("disabled", false);
+                $(".register_btn").addClass("register_yellow");
+            }
+        }
+        else if (kaiguan1 == "p1" && kaiguan2 == "t2") {//设置密码是密码框，确认密码是文本框
+            if (m_mobile != "" && verification != "" && p1 != "" && t2 != "" && grey == "inline-block") {
+                $(".register_btn").attr("disabled", false);
+                $(".register_btn").addClass("register_yellow");
+            }
+        }
+        else if (kaiguan1 == "t1" && kaiguan2 == "t2") {//设置密码是文本框，确认密码是文本框
+            if (m_mobile != "" && verification != "" && t1 != "" && t2 != "" && grey == "inline-block") {
+                $(".register_btn").attr("disabled", false);
+                $(".register_btn").addClass("register_yellow");
+            }
+        } else {
+            $(".register_btn").attr("disabled", true);
+            $(".register_btn").removeClass("register_yellow");
+        }
+    })
+    //点击设置密码的叉号
+    $(".register_cancel_icon").click(function () {
+        $("#p1").val("");
+        $("#t1").val("");
+        $("#p1").focus();
+        $("#t1").focus();
+        $(this).css({display: 'none'});
+    })
+    //点击确认密码叉号
+    $(".register_cancel_icons").click(function () {
+        $("#p2").val("");
+        $("#t2").val("");
+        $("#p2").focus();
+        $("#t2").focus();
+        $(this).css({display: 'none'});
+    })
+    //密码的显示隐藏
+    $(".register_eye_icon img").click(function () {
+        var name1 = $(this).attr("name");
+        //隐藏密码显示文本
+        if (name1 == "p1") {
+            $(this).attr("src", "/static/image/login/icon_login_eye@2x.png");
+            $(this).attr("name", "t1");
+            var p1 = $("#p1").val();
+            $("#t1").val(p1);
+            $("#p1").hide();
+            $("#t1").show();
+        }
+        //显示密码隐藏文本
+        if (name1 == "t1") {
+            $(this).attr("src", "/static/image/login/icon_login_hideeye@2x.png");
+            $(this).attr("name", "p1");
+            var t1 = $("#t1").val();
+            $("#p1").val(t1);
+            $("#t1").hide();
+            $("#p1").show();
+        }
+    })
+    //密码的显示隐藏
+    $(".register_eye_icons img").click(function () {
+        var name2 = $(this).attr("name");
+        //隐藏密码显示文本
+        if (name2 == "p2") {
+            $(this).attr("src", "/static/image/login/icon_login_eye@2x.png");
+            $(this).attr("name", "t2");
+            var p2 = $("#p2").val();
+            $("#t2").val(p2);
+            $("#p2").hide();
+            $("#t2").show();
+        }
+        //显示密码隐藏文本
+        if (name2 == "t2") {
+            $(this).attr("src", "/static/image/login/icon_login_hideeye@2x.png");
+            $(this).attr("name", "p2");
+            var t2 = $("#t2").val();
+            $("#p2").val(t2);
+            $("#t2").hide();
+            $("#p2").show();
+        }
+    })
+})

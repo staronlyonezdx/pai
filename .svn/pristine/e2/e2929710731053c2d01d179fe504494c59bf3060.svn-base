@@ -1,0 +1,52 @@
+
+{extend name="index:base" /}
+		{block name="style"}
+        <link rel="stylesheet" href="__HOME_CSS__/bootstrap.min.css">
+        <link rel="stylesheet" href="__HOME_CSS__/icomoon-social.css">
+		
+        <link rel="stylesheet" href="__HOME_CSS__/leaflet.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/cmm.css">
+		<link rel="stylesheet" href="__HOME_CSS__/main.css">
+        <script src="__HOME_JS__/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		{/block}
+		{block name="style2"}
+		{/block}
+<!-- 广告 -->
+{block name="ad"}
+         <!-- 广告开始 -->
+        <div class="homepage-slider">
+        	<div id="sequence">
+				<ul class="sequence-canvas">
+					<li class="bg1" style="background-image:url('__HOME_IMG__/homepage-slider/inquiry.jpg');">
+					</li>
+				</ul>
+			</div>
+        </div>
+        <!-- 广告结束 -->
+{/block}
+{block name="body"}
+		
+		<!-- 联系我们 -->
+        <div class="section">
+	    	<div class="container">
+				<div class="row">
+					<!-- 产品分类导航 -->
+					{include file="public/goodsnav" /}
+					<!-- 联系我们 -->
+					<div class="col-sm-9" id="inq">
+						<h2 class="mune-empty"></h2>
+						<h4 class="mune-title-son">CONTACT US</h4>
+						<div class="blog-post blog-single-post">
+							{$result['content']|htmlspecialchars_decode}
+							<!-- End Comments -->
+						</div>
+					</div>
+					<!-- End Blog Post -->
+				</div>
+			</div>
+	    </div>
+
+{/block}
+ {block name="script"}
+{include file="common/js_sdk" /}
+{/block}

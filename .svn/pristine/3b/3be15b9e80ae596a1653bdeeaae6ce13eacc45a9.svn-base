@@ -1,0 +1,244 @@
+.coupon-top {
+    background: #fff;
+    top: 0.88rem;
+    left: 0;
+    width: 100%;
+    padding: 0.3rem 0 0 0;
+    position: fixed;
+}
+.red-exchange {
+    height: 0.72rem;
+    position: relative;
+    margin: 0 0.3rem 0.2rem 0.3rem;
+}
+.red-exchange-input {
+    margin: 0 1rem 0 0;
+    height: 100%;
+    background: #F8F8F8;
+    border-radius: 0.12rem;
+}
+.red-exchange-input input {
+    width: 100%;
+    height: 100%;
+    background: #F8F8F8;
+    border: 0;
+    color: #BABABA;    
+    font-size: 0.26rem;
+    border-radius: 0.12rem;
+    text-indent: 0.37rem;
+}
+.red-exchange button {
+    width: 1rem;
+    height: 0.72rem;
+    line-height: 0.72rem;
+    text-align: center;
+    background: #fff;
+    border: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #000;
+    font-size: 0.28rem;
+}
+.coupon-nav {
+    height: 0.8rem;
+}
+.coupon-nav p {
+    width: 50%;
+    float: left;
+    height: 100%;
+    line-height: 0.8rem;
+    text-align: center;
+    font-size: 0.26rem;
+    color: #AAAAAA;
+    position: relative;
+}
+.coupon-nav p:first-child::before {
+    position: absolute;
+    right: 0;
+    margin: auto;
+    width: 0.02rem;
+    height: 0.18rem;
+    top: 0;
+    bottom: 0;
+    background: #DDDDDD;
+    content: '';
+}
+.coupon-nav p::after {
+    height: 0.08rem;
+    width: 0.46rem;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: '';
+}
+.coupon-nav .active::after {
+    background: #FFDE45;
+}
+.coupon-nav .active {
+    color: #000;
+}
+.coupon-nav::after {
+    clear: both;
+    content: '';
+    display: table;
+}
+.swiper-container{
+    position: fixed;
+    top: 3.2rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.coupon-list {
+    width: 7.12rem;
+    height: 2rem;
+    margin: 0 auto 0.2rem auto;
+    background: url(../../image/coupon/coupon.png) no-repeat;
+    background-size: 100%;
+}
+.coupon-list-cont::after {
+    clear: both;
+    display: table;
+    content: '';
+}
+.coupon-list-cont {
+    width: 6.9rem;
+    margin: 0 auto;
+    position: relative;
+}
+.coupon-list-left {
+    float: left;
+    width: 1.8rem;
+    text-align: center;
+    font-size: 0.32rem;
+    color: #FF4F3D;
+    line-height: 0.5rem;
+    padding: 0.6rem 0 0 0;
+}
+.coupon-list-left span {
+    font-size: 0.72rem;
+}
+.coupon-list-left small {
+    color: #333333;
+    font-size: 0.24rem;
+}
+.coupon-list-center {
+    float: left;
+    width: 3rem;
+    padding: 0.35rem 0 0 0.5rem;
+}
+.coupon-list-center p {
+    font-size: 0.3rem;
+    color: #000;
+    padding: 0 0 0.2rem 0;
+    font-weight: bold;
+}
+.coupon-list-center span {
+    color: #AAAAAA;
+    font-size: 0.24rem;
+    display: block;
+    line-height: 0.37rem;
+}
+.coupon-list-right {
+    width: 1rem;
+    float: right;
+    border: 0;
+    display: block;
+    margin: 0.1rem 0 0 0;
+}
+.coupon-list-cover {
+    width: 5.9rem;
+    height: 1.8rem;
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    display: block;
+
+}
+.coupon-pop {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(22, 22, 22, 0.42);
+    z-index: 999;
+    display: none;
+}
+.coupon-cover {
+    width: 100%;
+    height: 100%;
+}
+.coupon-pop-cont {
+    background: #F2F2F2;
+    width: 6.6rem;
+    height: 3.8rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 0.12rem;
+}
+.coupon-pop-wid {
+    width: 6rem;
+}
+.coupon-pop-mar {
+    margin-top: 0.3rem;
+}
+.coupon-pop-pad {
+    padding-top: 0.4rem;
+}
+.coupon-pop-pad1 {
+    padding-top: 0.2rem;
+}
+.coupon-pop-btn {
+    width: 5.9rem;
+    margin: 0 auto;
+}
+.coupon-pop-btn button {
+    width: 2.8rem;
+    height: 0.8rem;
+    text-align: center;
+    line-height: 0.8rem;
+    font-size: 0.28rem;
+    font-weight: bold;
+    border-radius: 0.12rem;
+    border: 0;
+    background: #E3E3E3;
+    color: #AAAAAA;
+}
+.coupon-pop-btn::after {
+    clear: both;
+    content: '';
+    display: table;
+}
+.coupon-pop-btn .rt {
+    background: #FFDE45;
+    color: #000;
+}
+.coupon-list-sel {
+    width:1.1rem;
+    height:0.56rem;
+    background:#FFDE45;
+    border-radius:0.04rem;
+    font-size: 0.24rem;
+    color: #000;
+    position: absolute;
+    right: 0.35rem;
+    bottom: 0.22rem;
+    line-height: 0.56rem;
+    text-align: center;
+    border: 0;
+}
+.coupon-list-sel.active {
+    background:rgba(255,222,69,0.26);
+}
+.clist {
+    margin: 0.25rem 0 0 0;
+}

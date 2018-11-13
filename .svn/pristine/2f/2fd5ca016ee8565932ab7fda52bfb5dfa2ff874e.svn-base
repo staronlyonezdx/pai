@@ -1,0 +1,93 @@
+
+.allranking_main{
+    width:7.5rem;
+}
+.allranking_list{
+    background: #fff;
+    margin-bottom: 1px;
+    padding:0.1rem 0.3rem;
+    /*height:0.8rem;*/
+    line-height:0.8rem;
+}
+.allranking_mine{
+    /* width:7.5rem; */
+    height:1.2rem;
+    line-height: 1.2rem;
+    background: url("../../image/allranking/pic_diban@2x.png") no-repeat center center;
+}
+.allranking_rankimg{
+    width:0.81rem;
+    height:0.81rem;
+    text-align:center;
+    line-height: 0.81rem;
+}
+.allranking_mine .allranking_rankimg{
+    line-height: 1.2rem;
+}
+.allranking_rankimg span{
+    font-size: 0.26rem;
+    color:#FF6A22;
+    font-weight: 600;
+}
+.allranking_img{
+    width:0.84rem;
+    height:0.84rem;
+    margin-left: 0.26rem;
+}
+.allranking_img_my{
+    margin-top: 0.15rem;
+}
+.allranking_img_huanggaun{
+    background: url("../../image/allranking/icon_huanguan@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.allranking_mine .allranking_img_huanggaun{
+    margin-top: 0.18rem;
+}
+.allranking_img_yingaun{
+    background: url("../../image/allranking/icon_yinguan@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.allranking_img_tonggaun{
+    background: url("../../image/allranking/icon_tongguan@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.allranking_header{
+    width:0.72rem;
+    height: 0.72rem;
+    margin-top:0.1rem;
+    position: relative;
+}
+.allranking_header .allranking_header_pic{
+    width: 90%;
+    height: 90%;
+    display: block;
+    border-radius: 100%;
+    margin: auto;
+    position: absolute;
+    left: 0.041rem;
+    right: 0;
+    top: 0.02rem;
+    bottom: 0;
+}
+.allranking_list p{
+    width:2rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    font-size: 0.28rem;
+    color:#333333;
+    margin-left: 0.2rem;
+}
+.allranking_list small{
+    color:#666666;
+    font-size: 0.24rem;
+    padding: 0 0 0 0.4rem;
+    display: block;
+    width: 2rem;
+    text-align: right;
+}
+.allranking_list .hot {
+    background: url(../../image/allranking/hot.png) no-repeat left center;
+    background-size: 0.3rem;
+}

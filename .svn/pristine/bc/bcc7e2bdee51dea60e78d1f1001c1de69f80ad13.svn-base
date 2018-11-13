@@ -1,0 +1,185 @@
+﻿{extend name="common/base" /}
+{block name="style"}
+    <link rel="stylesheet" type="text/css" href="__CSS__/common/common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/applicationIn/application_in.css">
+{/block}
+{block name="header"}
+<!--<div class="header_nav">头部信息</div>-->
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<form enctype="multipart/form-data" method="post">
+<main>
+    <div class="application_in_tit">
+        <div class="application_in_text">
+            <p>
+                <span>*</span>企业信息
+            </p>
+        </div>
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">企业名称:</p>
+        <input type="text" name="corporation_name" value='{$info.corporation_name}' placeholder="请输入企业的名称">
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">企业地址:</p>
+        <textarea id="demo1" name="" type="hidden" readonly="true" placeholder="请选择企业的地址">{$info.pid}</textarea>
+        <input id="value1" type="hidden" name="pid"/>
+    </div>
+    <div class="application_in_list" id="demo">
+        <p class="application_in_hint">详细地址:</p>
+        <input type="text" name="address"  value='{$info.address}' placeholder="请输入企业的详细地址">
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">店铺名称:</p>
+        <input type="text" name="ba_stroe_name" value='{$info.ba_stroe_name}' placeholder="请输入店铺名称">
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">开户银行:</p>
+        <input type="text" name="ba_bankname"  value='{$info.ba_bankname}'  placeholder="请输入企业的开户银行">
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">银行账号:</p>
+        <input type="text" name="ba_bankaccount"  value='{$info.ba_bankaccount}'  placeholder="请输入企业的银行账号">
+    </div>
+    <div class="application_in_tit">
+        <div class="application_in_text">
+            <p>
+                <span>*</span>企业营业执照副本
+            </p>
+        </div>
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">信用代码:</p>
+        <input type="text" name="ba_license"  value='{$info.ba_license}' placeholder="请输入企业社会信用代码">
+    </div>
+    <div class="application_in_width">
+        <p>温馨提示：请上传原始比例的营业执照副本照片或扫描件，请勿裁剪涂改，保证营业执照副本信息清晰显示，否则无法通过审核。</p>
+    </div>
+    <!--<form enctype="multipart/form-data">-->
+        <div class="view">
+            <div class="photo"></div>
+            <div class="form-group"></div>
+            <img id="license" src="__CDN_PATH__{$info.ba_license_img}" alt="">
+            <div class="file-loading">
+                <input id="file-4" type="file" class="file" name='ba_license_img' data-upload-url="#">
+            </div>
+        </div>
+        </div>
+    <!--</form>-->
+    <div class="application_in_tit">
+        <div class="application_in_text">
+            <p>
+                <span>*</span>店铺信息
+            </p>
+        </div>
+    </div>
+    <div class="application_in_list application_in_ify">
+        <p class="application_in_hint">店铺分类:</p>
+        <input type="text" name="classify" value="{$cate[$info.store_categoryid] ?? ''}" placeholder="请选择店铺分类" readonly="readonly">
+        <input type="hidden" name="store_categoryid"  value='{$info.store_categoryid}' >
+        <span class="application_in_classify">
+      <img src="__STATIC__/icon/applicationIn/pyy_btn_arrow.png">
+    </span>
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">联系电话:</p>
+        <input type="text" name="store_tel"  value='{$info.store_tel}' placeholder="请输入店铺联系电话">
+    </div>
+    <div class="application_in_tit">
+        <div class="application_in_text">
+            <p>
+                <span></span>身份信息
+            </p>
+        </div>
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">法人姓名:</p>
+
+        <input type="text" name="ba_legal_person"  value='{$info.ba_legal_person ?? ""}'  placeholder="请输入法人姓名">
+    </div>
+    <div class="application_in_list">
+        <p class="application_in_hint">身份证号:</p>
+        <input type="text" name="ba_legal_person_idnumber"  value='{$info.corporation_name ?? ""}' placeholder="请输入法人身份证号码">
+    </div>
+    <div class="application_in_width">
+        <p>温馨提示：请上传原始比例的身份证正反面照片或扫描件，请勿裁剪涂改，保证身份证信息清晰显示</p>
+    </div>
+
+        <div class="application_in_con clear">
+            <div class="view lf">
+                <div class="photo1"></div>
+                <div class="form-group"></div>
+                <img id='positive' src="__CDN_PATH__{$info.ba_identification_positive_img}" alt="" width="110" height="110">
+                <div class="file-loading">
+                    <input id="file-5" type="file" class="file" name='ba_identification_positive_img' data-upload-url="#">
+                </div>
+            </div>
+            <div class="view rt">
+                <div class="photo2"></div>
+                <div class="form-group"></div>
+                <img id='negative' src="__CDN_PATH__{$info.ba_identification_negative_img}" alt="" width="110" height="110">
+                <div class="file-loading">
+                    <input id="file-6" type="file" class="file" name='ba_identification_negative_img' data-upload-url="#">
+                </div>
+            </div>
+        </div>
+
+  <!-- 分类的弹框 -->
+<div class="application_popups">
+
+
+
+    <div class="application_menu">
+        <ul>
+        <!-- 判断不为空 -->
+        {notempty name="category"}
+            {volist name='category' id='vo'}
+            <li><a href="##" class="" name="{$vo.status}">{$vo.sc_name}</a></li>
+            {/volist}
+        {/notempty}
+        </ul>
+    </div>
+    <div class="application_content">
+        <div class="application_contentDiv">
+            <ul class="application_tabcon">
+                {notempty name="category"}
+                    {volist name='category' id='vo'}
+                        {notempty name="category"}
+                            {volist name='vo.son' id='voo'}
+                            <li>
+                                <a href="##" sc_id="" class="application_two" name="{$voo.status}">{$voo.sc_name}</a>
+                                <div class="application_three">
+                                {notempty name="category"}
+                                    {volist name='voo.son' id='vooo'}
+                                    <a href="##" sc_id="" name="{$vooo.status}">{$vooo.sc_name}</a>
+                                    {/volist}
+                                {/notempty}
+                                </div>
+                            </li>
+                            {/volist}
+                        {/notempty}
+                    {/volist}
+                {/notempty}
+            </ul>
+        </div>
+    </div>
+</div>
+</main>
+<div class="application_in_agreement clear">
+    <div class="rt">
+        <input type="checkbox">
+        <div class="application_in_agree">同意《拍吖吖商户注册协议》</div>
+    </div>
+</div>
+<div class="application_in_submit">
+    <button>提交申请</button>
+</div>
+</form>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/applicationIn/application_in.js"></script>
+<script src="__JS__/goods/publish.js"></script>
+<script src="__JS__/applicationIn/edit_application.js"></script>
+{/block}

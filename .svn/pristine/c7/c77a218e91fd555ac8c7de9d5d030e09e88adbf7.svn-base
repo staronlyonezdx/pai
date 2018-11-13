@@ -1,0 +1,69 @@
+.refund_main{
+    width:7.5rem;
+    height:6.03rem;
+    position: relative;
+    margin:0 auto;
+    background: #fff;
+    padding-top: 0.1rem;
+}
+.refund_view{
+    margin-left: 1.53rem;
+    margin-top: 0.3rem;
+}
+.refund_img{
+    width:1.2rem;
+    height:4.69rem;
+}
+.refund_two_img{
+    width:1.2rem;
+    height:2.45rem;
+}
+.refund_img img{
+    width:100%;
+    height:100%;
+}
+.refund_new{
+margin-top: 0.4rem;
+    margin-left: 0.2rem;
+}
+.refund_new .refund_first p{
+    font-size: 0.32rem;
+}
+.refund_first{
+    margin-top:0.05rem;
+}
+.success_list{
+    margin-top:0.8rem ;
+}
+.refund_new div{
+    width:4.36rem;
+}
+.refund_new div p{
+    color:#000000;
+    font-weight: 600;
+    font-size: 0.24rem;
+}
+.refund_new div span{
+    font-size: 0.24rem;
+    color:#bbbbbb
+}
+.refund_bot{
+    width:7.5rem;
+    background: #fff;
+    margin-top: 0.2rem;
+}
+.refund_bot_list{
+    height:0.88rem;
+    line-height: 0.88rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    border-bottom: 0.01rem solid #f2f2f2;
+}
+.refund_bot_list span{
+    font-size: 0.28rem;
+    color:#000000;
+    font-weight: 600;
+}
+.refund_bot_list .refund_bot_rt{
+    font-size: 0.24rem;
+}

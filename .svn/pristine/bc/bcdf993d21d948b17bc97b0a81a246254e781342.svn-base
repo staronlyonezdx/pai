@@ -1,0 +1,66 @@
+.sficon_1{
+	background-image: url('../../lib/clearmin-master/img/sf/house.svg');
+}
+.sficon_2{
+	background-image: url('../../lib/clearmin-master/img/sf/address-book.svg');
+}
+.sficon_3{
+	background-image: url('../../lib/clearmin-master/img/sf/bag.svg');
+}
+.sficon_4{
+	background-image: url('../../lib/clearmin-master/img/sf/basket.svg');
+}
+.sficon_5{
+	background-image: url('../../lib/clearmin-master/img/sf/bell.svg');
+}
+.sficon_6{
+	background-image: url('../../lib/clearmin-master/img/sf/bitcoin.svg');
+}
+.sficon_7{
+	background-image: url('../../lib/clearmin-master/img/sf/book-bookmark.svg');
+}
+.sficon_8{
+	background-image: url('../../lib/clearmin-master/img/sf/book.svg');
+}
+.sficon_9{
+	background-image: url('../../lib/clearmin-master/img/sf/box-full.svg');
+}
+.sficon_10{
+	background-image: url('../../lib/clearmin-master/img/sf/building.svg');
+}
+.sficon_11{
+	background-image: url('../../lib/clearmin-master/img/sf/brick.svg');
+}
+.sficon_12{
+	background-image: url('../../lib/clearmin-master/img/sf/cat.svg');
+}
+.sficon_13{
+	background-image: url('../../lib/clearmin-master/img/sf/calculator.svg');
+}
+.sficon_14{
+	background-image: url('../../lib/clearmin-master/img/sf/calendar-clock.svg');
+}
+.sficon_15{
+	background-image: url('../../lib/clearmin-master/img/sf/compass.svg');
+}
+.sficon_16{
+	background-image: url('../../lib/clearmin-master/img/sf/file-code.svg');
+}
+.sficon_17{
+	background-image: url('../../lib/clearmin-master/img/sf/file-indesign.svg');
+}
+.sficon_18{
+	background-image: url('../../lib/clearmin-master/img/sf/folder-music.svg');
+}
+.sficon_19{
+	background-image: url('../../lib/clearmin-master/img/sf/folder-video.svg');
+}
+.sficon_20{
+	background-image: url('../../lib/clearmin-master/img/sf/file-pdf.svg');
+}
+.sficon_21{
+	background-image: url('../../lib/clearmin-master/img/sf/shield-error.svg');
+}
+.pagination{float:right;}
+.pagination-lg>li>a{padding: 5px 8px;font-size: 14px;}
+.pagi_bar{display: inline-block;float:right;padding-left: 0;margin: 20px 0;border-radius: 2px;padding: 5px 8px;font-size: 14px;}

@@ -1,0 +1,150 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/dropload/dropload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/shop/fans_list.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+        <main>
+            <!--没有粉丝的样式-->
+            <div class="fans_empty">
+                <img src="__STATIC__/image/shop/pic_fans@2x.png" alt=""/>
+                <p>你这么酷，竟然没有粉丝！</p>
+                <p>快去发布商品让更多人关注你吧！</p>
+            </div>
+            <!--有粉丝的样式-->
+            <div class="fans_main" style="display: none">
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>爱仕达此ID</span>
+                <small>普通会员</small>
+            </div>
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>阿巴斯</span>
+                <small>白银会员</small>
+            </div>
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>艾克谷子</span>
+                <small>黄金会员</small>
+            </div>
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>红粒绿</span>
+                <small>黑金会员</small>
+            </div>
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>爱仕达此ID</span>
+                <small>普通会员</small>
+            </div>
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>爱仕达此ID</span>
+                <small>普通会员</small>
+            </div>
+            <div class="fans_list">
+                <img src="__STATIC__/image/index/icon_home_5@2x.png" alt=""/>
+                <span>爱仕达此ID</span>
+                <small>普通会员</small>
+            </div>
+            </div>
+        </main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/dropload/dropload.js"></script>
+<script>
+//    //精选商品的下拉加载数据
+//    var tabLoadEnd =false;//加载后已没有数据
+//    var page=1;
+//    //    // 上拉刷新
+//    var dropload = $('.index_select_drop').dropload({
+//        scrollArea: window,
+//        domDown: {
+//            domClass: 'dropload-down',
+//            domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+//            domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+//            domNoData: '<div class="dropload-noData">已无数据</div>'
+//        },
+//        loadDownFn: function (me) {
+//            setTimeout(function () {
+//                if (tabLoadEnd) {
+//                    me.resetload();
+//                    me.lock();
+//                    me.noData();
+//                    me.resetload();
+//                    return;
+//                }
+//                page++;
+//                $.ajax("/index/index/goods_hot/page/"+page, {
+//                    data: {},
+//                    dataType: 'json',//服务器返回json格式数据
+//                    type: 'get',//HTTP请求类型
+//                    success: function (res) {
+//                        console.log(res)
+////                        //获得服务器响应
+//                        var html = '';
+//                        if (res.list.length > 0) {
+//                            for (var i = 0; i < res.list.length; i++) {
+//                                if (res.new_num > 0) {
+//                                    res.new_num--;
+//                                } else {
+//                                    tabLoadEnd = true;
+//                                    break;
+//                                }
+//                                var num;
+//                                if (res.list[i].max_num == 0) {
+//                                    num = 0;
+//                                } else {
+//                                    num = res.list[i].max_num / res.list[i].gdr_membernum * 100;
+//                                    if (num >= 100) {
+//                                        num = 100;
+//                                    } else if (num >= 99 && num < 100) {
+//                                        num = 99;
+//                                    } else {
+//                                        num = Math.ceil(num);
+//                                    }
+//                                }
+//                                html += '<a href="/member/goodsproduct/index/g_id/' + res.list[i].g_id + '">';
+//                                html += '<div class="index_module_main clear">';
+//                                html += '<div class="index_module_img_view lf">';
+//                                html += '<div class="index_module_img">';
+//                                html += '<img src="' + res.list[i].g_img + '" alt="">';
+//                                html += '</div>';
+//                                html += '<div class="index_module_pic">';
+//                                html += '<img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">';
+//                                html += '</div>';
+//                                html += '</div>';
+//                                html += '<div class="index_module_text lf">';
+//                                html += '<p>' + res.list[i].g_name + '</p>';
+//                                html += '<span>￥<i>' + res.list[i].gdr_price + '</i>&nbsp;&nbsp;<del>￥' + res.list[i].gp_market_price + '</del></span>';
+//                                html += '<div class="index_module_progress_view clear">';
+//                                html += '<div class="index_module_progress lf">';
+//                                html += '<div class="index_module_progressbar" style="width: ' + num + '%"></div>';
+//                                html += '</div>';
+//                                html += '<div class="index_module_progress_hint lf">' + num + '%</div>';
+//                                html += '</div>';
+//                                html += '<div class="index_module_progress_bottom clear">';
+//                                html += '<span class="lf">' + res.list[i].total_num + '人已参与</span>';
+//                                html += '<div class="index_module_progress_canyu rt">立即参团</div>';
+//                                html += '</div>';
+//                                html += '</div>';
+//                                html += '</div>';
+//                                html += '</a>';
+//                            }
+//                            $('.index_select_drop_view').append(html);
+//                        } else {
+//                            tabLoadEnd = true;
+//                            me.noData();
+//                        }
+//                        me.resetload();
+//                    }
+//                });
+//            }, 500);
+//        }
+</script>
+{/block}

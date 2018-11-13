@@ -1,0 +1,67 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/rule/peanut_explain.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+        {/block}
+{block name="content"}
+            <main >
+                <div style="padding:0.3rem">
+                    科技时代百度空间上班
+                </div>
+
+                <!--<div class="peanut_explain">-->
+                    <!--<h1>活动规则</h1>-->
+                    <!--<h2>限定范围</h2>-->
+                    <!--<small>被邀请人必须是未在拍吖吖平台注册过的新用户</small>-->
+                    <!--<h2>邀请成功方法</h2>-->
+                    <!--<div class="rule_span">-->
+                        <!--<p>[方法一]</p>-->
+                        <!--<small>二维码或链接：被邀请人通过邀请人分享的二维码或链接注册拍吖吖；</small>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span">-->
+                        <!--<p>[方法二]</p>-->
+                        <!--<small>填写邀请人：被邀请人自行下载拍吖吖App，在注册界面自行填写邀请人（必须是在平台注册过的用户）的手机号，并成功登陆即可</small>-->
+                    <!--</div>-->
+                    <!--<h4>以上两种情况都视为邀请成功</h4>-->
+                <!--</div>-->
+                <!--<div class="peanut_explain">-->
+                    <!--<h1>获得收益详情</h1>-->
+                    <!--<h2>被邀请人升级</h2>-->
+                    <!--<div class="rule_span">-->
+                        <!--<span>每有一个你邀请的会员升级了，你将得到大额的推荐费！推荐费根据被邀请人的会员等级有所提升，若被邀请人等级高于你，超出等级部分的推荐费将无法获取）</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span">-->
+                        <!--<span>被邀请人成为<span>[普通会员]</span>你将得<b>1</b>经验/人，推荐费<strong>10元</strong>/人</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span rule_span_two ">-->
+                        <!--<span>被邀请人成为<span>[白银会员]</span>你将得<b>5</b>经验/人，推荐费<strong>80元</strong>/人</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span rule_span_two rule_span_thr">-->
+                        <!--<span>被邀请人成为<span>[黄金会员]</span>你将得<b>10</b>经验/人，推荐费<strong>80元</strong>/人</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span rule_span_two rule_span_for">-->
+                        <!--<span>被邀请人成为<span>[黑金会员]</span>你将得<b>15</b>经验/人，推荐费<strong>80元</strong>/人</span>-->
+                    <!--</div>-->
+                    <!--<h2>被邀请人入驻商家成功后并发布过一件商品</h2>-->
+                    <!--<div class="rule_span">-->
+                        <!--<span>你若为<span>[普通会员]</span>将可获得<strong>10元</strong>推荐费/户</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span rule_span_two ">-->
+                        <!--<span>你若为<span>[白银会员]</span>将可获得<strong>100元</strong>推荐费/户</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span rule_span_two rule_span_thr">-->
+                        <!--<span>你若为<span>[黄金会员]</span>将可获得<strong>150元</strong>推荐费/户</span>-->
+                    <!--</div>-->
+                    <!--<div class="rule_span rule_span_two rule_span_for">-->
+                        <!--<span>你若为<span>[黑金会员]</span>将可获得<strong>300元</strong>推荐费/户</span>-->
+                    <!--</div>-->
+                    <!--<h4>如有违法违规作弊行为将被取消奖励资格详情请咨询平台客服</h4>-->
+                <!--</div>-->
+
+            </main>
+        {/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

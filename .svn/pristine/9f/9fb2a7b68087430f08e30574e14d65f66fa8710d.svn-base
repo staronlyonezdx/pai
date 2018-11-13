@@ -1,0 +1,676 @@
+$(function () {
+    // 时间戳转换时间S
+    function getMyDate(str){
+        var oDate = new Date(str),
+        oYear = oDate.getFullYear(),
+        oMonth = oDate.getMonth()+1,
+        oDay = oDate.getDate(),
+        oHour = oDate.getHours(),
+        oMin = oDate.getMinutes(),
+        oSen = oDate.getSeconds(),
+        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+getzf(oMin) +':'+getzf(oSen);//最后拼接时间            
+        return oTime;        
+    };
+
+    //补0操作      	
+    function getzf(num){          
+        if(parseInt(num) < 10){              
+            num = '0'+num;        
+        }          	
+        return num;      	
+    }
+
+    // 时间戳转换时间E
+    var curNavIndex = 0;//好友点赞1; 我的标记2;
+    var mescrollArr = new Array(3);//2个菜单所对应的2个mescroll对象
+    //初始化首页
+    mescrollArr[0] = initMescroll("mescroll0", "dataList0");
+
+    /*初始化轮播*/
+    var swiper = new Swiper('#swiper', {
+        onTransitionEnd: function (swiper) {
+            var i = swiper.activeIndex;//轮播切换完毕的事件
+            changePage(i);
+        }
+    });
+
+    /*初始化菜单*/
+    $(".participate_tab_list").click(function () {
+
+        var i = Number($(this).attr("i"));
+        // 存cookie
+        $.cookie("cantuan",i,{expire:10000});
+
+        swiper.slideTo(i);//以轮播的方式切换列表
+    })
+
+    /*当页面切换时，读取cookie中index的状态，渲染到页面*/
+    //问题：退出当前账号的时候，清除cookie，$.cookie('index', null);
+    function getCookies(){
+        var index = $.cookie('cantuan');
+        if(index){
+            $(".participate_tab_list").removeClass("participate_tab_color");
+            $(".participate_tab_list").eq(index).addClass("participate_tab_color");
+        }
+        swiper.slideTo(index);
+    }
+    getCookies();
+
+    /*切换列表*/
+    function changePage(i) {
+        if (curNavIndex != i) {
+            //更改列表条件
+            $(".participate_tab .participate_tab_list").each(function (n, dom) {
+                if (dom.getAttribute("i") == i) {
+                    dom.classList.add("participate_tab_color");
+                } else {
+                    dom.classList.remove("participate_tab_color");
+                }
+            })
+            //隐藏当前回到顶部按钮
+            mescrollArr[curNavIndex].hideTopBtn();
+            //取出菜单所对应的mescroll对象,如果未初始化则初始化
+            if (mescrollArr[i] == null) {
+                mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
+            } else {
+                //检查是否需要显示回到到顶按钮
+                var curMescroll = mescrollArr[i];
+                var curScrollTop = curMescroll.getScrollTop();
+                if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                    curMescroll.showTopBtn();
+                } else {
+                    curMescroll.hideTopBtn();
+                }
+            }
+            //更新标记
+            curNavIndex = i;
+        }
+    }
+
+    /*创建MeScroll对象*/
+    function initMescroll(mescrollId, clearEmptyId) {
+        //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+        var mescroll = new MeScroll(mescrollId, {
+            //下拉刷新
+            down: {
+                isLock: true, //锁定下拉
+            },
+            //上拉加载的配置项
+            up: {
+                callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                empty: {
+                    icon: "/static/image/goods/no-cont.png", //图标,默认null
+                    tip: "暂无相关数据~", //提示
+                },
+                clearEmptyId: clearEmptyId, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                toTop: { //配置回到顶部按钮
+                    src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                }
+            }
+        });
+        return mescroll;
+    }
+
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+        getListDataFromNet(dataIndex, page.num, page.size, function (pageData, total_num) {
+            ///方法二(推荐): 后台接口有返回列表的总数据量 total_num
+            mescrollArr[dataIndex].endBySize(pageData.length, total_num); //必传参数(当前页的数据个数, 总数据量)
+
+            //设置列表数据
+            setListData(pageData, dataIndex);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescrollArr[dataIndex].endErr();
+        });
+    }
+
+    /*设置列表数据
+     * pageData 当前页的数据
+     * dataIndex 数据属于哪个nav */
+    function setListData(pageData, dataIndex) {
+        var listDom = document.getElementById("dataList" + dataIndex);
+        for (var i = 0; i < pageData.length; i++) {
+           
+            var pd = pageData[i];
+            var datas=getMyDate(pd.add_time*1000);
+            if (dataIndex == 0) {
+                var str ='<a href="/popularity/popularitygoods/commodity_info/pg_id/'+pd.pg_id+'">'
+
+                    str +='<div class="participate_pick_tit clear">';
+                    str += '<small class="lf">为</small>';
+
+                    str += '<div class="participate_pick_name lf">';
+                if(pd.m_avatar == '') {
+                    pd.m_avatar = "/static/image/myhome/TIM20180731142117.jpg"
+                }
+                    str += '<img src="' + pd.m_avatar + '"  class="participate_pick_name_img"/>';
+
+                    str += '</div>';
+
+                    str += '<span class="lf">' + pd.m_name + '</span>';
+                    str += '<p class="rt">+' + pd.pj_num + ' <span style="font-size:0.24rem;font-weight:400;color:#666666;">人气值</span></p>';
+                    str += '</div>';
+
+                    str += '<div class="participate_pick_main clear">';
+
+                    str += '<div class="participate_pick_pic lf">';
+                    str += '<img class="lazy" src="' + pd.pg_img + '"/>';
+                    str += '</div>';
+                    str += '<div class="participate_pick_text lf clear">';
+                    str += '<p class="lf">' + pd.pg_name + '</p>';
+                    str += '<div class="rt participate_pick_value">';
+                    str += '<span>NO.' + pd.ranking + '</span>';
+                    str += '<small>' + pd.pm_popularity + '<span style="font-size:0.24rem;font-weight:400;color:#666666;text-align:right;display:inline-block;">人气值</span></small>';
+                    str += '</div>';
+                    str += '</div>';
+
+                str += '</div>';
+                str += '<div class="tj">';
+                if(pd.pg_sn==null||pd.pg_sn==""){
+                    str += '<p class="p1">商品编号：2018001'+ pd.pg_id+'</p>';
+                }else{
+                    str += '<p class="p1">商品编号：'+ pd.pg_sn+'</p>';
+                }
+                str += '<p class="p2">'+datas+'</p>';
+                str += '</div>';
+                str+='</a>'
+                var liDom = document.createElement("div");
+                liDom.className = "participate_pick";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+
+
+                // console.log($('.participate_pick_name_img'));
+                $('.participate_pick_name_img').error(function(){
+                    $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
+                })
+            } else if (dataIndex == 1) {
+                var str = '<p class="proNum">商品编号：';
+                if(pd.pg_sn==null||pd.pg_sn==""){
+                    str += '<span>2018001'+ pd.pg_id+'</span>'
+                }else{
+                    str += '<span>'+ pd.pg_sn +'</span>';
+                   
+                }
+                    // str += '<span>3298379137183719</span>'
+                        str += '</p>';
+                // str += '<img src="" alt="" class="pro_img">'
+                str += '<a href="/popularity/popularitygoods/commodity_info/pg_id/'+pd.pg_id+'"><div><img src="'+ pd.pg_img +'" class="pro_img"/>';
+                str += '<div class="pro_detail">';
+                str += '<span class="pro_name">'+ pd.pg_name + '</span>';
+                str += '<p class="pro_info">';
+                str += '<span class="pro_order">NO.'+ pd.ranking+'</span>';
+                str += '<span class="pro_call">'+ pd.pm_popularity +'人气值</span>';
+                str += '</p>';
+                str += '</div></div></a>';
+                str += ' <div class="btns">';
+                str += ' <a class="call_click">';
+                str += '<img src="/static/image/participate/icon_fx@2x.png" alt="">';
+                str += '<span class="" style="display:inline" tit="' + pd.pg_name + '" share_title="'+pd.popularity_title+'" share_desc="'+pd.popularity_desc+'" imgs="' + pd.pg_img + '" style="display:block" code="' + pd.popularity_code+ '" url="' + pd.popularity_url + '" onclick="sharelist(this)">邀请好友点赞</span>';
+                str += '</span></a>';
+                str += ' <a class="call_new" href="/popularity/popularityorder/pop_rank/pm_id/'+ pd.pm_id +'">好友点赞榜</a>';
+                str += '</div>';
+                var liDom = document.createElement("div");
+                liDom.className = "my_attend";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+
+            } else if (dataIndex == 2) {
+                var str = '<a href="/popularity/popularitygoods/commodity_info/pg_id/' + pd.pg_id + '""><img src="' + pd.pg_img + '" /></a>';
+                if(pd.pg_status == 2) {
+                    str += '<div class="bj-icon"></div>';
+                }                
+                str += '<div class="sign-list-cont">';
+                str += '<h3>' + pd.pg_name + '</h3>';
+                str += '<p>￥<small>' + pd.pg_price + '</small> <del>原价￥' + pd.pg_market_price + '</del></p>';
+                if(pd.pg_status != 2) {
+                    str += '<div class="sign-list-pag">';
+                    str += '<div class="sign-list-child"><i style="width:' + pd.percentage + '"></i></div><div class="sign-list-num">' + pd.percentage + '</div>';
+                    str += '<span>' + pd.total_people + '人已参与</span>';
+                }else {
+                    str += '<span class="mtp">' + pd.total_people + '人已参与</span>';
+                }                
+                str += '</div>';
+                if (pd.is_challenger == 1) {
+                    str += '<div class="sign-btn" id="yq' + pd.pg_id + '" tit="' + pd.pg_name + '" share_title="'+pd.popularity_title+'" share_desc="'+pd.popularity_desc+'" imgs="' + pd.pg_img + '" style="display:block" code="' + pd.popularity_code + '" url="' + pd.popularity_url + '" onclick="share(this,1)" >邀请好友</div>';
+                    str += '<div class="sign-btn" id="ld' + pd.pg_id + '" tit="' + pd.pg_name + '" imgs="' + pd.pg_img + '" onclick="pay(this,' + pd.pg_id + ',' + pd.pg_price + ')">立即参与</div>';
+                }else if(pd.pg_status == 2) {                    
+                    str += '<div class="sign-btn-bj" style="display:block" onclick="collection(this,' + pd.pg_id + ')">取消标记</div>';
+                }else {
+                    str += '<div class="sign-btn" id="yq' + pd.pg_id + '" tit="' + pd.pg_name + '" share_title="'+pd.popularity_title+'" share_desc="'+pd.popularity_desc+'" imgs="' + pd.pg_img + '" code="' + pd.popularity_code + '" url="' + pd.popularity_url + '" onclick="share(this,1)">邀请好友</div>';
+                    str += '<div class="sign-btn" id="ld' + pd.pg_id + '" tit="' + pd.pg_name + '" imgs="' + pd.pg_img + '" style="display:block" onclick="pay(this,' + pd.pg_id + ',' + pd.pg_price + ')">立即参与</div>';
+                }
+
+                var liDom = document.createElement("div");
+                liDom.className = "sign-list";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+    }
+    /*联网加载列表数据
+     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+     实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+     * */
+
+
+    function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {
+        var url = '';
+        if (curNavIndex == 0) {
+            url = '/popularity/popularitygoods/my_attend/status/2/page/' + pageNum + '/page_size/' + pageSize;
+        } else if (curNavIndex == 1) {
+            url = '/popularity/popularitygoods/my_attend/status/1/page/' + pageNum + '/page_size/' + pageSize;
+        } else if (curNavIndex == 2) {
+            url = '/popularity/popularitygoods/my_attend/status/3/page/' + pageNum + '/page_size/' + pageSize;
+        }
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 2) {
+                        window.location.href = "/member/login/index";
+                    }
+                    if (curNavIndex == 2) {
+                        $('.conf_order_balance').find('small').text(data.data.m_money);
+                        $('#m_money').val(data.data.m_money);
+                    }
+                    var listData = [];
+                    for (var i = 0; i < data.data.list.length; i++) {
+                        listData.push(data.data.list[i]);
+                    }
+                    //回调
+                    successCallback(listData, data.data.total_num);
+                },
+                error: errorCallback
+            });
+        }, 500)
+    }
+})
+
+//iosapp
+/*这段代码是固定的，必须要放到js中*/
+function setupWebViewJavascriptBridge(callback) {
+    if (window.WebViewJavascriptBridge) {
+        return callback(WebViewJavascriptBridge);
+    }
+    if (window.WVJBCallbacks) {
+        return window.WVJBCallbacks.push(callback);
+    }
+    window.WVJBCallbacks = [callback];
+    var WVJBIframe = document.createElement('iframe');
+    WVJBIframe.style.display = 'none';
+    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+    document.documentElement.appendChild(WVJBIframe);
+    setTimeout(function () {
+        document.documentElement.removeChild(WVJBIframe)
+    }, 0)
+}
+
+/*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+setupWebViewJavascriptBridge(function (bridge) {
+    /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+    bridge.callHandler('isApp', function (str) {
+        $('#app').val(str);
+    })
+})
+
+//关闭app分享弹窗
+$(".details_fx_cancel").click(function () {
+    $(".details_fenxiang").hide();
+})
+
+function app(id) {
+    var title = $('#share_title').val();
+    var imgUrl = $('#imgUrl').val();
+    var link = $('.share-link').attr("data-clipboard-text");
+    var desc= $('#share_desc').val();
+    var is_share_to_firend_circle = '';
+    if (id == 0) {
+        is_share_to_firend_circle = false;
+    } else {
+        is_share_to_firend_circle = true;
+    }
+
+    var data = '{"share_title": "' + title + '","share_content": "' + desc + '","share_url": "' + link + '","share_image": "' + imgUrl + '","is_share_to_firend_circle": ' + is_share_to_firend_circle + '}';
+
+    if ($('#app').val() != '') {
+        /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+        setupWebViewJavascriptBridge(function (bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('getShareParams', data);
+        })
+    } else {
+        // 非微信浏览器端安卓分享
+        if (hideFlag) {
+            if (typeof(window.android) != "undefined") {
+                if (androidIos() == 'android') {
+                    window.android.getShareParams(data);
+                }
+            }
+        }
+    }
+    $('.details_fenxiang').hide();
+}
+function copyUrl() {
+    var link = $('.share-link').attr("data-clipboard-text");
+    var data = '{"copy_url": "' + link + '"}';
+    if ($('#app').val() != '') {
+        /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+        setupWebViewJavascriptBridge(function (bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('getCopyUrl', data);
+        })
+    } else {
+        // 非微信浏览器端安卓复制链接
+        if (hideFlag) {
+            if (typeof(window.android) != "undefined") {
+                if (androidIos() == 'android') {
+                    window.android.getCopyUrl(data);
+                }
+            }
+        }
+    }
+    $('.details_fenxiang').hide();
+}
+//我的参团显示分享弹窗
+function sharelist(obj){
+    var url = $(obj).attr("url");//分享出去的链接
+    var tit=$(obj).attr("tit");//app分享的标题
+    var imgs=$(obj).attr("imgs");//商品的图片
+    var ym = document.domain;//获取域名
+    var desc=$(obj).attr("share_desc");//分享的商品名
+    var share_title=$(obj).attr("share_title");//微信分享的标题
+    var code = $(obj).attr("code");//弹窗出来的二维码
+    $('#imgUrl').val('https://'+ym+imgs);//分享出去的图片路径
+    $("#share_link").val(url);
+    $("#share_desc").val(desc);
+    $("#share_title").val($(obj).attr('share_title'));
+    $('#title').val(tit);
+    $('.share-code').attr("src", code);
+    $('.share-link').attr("data-clipboard-text", url);
+
+    var title = $('#share_title').val();
+    var imgUrl = $('#imgUrl').val();
+    var link = $('.share-link').attr("data-clipboard-text");
+    var desc= $('#share_desc').val();    
+    var share_qr_image = "https://"+ym+code;
+
+    var data = '{"share_title": "' + title + '","share_content": "' + desc + '","share_url": "' + link + '","share_image": "' + imgUrl + '","is_share_to_firend_circle": "1","share_qr_image":"'+ share_qr_image +'"}';
+    if ($('#app').val() != '') {       
+        $('.details_fenxiang').show();
+    } else {
+        // 非微信浏览器端安卓分享
+        if (hideFlag) {
+            if (typeof(window.android) != "undefined") {
+                if (androidIos() == 'android') {
+                    if(getCookie("version") == null) {
+                        $('.details_fenxiang').show();
+                    }else {
+                        window.android.getShareParams(data);
+                    }
+                }
+            } else {
+                $('.share-pop').show();
+                $('.share-cont').show();
+                $('.share-tip').hide();
+            }
+        } else {
+            $('.share-pop').show();
+            $('.share-cont').show();
+            $('.share-tip').hide();
+        }
+    }
+}
+
+//我的标记显示分享弹窗    
+function share(obj, id) {
+    var code = '';
+    var url = '';
+
+    if (id == 1) {
+        var imgs = $(obj).attr('imgs');
+        $('#title').val($(obj).attr('tit'));
+        var ym = document.domain;
+        $('#imgUrl').val('https://' + ym + imgs);
+        code = $(obj).attr('code');
+        url = $(obj).attr('url');
+        desc=$(obj).attr('share_desc');
+        $("#share_link").val(url);
+        $("#share_desc").val(desc);
+        $("#share_title").val($(obj).attr('share_title'));
+    } else if (id == 2) {
+        $('.pay-success').hide();
+        code = $('#code').val();
+        url = $('#url').val();
+    }
+    $('.share-code').attr("src", code);
+    $('.share-link').attr("data-clipboard-text", url);
+
+    var title = $('#share_title').val();
+    var imgUrl = $('#imgUrl').val();
+    var link = $('.share-link').attr("data-clipboard-text");
+    var desc= $('#share_desc').val();
+
+    var share_qr_image = "https://"+ym+code;
+
+    var data = '{"share_title": "' + title + '","share_content": "' + desc + '","share_url": "' + link + '","share_image": "' + imgUrl + '","is_share_to_firend_circle": "1","share_qr_image":"'+ share_qr_image +'"}';
+    
+    if ($('#app').val() != '') {
+        $('.details_fenxiang').show();
+    } else {
+        // 非微信浏览器端安卓分享
+        if (hideFlag) {
+            if (typeof(window.android) != "undefined") {
+                if (androidIos() == 'android') {
+                    if(getCookie("version") == null) {
+                        $('.details_fenxiang').show();
+                    }else {
+                        window.android.getShareParams(data);
+                    }
+                }
+            } else {
+                $('.share-pop').show();
+                $('.share-cont').show();
+                $('.share-tip').hide();
+            }
+        } else {
+            $('.share-pop').show();
+            $('.share-cont').show();
+            $('.share-tip').hide();
+        }
+    }
+}
+
+//隐藏分享弹窗
+$('.share-over').click(function () {
+    $('.share-pop').hide();
+});
+
+//复制功能
+var btns = document.querySelectorAll('.share-link');
+var clipboard = new ClipboardJS(btns);
+
+clipboard.on('success', function (e) {
+    layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>', {time: 2000});
+});
+
+clipboard.on('error', function (e) {
+    layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>', {time: 2000});
+});
+
+// 判断是否在微信内
+if (isWeiXin()) {
+    $('.share-link-wx').show();
+    $('.share-link').hide();
+} else {
+    $('.share-link').show();
+    $('.share-link-wx').hide();
+}
+
+//微信分享提示
+$('.share-link-wx').click(function(){
+    $('.share-cont').hide();
+    $('.share-tip').show();
+    
+    //微信分享按钮变更地址
+    var link = $('#share_link').val();
+    var title = $('#share_title').val();
+    var desc = $('#share_desc').val();
+    var imgUrl = $('#imgUrl').val();
+
+    //分享到朋友圈
+    wx.onMenuShareTimeline({
+        title: title,
+        link: link,
+        imgUrl: imgUrl,
+    });
+    //分享给朋友
+    wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: imgUrl, // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    });
+    //分享到QQ
+    wx.onMenuShareQQ({
+        title:title,
+        desc: desc,
+        link:link,
+        imgUrl: imgUrl,
+    });
+    //分享到腾讯微博
+    wx.onMenuShareWeibo({
+        title:title,
+        desc: desc,
+        link:link,
+        imgUrl: imgUrl,
+    });
+    wx.onMenuShareQZone({
+        title:title,
+        desc: desc,
+        link:link,
+        imgUrl: imgUrl,
+    });
+});
+
+//关闭支付浮窗
+$(".close").click(function () {
+    $(".ftc_wzsf").hide();
+    $(".mm_box li").removeClass("mmdd");
+    $(".mm_box li").attr("data", "");
+    i = 0;
+});
+
+//点击安全支付
+function pay(obj, id, price) {
+    var imgs = $(obj).attr('imgs');
+    $('#title').val($(obj).attr('tit'));
+    var ym = document.domain;
+    $('#imgUrl').val('https://' + ym + imgs);
+    $('.all_money').text(price);
+    $('#pg_id').val(id);
+    $.ajax({
+        type: 'post',
+        url: '/popularity/popularitygoods/to_be_popmem',
+        data: {
+            pg_id: id
+        },
+        success: function (res) {
+            if (res.status == 1) {
+                if (res.data.pm_paystate == 1) {
+                    $(".ftc_wzsf").show();
+                    $('#pm_id').val(res.data.pm_id);
+                }
+
+                //判断是否显示余额不足
+                if ($('#m_money').val() < price) {
+                    $('.lack_msg').show();
+                }
+            } else {
+                layer.msg('<span style="color:#fff">' + res.msg + '</span>', {time: 2000});
+            }
+        }
+    })
+}
+
+boxInput.init(function () {
+    var pawval = boxInput.getBoxInputValue();
+    setTimeout(function () {
+        md5_pwd = hex_md5(pawval);
+        // 支付请求
+        var pm_id = $("#pm_id").val();
+        var pg_id = $("#pg_id").val();
+        $.ajax({
+            url: "/popularity/popularitygoods/pay_popmem",
+            dataType: 'json',
+            type: 'POST',
+            data: {pm_id: pm_id, pwd: md5_pwd},
+            success: function (data) {
+                $(".mm_box li").removeClass("mmdd");
+                $(".mm_box li").attr("data", "");
+                i = 0;
+                if (data.status == 8) {
+                    if (data.data.m_avatar == '') {
+                        data.data.m_avatar = '/static/image/shop/pic_fans@2x.png';
+                    }
+                    var rqz = data.data.pm_popularity;
+                    if (rqz >= 1000 && rqz <= 9999) {
+                        rqz = rqz / 1000 + 'k';
+                    } else if (rqz >= 10000) {
+                        rqz = rqz / 10000 + 'w';
+                    }
+                    $('.ftc_wzsf').hide();
+                    $('.pay-success').show();
+                    $('.pay-success-cont').find('img').attr('src', data.data.m_avatar);
+                    $('.pay-success-cont').find('p').text(data.data.m_name);
+                    $('.pay-success-cont').find('.rqz').text(data.data.pm_popularity);
+                    $('.pay-success-cont').find('.pm').text(data.data.pm_sort);
+                    $('#code').val(data.data.code_img);
+                    $('#url').val(data.data.challenger_url);
+                    $('#yq' + pg_id).attr('code', data.data.code_img);
+                    $('#yq' + pg_id).attr('url', data.data.challenger_url);
+                    $('#yq' + pg_id).show();
+                    $('#ld' + pg_id).hide();
+                } else {
+                    layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                        time: 2000
+                    });
+                    $(".realInput").val('')
+                    boxInput.setValue();
+                }
+            }
+        });
+    }, 200)
+});
+
+//标记和取消标记
+function collection(obj,id) { 
+    $.post("/popularity/popularitygoods/popularity_collection", {pg_id: id}, function (res) {
+        if(res.status== 2){               
+            $(obj).parents('.sign-list').remove();             
+        }
+        layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+            time: 2000
+        });
+    });    
+}
+
+
+// $('.participate_pick_name_img').on('error',function(){
+//     alert(11)
+//     $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
+// });
+// console.log($('.participate_pick_name_img'));

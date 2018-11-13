@@ -1,0 +1,34 @@
+body{
+	background: #f2f2f2;
+}
+
+.password_com{
+	width:100%;
+	background-color: #fff;
+	margin-top: 0.2rem;
+}
+.password_login{
+	width:90%;
+	margin:0 auto;
+	padding-top: 0.3rem;
+	padding-bottom: 0.3rem;
+}
+.password_left p{
+	color:#000000;
+	font-size: 0.3rem;
+	margin-bottom: 0.1rem;
+	font-weight: 600;
+}
+.password_left span{
+	font-size: 0.24rem;
+	color:#aaaaaa;
+}
+.password_more{
+	width:0.42rem;
+	height:0.42rem;
+	margin-top: 0.15rem;
+}
+.password_more img{
+	width:100%;
+	height:100%;
+}

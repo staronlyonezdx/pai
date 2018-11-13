@@ -1,0 +1,111 @@
+<?php
+/**
+* 商品详情Service
+*-------------------------------------------------------------------------------------------
+* 版权所有 杭州市拍吖吖科技有限公司
+* 创建日期 2018-06-20
+* 版本 v.1.0.0
+* 网站：www.pai.com
+*--------------------------------------------------------------------------------------------
+*/
+
+namespace app\data\service\pointGoods;
+use app\data\model\pointGoods\PointGoodsImgsModel;
+use app\data\service\BaseService as BaseService;
+use think\Db;
+class PointGoodsImgsService extends BaseService
+{
+	protected $cache = 'point_goods_imgs';
+	
+	public function __construct()
+	{
+		parent::__construct();
+        $this->goodsImgs  = new PointGoodsImgsModel();
+
+		$this->cache = 'point_goods_imgs';
+	}
+
+    /**
+     * 查询图片详情列表
+     * 创建人 邓赛赛
+     * 时间 2018-07-02 10:30:00
+     */
+    public function goodsProductList($where='', $field='*', $order='gp_id asc')
+    {
+        $list = $this->goodsImgs->getList($where, $order, $field, $this->cache);
+        return $list;
+    }
+
+    /**
+     * 获取图片详情信息
+     * 创建人 邓赛赛
+     * 时间 2018-07-02 10:30:00
+     */
+    public function goodsProductInfo($where='', $field='*')
+    {
+        $info =  $this->goodsImgs->getInfo($where, $field, $this->cache);
+        return $info;
+    }
+
+
+    /**
+     * 删除图片操作
+     * 创建人 邓赛赛
+     * 时间 2018-07-02 10:30:00
+     */
+    public function del_goods_img($data)
+    {
+        if(!$data['g_id'] || !$data['gi_id']){
+            return false;
+        }
+        $imgs = $this->get_list(['g_id'=>$data['g_id']],'gi_sort asc',"*");
+
+        if($imgs[0]['gi_id'] == $data['gi_id']){   //如果删除的是第一个(第一个为主图),默认添加更新第二个位主图
+            if(!empty($imgs[1])){
+                Db::table("pai_point_goods")->where('g_id',$data['g_id'])->update(['g_img'=>$imgs[1]['gi_name']]);
+                Db::table("pai_point_goods_imgs")->where('g_id',$data['g_id'])->update(['gi_name'=>$imgs[1]['gi_name']]);
+            }else{
+                Db::table("pai_point_goods")->where('g_id',$data['g_id'])->update(['g_img'=>'']);
+                Db::table("pai_point_goods_imgs")->where('g_id',$data['g_id'])->update(['gi_name'=>'']);
+            }
+        }
+        $where = [
+            'gi_id'=>$data['gi_id'],
+            'g_id'=>$data['g_id'],
+        ];
+        $res = $this->del($where);
+        return $res;
+    }
+
+    /**
+     * 获取单条信息
+     * 邓赛赛
+     */
+    public function get_info($where,$field){
+        $res = $this->goodsImgs->getInfo($where,$field);
+        return $res;
+    }
+
+
+    /**
+     * 获取单条信息
+     * 邓赛赛
+     */
+    public function get_list($where,$order,$field=''){
+        $res = $this->goodsImgs->getList($where,$order,$field,'');
+        return $res;
+    }
+
+    /**
+     * @param $where
+     * @return bool|int
+     * 删除某商品
+     */
+    public function del($where){
+        $res = $this->goodsImgs->getDel($where,'');
+        return $res;
+    }
+
+
+
+}

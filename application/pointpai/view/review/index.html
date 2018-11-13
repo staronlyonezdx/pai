@@ -1,0 +1,287 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/dropload/dropload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/review/evaluation.css">
+<style>
+    .big_img {
+        position: fixed;
+        z-index: -1;
+        opacity: 0;
+        background: rgba(0, 0, 0, 1);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0
+    }
+
+    .big_img .swiper-container2 {
+        position: relative;
+        width: 100%;
+        height: 100%
+    }
+
+    .big_img .swiper-container2 .swiper-wrapper {
+        width: 100%;
+        height: 100%
+    }
+
+    .big_img .swiper-slide {
+        width: 100%;
+        height: 100%;
+        display: table
+    }
+
+    .big_img .swiper-slide .cell {
+        width: 100%;
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center
+    }
+
+    .big_img .swiper-slide img {
+        max-width: 90%;
+        max-height: 80%;
+        margin: 0 auto
+    }
+
+    .big_img .swiper-pagination2 {
+        position: absolute;
+        top: .2rem;
+        text-align: center;
+        width: 100%
+    }
+
+    .big_img .swiper-pagination2 span {
+        margin: 0 .05rem
+    }
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--我的评价-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    <div class="content-view">
+        <div class="lists-view">
+            <div class="evaluation_top clear">
+                <div class="evaluation_top_img lf">
+                    <img src="__CDN_PATH__{$info.m_avatar|default='/static/image/index/pic_home_taplace@2x.png'}">
+                </div>
+                <div class="evaluation_top_name rt clear">
+                    <p class="lf">{$info.m_name|default=''}</p>
+                    <a class="evaluation_top_btn rt" href="/member/Orderpai/orderlist/type/1/i/3">
+                        写评价
+                    </a>
+                </div>
+            </div>
+            {empty name="list"}
+                <!--评价为空时-->
+                <div class="review_blank">
+                    <img src="__STATIC__/image/review/pic_pingjia@2x.png" alt=""/>
+                    <p>遇见好东西要大声分享粗来哦</p>
+                </div>
+            {else/}
+                {volist name="list" id="vo"}
+                    <!--评价不为空时-->
+                    <div class='evaluation_list'>
+                        <div class='evaluation_main clear'>
+                            <div class='evaluation_main_img lf'>
+                                <img src='__CDN_PATH__{$list.gp_img|default="/static/image/myhome/TIM20180731142117.jpg"}'>
+                            </div>
+                            <div class='evaluation_main_text rt'>
+                                <p>{$vo.g_name}</p>￥<span>{$vo.o_money}</span>
+                            </div>
+                        </div>
+                        {notempty name="vo.img_list" }
+                            <!--评价图片不为空时-->
+                            <div class='evaluation_img_view '>
+                                <div class='evaluation_img_con clear'>
+                                    {if condition="count($vo.img_list) > 2"}
+                                        {volist name="vo.img_list" id="voo"}
+                                            <div class='evaluation_img_list lf'>
+                                                <!--遍历评价的图片-->
+                                                <img src='{$voo.img_url}' onClick="bigs(this)">
+                                            </div>
+                                        {/volist}
+                                    {else/}
+                                        {volist name="vo.img_list" id="voo"}
+
+                                            <div class='evaluation_img_list evaluation_img_two lf'>
+                                                <!--遍历评价的图片-->
+                                                <img src='{$voo.img_url}' onClick="bigs(this)">
+                                            </div>
+                                        {/volist}
+                                    {/if}
+                                </div>
+                            </div>
+                        {/notempty}
+                            <div class='evaluation_main_content'>
+                                <div class='evaluation_main_con'>
+                                    <p>{$vo.rg_content}</p>
+                                    <span>{$vo.ro_add_time}</span>
+                                </div>
+                            </div>
+                    </div>
+                {/volist}
+            {/empty}
+        </div>
+    </div>
+</main>
+<div class="big_img">
+    <div class="swiper-container2">
+        <div class="swiper-wrapper"></div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/dropload/dropload.min.js"></script>
+<script>
+    $(function () {
+
+        var count_list = "{$count_list}";  //判断评价是否为空
+        if(count_list==0){
+
+        }else{
+            /**
+             * status: 0没有数据了 1有数据
+             * msg:提示信息
+             * data:返回html
+             * list:返回的数组
+             * total_num：数据总条数
+             *
+             * 参数：
+             * "gp_img": 商品图片,
+             * "g_name": 商品名称,
+             * "o_money": 商品下单时的单价,
+             * "rg_content": 评价内容,
+             * "ro_add_time": 评论时间,
+             * "rg_id": 评论商品id,
+             * "gp_num": 购买数量,
+             * "store_id": 店铺id,
+             * "gp_id": 拍品id,
+             * "g_id": 商品id,
+             * "img_list": [{
+          *  "rgi_id": 评论图片id,
+          *  "img_url": 评论图片路径,
+          *  "state": 图片状态,
+          *  "rg_id": 评论商品id
+          * }]
+             */
+            //精选拍品的下拉加载数据
+            var tabLoadEnd =false;//加载后已没有数据
+            var page=1;
+            var size=3;
+//    // 上拉刷新
+            var dropload = $('.content-view').dropload({
+                scrollArea: window,
+                domDown: {
+                    domClass: 'dropload-down',
+                    domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+                    domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData: '<div class="dropload-noData">已无数据</div>'
+                },
+                loadDownFn: function (me) {
+                    setTimeout(function () {
+                        if (tabLoadEnd) {
+                            me.resetload();
+                            me.lock();
+                            me.noData();
+                            me.resetload();
+                            return;
+                        }
+                        page++;
+                        $.ajax("/member/Review/get_content/", {
+                            data: {page:page,size:size},
+                            dataType: 'json',//服务器返回json格式数据
+                            type: 'post',//HTTP请求类型
+                            success: function (data) {
+                                console.log(data)
+                                var html="";
+                                if(data.status>0){
+                                    for(var i=0;i<data.list.length;i++){
+                                        html+=' <div class="evaluation_list">'
+                                        html+='<div class="evaluation_main clear">'
+                                        html+='<div class="evaluation_main_img lf">'
+                                        html+='<img src="'+data.list[i].gp_img+'">'
+                                        html+='</div>'
+                                        html+='<div class="evaluation_main_text rt">'
+                                        html+='<p>'+data.list[i].g_name+'</p>￥<span>'+data.list[i].o_money+'</span>'
+                                        html+='</div></div>'
+                                        html+='<div class="evaluation_img_view ">'
+                                        html+='<div class="evaluation_img_con clear">'
+                                        if(data.list[i].img_list.length>0){
+                                            for(var j=0;j<data.list[i].img_list.length;j++){
+                                                if(data.list[i].img_list.length>2){
+                                                    html+='<div class="evaluation_img_list lf"><img src="'+data.list[i].img_list[j].img_url+'" onClick="bigs(this)"></div>'
+                                                }else{
+                                                    html+='<div class="evaluation_img_list evaluation_img_two lf"><img src="'+data.list[i].img_list[j].img_url+'" onClick="bigs(this)"></div>'
+                                                }
+                                            }
+                                        }
+                                        html+='</div></div>'
+                                        html+=' <div class="evaluation_main_content">'
+                                        html+='<div class="evaluation_main_con">'
+                                        html+='<p>'+data.list[i].rg_content+'</p>'
+                                        html+='<span>'+data.list[i].ro_add_time+'</span>'
+                                        html+='</div></div></div>'
+                                    }
+                                    $(".lists-view").append(html);
+                                } else {
+                                    tabLoadEnd = true;
+                                    me.noData();
+                                }
+                                me.resetload();
+                            }
+                        });
+                    }, 500);
+                }
+            });
+        }
+        })
+
+
+    /*调起大图 S*/
+    var mySwiper = new Swiper('.swiper-container2', {
+        loop: false,
+        pagination: '.swiper-pagination2',
+    })
+    function bigs(obj){
+        var imgBox =$(obj).parents(".evaluation_img_con").find("img");
+        var i = $(imgBox).index(this);
+        $(".big_img .swiper-wrapper").html("");
+
+        for(var j = 0 ,c = imgBox.length; j < c ;j++){
+            $(".big_img .swiper-wrapper").append('<div class="swiper-slide"><div class="cell"><img src="' + imgBox.eq(j).attr("src") + '" / ></div></div>');
+        }
+        mySwiper.updateSlidesSize();//这个方法会重新计算Slides的数量
+        mySwiper.updatePagination();//这个方法会重新计算Slides分页器的数量
+        $(".big_img").css({
+            "z-index": 1001,
+            "opacity": "1"
+        });
+        mySwiper.slideTo(i, 0, false);
+        return false;
+    }
+    $(".big_img").on("click",function() {
+        $(this).css({
+            "z-index": "-1",
+            "opacity": "0"
+        });
+    });
+    /*调起大图 E*/
+</script>
+{/block}

@@ -1,0 +1,63 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>商品折扣列表</label>
+                <a class="pull-right" href="{:url('goodsdiscounttype/add')}">添加折扣</a>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>折扣ID</th>
+                    <th>名称</th>
+                    <th>折扣</th>
+                    <th>最小值</th>
+                    <th>最大值</th>
+                    <th>图片路径</th>
+                    <th>状态状态</th>
+                    <th>折扣管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.gdt_id}</th>
+                    <td>{$vo.gdt_name}</td>
+                    <td>{$vo.gdt_discount}</td>
+                    <td>{$vo.gdt_money1}</td>
+                    <td>{$vo.gdt_money2}</td>
+                    <td><img src="__CDN_PATH__{$vo.gdt_img}" alt="" width="50" height="50"></td>
+                    <td>{if condition="$vo.gdt_state == 0"}显示{else/}不显示{/if}</td>
+                    <td>
+                        <a href="{:url('goodsdiscounttype/edit',['gdt_id' => $vo.gdt_id])}">
+                            编辑
+                        </a>
+                        <a href="{:url('goodsdiscounttype/del',['gdt_id' => $vo.gdt_id])}" class="dele_btn">
+                            删除
+                        </a>
+
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{/block}
+

@@ -1,0 +1,25 @@
+.fans-list {
+    height: 1rem;
+    line-height: 1rem;
+    margin: 0 0 1px 0;
+    padding: 0 0.3rem 0 1.2rem;
+    position: relative;
+    font-size: 0.28rem;
+    background: #fff;
+}
+.fans-list img {
+    width: 0.68rem;
+    height: 0.68rem;
+    border-radius: 100%;
+    position: absolute;
+    display: block;
+    left: 0.3rem;
+    top: 0.16rem;
+}
+.fans-list span {
+    position: absolute;
+    right: 0.3rem;
+    top: 0;
+    color: #666;
+    font-size: 0.24rem;
+}

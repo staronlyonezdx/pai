@@ -1,0 +1,80 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/address/register.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/core/tj_success.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+<div class="tj_success">
+    <div class="tj_success_main">
+        <p>恭喜您~完成注册</p>
+        <div class="tj_success_pic">
+            <img src="__STATIC__/image/core/icon_liwu@2x.png" alt="">
+        </div>
+        <div class="tj_success_list">
+            <span>
+                <span class="tj_success_img"></span>已将<span class="tj_success_jifenfuli">10元</span>新人红包已放入您账户余额内
+            </span>
+        </div>
+        <div class="tj_success_list">
+            <span>
+                <span class="tj_success_img"></span>还有更多<span class="tj_success_jifenfuli">一折商品</span>等待您去抢购哟~
+            </span>
+        </div>
+    </div>
+    <!--<a href="/member/login/index">-->
+        <div class="tj_success_btn">
+        立即下载拍吖吖查看
+        </div>
+    <!--</a>-->
+    <div class="tj_code">
+            <p>关注拍吖吖公众号，更多福利等着您！</p>
+            <div class="tj_code_img">
+                <img src="__STATIC__/image/register/qrcode_wechat@2x.png" alt="">
+            </div>
+        
+    </div>
+</div>
+    <!-- <div class="tj_success_pop">
+        <div class="tj_success_pop_con">
+            <img src="__STATIC__/image/register/4@2x.png" alt=""/>
+        </div>
+        <div class="tj_success_pop_btn">
+            <img src="__STATIC__/image/register/btn_zhidao @2x.png" alt=""/>
+        </div>
+    </div> -->
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(".tj_success_btn").click(function(){
+        //判断打开方式是安卓还是
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)) {
+        window.location.href="/member/register/ios_guide";
+        //  layer.confirm("ios版暂未上架请访问H5版", {
+        //      title:false,/*标题*/
+        //      closeBtn: 0,
+        //      btnAlign: 'c',
+        //      btn: ['取消','立即访问'],
+        //      btn2:function(){
+        //          location.href="/index/index/index";
+        //      }
+        //  })
+        } else {
+            // if(isWeiXin()){
+            //     $(".tj_success_pop").show();
+            //     $(".tj_success_pop_btn").click(function(){
+            //         $(".tj_success_pop").hide();
+            //     })
+            // }else{
+                window.location.href="/member/register/az_guide";
+            // }
+        }
+    })
+</script>
+{/block}

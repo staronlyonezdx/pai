@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>更新文章|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<style>
+#content .qtext{
+	background:none;
+	background-color:#e4e4e4;
+}
+
+#content .textarea{
+	width:920px;
+	height:450px;
+	background:none;
+	background-color:#e4e4e4;
+}
+#content .select{
+	width:100px;
+}
+</style>
+<script>
+
+$(document).ready(function() {
+
+	var $dldd = $('#cdl dd');
+	$('.submit').click(function() {
+		var sid = $dldd.find('.select').val();
+		//console.log(sid);
+		if (sid<1){ 
+			wintq('请选择“已处理”',2,2000,1,'');			
+			return false;			
+		}
+		wintq('正在处理，请稍后...',4,20000,0,'');
+		$('form').submit();			
+	});
+});
+function ToUrl(x)   
+{   
+	location.href=x;
+	return false;
+}
+</script>
+</head>
+<body>
+<div id="content">
+	<h1>首页 > 信息管理 > 查看留言</h1>
+    <h2>
+    	<div class="h2_left">
+        	<a href="{:url()}" class="whole">全部</a>
+        	<a href="javascript:void(0);" class="f5" onclick="f5();">刷新</a>
+            <a href="javascript:void(0);" onclick='ToUrl("{:url('message/index')}");' class="uclass">列表</a>
+            <a href="javascript:history.back();" class="Retreat">后退</a>
+            <a href="javascript:history.go(1);" class="Advance">前进</a>
+        </div>
+    </h2>
+    <form action="{:url('message/edit_do')}" method="post">
+    <dl id="cdl">
+        <dd>
+        	<span class="dd_left">留言主题：</span>
+            <span class="dd_right">
+            	<input type="text" class="qtext" name="title" value="{$result['title']}" disabled="disabled"/>
+            </span>
+        </dd>
+        <dd>
+        	<span class="dd_left">公司名：</span>
+            <span class="dd_right">
+            	<input type="text" class="qtext" name="username" value="{$result['username']}" disabled="disabled"/>
+            </span>
+        </dd>
+        <dd>
+        	<span class="dd_left">客户邮箱：</span>
+            <span class="dd_right">
+            	<input type="text" class="qtext" name="email" value="{$result['m_email']}" disabled="disabled"/>
+            </span>
+        </dd>
+        <dd>
+        	<span class="dd_left">电话&nbsp;Tel：</span>
+            <span class="dd_right">
+            	<input type="text" class="qtext" name="tel" value="{$result['m_tel']}" disabled="disabled"/>
+            </span>
+        </dd>
+        <dd>
+        	<span class="dd_left">Skype：</span>
+            <span class="dd_right">
+            	<input type="text" class="qtext" name="skype" value="{$result['m_skype']}" disabled="disabled"/>
+            </span>
+        </dd>
+        <dd>
+        	<span class="dd_left">留言时间：</span>
+            <span class="dd_right">
+            	<input type="text" class="qtext" name="addtime" value="{$result.addtime|=date('Y-m-d H:i',###)}" disabled="disabled"/>
+            </span>
+        </dd>
+        <dd>
+        	<span class="dd_left">留言内容：</span>
+            <span class="dd_right">
+            	<textarea class="textarea" name="content" disabled="disabled">{$result['m_content']}</textarea>
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">处理状态：</span>
+            <span class="dd_right">
+            	<select class="select" name="states"> 
+					{if condition="$result.states eq '0'"}
+                	<option value="0" selected >未处理</option>
+					<option value="1" >已处理</option>
+					{else /}
+					<option value="1" selected >已处理</option>
+					{/if}
+                </select>
+                <font>选择处理</font>
+            </span>
+        </dd>
+        <input type="hidden" name="id" value="{$result['id']}" />
+    	<dd><input type="submit" value="留言处理" class="submit" /></dd>
+    </dl>
+    </form>
+</div>
+</body>
+</html>

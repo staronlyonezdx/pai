@@ -1,0 +1,280 @@
+{{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/promoters/invitation.css">
+{/block}
+
+{block name="header"}
+<!--{include file="common/header" /}-->
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <div class="title">
+        <span class="spans">
+            <span class="titlt_name active" i="0">已邀请成功</span>
+            <span class="titlt_name" i="1">邀请未激活</span>
+        </span>
+
+            </div>
+            <div class="header_back" {empty name='header_path' } onClick="javascript:history.back();" {else
+            /} onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
+</div>
+{/block}
+
+{block name="content"}
+<main>
+    <div class="black"></div>
+
+    <!--轮播-->
+    <div id="swiper" class="swiper-container">
+
+        <div class="swiper-wrapper">
+
+            <!--已邀请成功列表-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <ul id="dataList0" class="main_content">
+                    <!--<ul class="main_content">-->
+                    <!--<li class="item_item">-->
+                    <!--<span class="inv_num lf">15232382351</span>-->
+                    <!--<span class="inv_name lf">王大哈雷</span>-->
+                    <!--<span class="inv_dengji lf">普通会员</span>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                </ul>
+            </div>
+
+            <!--邀请未激活列表-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <img src="__STATIC__/image/promoters/pg_tishi@2x.png" alt="">
+                <ul id="dataList1" class="main_list">
+
+                    <!--<ul class="main_list">-->
+                    <!--<li class="item_item">-->
+                    <!--<span class="inv_num lf">18888888888</span>-->
+                    <!--<span class="inv_name lf">哈哈哈哈哈</span>-->
+                    <!--<span class="inv_dengji lf">普通会员</span>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</main>
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script>
+    $(function () {
+        var curNavIndex = 0;
+        var mescrollArr = new Array(2);//2个菜单所对应的2个mescroll对象
+
+//初始化首页
+        mescrollArr[0] = initMescroll("mescroll0", "dataList0");
+
+        /*初始化轮播*/
+        var swiper = new Swiper('#swiper', {
+            onTransitionEnd: function (swiper) {
+                var i = swiper.activeIndex;//轮播切换完毕的事件
+                changePage(i);
+            }
+        });
+
+        /*初始化菜单*/
+        $(".titlt_name").click(function () {
+            var i = Number($(this).attr("i"));
+            swiper.slideTo(i);//以轮播的方式切换列表
+        })
+
+        /*切换列表*/
+        function changePage(i) {
+            if (curNavIndex != i) {
+//更改列表条件
+                $(".titlt_name").each(function (n, dom) {
+                    if (dom.getAttribute("i") == i) {
+                        dom.classList.add("active");
+                    } else {
+                        dom.classList.remove("active");
+                    }
+                })
+//隐藏当前回到顶部按钮
+// mescrollArr[curNavIndex].hideTopBtn();
+//取出菜单所对应的mescroll对象,如果未初始化则初始化
+                if (mescrollArr[i] == null) {
+                    mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
+                } else {
+//检查是否需要显示回到到顶按钮
+                    var curMescroll = mescrollArr[i];
+                    var curScrollTop = curMescroll.getScrollTop();
+                    if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                        curMescroll.showTopBtn();
+                    } else {
+                        curMescroll.hideTopBtn();
+                    }
+                }
+//更新标记
+                curNavIndex = i;
+            }
+        }
+
+        /*创建MeScroll对象*/
+        function initMescroll(mescrollId, clearEmptyId) {
+//创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+            var mescroll = new MeScroll(mescrollId, {
+//下拉刷新
+                down: {
+                    isLock: true, //锁定下拉
+                },
+//上拉加载的配置项
+                up: {
+                    callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                    empty: {
+                        icon: "/static/image/goods/no-cont.png", //图标,默认null
+                        tip: "暂无相关数据~", //提示
+                    },
+                    clearEmptyId: clearEmptyId, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                    htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                    htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                    toTop: { //配置回到顶部按钮
+                        src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    }
+                }
+            });
+            return mescroll;
+        }
+
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+//联网加载数据
+            var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+            getListDataFromNet(dataIndex, page.num, page.size, function (pageData, total_num) {
+///方法二(推荐): 后台接口有返回列表的总数据量 total_num
+                mescrollArr[dataIndex].endBySize(pageData.length, total_num); //必传参数(当前页的数据个数, 总数据量)
+                // console.log(pageData);
+//设置列表数据
+                setListData(pageData, dataIndex);
+            }, function () {
+//联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescrollArr[dataIndex].endErr();
+            });
+        }
+
+        /*设置列表数据
+        * pageData 当前页的数据
+        * dataIndex 数据属于哪个nav */
+
+        function setListData(pageData, dataIndex) {
+            var listDom = document.getElementById("dataList" + dataIndex);
+            for (var i = 0; i < pageData.length; i++) {
+                var data = pageData[i];
+                if (dataIndex == 0) {
+                    var str = '<li class="main_item">';
+                    str += '<span class="inv_num lf">' + data.m_mobile + '</span>';
+                    str += ' <span class="inv_name lf">' + data.m_name + '</span>';
+                    str += '<span class="inv_dengji lf">' + data.ml_name + '</span>';
+                    str += ' </li>';
+                    var liDom = document.createElement("div");
+                    liDom.className = "participate_pick";
+                    liDom.innerHTML = str;
+                    listDom.appendChild(liDom);
+                } else if (dataIndex == 1) {
+                    var str = '<li class="main_item">';
+                    str += '<span class="inv_num lf">' + data.m_mobile + '</span>';
+                    str += ' <span class="inv_name lf">' + data.m_name + '</span>';
+                    str += '<span class="inv_dengji lf">' + data.ml_name + '</span>';
+                    str += ' </li>';
+                    var liDom = document.createElement("div");
+                    // liDom.className = "participate_pick";
+                    liDom.innerHTML = str;
+                    listDom.appendChild(liDom);
+                }
+            }
+        }
+
+        /*联网加载列表数据
+        在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+        请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+        实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+        * */
+        function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {
+            var url = '';
+            if (curNavIndex == 0) {
+                // url = '/member/promoters/invitation_list/is_auction/1';
+                // url = '/member/promoters/invitation_list/is_auction/1/page/' + pageNum + '/page_size/' + pageSize + '/from/' + {$from};
+                url = '/member/promoters/invitation_list/is_auction/1/page/' + pageNum + '/page_size/' + pageSize + '/from/2';
+            } else if (curNavIndex == 1) {
+                // url = '/member/promoters/invitation_list/is_auction/2' ;
+                // url = '/member/promoters/invitation_list/is_auction/2/page/' + pageNum + '/page_size/' + pageSize + '/from/' + {$from};
+                url = '/member/promoters/invitation_list/is_auction/2/page/' + pageNum + '/page_size/' + pageSize + '/from/2';
+            }
+//延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    // dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.list.length; i++) {
+                            listData.push(data.list[i]);
+                        }
+//回调
+                        successCallback(listData, data.total_num);
+                    },
+                    error: errorCallback
+                });
+            }, 500)
+        }
+
+
+//iosapp
+        /*这段代码是固定的，必须要放到js中*/
+        function setupWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                return callback(WebViewJavascriptBridge);
+            }
+            if (window.WVJBCallbacks) {
+                return window.WVJBCallbacks.push(callback);
+            }
+            window.WVJBCallbacks = [callback];
+            var WVJBIframe = document.createElement('iframe');
+            WVJBIframe.style.display = 'none';
+            WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+            document.documentElement.appendChild(WVJBIframe);
+            setTimeout(function () {
+                document.documentElement.removeChild(WVJBIframe)
+            }, 0)
+        }
+
+
+        var pathname = window.location.pathname;
+        if (pathname == '/member/promoters/invitation_list/type/2/from/1' || pathname == '/member/promoters/invitation_list/type/2/from/2') {
+            // console.log($('.titlt_name'));
+            $('.titlt_name').eq(1).addClass('active');
+            swiper.slideTo(2);
+            $('.titlt_name').eq(0).removeClass('active');
+            $('.titlt_name').click(function () {
+                // console.log($(this).index());
+                $('.titlt_name').removeClass('active')
+                $(this).addClass('active');
+                var i = $(this).index();
+                swiper.slideTo(i);//以轮播的方式切换列表
+            })
+        }
+    })
+
+
+</script>
+
+{/block}

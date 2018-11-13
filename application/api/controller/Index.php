@@ -1,0 +1,694 @@
+<?php
+namespace app\api\controller;
+use app\data\service\api\ApimemberService;
+use app\data\service\article\ArticleService;
+use app\data\service\articleType\ArticleTypeService;
+use app\data\service\goods\GoodsService;
+use app\data\service\goodsCategory\GoodsCategoryService;
+use app\data\service\search\SearchService;
+use app\data\service\store\StoreService;
+use RedisCache\RedisCache;
+use think\Controller;
+use think\Db;
+use think\Request;
+use think\Url;
+use app\data\service\api\ApiService as ApiService;
+use app\data\service\member\MemberService as MemberService;
+use app\data\service\sms\SmsService as SmsService;
+use app\data\service\BaseService as BaseService;
+
+class Index extends ApiIndex
+{
+    //添加
+    public function gettoken() {
+        $post_data=$this->data;
+        if(empty($post_data['at_name']))
+        {
+            $this->response_error("接口账号不能为空");
+        }
+        if(empty($post_data['at_pwd']))
+        {
+            $this->response_error("接口密码不能为空");
+        }
+        $api = new ApiService();
+        $at_pwd=md5($post_data['at_pwd']);
+        $where="at_name='".$post_data['at_name']."' and at_pwd='".$at_pwd."'";
+        $at_data=$api->apitokenInfo($where);
+        if(empty($at_data)){
+            $this->response_error("接口账号密码不正确");
+        }
+        $where_r="at_id=".$at_data['at_id'];
+        $atrecord_data=$api->apitokenrequestrecordInfo($where_r);
+        if(!empty($atrecord_data)){
+            if($atrecord_data['atrr_request_time']+$at_data['at_interval_time']*60>time()) {
+              //  $this->response_error("请求过于频繁，请稍后请求");
+            }
+            $where_u="at_id=".$at_data['at_id'];
+            $data_u=array();
+            $data_u['atrr_request_time']=time();
+          //  $res=$api->apitokenrecordSave($where_u,$data_u);
+        }
+        else{
+            $data_a=array();
+            $data_a['at_id']=$at_data['at_id'];
+            $data_a['atrr_request_time']=time();
+          //  $res=$api->apitokenrecordAdd($data_a);
+        }
+
+        $data_return=array();
+        $data_return['at_id']=$at_data['at_id'];
+        $data_return['token']=$at_data['at_token'];
+        $this->response_data($data_return);
+        die;
+    }
+    //获取用户IP
+    public function getIP(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        static $realip;
+        if (isset($_SERVER)){
+            if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])){
+                $realip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            } else if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+                $realip = $_SERVER["HTTP_CLIENT_IP"];
+            } else {
+                $realip = $_SERVER["REMOTE_ADDR"];
+            }
+        } else {
+            if (getenv("HTTP_X_FORWARDED_FOR")){
+                $realip = getenv("HTTP_X_FORWARDED_FOR");
+            } else if (getenv("HTTP_CLIENT_IP")) {
+                $realip = getenv("HTTP_CLIENT_IP");
+            } else {
+                $realip = getenv("REMOTE_ADDR");
+            }
+        }
+
+        return $realip;
+    }
+    //用户注册
+    public function member_add()
+    {
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $data=array();
+        if(empty($this->data['m_mobile']))
+        {
+            $this->response_error("注册手机号码不能为空");
+        }
+        $m_mobile=$this->data['m_mobile'];
+        if(empty($this->data['m_pwd']))
+        {
+            $this->response_error("注册密码不能为空");
+        }
+        $m_pwd=$this->data['m_pwd'];
+        if(empty($this->data['re_pwd']))
+        {
+            $this->response_error("确认密码不能为空");
+        }
+        $re_pwd=$this->data['re_pwd'];
+        if(empty($this->data['verification']))
+        {
+            $this->response_error(" 验证码不能为空");
+        }
+        $verification=$this->data['verification'];
+        if(!empty($this->data['tj_mobile']))
+        {
+          $data['tj_mobile']= $this->data['tj_mobile'];
+        }
+        if(!empty($this->data['ip']))
+        {
+            $data['ip']= $this->data['ip'];
+        }
+        $uuid = $this->data['uuid'];//机器码
+        if(empty($uuid)){
+            $this->response_error('机器码不能为空');
+        }
+        $memberservice=new MemberService();
+
+        $data['m_mobile']=$m_mobile;
+        $data['m_pwd']=$m_pwd;
+        $data['re_pwd']=$re_pwd;
+        $data['verification']=$verification;
+        $data['uuid'] = $uuid;
+        $result=$memberservice->new_addUserAP($data);
+        if($result['status']=='1'){
+            $rdata=array();
+            $rdata['msg']=$result['msg'];
+            $this->response_data($rdata);
+        }
+        else{
+            $rdata=array();
+            $rdata['msg']=$result['msg'];
+            $this->response_error($rdata);
+        }
+    }
+    public function checkfile(){
+
+        $image = $_FILES["file"]["tmp_name"];
+        $data['img']=$image;
+        $this->response_data($data);
+
+        $fp = fopen($image, "r");
+
+        $file = fread($fp, $_FILES["file"]["size"]); //二进制数据流
+
+        //$filename = md5(time().mt_rand(10, 99)).".png"; //设置图片名称
+        $filename ="wu498958968.png"; //设置图片名称
+
+        $data = $file;
+
+        $newFile = fopen($filename,"w"); //打开文件准备写入
+
+        fwrite($newFile,$data); //写入二进制流到文件
+
+        fclose($newFile); //关闭文件
+        die;
+    }
+
+
+
+    //用户登录
+    public function member_login()
+    {
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $data=array();
+        if(empty($this->data['m_mobile']))
+        {
+            $this->response_error("登录手机号码不能为空");
+        }
+        $data['m_mobile']=$this->data['m_mobile'];
+        if(empty($this->data['m_pwd']))
+        {
+            $this->response_error("登录密码不能为空");
+        }
+        $uuid = $this->data['uuid'];//机器码
+        if(empty($uuid)){
+            $this->response_error('机器码不能为空');
+        }
+        $data['m_pwd']=$this->data['m_pwd'];
+        $memberservice=new MemberService();
+//        $result=$memberservice->user_login($data);
+        $result=$memberservice->new_user_login($data,$uuid);
+        if($result['status']=='1'){
+            $rdata=array();
+            if(!empty($result['data']['m_id'])){
+                $new_m_id = "abcde" . $result['data']['m_id'];//m_id加上abcde
+            }
+            $encryption_m_id = $memberservice->encrypt($new_m_id);
+            if(!empty($encryption_m_id)){
+                $result['data']['encryption_m_id'] = $encryption_m_id;//加密的用户id
+            }
+            $rdata=$result['data'];
+            $rdata['headerimg']=CDN_URL.$result['data']['m_avatar'];
+            if(!empty($data['m_mobile'])){
+                $rdata['m_mobile_one'] = $data['m_mobile'];//加密的用户手机号
+            }
+            $this->response_data($rdata);
+        }
+        else{
+            $this->response_error($result['msg']);
+        }
+
+    }
+
+    //发送验证码
+    public function send_sms()
+    {
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $sms = new SmsService();
+        $to_mobile = $this->data['to_mobile'];
+        if (!preg_match("/^1[34578]{1}\d{9}$/",$to_mobile)) {
+          $this->response_error("请输入正确的手机号格式");
+        }
+        $res = $sms->smsSingleSender($to_mobile);
+        if($res['status']=='1'){
+            $base = new BaseService();
+            $smsCode = $base->sessionGets('smsCode');
+            $data=array();
+//            $data['code']=$smsCode;
+            $data['code']=$res['data'];//返回的验证码
+            $this->response_data($data);
+        }
+        else{
+            $this->response_error($res['msg']);
+        }
+
+    }
+
+    //检查手机号码是否可以用
+    public function checkmobile(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $memberservice=new MemberService();
+        $to_mobile = $this->data['to_mobile'];
+        if (!preg_match("/^1[34578]{1}\d{9}$/",$to_mobile)) {
+            $this->response_error("请输入正确的手机号格式");
+        }
+        $res = $memberservice->checked_phone($to_mobile);
+        if($res['status']=='1'){
+            $data=array();
+            $data['msg']=$res['msg'];
+            $this->response_data($data);
+        }
+        else{
+            $this->response_error($res['msg']);
+        }
+    }
+
+    //忘记登录密码
+    public function forget_login_pwd(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data=array();
+        if(empty($this->data['m_mobile'])){
+            $this->response_error("手机号码不能为空");
+        }
+        $data['m_mobile']=$this->data['m_mobile'];
+        if(empty($this->data['m_pwd'])){
+            $this->response_error("新密码不能为空");
+        }
+        $data['m_pwd']=$this->data['m_pwd'];
+        if(empty($this->data['re_pwd'])){
+            $this->response_error("重复密码不能为空");
+        }
+        $data['re_pwd']=$this->data['re_pwd'];
+        if(empty($this->data['verification'])){
+            $this->response_error("短信码不能为空");
+        }
+        $data['verification']=$this->data['verification'];
+
+        $memberservice=new MemberService();
+        $res= $memberservice->forget_login_pwd($data);
+        if($res['status']=='1'){
+            $data=array();
+            $data['msg']=$res['msg'];
+            $this->response_data($data);
+        }
+        else{
+            $this->response_error($res['msg']);
+        }
+    }
+    //忘记支付密码
+    public function forget_payment_pwd(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data=array();
+        if(empty($this->data['m_moblie'])){
+            $this->response_error("手机号码不能为空");
+        }
+        $data['m_mobile']=$this->data['m_moblie'];
+        if(empty($this->data['m_payment_pwd'])){
+            $this->response_error("新支付密码不能为空");
+        }
+        $data['m_payment_pwd']=$this->data['m_payment_pwd'];
+        if(empty($this->data['re_payment_pwd'])){
+            $this->response_error("重复支付密码不能为空");
+        }
+        $data['re_payment_pwd']=$this->data['re_payment_pwd'];
+        if(empty($this->data['verification'])){
+            $this->response_error("短信码不能为空");
+        }
+        $data['verification']=$this->data['verification'];
+        $memberservice=new MemberService();
+        $res= $memberservice->forget_payment_pwd($data);
+        if($res['status']=='1'){
+            $data=array();
+            $data['msg']=$res['msg'];
+            $this->response_data($data);
+        }
+        else{
+            $this->response_error($res['msg']);
+        }
+    }
+    //修改支付密码
+    public function cg_paypwd(){
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $ApimemberService = new ApimemberService();
+        $data = $this->data;
+        $where = ['m_id'=>$data['m_id']];
+        //        绑定支付是开启此功能
+        $info = $ApimemberService->getInfo($where,"m_payment_pwd");
+        if($info['m_payment_pwd'] == null){
+            $this->response_error('未设置支付密码');
+        }
+        //m_id用户id old_paypwd旧支付密码 new_paypwd新支付密码 re_paypwd确定支付密码
+        if(empty($data['m_id'])){
+            $this->response_error('会员id不为空');
+        }
+        if(empty($data['old_paypwd'])){
+            $this->response_error('旧支付密码不为空');
+        }
+        if(empty($data['new_paypwd'])){
+            $this->response_error('新支付密码不为空');
+        }
+        if(empty($data['re_paypwd'])){
+            $this->response_error('确定支付密码不为空');
+        }
+        $where['m_payment_pwd'] = md5($data['old_paypwd']);
+        $res = $ApimemberService->getInfo($where,"*");
+        if(!$res){
+            $this->response_error('旧密码输入错误');
+        }
+        if($data['new_paypwd'] != $data['re_paypwd']){
+            $this->response_error('两次密码不一致');
+        }
+        if($data['old_paypwd'] == $data['new_paypwd']){
+            $this->response_error('新旧密码一致无需修改');
+        }
+        if(!preg_match("/^[0-9]\d{5}$/",$data['new_paypwd'])){
+            $this->response_error('请输入6位数字的支付密码');
+        }
+        $update['m_payment_pwd'] =  md5($data['new_paypwd']);
+
+        $res = $ApimemberService->getSave($where,$update);
+        if($res){
+            $return_data = array();
+            $return_data['msg'] = '支付密码修改成功';
+            $this->response_data($return_data);
+        }else{
+            $this->response_error('修改失败,请稍后重试');
+        }
+    }
+    /*
+    * zwb公告接口
+    * 2018-10-16
+    */
+    public function notice(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $a_type = new ArticleTypeService();
+        $where = [
+            'at_name'=>'公告'
+        ];
+        $at_id = $a_type->articleTypeValue($where,'at_id');
+        if(!$at_id){
+            $this->response_error('未找到公告分类');
+        }
+        $article = new ArticleService();
+        $where2 = [
+            'a_type'=>$at_id,
+            'a_state'=>0
+        ];
+        //2018-11-04判断是否存入redis
+        $redis = RedisCache::getInstance(1);
+        $notice = $redis->get('notice');
+        if($notice){
+            $list = json_decode($notice,true);
+        }else{
+            $list = $article->articleColumn($where2, 'a_name');
+            foreach($list as $k => $v){
+                $list[$k] = htmlspecialchars_decode($v);
+            }
+            $redis->set('notice',json_encode($list),300);
+        }
+
+        $this->response_data($list);
+    }
+    /*
+    * zwb卡券接口
+    * 2018-10-16
+    */
+    public function coiling(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $page = input('param.page',1);
+        $page_size = input('param.page_size',10);
+        $goods = new GoodsService();
+        $goods_category = new GoodsCategoryService();
+        $where3=[
+            'parent_id'=>12,
+            'state'=>0
+        ];
+
+        //卡券信息展示
+        $ids = $goods_category->goodsCategoryColumn($where3,'gc_id');
+        $ids = $ids ? $ids : [];
+        $gc_ids = trim(12 . ','.implode(',',$ids),',');
+        $where2['g.g_state'] = 6;
+        $where2['p.gp_stock'] = ['>',0];
+        $where2['g.gc_id'] = ['in', $gc_ids];
+        $gc_list = $goods->goods_category_list($where2,'g.g_id,g.g_name,g.g_img,g.gc_id,p.gp_id,p.gp_market_price,dtr.gdr_id,min(dtr.gdr_price) min_price,max(dtr.gdr_price) max_price','g.g_endtime asc',$page_size,$page);
+        if(!empty($gc_list['list'])){
+            foreach($gc_list['list'] as &$v){
+                if(!empty($v['g_img'])){
+                    $g_img = $v['g_img'];
+                    unset($v['g_img']);
+                    $v['g_img'] = PAIYAYA_URL.$g_img;
+                }
+            }
+        }
+        $where4 = [
+            'wit_code'=>'kq',
+            'wi_state'=>0,
+        ];
+        $wb_img = Db::table('pai_web_images_type wit')->join('pai_web_images wi','wit.wit_id = wi.wit_id')->where($where4)->field('wi_imgurl,wi_href')->find();
+        $gc_list['wi_imgurl'] = !empty($wb_img['wi_imgurl']) ? PAIYAYA_URL.$wb_img['wi_imgurl'] : '';
+        $gc_list['wi_href'] = !empty($wb_img['wi_href']) ? $wb_img['wi_href'] : '';
+        $this->response_data($gc_list);
+    }
+    /*
+    * zwb首页大搜索
+    * 2018-10-16
+    */
+    public function search_index(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $data=$this->data;
+        $m_id = !empty($data['member_id']) ? $data['member_id'] : '';//用户id
+        $page = !empty($data['page']) ? $data['page'] : 1;//显示页数
+        $page_size = !empty($data['page_size']) ? $data['page_size'] : 10;//显示条数
+        $keyword = !empty($data['keyword']) ? $data['keyword'] : '';
+        $type = !empty($data['type']) ? $data['type'] : '';//搜索类型 1商品  2商家
+        $type = $type != 2 ? 1 : 2;
+        //请求时保存搜索内容
+        if(trim($keyword) && $m_id){
+            $search = new SearchService();
+            $where2 = [
+                'ps_keyword'=>$keyword,
+                'ps_type'=>$type,
+                'm_id'=>$m_id
+            ];
+            //第一次是插入
+            $ps_id = $search->get_value($where2,'ps_id');
+            if(!$ps_id){
+                $data = [
+                    'm_id'=>$m_id,
+                    'ps_addtime'=>time(),
+                    'ps_keyword'=>$keyword,
+                    'ps_type'=>$type
+                ];
+                $search->get_add($data);
+            }
+        }
+
+        $list = array();
+        switch($type){
+            case 1:
+                $min_price = !empty($data['min_price']) ? $data['min_price'] : 0;//where条件筛选
+                $max_price = !empty($data['max_price']) ? $data['max_price'] : "";//where条件筛选
+                $activity = !empty($data['activity']) ? $data['activity'] : '';//where条件筛选(为真时只看有参拍的)
+                $order = !empty($data['order']) ? $data['order'] : '';//排序条件（综合、价格、人数）
+                if($order){
+                    switch($order){
+                        case 3:     //人数正序
+                            $order = 'sum_gp_num asc';
+                            break;
+                        case 4:     //人数倒叙
+                            $order = 'sum_gp_num desc';
+                            break;
+                        case 5:     //价格正序
+                            $order = 'gp.gp_market_price asc';
+                            break;
+                        case 6:     //价格倒叙
+                            $order = 'gp.gp_market_price desc';
+                            break;
+                        default:    //综合排序
+                            $order = 'g.is_heat asc,g.g_id desc';
+                            break;
+                    }
+                }else{
+                    $order = 'g.is_heat asc,g.g_id desc';
+                }
+                if($max_price){
+                    $where['gp.gp_market_price'] = ['BETWEEN',[$min_price,$max_price]];
+                }
+                if($activity){
+                    $where['op.gp_num'] = ['>',0];
+                }
+                $where['g.g_name'] = ['like','%'.$keyword.'%'];
+                $where['g.g_state'] = 6;
+                $where['g.g_endtime'] = ['>',time()];
+                $field='g.g_id,gp.gp_id,g.g_name,g.g_img,g.g_express,gp.gp_market_price,sum(op.gp_num) sum_gp_num,min(dtr.gdr_price) min_gdr_price,max(dtr.gdr_price) max_gdr_price';
+                $goods = new GoodsService();
+                $list = $goods->search_goods($where,$order,$field,$page,$page_size);
+                break;
+            case 2:
+                $where = [
+                    'stroe_name'=>['like','%'.$keyword.'%'],
+                    'store_state'=>0,
+                ];
+                $store = new StoreService();
+                $order = 'add_time desc';
+                $field='store_id,stroe_name,store_logo,m_id';
+                $list = $store->search_store($where,$order,$field,$page,$page_size);
+                break;
+        }
+        $this->response_data($list);
+    }
+    /*
+    * zwb首页双11方法
+    * 2018-11-05
+    */
+    public function double_eleven(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $time = time();
+        $end_time = 1541951999;//2018-11-11 23：59：59
+        if($time >= $end_time){
+            $status = 0;
+        }else{
+            $status = 1;
+        }
+        $list = array(
+            'url'=>PAIYAYA_URL."/promotion/index/double11",
+            'tietle_img'=>PAIYAYA_URL."/static/image/index/icon_shuang11.png",
+            'login'=>0,
+            'status'=>$status,
+            'four_img'=>array(
+                'img1'=>PAIYAYA_URL."/static/image/index/icon_fenlei_off.png",
+                'img2'=>PAIYAYA_URL."/static/image/index/icon_home_on.png",
+                'img3'=>PAIYAYA_URL."/static/image/index/icon_xiaoxi_off.png",
+                'img4'=>PAIYAYA_URL."/static/image/index/icon_user_off.png",
+            )
+        );
+        $this->response_data($list);
+    }
+    /*
+    * zwb首页秒杀区
+    * 2018-10-25
+    */
+    public function second_kill(){
+        $res=$this->checktoken();
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $return_data = array(
+            'kill'=>array(
+                'kill_img'=>PAIYAYA_URL."/static/image/index/icon_miaosha@2x.png",//秒杀图片
+                'time_img'=>PAIYAYA_URL."/static/image/index/icon_23@2x.png",//23点场图片
+                'start_img'=>PAIYAYA_URL."/static/image/index/icon_jijiangkaishi@2x.png",//即将开始图片
+                'title'=>"超值商品 敬请期待",
+                'first_img'=>PAIYAYA_URL."/static/image/index/img1@2x.png",
+                'first_seckill_price'=>"¥27.00",
+                'first_seckill_old_price'=>"¥12377.00",
+                'second_img'=>PAIYAYA_URL."/static/image/index/img2@2x.png",
+                'second_seckill_price'=>"¥87.00",
+                'second_seckill_old_price'=>"¥15100.00",
+                'three_img'=>PAIYAYA_URL."/static/image/index/img3@2x.png",
+                'three_seckill_price'=>"¥99.00",
+                'three_seckill_old_price'=>"¥21800.00",
+                'status'=>0,
+                'url'=>'',
+                'end_time'=> 0,
+            ),
+            'leak'=>array(
+                'leak_img'=>PAIYAYA_URL."/static/image/index/icon_jianlo1@2x.png",
+                'title'=>"精品捡漏 即将上线",
+                'first_img'=>PAIYAYA_URL."/static/image/index/img5@2x.png",
+                'first_seckill_price'=>"¥77.00",
+                'first_seckill_old_price'=>"¥853.00",
+                'second_img'=>PAIYAYA_URL."/static/image/index/img4@2x.png",
+                'second_seckill_price'=>"¥288.00",
+                'second_seckill_old_price'=>"¥429.00",
+                'status'=>0,
+                'url'=>'',
+            ),
+            'large'=>array(
+                'title_img'=>PAIYAYA_URL."/static/image/index/icon_daeshangpin@2x.png",
+                'title'=>"高端商品 快来吖",
+                'first_img'=>PAIYAYA_URL."/static/image/index/img10@2x.png",
+                'second_img'=>PAIYAYA_URL."/static/image/index/img11@2x.png",
+                'status'=>0,
+                'url'=>'',
+            ),
+            'digital'=>array(
+                'title_img'=>PAIYAYA_URL."/static/image/index/icon_shoujishuma.png",
+                'title'=>"Iphone XS 新品",
+                'first_img'=>PAIYAYA_URL."/static/image/index/img8@2x.png",
+                'second_img'=>PAIYAYA_URL."/static/image/index/img9@2x.png",
+                'status'=>0,
+                'url'=>'',
+            ),
+            'decoration'=>array(
+                'title_img'=>PAIYAYA_URL."/static/image/index/icon_jijujiazhuang.png",
+                'title'=>"低至一折！三折！",
+                'first_img'=>PAIYAYA_URL."/static/image/index/img6@2x.png",
+                'second_img'=>PAIYAYA_URL."/static/image/index/img7@2x.png",
+                'status'=>0,
+                'url'=>'',
+            ),
+        );
+        $this->response_data($return_data);
+    }
+    public function countDown()
+    {
+        $endTime = 1541453907;
+        $beiginTime = strtotime(date('Y-m-d H:i:s'));
+        $timeDifference = $endTime - $beiginTime;
+        switch ($timeDifference) {
+            case $timeDifference < 0 :
+                $timeDifference = '已经结束！';
+                break;
+            case $timeDifference < 60 :
+                $timeDifference = $timeDifference . '秒';
+                break;
+            case $timeDifference < 3600 :
+                $minutes = floor($timeDifference / 60);
+                $seconds = floor($timeDifference - ($minutes * 60));
+                $timeDifference = $minutes . '分' . $seconds . '秒';
+                break;
+            case $timeDifference < 86400 :
+                $hours = floor($timeDifference / 3600);
+                $minutes = floor(($timeDifference - ($hours * 3600)) / 60);
+                $seconds = floor($timeDifference - ($hours * 3600) - ($minutes * 60));
+                $timeDifference = $hours . '小时' . $minutes . '分' . $seconds . '秒';
+                break;
+            default:
+                $days = floor(($timeDifference / 86400));
+                $hours = floor(($timeDifference - ($days * 86400)) / 3600);
+                $minutes = floor(($timeDifference - ($days * 86400) - ($hours * 3600)) / 60);
+                $seconds = floor($timeDifference - ($days * 86400) - ($hours * 3600) - ($minutes * 60));
+                $timeDifference = $days . '天' . $hours . '小时' . $minutes . '分' . $seconds . '秒';
+                break;
+        }
+        print_r($timeDifference);die();
+    }
+}

@@ -1,0 +1,75 @@
+ $(function(){
+    //点击分类
+    $("#classify").click(function(){
+        $("input").blur();
+        $(".application_popups").addClass("application_dis");
+        var stat= $(".application_menu ul li").children("a").attr("name");
+        $(".application_menu").css({background:"#fff"});//初始化背景色
+        $(".application_menu").find("li").each(function(){
+            var status = $(this).children("a").attr("name");
+            if(status == 1){
+                $(".application_menu") .css({background:"#f8f8f8"});
+            }
+        });
+    })
+    //点击一级分类
+    $(".application_menu ul li").click(function(){
+        var stat=$(this).children("a").attr("name");
+        if(stat==0){
+            var one_val=$(this).children("a").html();
+            var inid=$(this).children("a").attr("id");
+            // console.log(inid);
+            $("input[name='classify']").attr("id",inid);            //发布分类
+            $("input[name='store_categoryid']").attr("value",inid); //入驻分类
+            console.log($("input[name='classify']").attr("id"))
+            console.log(one_val);
+            $(".application_class").val(one_val);
+            $(".application_popups").removeClass("application_dis");
+        }
+        if(stat==1){
+            // $(".application_menu").css({background:"#f8f8f8"});
+            $(".application_content").animate({"left":0},300);
+            var index_=$(this).index();
+            // return false;
+            $(".application_menu ul li a").removeClass("on");
+            $(this).children("a").addClass("on");
+            $(".application_tabcon").removeClass("application_tab_li");
+            $(".application_tabcon").eq(index_).addClass("application_tab_li");
+        }
+    })
+    //点击二级分类
+    $(".application_two").click(function(e){
+        // e.preventDefault();
+        var stat1=$(this).attr("name");
+        if(stat1==0){
+            var inid=$(this).attr("id");
+            var two_val=$(this).html();
+            // console.log(one_val);
+            $(".application_class").val(two_val);
+            $("input[name='classify']").attr("id",inid);
+            $(".application_popups").removeClass("application_dis");
+        }
+         if(stat1==1){
+            $(".application_two").removeClass("on");
+            $(this).addClass("on");
+            $(".application_three").removeClass("application_tab_li");
+            $(this).siblings(".application_three").toggleClass("application_tab_li");
+        }
+    })
+    //点击三级分类
+    $(".application_three a").click(function(e){
+        e.preventDefault();
+        var stat2=$(this).attr("name");
+        if(stat2==0){
+            var one_val2=$(this).html();
+            var inid=$(this).attr("id");
+            $("input[name='classify']").attr("id",inid);
+            // console.log(one_val);
+            $(".application_class").val(one_val2);
+            $(".application_popups").removeClass("application_dis");
+        }
+         if(stat2==1){
+            
+        }
+    })
+ })

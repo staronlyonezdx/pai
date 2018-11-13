@@ -1,0 +1,19 @@
+<script type="text/javascript" src="/static/h-ui.admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<script>
+    $('.itemli').on('click',function () {
+        var wurl = $(this).find('a').attr('href');
+        sessionStorage.setItem('wurl',wurl);
+    })
+    var links = window.location.pathname;
+    $('.itemli').each(function () {
+        var ur = $(this).find('a').attr('href');
+        if(links == ur) {
+            $(this).parents('dd').css("display","block");
+            $(this).addClass('current');
+            $(this).parents('dl').find('dt').addClass('selected');
+        }
+    })
+</script>

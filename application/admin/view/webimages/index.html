@@ -1,0 +1,87 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<!-- <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css"> -->
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>广告图片列表</label>
+                <a class="pull-right" href="{:url('Webimages/edit')}">添加图片</a>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>广告图片ID</th>
+                    <th>商品图片</th>
+                    <th>图片名称</th>
+                    <th>图片分类</th>
+                    <th>图片类型</th>
+                    <th>图片状态</th>
+                    <th>图片导航</th>
+                    <th>图片介绍</th>
+                    <th>排序</th>
+                    <th>跳转类型</th>
+                    <th>跳转id</th>
+                    <th>跳转内容</th>
+                    <th>图片管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.wi_id}</th>
+                    <td><img src="__CDN_PATH__{$vo.wi_imgurl}" width="50px"></td>
+                    <td>{$vo.wi_name}</td>
+                    <td>{$vo.wit_name}</td>
+                    <td>
+                    {switch vo.wi_type}
+                        {case '0'}PC{/case}
+                        {case 1}h5{/case}
+                        {case 2}app{/case}
+                    {/switch}
+                    </td>
+                    <td>{if condition="$vo.wi_state == 0"}显示{else/}不显示{/if}</td>
+                    <td>{$vo.wi_href}</td>
+                    <td>{$vo.wi_info}</td>
+                    <td>{$vo.wi_sort}</td>
+                    <td>
+                        {switch vo.wi_linktype}
+                        {case 1}商品id{/case}
+                        {case 2}目录id{/case}
+                        {case 3}活动{/case}
+                        {/switch}
+                    </td>
+                    <td>{$vo.wi_linkid}</td>
+                    <td>{$vo.wi_linkcontent}</td>
+                    <td>
+                        <a href="{:url('Webimages/edit',['wi_id' => $vo.wi_id])}">
+                            编辑
+                        </a>
+                        <a href="{:url('Webimages/delete',['wi_id' => $vo.wi_id])}" class="dele_btn">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+            <div>
+                {$page}
+                <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+

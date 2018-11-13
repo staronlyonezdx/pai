@@ -1,0 +1,170 @@
+.popularity_birth{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    background:rgba(0,0,0,0.3);
+    visibility: hidden;
+}
+
+.show_box{
+    width: 9.8rem;
+    height: 9.8rem;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    /* background: url(../../image/popularitygoods/popularity.gif) no-repeat; */
+    /* background-size: cover; */
+}
+#canvas{
+    
+}
+.show_box .show_info{
+    width: 5.51rem;
+    height: 4.68rem;
+    background: url(../../image/popularitygoods/icon_tanchuang@2x.png) no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 50%;
+    top: 2.27rem;
+    transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    z-index: 999;
+}
+
+.show_info .p1{
+    font-size:0.22rem;
+    font-family:PingFangSC-Light;
+    font-weight:300;
+    line-height:0.30rem;
+    color: #aaa;
+    text-align: center;
+    margin-top: 1.99rem;
+}
+.show_info .person_info{
+    display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box; /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox; /* 混合版本语法: IE 10 */
+    display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+    display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+    -webkit-box-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin-top: 0.25rem;
+}
+.show_info .person_info img{
+    display:block;
+    width: 0.72rem;
+    height: 0.72rem;
+    border-radius:50%;
+    margin-right: 0.29rem;
+}
+.show_info .person_info .person_info_right{
+    display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box; /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox; /* 混合版本语法: IE 10 */
+    display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+    display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+.show_info .person_info .person_info_right p{
+    font-size: 0.26rem;
+    width: 1.8rem;
+    line-height:0.3rem;
+    color:#454545;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.show_info .person_info .person_info_right span{
+    font-size: 0.24rem;
+    color:#aaa;
+    line-height: 0.3rem;
+    margin-top: 0.06rem;
+}
+
+.show_info .p2{
+    color: #454545;
+    font-size:0.22rem;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+.show_info .p2 i{
+    font-size: 0.22rem;
+    color: #FF7A56;
+    
+}
+.line_goods_hide{
+    position: absolute;
+    top:6.87rem;
+    left:50%;
+    margin-left: -0.3rem;
+    width:0.6rem;
+    height:0.6rem;
+    overflow: hidden;
+}
+
+.line_goods_hide img{
+    width:100%;
+    height:100%;
+    display:block;
+}
+.line_goods_xuanfu{
+    width:1.39rem;
+    height:1.39rem;
+    overflow: hidden;
+    background: url("../../image/popularitygoods/btn_daqizhi@2x.png") no-repeat center center;
+    background-size: 100% 100%; 
+    position: fixed;
+    bottom:2rem;
+    right:0.5rem;
+    z-index: 98;
+}
+.line_goods_xuanfu p{
+    color:#333333;
+    font-size: 0.24rem;
+    text-align: center;
+    line-height: 1.15rem;
+}
+
+.time_over{
+    width:7.5rem;
+    height:0.6rem;
+    background:rgba(255,42,42,0.9);
+    opacity:0.9;
+    text-align: center;
+    font-size:0.24rem;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:0.6rem;
+    display: none;
+}
+
+.over_span{
+    font-size:0.36rem;
+    font-weight:bold;
+    color:rgba(255,255,255,1);
+    line-height:1.2rem;
+    margin-right: 0.2rem;
+    display: none;
+}
+

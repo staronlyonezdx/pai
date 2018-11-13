@@ -1,0 +1,138 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+ 	<link rel="stylesheet" type="text/css" href="__CSS__/common/popups.css">
+  <link rel="stylesheet" type="text/css" href="__CSS__/address/register.css">
+  <link rel="stylesheet" type="text/css" href="__CSS__/address/common.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+  <!--<div class="header_view">-->
+    <!--<div class="header_tit">-->
+        <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+          <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" >-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+<p class="login_tit">忘记支付密码</p>
+  <div class="register_list">
+    <div class="register_inp">
+      <p>+86</p>
+      <input type="text" name="m_mobile" class='m_mobile' placeholder="请输入注册手机号（必填）" oninput="if(value.length>11)value=value.slice(0,11)">
+    </div>
+  </div>
+  <div class="register_list">
+    <div class="register_inp">
+      <input type="number" name="verification" class="verification" placeholder="请输入验证码" oninput="if(value.length>4)value=value.slice(0,4)">
+      <button class="sms">发送验证码</button>
+    </div>
+  </div>
+   <div class="register_list">
+    <div class="register_inp register_pass">
+      <input type="password" class='m_payment_pwd' id="p1" name="m_payment_pwd" placeholder="设置支付密码(6位数字)" maxlength="6" oninput="if(value.length>6)value=value.slice(0,6)">
+      <div class="register_cancel_icon">
+        <img src="__STATIC__/image/login/icon_login_clean@2x.png">
+      </div>
+    </div>
+  </div>
+  <div class="register_list">
+    <div class="register_inp register_pass2">
+      <input type="password"  id="p2" class="re_payment_pwd" name="re_payment_pwd" placeholder="确定密码" maxlength="6" oninput="if(value.length>6)value=value.slice(0,6)">
+      <div class="register_cancel_icons">
+        <img src="__STATIC__/image/login/icon_login_clean@2x.png">
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+   <!--  <div class="tit">
+    <p> 忘记支付密码</p> 
+    </div>
+    <div class="amnesia_login clear">
+        <p class="lf"> +86</p>
+        <input type="text" name="m_mobile"  placeholder="请输入手机号" class="lf m_mobile">
+    </div>
+    <div class="amnesia_login  clear">
+        <input type="number" name="verification" placeholder="验证码" class="amnesia_code lf verification">
+        <div class="amnesia_btn rt sms">
+            发送验证码
+        </div>
+    </div>
+    <div class="amnesia_login  clear">
+        <input type="password" name="m_payment_pwd" placeholder="设置支付密码(6-16位数字)" class="amnesia_code lf m_payment_pwd">
+    </div>
+    <div class="amnesia_login  clear">
+        <input type="password" name="re_payment_pwd" placeholder="确定密码" class="amnesia_code lf re_payment_pwd">
+    </div> -->
+    <div class="register_btn register amnesia_save amnesia_save_yew">
+      确认修改
+    </div>
+   <!--  <div class="amnesia_save"> 
+        保存
+    </div> -->
+  <!-- <div class="amnesia_btn register" >
+      
+  </div> -->
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/lib/layui/layui.js"></script>
+<script href="__JS__/Public.js"></script>
+<script src="__JS__/common/popups.js"></script>
+<!-- <script src="__JS__/set/register.js"></script> -->
+<script src="__JS__/register/amnesia_payment.js"></script>
+<script>
+
+    // $(".sms").click(function(){
+    //     var verification = $('.verification').val();
+    //     var m_mobile = $('.m_mobile').val();
+    //     $.post("news_code",{
+    //         m_mobile:m_mobile,
+    //         verification:verification
+    //     },function(res){
+    //         var data = JSON.parse(res)
+    //         if(data.status != 1){
+    //             layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+    //                 time:2000
+    //               });
+    //             return false;
+    //             // alert(data.msg);
+    //         }
+    //     });
+    // })
+    // $(".amnesia_save").click(function(){
+    //     var verification = $('.verification').val();
+    //     var m_payment_pwd = $('.m_payment_pwd').val();
+    //     var re_payment_pwd = $('.re_payment_pwd').val();
+    //     var m_mobile = $('.m_mobile').val();
+    //     $.post("amnesia_payment",{
+    //         verification:verification,
+    //         m_payment_pwd:m_payment_pwd,
+    //         re_payment_pwd:re_payment_pwd,
+    //         m_mobile:m_mobile,
+    //     },function(res){
+    //         if(res.status == 1){
+    //             layer.msg("<span style='color:#fff'>"+res.msg+"</span>",{
+    //                 time:2000
+    //               });
+    //             // alert(res.msg);
+    //         }else{
+    //              layer.msg("<span style='color:#fff'>"+res.msg+"</span>",{
+    //                 time:2000
+    //               });
+    //             // alert(res.msg);
+    //         }
+    //     });
+    // });
+</script>
+{/block}

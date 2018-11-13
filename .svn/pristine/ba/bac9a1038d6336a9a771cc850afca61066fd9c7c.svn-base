@@ -1,0 +1,76 @@
+{extend name="thirdlogin/base" /} 
+
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/index/binding.css">
+{/block}
+
+{block name="content"}
+<main>
+        <div class='nav'>
+            <p>绑定手机号</p>
+        </div>
+        <div class='phone'>
+            <p>+86</p>
+            <input placeholder="输入手机号" type="text" name="mobile" id="mobile">
+        </div>
+        <div class='solid'></div>
+        <div class='pass'>
+            <input placeholder="验证码" type="text" name="verification" id="verification">
+            <button id="sendcode">获取验证码</button>
+        </div>
+        <div>
+            <input type="button"  class="btnone bsn" style="border:0"  value="确认绑定" onclick="bsnclick()"/>
+        </div>
+        <input type="hidden" name="openid" value="{$openid}" id="openid">
+        <input type="hidden" name="returl" value="{$returl}" id="returl">
+        <input type="hidden" name="avatar" value="{$avatar}" id="avatar">
+        <input type="hidden" name="m_name" value="{$m_name}" id="m_name">
+        <input type="hidden" name="code" value="{$code}" id="code">
+        <input type="hidden" name="unionid" value="{$unionid}" id="unionid">
+ </main>
+
+{/block}
+{block name="script"}
+<script src="__STATIC__/js/index/jquery-1.12.1.min.js"></script>
+<script src="__STATIC__/lib/layui/layui.js"></script>
+<script src="__STATIC__/js/index/rem.js"></script>
+<script src="__STATIC__/js/index/binding.js"></script>
+<script>
+    function bsnclick(){
+        $('.bsn').attr('disabled','disabled');
+        var openid=$("#openid").val();
+        var returl=$("#returl").val();
+        var mobile=$("#mobile").val();
+        var m_name=$("#m_name").val();
+        var m_avatar=$("#avatar").val();
+        var unionid=$("#unionid").val();
+        var verification=$("#verification").val();
+        var code=$("#code").val();
+        $.ajax("/index/easylogin/wxlogin_ajax", {
+            dataType: 'json',//服务器返回json格式数据
+            type: 'POST',//HTTP请求类型console.log(data)
+            data: {openid: openid, mobile:mobile,m_name:m_name,m_avatar:m_avatar,verification:verification,code:code,unionid:unionid},
+            success: function (data) {
+                $('.bsn').removeAttr('disabled')
+                if (data.state == '1') {
+                    location.href="/";
+                }
+                else{
+                    $('.bsn').removeAttr('disabled')
+                    //提示弹窗
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                }
+            }
+        })
+    }
+
+
+</script>
+{/block}
+
+
+
+
+

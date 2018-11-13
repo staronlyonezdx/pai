@@ -1,0 +1,13 @@
+.payment_success_con{
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+.payment_success_con p{
+    color:#12D155;
+    font-size: 0.3rem;
+    font-weight:600;
+    margin-right: 0.22rem;
+}
+.payment_success_chilun{
+    margin-top: -0.13rem;
+}

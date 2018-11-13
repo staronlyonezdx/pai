@@ -1,0 +1,84 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/prize_info/prize_info.css">
+<style>
+.prize_info_img{
+    width:7.5rem;
+    height:100%;
+}
+.prize_info_con{
+    padding:0.3rem;
+}
+.prize_info_con img{
+    width:100%;
+    height:100%;
+    display:block;
+}
+</style>
+{/block}
+
+
+{block name="content"}
+<div class="header_nav">
+        <div class="header_view">
+            <div class="header_tit">
+                <span>通告详情</span>
+                <div class="header_back">
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+                </div>
+            </div>
+        </div>
+    </div>
+<main>
+    <div class="prize_info_img" >
+        <div class="prize_info_con">
+            {$content}
+        </div>
+    </div>
+   
+    <!-- <div class="prize_info_wrap"> -->
+        <!-- <div class="prize_info_content"> -->
+                <!-- {$content} -->
+            <!-- <div class="prize_info_top">
+                <p class="prize_info_title">iPhone9新机！售价4800元起</p>
+                <p class="prize_info_data">2018-07-23 12:23</p>
+                <p class="prize_info_tip">美国时间9月12日上午10点一年一度的“科技春晚”发布会将在乔布斯剧院上演，北京时间9月13日凌晨1点整。</p>
+            </div>
+            <div class="prize_info_middle">
+                <img src="" alt="" class="img_top">
+                <p class="prize_info_invite">（苹果官网公布的发布会邀请函）</p>
+                <p class="prize_info_jie">一哥觉得，此邀请函圆圈形状预示着飞船总部的乔布斯剧院圆形
+                    外观、无线充电、棕色金属边框，但也有不少网友调侃：这就是“美
+                    的电磁炉”！
+                    感觉这一年的苹果发布会比较特别，临近发布会，也曝光8
+                    款苹果新品，分别iPhone XS Plus、iPhone XS、iPhone XC（廉价
+                    版）、iPad Pro、iWatch、AirPods 2、MacBook Air以及AirPower
+                    让我们提前了解一下吧！</p>
+                <img src="" alt="" class="img_bottom">
+            </div>
+            <div class="prize_info_bottom">
+                <p>2018年苹果秋季发布会：
+                苹果秋季发布会日期：9月12日（北京时间13日凌晨1点）
+                发布会地址：飞船总部的乔布斯剧院
+                新iPhone预售日期：9月14日
+                iOS 12正式版发布日期：9月20日
+                新iPhone发货日期：9月21日</p>
+            </div> -->
+        <!-- </div> -->
+
+    <!-- </div> -->
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+$(".header_back").click(function(){
+    if(window.sessionStorage.getItem("backUrl")!=null){
+        window.location.href="/popularity/popularitygoods/prize_list/"
+    }else{
+        window.history.back();
+    }
+})
+</script>
+{/block}

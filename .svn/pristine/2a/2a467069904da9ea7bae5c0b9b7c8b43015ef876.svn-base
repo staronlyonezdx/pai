@@ -1,0 +1,38 @@
+body{
+    background: #fff;
+}
+.peanut_explain{
+    margin:0.3rem;
+    overflow: hidden;
+}
+.peanut_explain h3{
+    color:#333333;
+    font-size: 0.28rem;
+    font-weight: 600;
+    margin-bottom: 0.24rem;
+}
+.peanut_explain span{
+    color:#333333;
+    font-size: 0.26rem;
+}
+.peanut_explain p{
+    float: left;
+}
+.peanut_list{
+    margin-top: 0.59rem;
+}
+.peanut_list span{
+    float: left;
+    width:6.4rem;
+    line-height: 0.4rem;
+}
+.peanut_list span h4{
+    color:#333333;
+    font-weight: 600;
+    display: inline;
+}
+.peanut_list a{
+    color:#4891EA;
+    font-size: 0.24rem;
+    text-decoration:underline;
+}

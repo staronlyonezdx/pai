@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>网络断开连接-错误提示</title>
+    <link rel="stylesheet" type="text/css" href="../public/static/css/error/error.css">
+    <script type="text/javascript" src="../public/static/js/jquery-1.11.1.min.js"></script>
+    <script src="../public/static/js/common/rem.js"></script>
+</head>
+ 
+<body>
+    <div class="error">
+        <img src="../public/static/image/error/wlan.png" />
+        <p>已与网络断开连接，请重试<br>吖吖不想和你分开</p>
+        <div class="error-btn">
+                <a href="/index/index">返回首页</a><span>重新加载</span>
+        </div>
+    </div>
+    
+    <script>
+        $('.error-btn span').click(function(){
+            location.reload();
+        })
+    </script>
+</body>
+</html>

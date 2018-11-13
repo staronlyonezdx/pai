@@ -1,0 +1,22 @@
+.real-item {
+    background: #fff;
+    margin: 0 0 0.02rem 0;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    padding: 0 0.3rem;
+    font-size: 0.28rem;
+    position: relative;
+    text-align: left;
+    
+}
+.real-item span {
+    position: absolute;
+    right: 0.3rem;
+    top: 0;
+}
+.real-desc {
+    font-size: 0.24rem;
+    color: #aaa;
+    padding:0.3rem;
+    text-align: left;
+}

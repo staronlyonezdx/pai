@@ -1,0 +1,142 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/storecollection/store_list.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/productlist/product_list.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodscollection/goods_list.css"> {/block}
+ {block name="header"} 
+ {include file="common/header"/} 
+{/block}
+ {block name="content"}
+
+<main style="margin: 0.88rem 0 0 0">
+    <!--展示上拉加载的数据列表-->
+    <div id="dataList" class="data-list"></div>
+</main>
+{/block} {block name="script"} {include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script>
+    $(function () {       
+        //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+        var mescroll = new MeScroll("body", {
+            //下拉刷新
+            down: {
+                isLock: true, //锁定下拉
+            },
+            //上拉加载的配置项
+            up: {
+                callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                empty: {
+                    icon: "/static/image/index/no-cont.png", //图标,默认null
+                    tip: "暂无搜索结果~", //提示
+                },
+                clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                toTop: {
+                    //配置回到顶部按钮
+                    src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    //offset : 1000
+                }
+            }
+        });
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            getListDataFromNet(page.num, page.size, function (curPageData,total_num) {
+                //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                //必传参数(当前页的数据个数, 总数据量)
+                mescroll.endBySize(curPageData.length, total_num);
+
+                //设置列表数据
+                setListData(curPageData);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescroll.endErr();
+            });
+        }
+
+        /*设置列表数据*/
+        function setListData(curPageData) {
+            var listDom = document.getElementById("dataList");
+            for (var i = 0; i < curPageData.length; i++) {
+                var pd = curPageData[i];
+                
+                
+                if (pd.store_logo == null) {
+                    pd.store_logo = '/static/image/myhome/TIM20180731142117.jpg';
+                }
+
+                var str = '<div class="store-list-title">';
+                str += '<div class="store-list-logo">';
+                str += '<img src="' + pd.store_logo + '">';
+                str += '</div>';
+                str += '<h3>' + pd.stroe_name + '</h3>';
+                str += '<a class="store-list-link" href="/member/shop/index/store_id/' + pd.store_id + '">进店</a>';
+                str += '</div>';
+
+                // 店铺产品列表
+                if (pd.goods.length > 0) {
+                    str += '<div class="store-list-img">';
+                    for (var j = 0; j < pd.goods.length; j++) {
+                        if (pd.goods.length == 1) {
+                            str += '<div class="store-img-item" style="width:3rem;height:3rem;">';
+                        } else {
+                            str += '<div class="store-img-item">';
+                        }
+                        str += '<a href="/member/goodsproduct/index/g_id/' + pd.goods[j].g_id + '">';
+                            str += '<img src="' + pd.goods[j].g_img + '">';
+                            str += '<span>￥' + pd.goods[j].gdr_price + '</span>';
+                            str += '</a>';
+                        if (pd.goods[j].new_goods == 1) {
+                            str += '<div class="store-list-tag">';
+                            str += '<i class="new">上新</i>';
+                            str += '</div>';
+                        }
+                        str += '</div>';
+                    }
+                    str += '</div>';
+                }
+
+                var liDom = document.createElement("div");
+                liDom.className = "store-list-item";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+
+        /*联网加载列表数据
+        在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+        请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+        实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+        * */
+        function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/member/storecollection/search_store_list',
+                    data: {
+                        store_name: '{$store_name}',
+                        page: pageNum,
+                        size: pageSize
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.data.list.length; i++) {
+                            listData.push(data.data.list[i]);
+                        }
+
+                        //回调
+                        successCallback(listData,data.data.total_num);
+                    },
+                    error: errorCallback
+                });
+            }, 1000)
+        }
+    }); 
+</script> 
+{/block}

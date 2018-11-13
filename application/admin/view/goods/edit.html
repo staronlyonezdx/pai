@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>修改商品|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/style.css">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/cmmphp.css"  />
+<style>
+#content font span {
+    font-family: "Georgia";
+    font-weight: 900;
+    font-size: 22px;
+    color: #444;
+}
+#content .textarea{
+	width:75%;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	var ue = UE.getEditor('container', {
+		initialFrameWidth: 1000,
+		initialFrameHeight: 400
+	});
+	var $dldd = $('.form-group');
+	var le = 0 ;
+	//描述限制
+	$dldd.find('.textarea').each(function() {
+		le=$(this).val();		
+		$dldd.find('font span').text(200-le.length);
+	});
+	//描述限制
+	$dldd.find('.textarea').keyup(function() {
+		le=$(this).val();		
+		if (le.length>200) {
+			$(this).val(le.substr(0,200));
+			$dldd.find('font span').text(0);
+		}else {
+			console.log(le.length);
+			$dldd.find('font span').text(200-le.length);
+		}
+	});
+	$("#goods_image1").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	    {if condition="$result['minpic1'] neq ''"}
+        initialPreview: [
+           "{$result['minpic1']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('goods/deleteimage')}", key: {$result['goods_id']}+'|'+ '1'},
+        ]
+		{/if}
+	});
+	
+	$("#goods_image2").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	    {if condition="$result['minpic2'] neq ''"}
+        initialPreview: [
+           "{$result['minpic2']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('goods/deleteimage')}", key: {$result['goods_id']}+'|'+ '2'},
+        ]
+		{/if}
+	});
+	
+	$("#goods_image3").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	    {if condition="$result['minpic3'] neq ''"}
+        initialPreview: [
+           "{$result['minpic3']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('goods/deleteimage')}", key: {$result['goods_id']}+'|'+ '3'},
+        ]
+		{/if}
+	});
+	
+	$("#goods_image4").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	    {if condition="$result['minpic4'] neq ''"}
+        initialPreview: [
+           "{$result['minpic4']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('goods/deleteimage')}", key: {$result['goods_id']}+'|'+ '4'},
+        ]
+		{/if}
+	});
+	
+	$("#goods_image5").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	    {if condition="$result['minpic5'] neq ''"}
+        initialPreview: [
+           "__ROOT__{$result['minpic5']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('goods/deleteimage')}", key: {$result['goods_id']}+'|'+ '5'},
+        ]
+		{/if}
+	});
+});
+function ToUrl(x)   
+{   
+	location.href=x;
+	return false;
+}
+</script>
+</head>
+<body>
+<div class="container" style="margin-left:0;margin-right:0;">
+<div class="row" id="content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>修改单页</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form method="post" class="form-horizontal" action="{:url('goods/edit_do')}" id="add_link" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品名称 (Name)</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="goods_name" value="{$result['goods_name']}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">价格 (FOB Price)</label>
+                        <div class="col-md-7">
+							<div class="col-md-4" style="padding-left:0px;">
+                            <input type="text" class="form-control" name="price" value="{$result['price']}">
+							</div>
+							 <span class="help-block m-b-none">* 列如：￥200.00 或 $200.00 或 $60~$65</span>
+<!-- 							<label class="col-md-2 control-label">最高价格：</label>
+							<div class="col-md-4">
+							
+                            <input type="text" class="form-control" name="price" aria-required="true" aria-invalid="true" value="{$result['price']}">
+							</div> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">型号 (Model)</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="goods_sn" value="{$result['goods_sn']}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">品牌 (Brand Name)</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="barcode" aria-required="true" aria-invalid="true" value="{$result['barcode']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品分类 (Category)</label>
+                        <div class="col-md-5">
+							<select name="pid_edit" class="goodspid form-control">
+								{if condition='$liegth eq 0'}
+								<option value="0" selected>顶级分类</option>
+								{else /}
+								<option value="0" >顶级分类</option>
+								{/if}
+								{volist name="volist" id="vo"}
+								{if condition='$vo.liegth eq 0'}
+								<option value="{$vo.gc_id}">{$vo.name_en}&nbsp;（{$vo.name_ch}）</option>
+								{else /}
+								<option value="{$vo.gc_id}" selected>{$vo.name_en}&nbsp;（{$vo.name_ch}）</option>
+								{/if}
+								{/volist}
+							</select>
+							<font>* 必填</font>	
+                        </div>
+						
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">阿里巴巴地址 (Alibaba link address)</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="download" aria-required="true" aria-invalid="true" value="{$result['download']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">自定义属性 (Specification)</label>
+                        <div class="col-md-6" >
+							<div id="org">
+							{foreach name="organizers" item="vo" key="k" }
+								<div class="org">
+								<div class="col-md-6" style="padding-left:0px;">
+								<input type="text" class="form-control" name="organi_name[]" value="{$k}" placeholder="属性名">
+								</div>
+								<div class="col-md-6" style="margin-bottom:5px;padding-left:0px;">							
+								<input type="text" class="form-control" name="organi_value[]"  value="{$vo}" placeholder="属性值">
+								</div>
+								</br></br>
+							   </div>
+							   {/foreach}
+						   </div>
+						   <span class="help-block m-b-none"><input type="button" onclick="myFunction();" value="添加" class="btn btn-bule"/> &nbsp;<input type="button" onclick="removeLastOption();" value="删减" class="btn btn-red"/> </span>
+                           <span class="help-block m-b-none">自定义添加属性,删除请留空</span>
+                        </div>
+                    </div>	
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品主图1 (picture1)</label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="goods_image1" name="goods_image1" aria-required="true" aria-invalid="true">
+							<input type="hidden" name="primary_goods1" value="{$result['goods_image1']}">
+							<input type="hidden" name="primary_minpic1" value="{$result['minpic1']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品主图2 (picture2)</label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="goods_image2" name="goods_image2" aria-required="true" aria-invalid="true">
+							<input type="hidden" name="primary_goods2" value="{$result['goods_image2']}">
+							<input type="hidden" name="primary_minpic2" value="{$result['minpic2']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                         <label class="col-sm-2 control-label">商品主图3 (picture3)</label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="goods_image3" name="goods_image3" aria-required="true" aria-invalid="true">
+							<input type="hidden" name="primary_goods3" value="{$result['goods_image3']}">
+							<input type="hidden" name="primary_minpic3" value="{$result['minpic3']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+					
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品主图4 (picture4)</label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="goods_image4" name="goods_image4" aria-required="true" aria-invalid="true">
+							<input type="hidden" name="primary_goods4" value="{$result['goods_image4']}">
+							<input type="hidden" name="primary_minpic4" value="{$result['minpic4']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                       <label class="col-sm-2 control-label">商品主图5 (picture5)</label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="goods_image5" name="goods_image5" aria-required="true" aria-invalid="true">
+							<input type="hidden" name="primary_goods5" value="{$result['goods_image5']}">
+							<input type="hidden" name="primary_minpic5" value="{$result['minpic5']}">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">产品特色 (Product Features)：</label>
+                        <div class="col-md-10">
+                            <textarea class="textarea" name="description" rows="9">{$result['description']}</textarea>
+                            <font>* 你还可以输入<span>200</span>个字符</font>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">商品详情 (Description)</label>
+                        <div class="col-md-5">
+                            <script id="container" name="content" type="text/plain">{$result['goods_content']|htmlspecialchars_decode}</script>
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                        	<input type="hidden" name="goods_id" value="{$result['goods_id']}" />
+							 <input type="hidden" name="pid" value="{$result['pid']}">
+                            <button class="btn btn-primary" type="submit">修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+var i=2;
+var j=0;
+var k=-2;
+function myFunction(){	
+	var textnode = '<div class="org"><div class="col-md-6"  style="padding-left:0px;"><input type="text" class="form-control" name="organi_name[]" value="" placeholder="属性名"></div><div class="col-md-6" style="margin-bottom:5px;padding-left:0px;"><input type="text" class="form-control" name="organi_value[]" value="" placeholder="属性值"></div></br></br></div>';
+	var list = document.getElementById("org");
+	$(textnode).insertAfter(list);
+	i = i+1;
+}
+
+function removeLastOption()
+{
+	if(j==0){
+		j = i-3;
+	}
+	if(k==-2){
+		k=j;
+	}	
+	//console.log(i);
+	$(".org:eq("+k+")").remove();
+	k = k-1;
+	i = i-1;  
+}
+
+</script> 
+
+</html>

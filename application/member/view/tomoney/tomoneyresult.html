@@ -1,0 +1,48 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/tomoney/tomoneyresult.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <!-- 成功 -->
+    {if condition="$status == 1"}
+        <div class="tomoneyresult">
+            <div class="tomoneyresult_img">
+                <img src="__STATIC__/image/orderpai/icon_gou@2x.png" alt="">
+            </div>
+            <p>转入成功</p>
+            <span>您可以在拍吖吖商城中购物使用啦！</span>
+            <a href="/">
+            <div class="tomoneyresult_btn">
+                去逛逛~
+            </div>
+        </a>
+        </div>
+        {else/}
+<!-- 失败 -->
+<div class="tomoneyresult">
+        <div class="tomoneyresult_img">
+            <img src="__STATIC__/image/orderpai/icon_x@2x.png" alt="">
+        </div>
+        <p>转入失败!</p>
+        <span>网络错误,请稍后再试！</span>
+        <a onclick="javascript:history.back();">
+            <div class="tomoneyresult_btn">
+                再试试~
+            </div>
+        </a>
+    </div>
+    {/if}
+</main>
+
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+
+   
+</script>
+{/block}

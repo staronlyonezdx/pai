@@ -1,0 +1,76 @@
+$(function(){
+    $(".shop_index_tab_list").click(function(){
+        $(".shop_index_tab_list").removeClass("shop_index_tab_bold");
+        $(this).addClass("shop_index_tab_bold");
+        $(".shop_index_tab_filter").find(".shop_index_tab_default").css({display:"inline-block"});
+        $(".shop_index_tab_filter").find(".shop_index_filter").css({display:"none"});
+        $(".shop_index_tab_price").find(".shop_index_tab_default").css({display:"inline-block"});
+        $(".shop_index_tab_price").find(".shop_index_filter").css({display:"none"});
+        $(this).find(".shop_index_tab_default").css({display:"none"});
+        $(this).find(".shop_index_filter").css({display:"inline-block"});
+        if($(".shop_index_tab_filter").find(".shop_index_filter").css('display')==="none"){
+            $(".shop_index_tab_filter").find(".shop_index_filter").children("img").eq(0).removeClass("shop_index_filter_img");
+            $(".shop_index_tab_filter").find(".shop_index_filter").children("img").eq(1).addClass("shop_index_filter_img");
+        }
+        if($(".shop_index_tab_price").find(".shop_index_filter").css('display')==="none"){
+            $(".shop_index_tab_price").find(".shop_index_filter").children("img").eq(0).removeClass("shop_index_filter_img");
+            $(".shop_index_tab_price").find(".shop_index_filter").children("img").eq(1).addClass("shop_index_filter_img");
+
+        }
+    })
+    //点击综合
+    $(".shop_index_all_list").click(function(){
+        var order=$(this).attr("data");
+        $.ajax("/index/index/search_index",{
+            dataType:"json",
+            type:"POST",
+            data:{order:order},
+            success:function(data){
+                $(".shop_index_main").html("");
+                html="";
+                for(var i=0;i<data.list.length;i++){
+                    html+='<a href="##"><div class="product_list_list lf"><div class="product_list_pic"><img src="'+data.list[i].g_img+'"><div class="product_list_number">'+data.list[i].sum_gp_num+'人已参与</div></div><p class="product_list_tit_p">'+data.list[i].g_name+'</p><p class="product_list_price clear">￥<span class="product_list_red">'+data.list[i].min_gdr_price+'-'+data.list[i].max_gdr_price+'</span></p><span class="product_list_oldprice">'+data.list[i].gp_market_price+'</span> </div></a>'
+                }
+                $(".shop_index_main").append(html);
+            }
+        })
+    })
+    //点击人数
+    $(".shop_index_tab_filter").click(function(){
+        $(this).find(".shop_index_filter img").toggleClass("shop_index_filter_img");
+        var order=$(this).find($(".shop_index_filter_img")).attr("data");
+        console.log(order);
+            $.ajax("/index/index/search_index",{
+                dataType:"json",
+                type:"POST",
+                data:{order:order},
+                success:function(data){
+                    $(".shop_index_main").html("");
+                    html="";
+                    for(var i=0;i<data.list.length;i++){
+                        html+='<a href="##"><div class="product_list_list lf"><div class="product_list_pic"><img src="'+data.list[i].g_img+'"><div class="product_list_number">'+data.list[i].sum_gp_num+'人已参与</div></div><p class="product_list_tit_p">'+data.list[i].g_name+'</p><p class="product_list_price clear">￥<span class="product_list_red">'+data.list[i].min_gdr_price+'-'+data.list[i].max_gdr_price+'</span></p><span class="product_list_oldprice">'+data.list[i].gp_market_price+'</span> </div></a>'
+                    }
+                    $(".shop_index_main").append(html);
+                }
+            })
+    })
+    //点击价格
+    $(".shop_index_tab_price").click(function(){
+        $(this).find(".shop_index_filter img").toggleClass("shop_index_filter_img");
+        var order=$(this).find($(".shop_index_filter_img")).attr("data");
+        console.log(order);
+        $.ajax("/index/index/search_index",{
+            dataType:"json",
+            type:"POST",
+            data:{order:order},
+            success:function(data){
+                $(".shop_index_main").html("");
+                html="";
+                for(var i=0;i<data.list.length;i++){
+                    html+='<a href="##"><div class="product_list_list lf"><div class="product_list_pic"><img src="'+data.list[i].g_img+'"><div class="product_list_number">'+data.list[i].sum_gp_num+'人已参与</div></div><p class="product_list_tit_p">'+data.list[i].g_name+'</p><p class="product_list_price clear">￥<span class="product_list_red">'+data.list[i].min_gdr_price+'-'+data.list[i].max_gdr_price+'</span></p><span class="product_list_oldprice">'+data.list[i].gp_market_price+'</span> </div></a>'
+                }
+                $(".shop_index_main").append(html);
+            }
+        })
+    })
+})

@@ -1,0 +1,82 @@
+.header_tit{
+    vertical-align: middle;
+    font-size: 0.28rem;
+}
+.paier_info_header{
+    width:0.48rem;
+    height:0.48rem;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.19rem;
+    /*margin-top: 0.2rem;*/
+}
+.paier_info_header img{
+    width:100%;
+    height:100%;
+    display: block;
+}
+.paier_info_view{
+    margin-top:0.4rem;
+}
+.paier_info_list{
+    width:6.8rem;
+    height:2.1rem;
+    background: url("../../image/orderpai/ka3@2x.png") no-repeat center center ;
+    background-size: 100% 100%;
+    margin:0 auto;
+    position: relative;
+}
+.paier_info_piczhezhao{
+    width:6.8rem;
+    height:2.1rem;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:2;
+}
+.paier_info_piczhezhao img{
+    width:100%;
+    height:100%;
+}
+.paier_info_list .paier_info_hint{
+    color:#000000;
+    font-size: 0.24rem;
+    padding-top: 0.39rem;
+    margin-left: 0.57rem;
+    font-weight: 600;
+}
+.paier_info_list .paier_info_hint img{
+    width:0.6rem;
+    height:0.32rem;
+    margin-left: 0.18rem;
+    margin-top: -0.04rem;
+}
+.paier_info_bottom{
+    margin-top: 0.46rem;
+    margin-left: 0.56rem;
+}
+.paier_info_pic{
+    width:0.42rem;
+    height:00.42rem;
+    overflow: hidden;
+}
+.paier_info_pic img{
+    width:100%;
+    height:100%;
+}
+.paier_info_bottom p{
+    margin-left: 0.19rem;
+    font-size: 0.24rem;
+    color:#000000;
+    margin-top: 0.05rem;
+    font-weight: 600;
+}
+.paier_info_bottom span{
+    margin-right: 0.55rem;
+    font-size: 0.24rem;
+    color:#000000;
+    margin-top: 0.05rem;
+    font-weight: 600;
+}

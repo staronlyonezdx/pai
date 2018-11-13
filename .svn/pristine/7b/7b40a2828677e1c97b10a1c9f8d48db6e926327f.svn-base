@@ -1,0 +1,157 @@
+<?php
+namespace app\member\controller;
+use app\data\service\goods\GoodsService;
+use app\data\service\goodsCategory\GoodsCategoryService;
+use app\data\service\member\MemberService;
+use app\data\service\search\SearchService;
+use app\data\service\store\StoreCollectionService;
+use app\data\service\store\StoreService;
+use think\Controller;
+use think\Cookie;
+
+class Shop extends IndexHome
+{
+    /**
+     * @return mixed
+     * 店铺首页（用户和商家都可进入）
+     * 邓赛赛
+     */
+    public function index()
+    {
+        $m_id = $this->m_id;
+        $g_storeid = input('param.store_id');
+        $store = new StoreService();
+        $store_id = $store->get_value(['store_id'=>$g_storeid],'store_id');
+        if(!$store_id){
+            $this->error('未找到此店铺','/index/index/index','',1);
+        }
+        $g_name = input('param.g_name');
+        $page = input('param.page') ? input('param.page') : 1;
+        $page_size = input('param.page_size') ? input('param.page_size') : 6;
+        $order = input('param.order') ? input('param.order') : 1;
+        $goods = new GoodsService();
+        $where = [
+            'g.g_storeid'=>$g_storeid,
+            'g.g_state'=>6,
+            'g.g_endtime'=>['>',time()]
+        ];
+        if(trim($g_name)){
+            $where['g.g_name'] = ['like','%'.$g_name.'%'];
+        }
+        switch($order){
+            case 2:     //新品排序
+                $order = 'g.g_addtime desc';
+                break;
+            case 3:     //人数正序
+                $order = 'sum_gp_num asc';
+                break;
+            case 4:     //人数倒叙
+                $order = 'sum_gp_num desc';
+                break;
+            case 5:     //价格正序
+                $order = 'p.gp_market_price asc';
+                break;
+            case 6:     //价格倒叙
+                $order = 'p.gp_market_price desc';
+                break;
+            default:    //综合排序
+                $order = 'g.g_score desc,g.g_starttime desc';
+                break;
+        }
+        $field='g.g_id,p.gp_id,g.g_name,g.g_img,g.g_starttime,p.gp_market_price,min(dtr.gdr_price)min_price,max(dtr.gdr_price)max_price';
+        $list = $goods->shop_list($where,$field,$order,$page_size,$page);
+        if(request()->isAjax()){
+            return $list;
+        }
+        //店铺logo和名称
+        $where2 = [
+            'store_id'=>$g_storeid,
+        ];
+
+
+        $store_info = $store->storeInfo($where2,'store_id,stroe_name,store_logo,store_background_img');
+        //店铺被收藏数量
+        $collection = new StoreCollectionService();
+        $store_info['num'] = $collection ->get_num($where2);
+        //是否已收藏 1是 2否
+        $store_info['is_collection'] = '';
+        if((int)$m_id){
+            $where3 = [
+                'm_id'=>$m_id,
+                'store_id'=>$g_storeid,
+            ];
+            $store_info['is_collection'] = $collection->get_count($where3) ? 1 : 2;
+
+        }
+        $store_info['is_login'] = (int)$m_id ? 1 : 0 ;
+
+        $this->assign('list',$list);
+        $this->assign('store_info',$store_info);
+        //分享参数
+        $this->assign('share_title',$store_info['stroe_name']);
+        $this->assign('share_desc','发现一个好店，优惠多多，快来淘淘东西吧！');
+        $this->assign('share_link',PAI_URL.'/member/shop/index/store_id/'.$g_storeid.'?share=1');
+        //无logo时取默认值
+        if(!$store_info['store_logo']){
+            $store_info['store_logo'] = '/uploads/logo/1.jpg';
+        }
+        $this->assign('share_imgUrl',PAI_URL.$store_info['store_logo']);
+
+
+        return $this->fetch();
+    }
+
+    /**
+     * 店铺介绍
+     * 邓赛赛
+     */
+    public function introduction(){
+        $m_id = $this->m_id;
+        $store_id = input('param.store_id');
+        //店铺logo和名称
+        $where2 = [
+            'store_id'=>$store_id,
+        ];
+        $store = new StoreService();
+
+        $store_info = $store->storeInfo($where2,'store_id,store_logo,m_id,stroe_name,store_logo,add_time,pid,cid,did,store_categoryid,s_score,e_score,g_score');
+        //店铺被收藏数量
+        $collection = new StoreCollectionService();
+        $store_info['num'] = $collection ->get_num($where2);
+
+        $store_info['is_store'] = 2;
+        $store_info['is_collection'] = 2;
+        if((int)$m_id){
+            $where3 = [
+                'm_id'=>$m_id,
+                'store_id'=>$store_id,
+            ];
+            $store_info['is_store'] = $store_info['m_id'] == $m_id ? 1 : 2;
+            $store_info['is_collection'] = $collection->get_count($where3) ? 1 : 2;
+        }
+        $categirtWhere = [
+            'state'=>0
+        ];
+        $goods_category = new GoodsCategoryService();
+        $category = $goods_category->goodsCategoryColumn($categirtWhere,'gc_id,gc_name');
+        $store_info['store_categoryid'] = empty($category[$store_info['store_categoryid']]) ? '未知' : $category[$store_info['store_categoryid']];
+        $address = [
+            'pid' => $store_info['pid'],
+            'cid' => $store_info['cid'],
+            'aid' => $store_info['did'],
+        ];
+        unset($store_info['pid']);
+        unset($store_info['cid']);
+        unset($store_info['did']);
+        $store_info['address'] = $goods_category->id_tfm_address($address);
+        $store_info['is_login'] = (int)$m_id ? 1 : 0 ;
+
+        $this->assign('store_info',$store_info);
+        $this->assign('header_title','商家介绍');
+        return $this->fetch();
+    }
+
+
+
+
+}

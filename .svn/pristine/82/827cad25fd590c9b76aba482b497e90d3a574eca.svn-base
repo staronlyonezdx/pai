@@ -1,0 +1,83 @@
+
+{extend name="index:base" /}
+		{block name="style"}
+        <link rel="stylesheet" href="__HOME_CSS__/bootstrap.min.css">
+        <link rel="stylesheet" href="__HOME_CSS__/icomoon-social.css">
+		
+        <link rel="stylesheet" href="__HOME_CSS__/leaflet.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/main.css">
+        <script src="__HOME_JS__/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		<link rel="stylesheet" href="__HOME_CSS__/cmm.css">
+		{/block}
+		{block name="style2"}
+		{/block}
+<!-- 广告 -->
+{block name="ad"}
+         <!-- 广告开始 -->
+        <div class="homepage-slider">
+        	<div id="sequence">
+				<ul class="sequence-canvas">
+					<li class="bg1" style="background-image:url('__HOME_IMG__/homepage-slider/Certificate.jpg');">
+					</li>
+				</ul>
+			</div>
+        </div>
+        <!-- 广告结束 -->
+{/block}
+{block name="body"}
+		
+		<!-- 产品分类导航 -->
+        <div class="section">
+	    	<div class="container">
+				<div class="row">
+					<!-- 产品分类 -->
+					{include file="public/goodsnav" /}
+					<!-- 证书列表 -->
+					<div class="col-sm-9" id="cert">
+						<h2 class="mune-empty"></h2>
+						<h4 class="mune-title-son">CERTIFICATES</h4>
+						<div class="blog-post blog-single-post" id="pro">
+							<font {$num=0}></font>
+							{volist name="volist.data" id="vo"}	
+							 <font {$num=$num+1}></font>
+							 <font {$total=($num-1)%3}></font>
+							 <font {$sss=$num%3}></font>								
+							{if condition="$total eq 0"}
+							<div class="row">
+							{/if}							
+								<div class="col-md-3 col-sm-6">
+									<div class="portfolio-item">
+										<div class="portfolio-info-img">
+											<a href="#"><img src="__CDN_PATH__{$vo.minpic}" alt="{$vo.p_name}"></a>
+										</div>
+										<div class="portfolio-info-fade"></div>
+									</div>
+									<ul class="products-title">
+										<a href="#">{$vo.p_name}</a>
+									</ul>									
+								</div>							
+								
+								{if condition="$sss eq 0"}
+								</div>
+								{/if}
+								{if condition="$endArr['p_id'] eq $vo['p_id']"}
+								</div>
+								{/if}
+							{/volist}
+							
+							<div class="pagination-wrapper ">
+								{:$lists->render()}
+							</div>
+
+						
+						</div>
+					</div>
+					<!-- End Blog Post -->
+				</div>
+			</div>
+	    </div>
+
+{/block}
+ {block name="script"}
+{include file="common/js_sdk" /}
+{/block}

@@ -1,0 +1,173 @@
+/**
+ * HTML5 K3D demo
+ * 
+ * Copyright (C) Kevin Roast 2010
+ * http://www.kevs3d.co.uk/dev
+ * email: kevtoast at yahoo.com
+ * twitter: @kevinroast
+ * 
+ * I place this code in the public domain - because it's not rocket science
+ * and it won't make me any money, so do whatever you want with it, go crazy
+ */
+
+// bind to window onload handler
+window.addEventListener('load', onloadHandler, false);
+
+/**
+ * Window onload handler
+ */
+function getStyle(el) {
+　 　 if(window.getComputedStyle) {
+　 　 　 return window.getComputedStyle(el, null);
+　 　 }else{
+　 　 　 return el.currentStyle;
+　 　 }
+　 }
+function onloadHandler()
+{   
+   var canvas = document.getElementById('canvas');
+   canvas.width = window.innerWidth;
+//    canvas.width = Number(getStyle(canvas.parentNode).width.replace('px',''));
+//    canvas.height =  Number(getStyle(canvas.parentNode).height.replace('px',''));
+   canvas.height = window.innerHeight;
+   var k3dmain = new K3D.Controller(canvas, true);
+   
+   // add render loop callback
+   var ctx = canvas.getContext('2d');
+   var rotationOffset = 0;
+   var len = (canvas.height > canvas.width ? canvas.height : canvas.width) * 0.7;
+   k3dmain.clearBackground = false;
+   k3dmain.callback = function()
+   {
+      // manually clear bg - as we want to render some extra goodies
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // draw bg effect before K3D does its 3D rendering
+      ctx.save();
+      ctx.translate(canvas.width/2, canvas.height/2);
+      ctx.rotate(rotationOffset);
+      
+      // first fill pass - outer rays
+      var RAYCOUNT = 24;
+      ctx.fillStyle = "#eee";
+      ctx.beginPath();
+      for (var i=0; i<RAYCOUNT; i++)
+      {
+         // rotate context
+         ctx.rotate(TWOPI / RAYCOUNT);
+         ctx.moveTo(0, 0);
+         ctx.lineTo(-20, len);
+         ctx.lineTo(20, len);
+      }
+      ctx.closePath();
+      ctx.fill();
+      // second fill pass - inner rays
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      for (var i=0; i<RAYCOUNT; i++)
+      {
+         // rotate context
+         ctx.rotate(TWOPI / RAYCOUNT);
+         ctx.moveTo(0, 0);
+         ctx.lineTo(-15, len);
+         ctx.lineTo(15, len);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      rotationOffset += 0.005;
+      
+      // apply user interaction to rotation
+      for (var i=0, objs=k3dmain.objects; i<objs.length; i++)
+      {
+         objs[i].ophi += targetRotationX;
+      }
+      
+      if (targetRotationX > -0.5) targetRotationX -= 0.05;
+      else if (targetRotationX < -0.55) targetRotationX += 0.05;
+      if (targetRotationX > -0.55 && targetRotationX < -0.5) targetRotationX = -0.5;
+   };
+   
+   // start demo loop
+   k3dmain.paused = true;
+   setInterval(function(){k3dmain.tick()}, 1);
+}
+
+// nifty drag/touch event capture code borrowed from Mr Doob http://mrdoob.com/
+var targetRotationX = 0;
+var targetRotationOnMouseDownX = 0;
+var mouseX = 0;
+var mouseXOnMouseDown = 0;
+var targetRotationY = 0;
+var targetRotationOnMouseDownY = 0;
+var mouseY = 0;
+var mouseYOnMouseDown = 0;
+
+var windowHalfX = window.innerWidth / 2;
+var windowHalfY = window.innerHeight / 2;
+
+document.addEventListener('mousedown', onDocumentMouseDown, false);
+document.addEventListener('touchstart', onDocumentTouchStart, false);
+document.addEventListener('touchmove', onDocumentTouchMove, false);
+
+function onDocumentMouseDown( event ) {
+
+	// event.preventDefault();
+	
+	document.addEventListener('mousemove', onDocumentMouseMove, false);
+	document.addEventListener('mouseup', onDocumentMouseUp, false);
+	document.addEventListener('mouseout', onDocumentMouseOut, false);
+	
+	mouseXOnMouseDown = event.clientX - windowHalfX;
+	targetRotationOnMouseDownX = targetRotationX;
+	mouseYOnMouseDown = event.clientY - windowHalfY;
+	targetRotationOnMouseDownY = targetRotationY;
+}
+
+function onDocumentMouseMove( event )
+{
+	mouseX = event.clientX - windowHalfX;
+	targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.02;
+	mouseY = event.clientY - windowHalfY;
+	targetRotationY = targetRotationOnMouseDownY + (mouseY - mouseYOnMouseDown) * 0.02;
+}
+
+function onDocumentMouseUp( event )
+{
+	document.removeEventListener('mousemove', onDocumentMouseMove, false);
+	document.removeEventListener('mouseup', onDocumentMouseUp, false);
+	document.removeEventListener('mouseout', onDocumentMouseOut, false);
+}
+
+function onDocumentMouseOut( event )
+{
+	document.removeEventListener('mousemove', onDocumentMouseMove, false);
+	document.removeEventListener('mouseup', onDocumentMouseUp, false);
+	document.removeEventListener('mouseout', onDocumentMouseOut, false);
+}
+
+function onDocumentTouchStart( event )
+{
+	if (event.touches.length == 1)
+	{
+		// event.preventDefault();
+
+		mouseXOnMouseDown = event.touches[0].pageX - windowHalfX;
+		targetRotationOnMouseDownX = targetRotationX;
+		mouseYOnMouseDown = event.touches[0].pageY - windowHalfY;
+		targetRotationOnMouseDownY = targetRotationY;
+	}
+}
+
+function onDocumentTouchMove( event )
+{
+	if (event.touches.length == 1)
+	{
+		// event.preventDefault();
+		
+		mouseX = event.touches[0].pageX - windowHalfX;
+		targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.05;
+		mouseY = event.touches[0].pageY - windowHalfY;
+		targetRotationY = targetRotationOnMouseDownY + (mouseX - mouseYOnMouseDown) * 0.05;
+	}
+}

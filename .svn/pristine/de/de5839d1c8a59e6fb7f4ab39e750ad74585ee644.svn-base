@@ -1,0 +1,43 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/shop/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/index.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main style="margin-top:0.88rem">
+    <div class="shop_index_bgbanner">
+        <img class="bg-img" src="{$store_background_img ?? '/static/image/shop/banner.png'}" /> 
+    </div>
+    <div class="introduction_view">
+        <input class="upload" type="file"  accept="image/png, image/jpeg, image/gif, image/jpg">    
+        <div class="introduction_bg">
+            <span>上传背景图</span>
+            <span class="rt"><img src="__STATIC__/image/index/icon_nav_jump@2x.png" alt="" ></span>
+        </div>
+    </div>
+</main>
+{/block} {block name="script"} 
+{include file="common/js_sdk" /}
+<script>
+$(function(){
+    //上传图片
+    $(".upload").change(function(e){
+        var file=e.target.files || e.dataTransfer.files;
+        if(file){
+            var reader = new FileReader();
+            reader.onload=function(){
+                $(".bg-img").attr("src",this.result);
+                var src = [];
+                src[0] = this.result;
+                $.post('/member/store/set_store',{store_background_img:src},function(res){
+
+                });
+            }
+            reader.readAsDataURL(file[0]);
+        }
+    })
+})
+</script>
+{/block}

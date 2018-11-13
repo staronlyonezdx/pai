@@ -1,0 +1,737 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .table {
+        width: 100% !important;
+    }
+    .pagination li>a,.pagination li>span{font-size:12px;padding: 5px 10px;}
+    .pagi_bar{display: inline-block;padding-left: 0;margin: 20px 0;border-radius: 4px;font-size:12px;padding: 5px 10px;}
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+        z-index: 2;
+         color: #333;
+        cursor: default;
+     background-color: #ccc;
+     border-color: #ccc;
+    }
+    .pagination>li>a, .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #333 !important;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    .my_pgname{
+        width:150px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .my_second_name{
+        width:120px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .select_body  .upimg{width:20px;height:20px;display: none;}
+    .select_body .select_pic{display: inline-block;}
+    .list_body{display: none;}
+    .body_active{background: #ccc;}
+    .container-fluid {
+        height: 100%;
+        overflow: auto;
+    }
+    .review{cursor: pointer;color:#369;}
+    .now_publish{padding: 3px 5px;height:auto;}
+    td .img_big{height:40px;width:auto !important;}
+
+    form{margin-bottom: 5px;}
+    form .form-group{width: auto}
+    .add-pm{color:#0288f3;cursor: pointer}
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="menu"}
+{include file="common/menu" /}
+{/block}
+{block name="content"}
+<section class="Hui-article-box">
+<div class="container-fluid" >
+    <div class="panel panel-default" >
+        <div class="panel-body">
+            <div class="form-group  from_add_authority" >
+                <label>人气商品列表</label>
+                <a class="pull-right" href="{:url('popularitygoods/edit')}">添加商品</a>
+            </div>
+
+            <!--搜索功能-->
+            <form class="form-inline" action="/business/Poporder/goods_list" method="get">
+                <div class="form-group">
+                    <label for="pg_type">商品分类:</label>
+                    <select class="form-control" id="pg_type" name="pg_type">
+                        <option value="0">全部</option>
+                        <option {notempty name="pg_type"}{if condition="$pg_type == 1"}selected{/if}{/notempty} value="1">纯线上</option>
+                        <option {notempty name="pg_type"}{if condition="$pg_type == 2"}selected{/if}{/notempty} value="2">线上+线下</option>
+                        <option {notempty name="pg_type"}{if condition="$pg_type == 3"}selected{/if}{/notempty} value="3">纯线下</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pg_name">商品名称:</label>
+                    <input type="text" class="form-control" id="pg_name" name="pg_name" placeholder="商品名称" value="{$pg_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="pg_type">商品状态:</label>
+                    <select class="form-control" id="pg_state" name="pg_state">
+                        <option value="0">全部</option>
+                        <option {notempty name="pg_state"}{if condition="$pg_state == 1"}selected{/if}{/notempty} value="1">参拍中</option>
+                        <option {notempty name="pg_state"}{if condition="$pg_state == 2"}selected{/if}{/notempty} value="2">参拍完成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="m_mobile">手机号:</label>
+                    <input type="text" class="form-control" id="m_mobile" name="m_mobile" placeholder="手机号码"  value="{$m_mobile|default=''}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-info">搜索</button>
+                </div>
+            </form>
+            <form class="form-inline" action="/business/Poporder/goods_list" method="get">
+                <div class="form-group">
+                    <label for="countTimestart">中奖时间:</label>
+                    <input type="text" name="start_time" id="countTimestart" onfocus="selecttime(1)" size="17" value='{notempty name="$start_time"}{$start_time}{/notempty}' class="form-control Wdate start_time" readonly placeholder="最小时间"> -
+                    <input type="text" name="end_time" id="countTimeend" onfocus="selecttime(2)" size="17" value='{notempty name="$end_time"}{$end_time}{/notempty}' class="form-control Wdate end_time" readonly placeholder="最大时间">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-info time_select">搜索</button>
+                </div>
+            </form>
+            <div class="margin-top">
+                <label for="o_state">订单状态:</label>
+                <button class=" btn pg_state {empty name='$pg_state' } btn-info {else /} {if condition='$pg_state==1'}btn-success {else /} } btn-info {/if}{/empty} size-S">参拍中</button>
+                <button class=" btn {empty name='$pm_order_status' } btn-info {else /} {if condition='$pm_order_status==1'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(1)">已中奖（待发货）</button>
+                <button class=" btn {empty name='$pm_order_status' } btn-info {else /} {if condition='$pm_order_status==2'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(2)">已发货</button>
+                <button class=" btn {empty name='$pm_order_status' } btn-info {else /} {if condition='$pm_order_status==3'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(3)">已签收</button>
+                <button class=" btn {empty name='$pm_order_status' } btn-info {else /} {if condition='$pm_order_status==4'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(4)">已签收</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="current_condition">导出当前条件的EXCEL(默认时间昨日14:00-今天14:00)</a>&nbsp;
+            </div>
+            <table class="table" style="overflow-y:auto;">
+                <thead>
+                    <tr>
+                        {if condition='$pm_order_status == 1'}
+                            <th>订单id</th>
+                            <th width="70">商品SN</th>
+                            <th width="150">商品名称</th>
+                            <th>成团日期</th>
+                            <th>付款价格</th>
+                            <th>订单状态</th>
+                            <th>用户昵称</th>
+                            <th>注册手机号</th>
+                            <th>收件人</th>
+                            <th>收件电话</th>
+                            <th width="150">收货地址</th>
+                            <th>快递公司</th>
+                            <th>快递单号</th>
+                            <th>卖家姓名</th>
+                            <th>卖家联系电话</th>
+                            <th>立即发货</th>
+                        {else /}
+                            <th>商品id</th>
+                            <th>商品SN</th>
+                            <th>人气商品主图</th>
+                            <th>人气商品</th>
+                            <!--<th>商品二级标题</th>-->
+                            <th>添加日期</th>
+                            <th>市场价</th>
+                            <th>参加价格</th>
+                            <th>成团人数</th>
+                            <th>参拍状态</th>
+                            <th>参拍期数</th>
+                            <th>入选人数</th>
+                            <th>成团人数</th>
+                            <th>已有擂主人数</th>
+                            <th>人气商品类别</th>
+                            <!--<th>更新日期</th>-->
+                            <th>结束日期</th>
+                        {/if}
+
+                        <th>管理</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {empty name="list"}
+                    <tr>
+                        <td colspan="20">没有数据</td>
+                    </tr>
+                {else/}
+                    {volist name="list" id="vo"}
+                        <tr class="popgoods tr_{$vo.pm_id}" pg_id="{$vo.pg_id}">
+                            {if condition='$pm_order_status == 1'}
+                                <td>{$vo.pm_id}</td>
+                                <td>{$vo.pg_sn}</td>
+                                <td>{$vo.pg_name}</td>
+                                <td>{notempty name='$vo.pm_publishtime'}{$vo.pm_publishtime|date='Y-m-d H:i:s',###}{/notempty}</td>
+                                <td>{$vo.pm_paymoney}</td>
+                                <td>
+                                    {switch name="$vo.pm_order_status" }
+                                        {case value="0"}未中奖{/case}
+                                        {case value="1"}已中奖（待发货）{/case}
+                                        {case value="2"}已发货{/case}
+                                        {case value="3"}已签收{/case}
+                                        {case value="4"}未成团{/case}
+                                        {default /}未知
+                                    {/switch}
+                                </td>
+                                <td>{$vo.m_name}</td>
+                                <td>{$vo.m_mobile}</td>
+                                <td class="pm_receiver_{$vo.pm_id}">{$vo.pm_receiver}</td>
+                                <td class="pm_mobile_{$vo.pm_id}">{$vo.pm_mobile}</td>
+                                <td class="pm_address_{$vo.pm_id}">{$vo.pm_address}</td>
+                            <td>
+                               <span class="select-box">
+                                  <select class="select_{$vo.pm_id}" size="1" name="demo1">
+                                    <option value="1">中通快递</option>
+                                    <option value="2">顺丰快递</option>
+                                    <option value="3">申通快递</option>
+                                    <option value="4">韵达快递</option>
+                                    <option value="5">圆通快递</option>
+                                    <option value="6">天天快递</option>
+                                    <option value="7">龙邦快递</option>
+                                    <option value="8">其他</option>
+                                  </select>
+                                </span>
+                            </td>
+                                <td class="td_order_info">
+                                    <input type="text" class="input-text express_num_{$vo.pm_id}"  placeholder="快递单号">
+                                </td>
+                                <td class="td_order_info">
+                                    <input type="text" class="input-text seller_name_{$vo.pm_id}"  placeholder="卖家姓名">
+                                </td>
+                                <td class="td_order_info">
+                                    <input type="text" class="input-text seller_mobile_{$vo.pm_id}"  placeholder="联系电话">
+                                </td>
+                            <td pm_id="{$vo.pm_id|default=0}" pg_spec="{$vo.pg_spec|default=0}" pm_addressid="{$vo.pm_addressid|default=0}">
+                                <button type="button" class="btn size-MINI btn-info " onclick="express('{$vo.pm_id}','{$vo.pg_spec}')">立即发货</button>
+                                {if condition="$vo.pm_order_status > 0 and $vo.pm_order_status < 2"}
+                                    {if condition="$vo.pm_addressid > 0"}
+                                        <button type="button" class="btn size-MINI btn-warning bottom5 address_edit" onclick="">修改收货地址</button>
+                                    {else/}
+                                        <button type="button" class="btn size-MINI btn-danger bottom5 address_edit" onclick="">添加收货地址</button>
+                                    {/if}
+                                {/if}
+                                <button class="btn size-MINI btn-success pop_rank bottom5">好友点赞榜</button>
+                                <button class="btn size-MINI btn-warning order_info">订单详情</button>
+                            </td>
+                            {else /}
+                                <td>{$vo.pg_id}</td>
+                                <td>{$vo.pg_sn}</td>
+                                <td><img src="{$vo.pg_img|default='/static/image/index/pic_home_taplace@2x.png'}" class='img_big'></td>
+                                <td class="review"><p class="my_pgname" title="{$vo.pg_name}">{$vo.pg_name}</p></td>
+                                <!--<td class="review"><p class="my_second_name" title="{$vo.pg_second_name}">{$vo.pg_second_name}</p></td>-->
+                                <td>{notempty name='vo.add_time'}{$vo.add_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                                <td>{$vo.pg_market_price}</td>
+                                <td>{$vo.pg_price}</td>
+                                <td>{$vo.pg_membernum}</td>
+                                <td>{if condition="$vo.pg_state == 1"}参拍中{else/}参拍完成{/if}</td>
+                                <td class="pg_periods">{$vo.pg_periods}</td>
+                                <td>{$vo.pg_chosen_num}</td>
+                                <td>{$vo.pg_membernum}</td>
+                                <td>{$vo.count_pm_num}</td>
+                                <td>{if condition="$vo.pg_type == 1"}线上开奖{elseif condition="$vo.pg_type == 2"}线上+线下{else/}线下{/if}</td>
+                                <!--<td>{notempty name='vo.update_time'}{$vo.update_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>-->
+                                <td>{notempty name='vo.end_time'}{$vo.end_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                                {/if}
+                                <td>
+                                    <!--<p>-->
+                                    <!--<a href="/business/popularitygoods/edit.html?pg_id={$vo.pg_id}">编辑</a>-->
+                                    <!--</p>-->
+                                    <p>
+                                        <span class="add-pm">添加擂主</span>
+                                    </p>
+                                    <p>
+                                        <a href="/business/Poporder/pm_list/pg_id/{$vo.pg_id}">人气擂主列表</a>
+                                    </p>
+                                    {if condition="$vo.is_over == 1"}
+                                    <p style="color:green;margin: 0;">已成团</p>
+                                    {elseif condition="$vo.pg_state == 10"/}
+                                    <p style="color:orange;margin: 0;">未成团</p>
+                                    {else/}
+                                    <p class="btn btn-sm btn-warning now_publish" style="display: none;" >立即成团</p>
+                                    {/if}
+                                    <!-- <div class="select_body">
+                                        <span class="header_title">人气擂主列表</span>
+                                        <img src="__STATIC__/image/goods/icon_shang@2x.png" class="upimg">
+                                        <img src="__STATIC__/image/goods/icon_xia@2x.png" class="upimg select_pic">
+                                    </div> -->
+                                </td>
+
+
+                        </tr>
+                    {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="page_box pull-right" style="">
+                <span class="pagi_bar pull-right">共&nbsp;{$total}&nbsp;条</span>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<img alt="" style="display:none" id="displayImg" src="" />
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+    <script type="text/javascript" src="/static/h-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+    <script type="text/javascript" src="/static/js/Public.js"></script>
+<script>
+    //导出当前添加的excel
+    //协议
+    var ht = window.location.protocol;
+    //域名
+    var url = window.location.host;
+    //完整的域名
+    var totao_url = window.location.href;
+    var info = totao_url.replace(ht + '//' + url + '/business/Poporder/goods_list'  ,'');
+    var new_url =  '/business/Poporder/goods_list/excel/1' + info;
+    $('.current_condition').attr('href',  new_url);
+    //点击发货
+    function express(pm_id,pg_spec){
+        if(pg_spec == 1){
+                var pm_receiver     =   $('.pm_receiver_' + pm_id).html();
+                var pm_mobile       =   $('.pm_mobile_' + pm_id).html();
+                var pm_address      =   $('.pm_address_' + pm_id).html();
+                if(!pm_receiver || !pm_mobile || !pm_address){
+                    layer.msg("<span style='color:#fff'>收货人信息不完整</span>", {
+                        time: 2000
+                    });
+                    return false;
+                }
+                var express_corid   =   $('.select_' + pm_id).val();
+                var express_way     =   $('.select_' + pm_id).find("option:selected").text();
+                var express_num     =   $('.express_num_' + pm_id).val();
+                var seller_name     =   $('.seller_name_' + pm_id).val();
+                var seller_mobile   =   $('.seller_mobile_' + pm_id).val();
+                //数据验证
+                if(!pm_id){
+                    layer.msg("<span style='color:#fff'>参数错误</span>", {
+                        time: 2000
+                    });
+                    return false;
+                }
+                if(!express_corid || !express_way){
+                    layer.msg("<span style='color:#fff'>请选择快递公司</span>", {
+                        time: 2000
+                    });
+                    return false;
+                }
+                if(seller_name==""){
+                    layer.msg("<span style='color:#fff'>卖家姓名不能为空</span>",{
+                        time:2000
+                    });
+                    return false;
+                }
+                var tel_reg =/^1[3-9][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/;
+                if(seller_mobile==""){
+                    layer.msg("<span style='color:#fff'>联系电话不能为空</span>",{
+                        time:2000
+                    });
+                    return false;
+                }
+            $.ajax({
+                url: "/business/Poporder/fahuo_do",
+                dataType: 'json',
+                type: 'POST',
+                data: {pm_id:pm_id,express_corid: express_corid,express_way:express_way,express_num:express_num,seller_name:seller_name,seller_mobile:seller_mobile},
+                success: function (data) {
+                    if(!data.status){
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                    }else{
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        $('.tr_'+pm_id).remove();
+                    }
+                }
+            });
+        }else{
+            //询问框
+            var gs_name = '';
+            if(pg_spec == 3){
+                gs_name = "大宗商品";
+            }else{
+                gs_name = "虚拟商品";
+            }
+            layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url: "/business/Poporder/send_out",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {pm_id:pm_id},
+                    success: function (data) {
+                        if(!data.status){
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                time:2000
+                            });
+                        }else{
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                time:2000
+                            });
+                            $('.tr_'+pm_id).remove();
+                        }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        }
+
+
+    }
+    $(function(){
+        // 人气擂主列表
+        $(".select_body").click(function(){
+            $(this).find(".select_pic").removeClass("select_pic").siblings("img").addClass("select_pic");
+            var this_parent = $(this).parents(".popgoods");
+            var this_list_body = this_parent.next(".popmem_list").find(".list_body");
+            if(this_list_body.hasClass("body_active")){
+                this_parent.removeClass("body_active");
+                this_list_body.removeClass("body_active").hide(200);
+            }else{
+                this_parent.addClass("body_active");
+                this_list_body.addClass("body_active").show(200);
+            }
+        });
+
+        // 设为幸运者
+        $(".set_lucky").click(function(){
+            var pm_id = $(this).attr("pm_id");
+            var this_btn = $(this);
+            layer.confirm('您确定要将此人设置为幸运者吗？', {
+                btn: ['是的','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url: "/business/Poporder/set_lucky",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {pm_id: pm_id},
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.status != 8) {
+                            // 失败提示
+                            layer.alert(data.msg,{icon:2});
+
+                        }else {
+                            //成功
+                            layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                                time: 3000
+                            });
+                            this_btn.parents(".list_info").siblings(".list_info").find(".td_pm_status>span").html("未中奖").css("color","#333");
+                            this_btn.parents(".list_info").find(".td_pm_status>span").html("幸运者").css("color","#008000");
+                        }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        });
+
+        //商品预览
+        $(".review").click(function(){
+            var pg_id = $(this).parents(".popgoods").attr("pg_id");
+            layer.open({
+                type: 2,
+                title: '人气活动详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/popularity/popularitygoods/commodity_info/pg_id/'+pg_id
+            });
+
+        });
+
+        // 图片放大
+        $(".img_big").click(function(){
+            var src = $(this).attr("src");
+            $("#displayImg").attr("src", src);
+            var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+            var width = $("#displayImg").width();
+            var rate = height / width;
+            var win_width = $(window).width();
+            var win_height = $(window).height();
+            if(width > win_width/2){
+                width = win_width/2;
+                height = width * rate;
+            }
+            if(height > win_height){
+                var h_rate = win_height / height;
+                height = win_height;
+                width = width * h_rate;
+            }
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                area: [width + 'px', height + 'px'], //宽高
+                content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+            });
+        });
+
+        // 立即成团
+        $(".now_publish").click(function(){
+            var pg_id = $(this).parents(".popgoods").attr("pg_id");
+            var periods = $(this).parents(".popgoods").find(".pg_periods").text();
+
+            var this_btn = $(this);
+            this_btn.attr("disabled",true);
+            layer.confirm('您的操作会立即终止此商品的本期活动，并选取第一名为人气王，入选用户为成为人气王的将赠送积分奖励，您是否确认此操作？', {
+                closeBtn: 0,
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                $.ajax({
+                    url: "/business/Poporder/now_publish",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {pg_id: pg_id,periods:periods},
+                    success: function (data) {
+                        this_btn.attr("disabled",false);
+                        layer.closeAll();
+                        if (data.status != 8) {
+                            // 失败提示
+                            layer.alert(data.msg,{icon:2});
+                        }else {
+                            //成功
+                            layer.alert(data.msg, {
+                                skin: 'layui-layer-molv' //样式类名
+                                ,closeBtn: 0
+                            }, function(){
+                                window.location.reload();
+                            });
+                        }
+                    }
+                });
+            }, function(){
+                this_btn.attr("disabled",false);
+                layer.closeAll();
+            });
+        });
+
+        // 机器人列表
+        $(".add-pm").click(function(){
+            var pg_id = $(this).parents(".popgoods").attr("pg_id");
+            layer.open({
+                type: 2,
+                title: '机器人列表',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['400px', '90%'],
+                content: '/business/Poporder/robot_list/pg_id/'+pg_id
+            });
+        });
+        //订单状态
+        function o_state(num){
+            var start_time = $('.start_time').val();
+            var end_time = $('.end_time').val();
+            if(start_time && end_time){
+                location.href='/business/Poporder/goods_list/o_state/' + num + '/start_time/' + start_time + '/end_time/' + end_time;
+            }else{
+                location.href='/business/Poporder/goods_list/o_state/' + num ;
+
+            }
+        }
+        //订单状态
+        $(".pg_state").click(function(){
+            location.href='/business/Poporder/goods_list/pg_state/1';
+        })
+
+    })
+    //时间控件
+    function selecttime(flag){
+        if(flag==1){
+            var endTime = $("#countTimeend").val();
+            if(endTime != ""){
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }else{
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }
+        }else{
+            var startTime = $("#countTimestart").val();
+
+            var t = new Date();//当前时间
+            var t_s = t.getTime();//转化为时间戳毫秒数
+            t.setTime(t_s + 1000 * 60 * 10);//设置新时间比旧时间多十分钟;
+
+            //标准日期转标准时间
+            var t3 = new Date(startTime);
+            //标准时间转毫秒数
+            var result = t3.getTime();
+            t3.setTime(result + 1000 * 60 * 60 * 24 *60);//设置新时间比旧时间多60天;
+
+            if(startTime != ""){
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:startTime,maxDate:msToDate(t3).wasTime})
+            }else{
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }
+        }
+    }
+    //导出当前添加的excel
+    //协议
+    var ht = window.location.protocol;
+    //域名
+    var url = window.location.host;
+    //完整的域名
+    var totao_url = window.location.href;
+    var info = totao_url.replace(ht + '//' + url + '/business/Poporder/goods_list'  ,'');
+    var new_url =  '/business/Poporder/goods_list/excel/1' + info;
+    //订单状态
+    function o_state(num){
+        var start_time = $('.start_time').val();
+        var end_time = $('.end_time').val();
+        if(start_time && end_time){
+            location.href='/business/Poporder/goods_list/pm_order_status/' + num + '/start_time/' + start_time + '/end_time/' + end_time;
+        }else{
+            location.href='/business/Poporder/goods_list/pm_order_status/' + num ;
+        }
+    }
+    // 立即发货
+    $(".lijifahuo").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        var pg_spec = $(this).parents("td").attr("pg_spec");
+        var pm_addressid = $(this).parents("td").attr("pm_addressid");
+
+        if(pm_addressid == 0){
+            layer.confirm('买家没有点填写收货地址，请提醒买家填写收货地址！', {
+                btn: ['已获得地址','确定'] //按钮
+                ,icon: 2
+                ,skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            }, function(){
+                layer.closeAll();
+                layer.open({
+                    type: 2,
+                    title: '物流信息页',
+                    shadeClose: true,
+                    shade: 0.5,
+                    area: ['380px', '90%'],
+                    content: '/business/Poporder/address/pm_id/'+pm_id+'/is_layer/1'
+                });
+            }, function(){
+                layer.closeAll();
+            });
+            return false;
+        }
+        if(pg_spec == 1){
+            layer.open({
+                type: 2,
+                title: '物流信息页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/Orderpai/new_pop_logistics/pm_id/'+pm_id+'/is_layer/1'
+            });
+        }else{
+            //询问框
+            var gs_name = '';
+            if(pg_spec == 3){
+                gs_name = "大宗商品";
+            }else{
+                gs_name = "虚拟商品";
+            }
+            layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    type: 'post',
+                    url: '/member/orderpai/send_out',
+                    dataType: 'json',
+                    data:{o_id:o_id},
+                    success: function (data) {
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        if(data.status > 0){
+                            setTimeout(function () {
+                                layer.closeAll();
+                                window.location.reload();
+                            }, 1000)
+                        }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        }
+    });
+
+    // 发货信息
+    $(".fahuoxinxi").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '发货信息',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/member/Orderpai/pop_order_logistics/pm_id/'+pm_id+'/is_seller/1'
+        });
+    });
+
+    // 好友点赞榜
+    $(".pop_rank").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '发货信息',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/popularity/popularityorder/pop_rank/pm_id/'+ pm_id
+        });
+    });
+
+    // 修改地址 或 添加地址
+    $(".address_edit").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '物流信息页',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/business/Poporder/address/pm_id/'+pm_id+'/is_layer/1'
+        });
+    });
+    // 订单详情
+    $(".order_info").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '订单详情（注意：客户数据，请谨慎操作！）',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/popularity/popularityorder/order_info/pm_id/'+pm_id
+        });
+    });
+</script>
+{/block}

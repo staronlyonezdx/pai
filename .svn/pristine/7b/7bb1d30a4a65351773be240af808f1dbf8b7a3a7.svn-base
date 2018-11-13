@@ -1,0 +1,56 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>文章分类列表</label>
+                <a class="pull-right" href="{:url('Articletype/edit')}">添加分类</a>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>文章分类ID</th>
+                    <th>文章分类名称</th>
+                    <th>父级分类</th>
+                    <th>分类状态</th>
+                    <th>文章分类管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.at_id}</th>
+                    <td>{$vo.at_name}</td>
+                    <td>{$vo.pname}</td>
+                    <td>{if condition="$vo.at_state == 0"}显示{else/}不显示{/if}</td>
+                    <td>
+                        <a href="{:url('Articletype/edit',['at_id' => $vo.at_id])}">
+                            编辑
+                        </a>
+                        <a href="{:url('Articletype/delete',['at_id' => $vo.at_id])}" class="dele_btn">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{/block}
+

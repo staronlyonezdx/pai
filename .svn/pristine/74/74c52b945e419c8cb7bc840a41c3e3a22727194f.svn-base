@@ -1,0 +1,57 @@
+var isIphoneX = window.devicePixelRatio && window.devicePixelRatio === 3 && window.screen.width === 375 && testUA('iPhone')
+
+if (isIphoneX) {
+    check()
+    window.onscroll = throttle(check, 200)
+}
+
+function check() {
+    // 处理lib-flexible放大viewport的情况
+    var scale = window.innerWidth / window.screen.width;
+    // var foot = document.querySelector('.footer_tab');
+    var phonex = document.querySelector('.phonex');
+
+    // 部分浏览器在滚动页面时会显示/隐藏工具栏，影响视口高度。在有底部工具栏的情况下，不做iPhoneX的fix。100为经验值
+    if (window.screen.height - window.innerHeight / scale < 100) {
+        // console.log(11);
+        // document.body.classList.add('fix-iphonex-bottom');
+        // foot.style.paddingBottom = 0.34+'rem';
+        // console.log(phonex);
+        if(phonex!=null){
+            phonex.style.paddingBottom = 0.34 + 'rem';
+        }
+        
+    } else {
+        // console.log(22);
+        // document.body.classList.remove('fix-iphonex-bottom');
+        // foot.style.paddingBottom = 0;
+        phonex.style.paddingBottom = 0;
+    }
+}
+
+function testUA(str) {
+    return navigator.userAgent.indexOf(str) > -1
+}
+
+function throttle(func, wait) {
+    var ctx, args, rtn, timeoutID; // caching
+    var last = 0;
+
+    return function throttled() {
+        ctx = this;
+        args = arguments;
+        var delta = new Date() - last;
+        if (!timeoutID)
+            if (delta >= wait) call();
+            else timeoutID = setTimeout(call, wait - delta);
+        return rtn;
+    };
+
+    function call() {
+        timeoutID = 0;
+        last = +new Date();
+        rtn = func.apply(ctx, args);
+        ctx = null;
+        args = null;
+    }
+}

@@ -1,0 +1,140 @@
+.evaluation_top{
+	background: #fff;
+	padding-top: 0.29rem;
+	padding-bottom: 0.29rem;
+	width:7.5rem;
+	border-bottom:0.01rem solid #f5f5f5;
+}
+.evaluation_top_img{
+	width:0.6rem;
+	height:0.6rem;
+	margin-left:0.3rem;
+	border-radius:50%;
+	overflow: hidden;
+}
+.evaluation_top_img img{
+	width:100%;
+	height: 100%;
+}
+.evaluation_top_name{
+	width:6.08rem;
+	margin-right: 0.3rem;
+	margin-top: 0.06rem;
+}
+.evaluation_top_name p{
+	font-size: 0.29rem;
+	color:#333333;
+	font-weight: 600;
+}
+.evaluation_top_btn{
+	width:1.2rem;
+	height:0.48rem;
+	border:1px solid #333333;
+	text-align: center;
+	line-height: 0.48rem;
+	font-size: 0.29rem;
+	border-radius: 0.1rem;
+	color:#333333;
+	font-weight: 600;
+}
+.review_blank{
+    width:7.5rem;
+    padding-top: 0.83rem;
+}
+.review_blank img{
+    width:3.6rem;
+    height:2.29rem;
+    margin:0 auto;
+    display: block;
+}
+.review_blank p{
+    text-align: center;
+    color:#666666;
+    font-size: 0.24rem;
+}
+.evaluation_list{
+	width:7.5rem;
+	padding-top: 0.36rem;
+	padding-bottom: 0.4rem;
+	background:#fff;
+	border-bottom: 0.01rem solid #f5f5f5;
+}
+.evaluation_main{
+	height:1.6rem;
+	margin-left: 0.3rem;
+	margin-right: 0.3rem;
+	background: #f2f2f2;
+}
+.evaluation_main_img{
+	width:1.6rem;
+	height:1.6rem;
+	overflow: hidden;
+}
+.evaluation_main_img img{
+	width:100%;
+	height:100%;
+}
+.evaluation_main_text{
+	width:5rem;
+	font-size: 0.24rem;
+	color:#e54545;
+}
+.evaluation_main_text p{
+	margin-right: 0.1rem;
+	margin-top: 0.18rem;
+	color:#333333;
+	font-size: 0.26rem;
+	margin-bottom: 0.2rem;
+}
+.evaluation_main_text span{
+	color:#e54545;
+	font-size: 0.32rem;
+}
+.evaluation_main_content{
+	width:7.5rem;
+	background: #fff;
+	padding-top: 0.24rem;
+}
+.evaluation_main_con{
+	margin-left: 0.3rem;
+	margin-right: 0.3rem;
+}
+.evaluation_main_con p{
+	color:#333333;
+	font-size: 0.28rem;
+	margin-bottom: 0.2rem;
+}
+.evaluation_main_con span{
+	color:#b3b3b3;
+	font-size: 0.24rem;
+}
+.evaluation_img_view{
+	margin-top: 0.16rem;
+}
+.evaluation_img_con{
+	margin-left: 0.3rem;
+	margin-right: 0.3rem;
+
+}
+.evaluation_img_list{
+	width:1.6rem;
+	height:1.6rem;
+	margin-left: 0.165rem;
+}
+.evaluation_img_list:first-child{
+	margin-left: 0rem;
+}
+.evaluation_img_list img{
+	width:100%;
+	height:100%;
+	object-fit: cover;
+}
+.evaluation_img_two{
+	width:3.36rem;
+	height:3.36rem;
+}
+.evaluation_img_two img{
+	width:100%;
+	height:100%;
+	object-fit: cover;
+}

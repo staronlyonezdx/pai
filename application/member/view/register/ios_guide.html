@@ -1,0 +1,19 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/core/tj_success.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="ios-guide">
+        <img src="__STATIC__/image/guide/ios_guide.png" />
+        <a href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/tiger50906/paiyy/master/final/paiyy.plist"></a>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+
+{/block}

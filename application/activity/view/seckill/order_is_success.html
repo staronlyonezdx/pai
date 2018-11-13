@@ -1,0 +1,90 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/payment_success.css">
+{/block}
+{block name="header"}
+<!--{include file="common/header" /}-->
+<div class="header_nav">
+    <div class="header_view clear">
+        <div class="header_back" onClick="javascript :history.back(-1);">
+            <img src="__STATIC__/image/goods/icon_nav_back@2x.png">
+        </div>
+
+        <div class="header_tit">
+            支付成功
+        </div>
+
+        <!--<div class="header_tit">-->
+            <!--支付失败-->
+        <!--</div>-->
+
+    </div>
+</div>
+{/block}
+{block name="content"}
+<main>
+    <!--支付成功-->
+    <div class="payment_success">
+        <div class="payment_success_tit ">
+            <div class="payment_success_con clear">
+                <span>
+                  <img src="__STATIC__/image/orderpai/icon_gou@2x.png">
+                  订单支付成功
+                </span>
+                <a href="/member/Orderpai/index/o_id/j_type/1">
+                    <div class="rt">查看订单</div>
+                </a>
+            </div>
+        </div>
+        <div class="payment_success_bottom">
+            <div class="payment_success_list clear">
+                <p class="lf">支付方式</p>
+
+                <p class="rt">
+                    余额支付
+                </p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">订单时间</p>
+                <p class="rt">2018-06-25 12:32</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">订单编号</p>
+                <p class="rt">12345678</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">订单金额</p>
+                <p class="rt">￥87.24</p>
+            </div>
+        </div>
+        <div class="payment_success_border"></div>
+    </div>
+    <div class="payment_success_chilun">
+        <img src="__STATIC__/image/orderpai/icon_chilun@2x.png">
+    </div>
+    <a href="/"><div class="payment_success_btn">再去逛逛宝贝~</div></a>
+    <!--订单支付失败-->
+    <div class="payment_failure">
+        <div class="payment_failure_img">
+            <img src="__STATIC__/image/orderpai/icon_X@2x.png" alt="">
+        </div>
+        <p>订单支付失败</p>
+        <span>系统发生错误订单支付失败 请再次尝试支付</span>
+    </div>
+        <div class="payment_failure_btn">再次支付</div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(function () {
+        // 返回首页
+        $(".payment_success_btn").click(function () {
+            window.location.href = "/index/index/index";
+        });
+        $('.payment_failure_btn').click(function(){
+            window.location.href = '/activity/seckill/confirm_order'
+        })
+    })
+</script>
+{/block}

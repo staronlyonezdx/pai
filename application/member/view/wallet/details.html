@@ -1,0 +1,145 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+    <!--<h2>余额明细（demo页面）</h2>-->
+    <!--<div>-->
+        <!--<div>-->
+            <!--{switch name="info.ml_type" }-->
+            <!--{case value="reduce" }支出金额{/case}-->
+            <!--{case value="add"}收入金额{/case}-->
+            <!--{/switch}-->
+            <!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+            <!--{switch name="info.ml_type" }-->
+            <!--{case value="reduce" }-{/case}-->
+            <!--{case value="add"}+{/case}-->
+            <!--{/switch}-->
+            <!--<span>{$info.ml_money}</span>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<span>交易类型-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+                <!--{switch name="info.ml_type" }-->
+                <!--{case value="reduce" }支出{/case}-->
+                <!--{case value="add"}收入{/case}-->
+                <!--{/switch}</span>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--交易时间-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.add_time|date='Y-m-d H:i',###}-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--流水单号-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.ml_id}-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--备注&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+            <!--{switch name="info.ml_reason" }-->
+            <!--{case value="1" }提现{/case}-->
+            <!--{case value="2"}充值{/case}-->
+            <!--{case value="2"}邀请{/case}-->
+            <!--{/switch}-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!--<div>-->
+            <!--<span>交易类型-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+                <!--{switch name="info.ml_type" }-->
+                <!--{case value="reduce" }支出{/case}-->
+                <!--{case value="add"}收入{/case}-->
+                <!--{/switch}</span>-->
+<!--</div>-->
+<!--<div>-->
+    <!--交易时间-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.add_time|date='Y-m-d H:i',###}-->
+<!--</div>-->
+<!--<div>-->
+    <!--流水单号-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.ml_id}-->
+<!--</div>-->
+<!--<div>-->
+    <!--备注&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+    <!--{switch name="info.ml_reason" }-->
+    <!--{case value="1" }提现{/case}-->
+    <!--{case value="2"}充值{/case}-->
+    <!--{case value="2"}邀请{/case}-->
+    <!--{/switch}-->
+<!--</div>-->
+<!--=======-->
+<!--<div>-->
+            <!--<span>交易类型-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+                <!--{switch name="info.ml_type" }-->
+                <!--{case value="reduce" }支出{/case}-->
+                <!--{case value="add"}收入{/case}-->
+                <!--{/switch}</span>-->
+<!--</div>-->
+<!--<div>-->
+    <!--交易时间-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.add_time|date='Y-m-d H:i',###}-->
+<!--</div>-->
+<!--<div>-->
+    <!--流水单号-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.ml_id}-->
+<!--</div>-->
+<!--<div>-->
+    <!--备注&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;{$info.ml_reason ?? ''}-->
+<!--</div>-->
+
+
+
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/payment_success.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/details.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--收入-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main >
+    <div class="payment_success">
+        <div class="payment_success_tit ">
+            <div class="payment_success_con clear">
+                <span>
+                  收入金额
+                </span>
+                <p class="rt">+3,975.42</p>
+            </div>
+        </div>
+        <div class="payment_success_bottom">
+            <div class="payment_success_list clear">
+                <p class="lf">交易类型</p>
+                <p class="rt">收入</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">交易时间</p>
+                <p class="rt">2018-6-25 12:32</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">流水单号</p>
+                <p class="rt">8529305682085408</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">备注</p>
+                <p class="rt">未团中 自动退款</p>
+            </div>
+        </div>
+        <div class="payment_success_border"></div>
+    </div>
+    <div class="payment_success_chilun">
+        <img src="__STATIC__/image/wallet/icon_chilun@2x.png">
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

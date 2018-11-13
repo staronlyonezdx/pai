@@ -1,0 +1,139 @@
+var mySwiper = new Swiper('.swiper-container', {
+    direction: 'horizontal',//滚动方向
+    loop: false,//循环
+    pagination: '.swiper-pagination',//分页器标签
+    paginationClickable: true,//分页器
+    autoplay: false,//自动轮播
+    autoplayDisableOnInteraction: false,//用户操作swiper之后，是否禁止autoplay。默认为 true：停止。false是播放
+    paginationType: 'custom',//自定义-分页器样式类型（前提）
+    onSlideChangeStart: function (swiper) {
+        var index = swiper.activeIndex;
+        // alert(index);
+        // alert(swiper.activeIndex) //切换结束时，告诉我现在是第几个slide
+        $(".swiper-slide").find(".lists-view").html('');
+        var result = '';
+        $.ajax({
+            type: 'GET',
+            url: 'my_goods',
+            dataType: 'json',
+            data: {g_state: index, page: 1, num: 5},
+            success: function (data) {
+                console.log(data);
+                var arrLen = data.list.length;
+                if (arrLen > 0) {
+                    for (var i = 0; i < arrLen; i++) {
+                        result += data.list[i];
+                    }
+                } else {
+
+                }
+                $(".content" + index).find('.lists-view').append(result);
+            },
+        });
+    },
+
+    //设置自定义分页器的内容
+    paginationCustomRender: function (swiper, current, total) {
+        var customPaginationHtml = "";
+        var t = "";
+        for (var i = 0; i < total; i++) {
+            if (i == 0) {
+                t = "全部"
+            } else if (i == 1) {
+                t = "竞拍中"
+            } else if (i == 2) {
+                t = "草稿箱"
+            }
+            else if (i == 3) {
+                t = "审核中"
+            }
+            else if (i == 4) {
+                t = "已失败"
+            }
+            //判断哪个分页器此刻应该被激活
+            if (i == (current - 1)) {
+                customPaginationHtml += '<span class="swiper-pagination-bullet swiper-pagination-bullet-active"><span>' + t + '</span></span>';
+            } else {
+                customPaginationHtml += '<span class="swiper-pagination-bullet"><span>' + t + '</span></span>';
+            }
+        }
+        return customPaginationHtml;
+        // }
+    },
+
+});
+function clic(){
+    
+}
+var index = 0;
+$('.swiper-pagination').on('click', '.swiper-pagination-bullet', function () {
+    index = $(this).index();
+    $(".swiper-slide").find(".lists-view").html('');
+    mySwiper.slideTo(index, 500, false);//切换到第一个slide，速度为1秒
+    var result = '';
+    $.ajax({
+        type: 'GET',
+        url: 'my_goods',
+        dataType: 'json',
+        data: {g_state: index, page: 1, num: 5},
+        success: function (data) {
+            console.log(data);
+            var arrLen = data.list.length;
+            if (arrLen > 0) {
+                for (var i = 0; i < arrLen; i++) {
+                    result += data.list[i];
+                }
+            } else {
+
+            }
+            $(".content" + index).find('.lists-view').append(result);
+        },
+    });
+});
+$(".swiper-slide").each(function (e) {
+    mydropload($(this), $(this).index());
+})
+$("body").height($(window).height());
+// $(".content-view").height($(window).height()+100);
+function mydropload(ele, indexs) {
+    // console.log(indexs);
+    // 页数
+    var page = 0;
+    // 每页展示2个
+    var size =5;
+    ele.dropload({
+        scrollArea: ele,
+        loadDownFn: function (me) {
+            page++;
+            var result = '';
+            $.ajax({
+                type: 'GET',
+                url: 'my_goods',
+                dataType: 'json',
+                data: {g_state: indexs, page: page, num: size},
+                success: function (data) {
+                    console.log(page);
+                    var arrLen = data.list.length;
+                    if (arrLen > 0) {
+                        for (var i = 0; i < arrLen; i++) {
+                            result += data.list[i];
+                        }
+                    } else {
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    // 插入数据到页面，放到最后面
+                    ele.find('.lists-view').append(result);
+                    // 每次数据插入，必须重置
+                    me.resetload();
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function () {
+
+                    }, 1000);
+                }
+            });
+        },
+    })
+}

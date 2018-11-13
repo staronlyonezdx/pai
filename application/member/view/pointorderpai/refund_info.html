@@ -1,0 +1,69 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/common/common.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/refund_info.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--&lt;!&ndash; fvafds &ndash;&gt;-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--退款进度-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    <div class="refund_main">
+        <div class="refund_view clear">
+            <div class="refund_img lf">
+                <img src="__STATIC__/image/orderpai/icon_jindu@2x.png">
+            </div>
+            <div class="refund_new lf">
+                <div class="refund_first">
+                    <p>退款已成功</p>
+                    <span>退回的款项已返还至您的钱包账户</span>
+                    </br>
+                    <span>2018.06.26 12:42</span>
+                </div>
+                <div class="success_list">
+                    <p>进入后台审核</p>
+                    <span>退款将在三个工作日内到账</span>
+                    </br>
+                    <span>2018.06.26 12:42</span>
+                </div>
+                <div class="success_list">
+                    <p>退款已发起</p>
+                    <span>未团中商品 系统将自动退款</span>
+                    </br>
+                    <span>2018.06.26 12:42</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="refund_bot">
+        <div class="refund_bot_list clear">
+            <span>订单编号</span>
+            <span class="refund_bot_rt rt">8545368234623</span>
+        </div>
+        <div class="refund_bot_list clear">
+            <span>退款金额</span>
+            <span class="refund_bot_rt rt">￥34.32</span>
+        </div>
+        <div class="refund_bot_list clear">
+            <span>退款原因</span>
+            <span class="refund_bot_rt rt">系统自动退款</span>
+        </div>
+    </div>
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

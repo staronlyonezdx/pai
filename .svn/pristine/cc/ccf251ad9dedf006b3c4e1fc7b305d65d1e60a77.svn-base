@@ -1,0 +1,226 @@
+.index_search{
+    width: 0.56rem;
+    height: 0.56rem;
+}
+.index_search img{
+    width: 100%;
+    height: 100%;
+}
+body{
+    background: white;
+}
+.all_list_item {
+    border-bottom: 0.01rem rgba(245,245,245,1) solid;
+}
+
+.all_list_left {
+    margin-left: 0.31rem;
+    margin-top: 0.3rem;
+    width: 4.1rem;
+    margin-bottom: 0.39rem;
+}
+
+.all_list_name {
+    font-size: 0.3rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 2; /** 显示的行数 **/
+    overflow: hidden;  /** 隐藏超出的内容 **/
+
+}
+
+.all_list_info {
+    margin-top: 0.13rem;
+    margin-bottom: 0.14rem;
+}
+
+.winner_avert {
+    width: 0.38rem;
+    height: 0.38rem;
+    background: #0a70c2;
+}
+
+.winner_name {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(21, 21, 21, 1);
+    line-height: 0.3rem;
+    margin-left: 0.2rem;
+}
+
+.winner_tip {
+    width: 0.5rem;
+    height: 0.3rem;
+    margin-left: 0.16rem;
+}
+
+.all_list_data {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(170, 170, 170, 1);
+    line-height: 0.4rem;
+}
+
+.all_list_img {
+    width: 2.4rem;
+    height: 1.8rem;
+    background: #0C0C0C;
+    margin-top: 0.3rem;
+    margin-right: 0.3rem;
+    margin-left: 0.37rem;
+    border-radius: 0.1rem;
+}
+
+.details_tit_top {
+    /*margin-left: 0.3rem;*/
+    margin-right: 0.3rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+.details_imgs {
+    width: 0.5rem;
+    height: 0.5rem;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-left: -0.15rem;
+    border: 2px solid #fff;
+}
+.details_imgs:first-child {
+    margin: 0;
+}
+.details_imgs img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: wheat;
+}
+.details_tit_top p {
+    margin-left: 0.21rem;
+    margin-top: 0.08rem;
+    font-size: 0.24rem;
+    color: #333333;
+    font-weight: 600;
+}
+.search{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: #f5f5f5;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+.index_search_pop_top{
+    height: 1rem;
+    width: 7.5rem;
+    background: #fff;
+    border-bottom: 0.01rem solid #f5f5f5;
+}
+.index_pop_text {
+    width: 0.56rem;
+    height: 0.56rem;
+    display: block;
+    margin-top: 0.2rem;
+    margin-left: 0.3rem;
+}
+.index_pop_text img {
+    width: 100%;
+    height: 100%;
+}
+.index_search_pop_view {
+    width: 4.7rem;
+    height: 0.64rem;
+    background: #fff;
+    /* opacity: 0.5; */
+    border-radius: 0.16rem;
+    margin-top: 0.2rem;
+    margin-left: 0.3rem;
+    line-height: 0.58rem;
+    background: #F5F5F5;
+}
+.index_search_lfimg {
+    width: 0.28rem;
+    height: 0.28rem;
+    margin-top: 0.17rem;
+    margin-left: 0.24rem;
+    z-index: 4;
+    float: left;
+}
+.index_search_lfimg img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.index_search_pop_view input {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    width: 3.3rem;
+    margin-left: 0.12rem;
+    margin-top: 0.15rem;
+    border: none;
+    line-height: 0;
+    background: #F5F5F5;
+    color: #333333;
+}
+.index_search_cancel {
+    width: 0.32rem;
+    height: 0.32rem;
+    margin-right: 0.32rem;
+    margin-top: 0.16rem;
+}
+.index_search_cancel img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.index_pop_sousuo {
+    color: #000;
+    font-size: 0.26rem;
+    height: 0.54rem;
+    width: 0.96rem;
+    border-radius: 0.1rem;
+    line-height: 0.54rem;
+    margin-right: 0.3rem;
+    margin-top: 0.23rem;
+    font-weight: 600;
+    text-align: center;
+}
+.search_history{
+    background-color: white;
+    display: none;
+}
+.history_item{
+    width: 100%;
+    height: 0.88rem;
+    /*line-height: 0.88rem;*/
+    padding: 0.3rem 0.3rem 0.3rem 0.42rem;
+    box-sizing: border-box;
+    border-bottom: 0.01rem solid #f5f5f5;
+}
+.history_item span{
+    font-size:0.28rem;
+    font-family:PingFangSC-Light;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+}
+.history_item img{
+    width: 0.32rem;
+    height: 0.32rem;
+}
+.clear_all{
+    text-align: center;
+    line-height: 0.88rem;
+    font-size:0.26rem;
+    font-family:PingFangSC-Light;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+}

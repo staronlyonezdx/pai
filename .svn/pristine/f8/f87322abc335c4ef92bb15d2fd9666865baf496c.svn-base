@@ -1,0 +1,327 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/pop/common.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/upload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/mobiscroll.2.13.2.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/publish.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+  <!--<div class="header_view">-->
+    <!--<div class="header_tit">-->
+      <!--修改商品-->
+        <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+          <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png">-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+    <main>
+      <div class="content">
+        <div class="pub_list">
+            <input type=" text" name="g_name" value="{$info.g_name}"  placeholder="请输入商品标题">
+            <div class="reedit_clear">
+              <img src="__STATIC__/image/login/icon_login_clean@2x.png">
+            </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="pub_list">
+            <input type=" text" name="g_secondname" value="{$info.g_secondname}" placeholder="请输入商品的二级标题吧（选填）">
+            <div class="reedit_clear">
+              <img src="__STATIC__/image/login/icon_login_clean@2x.png">
+            </div>
+        </div>
+      </div>
+      <div class="content ">
+        <div class="pub_list index_textarea">
+            <textarea type=" text" name="g_description" class='desc' placeholder="请描述一下商品的细节吧~">{$info.g_description}</textarea>
+        </div>
+        <div class="view">
+          <div class="list clear">
+            <div class="photo lf">
+              <img src="__STATIC__/icon/publish/icon_+@2x.png">
+            </div>
+            {volist name='info.img' id='vo'}
+            <div class="photos photos1 lf img{$vo.gi_id}">
+              <img src="__CDN_PATH__{$vo.gi_name}" class="reedit_old_img img_{$vo.gi_id}" >
+              <img src="__STATIC__/icon/publish/icon_deom_del.png" class="reedit_cancel_icon" onclick='imgs({$vo.gi_id},{$info.g_id})'>
+            </div>
+             {/volist}
+            <div class="file-loading">
+                <input id="file-fr" name="g_img[]" type="file" multiple >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <form enctype="multipart/form-data"> -->
+        
+      <!-- </form> -->
+      <div class="content">
+        <div class="pub_list pub_site">
+            <div  class="pub_icons">
+              <img src="__STATIC__/icon/publish/icon_nav_dingwei@2x.png">
+            </div>
+            <input type="text" name="area_id" id="demo1" readonly="true" placeholder="选取地址" class="pub_dz"  value="{$info.address}">
+            <input id="value1" type="hidden" name="pid" value="{$info.pid}"/>
+            <div class="pub_select">
+              <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" >
+            </div>
+        </div>
+      </div>
+      <div class="content" id="classify">
+        <div class="pub_list pub_site">
+            <p class="pub_tit">商品分类</p>
+
+            <input type="text" name="" id="classify_list" readonly="true" placeholder="请选择商品分类" class="pub_ify">
+            <!-- <div style="text-align: right;margin-right:50px;">
+                <select name="gc_id" id="category">
+                    {volist name='category' id='vo'}
+                    <option {eq name="$info.gc_id" value="$vo.gc_id"}selected="selected"{/eq} value="{$vo.gc_id}">{$vo.gc_name}</option>
+                    {/volist}
+                </select>
+            </div> -->
+             <div class="pub_select">
+              <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" >
+            </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="pub_list pub_site">
+            <p class="pub_tit"> 结算价</p>
+            <input type="text" name="gp_settlement_price" value="{$info.gp_settlement_price}" placeholder="请输入与平台的最终结算价" class="pub_ify">
+        </div>
+      </div>
+      <div class="content ">
+        <div class="pub_list pub_site pub_price">
+            <p class="pub_tit">销售价</p>
+            <!-- <span>￥</span> -->
+            <input type="text" name="gp_market_price" placeholder="￥0.00" value="{$info.gp_market_price}" class="pub_ify">
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="pub_list pub_site">
+            <p class="pub_tit">参与人数</p>
+            <input type="text" name="g_peoplenumber" value="{$info.g_peoplenumber}" placeholder="设置参与商品人数" class="pub_ify">
+        </div>
+      </div>
+      <div class="content ">
+            <div class="pub_list pub_site pub_price">
+                <p class="pub_tit">市场价</p>
+                <!-- <span>￥</span> -->
+                <input type="text" name="gp_sale_price" placeholder="￥0.00" value="{$info.gp_sale_price}" class="pub_ify">
+            </div>
+      </div>
+      <div class="content content_distribution">
+        <div class="pub_list pub_site">
+            <p class="pub_tit">配送方式</p>
+            <input type="text"  name="g_express_way" readonly="true" value="{$info.g_express_way}"  placeholder="请选择配送方式" class="pub_ify">
+             <div class="pub_select">
+              <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" >
+            </div>
+        </div>
+      </div>
+        <div class="content delivery_content">
+            <div class="pub_list pub_site pub_price">
+                <p class="pub_tit">快递费</p>
+                <!-- <span>￥</span> -->
+                <input type="text" name="g_express" value="{$info.g_express}"  placeholder="0" class="pub_ify">
+            </div>
+        </div>
+        <div class="content pub_margin">
+            <div class="pub_list pub_site pub_data">
+                <p class="pub_tit">开始时间</p>
+                <div class="settings" style="display:none;">
+                    <select name="demo" id="demo2">
+                        <option value="date">日期</option>
+                    </select>
+                </div>
+                <input name="g_starttime" id="tests1" value='{$info.g_starttime|date="Y-m-d H:i",###}' class="demo-test-date demo-test-datetime demo-test-time demo-test-credit" />
+                <!--<input name="test" id="test1" class="demo-test-date demo-test-datetime demo-test-time demo-test-credit" />-->
+                <!-- <input id="value2" type="hidden" name="g_endtime"/> -->
+                <div class="pub_select">
+                    <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" >
+                </div>
+            </div>
+        </div>
+      <div class="content">
+        <div class="pub_list pub_site pub_data">
+            <p class="pub_tit">截止时间</p>
+            <div class="settings" style="display:none;">
+              <select name="demo" id="demo">
+                  <option value="date">日期</option>
+              </select>
+            </div>
+            <input name="g_endtime" id="tests"  value='{$info.g_endtime|date="Y-m-d H:i",###}' class="demo-test-date demo-test-datetime demo-test-time demo-test-credit" />
+            <!--<input name="test" id="test" class="demo-test-date demo-test-datetime demo-test-time demo-test-credit" />-->
+            <!-- <input id="value2" type="hidden" name="g_endtime"/> -->
+             <div class="pub_select">
+              <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" >
+            </div>
+        </div>
+      </div>
+      <div class="content pub_margin">
+        <div class="pub_list pub_site">
+            <p class="pub_tit">商品库存</p>
+            <input type="number" name="gp_stock" placeholder="1件" value='{$info.gp_stock}'  class="pub_dz pub_ify">
+            <div class="pub_explain">
+              <img src="__STATIC__/icon/publish/shuoming 拷贝@2x.png">
+            </div>
+        </div>
+      </div>
+      <div class="content pub_agree_view ">
+        <div class="pub_list pub_agree_input clear pub_site">
+          <img src="__STATIC__/icon/publish/icon_weixuanze@2x.png" class="pub_icon">
+          <img src="__STATIC__/icon/publish/icon_yixuanze@2x.png" class="pub_icon pub_dis">
+          <input type="checkbox" class="pub_check">
+          <div class="pub_agree">同意《拍吖吖商户注册协议》</div>
+        </div>
+      </div>
+    </main>
+    <div class="pub_submit">
+      <button type="submit" class="smt">确认提交</button>
+    </div>
+    
+    <!-- 分类的弹框 -->
+     <div class="application_popups">
+            <div class="application_menu">
+                <ul>
+                    <li><a href="##" class="">sdfds</a></li>
+                    <li><a href="##" class="">sdfds</a></li>
+                    <li><a href="##" class="">sdfds</a></li>
+                    <li><a href="##" class="">sdfds</a></li>
+                </ul>
+            </div>
+            <div class="application_content">
+                <div class="application_contentDiv">
+                    <ul class="application_tabcon">
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                              <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                              <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                             <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                              <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                    </ul>
+                     <ul class="application_tabcon">
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                              <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                              <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                             <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="##" sc_id="" class="application_two">sdfsdfds</a>
+                            <div class="application_three">
+                              <a href="##" sc_id="">12</a>
+                              <a href="##" sc_id="">4</a>
+                              <a href="##" sc_id="">5</a>
+                              <a href="##" sc_id="">7</a>
+                              <a href="##" sc_id="">8</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    </div>
+    <!-- 配送方式的弹框 -->
+    <div class="delivery_pop">
+
+      <div class="delivery_con">
+        <div class="delivery_list">
+          <p>选择配送方式</p>
+          <div class="delivery_img">
+            <img src="__STATIC__/image/login/icon_login_clean@2x.png">
+          </div>
+        </div>
+        <div class="delivery_lists">
+          <p>普通商品</p>
+          <span>邮寄配送型 需设置快递邮费  默认包邮</span>
+        </div>
+        <div class="delivery_lists">
+          <p>虚拟物品</p>
+          <span>在线发送型 在线将发送至卖家</span>
+        </div>
+        <div class="delivery_lists">
+          <p>大宗商品</p>
+          <span>线下领取型 需填写领取地址</span>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" name="" id="hidden_val" value="{$info.g_id}">
+    <!--</form>-->
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/lib/layui/layui.js"></script>
+
+<script src="__JS__/goods/jQuery.upload.js"></script>
+<script src="__JS__/goods/mobiscroll.2.13.2.js"></script>
+<script src="__JS__/common/popups.js"></script>
+<script src="__JS__/goods/publish.js"></script>
+<script src="__JS__/goods/publish1.js"></script>
+<script src="__JS__/goods/publish2.js"></script>
+{/block}

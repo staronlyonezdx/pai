@@ -1,0 +1,267 @@
+{if condition="$is_lord ==1"}
+{if condition='$m_type==0'}
+<div class="hc" style="height: 0.98rem;"></div>
+
+<footer>
+
+    <div class="footer_tab phonex">
+            <a href="/index/index">
+                <div class="footer_tab_list lf" style="width:1.875rem">
+                    {if condition="$controller=='Index'"}
+                    <img src="__STATIC__/image/myhome/icon_home_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_home_off@2x.png">
+                    {/if}
+                    <p>首页</p>
+                </div>
+            </a>
+            <a href="/member/classify/classify">
+                <div class="footer_tab_list lf" style="width:1.875rem">
+                    {if condition="$controller=='Classify'"}
+                    <img src="__STATIC__/image/myhome/icon_fenlei_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_fenlei_off@2x.png">
+                    {/if}
+                    <p>分类</p>
+                </div>
+            </a>
+
+            <a href="/member/myhome/index">
+                <div class="footer_tab_list rt" style="width:1.875rem">
+                    {if condition="$controller=='Myhome'"}
+                    <img src="__STATIC__/image/myhome/icon_user_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_user_off@2x.png">
+                    {/if}
+                    <p>我的</p>
+                </div>
+            </a>
+            {if condition="$is_read==0"}
+            <a href="/member/systemmsg/index">
+                <div class="footer_tab_list rt" style="width:1.875rem">
+                    {if condition="$controller=='Systemmsg'"}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                    {/if}
+                    <p>消息</p>
+                </div>
+            </a>
+            {else/}
+            <a href="/member/systemmsg/index">
+                <div class="footer_tab_list rt" style="width:1.875rem">
+                    {if condition="$controller=='Systemmsg'"}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                    <p class="unread"></p>
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                    <p class="unread"></p>
+                    {/if}
+                    <p>消息</p>
+                </div>
+            </a>
+            {/if}
+    </div>
+</footer>
+{/if}
+{if condition='$m_type==1'}
+<div class="hc" style="height: 1.6rem;"></div>
+<div class="footer_tab phonex">
+        <a href="/index/index">
+            <div class="footer_tab_list lf" style="width:1.875rem">
+                {if condition="$controller=='Index'"}
+                <img src="__STATIC__/image/myhome/icon_home_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_home_off@2x.png">
+                {/if}
+                <p>首页</p>
+            </div>
+        </a>
+        <a href="/member/classify/classify">
+            <div class="footer_tab_list lf" style="width:1.875rem">
+                {if condition="$controller=='Classify'"}
+                <img src="__STATIC__/image/myhome/icon_fenlei_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_fenlei_off@2x.png">
+                {/if}
+                <p>分类</p>
+            </div>
+        </a>
+
+        <a href="/member/myhome/index">
+            <div class="footer_tab_list rt" style="width:1.875rem">
+                {if condition="$controller=='Myhome'"}
+                <img src="__STATIC__/image/myhome/icon_user_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_user_off@2x.png">
+                {/if}
+                <p>我的</p>
+            </div>
+        </a>
+        {if condition="$is_read==0"}
+        <a href="/member/systemmsg/index">
+            <div class="footer_tab_list rt" style="width:1.875rem">
+                {if condition="$controller=='Systemmsg'"}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                {/if}
+                <p>消息</p>
+            </div>
+        </a>
+        {else/}
+        <a href="/member/systemmsg/index">
+            <div class="footer_tab_list rt" style="width:1.875rem">
+                {if condition="$controller=='Systemmsg'"}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                <p class="unread"></p>
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                <p class="unread"></p>
+                {/if}
+                <p>消息</p>
+            </div>
+        </a>
+        {/if}
+</div>
+{/if}
+{else/}
+{if condition='$m_type==0'}
+<div class="hc" style="height: 0.98rem;"></div>
+
+<footer>
+
+    <div class="footer_tab phonex">
+            <a href="/index/index">
+                <div class="footer_tab_list lf">
+                    {if condition="$controller=='Index'"}
+                    <img src="__STATIC__/image/myhome/icon_home_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_home_off@2x.png">
+                    {/if}
+                    <p>首页</p>
+                </div>
+            </a>
+            <a href="/member/classify/classify">
+                <div class="footer_tab_list lf">
+                    {if condition="$controller=='Classify'"}
+                    <img src="__STATIC__/image/myhome/icon_fenlei_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_fenlei_off@2x.png">
+                    {/if}
+                    <p>分类</p>
+                </div>
+            </a>
+
+            <a href="/popularity/popularitygoods/share_list">
+                <div class="footer_tab_list footer_pub lf">
+                    <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                </div>
+            </a>
+
+            <a href="/member/myhome/index">
+                <div class="footer_tab_list rt">
+                    {if condition="$controller=='Myhome'"}
+                    <img src="__STATIC__/image/myhome/icon_user_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_user_off@2x.png">
+                    {/if}
+                    <p>我的</p>
+                </div>
+            </a>
+            {if condition="$is_read==0"}
+            <a href="/member/systemmsg/index">
+                <div class="footer_tab_list rt">
+                    {if condition="$controller=='Systemmsg'"}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                    {/if}
+                    <p>消息</p>
+                </div>
+            </a>
+            {else/}
+            <a href="/member/systemmsg/index">
+                <div class="footer_tab_list rt">
+                    {if condition="$controller=='Systemmsg'"}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                    <p class="unread"></p>
+                    {else /}
+                    <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                    <p class="unread"></p>
+                    {/if}
+                    <p>消息</p>
+                </div>
+            </a>
+            {/if}
+    </div>
+</footer>
+{/if}
+{if condition='$m_type==1'}
+<div class="hc" style="height: 1.6rem;"></div>
+<div class="footer_tab phonex">
+        <a href="/index/index">
+            <div class="footer_tab_list lf">
+                {if condition="$controller=='Index'"}
+                <img src="__STATIC__/image/myhome/icon_home_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_home_off@2x.png">
+                {/if}
+                <p>首页</p>
+            </div>
+        </a>
+        <a href="/member/classify/classify">
+            <div class="footer_tab_list lf">
+                {if condition="$controller=='Classify'"}
+                <img src="__STATIC__/image/myhome/icon_fenlei_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_fenlei_off@2x.png">
+                {/if}
+                <p>分类</p>
+            </div>
+        </a>
+
+        <a href="/popularity/popularitygoods/share_list">
+            <div class="footer_tab_list footer_pub lf">
+                <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+            </div>
+        </a>
+
+        <a href="/member/myhome/index">
+            <div class="footer_tab_list rt">
+                {if condition="$controller=='Myhome'"}
+                <img src="__STATIC__/image/myhome/icon_user_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_user_off@2x.png">
+                {/if}
+                <p>我的</p>
+            </div>
+        </a>
+        {if condition="$is_read==0"}
+        <a href="/member/systemmsg/index">
+            <div class="footer_tab_list rt">
+                {if condition="$controller=='Systemmsg'"}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                {/if}
+                <p>消息</p>
+            </div>
+        </a>
+        {else/}
+        <a href="/member/systemmsg/index">
+            <div class="footer_tab_list rt">
+                {if condition="$controller=='Systemmsg'"}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_on@2x.png">
+                <p class="unread"></p>
+                {else /}
+                <img src="__STATIC__/image/myhome/icon_xiaoxi_off@2x.png">
+                <p class="unread"></p>
+                {/if}
+                <p>消息</p>
+            </div>
+        </a>
+        {/if}
+</div>
+{/if}
+{/if}

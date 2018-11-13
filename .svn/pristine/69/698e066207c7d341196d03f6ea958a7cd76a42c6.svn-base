@@ -1,0 +1,33 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/modifydata/id_check.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="real-list">
+        <div class="real-item">
+            <p>真实姓名</p><span>{$info.real_name}</span>
+        </div>
+        <div class="real-item">
+            <p>身份证号</p><span>{$info.identification}</span>
+        </div>
+        <div class="real-item">
+            <p>出生年月</p><span>{$info.birthday}</span>
+        </div>
+        <div class="real-item">
+            <p>真实性别</p><span>{$info.sex}</span>
+        </div>
+        <div class="real-item">
+            <p>真实年龄</p><span>{$info.year}</span>
+        </div>
+        <div class="real-desc">拍吖吖将保护您的隐私！</div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+
+{/block}

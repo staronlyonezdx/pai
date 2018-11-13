@@ -1,0 +1,52 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/promoters/is_apply_success.css">
+{/block}
+{block name="header"}
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span class="success">成功提交申请</span>
+            <div class="header_back">
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
+</div>
+{/block}
+{block name="content"}
+<main>
+<div class="apply">
+    <div class="progress">
+        <img src="__STATIC__/image/promoters/icon_jindu@2x.png" alt="">
+        <div class="progress_content">
+            <div class="apply_commit">
+                <p class="apply_title active">已成功提交申请</p>
+                <span class="apply_content">进入后台审核。</span>
+            </div>
+            <div class="apply_commit">
+                <p class="apply_title">审核通过</p>
+                <span class="apply_content">进入7天考核期</span>
+            </div>
+            <div class="apply_commit">
+                <p class="apply_title">通过考核</p>
+                <span class="apply_content">正式成为吖吖推广员</span>
+            </div>
+        </div>
+
+    </div>
+    <a href="/">先去逛逛呗</a>
+</div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(function () {
+$('.header_back').click(function(){
+    window.location.href = '/member/myhome/index'
+})
+    })
+
+</script>
+{/block}

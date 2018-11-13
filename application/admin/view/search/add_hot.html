@@ -1,0 +1,49 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<style>
+    .hot{
+        float:right;
+    }
+    .c{
+        clear:both;
+    }
+</style>
+{/block}
+{block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+
+                <label> {if condition='$info.psh_id != ""'}编辑{else /}添加{/if}热搜消息</label>
+                <div class="c"></div>
+            </div>
+            <form action="/admin/search/add_hot" method="post">
+                <div class="form-group from_add_margin">
+                    <label>热搜关键词</label>
+                    <input type="text" name="psh_keyword" class="form-control" placeholder="热搜关键词" value="{$info.psh_keyword|default=''}">
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>排序</label>
+                    <input type="text" name="psh_sort" class="form-control" placeholder="排序" value="{$info.psh_sort|default=''}">
+                </div>
+                <div class="form-group text-right" style="margin-top:20px">
+                    {if condition='$info.psh_id != ""'}
+                        <input type="hidden" name="psh_id" value="{$info.psh_id ?? ''}"/>
+                    {/if}
+                    <button type="submit" class="btn btn-primary">保存信息</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+{/block}
+

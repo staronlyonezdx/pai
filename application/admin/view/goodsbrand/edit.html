@@ -1,0 +1,70 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="" id="edit_form" onsubmit="return form_submit()" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>{if condition="$gb_id gt 0"}商品品牌编辑{else/}商品品牌添加{/if}</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>商品品牌名</label>
+                    <input type="text" name="gb_name" class="form-control" placeholder="商品品牌名称" value="{$info.gb_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label>品牌图标</label>
+					<div class="view">
+					    <div class="photo"></div>
+					    <div class="form-group"></div>
+					    <div class="file-loading">
+					        <input id="file-4" type="file" name="gb_img" class="file" data-upload-url="#">
+					    </div>
+                        {notempty name="info.gb_img"}
+                        <img src="__CDN_PATH__{$info.gb_img}" alt="" class="gb_img" width="100px" height="100px;" style="position: absolute;top:0;left:150px;"/>
+                        {/notempty}
+					</div>
+				</div>
+                <div class="form-group">
+
+                    <label>品牌状态</label></br>
+                    <div class="edit_float">
+	                    <input type="radio" name="gb_state" class="" {notempty name="$info"}{if condition="$info.gb_state == 0"}checked{/if}{/notempty} value="0">
+	                    <span>显示</span>
+	                </div>
+                    <div class="edit_float">
+	                    <input type="radio" name="gb_state" class="" {notempty name="$info"}{if condition="$info.gb_state == 1"}checked{/if}{/notempty} value="1">
+	                    <span>不显示</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <input type="hidden" name="gb_id" value="{$gb_id|default='0'}"/>
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function form_submit(){
+
+        //表单验证 TODO。。
+
+        return true;
+    }
+</script>
+{/block}
+

@@ -1,0 +1,93 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/shop/introduction.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/certificates.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="certificates_hint">
+        <img src="__STATIC__/image/store/laba@2x.png" alt="">
+        <span>如需修改店铺认证信息，请联系客服！</span>
+    </div>
+    <div class="introduction_view">
+        <div class="introduction_bg">
+            <span class="introduction_class">店铺名称</span>
+            <span>{$info.ba_stroe_name}</span>
+        </div>
+        <div class="introduction_bg">
+            <span class="introduction_class">店铺分类</span>
+            <span >{$info.store_categoryid_name}</span>
+        </div>
+        <div class="introduction_bg">
+            <span class="introduction_class">联系电话</span>
+            <span >{$info.store_tel}</span>
+        </div>
+    </div>
+    <div class="introduction_view">
+        <div class="introduction_bg">
+            <span class="introduction_class">企业名称</span>
+            <span>{$info.corporation_name}</span>
+        </div>
+        <div class=" clear certificates_textarea">
+            <span class="introduction_class lf">企业地址</span>
+            <div class="lf">
+                <span class="introduction_color">{$info.pid} {$info.address}</span>
+            </div>
+        </div>
+        <div class="introduction_bg">
+            <span class="introduction_class">开户银行</span>
+            <span>{$info.ba_bankname}</span>
+        </div>
+        <div class="introduction_bg">
+            <span class="introduction_class">银行卡号</span>
+            <span>{$info.ba_bankaccount}</span>
+        </div>
+    </div>
+    <div class="introduction_view">
+        <div class="introduction_bg">
+            <span class="introduction_class">信用代码</span>
+            <span >{$info.ba_license}</span>
+        </div>
+        <div class="certificates_img">
+            <div class="certificates_img_list">
+                <img src="{$info.ba_license_img}" alt="">
+            </div>
+        </div>
+    </div>
+    
+    {if condition="($info.ba_legal_person != '') || ($info.ba_legal_person_idnumber != '') || ($info.ba_identification_positive_img != '') || ($info.ba_identification_negative_img != '')"}
+    <div class="introduction_view">
+        {if condition="$info.ba_legal_person != ''"}
+        <div class="introduction_bg">
+            <span class="introduction_class">法人姓名</span>
+            <span >{$info.ba_legal_person}</span>
+        </div>
+        {/if}
+        {if condition="$info.ba_legal_person_idnumber != ''"}
+        <div class="introduction_bg">
+            <span class="introduction_class">身份证号</span>
+            <span >{$info.ba_legal_person_idnumber}</span>
+        </div>
+        {/if}
+        <div class="certificates_img clear">
+            {if condition="$info.ba_identification_positive_img != ''"}
+            <div class="certificates_img_list lf">
+                <img src="{$info.ba_identification_positive_img}" alt="">
+            </div>
+            {/if}
+            {if condition="$info.ba_identification_negative_img != ''"}
+            <div class="certificates_img_list lf">
+                <img src="{$info.ba_identification_negative_img}" alt="">
+            </div>
+            {/if}
+        </div>
+    </div>
+    {/if}
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

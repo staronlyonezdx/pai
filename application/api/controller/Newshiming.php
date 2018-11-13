@@ -1,0 +1,508 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: zskj
+ * Date: 2018/9/25
+ * Time: 16:30
+ */
+
+namespace app\api\controller;
+
+use app\data\service\api\ApiauthenticationService;
+use app\data\service\api\ApimemberService;
+use app\data\service\orderPai\OrderPaiService;
+use app\data\service\sms\AliService;
+use app\data\service\sms\Sms1Service;
+use think\Db;
+class Newshiming extends ApiMember
+{
+    //实名认证
+    public function tonameauth(){
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        $m_id = $this->data['member_id'];//用户id
+        $where['m_id'] = $m_id;
+        $tuiincome = new ApiauthenticationService();
+        $member = $tuiincome->isattestation($where,$field='real_name,identification',$order=" order by add_time desc");
+        if(!empty($member)){
+            $this->response_data('目前暂时只支持绑定一张银行卡');
+        }
+        $real_name = $data['real_name'];//姓名
+        $identification = $data['identification'];//身份证号
+        $idcard_positive = request()->file('idcard_positive');//身份证正面照  二进制
+        $Apimemberservice = new ApimemberService();
+        if($idcard_positive){
+            $idcard_positive = $Apimemberservice->upload('idcard_positive','idcard_positive','',500,300);
+        }else{
+            if(!empty($data['idcard_positive']) && is_array($data) ){
+                $data['idcard_positive'] = array_values(array_filter($data['idcard_positive']));
+                $idcard_positive = $Apimemberservice->ba64_img($data['idcard_positive'],'idcard_positive')[0];
+            }
+        }
+        $idcard_reverse = request()->file('idcard_reverse');//身份证反面照
+        if($idcard_reverse){
+            $idcard_reverse = $Apimemberservice->upload('idcard_reverse','idcard_reverse','',500,300);
+        }else{
+            if(!empty($data['idcard_reverse']) && is_array($data) ){
+                $data['idcard_reverse'] = array_values(array_filter($data['idcard_reverse']));
+                $idcard_reverse = $Apimemberservice->ba64_img($data['idcard_reverse'],'idcard_reverse')[0];
+            }
+        }
+        if(empty($real_name)){
+            $this->response_error('真实姓名不为空');
+        }
+        if(empty($identification)){
+            $this->response_error('身份证号不为空');
+        }
+        $AliService = new AliService();
+        $return_list = $AliService->id_check($identification,$real_name);
+        if($return_list['status'] != 01){
+            $this->response_error($return_list['msg']);
+        }
+        $sex = $return_list['sex'] == '女' ? 1 : 2;
+        $update['m_id'] = $m_id;
+        if(!empty($idcard_positive)){
+            $update['idcard_positive'] = $idcard_positive;
+        }
+        if(!empty($idcard_reverse)){
+            $update['idcard_reverse'] = $idcard_reverse;
+        }
+        $update['real_name'] = $real_name;
+        $update['identification'] = $identification;
+        $update['add_time'] = time();
+        $update['area'] = !empty($return_list['area']) ? $return_list['area'] : '';
+        $update['province'] = !empty($return_list['province']) ? $return_list['province'] : '';
+        $update['city'] = !empty($return_list['city']) ? $return_list['city'] : '';
+        $update['prefecture'] = !empty($return_list['prefecture']) ? $return_list['prefecture'] : '';
+        $update['birthday'] = !empty(strtotime($return_list['birthday'])) ? strtotime($return_list['birthday']) : 0;
+        $update['addrCode'] = !empty($return_list['addrCode']) ? $return_list['addrCode'] : '';
+        $update['sex'] = $sex;
+        $info = $tuiincome->add_attestation($update);//插入实名认证表
+        $update_data['real_name'] = !empty($real_name) ? $real_name : '';
+        $update_data['m_identification'] = !empty($identification) ? $identification : '';
+        $update_member = Db('member')->where($where)->update($update_data);
+        if($info){
+            $this->response_data('实名认证提交成功');
+        }else{
+            $this->response_error('实名认证提交失败');
+        }
+    }
+    //绑定提现银行卡并且实名认证    单张
+    public function bankcard_all(){
+        $res=$this->checktoken();//验证token
+
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        $m_id = $this->data['member_id'];//用户id
+        $tuiincome = new ApiauthenticationService();
+        $where['m_id'] = $m_id;
+        $member = $tuiincome->isattestation($where,$field='*',$order="add_time desc");
+        if(!empty($member['bankowner']) && !empty($member['bankname']) && !empty($member['bankaccount']) && !empty($member['bank_phone'])){
+            $this->response_error('目前暂时只支持绑定一张银行卡');
+        }
+        if(empty($data['m_bankowner'])){
+            $this->response_error('开户人不能为空');
+        }
+        if(empty($data['m_bankaccount'])){
+            $this->response_error('个人银行卡号不能为空');
+        }
+        if(empty($data['m_bank_phone'])){
+            $this->response_error('预留手机号不能为空');
+        }
+        if(empty($data['m_identification'])){
+            $this->response_error('身份证号不能为空');
+        }
+        if(empty($data['verification'])){
+            $this->response_error('验证码不能为空');
+        }
+        if(empty($data['bank_branch'])){
+            $this->response_error('开户行支行不能为空');
+        }
+        Db::startTrans();
+        try{
+            $sms = new Sms1Service();//此处检测短信验证是否正确
+            $res = $sms->checkSmsCode($data['verification'],$data['m_bank_phone']);
+            if($res['status']!=1){
+                $this->response_error($res['msg']);
+            }
+            $AliService = new AliService();
+            $return_list_ty = $AliService->bank_check($data['m_bankaccount'],$data['m_identification'],$data['m_bank_phone'],$data['m_bankowner']);
+            if($return_list_ty['status'] != 01){
+                if($return_list_ty['status'] == 02){
+                    $this->response_error('验证不通过【身份证或姓名手机与卡号不符】');
+                }else{
+                    $this->response_error($return_list_ty['msg']);
+                }
+            }
+            $sex = $return_list_ty['sex'] == '女' ? 1 : 2;
+            $update['m_id'] = $m_id;
+            $update['real_name'] = $return_list_ty['name'];
+            $update['identification'] = $return_list_ty['idCard'];
+            $update['add_time'] = time();
+            $update['area'] = $return_list_ty['area'];
+            $update['province'] = $return_list_ty['province'];
+            $update['city'] = $return_list_ty['city'];
+            $update['prefecture'] = $return_list_ty['prefecture'];
+            $update['birthday'] = strtotime($return_list_ty['birthday']);
+            $update['addrCode'] = $return_list_ty['addrCode'];
+            $update['sex'] = $sex;
+            $update['bankowner'] = $return_list_ty['name'];
+            $update['bankname'] = $return_list_ty['bank'];
+            $update['bankaccount'] = $return_list_ty['accountNo'];
+            $update['bank_phone'] = $return_list_ty['mobile'];
+            $update['bank_branch'] = $data['bank_branch'];
+            $is_shiming = Db('member_attestation')->where($where)->find();
+            if(empty($is_shiming)){
+                $attestation_id = $tuiincome->add_attestation($update);//插入实名认证表
+            }else{
+                $save_attestation = $tuiincome->get_atta($where,$update);//修改实名认证表
+            }
+            $array = array(
+                'm_bankowner'=>$return_list_ty['name'],
+                'm_bank_phone'=>$return_list_ty['mobile'],
+                'm_bankaccount'=>$return_list_ty['accountNo'],
+                'm_identification'=>$return_list_ty['idCard'],
+                'm_province'=>$return_list_ty['province'],
+                'm_city'=>$return_list_ty['city'],
+                'm_bankname'=>$return_list_ty['bank'],
+                'real_name'=>$return_list_ty['name'],
+                'm_bank_branch'=>$data['bank_branch'],
+            );
+            $list = $tuiincome->getSave($where,$array);//修改pai_member表
+            Db::commit();
+            $this->response_data('绑定银行卡成功');
+        }catch (\Exception $e){
+            Db::rollback();
+            $msg = $e ->getMessage();//错误信息
+            $arr = array(
+                'el_type_id'=>3,
+                'el_description'=>$msg,
+                'm_id'=>$m_id,
+                'el_time'=>time(),
+            );
+            $res = Db('error_log')->insert($arr);//插入错误日志表
+            $this->response_error('绑定银行卡失败');
+        }
+    }
+    //判定绑定手机号是否正确
+    public function ishave_mobile(){
+        $Authentication = new ApiauthenticationService();
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        if(empty($data['m_mobile'])){
+            $this->response_error('手机号不能为空');
+        }
+        $m_mobile = $Authentication->encrypt($data['m_mobile']);//手机号
+        $m_id = $data['member_id'];//用户id
+        $where['m_id'] = $m_id;
+        $member_mobile = Db('member')->where($where)->value('m_mobile');
+        if($m_mobile == $member_mobile){
+            $this->response_data('手机号正确');
+        }else{
+            $this->response_error('手机号错误');
+        }
+    }
+    //绑定手机号
+    public function bang_mobile(){
+        $Authentication = new ApiauthenticationService();
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        $m_mobile = $data['m_mobile'];//手机号
+        $wx_unionid = $data['wx_unionid'];//微信unionid
+        if(empty($m_mobile)){
+            $this->response_error('手机号不能为空');
+        }
+        if(empty($wx_unionid)){
+            $this->response_error('wx_unionid不能为空');
+        }
+        if(empty($data['verification'])){
+            $this->response_error('验证码不能为空');
+        }
+        $sms = new Sms1Service();//此处检测短信验证是否正确
+        $res = $sms->checkSmsCode($data['verification'],$m_mobile);
+        if($res['status']!=1){
+            $this->response_error($res);
+        }
+        $m_mobile = $Authentication->encrypt($m_mobile);
+        $where['wx_unionid'] = $wx_unionid;
+        $res = Db('member')->where($where)->update(array('m_mobile'=>$m_mobile,'edit_time'=>time()));
+        if($res){
+            $this->response_data('手机号绑定成功');
+        }else{
+            $this->response_data('手机号绑定失败');
+        }
+    }
+    //换绑手机号
+    public function change_mobile(){
+        $Authentication = new ApiauthenticationService();
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        if(empty($data['new_mobile'])){
+            $this->response_error('绑定手机号不能为空');
+        }
+        if(empty($data['verification'])){
+            $this->response_error('验证码不能为空');
+        }
+        $new_mobile = $Authentication->encrypt($data['new_mobile']);//换绑新手机号
+        $sms = new Sms1Service();//此处检测短信验证是否正确
+        $res = $sms->checkSmsCode($data['verification'],$data['new_mobile']);
+        if($res['status']!=1){
+            $this->response_error($res);
+        }
+        $m_id = $data['member_id'];//用户id
+        $where['m_id'] = $m_id;
+        $old_mobile = Db('member')->where($where)->value('m_mobile');//旧手机号
+        if($new_mobile == $old_mobile){
+            $this->response_error('新旧手机号一致无需修改');
+        }
+        $update_data = array(
+            'm_mobile'=>$new_mobile,
+        );
+        $result = Db('member')->where($where)->update($update_data);
+        if($result){
+            $this->response_data('换绑手机号成功');
+        }else{
+            $this->response_error('换绑手机号失败');
+        }
+    }
+    //全额返现页面
+    public function get_tip_detail(){
+        $Authentication = new ApiauthenticationService();
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        $m_id = $data['member_id'];
+        $orderpai = new OrderPaiService();
+        $callback = $orderpai->tip_detail($m_id);//调用刘勇豪的统计方法
+
+        if(request()->isPost() || request()->isAjax()){
+            $this->response_data($callback);
+        }else{
+            $this->response_error($callback);
+        }
+    }
+    //修改支付密码
+    public function cg_paypwd(){
+        $res=$this->checktoken();//验证token
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);die;
+        }
+        $ApimemberService = new ApimemberService();
+        $data = $this->data;
+        $where = ['m_id'=>$data['member_id']];
+        //绑定支付是开启此功能
+        $info = $ApimemberService->getInfo($where,"m_payment_pwd");
+        if($info['m_payment_pwd'] == null){
+            $this->response_error('未设置支付密码');
+        }
+        //m_id用户id old_paypwd旧支付密码 new_paypwd新支付密码 re_paypwd确定支付密码
+        if(empty($data['member_id'])){
+            $this->response_error('会员id不为空');
+        }
+        if(empty($data['old_paypwd'])){
+            $this->response_error('旧支付密码不为空');
+        }
+        if(empty($data['new_paypwd'])){
+            $this->response_error('新支付密码不为空');
+        }
+        if(empty($data['re_paypwd'])){
+            $this->response_error('确定支付密码不为空');
+        }
+        $where['m_payment_pwd'] = md5($data['old_paypwd']);
+        $res = $ApimemberService->getInfo($where,"*");
+        if(!$res){
+            $this->response_error('旧密码输入错误');
+        }
+        if($data['new_paypwd'] != $data['re_paypwd']){
+            $this->response_error('两次密码不一致');
+        }
+        if($data['old_paypwd'] == $data['new_paypwd']){
+            $this->response_error('新旧密码一致无需修改');
+        }
+        if(!preg_match("/^[0-9]\d{5}$/",$data['new_paypwd'])){
+            $this->response_error('请输入6位数字的支付密码');
+        }
+        $update['m_payment_pwd'] =  md5($data['new_paypwd']);
+
+        $res = $ApimemberService->getSave($where,$update);
+        if($res){
+            $return_data = array();
+            $return_data['msg'] = '支付密码修改成功';
+            $this->response_data($return_data);
+        }else{
+            $this->response_error('修改失败,请稍后重试');
+        }
+    }
+    //绑定多张提现银行卡并且实名认证   多张
+    public function bankcard_alls(){
+        $res=$this->checktoken();//验证token
+
+        if($res['state']!='1'){
+            $this->response_error($res['msg']);
+        }
+        $data = $this->data;
+        $m_id = $this->data['member_id'];//用户id
+        $tuiincome = new ApiauthenticationService();
+        $where['m_id'] = $m_id;
+        $member = Db('member_attestation')->where($where)->field('*')->order('add_time desc')->find();
+
+        if(empty($data['m_bankowner'])){
+            $this->response_error('开户人不能为空');
+        }
+        if(empty($data['m_bankaccount'])){
+            $this->response_error('个人银行卡号不能为空');
+        }
+        if(empty($data['m_bank_phone'])){
+            $this->response_error('预留手机号不能为空');
+        }
+        if(empty($data['m_identification'])){
+            $this->response_error('身份证号不能为空');
+        }
+        if(empty($data['verification'])){
+            $this->response_error('验证码不能为空');
+        }
+        if(empty($data['bank_branch'])){
+            $this->response_error('开户行支行不能为空');
+        }
+            $sms = new Sms1Service();//此处检测短信验证是否正确
+            $res = $sms->checkSmsCode($data['verification'],$data['m_bank_phone']);
+            if($res['status']!=1){
+                $this->response_error($res);
+            }
+            $AliService = new AliService();
+            $return_list = $AliService->id_check($data['m_identification'],$data['m_bankowner']);
+            if($return_list['status'] != '01'){
+                $this->response_error($return_list['msg']);
+            }
+            $return_list_ty = $AliService->bank_check($data['m_bankaccount'],$data['m_identification'],$data['m_bank_phone'],$data['m_bankowner']);
+            if($return_list_ty['status'] != 01){
+                $this->response_error($return_list_ty['msg']);
+            }
+            if(empty($member)){//未实名认证表
+                Db::startTrans();
+                try{
+                    $sex = $return_list['sex'] == '女' ? 1 : 2;
+                    $update['m_id'] = $m_id;
+                    $update['real_name'] = $return_list['name'];
+                    $update['identification'] = $return_list['idCard'];
+                    $update['add_time'] = time();
+                    $update['area'] = $return_list['area'];
+                    $update['province'] = $return_list['province'];
+                    $update['city'] = $return_list['city'];
+                    $update['prefecture'] = $return_list['prefecture'];
+                    $update['birthday'] = strtotime($return_list['birthday']);
+                    $update['addrCode'] = $return_list['addrCode'];
+                    $update['sex'] = $sex;
+                    $update['bank_branch'] = $data['bank_branch'];
+                    $attestation_id = $tuiincome->add_attestation($update);//插入实名认证表返回插入id
+
+                    $array = array(
+                        'm_bankowner'=>$return_list_ty['name'],
+                        'm_bank_phone'=>$return_list_ty['mobile'],
+                        'm_bankaccount'=>$return_list_ty['accountNo'],
+                        'm_identification'=>$return_list_ty['idCard'],
+                        'm_province'=>$return_list_ty['province'],
+                        'm_city'=>$return_list_ty['city'],
+                        'm_bankname'=>$return_list_ty['bank'],
+                        'real_name'=>$return_list_ty['name'],
+                        'm_bank_branch'=>$data['bank_branch'],
+                    );
+                    $list = $tuiincome->getSave($where,$array);//修改pai_member表
+                    $arr_atta = array(
+                        'real_name'=>$return_list_ty['name'],
+                        'identification'=>$return_list_ty['idCard'],
+                        'bankowner'=>$return_list_ty['name'],
+                        'bankname'=>$return_list_ty['bank'],
+                        'bankaccount'=>$return_list_ty['accountNo'],
+                        'bank_phone'=>$return_list_ty['mobile'],
+                        'bank_branch'=>$data['bank_branch'],
+                    );
+                    $save_atta = $tuiincome->get_atta($where,$arr_atta);
+                    Db::commit();
+                    $this->response_data('绑定银行卡成功');
+                }catch (\Exception $e){
+                    Db::rollback();
+                    $msg = $e ->getMessage();//错误信息
+                    $arr = array(
+                        'el_type_id'=>3,
+                        'el_description'=>$msg,
+                        'm_id'=>$m_id,
+                        'el_time'=>time(),
+                    );
+                    $res = Db('error_log')->insert($arr);//插入错误日志表
+                    $this->response_error('绑定银行卡失败');
+                }
+            }elseif(!empty($member) && empty($member['bankowner']) && empty($member['bankname'])){//已实名未绑卡
+                $array = array(
+                    'm_bankowner'=>$return_list_ty['name'],
+                    'm_bank_phone'=>$return_list_ty['mobile'],
+                    'm_bankaccount'=>$return_list_ty['accountNo'],
+                    'm_identification'=>$return_list_ty['idCard'],
+                    'm_province'=>$return_list_ty['province'],
+                    'm_city'=>$return_list_ty['city'],
+                    'm_bankname'=>$return_list_ty['bank'],
+                    'real_name'=>$return_list_ty['name'],
+                    'm_bank_branch'=>$data['bank_branch'],
+                );
+                $list = $tuiincome->getSave($where,$array);//修改pai_member表
+                $arr_atta = array(
+                    'real_name'=>$return_list_ty['name'],
+                    'identification'=>$return_list_ty['idCard'],
+                    'bankowner'=>$return_list_ty['name'],
+                    'bankname'=>$return_list_ty['bank'],
+                    'bankaccount'=>$return_list_ty['accountNo'],
+                    'bank_phone'=>$return_list_ty['mobile'],
+                    'bank_branch'=>$data['bank_branch'],
+                );
+                $save_atta = $tuiincome->get_atta($where,$arr_atta);
+                if($save_atta){
+                    $this->response_data('绑定银行卡成功');
+                }else{
+                    $this->response_data('绑定银行卡失败');
+                }
+            }elseif(!empty($member) && !empty($member['bankowner']) && !empty($member['bankname'])){
+                $sex = $return_list['sex'] == '女' ? 1 : 2;
+                $insert_data = array(
+                    'm_id'=>$m_id,
+                    'add_time'=>time(),
+                    'real_name'=>$return_list['name'],
+                    'identification'=>$return_list['idCard'],
+                    'area'=>$return_list['area'],
+                    'province'=>$return_list['province'],
+                    'city'=>$return_list['city'],
+                    'prefecture'=>$return_list['prefecture'],
+                    'birthday'=>strtotime($return_list['birthday']),
+                    'addrCode'=>$return_list['addrCode'],
+                    'sex'=>$sex,
+                    'bankowner'=>$return_list_ty['name'],
+                    'bankname'=>$return_list_ty['bank'],
+                    'bankaccount'=>$return_list_ty['accountNo'],
+                    'bank_phone'=>$return_list_ty['mobile'],
+                    'bank_branch'=>$data['bank_branch'],
+                );
+                $is_insert = Db('member_attestation')->insert($insert_data);
+                if(!$is_insert){
+                    $this->response_data('绑定银行卡失败');
+                }else{
+                    $this->response_data('绑定银行卡成功');
+                }
+            }
+
+    }
+}

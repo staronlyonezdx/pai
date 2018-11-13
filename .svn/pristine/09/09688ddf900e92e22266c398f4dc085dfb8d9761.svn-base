@@ -1,0 +1,32 @@
+.integral_top{
+    background: #fff;
+}
+.integral_tab{
+    width:6.9rem;
+    height:0.72rem;
+    margin:0 auto;
+    background: #F2F2F2;
+    border-radius: 0.09rem;
+    overflow: hidden;
+    border:0.04rem solid #f2f2f2;
+}
+.integral_tab div{
+    width:3.43rem;
+    text-align: center;
+    line-height: 0.72rem;
+    color:#AAAAAA;
+    font-size: 0.25rem;
+    font-weight: 600;
+}
+.integral_tab .integral_tab_list{
+    color:#2b2b2b;
+    background:#FBE44D;
+}
+.top-nav{
+    position: relative;
+    top:0;
+    left: 0;
+}
+.swiper-container{
+    top:2.7rem;
+}

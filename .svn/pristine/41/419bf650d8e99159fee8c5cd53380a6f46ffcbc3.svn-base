@@ -1,0 +1,83 @@
+.account_header{
+    width:7.5rem;
+    height:0.9rem;
+    line-height: 0.9rem;
+    background-image: linear-gradient(90deg,
+    #7085FF 0%,
+    #6F75FF 100%),
+    linear-gradient(
+            #7085FF,
+            #7085FF);
+}
+.account_back{
+    width:0.56rem;
+    height:0.56rem;
+    margin-left: 0.3rem;
+}
+.account_back img{
+    width:100%;
+    height:100%;
+}
+.account_tab{
+    margin-left:1.2rem ;
+
+    /*width:2.4rem;*/
+    /*margin:0 auto;*/
+}
+.account_tab_list{
+    margin-right: 0.61rem;
+}
+.account_tab_list span{
+    display: inline-block;
+    height:0.9rem;
+    color:rgba(255,255,255,0.5);
+    font-size: 0.3rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
+.account_tab_pitch span{
+    color:#fff;
+    border-bottom:0.06rem solid #fff;
+}
+.account_list_view{
+    background: #fff;
+    width:7.5rem;
+    border-bottom: 0.01rem solid #f2f2f2;
+}
+.account_list{
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    padding-bottom: 0.215rem;
+}
+.account_list_lf{
+    margin-top: 0.215rem;
+}
+.account_list_lf p{
+    color:#000000;
+    font-size: 0.26rem;
+    font-weight: 600;
+    margin-bottom: 0.05rem;
+}
+.account_list_lf span{
+    color:#aaaaaa;
+    font-size: 0.24rem;
+
+}
+.account_list_rt{
+    margin-top: 0.37rem;
+}
+.account_list_rt span{
+    font-weight: 600;
+    color:#12D155;
+    font-size: 0.3rem;
+    vertical-align: middle;
+    margin-right: 0.37rem;
+}
+.account_list_red span{
+    color:#FF3939;
+}
+.account_list_rt img{
+    width:0.34rem;
+    height:0.34rem;
+    vertical-align: middle;
+}

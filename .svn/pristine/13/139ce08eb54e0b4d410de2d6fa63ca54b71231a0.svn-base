@@ -1,0 +1,90 @@
+.form-group{
+	width:400px;
+	margin:0 auto;
+	margin-top: 10px;
+	overflow:hidden;
+}
+.btn-default{
+	float: left;
+	letter-spacing: 2px;
+	
+}
+.text-right{
+	margin-bottom: 100px;
+}
+.btn-primary{
+	letter-spacing: 2px;
+	float: left;
+	margin-right: 20px;
+}
+.from_add_authority{
+	width:100%;
+	border-bottom:1px solid #ddd;
+	padding-bottom: 5px;
+}
+.from_add_authority label{
+	font-size: 18px;
+}
+.from_add_margin{
+	margin-top: 50px;
+}
+.checkbox{
+	float: left;
+	margin-right: 24px;
+}
+.radio+.radio, .checkbox+.checkbox{
+	margin-top: 10px;
+}
+.table>thead>tr>th{
+	border-bottom:0;
+	text-align: center;
+}
+.table{
+	width:100%;
+	margin:0 auto;
+	margin-top: 20px;
+}
+.panel-heading{
+	font-size: 18px;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	text-align: center;
+}
+.authoritylist_dele_btn{
+	color:rgb(229,69,69);
+}
+.cm-navbar>.btn, .cm-navbar>*>.btn, .cm-navbar .dropdown>.btn{
+	float: none;
+}
+/*.form_part{
+	border-bottom:1px dashed #ddd;
+}*/
+label{
+	font-weight:100!important;
+}
+.form_part label{
+	font-size: 15px;
+	font-weight: bold!important;
+}
+.form-list-span{
+	border-bottom:1px solid #ddd;
+	padding-bottom: 10px;
+}
+.form-list-span span{
+	margin-right: 10px;
+}
+.from_add{
+	width:100%;
+	
+}
+.from_add a{
+	display: block;
+	text-align: center;
+	font-size: 16px;
+	padding-left:122px; 
+}
+
+.form_margin .checkbox{
+	margin-top: 0;
+	margin-bottom: 0;
+}

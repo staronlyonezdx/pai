@@ -1,0 +1,103 @@
+
+{extend name="index:base" /}
+		{block name="style"}
+        <link rel="stylesheet" href="__HOME_CSS__/bootstrap.min.css">
+        <link rel="stylesheet" href="__HOME_CSS__/icomoon-social.css">
+		
+        <link rel="stylesheet" href="__HOME_CSS__/leaflet.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/main.css">
+		<link rel="stylesheet" href="__HOME_CSS__/cmm.css">
+
+        <script src="__HOME_JS__/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		{/block}
+		{block name="style2"}
+		{/block}
+<!-- 广告 -->
+{block name="ad"}
+         <!-- 广告开始 -->
+        <div class="homepage-slider">
+        	<div id="sequence">
+				<ul class="sequence-canvas">
+					<li class="bg1" style="background-image:url('__HOME_IMG__/homepage-slider/inquiry.jpg');">
+					</li>
+				</ul>
+			</div>
+        </div>
+        <!-- 广告结束 -->
+{/block}
+{block name="body"}
+		
+		<!-- 留言 -->
+        <div class="section">
+	    	<div class="container">
+				<div class="row">
+					<!-- 产品分类导航 -->
+					{include file="public/goodsnav" /}
+					<!-- 留言 -->
+					<div class="col-sm-9" id="inq">
+						<h2 class="mune-empty"></h2>
+						<h4 class="mune-title-son">INQUIRY</h4>
+						<div class="blog-post blog-single-post">
+							<p>Dear friends, if you have any queries or feedback, but we are not online, please complete the following form, we will reply to you the first time, or call our related personnel, our company telephone: <font style="color:red;">+86-(0)20-37352776</font>, thank you! </p>
+								
+ 	        			<div class="contact-form-wrapper">
+		        			<form action="" method="post" class="form-horizontal" role="form">
+		        				 <div class="form-group">
+		        				 	<label for="Name" class="col-sm-3 control-label"><b>Company&nbsp;:</b></label>
+		        				 	<div class="col-sm-9">
+										<input class="form-control" id="Name" type="text" placeholder="" name="company">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="contact-email" class="col-sm-3 control-label"><b>Contact&nbsp;:</b></label>
+									<div class="col-sm-9">
+										<input class="form-control" id="contact-email" type="text" placeholder="" name="contact">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="contact-email" class="col-sm-3 control-label"><b>Tel&nbsp;:</b></label>
+									<div class="col-sm-9">
+										<input class="form-control" id="contact-email" type="text" placeholder="" name="tel">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="contact-email" class="col-sm-3 control-label"><b>Email&nbsp;:</b></label>
+									<div class="col-sm-9">
+										<input class="form-control" id="contact-email" type="email" placeholder="" name="email">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="contact-email" class="col-sm-3 control-label"><b>Skype&nbsp;:</b></label>
+									<div class="col-sm-9">
+										<input class="form-control" id="contact-email" type="text" name="skype" placeholder="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="contact-message" class="col-sm-3 control-label"><b>Content&nbsp;:</b></label>
+									<div class="col-sm-9">
+										<textarea class="form-control" rows="7" id="contact-message"  name="content"></textarea>
+									</div>
+								</div>
+								<input type="hidden" name="state" value="inquirysh">
+								<div class="form-group">
+									<div class="col-sm-6 btnreset">
+										<button type="reset" class="btn pull-right">Reset</button>
+									</div>
+									<div class="col-sm-6  btnsend">
+										<button type="submit" class="btn pull-right">Submit</button>
+									</div>
+								</div>
+		        			</form>
+		        		</div>
+							<!-- End Comments -->
+						</div>
+					</div>
+					<!-- End Blog Post -->
+				</div>
+			</div>
+	    </div>
+
+{/block}
+ {block name="script"}
+{include file="common/js_sdk" /}
+{/block}

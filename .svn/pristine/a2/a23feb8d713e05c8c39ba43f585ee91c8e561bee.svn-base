@@ -1,0 +1,77 @@
+.prize_info_wrap{
+    width: 100%;
+    /*height: 13.34rem;*/
+    background-color: #fff;
+    overflow: hidden;
+}
+.prize_info_content .prize_info_top{
+    text-align: center;
+}
+.prize_info_content .prize_info_top .prize_info_title{
+    font-size:0.32rem;
+    font-weight:600;
+    color:rgba(1,1,1,1);
+    line-height:0.42rem;
+    padding-top: 0.33rem;
+    margin-bottom: 0.33rem;
+}
+.prize_info_content .prize_info_top .prize_info_data{
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+    line-height:0.7rem;
+}
+.prize_info_content .prize_info_top .prize_info_tip{
+    width:6.27rem;
+    height:0.53rem;
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+    line-height:0.3rem;
+    margin: 0 auto;
+}
+.prize_info_content .prize_info_middle {
+    text-align: center;
+    margin-top: 0.33rem;
+}
+.prize_info_content .prize_info_middle img{
+    width: 6.3rem;
+    height: 3.93rem;
+    background-color: #0a70c2;
+}
+.prize_info_content .prize_info_middle img.img_bottom{
+    width: 6.3rem;
+    height: 3.53rem;
+    background-color: #0a70c2;
+    margin-top: 0.67rem;
+}
+.prize_info_content .prize_info_middle .prize_info_invite{
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(170,170,170,1);
+    line-height:0.24rem;
+    margin-top: 0.33rem;
+    margin-bottom: 0.33rem;
+}
+.prize_info_content .prize_info_middle .prize_info_jie{
+    width:6.49rem;
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+    line-height:0.3rem;
+    margin: 0 auto;
+    text-indent: 2em;
+}
+
+.prize_info_content .prize_info_bottom p{
+    width:5.34rem;
+    height:2.62rem;
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+    line-height:0.24rem;
+    margin: 0.59rem auto;
+}
+body{
+    background-color: white;
+}

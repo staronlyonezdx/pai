@@ -1,0 +1,27 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/systemmsg/get_content.css"> {/block} {block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--消息详情-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{/block} 
+{block name="content"}
+<div class="message-content">
+    <h3>{$info.data.sm_title}</h3>
+    <span>{$info.data.sm_addtime|date='Y-m-d H:i',###}</span>
+    <p>
+        {$info.data.sm_content}
+    </p>
+</div>
+
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

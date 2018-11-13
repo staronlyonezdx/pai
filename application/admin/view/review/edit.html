@@ -1,0 +1,97 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="{:url('Orderpai/edit')}" id="edit_form" onsubmit="return form_submit()">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>{if condition="$o_id > 0"}拍品订单编辑{else/}拍品订单添加{/if}</label>
+                </div>
+                <a class="pull-right" href="{:url('orderpai/index')}">返回</a>
+                <div class="form-group from_add_margin">
+                    <label>收件人</label>
+                    <input type="text" name="o_receiver" class="form-control" placeholder="收件人" value="{$info.o_receiver|default=''}">
+                </div>
+                <div class="form-group">
+                    <label>收件人手机</label>
+                    <input type="text" name="o_mobile" class="form-control" placeholder="收件人手机" value="{$info.o_mobile|default=''}">
+                </div>
+                <div class="form-group">
+                    <label>收货地址</label>
+                    <input type="text" name="o_address" class="form-control" placeholder="收货地址" value="{$info.o_address|default=''}">
+                </div>
+                <div class="form-group">
+                    <label>订单金额</label>
+                    <input type="text" name="o_totalmoney" class="form-control" placeholder="订单金额" value="{$info.o_totalmoney|default=''}">
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <input type="hidden" name="o_id" value="{$o_id|default='0'}"/>
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function form_submit(){
+
+        //表单验证 TODO。。
+
+        return true;
+    }
+
+    //判断上级规格选中
+    function int_opt(){
+        var this_pid = $("#o_leve").attr("o_parent_id");
+        $("#o_parent_id").find("option").each(function(){
+            var this_val = $(this).attr("value");
+            if(this_val == this_pid){
+                $(this).attr('selected','selected');
+            }
+        });
+    }
+
+    $(function(){
+        //
+        $("#o_leve").change(function(){
+            // 当前层级
+            var o_level = $(this).val();
+            // 当前父级规格的id
+            var o_parent_id = $(this).attr("o_parent_id");
+
+            $("#o_parent_id").empty();
+            $.ajax({
+                url:"{:url('Orderpai/getPTypeList')}"+'?o_level='+ o_level + "o_parent_id="+o_parent_id,
+                dataType:'json',
+                type:'POST',
+                data:{o_level:o_level,o_parent_id:o_parent_id},
+                success: function(data) {
+                    if(data.status){
+                        $("#o_parent_id").html(data['data']);
+                        int_opt();
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
+        // 上级规格初始化
+        int_opt();
+    })
+</script>
+{/block}
+

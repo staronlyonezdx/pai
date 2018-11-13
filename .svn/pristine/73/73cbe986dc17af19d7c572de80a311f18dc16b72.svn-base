@@ -1,0 +1,174 @@
+{extend name="common/base" /}
+{block name="style"}
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css"> -->
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/tomoney/index.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="tomoney tomoney_sum">
+        <!-- <p>转出金额&nbsp;&nbsp;(将扣除一定个税)</p> -->
+        <p>转出金额</p>
+    </div>
+    <div class="tomoney tomoney_ipt">
+        <div class="tomoney_inp clear">
+            <p>￥</p>
+            <input type="number"  class='frozen lf' oninput="if(value.length>9)value=value.slice(0,9)" name="frozen">
+            <span>超出可用金额！</span>
+        </div>
+        <div class="tomoney_all">全部转入</div>
+    </div>
+    <div class="tomoney_money clear">
+        可用金额 ￥<span>{$data['m_income']}</span>
+    </div>
+    <a class="tomoney_btn tomoney_btn_bg wallet">确认转入</a>
+    <a href="tel:400-027-1888"><div class="tomoney-kf"><img src="/static/image/tomoney/kf.png">联系客服，咨询时间9:00～22:00</div></a>
+</main>
+ <!--支付密码浮动层-->
+ <div class="ftc_wzsf">
+        <div class="srzfmm_box" style="height:4rem">
+            <div class="qsrzfmm_bt clear_wl">
+                <span class="">请输入支付密码</span>
+                <img src="__STATIC__/image/orderpai/icon_nav_X@2x.png" class="tx close fr conf_order_colse">
+            </div>
+            <div class="zfmmxx_shop conf_order_paypassword_main clear">
+                <p class="conf_order_hints">
+                    <span class="conf_order_fuhao">￥</span>
+                    <span class="all_money">2</span>
+                </p>
+                <!--如果这个要的话,去把样式.ftc_wzsf .srzfmm_box的高改为5rem-->
+                 <!--<p class="withdraw_shouxufei">已扣除个税￥<span></span></p>-->
+            </div>
+            <div class="inputBoxContainer" id="inputBoxContainer">
+                <input type="tel" class="realInput" autofocus="autofocus"/>
+                <div class="bogusInput">
+                    <input type="password" maxlength="6" disabled class="active99"/>
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                </div>
+            </div>
+            <a href="/member/register/amnesia_payment">
+                <p class="conf_forget">忘记密码</p>
+            </a>
+        </div>
+        <div class="hbbj"></div>
+    </div>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script>
+    var to_yuer=Number(parseFloat($(".tomoney_money span").html()));
+    // 如果当前余额为0，则不让点击
+    if(to_yuer == 0){
+        $(".tomoney_btn").removeClass("tomoney_btn_bg");
+        $(".tomoney_btn").attr("disabled",true);
+    }
+     //点击全部
+     $(".tomoney_all").click(function(){
+        $("input[name='frozen']").val(to_yuer);
+    })
+    //实时去判断input的值
+    $("input[name='frozen']").on("input propertychange",function(){
+        var frozen=Number(parseFloat($(this).val()).toFixed(2));
+        // console.log(to_yuer)
+        if(frozen==NaN){
+            frozen=0;
+            // console.log(frozen)
+        }
+        if(frozen>to_yuer){
+            $(".tomoney_btn").removeClass("tomoney_btn_bg");
+            $(".tomoney_btn").attr("disabled",true);
+            $(".tomoney_inp span").css({display:"inline-block"});
+        }else{
+            $(".tomoney_btn").addClass("tomoney_btn_bg");
+            $(".tomoney_btn").removeAttr("disabled");
+            $(".tomoney_inp span").css({display:"none"});
+        }
+        clearNoNum(this);
+    })
+    //input只能输入小数点后两位
+    function clearNoNum(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,"");
+        obj.value = obj.value.replace(/\.{2,}/g,".");
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+        if(obj.value.indexOf(".")< 0 && obj.value !=""){
+            obj.value= parseFloat(obj.value);
+        }
+    }
+   
+    //点击转入
+    $(".tomoney_btn").click(function(){
+        var frozen=Number($("input[name='frozen']").val());
+            if(frozen<=to_yuer&&frozen!=""&&frozen!=0){
+                $(".ftc_wzsf").show();
+                // var geshui=""+frozen*"{$data['taxation']}";
+                // // console.log(geshui)
+                // // console.log( geshui.split(".")[1]);
+                // // console.log( geshui.split(".")[1].split("")[2]);
+                // if(geshui.indexOf(".")!=-1){
+                //     if(geshui.split(".")[1].split("")[2]>0){
+                //         var y=+geshui.split(".")[1].split("")[1]+1;
+                //         geshui= geshui.split(".")[0]+"."+geshui.split(".")[1].split("")[0]+y;
+                //     }
+                // }else{
+                //     geshui=geshui+".00"
+                // }
+                // $(".withdraw_shouxufei span").html(geshui);
+                // var jiner=Number($(".withdraw_shouxufei span").html());
+                // // console.log(Math.floor(frozen*100));
+                // // console.log(Math.floor(jiner*100));
+                // var moneyval=Math.floor(frozen*100-jiner*100)/100;
+                // console.log(moneyval)
+                // $(".all_money").html(moneyval);
+                $(".all_money").html(frozen);
+            }
+    })
+     //关闭浮动
+     $(".close").click(function () {
+        $(".ftc_wzsf").hide();
+        $(".mm_box li").removeClass("mmdd");
+        $(".mm_box li").attr("data", "");
+        i = 0;
+        // is_setorder();
+    });
+    boxInput.init(function () {
+        var pawval = boxInput.getBoxInputValue();
+        setTimeout(function () {
+            var  m_payment_pwd = pawval;
+            var money=$("input[name='frozen']").val();
+            $.ajax({
+                url: "/member/tomoney/dotomeney",
+                dataType: 'json',
+                type: 'POST',
+                data: { money: money,m_payment_pwd:m_payment_pwd},
+                success: function (data) {
+                    // console.log(data)
+                    // return false;
+                    if(data.status==1){
+                        window.location.href = "/member/tomoney/tomoneyresult/status/"+1;
+                        $(".realInput").val('')
+                        boxInput.setValue();
+                    }else{
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>", {
+                            time: 2000
+                        });
+                        $(".realInput").val('')
+                        boxInput.setValue();
+                    }
+                }
+            });
+        }, 200);
+    });
+
+
+</script>
+{/block}

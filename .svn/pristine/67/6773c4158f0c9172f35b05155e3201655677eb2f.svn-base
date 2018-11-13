@@ -1,0 +1,391 @@
+<?php
+/**
+ * 文章Service
+ *-------------------------------------------------------------------------------------------
+ * 版权所有 杭州市拍吖吖科技有限公司
+ * 创建日期 2018-07-02
+ * 版本 v.1.0.0
+ * 网站：www.pai.com
+ *--------------------------------------------------------------------------------------------
+ */
+
+namespace app\data\service\article;
+use app\data\model\article;
+use app\data\model\article\ArticleModel  as ArticleModel;
+use app\data\service\BaseService as BaseService;
+
+class ArticleService extends BaseService
+{
+    protected $cache = '';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->article = new ArticleModel();
+        $this->cache = 'article';
+    }
+
+    /**
+     * 查询文章列表
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleList($where='', $field='*', $order='a_id asc')
+    {
+        $list = $this->article->getList($where, $order, $field, $this->cache);
+        return $list;
+    }
+
+    /**
+     * 查询文章列表
+     * 创建人 邓赛赛
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleLimitList($where,$order,$field,$page=1,$page_size=20)
+    {
+        $page = $page < 1 ? 1 : $page;
+        $offset = ($page - 1) * $page_size;
+        $list = $this->article->get_limit_list($where,$order,$field,$offset,$page_size);
+        return $list;
+    }
+
+
+    /**
+     * 获取文章信息
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleInfo($where='', $field='*')
+    {
+        $info =  $this->article->getInfo($where, $field, $this->cache);
+        return $info;
+    }
+
+    /**
+     * 条件统计文章数量
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleCount($where='')
+    {
+        $Count =  $this->article->getCount($where);
+        return $Count;
+    }
+
+    /**
+     * 更新某个字段的值
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleSetField($where='', $field='', $data='')
+    {
+        $SetField =  $this->article->getSetField($where, $field, $data, $this->cache);
+        return $SetField;
+    }
+
+    /**
+     * 自增数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleSetInc($where='', $field='', $data='')
+    {
+        $SetInc =  $this->article->getSetInc($where, $field, $data, $this->cache);
+        return $SetInc;
+    }
+
+    /**
+     * 查询某一列的值
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleColumn($where='', $field='')
+    {
+        $Column =  $this->article->getColumn($where, $field);
+        return $Column;
+    }
+
+    /**
+     * 查询某一字段的值
+     * 创建人 邓赛赛
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleValue($where='', $field='')
+    {
+        $Column =  $this->article->get_value($where, $field);
+        return $Column;
+    }
+
+    /**
+     * 添加一条文章数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleAdd($data='')
+    {
+        $list = $this->article->getAdd($data, $this->cache);
+        return $list;
+    }
+
+
+    /**
+     * 添加多条文章数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleAddAll($data='')
+    {
+        $list = $this->article->getAddAll($data, $this->cache);
+        return $list;
+    }
+
+    /**
+     * 文章分页查询（旧）
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articlePageList($where='', $field='*', $order="a_id asc", $page=15)
+    {
+        $list = $this->article->getPageList($where, $field, $order, $page, $this->cache);
+        return $list;
+    }
+
+    /**
+     * 文章分页查询(新)
+     * 创建人 刘勇豪
+     * 时间 2018-06-20 10:51:00
+     */
+    public function articlePaginate($where='', $field='*', $order="a_id asc",$page=15)
+    {
+        $list = $this->article->getPaginate($where, $field, $order, $page, $this->cache);
+        return $list;
+    }
+
+    /**
+     * 更新文章数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleSave($where="", $data="")
+    {
+        $save = $this->article->getSave($where, $data, $this->cache);
+        return $save;
+    }
+
+    /**
+     * 删除一条文章数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleDel($where='')
+    {
+        $del = $this->article->getDel($where, $this->cache);
+        return $del;
+    }
+
+    /**
+     * 删除多条文章数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleDelMost($id_arr='')
+    {
+        $delAll = $this->article->getDelMost($id_arr, $this->cache);
+        return $delAll;
+    }
+
+    /**
+     * 文章列表分页
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleListShow($type=0)
+    {
+        $where = array();
+
+        $where['a_id'] = array('>',0);
+        $lists  = $this->articlePageList($where);
+        $volist = false;
+        if($lists && !$type)
+        {
+            $volist = $lists->toArray();
+        }
+        else if($lists && $type)
+        {
+            $volist = $lists;
+        }
+        return $volist;
+    }
+
+    /**
+     * 按条件更新文章
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleRoomEdit()
+    {
+        $id = input('get.a_id');
+        if ($id=='' || !is_numeric($id)) {
+            return false;
+        }
+        $id=intval($id);
+        $where = array();
+        $where['a_id'] = $id;
+        $result = false;
+        $result = $this->articleInfo($where);
+        return $result;
+    }
+
+    /**
+     * 按条件修改处理文章
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleRoomEditDoo()
+    {
+        $id = input('post.a_id');
+        if ($id=='' || !is_numeric($id)) {
+            return false;
+        }
+        $id=intval($id);
+        // 文章POST数据
+        $type = 'edit';
+        $data = $this->inputData($type);
+        $where = array();
+        $where['a_id'] = $id;
+        if($this->articleSave($where, $data))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * 删除文章操作
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleRoomDel()
+    {
+        $id = input('post.a_id');
+        if ($id=='' || !is_numeric($id)) {
+            return false;
+        }
+        $id=intval($id);
+        $where = array();
+        $where['a_id'] = $id;
+        $info = $this->typeInfo($where);
+        if($info && $this->typeDel($where))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * 批量删除文章
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleRoomDelMost()
+    {
+        $id = input('post.delid');
+        if($this->typeDelMost($id))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * 添加一条文章
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function articleRoomAdd()
+    {
+        // 文章POST数据
+        $type = 'add';
+        $data = $this->inputData($type);
+        if($this->typeAdd($data))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * 文章POST数据
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function inputData($type)
+    {
+        $data = array();
+        switch($type)
+        {
+            case 'edit';
+                break;
+            case 'add';
+                $data['a_addtime'] = time();
+                break;
+        }
+        $data['a_name']    = input('post.a_name','');
+        $data['a_brief'] = input('post.a_brief','');
+        $data['a_state']  = input('post.a_state',0);
+        $data['a_description'] = htmlspecialchars(input('post.a_description',''));
+        $data['a_author']      = input('post.a_author','');
+        $data['a_type']      = input('post.a_type',0);
+        return $data;
+    }
+
+    /**
+     * 数据验证
+     * 创建人 刘勇豪
+     * 时间 2018-07-02 13:50:00
+     */
+    public function checkData($data=[]){
+        $error_msg = "";
+        //文章标题
+        if(isset($data['a_name'])){
+            if($data['a_name'] == ''){
+                $error_msg .= "文章标题不能为空";
+            }
+        }
+
+        // 文章内容
+        if(isset($data['a_description'])){
+            if($data['a_description'] == ''){
+                $error_msg .= "文章内容不能为空";
+            }
+        }
+
+        // 文章状态
+        if(isset($data['a_state'])){
+            if($data['a_state'] != 0 && $data['a_state'] != 1){
+                $error_msg .= "文章状态设置有误！";
+            }
+        }
+
+        // 文章类型
+        if(isset($data['a_type'])){
+            if(!is_numeric($data['a_type'])){
+                $error_msg .= "文章类型设置有误！";
+            }
+        }
+
+        return $error_msg;
+    }
+}

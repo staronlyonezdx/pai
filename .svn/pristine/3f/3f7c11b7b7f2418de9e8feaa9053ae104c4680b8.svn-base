@@ -1,0 +1,50 @@
+body{
+    background: url("../../image/new_people/pic_beijing@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.p_rule{
+    width:6.9rem;
+    /*height:9.4rem;*/
+    background:#fff;
+    border-radius: 0.18rem;
+    margin:0 auto;
+    margin-top:0.4rem;
+    padding:0.51rem 0.22rem;
+}
+.p_rule_con{
+    margin-top: 0.6rem;
+
+}
+.p_rule h2{
+    font-size:0.32rem;
+    color:#333333;
+    font-weight: 600;
+    margin-bottom:0.25rem ;
+}
+.p_rule span{
+    color:#666666;
+    font-size: 0.28rem;
+}
+.p_rule p{
+    color:#666666;
+    font-size: 0.26rem;
+    margin-top: 0.05rem;
+}
+.p_rule a{
+    font-size: 0.24rem;
+    color:#333333;
+    font-weight: 600;
+    display: block;
+    margin-top: 0.36rem;
+}
+.p_rule_text{
+    width:5rem;
+    overflow: hidden;
+    margin:0.47rem auto;
+}
+.p_rule_text small{
+    color:#ffffff;
+    font-size: 0.26rem;
+    text-align: center;
+    display: block;
+}

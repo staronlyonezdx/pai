@@ -1,0 +1,388 @@
+  $(function(){
+
+
+  //时间插件
+    var curr = new Date().getFullYear();
+    var opt={};
+    opt.date = {preset : 'date'};
+    opt.datetime = {preset : 'datetime'};
+    opt.time = {preset : 'time'};
+    opt.default = {
+      theme: 'android-holo light', //皮肤样式
+      display: 'bottom', //显示方式 
+      mode: 'scroller', //日期选择模式
+      dateFormat: 'yy-mm-dd',
+      lang: 'zh',
+      showNow: false,//显示中间的‘今天’二字 默认为true
+      nowText: "今天",//当前的日期
+      stepMinute:1,//间隔的分钟
+      startYear: curr -50, //开始年份
+      endYear: curr + 50, //结束年份
+      defaultValue : new Date(new Date().getTime()+600000)//当前时间加十分钟
+    };
+    $('.settings').bind('change', function() {
+      var demo = 'datetime';
+      if (!demo.match(/select/i)) {
+          $('.demo-test-' + demo).val('');
+      }
+      $('.demo-test-' + demo).scroller('destroy').scroller($.extend(opt['datetime'], opt['default']));
+      $('.demo').hide();
+      $('.demo-' + demo).show();
+    });
+    $('#demo').trigger('change');
+
+
+    //调用地址插件
+    var area1 = new LArea();
+    area1.init({
+        'trigger': '#demo1', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+        'valueTo': '#value1', //选择完毕后id属性输出到该位置
+        'keys': {
+          id: 'id',
+          name: 'name'
+        }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+        'type': 1, //数据源类型
+        'data': LAreaData //数据源
+    });
+    area1.value=[0,0,0];
+
+    //点击配送方式
+    $(".content_distribution").click(function(){
+       $(".delivery_pop").addClass("application_tab_li");
+    })
+    //点击配送方式的叉号
+    $(".delivery_img").click(function(){
+      $(".delivery_pop").removeClass("application_tab_li");
+    })
+    //选择配送方式
+    $(".delivery_lists").click(function(){
+        var detext=$(this).children("p").html();
+        var gs_id=$(this).attr("id");
+        if(detext=="普通商品"){
+          $(".delivery_content").addClass("application_tab_li");
+        }else{
+           $(".delivery_content").removeClass("application_tab_li");
+        }
+        $(".delivery_pop").removeClass("application_tab_li");
+        $(".content_distribution input").val(detext);
+        $(".content_distribution input").attr("id",gs_id);
+    })
+    //键盘抬起时出现叉号
+    $(".pub_list input").keyup(function(){
+        $(this).siblings(".reedit_clear").addClass("application_tab_li");
+    })
+    //点击标题的叉号
+    $(".reedit_clear").click(function(){
+      $(this).siblings("input").val("");
+      $(this).css({display:"none"});
+    })
+//点击协议
+    $(".pub_agree_input img").click(function(){
+        $(".pub_agree_input img").eq(0).toggleClass("pub_dis");
+        $(".pub_agree_input img").eq(1).toggleClass("pub_dis");
+        $(".register_btn").toggleClass("register_yellow");
+        $(".pub_submit").toggleClass("register_yellow");
+        if($(".pub_dis").attr("data")==1){
+            $(".smt").attr("disabled",true);
+        }else{
+            $(".smt").attr("disabled",false);
+        }
+    })
+
+ $('.smt').click(function(){
+        var val = $(this).attr('name');
+        var g_id = $("#hidden_val").val();
+        var g_name = $('input[name="g_name"]').val();
+        var g_classify = $('input[name="classify"]').val();
+        // var g_express_way = $('input[name="g_express_way"]').val();
+        var g_secondname = $('input[name="g_secondname"]').val();
+        var g_description = $('.desc').val();
+        var gs_id = $('input[name="g_express_way"]').attr("id");
+        var pid = $('input[name="pid"]').val();
+        var gp_settlement_price = $('input[name="gp_settlement_price"]').val();
+        var gp_market_price = $('input[name="gp_market_price"]').val();
+        var gp_sale_price = $('input[name="gp_sale_price"]').val();
+        var g_peoplenumber = $('input[name="g_peoplenumber"]').val();
+        var g_express = $('input[name="g_express"]').val();
+        var g_express_way = $('input[name="g_express_way"]').val();
+        var g_starttime = $('input[name="g_starttime"]').val();
+        var g_endtime = $('input[name="g_endtime"]').val();
+        var gp_stock = $('input[name="gp_stock"]').val();
+        var gc_id = $('input[name="classify"]').attr("id");
+        
+        var gd_info = [];
+        var child = [];
+        $('input[name="nod"]:checked').each(function(index,item){
+            var gdt_id = $(this).val();            
+            var gdr_membernum = $(this).parents('.content_number_list').find('input[type="number"]').val();
+            var gdr_price = $(this).parents('.content_number_list').find('small').text();            
+            child = [gdt_id,gdr_membernum,gdr_price];
+            gd_info.push(child);
+        })
+
+        var g_img = [];
+
+        $('.img-list li').each(function(){
+            var imgs = $(this).find(".imgs").attr('src');
+            g_img.push(imgs);
+        })
+
+         var g_state = $("#g_state").val();
+         var url = '';
+         if(g_state == 0){
+             url = '/member/goods/index';
+         }else if( g_state == 7 ){
+             url = '/member/goods/reedit';
+
+         }else if( g_state == 8 ){
+            $('input[name="g_name"]').attr("disabled","disabled");
+             url = '/member/goods/supply';
+         }
+        if(val){
+            var cancel = 1;
+            layer.confirm("是否保存草稿?", {
+                title:" ",/*标题*/
+                closeBtn:1,
+                btnAlign: 'c',
+                btn: ['不保存','保存'],
+                btn1:function(){
+                    history.back(-1);
+                },
+                btn2:function(){
+                    $.post(url,{
+                        cancel:cancel,
+                        g_name:g_name,
+                        g_secondname:g_secondname,
+                        g_description:g_description,
+                        gc_id:gc_id,
+                        g_typeid:gs_id,
+                        pid:pid,
+                        g_img:g_img,
+                        gp_settlement_price:gp_settlement_price,
+                        gp_market_price:gp_market_price,
+                        gp_sale_price:gp_sale_price,
+                        g_peoplenumber:g_peoplenumber,
+                        g_express:g_express,
+                        g_express_way:g_express_way,
+                        g_starttime:g_starttime,
+                        g_endtime:g_endtime,
+                        gp_stock:gp_stock,
+                        g_classify:g_classify,
+                        g_id:g_id,
+                        gd_info:gd_info,
+                        g_type:2,
+                        // g_express_way:g_express_way,
+                    },function(res){
+                        if(res.status == 1) {
+                            location.href="/member/goods/my_goods/g_state/2";
+                        }                        
+                    })                    
+                }
+            })
+            return false;
+        }
+        
+        var index = layer.load(0, {shade: false});
+        $.post(url,{
+            cancel:cancel,
+            g_name:g_name,
+            g_secondname:g_secondname,
+            g_description:g_description,
+            gc_id:gc_id,
+            g_typeid:gs_id,
+            pid:pid,
+            g_img:g_img,
+            gp_settlement_price:gp_settlement_price,
+            gp_market_price:gp_market_price,
+            gp_sale_price:gp_sale_price,
+            g_peoplenumber:g_peoplenumber,
+            g_express:g_express,
+            g_express_way:g_express_way,
+            g_starttime:g_starttime,
+            g_endtime:g_endtime,
+            gp_stock:gp_stock,
+            g_classify:g_classify,
+            g_id:g_id,
+            gd_info:gd_info,
+            g_type:2,
+            // g_express_way:g_express_way,
+        },function(res){
+            if(res.status == 1){
+                layer.close(index);
+                layer.msg("<span style='color:#fff'>提交成功</span>",{
+                    time:2000
+                },function(){
+                    location.href="/member/goods/release_success/g_id/"+res.date.g_id;
+                });
+            }else if(res.status == 2){
+                layer.confirm(res.msg, {
+                    title:false,/*标题*/
+                    closeBtn: 0,
+                    btnAlign: 'c',
+                    btn: ['取消','支付保证金'], /*按钮*/
+                    btn1:function(){/*按钮1的回调*/
+                        location.href="/member/goods/my_goods/g_state/2"
+                    },
+                    btn2:function(){/*按钮2的回调*/
+                        location.href="/member/store/deposit/g_id/"+res.date.g_id;
+                    }
+                })
+            }else{
+                layer.close(index);
+                layui.use("layer", function() {/*layui的规则*/
+                    var layer = layui.layer;
+                    layer.msg("<span style='color:#fff'>"+res.msg+"</span>",{
+                         time:2000
+                    });
+                })
+            }
+        })
+    })
+
+if($("#g_state").val() == 8){
+    $('input[name="g_name"]').attr("readonly","readonly").addClass('disp');
+    $('input[name="g_secondname"]').attr("readonly","readonly").addClass('disp');
+    $('textarea[name="g_description"]').attr("readonly","readonly").addClass('disp');
+    $('.photo').hide();
+    $('.reedit_cancel_icon').hide();
+    $('#demo1').attr("disabled","disabled").addClass('disp');
+    $('input[name="classify"]').attr("disabled","disabled").addClass('disp');
+    $('input[name="g_express_way"]').attr("disabled","disabled").addClass('disp');
+    $('input[name="g_express"]').attr("readonly","readonly").addClass('disp');
+    $('.content').eq(4).removeAttr('id');
+    $('.header_back').find('img').remove();
+    $('.header_back').css({'background':'url(/static/icon/publish/icon_nav_back@2x.png) no-repeat','background-size':'100%'})
+}
+
+//标题
+$('input[name="g_name"]').keyup(function(){
+    var g_name = $(this).val();
+    if(g_name.length>=30){
+        layer.msg("<span style='color:#fff'>标题长度不能超过30位</span>",{
+            time:2000
+        });
+        return false;
+    }
+
+})
+//二级标题
+$('input[name="g_secondname"]').keyup(function(){
+    var g_secondname =$(this).val();
+    if(g_secondname.length>=30){
+        layer.msg("<span style='color:#fff'>二级标题长度不能超过30位</span>",{
+            time:2000
+        });
+        return false;
+    }
+
+})
+//描述细节
+$('textarea[name="g_description"]').blur(function(){
+    var g_secondname =$(this).val();
+    if(g_secondname.length<5){
+        layer.msg("<span style='color:#fff'>细节描述长度不能低于5</span>",{
+            time:2000
+        });
+        return false;
+    }
+
+})
+  //结算价
+  $('input[name="gp_settlement_price"]').keyup(function(){
+      var gp_settlement_price = $(this).val();
+      if(gp_settlement_price.length>=10){
+          layer.msg("<span style='color:#fff'>结算价长度不能大于10位</span>",{
+              time:2000
+          });
+          return false;
+      }
+
+  })
+  // $('input[name="gp_settlement_price"]').blur(function() {
+  //     var gp_settlement_price = $(this).val();
+  //     if (gp_settlement_price<1) {
+  //         layer.msg("<span style='color:#fff'>结算价不能低于1元</span>", {
+  //             time: 2000
+  //         });
+  //         return false;
+  //     }
+  // })
+  //市场价
+  $('input[name="gp_market_price"]').keyup(function(){
+      var gp_market_price = $(this).val();
+      if(gp_market_price.length>=10){
+          layer.msg("<span style='color:#fff'>市场价长度不能大于10位</span>",{
+              time:2000
+          });
+          return false;
+      }
+  })
+  // $('input[name="gp_market_price"]').blur(function(){
+  //     var gp_market_price = $(this).val();
+  //     if(gp_market_price<1){
+  //         layer.msg("<span style='color:#fff'>市场价不能小于1元</span>",{
+  //             time:2000
+  //         });
+  //         return false;
+  //     }
+  // })
+  //库存
+  $('input[name="gp_stock"]').keyup(function(){
+      var gp_stock = $(this).val();
+      if(gp_stock.length>=10){
+          layer.msg("<span style='color:#fff'>库存长度不能大于10位</span>",{
+              time:2000
+          });
+          return false;
+      }
+  })
+  // $('input[name="gp_stock"]').blur(function(){
+  //     var gp_stock = $(this).val();
+  //     if(gp_stock<1){
+  //         layer.msg("<span style='color:#fff'>库存数量最低1件</span>",{
+  //             time:2000
+  //         });
+  //         return false;
+  //     }
+  // })
+  //运费
+  $('input[name="g_express"]').keyup(function(){
+      var g_express = $(this).val();
+      if(g_express.length>=10){
+          layer.msg("<span style='color:#fff'>运费长度不能大于10位</span>",{
+              time:2000
+          });
+          return false;
+      }
+  })
+  // $('input[name="g_express"]').blur(function(){
+  //     var g_express = $(this).val();
+  //     if(g_express<1){
+  //         layer.msg("<span style='color:#fff'>运费不能小于1元</span>",{
+  //             time:2000
+  //         });
+  //         return false;
+  //     }
+  // })
+  // var List = new Array();//定义一个全局变量去接受文件名和id
+  // $(".kv-file-remove").on("fileuploaded", function () {
+  //     // var data = data.response.FileName;  //文件上传成功返回的文件名，可返回自定义文件名
+  //     // List.push({ FileName: data, KeyID: previewId })
+  //     // alert("1")
+  // });
+
+
+  //     // var fileimg=$(".file-preview-thumbnails").html();
+  //     // if(fileimg==""||fileimg==undefined){
+  //     //     $(".zhutu").css({display:"none"});
+  //     // }
+
+  //删除图片
+  function imgs(gi_id,g_id){
+      $.post("/member/goods/delete_img",{gi_id:""+gi_id+"",g_id:""+g_id+""},function(res){
+          if(res){
+              $('.img'+gi_id).remove();
+          }
+      });
+  }
+  })

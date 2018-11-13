@@ -1,0 +1,99 @@
+<script src="__JS__/common/jquery-1.8.3.min"></script>
+
+
+
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>演示：PHP简单漂亮的分页类</title>
+        <meta name="keywords" content="php分页类" />
+        <meta name="description" content="本文介绍一款原生的PHP分页类，分页样式有点类似bootstrap。" />
+        <link rel="stylesheet" type="text/css" href="http://www.sucaihuo.com/jquery/css/common.css" />
+        <style type="text/css">
+            p{margin:0}
+            #page{
+                height:40px;
+                padding:20px 0px;
+            }
+            #page a{
+                display:block;
+                float:left;
+                margin-right:10px;
+                padding:2px 12px;
+                height:24px;
+                border:1px #cccccc solid;
+                background:#fff;
+                text-decoration:none;
+                color:#808080;
+                font-size:12px;
+                line-height:24px;
+            }
+            #page a:hover{
+                color:#077ee3;
+                border:1px #077ee3 solid;
+            }
+            #page a.cur{
+                border:none;
+                background:#077ee3;
+                color:#fff;
+            }
+            #page p{
+                float:left;
+                padding:2px 12px;
+                font-size:12px;
+                height:24px;
+                line-height:24px;
+                color:#bbb;
+                border:1px #ccc solid;
+                background:#fcfcfc;
+                margin-right:8px;
+
+            }
+            #page p.pageRemark{
+                border-style:none;
+                background:none;
+                margin-right:0px;
+                padding:4px 0px;
+                color:#666;
+            }
+            #page p.pageRemark b{
+                color:red;
+            }
+            #page p.pageEllipsis{
+                border-style:none;
+                background:none;
+                padding:4px 0px;
+                color:#808080;
+            }
+            .dates li {font-size: 14px;margin:20px 0}
+            .dates li span{float:right}
+        </style>
+    </head>
+    <body>
+    <div class="head">
+        <div class="head_inner clearfix">
+            <ul id="nav">
+                <li><a href="http://www.sucaihuo.com">首 页</a></li>
+                <li><a href="http://www.sucaihuo.com/templates">网站模板</a></li>
+                <li><a href="http://www.sucaihuo.com/js">网页特效</a></li>
+                <li><a href="http://www.sucaihuo.com/php">PHP</a></li>
+                <li><a href="http://www.sucaihuo.com/site">精选网址</a></li>
+            </ul>
+            <a class="logo" href="http://www.sucaihuo.com"><img src="http://www.sucaihuo.com/Public/images/logo.jpg" alt="素材火logo" /></a>
+        </div>
+    </div>
+    <div class="container">
+        <form action="/admin/login/addimg" method="post" enctype="multipart/form-data">
+            <input type="file" name="review[]" multiple>
+            <input type="submit" value="add">
+        </form>
+
+    </div>
+    <div class="foot">
+        Powered by sucaihuo.com  本站皆为作者原创，转载请注明原文链接：<a href="http://www.sucaihuo.com" target="_blank">www.sucaihuo.com</a>
+    </div>
+    <script type="text/javascript" src="http://www.sucaihuo.com/Public/js/other/jquery.js"></script>
+    </body>
+    </html>
+

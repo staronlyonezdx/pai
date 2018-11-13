@@ -1,0 +1,502 @@
+<?php
+namespace app\business\controller;
+
+use app\data\service\BaseService;
+use app\data\service\popularity\PopularityGoodsService;
+use app\data\service\popularity\PopularityService;
+use app\data\model\goods\GoodsModel;
+
+class Poporder extends MemberHome
+{
+
+    /**
+     *  订单的商品列表
+     */
+    public function goods_list(){
+
+        $pg_type = trim(input('param.pg_type/d', 0));
+        $pg_name = trim(input('param.pg_name/s', ''));
+        $pg_state = trim(input('param.pg_state/d',1));
+        $pm_order_status = trim(input('param.pm_order_status/d', ''));
+        $mobile = $m_mobile   = trim(input('param.m_mobile/s', ''));
+
+        $excel = trim(input('param.excel/d', ''));
+        $start_time = trim(input('param.start_time', ''));
+        $end_time = trim(input('param.end_time', ''));
+        $m_id = $this->m_id;
+        $where = '';
+        // 商品分类
+        if($pg_type){
+            $where['g.pg_type'] = $pg_type;
+        }
+        // 商品名称
+        if($pg_name){
+            $where['g.pg_name'] = ['like', "%".$pg_name."%"];
+        }
+        // 商品状态
+        if($pg_state == 1){
+            $where['g.pg_state'] = 1;
+        }elseif($pg_state == 2){
+            $where['g.pg_state'] = ['gt',1];
+        }
+        //擂主订单状态
+        if($pm_order_status){
+            $where['pm.pm_order_status'] =$pm_order_status;
+            unset( $where['g.pg_state']);
+            $pg_state = '';
+        }
+        //商家会员号id
+        $where['g.admin_id'] = $m_id;
+        $popularity = new PopularityService();
+
+        //手机号码
+        if($m_mobile){
+            $where['m.m_mobile'] = htmlspecialchars($popularity->encrypt($m_mobile));
+        }
+        //中奖时间
+        if($start_time || $end_time){
+            if($start_time && $end_time){
+                $where['pm.pm_publishtime'] = ['between time',[$start_time,$end_time]];
+                unset( $where['g.pg_state']);
+                $pg_state = '';
+            }else{
+                $this->error('时间必须是时间段','/business/pointorder/order_list','',1);
+            }
+        }
+        $popularity = new PopularityService();
+        //导出excel
+        if($excel == 1){
+            if(!$start_time && !$end_time){
+                $start_time = date('Y-m-d',strtotime('-1 day')).' 16:00:00';
+                $end_time   = date('Y-m-d').' 16:00:00';
+                $where['pm.pm_publishtime'] = ['between time',[$start_time,$end_time]];
+            }
+            $list = $popularity->pop_goods_join_select($where,'g.*,pm.*,m.m_mobile,m.m_name,s.stroe_name','g.pg_sortnum desc');
+            //待导出数据
+            $data = $this->order_excel($list);
+            $title =   [
+                '订单ID', '商品编号','支付状态','订单状态','商品名称','商家名称','商品类型','商品属性','订单总价','运费','支付时间','中拍时间','参拍人昵称','参拍人手机号','收货人','收货人手机','收货地址'
+            ];
+            $filename = date('m-d H:i:s').'待发货人气商品订单';
+            $popularity->exportExcel($data,$title,$filename);
+            die;
+        }else{
+            //$list = $popularity->pop_goods_paginate($where,'*','pg_sortnum desc',10);
+            $list = $popularity->pop_goods_join_paginate($where,'g.*,pm.*,m.m_mobile,m.m_name','g.pg_sortnum desc',10);
+            $page = $list->render();
+            $total = $list->total();
+        }
+        $list_array = $list->toArray();
+        $list = $list_array['data'];
+        if(!empty($list)){
+            foreach($list as $k=>$v){
+                //商品擂主人数
+                $pg_id = $v['pg_id'];
+                $pg_periods = $v['pg_periods'];
+                $where = [];
+                $where['pm_periods'] = $pg_periods;
+                $where['pm_paystate'] = ['gt',1];
+                $where['pg_id'] = $pg_id;
+                $count = Db("popularity_member")->where($where)->count();
+                $list[$k]['count_pm_num'] = $count;
+
+                $where = [];
+                $where['pm_state'] = 3;// 出道成功
+                $find = Db("popularity_member")->where($where)->find();
+                $is_over = 0;
+                if(!empty($find)){
+                    // 已成团
+                    $is_over = 1;
+                }
+                $list[$k]['is_over'] = $is_over;
+                $list[$k]['m_mobile'] = htmlspecialchars($popularity->decrypt($v['m_mobile']));
+            }
+        }
+        $this->assign('page', $page);
+        $this->assign('total', $total);
+        $this->assign('list', $list);
+        $this->assign('pg_type', $pg_type);
+        $this->assign('pg_name', $pg_name);
+        $this->assign('pg_state', $pg_state);
+        $this->assign('pm_order_status', $pm_order_status);
+        $this->assign('start_time', $start_time);
+        $this->assign('end_time', $end_time);
+        $this->assign('m_mobile', $mobile);
+
+        return $this->fetch();
+    }
+
+    /**
+     * 导出人气订单excel
+     * 邓赛赛
+     */
+    public function order_excel($list){
+        $data = array();
+        $base = new BaseService();
+        foreach($list as $k => $v){
+            switch($v['pm_paystate']){
+                case 1;
+                    $pm_paystate = '未支付';
+                    break;
+                case 2;
+                    $pm_paystate = '退款中';
+                    break;
+                case 3;
+                    $pm_paystate = '退款完成';
+                    break;
+                case 8;
+                    $pm_paystate = '支付成功';
+                    break;
+                default:
+                    $pm_paystate = '';
+                    break;
+            }
+            switch($v['pm_order_status']){
+                case 0;
+                    $pm_order_status = '未中奖';
+                    break;
+                case 1;
+                    $pm_order_status = '已中奖（待发货）';
+                    break;
+                case 2;
+                    $pm_order_status = '已发货';
+                    break;
+                case 3;
+                    $pm_order_status = '已签收';
+                    break;
+                case 4;
+                    $pm_order_status = '未成团';
+                    break;
+                default:
+                    $pm_order_status = '';
+                    break;
+            }
+            switch($v['pg_type']){
+                case 1;
+                    $pg_type = '在线获得';
+                    break;
+                case 2;
+                    $pg_type = '为线下获得+线上获得';
+                    break;
+                case 3;
+                    $pg_type = '线下活动商品';
+                    break;
+                default:
+                    $pg_type = '';
+                    break;
+            }
+            switch($v['pg_spec']){
+                case 1;
+                    $pg_spec = '普通拍品';
+                    break;
+                case 2;
+                    $pg_spec = '虚拟拍品';
+                    break;
+                case 3;
+                    $pg_spec = '大宗拍品';
+                    break;
+                default:
+                    $pg_spec = '';
+                    break;
+            }
+            $stroe_name = empty($v['stroe_name']) ? '' : $v['stroe_name'];
+            $pm_paytime = empty($v['pm_paytime']) ? '' : date('Y-m-d H:i:s',$v['pm_paytime']);
+            $pm_publishtime = empty($v['pm_publishtime']) ? '' : date('Y-m-d H:i:s',$v['pm_publishtime']);
+            $m_mobile = htmlspecialchars($base->decrypt($v['m_mobile']));
+            $data[] = [
+                $v['pm_id'],
+                $v['pg_sn'],
+                $pm_paystate,
+                $pm_order_status,
+                $v['pg_name'],
+                $stroe_name,
+                $pg_type,
+                $pg_spec,
+                $v['pm_paymoney'],
+                $v['pm_deliverfee'],
+                $pm_paytime,
+                $pm_publishtime,
+                $v['m_name'],
+                $m_mobile,
+                $v['pm_receiver'],
+                $v['pm_mobile'],
+                $v['pm_address'],
+            ];
+        }
+        return $data;
+    }
+    /**
+     * 人气订单列表
+     * 刘勇豪
+     * @return mixed
+     */
+    public function pm_list(){
+        $pg_id = input('param.pg_id/d',0);
+        $pm_state = trim(input('param.pm_state/d', 0));
+        $m_name = trim(input('param.m_name/s', ''));
+        $pm_id = trim(input('param.pm_id/d', ''));
+        $smm_mobile = trim(input('param.smm_mobile/s', ''));
+        $publish_time = 0;//初始化中奖公布时间
+
+        $where['pm.pg_id'] = $pg_id;
+        $where['pm.pm_paystate'] = ['gt',1];
+
+        $popularity = new PopularityService();
+        // 擂主状态搜索
+        if($pm_state){
+            $where['pm.pm_state'] = $pm_state;
+        }
+
+        // 擂主昵称搜索
+        if($m_name){
+            $where['m.m_name'] = ['like', "%".$m_name."%"];
+        }
+
+        //擂主编号
+        if($pm_id){
+            $where['pm.pm_id'] = $pm_id;
+        }
+
+        // 注册手机
+        if($smm_mobile){
+            $m_mobile = $popularity->encrypt($smm_mobile);
+            $where['m.m_mobile'] = $m_mobile;
+        }
+
+        $list = $popularity->pm_list_paginate($where,'*','pm.pm_popularity desc',10);
+
+        $page = $list->render();
+        $total = $list->total();
+
+        $list_array = $list->toArray();
+        $list = $list_array['data'];
+        if(!empty($list)){
+            foreach($list as $k=>$v){
+                $call_sort = $popularity->pm_sort_by_pmid($v['pm_id']);
+                $pm_sort = '?';
+                if($call_sort['status']){
+                    $pm_sort = $call_sort['data'];
+                }
+                $list[$k]['pm_sort'] = $pm_sort;
+
+                // 手机号码
+                if($v['m_mobile']){
+                    $mm_mobile = $popularity->decrypt($v['m_mobile']);
+                    $list[$k]['mm_mobile'] = $mm_mobile;
+                }
+            }
+            //中奖公布时间
+            $call_back = $popularity ->get_award_time($pg_id,$list[0]['pm_periods']);
+//            dump($call_back);die;
+            $publish_time = $call_back['data'];//中奖公布时间
+        }
+
+
+        $this->assign('page', $page);
+        $this->assign('page', $page);
+        $this->assign('total', $total);
+        $this->assign('list', $list);
+        $this->assign('pm_state', $pm_state);
+        $this->assign('m_name', $m_name);
+        $this->assign('pm_id', $pm_id);
+        $this->assign('smm_mobile', $smm_mobile);
+        $this->assign('publish_time', $publish_time);
+        return $this->fetch();
+    }
+
+    /**
+     * 发货信息处理
+     * 刘勇豪
+     */
+    public function fahuo_do(){
+        $data['pm_id'] = input('param.pm_id/d',0);
+        $data['express_corid'] = input('param.express_corid/d',0);
+        $data['express_way'] = trim(input('param.express_way/s',''));
+        $data['express_num'] = input('param.express_num/s','');
+        $data['seller_name'] = input('param.seller_name/s','');
+        $data['seller_mobile'] = input('param.seller_mobile/s','');
+
+
+        $popularity = new PopularityService();
+        $call_back = $popularity->fahuo_do($data);
+
+        return $call_back;
+    }
+
+    /**
+     * 非普通商品发货
+     * @return array
+     */
+    public function send_out(){
+        $pm_id = input('param.pm_id/d', 0);
+        $m_id = $this->m_id;
+        $popularity = new PopularityService();
+        $callback = $popularity->send_out($pm_id,$m_id);
+        return $callback;
+    }
+
+    /**
+     * 设置中奖者
+     * 刘勇豪
+     */
+    public function set_lucky(){
+        $pm_id = input('param.pm_id/d',0);
+        $popularity = new PopularityService();
+        $callback = $popularity->set_lucky_by_pmid($pm_id);
+
+        return $callback;
+    }
+
+    /**
+     * 立即成团
+     * 刘勇豪
+     */
+    public function now_publish(){
+        $pg_id = input('param.pg_id/d',0);
+        $periods = input('param.periods/d',0);
+        $popularity = new PopularityService();
+//        dump($pg_id.'========'.$periods);die;
+        $callback = $popularity->now_publish($pg_id,$periods);
+
+        return $callback;
+    }
+
+    /**
+     * 收货地址页
+     * 刘勇豪
+     */
+    public function address(){
+        $pm_id = input('param.pm_id/d',0);
+
+        // 获取订单详情
+        $popularity = new PopularityService();
+        $where['pm.pm_id'] = $pm_id;
+        $info = $popularity->order_info($where,'*');
+//        dump($info);
+//        die;
+
+        $this->assign('pm_id', $pm_id);
+        $this->assign('info', $info);
+        $this->assign('header_title', '收货地址');
+        return $this->fetch();
+    }
+
+    /**
+     * 收货地址页
+     * 刘勇豪
+     */
+    public function address_post(){
+        $pm_id = input('param.pm_id/d',0);
+        $pm_receiver = input('param.pm_receiver/s','');
+        $pm_mobile = input('param.pm_mobile/s','');
+        $pm_address = trim(input('param.pm_address/s',''));
+
+        // 获取订单详情
+        $popularity = new PopularityService();
+        $where['pm_id'] = $pm_id;
+        $data['pm_receiver'] = $pm_receiver;
+        $data['pm_mobile'] = $pm_mobile;
+        $data['pm_address'] = $pm_address;
+        $data['pm_addressid'] = 888;
+        $call_back = $popularity->address_post($pm_id,$data);
+
+        return $call_back;
+    }
+
+    /**
+     * 机器人列表
+     * 刘勇豪
+     */
+    public function robot_list(){
+        $pg_id = input('param.pg_id/d',0);
+
+        $popularity = new PopularityService();
+
+        // 已经打擂的机器人
+        $where='';
+        $where['pm.pg_id']=$pg_id;
+        $popmem_list = $popularity->popmem_list($where, $field='pm.m_id', $limit='');
+
+        // 获取机器人列表
+        $where = '';
+        $str = '';
+        if(!empty($popmem_list)){
+            foreach($popmem_list as $v){
+                $str .= $v['m_id'].',';
+            }
+            $str = rtrim($str,',');
+            $where['m_id'] = ['not in',$str];
+        }
+        $list = $popularity->get_robot_list($where, $order = 'm_id asc', $field = '*', $limit = "0,300");
+
+        //dump($list);die;
+        $this->assign('list', $list);
+        $this->assign('pg_id', $pg_id);
+        return $this->fetch();
+    }
+
+    /**
+     * 添加机器人擂主
+     * 刘勇豪
+     */
+    public function add_pm(){
+        $pg_id = input('param.pg_id/d',0);
+        $ids = input('param.ids/s','');
+        $popularity = new PopularityService();
+        $call_back = $popularity->add_pm($pg_id,$ids);
+
+        return $call_back;
+    }
+
+    /**
+     * 机器人列表
+     * 刘勇豪
+     */
+    public function robot_list2(){
+        $pm_id = input('param.pm_id/d',0);
+
+        $popularity = new PopularityService();
+
+        // 已经点赞的列表
+        $where = '';
+        $where['pj.pm_id'] = $pm_id;
+        $joinner_list = $popularity->joinner_list($where, $field = 'pj.m_id',$order='pj.pj_num desc',$limit='');
+
+        // 获取机器人列表
+        $where = '';
+        $str = '';
+        if(!empty($joinner_list)){
+            foreach($joinner_list as $v){
+                $str .= $v['m_id'].',';
+            }
+            $str = rtrim($str,',');
+            $where['m_id'] = ['not in',$str];
+        }
+
+        $list = $popularity->get_robot_list2($where, $order = 'm_id asc', $field = '*', $limit = "0,300");
+
+        // 获取订单详情
+        $where = '';
+        $where['pm.pm_id'] = $pm_id;
+        $info = $popularity->order_info($where);
+
+        //dump($list);die;
+        $this->assign('list', $list);
+        $this->assign('pm_id', $pm_id);
+        $this->assign('info', $info);
+        return $this->fetch();
+    }
+
+    /**
+     * 添加机器人擂主
+     * 刘勇豪
+     */
+    public function add_pm_pop(){
+        $pm_id = input('param.pm_id/d',0);
+        $datastr = input('param.datastr/s','');
+        $popularity = new PopularityService();
+        $call_back = $popularity->add_pm_pop($pm_id,$datastr);
+
+        return $call_back;
+    }
+}

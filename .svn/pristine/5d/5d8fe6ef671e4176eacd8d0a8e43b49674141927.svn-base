@@ -1,0 +1,104 @@
+{extend name="common/mem_base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/address/address.css">
+<style>
+    .address_btn{position: fixed;bottom: 0;}
+    .address_con{clear: both;height:0.8rem;}
+    .address_con .robox1{float: left;padding: 0.1rem;}
+    .address_con .robox1 img{width:40px;}
+    .address_con .robox1 img{width:0.5rem:height:0.5rem;margin-top: 0.05rem}
+    .address_con .robox2{float: left;margin-top: 0.15rem}
+    .address_con .robox2 input{border:1px solid #ccc;border-radius: 0.1rem;}
+    .address_con .robox3{float: right;margin-top: 0.45rem}
+    .address_con .robox3 .selector{cursor: pointer}
+</style>
+{/block}
+{block name="header"}
+
+{/block}
+{block name="content"}
+<main style="margin-top: 0;">
+    <div class="address-msg"></div>
+    <div class="address_main">
+        {empty name="list"}
+        <div class="address_list" style="background: #f2f2f2;">
+            <div class="address_noview">
+                <div class="address_nomain">
+                    <img src="__STATIC__/image/goods/dw@2x.png">
+                </div>
+                <p>当前还没添加机器人呢~</p>
+            </div>
+        </div>
+        {else/}
+        {volist name="list" id="vo"}
+        <div class="address_list" m_id = {$vo.m_id}>
+            <div class="address_con">
+                <div class="robox1">
+                    <img src="{$vo.m_avatar|default='/static/image/index/pic_home_taplace@2x.png'}" alt=""/>
+                </div>
+                <div class="robox2">
+                    <p>
+                        <span>m_id:{$vo.m_id}</span>
+                        <span>m_name:{$vo.m_name}</span>
+                    </p>
+                    <p>
+                        <span >m_mobile:{$vo.m_mobile2}</span>
+                    </p>
+                </div>
+                <div class="robox3">
+                    <input class='selector' name="selector[]" type="checkbox" value="{$vo.m_id|default=0}">
+                </div>
+            </div>
+        </div>
+        {/volist}
+        {/empty}
+        <!-- 空 -->
+    </div>
+</main>
+<a href="javascript:void(0);">
+    <div class="address_btn">
+        确认添加
+    </div>
+</a>
+{/block}
+{block name="script"}
+<script src="__STATIC__/lib/layui/layui.js"></script>
+<script src="__JS__/common/popups.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/dropload/dropload.min.js"></script>
+<script>
+    $(function(){
+        $(".address_btn").click(function(){
+            var ids = '';
+            $(".selector").each(function(){
+                if($(this).is(':checked')){
+                    ids += $(this).val();
+                    ids += ',';
+                }
+            });
+
+            if(ids.length > 0){
+                var pg_id = "{$pg_id}";
+                // 提交
+                $.ajax({
+                    url:"{:url('/business/Poporder/add_pm')}",
+                    dataType:'JSON',
+                    type:'POST',
+                    data:{pg_id:pg_id,ids:ids},
+                    success: function(data) {
+                        console.log(data);
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        if(data.status){
+                            setTimeout(function(){
+                                window.parent.location.reload();
+                            },1000);
+                        }
+                    }
+                });
+            }
+        });
+    })
+</script>
+{/block}

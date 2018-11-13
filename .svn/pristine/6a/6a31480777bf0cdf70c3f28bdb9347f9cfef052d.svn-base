@@ -1,0 +1,300 @@
+<?php
+/**
+ * User: Shine
+ * Date: 2018/9/4
+ * Time: 14:39
+ */
+namespace app\business\controller;
+
+use app\data\service\BaseService;
+use app\data\service\pointOrderPai\PointOrderPaiService;
+use app\data\service\pointOrderAwardcode\PointOrderAwardcodeService;
+
+class Pointorder extends MemberHome{
+
+    /**
+    * 拍品订单列表
+    * 创建人 刘勇豪
+    * 时间 2018-07-09 10:40:00
+    */
+    public function order_list()
+    {
+        $status = input('param.status/d', 0);
+        $g_name = trim(input('param.g_name/s', ''));
+        $m_name = trim(input('param.m_name/s', ''));
+        $o_sn = trim(input('param.o_sn/s', ''));
+        //中奖时间
+        $start_time = trim(input('param.start_time/s', ''));
+        $end_time = trim(input('param.end_time/s', ''));
+        //订单状态
+        $o_state = trim(input('param.o_state/d', 0));
+        $excel = trim(input('param.excel/s', ''));
+
+        $m_id = $this -> m_id;
+
+        $where = '';
+        if($status){
+            switch ($status) {
+                case 1:
+                    // 参拍中
+                    $where['po.o_state'] = 1;
+                    break;
+                case 2:
+                    // 待发货
+                    $where['po.o_state'] = 2;
+                    break;
+                case 3:
+                    // 已发货
+                    $where['po.o_state'] = 3;
+                    break;
+                case 4:
+                    // 已签收
+                    $where['po.o_state'] = 4;
+                    break;
+                case 5:
+                    // 交易完成
+                    $where['po.o_state'] = 5;
+                    break;
+                case 6:
+                    // 未中拍
+                    $where['po.o_state'] = 10;
+                    break;
+                case 7:
+                    // 流拍
+                    $where['po.o_state'] = 11;
+                    break;
+                case 8:
+                    // 待付款
+                    $where['po.o_paystate'] = 1;
+                    break;
+                case 9:
+                    // 已付款
+                    $where['po.o_paystate'] = 2;
+                    break;
+                case 10:
+                    // 退款中
+                    $where['po.o_paystate'] = 3;
+                    break;
+                case 11:
+                    // 退款完成
+                    $where['po.o_paystate'] = 4;
+                    break;
+            }
+        }
+
+        // 商品名搜索
+        if($g_name){
+            $where['pg.g_name'] = ['like', "%".$g_name."%"];
+        }
+
+        // 用户昵称搜索
+        if($m_name){
+            $where['m.m_name'] = ['like', "%".$m_name."%"];
+        }
+
+        //订单编号
+        if($o_sn){
+            $where['po.o_sn'] = $o_sn;
+        }
+        //中奖时间
+        if($start_time || $end_time){
+            if($start_time && $end_time){
+                $where = [
+                    'po.o_publishtime'=>['between time',[$start_time,$end_time]]
+                ];
+            }else{
+                $this->error('时间必须是时间段','/business/pointorder/order_list','',1);
+            }
+        }
+        //订单状态
+        if($o_state){
+            $where = [
+                'po.o_state'=>$o_state,
+            ];
+            if($start_time && $end_time) {
+                $where['po.o_publishtime'] = ['between time', [$start_time, $end_time]];
+            }
+        }
+
+        $pointOrderPai = new PointorderPaiService();
+        $store_id = $pointOrderPai->get_my_storeid_by_mid($m_id);
+        $where['po.store_id'] = $store_id;
+
+        $order='po.o_id desc';
+        $field = "po.o_id,po.o_sn,po.store_id,po.o_point,po.o_paystate,po.o_state,po.gp_id,po.gp_num,po.o_addtime,po.o_paytime,po.o_totalpoint,po.gs_id,po.o_periods,po.o_isdelete,po.o_gp_settlement_price,po.o_deliverfee,pgp.gp_market_price,pgp.g_id,pgp.gp_img,pg.g_name,pg.g_endtime,pg.g_typeid,s.stroe_name,m.m_mobile,m.m_name,m.is_jq,s.store_logo";
+        if($excel == 1){
+            $list = $pointOrderPai->getOrderInfoLimit($where, $field, $order,200);
+        }else if($excel == 2){
+            $yesterday = date('Y-m-d ',strtotime("-20 day")).'16:00:00';
+            $today = date('Y-m-d ').'16:00:00';
+            $where_state = [
+                'po.o_state' => 2,
+                'po.o_publishtime' => ['between time',[$yesterday,$today]],
+            ];
+            $list = $pointOrderPai->getOrderInfoLimit($where_state, $field, $order,1000);
+        } else{
+            $list = $pointOrderPai->getOrderInfoPaginate($where, $field, $order,5);
+            $page = $list->render();
+            $total = $list->total();
+            $list = $list->toArray();
+            $list = $list['data'];
+        }
+        if(!empty($list)){
+            foreach($list as $k=>$v){
+                // 幸运码数量
+                $where_count['o_id'] = $v['o_id'];
+                $pai_num = $pointOrderPai->countPaiNum($where_count);
+                $list[$k]['pai_num'] = $pai_num;
+
+                //参拍揭晓时间（当期最后下单时间）
+                $gp_id = $v['gp_id'];
+                $o_periods = $v['o_periods'];
+                $call_publish = $pointOrderPai->get_pai_publish_time($gp_id, $o_periods);
+                $publish_time = 0;
+                if($call_publish['status']){
+                    $publish_time = $call_publish['data'];
+                }
+                $list[$k]['o_publishtime'] = $publish_time;
+
+                // 中奖者信息
+                $pointOrderAwardcode = new PointOrderAwardcodeService();
+                $awards_mem_info = $pointOrderAwardcode->get_awards_mem($gp_id,$o_periods);
+
+                $award_m_avatar = '';//中奖者头像
+                $award_m_name = '';//中奖者名称
+                $award_m_name_secret = '';//中奖者名称保密
+                if(!empty($awards_mem_info) && !empty($awards_mem_info['m_name_secret'])){
+                    $award_m_avatar = $awards_mem_info['m_avatar'];//中奖者头像
+                    $award_m_name = $awards_mem_info['m_name'];//中奖者名称
+                    $award_m_name_secret = $awards_mem_info['m_name_secret'];//中奖者名称保密
+                }
+                $list[$k]['award_m_avatar'] = $award_m_avatar;
+                $list[$k]['award_m_name'] = $award_m_name;
+                $list[$k]['award_m_name_secret'] = $award_m_name_secret;
+                $list[$k]['m_mobile'] = htmlspecialchars($pointOrderAwardcode->decrypt($v['m_mobile']));
+            }
+        }
+        if($excel){
+            $base_service = new BaseService();
+            if($excel == 1){
+                //导出当前条件的excel
+                $data = $this->current_condition($list);
+                $title = [
+                    '商品信息','店铺名称','拍品信息','状态','中奖信息','下单时间','购买信息'
+                ];
+                $filename = date('Y-m-d H:i').'积分订单';
+                $base_service->exportExcel($data,$title,$filename);
+            }else if($excel == 2){
+                //导出待发货订单
+                $data = $this->pending_delivery($list);
+                $title = [
+                    '中拍时间','订单编号','来源店铺','商品名称','支付积分','购买数量','收货人','手机号码','手机号码','收货地址'
+                ];
+                $filename = date('Y-m-d H:i').'待发货订单';
+                $base_service->exportExcel($data,$title,$filename);
+            }
+        }
+        $this->assign('list', $list);
+        $this->assign('page', $page);
+        $this->assign('total', $total);
+        $this->assign('status', $status);
+        $this->assign('g_name', $g_name);
+        $this->assign('m_name', $m_name);
+        $this->assign('o_sn', $o_sn);
+        $this->assign('start_time', $start_time);
+        $this->assign('end_time', $end_time);
+        $this->assign('o_state', $o_state);
+        $this->assign('where', $where);
+        return $this->fetch();
+    }
+
+    //导出当前条件的excel
+    public function current_condition($list){
+        $data = array();
+        foreach($list as $k => $v){
+            switch($v['gs_id']){
+                case 1:
+                    $gs_name = '普通商品';
+                    break;
+                case 2:
+                    $gs_name = '虚拟商品';
+                    break;
+                case 3:
+                    $gs_name = '大宗商品';
+                    break;
+                default:
+                    $gs_name = '';
+                    break;
+            }
+            switch($v['o_paystate']){
+                case 1:
+                    $o_paystate = '待付款';
+                    break;
+                case 2:
+                    $o_paystate = '已付款';
+                    break;
+                case 3:
+                    $o_paystate = '退款中';
+                    break;
+                case 4:
+                    $o_paystate = '退款完成';
+                    break;
+                default:
+                    $o_paystate = '';
+                    break;
+            }
+            switch($v['o_state']){
+                case 1:
+                    $o_state = '待付款';
+                    break;
+                case 2:
+                    $o_state = '已付款';
+                    break;
+                case 3:
+                    $o_state = '退款中';
+                    break;
+                case 4:
+                    $o_state = '退款完成';
+                    break;
+                default:
+                    $o_state = '';
+                    break;
+            }
+            $o_deliverfee = $v['o_deliverfee'] > 0 ? $v['o_deliverfee'].'积分' : '包邮';
+            $data[] = [
+                'g_name'        =>  $v['g_name'],
+                'stroe_name'    =>  $v['stroe_name'],
+                'o_point'       =>  '《拍品价格》:'.$v['o_point'].'《商品属性》:'.$gs_name,
+                'o_paystate'    =>  '《支付状态》:'.$o_paystate.'《订单状态》:'.$o_state,
+                'award_m_name'  =>  '《中奖者昵称》:'.$v['award_m_name'],
+                'time'          =>  date('Y-m-d H:i:s',$v['o_addtime']),
+                'o_state'       =>  '《订单编号》:'.$v['o_sn'].'《买家昵称》:'.$v['m_name'].'《参拍期数》:'.$v['o_periods'].'《参拍价》:'.$v['o_point'].'《购买数量》:'.$v['gp_num'].'《邮费》:'.$o_deliverfee.'《订单总费用》:'.$v['o_totalpoint'].'《下单手机号码》:'.$v['m_mobile'],
+            ];
+        }
+        return $data;
+    }
+    /**
+     * 导出待发货订单
+     * 邓赛赛
+     */
+    public function pending_delivery($list){
+        $data = array();
+        $title = [
+            '中拍时间','订单编号','来源店铺','商品名称','支付积分','购买数量','收货人','手机号码','收货地址'
+        ];
+        foreach($list as $v){
+            $data[] = [
+                $v['o_publishtime'],
+                $v['o_sn'],
+                $v['stroe_name'],
+                $v['g_name'],
+                $v['o_paymoney'],
+                $v['gp_num'],
+                $v['award_m_name'],
+                $v['m_mobile'],
+                $v['award_m_name'],
+            ];
+        }
+        dump($list);die;
+    }
+}

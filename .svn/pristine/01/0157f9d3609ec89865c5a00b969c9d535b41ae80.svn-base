@@ -1,0 +1,58 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+	.sm_content{
+		display:flex;
+	}
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="form-group  from_add_authority">
+				<label>系统消息列表</label>
+				<a class="pull-right" href="{:url('systemmsg/sendmsg')}">添加系统消息</a>
+			</div>
+			<table class="table table-hover" style="margin-bottom:0">
+				<thead>
+				<tr>
+					<th>消息ID</th>
+					<th>标题</th>
+					<th>类型</th>
+					<th>消息简介</th>
+					<th>消息内容</th>
+					<th>收消息人ID</th>
+				</tr>
+				</thead>
+				<tbody>
+				{empty name="list"}
+				<tr>
+					<td colspan="20">没有数据</td>
+				</tr>
+				{else/}
+				{volist name="$list" id="vo"}
+				<tr>
+					<th scope="row" class="sid">{$vo.sm_id}</th>
+					<td>{$vo.sm_title}</td>
+					<td>{$vo.sm_type}</td>
+					<td>{$vo.sm_brief}</td>
+					<td class="sm_content">{$vo.sm_content}</td>
+					<td>{$vo.to_mid}</td>
+				</tr>
+				{/volist}
+				{/empty}
+				</tbody>
+			</table>
+			<div>
+				{$page}
+				<span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}

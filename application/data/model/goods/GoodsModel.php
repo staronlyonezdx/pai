@@ -1,0 +1,495 @@
+<?php
+/**
+ * 管理员账户Model
+ *-------------------------------------------------------------------------------------------
+ * 版权所有 广州市素材火信息科技有限公司
+ * 创建日期 2017-07-12
+ * 版本 v.1.0.0
+ * 网站：www.sucaihuo.com
+ *--------------------------------------------------------------------------------------------
+ */
+
+namespace app\data\model\goods;
+use app\data\model\BaseModel as BaseModel;
+use app\data\service\goods\GoodsService;
+use app\data\service\orderPai\OrderPaiService;
+use think\Db;
+
+class GoodsModel extends BaseModel
+{
+    protected $db = 'goods' ;//商品表
+    //protected $pid = 0 ;//分类
+
+    /**
+     * @param $where
+     * @param $order
+     * @param $field
+     * @return mixed
+     * 推荐列表（详情推荐商品列表）
+     * 邓赛赛
+     */
+    public function getTjList($where,$order,$field){
+        $gc_id = $where['g.gc_id'];
+        unset($where['g.gc_id']);
+        $list = Db::table('pai_goods g')
+            ->where($where)
+            ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+            ->field($field)
+            ->order($order)
+            ->select();
+        $list1 = array();
+        $list2 = array();
+        foreach($list as $k => $v){
+            if($v['gc_id'] == $gc_id){
+                $list1[] = $v;
+            }else{
+                $list2[] = $v;
+            }
+        }
+        if(count($list1) < 6){
+            $list = array_merge($list1,$list2);
+        }else{
+            $list = array_slice($list,0,6);
+        }
+
+        if(count($list) < 6){
+            $num = 6-count($list);
+            $where2 = [
+                'g.g_state'=>6,
+                'g.gc_id'=>$gc_id,
+                'g.g_storeid'=>["<>",$where['g.g_storeid']],
+                'g.g_endtime'=>['>',time()],
+                'gp.gp_stock'=>['>',0],
+            ];
+            $list4 = Db::table('pai_goods g')
+                ->where($where2)
+                ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+                ->field($field)
+                ->order('g.g_id desc')
+                ->limit($num)
+                ->select();
+            $list = array_merge($list,$list4);
+
+            if(count($list)<6){
+                $nums = 6-count($list);
+                $where3=[
+                    'g.g_state'=>6,
+                    'g.gc_id'=>['<>',$gc_id],
+                    'g.g_storeid'=>["<>",$where['g.g_storeid']],
+                    'g.g_endtime'=>['>',time()],
+                    'gp.gp_stock'=>['>',0],
+                ];
+                $list5 =  Db::table('pai_goods g')
+                    ->alias('g')
+                    ->where($where3)
+                    ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+                    ->field($field)
+                    ->order($order)
+                    ->limit($nums)
+                    ->select();
+                $list = array_merge($list,$list5);
+            }
+        }
+        foreach($list as $k => $v){
+            $g_id = $v['g_id'];
+            $gp= Db::table('pai_goods_product')->where('g_id',$g_id)->field('gp_id,gp_market_price')->find();
+            $list[$k]['gp_market_price'] = $gp['gp_market_price'];
+            $list[$k]['gdr_price'] = Db::table('pai_goods_dt_record')->where('g_id',$g_id)->value('min(gdr_price)');
+            $where=[
+                'o_paystate'=>2,
+                'o_state'=>1
+            ];
+            $list[$k]['gp_num'] = Db::table('pai_order_pai')->where('gp_id',$gp['gp_id'])->where($where)->value('sum(gp_num)');
+        }
+        return $list;
+    }
+
+    /**
+     * @param $where
+     * @param string $order
+     * @param string $field
+     * @param string $offset
+     * @param string $page_size
+     * 商品推荐（收藏推荐列表）
+     * 邓赛赛
+     */
+    public function goodsCollectionTj($where,$order='gdr.gdr_price asc',$field='*',$offset='0',$page_size='20'){
+        $list = Db($this->db)
+            ->alias('g')
+            ->where($where)
+            ->order($order)
+            ->field($field)
+//            ->join('pai_goods g','gc.g_id=g.g_id','left')
+            ->join('pai_goods_dt_record gdr','gdr.g_id=g.g_id','left')
+            ->join('pai_goods_product gp','gp.g_id=g.g_id','left')
+            ->limit($offset,$page_size)
+            ->group('gdr.g_id')
+            ->select();
+        $pai_where = [
+            'o_paystate'=>['>',1],
+        ];
+        foreach($list as $k =>$v){
+            $pai_where['gp_id'] = $v['gp_id'];
+            $list[$k]['gp_num'] = Db::table('pai_order_pai')->where($pai_where)->sum('gp_num');
+        }
+        return $list;
+    }
+
+    /**
+     * 首页热拍
+     * 邓赛赛
+     */
+    public function heatGoods($order='g.g_addtime desc',$page,$page_size){
+        $offset = ($page-1) * $page_size;
+        $where = [
+            'g.is_heat'=>[">",0],
+            'g.g_state'=>6,
+            'g.g_endtime'=>['>',time()],
+            'gp.gp_stock'=>['>',0]
+
+        ];
+        $list = Db::table('pai_goods')
+            ->alias('g')
+            ->where($where)
+            ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+            ->field('g.g_name,g.g_id,g.g_img,gp.gp_market_price,gp.gp_id,gp.gp_stock')
+            ->order($order)
+            ->limit($offset,$page_size)
+            ->select();
+        $lists = array();
+        foreach($list as $k => $v){
+            $where = [
+                'gp_id'=>$v['gp_id'],
+                'o_paystate'=>['>',1],
+                'o_isdelete'=>1,
+                'o_state'=>1
+            ];
+            $lists[$k] = Db::table('pai_order_pai')
+                ->field('gdr_id,o_id,sum(gp_num) sum_num')
+                ->where($where)
+                ->group('gdr_id')
+                ->order('sum_num desc')
+                ->select();
+            //此商品所有参拍人次
+            unset($where['o_state']);
+            $total_num = Db::table('pai_order_pai')
+                ->where($where)
+                ->sum('gp_num');
+            $list[$k]['total_num'] = $total_num ? $total_num : 0;
+            $list[$k]['gp_stock'] = $v['gp_stock'] > 0 ? 1 : 0;
+
+        }
+
+        //根据销售最高值获取销售价格(有订单)或根据g_id获取最低销售价格(无订单)
+        foreach($lists as $kk => $vv){
+            $lists[$kk] = isset($vv[0]) ? $vv[0] : [];
+            $lists[$kk]['g_id'] = $list[$kk]['g_id'];
+            if(isset($vv[0]['gdr_id']) && $vv[0]['sum_num'] != 0 ){
+                //最大参拍人次（按dtr分）
+                $list[$kk]['max_num'] = $vv[0]['sum_num'];
+                $info = Db::table('pai_goods_dt_record')->where('gdr_id',$vv[0]['gdr_id'])->field('gdr_price,gdr_membernum')->find();
+            }
+            else{
+                $list[$kk]['max_num'] = 0;
+                $info = Db::table('pai_goods_dt_record')->where(['g_id'=>$list[$kk]['g_id']])->field('gdr_price,gdr_membernum')->find();
+            }
+            $list[$kk]['gdr_price'] = $info['gdr_price'];
+            $list[$kk]['gdr_membernum'] = $info['gdr_membernum'];
+        }
+        $data['list'] = $list;
+        $total_count = Db::table('pai_goods')->where(['is_heat'=>[">",0]])->count();
+        $total_page = ceil($total_count/$page_size);
+        $data['page'] = $page;
+        $data['page_size'] = $page_size;
+        $new_num = count($data['list']);
+        $data['new_num'] = $new_num;
+        $data['total_num'] = $total_count;
+        $data['total_page'] = $total_page;
+        return $data;
+    }
+
+//    /**
+//     * 场次列表（暂时不用）
+//     * 邓赛赛
+//     */
+//    public function topGoods($min_money=1,$max_money=1000){
+//        $sql = "select g.g_img,gp.gp_market_price,g.g_id,gdr.gdr_membernum,gdr.gdr_price,gdr.gdr_id,g.g_name from pai_goods g LEFT JOIN pai_goods_product gp ON g.g_id=gp.g_id LEFT JOIN pai_goods_dt_record gdr ON gdr.g_id=g.g_id WHERE  gdr.gdr_price >= $min_money AND gdr.gdr_price <= $max_money AND g.is_top > 0 ORDER BY g.g_addtime desc ";
+//        $list = Db::query($sql);
+//        if(!empty($list)){
+//            foreach($list as $k => $v){
+//                $sql2 = 'select sum(gp_num) num from pai_order_pai op WHERE op.gdr_id='.$v['gdr_id'].' and op.o_state=1 and op.o_paystate=2 group by gdr_id limit 1';
+//                $list2 = Db::query($sql2);
+//                if(!empty($list2[0])){
+//                    $list[$k]['gp_num'] = $list2[0]['num'];
+//                }else{
+//                    $list[$k]['gp_num'] = 0;
+//                }
+//            }
+//        }
+//        return $list;
+//    }
+    /**
+     * @param int $min_money
+     * @param int $max_money
+     * @param int $page
+     * @return array
+     * 场次推荐（暂时不用）
+     * 邓赛赛
+     */
+//    public function indexGoods($min_money,$max_money,$page){
+////        $sql = "select * from (select g.g_id,sum(op.gp_num)gp_num,g.g_img,gp.gp_market_price,op.gdr_id,gdr.gdr_price,gdr.gdr_membernum,g.g_name from pai_order_pai op LEFT JOIN pai_goods_product gp ON gp.gp_id=op.gp_id LEFT JOIN pai_goods g ON g.g_id=gp.g_id  LEFT JOIN pai_goods_dt_record gdr ON gdr.gdr_id=op.gdr_id where g.g_state=6 and op.o_state=1 and o_paystate=2 AND gp.gp_market_price >= $min_money AND gp.gp_market_price < $max_money GROUP BY op.gdr_id )A GROUP BY A.g_id ORDER BY A.gp_num desc limit 20";
+//        $time = time();
+//        $sql = "select * from (select g.g_id,sum(op.gp_num)gp_num,g.g_img,gp.gp_market_price,op.gdr_id,gdr.gdr_price,gdr.gdr_membernum,g.g_name from pai_order_pai op LEFT JOIN pai_goods_product gp ON gp.gp_id=op.gp_id LEFT JOIN pai_goods g ON g.g_id=gp.g_id  LEFT JOIN pai_goods_dt_record gdr ON gdr.gdr_id=op.gdr_id where g.g_state=6 and g.g_endtime > $time and op.o_state=1 and o_paystate=2 AND gp.gp_market_price >= $min_money AND gp.gp_market_price < $max_money GROUP BY op.gdr_id )A    ORDER BY A.gp_num desc limit 60";
+//
+//        $list1 = $list1 = Db::query($sql);
+//        $list = array();
+//        //循环取出销量最大的
+//        foreach($list1 as $k => $v){
+//            if(isset($list[$v['g_id']]['gp_num'])){
+//                if($list[$v['g_id']]['gp_num'] < $v['gp_num']){
+////                    echo 22;
+//                    $list[$v['g_id']] = $v;
+//                }
+//            }else{
+//                $list[$v['g_id']] = $v;
+//            }
+//        }
+//        $gids = array_column($list1,'g_id');
+//        if($gids){
+//            $gids = "(".implode(',',$gids).")";
+//            $not_in = "g.g_id not in $gids AND";
+//        }else{
+//            $not_in = '';
+//        }
+//
+//        $count = count($list);
+//        if($count < 20){
+//            $count2 = 20-$count;
+//
+//            $sql2 = "select g.g_img,gp.gp_market_price,g.g_id,gdr.gdr_membernum,gdr.gdr_price,g.g_name from pai_goods g LEFT JOIN pai_goods_product gp ON g.g_id=gp.g_id LEFT JOIN pai_goods_dt_record gdr ON gdr.g_id=g.g_id  where $not_in  gp.gp_market_price >= $min_money AND gp.gp_market_price <= $max_money AND g.is_top = 0  AND g.g_state=6 AND g.g_endtime > $time GROUP BY g.g_id ORDER BY g.g_addtime desc  limit $count2 ";
+//            $list2 = Db::query($sql2);
+//            $list = array_merge($list,$list2);
+//        }
+//
+//        switch($page){
+//            case 1:
+//                $return_list['list'] = array_slice($list,0,5);
+//                break;
+//            case 2:
+//                $return_list['list'] = array_slice($list,5,5);
+//                break;
+//            case 3:
+//                $return_list['list'] = array_slice($list,10,5);
+//                break;
+//            case 4:
+//                $return_list['list'] = array_slice($list,15,5);
+//                break;
+//            default:
+//                $return_list['list'] = array();
+//                break;
+//        }
+//        //销量为0是,gp_num赋值为0
+//        foreach($return_list['list'] as $k => $v){
+//            $return_list['list'][$k]['gp_num'] = isset($v['gp_num']) ? $v['gp_num'] : 0;
+//        }
+//
+//        $return_list['new_num'] = count($return_list['list']);
+//        $return_list['page'] = $page;
+//        $return_list['total_page'] = ceil(count($list)/5);
+//        $return_list['total_num'] = count($list);
+//        return $return_list;
+//    }
+    /**
+     * 折扣场次信息
+     * 邓赛赛
+     */
+    public function indexGoods($page,$page_size,$state){
+        $offset = ($page - 1) * $page_size;
+        $where = [
+            'g.g_state'=>6,
+            'g.g_endtime'=>['>',time()],
+            'gp.gp_stock'=>['>',0],
+        ];
+        switch($state){
+            case 1:
+                $gdt_id = 2;
+                $where['gdr.gdt_id'] = ['in',2];
+                break;
+            case 2:
+                $gdt_id = 3;
+                //获取商品id和折扣id
+                $gid_list = Db::table('pai_goods g')
+                    ->join('pai_goods_dt_record gdr','g.g_id = gdr.g_id','left')
+                    ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+                    ->where($where)
+                    ->field('g.g_id,gdt_id')
+                    ->select();
+                $new_gid_list = array();
+                //已商品id为键折扣id为值
+                foreach($gid_list as $k => $v){
+                    $new_gid_list[$v['g_id']][] = $v['gdt_id'];
+                }
+                //剔除折扣id有2的商品id
+                foreach($new_gid_list as $k => $v){
+                    if(in_array(2,$v) || !in_array(3,$v)){
+//                        dump($new_gid_list[$k]);
+                        unset($new_gid_list[$k]);
+                    }
+                }
+                //可用的商品id
+                $new_gid_list = array_keys($new_gid_list);
+                $where['g.g_id'] = ['in',$new_gid_list];
+                break;
+            default:
+                $gdt_id = 4;
+                $gid_list = Db::table('pai_goods g')
+                    ->join('pai_goods_dt_record gdr','g.g_id = gdr.g_id','left')
+                    ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+                    ->where($where)
+                    ->field('g.g_id,gdt_id')
+                    ->select();
+                $new_gid_list = array();
+                foreach($gid_list as $k => $v){
+                    $new_gid_list[$v['g_id']][] = $v['gdt_id'];
+                }
+                foreach($new_gid_list as $k => $v){
+                    if(in_array(2,$v) || in_array(3,$v) || !in_array(4,$v)){
+                        unset($new_gid_list[$k]);
+                    }
+                }
+                $new_gid_list = array_keys($new_gid_list);
+                $where['g.g_id'] = ['in',$new_gid_list];
+                break;
+        }
+        $list['list'] = Db::table('pai_goods g')
+            ->join('pai_goods_dt_record gdr','g.g_id = gdr.g_id','left')
+            ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+            ->join('pai_order_awardcode oa','gp.gp_id = oa.gp_id','left')
+            ->where($where)
+            ->limit($offset,$page_size)
+            ->field('g.g_id,g.g_img,g.g_name,gp.gp_market_price ,count(oa.oa_id) gp_num,gp.gp_id')
+            ->order('g.is_tj asc,gp_num desc')
+            ->order('g.is_tj asc')
+            ->group('gp.gp_id')
+            ->select();
+        $order_pai = new OrderPaiService();
+        //计算本场次最高期的参拍百分比
+        foreach($list['list'] as $k => $v){
+            $where2 = [
+                'g_id'=>$v['g_id'],
+                'gdt_id'=>$gdt_id
+            ];
+            $gdr_data = Db::table('pai_goods_dt_record')->where($where2)->field('gdr_id,gdr_membernum,gdr_price')->find();
+            $maxPeriods = $order_pai->maxPeriods($gdr_data['gdr_id']);
+            $where3 = [
+                'gp_id'=>$v['gp_id'],
+                'gdr_id'=>$gdr_data['gdr_id']
+            ];
+            if(!empty($maxPeriods['status'])){
+                $where3['o_periods'] = $maxPeriods['data'];
+            }
+            //统计本期本折扣场已参团人数
+            $list['list'][$k]['gp_num'] = Db::table('pai_order_awardcode')->where($where3)->count();
+            $list['list'][$k]['gdr_membernum'] = $gdr_data['gdr_membernum'];
+            $list['list'][$k]['gdr_price'] = $gdr_data['gdr_price'];
+        }
+        $total_num = Db::table('pai_goods g')
+            ->join('pai_goods_dt_record gdr','g.g_id = gdr.g_id','left')
+            ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+            ->join('pai_order_awardcode oa','gp.gp_id = oa.gp_id','left')
+            ->where($where)
+            ->group('gp.gp_id')
+            ->count();
+        $total_page = ceil($total_num/$page_size);
+        $list['page'] = $page;
+        $list['page_size'] = $page_size;
+        $new_num = count($list['list']);
+        $list['new_num'] = $new_num;
+        $list['total_num'] = $total_num;
+        $list['total_page'] = $total_page;
+
+        return $list;
+    }
+
+    /**
+     * 店铺首页
+     * 邓赛赛
+     */
+    public function shopList($where,$field,$order,$page_size,$page){
+        $new_num = ($page -1) *$page_size;
+        $list = Db::table($this->tbale)
+            ->alias('g')
+            ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->join('pai_order_pai op','p.gp_id = op.gp_id and op.o_paystate > 1','left')
+            ->join('pai_goods_dt_record dtr','dtr.g_id = g.g_id','left')
+            ->field($field)
+            ->order($order)
+            ->limit($new_num,$page_size)
+            ->group('g.g_id')
+            ->select();
+//        dump($list);die;
+//        foreach($list as $k =>$v){
+//            $pai_where['gp_id'] = $v['gp_id'];
+//            $pai_where['o_paystate'] = ['>',1];
+//            $sum_gp_num = Db::table('pai_order_pai')->where($pai_where)->sum('gp_num');
+//            $list[$k]['sum_gp_num'] = $sum_gp_num;
+//        }
+        $where2 = [
+            'g_storeid'=>$where['g.g_storeid'],
+            'g_state'=>6,
+        ];
+        $count = $this->getCount($where2);
+        $list = [
+            'list' => $list,
+            'page'=>$page,
+            'page_size'=>$page_size,
+            'now_num'=>count($list),
+            'totle_num'=>$count,
+            'totle_page'=>ceil($count/$page_size),
+        ];
+        return $list;
+    }
+
+    /**
+     * 首页搜索商品
+     * 邓赛赛
+     */
+    public function searchGoods($where,$order,$field,$offset,$page_size){
+        $list['list'] = Db::table($this->tbale)
+            ->alias('g')
+            ->where($where)
+            ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+            ->join('pai_order_pai op','op.gp_id = gp.gp_id','left')
+            ->join('pai_goods_dt_record dtr','g.g_id = dtr.g_id','left')
+            ->order($order)
+            ->field($field)
+            ->order($order)
+            ->limit($offset,$page_size)
+            ->group('g.g_id')
+            ->select();
+        //参团人数
+        foreach($list['list'] as $k => $v){
+            $where2 = [
+                'gp_id'=>$v['gp_id'],
+                'o_paystate'=>['>=',2]
+            ];
+            $list['list'][$k]['sum_gp_num'] = Db::table('pai_order_pai')->where($where2)->sum('gp_num');
+        }
+        $total_num = Db::table($this->tbale)
+            ->alias('g')
+            ->where($where)
+            ->join('pai_goods_product gp','g.g_id = gp.g_id','left')
+            ->join('pai_order_pai op','op.gp_id = gp.gp_id','left')
+            ->group('g.g_id')
+            ->count();
+
+        $total_page = ceil($total_num/$page_size);
+        $list['new_num'] = count($list['list']);
+        $list['page_size'] = $page_size;
+        $list['total_page'] = $total_page;
+        $list['total_num'] = $total_num;
+        return $list;
+    }
+
+}

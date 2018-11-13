@@ -1,0 +1,251 @@
+.peanut_header{
+    width:7.5rem;
+    height:0.88rem;
+    line-height: 0.88rem;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 999;
+}
+.peanut_header img{
+    width:0.56rem;
+    height:0.56rem;
+    /*position: absolute;*/
+    /*left: 0.3rem;*/
+    /*margin-top: 0.15rem;*/
+}
+.peanut_header p{
+    text-align: center;
+    color:#333333;
+    font-size: 0.36rem;
+    font-weight: 600;
+}
+.peanut_header a{
+    position: absolute;
+    right:0.3rem;
+    top:0rem;
+    color:#666666;
+    font-size: 0.26rem;
+}
+.peanut_header .peanut_fanhui{
+    position: absolute;
+    left: 0.3rem;
+    /*margin-top: 0.15rem;*/
+}
+.peanut_bg{
+    width:7.5rem;
+    height:5.44rem;
+    background: url("../../image/myhome/bg_huasheng@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+.peanut_top_tit{
+    margin:0 auto;
+    width:7.5rem;
+    margin-top: 1.05rem;
+}
+.peanut_top_tit p{
+    text-align: center;
+}
+.peanut_top_tit p img{
+    width:0.42rem;
+    height:0.42rem;
+}
+.peanut_top_tit p span{
+    color:#333333;
+    font-size: 0.26rem;
+    vertical-align: middle;
+    font-weight: 600;
+}
+.peanut_top_tit .peanut_num{
+    margin-top: 0.23rem;
+    color:#000000;
+    font-size: 0.68rem;
+    font-weight: 600;
+}
+.peanut_top_tit .peanut_gouser{
+    width:1.6rem;
+    height:0.6rem;
+    background: #fff;
+    border-radius: 0.08rem;
+    color:#ffd400;
+    font-size: 0.28rem;
+    margin:0 auto;
+    text-align: center;
+    line-height: 0.6rem;
+    margin-top: 0.3rem;
+}
+.peanut_view{
+    width:7.5rem;
+    margin-top: 0.85rem;
+}
+.peanut_tab{
+    width:3.6rem;
+}
+.peanut_lftab {
+    width:3.74rem;
+    border-right:0.01rem solid rgba(255,255,255,0.5);
+}
+.peanut_tab p{
+    color:#333333;
+    font-size: 0.32rem;
+}
+.peanut_tab span{
+    color:#666666;
+    font-size: 0.28rem;
+    display: block;
+    text-align: center;
+}
+.peanut_select_position{
+    position: relative;
+}
+.peanut_list{
+    width:7.5rem;
+    height:0.88rem;
+    line-height: 0.88rem;
+    background:#fff;
+}
+.data-list .hslist .month {
+    margin: 0.1rem 0 0 0;
+}
+.peanut_list span{
+    color:#333333;
+    font-size: 0.28rem;
+    margin-left: 0.3rem;
+}
+.peanut_chongzhi{
+    width:0.46rem;
+    height:0.34rem;
+    margin-left: 0.27rem;
+
+}
+.peanut_img{
+    width:0.34rem;
+    height:0.34rem;
+    margin-right: 0.27rem;
+}
+.peanut_list img{
+    margin-top: 0.27rem;
+}
+.peanut_record{
+    margin-top:0.16rem ;
+}
+.peanut_record .peanut_list{
+    border-bottom:0.01rem solid #f2f2f2 ;
+}
+.peanut_list .peanut_list_tit{
+    font-family:SourceHanSansSC-Bold;
+    font-size: 0.28rem;
+    font-weight: 600;
+}
+.peanut_list_all span{
+    color:#B3B3B3;
+    font-size: 0.24rem;
+}
+.peanut_list_all img{
+    margin-top: 0;
+}
+.peanut_list_hint{
+    margin-right:0.3rem ;
+}
+.peanut_list_hint p{
+    color:#333333;
+    font-size: 0.28rem;
+    font-weight: 600;
+}
+.peanut_list_hint .peanut_huoqu{
+    margin-right: 0.41rem;
+}
+.peanut_list_hint .peanut_huoqu span{
+    margin-left:0.1rem;
+    color:#12D155;
+}
+.peanut_list_hint .peanut_use span{
+    color:#FF3939;
+    margin-left:0.1rem;
+}
+.peanut_list_hei{
+    height:1.42rem;
+    line-height:0;
+}
+.peanut_list_hei .peanut_list_lf {
+    margin-top:0.1rem ;
+}
+.peanut_list_hei .peanut_list_lf p{
+    line-height:0.7rem;
+    margin-left: 0.3rem;
+    color:#333333;
+    font-size: 0.27rem;
+    margin-bottom: 0.18rem;
+    font-weight: 400;
+}
+.peanut_list_hei .peanut_list_lf span{
+    color:#b3b3b3;
+    font-size: 0.24rem;
+}
+.peanut_list_hei .peanut_list_hint{
+    line-height: 1.42rem;
+}
+.peanut_list_hei .peanut_list_hint .peanut_green{
+    color:#12D155;
+    font-weight: 600;
+}
+.peanut_list_hei .peanut_list_hint .peanut_red{
+    color:#FF3939;
+    font-weight: 600;
+}
+.peanut_select{
+    position: absolute;
+    top:0.89rem;
+    right:0.3rem;
+    background: #fff;
+    z-index:3;
+    width:1.2rem;
+    height:1.8rem;
+    display: none;
+}
+.peanut_select_fix{
+    position: fixed;
+    top:0;
+    right:0;
+    left: 0;
+    bottom:0;
+    background: rgba(0,0,0,0.12);
+    z-index: 2;
+    display: none;
+}
+.peanut_select ul{
+    box-shadow:9px 0px 27px rgba(224,224,224,0.69);
+}
+.peanut_select li{
+    height:0.6rem;
+    border-bottom: 0.01rem solid #f2f2f2;
+    text-align: center;
+    line-height: 0.6rem;
+    font-size: 0.24rem;
+    color:#333333;
+}
+.peanut_select li:last-child{
+    border-bottom: none;
+}
+.peanut_sanjiao{
+    width:0;
+    height:0;
+    border-right:0.1rem solid transparent;
+    border-left:0.1rem solid transparent;
+    border-bottom:0.1rem solid #fff;
+    position: absolute;
+    top:-0.1rem;
+    right:0.35rem;
+}
+.layui-layer-btn .layui-layer-btn0{
+    border-right: 0!important;
+    color: #000000!important;
+    font-size: 0.3rem!important;
+}
+.peanut_block{
+    display: block;
+}
+.bordernon {
+    border:none;
+}

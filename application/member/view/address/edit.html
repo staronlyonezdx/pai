@@ -1,0 +1,227 @@
+{extend name="common/base" /}
+{block name="style"}
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/address/register.css"> -->
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/address/edit.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--添加收货地址-->
+            <!--<div class="header_back edit_compile">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    <form method="post" action="{:url('address/edit')}" id="edit_form" onsubmit="return form_submit()">
+        <div class="register_list">
+            <div class="register_inp editaddress_inp">
+                <p>收货人<span></span></p>
+                <input type="text" name="name" placeholder="请使用真实姓名" value="{$info.name|default=''}">
+            </div>
+        </div>
+        <div class="register_list">
+            <div class="register_inp editaddress_inp">
+                <p>联系方式<span></span></p>
+                <input type="text" name="tel" placeholder="请输入手机号" value="{$info.tel|default=''}">
+            </div>
+        </div>
+        <div class="register_list">
+            <div class="register_inp editaddress_inp">
+                <p>所在地区<span></span></p>
+
+                <input id="demo1" type="text" name="pid "  value="{$info.pname|default=''} {$info.cname|default=''} {$info.dname|default=''}" readonly="readonly">
+                <input id="value1" type="hidden" name="area_id" value="{$info.regids|default=''}"/>
+                <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png">
+            </div>
+        </div>
+        <div class="register_list register_area" id="demo1">
+            <div class="register_inp clear editaddress_inp">
+                <textarea type="text" id="textarea" name="address" placeholder="请输入详细地址">{$info.address|default=''}</textarea>
+            </div>
+        </div>
+        <div class="register_list editaddress_margin">
+            <div class="register_inps">
+                {if condition="empty($value) neq true and $info.is_default == 1"}
+                <img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="address_icon">
+                <img src="__STATIC__/image/register/icon_weixuanze@2x.png" class="">
+                {else/}
+                <img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="">
+                <img src="__STATIC__/image/register/icon_weixuanze@2x.png" class="address_icon">
+                {/if}
+                <span class="address_text">设为默认地址</span>
+                <!-- 1为选中 0为非选中-->
+                <input type="hidden" name="is_default" value="{$info.is_default|default='0'}"/>
+            </div>
+        </div>
+        <input type="hidden" name="address_id" value="{$address_id|default='0'}"/>
+        <input type="hidden" name="encrypt" value="{$encrypt|default=0}"/>
+        <input type="hidden" name="pm_id" value="{$pm_id|default=0}"/>
+        <div class="register_btn">
+            保存该地址
+        </div>
+
+    </form>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/lib/layui/layui.js"></script>
+<script src="__JS__/common/popups.js"></script>
+<script type="text/javascript" src="__JS__/applicationIn/textareaauto.js"></script>
+<script type="text/javascript" src="__JS__/address/site_common.js"></script>
+<script>
+    $(function(){
+
+        $(".edit_compile").click(function(){
+            var name=$("input[name='name']").val();
+            var tel=$("input[name='tel']").val();
+            var adress=$("textarea[name='address']").val();
+            if(name==""&&tel==""&&adress==""){
+                window.location.href="{:url('address/index')}";
+                return false;
+            }
+
+            layer.confirm('是否保存本次编辑结果？', {
+                title:false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['不保存','保存'], /*按钮*/
+                btn1:function(){
+                    window.location.href="{:url('address/index')}";
+                },
+                btn2:function(){
+                    submitbtn();
+                }
+            })
+
+        })
+
+        // 设为默认地址
+        $(".register_inps img").click(function(){
+            $(".register_inps img").eq(0).toggleClass("address_icon");
+            $(".register_inps img").eq(1).toggleClass("address_icon");
+
+            var is_default = $("input[name=is_default]").val();
+            if(is_default == 0){
+                $('input[name="is_default"]').val("1");
+            }else{
+                $('input[name="is_default"]').val("0");
+            }
+        })
+        var text=document.getElementById("textarea")
+          autoTextarea(text);// 调用
+        $('.register_btn').click(function(){
+            submitbtn()
+        });
+        function submitbtn(){
+            //昵称
+            var textname=/^[a-zA-Z0-9\_\u4e00-\u9fa5]{1,30}$/;
+            // var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            var name=$("input[name='name']").val();
+            if(!textname.test(name)){
+                layer.msg("<span style='color:#fff'>收货人含有非法字符或者空格</span>",{
+                    time:2000
+                });
+                return false;
+            }
+            if(name==""){
+                layer.msg("<span style='color:#fff'>收货人不能为空</span>",{
+                    time:2000
+                });
+                return false;
+            };
+            if(name.length>15){
+                layer.msg("<span style='color:#fff'>收货人姓名长度不能大于15位</span>",{
+                    time:2000
+                });
+                return false;
+            };
+            if(name.length<2){
+                layer.msg("<span style='color:#fff'>收货人姓名长度不能小于2位</span>",{
+                    time:2000
+                });
+                return false;
+            };
+            //联系方式
+            var tel=$("input[name='tel']").val();
+            var reg =/^1[3-9][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/;
+
+            if(tel==""){
+                layer.msg("<span style='color:#fff'>联系方式不能为空</span>",{
+                    time:2000
+                });
+                return false;
+            }else if (!reg.test(tel)) {
+                layer.msg("<span style='color:#fff'>联系方式输入有误</span>",{
+                    time:2000
+                });
+                return false;
+            };
+            //详细地址
+            // var textaddress=/^[a-zA-Z0-9\s\_\u4e00-\u9fa5]{5,50}$/;
+            // var textaddress=/^[\u4e00-\u9fa5a-zA-Z0-9]{5,50}$/;
+            // var textaddress=/^\d{5,50}$/;
+            var adress=$("textarea[name='address']").val();
+            if(adress.length>50){
+                layer.msg("<span style='color:#fff'>请输入5-50个字符</span>",{
+                    time:3000
+                });
+                return false;
+            }
+            if(adress.length<5){
+                layer.msg("<span style='color:#fff'>请输入5-50个字符</span>",{
+                    time:3000
+                });
+                return false;
+            }
+            // if(!textaddress.test(adress)){
+            //     layer.msg("<span style='color:#fff'>请输入5-50个字符</span>",{
+            //         time:3000
+            //     });
+            //     return false;
+            // }
+            var index = layer.load(0, {shade: false});
+
+            // 提交
+            $.ajax({
+                url:"{:url('address/edit')}",
+                dataType:'JSON',
+                type:'POST',
+                data:$('#edit_form').serialize(),
+                success: function(data) {
+                    console.log(data);
+                    if(data.status){
+                        layer.close(index);
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:3000
+                        });
+                        var encrypt = $("input[name=encrypt]").val();
+                        var pm_id = $("input[name=pm_id]").val();
+                        if(encrypt>0){
+                            window.location.href="/member/address/index/encrypt/" + encrypt + "/pm_id/"+pm_id;
+                            
+                        }else{
+                            window.history.back();
+                        }
+                        
+                    }else{
+                        //提示弹窗
+                        layer.close(index);
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:3000
+                        });
+                    }
+                }
+            });
+        }
+    })
+</script>
+{/block}
+

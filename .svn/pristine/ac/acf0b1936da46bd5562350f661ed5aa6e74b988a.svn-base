@@ -1,0 +1,194 @@
+body{
+	background: #fff;
+}
+a{
+    color:#000000;
+}
+.head_search_view{
+    width:7.5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    background: #fff;
+    position: fixed;
+    left: 0;
+    top:0;
+    border-bottom: 0.01rem solid #f2f2f2;
+    z-index:1;
+    height:auto;
+}
+.head_search{
+    width:6.9rem;
+    height:0.6rem;
+    line-height: 0.6rem;
+    background: #eeeeee;
+    border-radius: 0.15rem;
+    overflow: hidden;
+    position: relative;
+    margin:0 auto;
+    opacity: 1;
+
+}
+.head_search img{
+    width:0.42rem;
+    height:0.42rem;
+    position: absolute;
+    top:0.1rem;
+    left: 0.16rem;
+}
+.head_search p {
+	margin-left:0.6rem;
+}
+.classify{
+	margin-top: 0.02rem;
+}
+.classify_slidebar{
+	position: fixed;
+	height:100%;
+	min-height: 6rem;
+	top:1.02rem;
+	left: 0;
+	width:1.8rem;
+	background: #F2F2F2;
+}
+.classify_main{
+	padding:0 0.46rem;
+	/*min-height:6rem;*/
+}
+.classify_slidebar li{
+	width:1.8rem;
+	height:0.88rem;
+	line-height: 0.88rem;
+	text-align: center;
+	color:#333333;
+}
+.classify_slidebar .classify_yellow{
+	background: #fff;
+	width:1.72rem;
+	color:#000000;
+	border-left: 0.08rem solid #FFE500;
+}
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+	background: #fff;
+	/*width:1.72rem;*/
+	color:#000000;
+	border-left: 0.1rem solid #FFE500;
+}
+.classify_banner{
+	width:4.8rem;
+	height:1.2rem;
+	background: #f2f2f2;
+	margin-top: 0.42rem;
+	overflow: hidden;
+}
+.classify_banner img {
+	width: 100%;
+	height:100%;
+}
+.classify_all{
+	width:4.11rem;
+	margin:0 auto;
+	margin-top: 0.36rem;
+}
+.classify_all span{
+	display: inline-block;
+	width:1.2rem;
+	height:0.02rem;
+	background: #c9c9c9;
+	vertical-align: middle;
+}
+.classify_all p{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 0.29rem;
+	margin-right: 0.29rem;
+	color:#AAAAAA;
+	font-size: 0.24rem;
+    margin-bottom: 0;
+}
+.classify_all_con{
+	/*margin-left: 0.1rem;*/
+}
+.classify_list{
+margin-top: 0.41rem;
+}
+.classify_list div{
+	width:1.54rem;
+	height:1.54rem;
+}
+.classify_list div img{
+	width:100%;
+	height:100%;
+	object-fit: cover;
+}
+.classify_list p{
+	text-align: center;
+	margin-top: 0.26rem;
+	width: 1.54rem;
+    color:#000000;
+    font-size: 0.24rem;
+}
+.mui-fullscreen{
+	width:7.5rem;
+	background: #fff;
+	top:1rem;
+	bottom:1rem;
+}
+.mui-table-view-cell:after{
+	display: none;
+}
+.mui-table-view:before{
+	display: none;
+}
+.mui-table-view-cell{
+		padding:0;
+}
+.mui-table-view-cell>a:not(.mui-btn){
+	margin:0;
+
+}
+.mui-table-view:after{
+	display: none;
+}
+.mui-segmented-control.mui-segmented-control-vertical .mui-control-item{
+	display: table-cell;
+	float: left;
+}
+.mui-segmented-control .mui-control-item{
+	width:100%
+}
+.mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item, .mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item.mui-active{
+	border-bottom: none;
+}
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+	border-bottom: none;
+}
+.mui-control-content{
+	display: block;
+}
+.mui-row.mui-fullscreen>[class*="mui-col-"] {
+	height: 100%;
+}
+
+.mui-col-xs-3,
+.mui-col-xs-9 {
+	overflow-y: auto;
+	height: 100%;
+}
+.mui-col-xs-3 {
+	background-color: #f2f2f2;
+}
+.mui-segmented-control .mui-control-item {
+	line-height: 50px;
+	width: 100%;
+}
+
+.mui-control-content {
+	display: block;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+	background-color: #fff;
+}
+.mui-segmented-control.mui-segmented-control-inverted{
+	background: #f2f2f2;
+}

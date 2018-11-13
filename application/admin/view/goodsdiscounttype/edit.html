@@ -1,0 +1,88 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+<style>
+    .form-control{
+       margin:0 auto;
+    }
+</style>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="" id="edit_form" onsubmit="return form_submit()" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>商品折扣编辑</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>折扣名称</label>
+                    <input type="text" name="gdt_name" class="form-control" placeholder="折扣名称" value="{$info.gdt_name ?? ''}">
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>折扣</label>
+                    <input type="text" class="form-control" name="gdt_discount" placeholder="折扣名称" value="{$info.gdt_discount ?? ''}">
+                </div>
+                <div class="form-group from_add_margin ">
+                    <label>最小值</label>
+                    <input type="text" name="gdt_money1" class="form-control" placeholder="最小值" value="{$info.gdt_money1 ?? ''}">
+                </div>
+                <div class="form-group from_add_margin ">
+                    <label>最大值</label>
+                    <input type="text" name="gdt_money2" class="form-control" placeholder="最大值" value="{$info.gdt_money2 ?? ''}">
+                </div>
+
+                <div class="form-group" style="position: relative">
+                    <label>标题图片</label>
+                    <div class="view">
+                        <div class="photo"></div>
+                        <div class="form-group"></div>
+                        <div class="file-loading">
+                            <input id="file-4" type="file" name="gdt_img" class="file" data-upload-url="">
+                        </div>
+                        {notempty name="info.gdt_img"}
+                        <img src="__CDN_PATH__{$info.gdt_img}" alt="" class="gdt_img" width="100px" height="100px;"
+                             style="position: absolute;top:0;left:150px;"/>
+                        {/notempty}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>分类状态</label></br>
+                    <div class="edit_float">
+	                    <input type="radio" name="gdt_state" class="" {notempty name="$info"}{if condition="$info.gdt_state == 0"}checked{/if}{/notempty} value="0">
+	                    <span>显示</span>
+	                </div>
+                    <div class="edit_float">
+	                    <input type="radio" name="gdt_state" class="" {notempty name="$info"}{if condition="$info.gdt_state == 1"}checked{/if}{/notempty} value="1">
+	                    <span>不显示</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <input type="hidden" name="gdt_id" value="{$info.gdt_id ?? ''}"/>
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function form_submit(){
+
+        //表单验证 TODO。。
+
+        return true;
+    }
+</script>
+{/block}
+

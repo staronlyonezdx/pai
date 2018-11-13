@@ -1,0 +1,58 @@
+<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+<div style="width:720px;height:400px;"><!--content1200  start-->
+    fdafds fdsfds fds fds
+    <!-- 右侧主题内容开始 -->
+    <div class="contentRightBox"><!--contentRightBox  start-->
+        <h2 class="publicH2" style="text-align: center"><span>支付中，请等待...</span></h2>
+        <div class="paymentSuc"><!--paymentSuc   start-->
+
+                <input type="hidden" name="oid" value="10">
+
+            <p class="topPic"></p>
+            <div class="paymentSucCon"><!--paymentSucCon  start-->
+                <ul>
+                    <li><ins></ins></li>
+                    <li>
+
+
+                    </li>
+                </ul>
+            </div><!--paymentSucCon  end-->
+
+        </div><!--paymentSuc   end-->
+
+    </div><!--contentRightBox  end-->
+
+    <!-- 右侧主题内容结束 -->
+</div><!--content1200  end-->
+<!-- 中间内容结束 -->
+<script>
+
+    $(document).ready(function () {
+        function onBridgeReady(){
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',{$jsApiParameters} ,
+                    function(res){
+                        if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                            alert('OK');
+                        }else{
+                            alert('支付失败');
+                            history.back();
+                        }
+                    }
+            );
+        }
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        }else{
+
+            onBridgeReady();
+        }
+    });
+
+</script>

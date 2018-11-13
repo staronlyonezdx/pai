@@ -1,0 +1,237 @@
+
+.my_join_header{
+    width: 100%;
+    height: 1.6rem;
+    position: fixed;
+    z-index:100;
+    background:linear-gradient(-38deg,rgba(255,115,35,1),rgba(255,178,28,1));
+}
+.my_join_header .left{
+    width:80%;
+    height: 100%;
+    float: left;
+    position: relative;
+    padding: 0.4rem 0.3rem 0 0.3rem;
+}
+.my_join_header .left .call_num{
+    font-size:0.6rem;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    text-shadow:-0.01px 0.07px 0.01px rgba(255,136,39,0.3);
+}
+.my_join_header .left .call_info{
+    font-size:0.24rem;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    opacity:0.8;
+}
+
+.my_join_header .left .date_info{
+    font-size:0.24rem;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    text-shadow:-0.011px 0.077px 0.01px rgba(255,122,36,0.3);
+}
+
+.my_join_header .left .call_fill{
+    font-size:0.24rem;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    opacity:0.8;
+}
+.my_join_header img{
+    width: 0.68rem;
+    height: 0.68rem;
+    position: absolute;
+    top:0.44rem;
+    right:0.34rem;
+}
+.tieshi_mark{
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.2);
+    display: none;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+.alert_tieshi{
+    width: 5.8rem;
+    /*height: 6rem;*/
+    background:rgba(255,255,255,1);
+    border-radius:10px;
+    position: absolute;
+    top: 2.96rem;
+    left:0.85rem;
+    z-index:120;
+
+}
+.alert_tieshi .alert_tieshi_header img.click_cancle{
+    width: 0.56rem;
+    height: 0.56rem;
+    position: absolute;
+    top:0.31rem;
+    left:5.15rem;
+}
+.alert_tieshi .alert_tieshi_header{
+    width: 100%;
+    height: 1.98rem;
+    position: relative;
+    background: url("../../image/popularitygoods/pic_tanchuang@2x.png") no-repeat center;
+}
+.alert_tieshi .alert_tieshi_header img{
+    width: 2.23rem;
+    height: 0.44rem;
+    position: absolute;
+    left: 1.59rem;
+    bottom: 1.75rem;
+}
+.alert_tieshi .alert_tieshi_header .tieshi_num{
+    font-size:0.24rem;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    top: 0.77rem;
+    left: 0.68rem;
+}
+.alert_tieshi .alert_tieshi_header .tieshi_date,.alert_tieshi .alert_tieshi_header .tieshi_fill{
+    font-size:0.24rem;
+    font-family:SourceHanSansCN-Medium;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    top:1.29rem;
+}
+.alert_tieshi .alert_tieshi_header .tieshi_date{
+    left:0.73rem;
+}
+.alert_tieshi .alert_tieshi_header .tieshi_fill{
+    left:1.79rem;
+}
+.alert_tieshi .tieshi_content{
+    /*position: absolute;*/
+    /*left: 0.38rem;*/
+    /*top:2.3rem;*/
+    margin-top: 0.2rem;
+    margin-left: 0.3rem;
+}
+.alert_tieshi .tieshi_content p {
+    font-size:0.24rem;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(170,170,170,1);
+}
+.alert_tieshi .buttons{
+    /*position: absolute;*/
+    /*top:3.82rem;*/
+}
+.alert_tieshi .buttons a{
+    display:block;
+    width: 3.6rem;
+    height: 0.48rem;
+    color:#FFFFFF;
+    border-radius: 0.1rem;
+    font-size: 0.24rem;
+    text-align: center;
+    margin-bottom: 0.3rem;
+    line-height: 0.48rem;
+    transform: translateX(30%);
+}
+.alert_tieshi .buttons a:nth-child(1){
+    background:rgba(255,186,72,1);
+    box-shadow:0px 5px 5px 0px rgba(255,106,34,0.4);
+    margin-top: 0.2rem;
+
+}
+.alert_tieshi .buttons a:nth-child(2){
+    background:rgba(255,125,63,1);
+    box-shadow:0px 5px 5px 0px rgba(255,106,34,0.4);
+}
+
+.my_header{
+    width: 7.5rem;
+    height: 4.2rem;
+    background: url("../../image/popularitygoods/bg_canyu@2x.png") center center;
+    background-size: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.goback{
+    width: 0.56rem;
+    height: 0.56rem;
+    margin-top: 0.22rem;
+    margin-left: 0.25rem;
+}
+.my_header_left{
+
+}
+.my_header_left .call_num{
+    font-size:0.72rem;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    text-shadow:0px 5px 6px rgba(255,112,88,0.26);
+}
+.my_header_left .call_info{
+    font-size:0.24rem;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    opacity:0.8;
+    margin-top: 0.19rem;
+}
+.my_header .date_info{
+    font-size:0.3rem;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    text-shadow:2px 5px 6px rgba(255,153,39,0.31);
+}
+.my_header .call_fill{
+    font-size:0.24rem;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:0.32rem;
+    opacity:0.8;
+}
+.my_header_right{
+    width: 3.24rem;
+    height: 3.46rem;
+    margin-right: 0.2rem;
+    margin-top: 0.22rem;
+    position: relative;
+}
+.my_header_right img{
+    width: 100%;
+    height: 100%;
+}
+.my_header_btns{
+  position: absolute;
+    top:2.72rem;
+    left:0.3rem;
+}
+.my_header_btns a{
+    width:1.2rem;
+    height:0.48rem;
+    background:rgba(255,167,44,1);
+    border-radius:0.1rem;
+    display: inline-block;
+    font-size:0.24rem;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:0.48rem;
+    text-align: center;
+}
+.my_header_btns a.chongzhi{
+    background:rgba(255,229,0,1);
+    margin-left: 0.24rem;
+}

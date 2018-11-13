@@ -1,0 +1,109 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="{:url('Goodstype/edit')}" id="edit_form" onsubmit="return form_submit()">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>{if condition="$gt_id > 0"}商品规格编辑{else/}商品规格添加{/if}</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>商品规格名</label>
+                    <input type="text" name="gt_name" class="form-control" placeholder="商品规格名称" value="{$info.gt_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label>规格层级</label>
+                    <select name="gt_level" class="form-control" id ="gt_leve" gt_level="{$info.gt_level|default='1'}" gt_parent_id="{$info.gt_parent_id|default='0'}">
+                        <option value="1" {notempty name="info"}{if condition="$info.gt_level == 1"}selected{/if}{/notempty}>一级</option>
+                        <option value="2" {notempty name="info"}{if condition="$info.gt_level == 2"}selected{/if}{/notempty}>二级</option>
+                        <option value="3" {notempty name="info"}{if condition="$info.gt_level == 3"}selected{/if}{/notempty}>三级</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>上级规格</label>
+                    <select name="gt_parent_id" class="form-control" id="gt_parent_id">
+                        {$opt_html}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>规格状态</label></br>
+                    <div class="edit_float">
+	                    <input type="radio" name="gt_state" class="" {notempty name="$info"}{if condition="$info.gt_state == 0"}checked{/if}{/notempty} value="0">
+	                    <span>显示</span>
+	                </div>
+                    <div class="edit_float">
+	                    <input type="radio" name="gt_state" class="" {notempty name="$info"}{if condition="$info.gt_state == 1"}checked{/if}{/notempty} value="1">
+	                    <span>不显示</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <input type="hidden" name="gt_id" value="{$gt_id|default='0'}"/>
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function form_submit(){
+
+        //表单验证 TODO。。
+
+        return true;
+    }
+
+    //判断上级规格选中
+    function int_opt(){
+        var this_pid = $("#gt_leve").attr("gt_parent_id");
+        $("#gt_parent_id").find("option").each(function(){
+            var this_val = $(this).attr("value");
+            if(this_val == this_pid){
+                $(this).attr('selected','selected');
+            }
+        });
+    }
+
+    $(function(){
+        //
+        $("#gt_leve").change(function(){
+            // 当前层级
+            var gt_level = $(this).val();
+            // 当前父级规格的id
+            var gt_parent_id = $(this).attr("gt_parent_id");
+
+            $("#gt_parent_id").empty();
+            $.ajax({
+                url:"{:url('Goodstype/getPTypeList')}"+'?gt_level='+ gt_level + "gt_parent_id="+gt_parent_id,
+                dataType:'json',
+                type:'POST',
+                data:{gt_level:gt_level,gt_parent_id:gt_parent_id},
+                success: function(data) {
+                    if(data.status){
+                        $("#gt_parent_id").html(data['data']);
+                        int_opt();
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
+        // 上级规格初始化
+        int_opt();
+    })
+</script>
+{/block}
+

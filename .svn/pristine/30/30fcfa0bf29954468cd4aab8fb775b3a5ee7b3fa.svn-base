@@ -1,0 +1,11 @@
+
+#table .bootstrap-table .table>thead>tr>th {
+	background: #038a78 !important;
+    color: #fff;
+}
+
+#table thead tr th {
+	background: #038a78;
+    color: #fff;
+}
+

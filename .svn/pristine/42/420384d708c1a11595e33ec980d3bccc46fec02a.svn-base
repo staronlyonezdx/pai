@@ -1,0 +1,227 @@
+.invitation{
+	width:100%;
+	position: fixed;
+	top: 0.88rem;
+	left: 0;
+}
+.invitation_img{
+	background-size: 100% 100%;
+	width: 100%;
+	height:2.7rem;
+	background:url("../../image/review/bg_invite @2x.png") no-repeat center center;
+}
+.invitation_img p{
+	font-family: SourceHanSansSC-Medium;
+	text-align: center;
+	line-height: 0.6rem;
+}
+.invitation_tit{
+	font-size: 0.24rem;
+	color:#fff;
+	padding-top: 0.5rem;
+	/*font-weight: 600;*/
+}
+.invitation_price{
+	font-size: 0.72rem;
+	color:#fff;
+	font-weight: 600;
+}
+.invitation_price span{
+	font-size: 0.24rem;
+	font-weight: 0;
+}
+.invitation_hint{
+	font-size: 0.24rem;
+	color:#fff;
+	opacity: 0.7;
+}
+.invitation_tab{
+	width:100%;
+	background: #fff;
+	height:0.8rem;
+}
+.invitation_tab div{
+	width: 50%;
+	text-align: center;
+}
+.invitation_tab div span{
+	display: inline-block;
+	line-height: 0.77rem;
+	color:#B3B3B3;
+	font-size: 0.26rem;
+}
+.invitation_tab .pitch span{
+	border-bottom:0.04rem solid #FFD400;
+	font-size: 0.32rem;
+	font-weight: 600;
+	color:#333333;
+}
+.invitation_view{
+	position: relative;
+}
+.invitation_con{
+	margin-top: 0.16rem;
+	display: none;
+}
+
+.invitation_list{
+	width: 100%;
+	height:0.8rem;
+	line-height: 0.8rem;
+	border-bottom: 0.01rem solid #f5f5f5;
+	background:#fff;
+}
+.invitation_list div{
+	width:90%;
+	margin:0 auto;
+}
+.invitation_list div .invitation_name{
+	font-size: 0.26rem;
+	color:#333333;
+	font-weight: 600;
+	width:1.5rem;
+	overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+.invitation_list div .invitation_phone{
+	font-size: 0.26rem;
+	color:#333333;
+	margin-left: 1rem;
+	font-weight: 600;
+}
+.invitation_list div .invitation_vip{
+	font-size: 0.2rem;
+	color:#666666;
+}
+.invitation_btn{
+	width:6.9rem;
+	position: fixed;
+	bottom:0.5rem;
+	left:0.3rem;
+	background-image: linear-gradient(0deg, 
+		#FFD800 0%, 
+		#FFE500 100%), 
+	linear-gradient(
+		#FFD800, 
+		#FFD800);
+	height:0.88rem;
+	text-align: center;
+	line-height: 0.88rem;
+	font-size: 0.32rem;
+	color:#000000;
+	font-weight: 600;
+	border-radius: 0.18rem;
+}
+
+.invitation_detail{
+	height:auto;
+	line-height: 0.5rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
+}
+.invitation_detail div .invitation_name{
+		font-size: 0.26rem;
+		color:#e54545;
+}
+.invitation_detail div .invitation_phone{
+		font-size: 0.24rem;
+		color:#333333;
+}
+.invitation_detail div .invitation_name span{
+		font-size: 0.12rem;
+}
+.invitation_detail div .earnings,.invitation_detail div .vip{
+		font-size: 0.24rem;
+		color:#B3B3B3;
+}
+.invitation_detail div .data{
+		color:#666666;
+}
+.invitation_blank{
+	width:2.6rem;
+	position: absolute;
+	top:1.16rem;
+	left: 2.45rem;
+	display: none;
+	
+}
+.invitation_blank div{
+	width:2.6rem;
+	height:2.42rem;
+}
+.invitation_blank div img{
+	width:100%;
+	height:100%;
+}
+.invitation_blank p{
+	margin-top: 0.4rem;
+	line-height: 0.4rem;
+	font-size: 0.24rem;
+	font-family:SourceHanSansSC-Medium;
+	text-align: center;
+	color:#666666;
+}
+.invitation_block{
+	display: block;
+}
+/*菜单*/
+.nav{
+	border-bottom: 1px solid #f2f2f2;
+	text-align: center;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	background: #fff;
+}
+.nav p{
+	display: inline-block;
+	/*width: 0.8rem;*/
+	width:50%;
+	float: left;
+	font-size: 0.26rem;
+	color: #B3B3B3;
+	height: 0.7rem;
+}
+.nav p.active{
+	color: #333333;
+	font-weight: bold;
+	font-size: 0.32rem;
+}
+.nav p.active::after{
+	content: '';
+	display: block;
+	/*margin: 0 auto;*/
+	width:0.6rem;
+	height: 0.2rem;
+	border-bottom: 2px solid #FFD400;
+	margin: -0.22rem auto 0;
+}
+.tishi{
+	width:7.5rem;
+	height:0.56rem;
+	background:rgba(253,248,218,1);
+	font-size:0.22rem;
+	text-align: center;
+	line-height: 0.56rem;
+	font-weight:400;
+	color:rgba(255,197,57,1);
+}
+/*列表*/
+.swiper-container{
+	position: fixed;
+	top: 5.1rem;
+	left: 0;
+	right: 0;
+	bottom: 1.88rem;
+}
+.mescroll-empty{
+	padding-top: 0.7rem;
+}
+.tips{
+	width: 100%;
+	height: 0.56rem;
+}
+.tips img{
+	width: 100%;
+	height: 100%;
+}

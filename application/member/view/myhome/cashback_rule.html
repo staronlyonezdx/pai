@@ -1,0 +1,30 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/rule/peanut_explain.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="peanut_explain">
+        <h1>活动时间</h1>
+        <small style="display:block;margin-top: 0.29rem;color:#333333;margin-bottom: 0.8rem;">2018年9月1日至2018年12月31日</small>
+        <h1>规则条件</h1>
+        <small style="display:block;margin-top: 0.29rem;color:#333333;margin-bottom:0.36rem; ">满足以下2种条件之一，将触发100%全额返现活动</small>
+
+        <div class="rule_span">
+            <p>[条件一]</p>
+            <small>当天参与拍购3次（无论中不中），第4次起，若未团中则将100%返现钱款。当天的标准为：当日00：00至23：59。</small>
+        </div>
+        <div class="rule_span">
+            <p>[条件二]</p>
+            <small>续7天参与过拍购，第8天起，若未团中则将100%返现钱款。若某日中断拍购，则下次将再次从首日开始累计。</small>
+        </div>
+        <small style="color:#333333;font-size: 0.25rem;font-weight: 600;">拍吖吖会根据实际情况对活动条件等规则进行合理调整，拍吖吖平台在法律允许最大范围内最大限度拥有包括但不限于以上规则的解释权和调整权。</small>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

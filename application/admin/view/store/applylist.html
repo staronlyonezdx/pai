@@ -1,0 +1,115 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+<!-- {block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block} -->
+{block name="style"}
+<style>
+    .select_box{
+        margin-left:30px;
+    }
+    .form-control{
+        width: 100px;
+        display:inline-block;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>商家入驻列表 </label>
+                <span class="select_box">
+                    <label> 状态:</label>
+                    <select type="text" class="form-control input-sm slt" >
+                        <option {eq name="ba_state" value="0"}selected="selected"{/eq} value="0" >待审核</option>
+                        <option {eq name="ba_state" value="8"}selected="selected"{/eq} value="8">审核通过</option>
+                        <option {eq name="ba_state" value="9"}selected="selected"{/eq} value="9">审核失败</option>
+                    </select>
+                </span>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>申请ID</th>
+                    <th>会员ID</th>
+                    <th>地址</th>
+                    <th>开户银行</th>
+                    <th>银行账号</th>
+                    <th>企业类型</th>
+                    <th>营业执照号</th>
+                    <th>法人</th>
+                    <th>法人身份证号</th>
+                    <th>申请时间</th>
+                    <th>审核时间</th>
+                    <th>通过时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <td>{$vo.ba_id}</td>
+                    <td>{$vo.m_id}</td>
+                    <td>{$vo.corporation_name}</td>
+                    <td>{$vo.ba_bankname}</td>
+                    <td>{$vo.ba_bankaccount}</td>
+                    <td>{$categoryList[$vo.store_categoryid] ?? '未知'}</td>
+                    <td>{$vo.ba_license}</td>
+                    <td>{$vo.ba_legal_person}</td>
+                    <td>{$vo.ba_legal_person_idnumber}</td>
+                    <td>{notempty name='vo.ba_addtime'}{$vo.ba_addtime|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.ba_authtime'}{$vo.ba_authtime|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.ba_success_time'}{$vo.ba_success_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                    <td>
+                        {if condition="$vo.ba_state == 0"}
+                            待审核
+                        {elseif condition="$vo.ba_state == 8"/}
+                            成功
+                        {elseif condition="$vo.ba_state == 9"/}
+                            失败
+                        {else /}
+                            未知
+                        {/if}
+                    </td>
+                    <td>
+                        <a href="{:url('store/applyinfo',['ba_id' => $vo.ba_id,'ba_state'=>$vo.ba_state])}" type="button" class="btn btn-info btn-xs">
+                            详情
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="page_box">
+        {$page}
+        <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+    </div>
+</div>
+<script>
+    $(function () {
+       $('.slt').change(function(){
+          var ba_state = $(this).val();
+          location.href="/admin/store/applylist?ba_state="+ba_state
+       });
+    })
+</script>
+{/block}
+

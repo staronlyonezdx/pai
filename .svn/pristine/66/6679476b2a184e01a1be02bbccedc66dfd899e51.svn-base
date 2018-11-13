@@ -1,0 +1,7 @@
+.input-group .verification_code{
+	border:none;
+	padding:0;
+}
+.input-group .verification_inp{
+	width:60%;
+}

@@ -1,0 +1,148 @@
+body{
+	background: #fff;
+}
+.apply_store{
+	width:7.5rem;
+	/*height:10.28rem;*/
+	/*background-color: red;*/
+}
+.apply_banner{
+	width:100%;
+	height:3rem;
+}
+.apply_banner img{
+	width:100%;
+	height:100%;
+}
+.apply_main{
+	width:100%;
+	background: #fff;
+	padding-top: 0.34rem;
+	padding-bottom: 2rem;
+}
+.apply_tit{
+	width:4.6rem;
+	height:0.72rem;
+	margin: 0 auto;
+}
+.apply_tit img{
+	width:100%;
+	height:100%;
+}
+.apply_lf{
+	width:4.79rem;
+	margin-left: 0.41rem;
+	
+}
+.apply_text{
+margin-top: 0.56rem;
+}
+.apply_text p{
+	color:#000000;
+	font-size: 0.28rem;
+	font-weight: 600;
+	margin-bottom: 0.31rem;
+}
+.apply_text span{
+	color:#787878;
+	font-size: 0.24rem;
+	line-height: 0.38rem;
+}
+.apply_a{
+	margin-top: 0.46rem;
+}
+.apply_text a{
+	color:#3395F9;
+	font-size: 0.24rem;
+	text-decoration: underline;
+}
+.apply_rt{
+	width:1.2rem;
+	height:5rem;
+	margin-top: 1rem;
+}
+.apply_rt img{
+	width:100%;
+	height:100%;
+}
+.apply_store_bot{
+	width:7.5rem;
+	height:1rem;
+	background-image: linear-gradient(0deg, 
+		#FFD800 0%, 
+		#FFE500 100%), 
+	linear-gradient(
+		#FFD800, 
+		#FFD800);
+	position:fixed;
+	bottom:0;
+	left: 0;
+}
+.apply_store_btn{
+	width:7.5rem;
+	height:1rem;
+	color:#000000;
+	text-align: center;
+	line-height: 1rem;
+	font-weight: 600;
+}
+.apply_store_view{
+	width:100%;
+	background: #fff;
+	margin-top: 1.84rem;
+}
+.apply_box{
+	width:3.9rem;
+	margin:0 auto;
+
+}
+.apply_tsimg{
+	width:2.4rem;
+	height:2.4rem;
+	overflow: hidden;
+	margin:0 auto;
+}
+.apply_tsimg img{
+	width:100%;
+	height:100%;
+}
+.apply_box p{
+	text-align: center;
+	color:#000000;
+	font-size: 0.3rem;
+	font-weight:600;
+	margin-top: 0.3rem;
+}
+.apply_box span{
+	text-align: center;
+	display: block;
+	font-size: 0.26rem;
+	color:#666666;
+	font-weight: 600;
+	margin-top:0.32rem; ;
+}
+.apply_box a{
+	display: block;
+	color:#7596b7;
+	font-size: 0.26rem;
+	text-align: center;
+	margin-top: 0.1rem;
+}
+.apply_store_link_btn{
+	width:2.84rem;
+	height:0.88rem;
+	background-image: linear-gradient(0deg,
+	#FFE500 0%,
+	#FFED50 100%),
+	linear-gradient(
+			#FFE500,
+			#FFE500);
+	border-radius: 0.18rem;
+	color:#000000;
+	font-size: 0.32rem;
+	line-height: 0.88rem;
+	text-align: center;
+	font-weight: 600;
+	margin:0 auto;
+	margin-top: 1.06rem;
+}

@@ -1,0 +1,74 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<style>
+    .hot{
+        float:right;
+    }
+    .c{
+        clear:both;
+    }
+</style>
+{/block}
+{block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>商家分类列表</label>
+                <a href='/admin/search/add_hot' type="button" class="btn btn-info hot">
+                    添加热搜
+                </a>
+                <div class="c"></div>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>热搜ID</th>
+                    <th>关键词</th>
+                    <th>排序</th>
+                    <th>管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="vo"}
+                <tr class="tr_{$vo.psh_id}">
+                    <td>{$vo.psh_id}</td>
+                    <td>{$vo.psh_keyword}</td>
+                    <td>{$vo.psh_sort}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick='del("{$vo.psh_id}")'>
+                            删除
+                        </button>
+                        <a href="/admin/search/add_hot/psh_id/{$vo.psh_id}" type="button" class="btn btn-danger">
+                            编辑
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function del(id){
+        if(confirm("确定删除吗")){
+            $.post("/admin/search/del_hot",{psh_id:id},function(res){
+                if(res){
+                    $('.tr_'+id).remove();
+                }else{
+                    alert('删除失败');
+                }
+            })
+        }
+    }
+
+</script>
+{/block}
+

@@ -1,0 +1,34 @@
+
+{extend name="index/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/syuclub/syuclub.css">
+{/block}
+
+
+{block name="content"}
+
+<main>
+    <div class="main">
+        <img src="__STATIC__/image/syuclub/bg_julebu@2x.png" alt="" class="big_img">
+        <div class="goback">
+            <img src="__STATIC__/image/syuclub/icon_nav_back@2x.png" alt="" >
+        </div>
+        <img src="__STATIC__/image/syuclub/pic_shengyu.png" alt="" class="shengyu">
+        <p class="tip">"长按"关注晟域俱乐部，超多福利享不停</p>
+        <a href="/member/sitelogin/to_sy/status/1" class="goshengyu">前往晟域俱乐部</a>
+    </div>
+</main>
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(function(){
+        $('.goback').click(function(){
+            window.history.back();
+        })
+
+
+    })
+</script>
+{/block}

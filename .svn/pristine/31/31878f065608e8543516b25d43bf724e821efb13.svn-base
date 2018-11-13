@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>修改商品分类|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+<link href="__CSS__/style.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/cmmphp.css"  />
+<style>
+#content font span {
+    font-family: "Georgia";
+    font-weight: 900;
+    font-size: 22px;
+    color: #444;
+}
+#content .textarea{
+	width:75%;
+}
+</style>
+<script type="text/javascript">
+
+
+
+			   
+$(function(){
+	
+	var $dldd = $('.form-group');
+	//描述限制
+	$dldd.find('.textarea').keyup(function() {
+		le=$(this).val();
+		
+		if (le.length>200) {
+			$(this).val(le.substr(0,200));
+			$dldd.find('font span').text(0);
+		}else {
+			//console.log();
+			$dldd.find('font span').text(200-le.length);
+		}
+	});
+	$('#start_time').datetimepicker({
+	    format: 'yyyy-mm-dd hh:ii:ss'
+	});
+	$('#expired_time').datetimepicker({
+	    format: 'yyyy-mm-dd hh:ii:ss'
+	});
+});
+function ToUrl(x)   
+{   
+	location.href=x;
+	return false;
+}
+</script>
+</head>
+<body>
+<div class="container" style="margin-left:0;margin-right:0;">
+<div class="row" id="content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>修改商品分类</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form method="post" class="form-horizontal" action="{:url('goods/gclass_edit_do')}" id="add_link" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">分类英文名</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="name_en" value="{$result['name_en']}">
+                        </div>
+						<font>* 必填</font>	
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">分类中文名</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="name_ch" value="{$result['name_ch']}">
+                        </div>
+						<font>* 必填</font>	
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级分类</label>
+                        <div class="col-md-5">
+							<select name="pid" class="goodspid form-control">
+								{if condition='$liegth eq 0'}
+								<option value="0" selected>顶级分类</option>
+								{else /}
+								<option value="0" >顶级分类</option>
+								{/if}
+								{volist name="volist" id="vo"}
+								{if condition='$vo.liegth eq 0'}
+								<option value="{$vo.gc_id}">{$vo.name_en}&nbsp;（{$vo.name_ch}）</option>
+								{else /}
+								<option value="{$vo.gc_id}" selected>{$vo.name_en}&nbsp;（{$vo.name_ch}）</option>
+								{/if}
+								{/volist}
+							</select>
+                        </div>
+						<font>* 默认为顶级分类</font>	
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">描述：</label>
+                        <div class="col-md-10">
+                            <textarea class="textarea" name="description" rows="3">{$result['description']|htmlspecialchars_decode}</textarea> 
+							<font>* 你还可以输入<span>200</span>个字符</font>							
+                        </div>
+						
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="sort" value="{$result['sort']}">
+                        </div>
+						<font>* 必填 0为最前面，以此类推</font>	
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+							<input type="hidden" class="form-control" name="gc_id" value="{$result['gc_id']}">
+                            <button class="btn btn-primary" type="submit">修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

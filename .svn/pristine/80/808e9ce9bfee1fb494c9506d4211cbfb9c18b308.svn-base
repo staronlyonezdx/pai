@@ -1,0 +1,343 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .table {
+        width: 100% !important;
+    }
+    .pagination li>a,.pagination li>span{font-size:12px;padding: 5px 10px;}
+    .pagi_bar{display: inline-block;padding-left: 0;margin: 20px 0;border-radius: 4px;font-size:12px;padding: 5px 10px;}
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+        z-index: 2;
+         color: #333;
+        cursor: default;
+     background-color: #ccc;
+     border-color: #ccc;
+    }
+    .pagination>li>a, .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #333 !important;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    .my_pgname{
+        width:150px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .my_second_name{
+        width:120px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .select_body  .upimg{width:20px;height:20px;display: none;}
+    .select_body .select_pic{display: inline-block;}
+    .list_body{display: none;}
+    .body_active{background: #ccc;}
+    .container-fluid {
+        height: 100%;
+        overflow: auto;
+    }
+    .review{cursor: pointer;color:#369;}
+    .now_publish{padding: 3px 5px;height:auto;}
+    td .img_big{height:40px;width:auto !important;}
+
+    form{margin-bottom: 5px;}
+    form .form-group{width: auto}
+    .add-pm{color:#0288f3;cursor: pointer}
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="menu"}
+{include file="common/menu" /}
+{/block}
+{block name="content"}
+<section class="Hui-article-box">
+<div class="container-fluid" >
+    <div class="panel panel-default" >
+        <div class="panel-body">
+            <div class="form-group  from_add_authority" >
+                <label>人气商品列表</label>
+                <a class="pull-right" href="{:url('popularitygoods/edit')}">添加商品</a>
+            </div>
+
+            <!--搜索功能-->
+            <form class="form-inline" method="get">
+                <div class="form-group">
+                    <label for="pg_type">商品分类:</label>
+                    <select class="form-control" id="pg_type" name="pg_type">
+                        <option value="0">全部</option>
+                        <option {notempty name="pg_type"}{if condition="$pg_type == 1"}selected{/if}{/notempty} value="1">纯线上</option>
+                        <option {notempty name="pg_type"}{if condition="$pg_type == 2"}selected{/if}{/notempty} value="2">线上+线下</option>
+                        <option {notempty name="pg_type"}{if condition="$pg_type == 3"}selected{/if}{/notempty} value="3">纯线下</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pg_name">商品名称:</label>
+                    <input type="text" class="form-control" id="pg_name" name="pg_name" placeholder="商品名称" value="{$pg_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="pg_type">商品状态:</label>
+                    <select class="form-control" id="pg_state" name="pg_state">
+                        <option value="0">全部</option>
+                        <option {notempty name="pg_state"}{if condition="$pg_state == 1"}selected{/if}{/notempty} value="1">参拍中</option>
+                        <option {notempty name="pg_state"}{if condition="$pg_state == 2"}selected{/if}{/notempty} value="2">参拍完成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-info">搜索</button>
+                </div>
+            </form>
+            <table class="table" style="overflow-y:auto;">
+                <thead>
+                    <tr>
+                        <th>商品id</th>
+                        <th>人气商品主图</th>
+                        <th>人气商品</th>
+                        <th>商品二级标题</th>
+                        <th>添加日期</th>
+                        <th>市场价</th>
+                        <th>参加价格</th>
+                        <th>成团人数</th>
+                        <th>参拍状态</th>
+                        <th>参拍期数</th>
+                        <th>入选人数</th>
+                        <th>成团人数</th>
+                        <th>已有擂主人数</th>
+                        <th>人气商品类别</th>
+                        <th>更新日期</th>
+                        <th>结束日期</th>
+                        <th>管理</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {empty name="list"}
+                    <tr>
+                        <td colspan="20">没有数据</td>
+                    </tr>
+                {else/}
+                    {volist name="list" id="vo"}
+                        <tr class="popgoods" pg_id="{$vo.pg_id}">
+                            <td>{$vo.pg_id}</td>
+                            <td><img src="{$vo.pg_img|default='/static/image/index/pic_home_taplace@2x.png'}" class='img_big'></td>
+                            <td class="review"><p class="my_pgname" title="{$vo.pg_name}">{$vo.pg_name}</p></td>
+                            <td class="review"><p class="my_second_name" title="{$vo.pg_second_name}">{$vo.pg_second_name}</p></td>
+                            <td>{notempty name='vo.add_time'}{$vo.add_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                            <td>{$vo.pg_market_price}</td>
+                            <td>{$vo.pg_price}</td>
+                            <td>{$vo.pg_membernum}</td>
+                            <td>{if condition="$vo.pg_state == 1"}参拍中{else/}参拍完成{/if}</td>
+                            <td class="pg_periods">{$vo.pg_periods}</td>
+                            <td>{$vo.pg_chosen_num}</td>
+                            <td>{$vo.pg_membernum}</td>
+                            <td>{$vo.count_pm_num}</td>
+                            <td>{if condition="$vo.pg_type == 1"}线上开奖{elseif condition="$vo.pg_type == 2"}线上+线下{else/}线下{/if}</td>
+                            <td>{notempty name='vo.update_time'}{$vo.update_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                            <td>{notempty name='vo.end_time'}{$vo.end_time|date="Y-m-d H:i",###} {else /}{/notempty}</td>
+                            <td>
+                                <!--<p>-->
+                                    <!--<a href="/business/popularitygoods/edit.html?pg_id={$vo.pg_id}">编辑</a>-->
+                                <!--</p>-->
+                                <p>
+                                    <span class="add-pm">添加擂主</span>
+                                </p>
+                                <p>
+                                    <a href="/business/Poporder/pm_list/pg_id/{$vo.pg_id}">人气擂主列表</a>
+                                </p>
+                                {if condition="$vo.is_over == 1"}
+                                    <p style="color:green;margin: 0;">已成团</p>
+                                {elseif condition="$vo.pg_state == 10"/}
+                                    <p style="color:orange;margin: 0;">未成团</p>
+                                {else/}
+                                    <p class="btn btn-sm btn-warning now_publish" style="display: none;" >立即成团</p>
+                                {/if}
+                                <!-- <div class="select_body">
+                                    <span class="header_title">人气擂主列表</span>
+                                    <img src="__STATIC__/image/goods/icon_shang@2x.png" class="upimg">
+                                    <img src="__STATIC__/image/goods/icon_xia@2x.png" class="upimg select_pic">
+                                </div> -->
+                            </td>
+                        </tr>
+                    {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="page_box pull-right" style="">
+                <span class="pagi_bar pull-right">共&nbsp;{$total}&nbsp;条</span>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<img alt="" style="display:none" id="displayImg" src="" />
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+<script>
+    $(function(){
+
+        // 人气擂主列表
+        $(".select_body").click(function(){
+            $(this).find(".select_pic").removeClass("select_pic").siblings("img").addClass("select_pic");
+            var this_parent = $(this).parents(".popgoods");
+            var this_list_body = this_parent.next(".popmem_list").find(".list_body");
+            if(this_list_body.hasClass("body_active")){
+                this_parent.removeClass("body_active");
+                this_list_body.removeClass("body_active").hide(200);
+            }else{
+                this_parent.addClass("body_active");
+                this_list_body.addClass("body_active").show(200);
+            }
+        });
+
+        // 设为幸运者
+        $(".set_lucky").click(function(){
+            var pm_id = $(this).attr("pm_id");
+            var this_btn = $(this);
+            layer.confirm('您确定要将此人设置为幸运者吗？', {
+                btn: ['是的','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url: "/business/Poporder/set_lucky",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {pm_id: pm_id},
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.status != 8) {
+                            // 失败提示
+                            layer.alert(data.msg,{icon:2});
+
+                        }else {
+                            //成功
+                            layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                                time: 3000
+                            });
+                            this_btn.parents(".list_info").siblings(".list_info").find(".td_pm_status>span").html("未中奖").css("color","#333");
+                            this_btn.parents(".list_info").find(".td_pm_status>span").html("幸运者").css("color","#008000");
+                        }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        });
+
+        //商品预览
+        $(".review").click(function(){
+            var pg_id = $(this).parents(".popgoods").attr("pg_id");
+            layer.open({
+                type: 2,
+                title: '人气活动详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/popularity/popularitygoods/commodity_info/pg_id/'+pg_id
+            });
+
+        });
+
+        // 图片放大
+        $(".img_big").click(function(){
+            var src = $(this).attr("src");
+            $("#displayImg").attr("src", src);
+            var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+            var width = $("#displayImg").width();
+            var rate = height / width;
+            var win_width = $(window).width();
+            var win_height = $(window).height();
+            if(width > win_width/2){
+                width = win_width/2;
+                height = width * rate;
+            }
+            if(height > win_height){
+                var h_rate = win_height / height;
+                height = win_height;
+                width = width * h_rate;
+            }
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                area: [width + 'px', height + 'px'], //宽高
+                content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+            });
+        });
+
+        // 立即成团
+        $(".now_publish").click(function(){
+            var pg_id = $(this).parents(".popgoods").attr("pg_id");
+            var periods = $(this).parents(".popgoods").find(".pg_periods").text();
+
+            var this_btn = $(this);
+            this_btn.attr("disabled",true);
+            layer.confirm('您的操作会立即终止此商品的本期活动，并选取第一名为人气王，入选用户为成为人气王的将赠送积分奖励，您是否确认此操作？', {
+                closeBtn: 0,
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                var index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                $.ajax({
+                    url: "/business/Poporder/now_publish",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {pg_id: pg_id,periods:periods},
+                    success: function (data) {
+                        this_btn.attr("disabled",false);
+                        console.log(data);
+                        layer.closeAll();
+                        if (data.status != 8) {
+                            // 失败提示
+                            layer.alert(data.msg,{icon:2});
+                        }else {
+                            //成功
+                            layer.alert(data.msg, {
+                                skin: 'layui-layer-molv' //样式类名
+                                ,closeBtn: 0
+                            }, function(){
+                                window.location.reload();
+                            });
+                        }
+                    }
+                });
+            }, function(){
+                this_btn.attr("disabled",false);
+                layer.closeAll();
+            });
+        });
+
+        // 机器人列表
+        $(".add-pm").click(function(){
+            var pg_id = $(this).parents(".popgoods").attr("pg_id");
+            layer.open({
+                type: 2,
+                title: '机器人列表',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['400px', '90%'],
+                content: '/business/Poporder/robot_list/pg_id/'+pg_id
+            });
+        });
+    })
+</script>
+{/block}

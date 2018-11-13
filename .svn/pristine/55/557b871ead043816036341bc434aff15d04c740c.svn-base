@@ -1,0 +1,690 @@
+<?php
+/**
+ * 公共Service
+ *-------------------------------------------------------------------------------------------
+ * 版权所有 广州市素材火信息科技有限公司
+ * 创建日期 2017-07-12
+ * 版本 v.1.0.0
+ * 网站：www.sucaihuo.com
+ *--------------------------------------------------------------------------------------------
+ */
+
+namespace app\data\service\goods;
+use app\data\model\goods\GoodsDtRecordModel;
+use app\data\model\goods\GoodsModel  as GoodsModel;
+use app\data\model\GoodsProduct\GoodsProductModel;
+use app\data\service\admit\AdmitService;
+use app\data\service\BaseService as BaseService;
+use app\data\service\goodsCategory\GoodsCategoryService;
+use app\data\service\goods\GoodsProductService;
+use app\data\service\goodsDiscounttype\GoodsDiscounttypeService;
+use app\data\service\goodsImgs\GoodsImgsService;
+use app\data\service\member\MemberService;
+use app\data\service\orderPai\OrderPaiService;
+use app\data\service\popularity\PopularityGoodsService;
+use app\data\service\store\StoreService;
+use app\data\service\system_msg\SystemMsgService;
+use think\Cookie;
+use think\Loader;
+use think\Db;
+class GoodsService extends BaseService
+{
+    protected $cache = 'goods';
+    protected $pid = 0;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->goods = new GoodsModel();
+        $this->cache = 'goods';
+        //dump($this->pid);die;
+    }
+
+
+    /**
+     * $data 插入数据
+     * $m_id 用户ID
+     * $g_state 发布商品状态
+     * 用户发布商品
+     * 创建人 邓赛赛
+     */
+    public function add_goods($data,$m_id,$g_state = 2){
+        Db::startTrans();
+        try{
+            $files = request()->file('g_img');
+            if($files){
+                $imgs = $this->uploads("shop",$data['g_img']);
+            }else{
+                if(!empty($data['g_img']) && is_array($data['g_img']) ){
+                    $data['g_img'] = array_values(array_filter($data['g_img']));
+                    $imgs = $this->goods->ba64_img($data['g_img'],'shop');
+                }else{
+                    $imgs[0]='';
+                }
+            }
+            $store_id = Db::table("pai_store")->where('m_id',$m_id)->field('store_id')->find();         //获取商家id
+            $insertGoods = [
+                'g_name'                    => empty($data['g_name']) ? '' : $data['g_name'],
+                'pid'                       => empty($data['pid']) ? '' :$data['pid'],
+                'g_secondname'              =>empty($data['g_secondname']) ? '' :$data['g_secondname'] ,
+                'g_mid'                     =>$m_id,
+                'g_storeid'                 =>empty($store_id['store_id']) ? '' : $store_id['store_id'],
+                'g_description'             =>empty($data['g_description']) ? '' : $data['g_description'],
+                'g_typeid'                  =>empty($data['g_typeid']) ? '' : $data['g_typeid'] ,
+                'gc_id'                     =>empty($data['gc_id']) ? '' : $data['gc_id'] ,
+                'g_express'                 =>empty($data['g_express']) ? '' : $data['g_express'],                         //运费
+                'g_express_way'             =>empty($data['g_express_way']) ? '' : $data['g_express_way'],                 //运送方式
+                'g_addtime'                 =>time(),
+                'g_starttime'               => empty($data['g_starttime']) ? '' : $data['g_starttime'],
+                'g_endtime'                 => empty($data['g_endtime']) ? '' : $data['g_endtime'],
+                'g_img'                     => empty($imgs[0]) ? '' : $imgs[0],                                            //主图
+                'g_state'                   => $g_state,                                                                    //商品状态
+                'g_type'                    => empty($data['g_type']) ? 1 : $data['g_type'],                               //发布商品类型（1电脑发布 2手机发布）
+            ];
+            $address = explode(',',$insertGoods['pid']);
+            $insertGoods['pid'] = empty($address[0]) ? '' : $address[0];
+            $insertGoods['cid'] = empty($address[1]) ? '' : $address[1];
+            $insertGoods['aid'] = empty($address[2]) ? '' : $address[2];
+            $id = $this->goods->insertId($insertGoods);
+            //有选择折扣信息时
+            if(!empty($data['gd_info'][0])){                                    //插入goods_discounttype表（商品折扣信息）
+                //折扣信息不为空时
+                if(!empty(array_filter($data['gd_info'][0]))){
+                    $this->add_dt_record($id,$data['gd_info']);
+                }
+            }
+            $insertProduct = [
+                'gp_stock'              => empty($data['gp_stock']) ? '' :$data['gp_stock'],
+                'gp_settlement_price'   =>  empty($data['gp_settlement_price']) ? '' :$data['gp_settlement_price'],
+                'gp_market_price'       => empty($data['gp_market_price'])  ? '' :$data['gp_market_price'],
+                'gp_description'        => empty($data['g_description'])    ? '' :$data['g_description'],
+                'gp_sale_price'         => empty($data['gp_market_price'])  ? '' :$data['gp_market_price'],
+                'gp_sn'                 => "SN".time().$id,
+                'g_id'                  =>$id,
+                'gp_img'                =>empty($imgs[0]) ? '' : $imgs[0],
+                'gp_state'              => $g_state,
+                'is_huodong'            => empty($data['is_huodong'])   ? 2 :$data['is_huodong'],
+                'is_fudai'              => empty($data['is_fudai'])     ? 2 :$data['is_fudai'],
+                'sort'                  => empty($data['sort'])         ? 0 :$data['sort'],
+            ];
+            Db::table("pai_goods_product")->insert($insertProduct);               //添加puoduct表
+            $imgArr = array();
+            if(!empty($imgs) && array_filter($imgs)){                                                    //保存草稿时可能为假
+                foreach($imgs as $k => $v){
+                    $imgArr[$k] = [
+                        'gi_name'=>$v,
+                        'gi_sort'=>$k+1,
+                        'g_id'=>$id,
+                    ];
+                }
+                Db::table("pai_goods_imgs")->insertAll($imgArr);                //添加pai_goods_imgs表
+            }
+            if($g_state == 1){
+                $msg = ['status'=>2,'msg'=>'保证金不足','date'=>['g_id'=>$id]];
+                throw new \Exception(json_encode($msg));
+            }
+            //详情二维码
+            $p_goods = new PopularityGoodsService();
+            $mid = 2;
+            $path_3 = '/uploads/code/popularity/shop/'.$mid.'code_'.$id.".jpg";
+            //换算最低价格
+            $money = $this->discount($data['gp_market_price']);
+            if(empty($money[0]['gdt_discount'])){
+                $money = empty($money[0]['gdt_discount']) ? 1.00 : sprintf("%.2f",$money[0]['gdt_discount']);
+            }else{
+                $money = sprintf("%.2f",1);
+            }
+            $goodsData['code']  = $p_goods->hebingImg('/uploads/logo/father.png',$imgs[0],$path_3,$data['g_name'],$money,$mid,$id);
+            Db::commit();
+            return  ['status'=>1,'msg'=>'ok','date'=>['g_id'=>$id]];
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $error_msg = $e ->getMessage();//错误信息
+            $arr = array(
+                'el_type_id'=>3,
+                'el_description'=>date('Y-m-d H:i:s').'发布或者修改商品'.$error_msg,
+                'm_id'=>$m_id,
+                'el_time'=>time(),
+            );
+            Db('error_log')->insert($arr);//插入错误日志表
+            if(!is_null(json_decode($error_msg))){
+                return json_decode($error_msg);
+            }
+        }
+    }
+
+    /**
+     *获取折扣信息
+     * 邓赛赛
+     */
+    public function discount($money,$field='*',$g_id=''){
+        if(!$money){
+            return false;
+        }
+        $res = $this->discount_calculation($money,$field,$g_id);
+        return $res;
+    }
+    /**
+     * 商品发布成功后插入gppds_dt_record
+     * 邓赛赛
+     */
+    public function add_dt_record($id,$data){
+        if(!$data){
+            return ['status'=>'0','msg'=>'至少选择一种折扣类型'];
+        }
+        //$data值
+        foreach($data as $k =>$v){
+            $data[$k] = [
+                'g_id'          =>$id,
+                'gdt_id'        =>empty($v[0]) ? 0 : $v[0],
+                'gdr_membernum' =>empty($v[1]) ? 0 : $v[1],
+                'gdr_price'     =>empty($v[2]) ? 0 : $v[2],
+            ];
+        }
+
+        $dt_record = new GoodsDtRecordService();
+        $dt_record->dt_del(['g_id'=>$id,]);
+        $result = $dt_record->dt_insert_all($data);
+        if($result){
+            return ['statua'=>'1','msg'=>'ok'];
+        }else{
+            return ['status'=>0,'mst'=>'商品折扣保存失败'];
+        }
+    }
+
+//    /**
+//     * 商品发布成功后插入gppds_dt_record （商家发布为审核中的审核调用）
+//     */
+//    public function add_dt_record($id,$money){
+//        $res = $this->discount_calculation($money);
+//        $data = array();
+//        if(!$res){
+//            return ['status'=>'0','msg'=>'为匹配到你输入的金额'];
+//        }
+//        foreach($res as $k =>$v){
+//            $data[$k] = [
+//                'g_id'=>$id,
+//                'gdt_id'=>$v['gdt_id'],
+//                'gdr_membernum'=>$v['gdr_membernum'],
+//                'gdr_price'=>$v['gdr_price'],
+//            ];
+//        }
+//        $dt_record = new GoodsDtRecordService();
+//        $dt_record->dt_del(['g_id'=>$id,]);
+//        $result = $dt_record->dt_insert_all($data);
+//        if($result){
+//            return ['statua'=>'1','msg'=>'ok'];
+//        }else{
+//            return ['status'=>0,'mst'=>'商品折扣保存失败'];
+//        }
+//    }
+
+    /**
+     * 取消发布商品
+     * 邓赛赛
+     */
+    public function cancelShop($where,$update){
+        $res = $this->goods->getSave($where,$update);
+        return $res;
+    }
+
+    /**
+     * 验证是否为商家
+     */
+    public function is_business($where){
+        $mem =  new MemberService();
+        $m_type = $mem->get_info($where,"m_type");  //是否为商家
+        if($m_type['m_type'] !=1 ) {
+            $admit = new AdmitService();
+            $info = $admit->vdRegister(['m_id' => $where['m_id']]);     //是否正在审核、失败
+            if(!$info){
+                return ['status'=>0,'msg'=>'商家才可发布商品'];
+            }else if($info['ba_state'] == 0){
+                return ['status'=>1,'msg'=>'正在审核中'];
+            }else if($info['ba_state'] == 9){
+                return ['status'=>2,'msg'=>'审核失败,请重新修改'];
+            }
+        }
+        return ['status'=>200,'msg'=>'ok'];
+    }
+
+    /**
+     * 我的商品列表
+     * 邓赛赛
+     */
+    public function goods_list($where,$field='p.*,g.*',$order='g.g_id desc',$page_size=20,$page=1){
+        $new_num = ($page -1) *$page_size;
+        $list = Db($this->cache)->alias('g')                                         //分页数据
+        ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->join('pai_goods_dt_record dtr','g.g_id=dtr.g_id','left')
+            ->limit($new_num,$page_size)
+            ->field($field)
+            ->order($order)
+            ->group('g.g_id')
+            ->select();
+        $now_num = count($list);                                                            //本页条数
+        $totle = Db($this->cache)->alias('g')                                        //总条数
+        ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->order($order)
+            ->count();
+        $totle_page = ceil($totle/$page_size);
+
+        $list = ['list'=>$list,'totle_page'=>$totle_page,'totle_num'=>$totle,'page'=>$page,'page_size'=>$page_size,'now_num'=>$now_num];
+        return $list;
+    }
+    //我的商品列表（后台）
+    public function admin_goods_list($where,$field='p.*,g.*',$order='g.g_id desc'){
+        $list = Db($this->cache)->alias('g')                                         //分页数据
+        ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->join('pai_goods_dt_record dtr','g.g_id=dtr.g_id','left')
+            ->field($field)
+            ->order($order)
+            ->group('g.g_id')
+            ->paginate(10);
+        return $list;
+    }
+    /**
+     *获取分类列表
+     *邓赛赛
+     */
+    public function goods_category_list($where,$field='*',$order,$page_size=20,$page=1){
+        $new_num = ($page -1) *$page_size;
+        $list = Db($this->cache)->alias('g')                                         //分页数据
+        ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->join('pai_goods_dt_record dtr','dtr.g_id = g.g_id','left')
+            ->limit($new_num,$page_size)
+            ->field($field)
+            ->order($order)
+            ->group('g.g_id')
+            ->select();
+        $o_pai = new OrderPaiService();
+        //获取已拍数量
+        foreach($list as $k => $v){
+
+//            $o_periods = $o_pai->maxPeriods($v['gdr_id']);
+//            if($o_periods['status'] == 1){
+                $where2 = [
+//                    'o_periods'=>$o_periods['data'],
+                    'gp_id'=>$v['gp_id'],
+                    'o_paystate'=>['>=',2]
+                ];
+                $num = Db::table('pai_order_pai')->where($where2)->sum('gp_num');
+                $list[$k]['gp_num'] = empty($num) ? 0 : $num;
+//            }
+        }
+        $now_num = count($list);                                                            //本页条数
+        $totle = Db($this->cache)->alias('g')                                        //总条数
+        ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->join('pai_goods_dt_record dtr','dtr.g_id = g.g_id','left')
+            ->order($order)
+            ->group('g.g_id')
+            ->count();
+            $totle_page = ceil($totle/$page_size);
+        $list = ['list'=>$list,'totle_page'=>$totle_page,'page'=>$page,'num'=>$page_size,'totle_num'=>$totle,'now_num'=>$now_num];
+        return $list;
+    }
+
+    /**
+     *获取店铺首页
+     *邓赛赛
+     */
+    public function shop_list($where,$field='*',$order='g.g_id desc',$page_size=20,$page=1){
+        $list = $this->goods->shopList($where,$field,$order,$page_size,$page);
+        return $list;
+    }
+
+
+    /**
+     * 首页热拍
+     * 邓赛赛
+     */
+    public function get_heat_list($order,$page=1,$page_size=4){
+
+        $list = $this->goods->heatGoods($order,$page,$page_size);
+        return $list;
+    }
+
+//    /**
+//     * 场次列表（推荐）
+//     * 邓赛赛
+//     */
+//    public function top_one_list($min_money=1,$max_money=1000){
+//        $list = $this->goods->topGoods($min_money,$max_money);
+//        return $list;
+//    }
+    /**
+     * 场次列表
+     * 邓赛赛
+     */
+    public function top_two_list($page=1,$page_size=6,$state=1){
+        $list = $list = $this->goods->indexGoods($page,$page_size,$state);
+        return $list;
+    }
+
+    /**
+     * 管理员查看商品列表
+     * 邓赛赛
+     */
+    public function member_goods_list($where,$field='p.*,g.*',$order){
+        $list = Db($this->cache)->alias('g')
+            ->where($where)
+            ->join('pai_goods_product p','g.g_id=p.g_id','left')
+            ->field($field)
+            ->order($order)
+            ->paginate(10,false,['query'=>request()->param() ]);
+        return $list;
+    }
+
+    /**
+     * @param $where
+     * @param string $field
+     * @return array|false|\PDOStatement|string|\think\Model
+     * 获取单条数据
+     * 邓赛赛
+     */
+    public  function get_info($where,$field='*'){
+        $res = $this->goods->getInfo($where,$field);
+        return $res;
+    }
+
+    /**
+     * @param $where
+     * @param string $field
+     * @return array|bool
+     * 获取某列字段
+     * 邓赛赛
+     */
+    public function get_column($where,$field='g_id'){
+        $list = $this->goods->getColumn($where,$field);
+        return $list;
+    }
+
+    /**
+     * 获取goods信息详情
+     * @param $where
+     * @param string $field
+     * @return array|false|\PDOStatement|string|\think\Model
+     * 邓赛赛
+     */
+    public function get_goods_info($where,$field="g.*,gp.*"){
+        $info = Db::table("pai_goods")
+            ->alias('g')
+            ->where($where)
+            ->join("pai_goods_product gp",'g.g_id=gp.g_id','left')
+            ->join("pai_member m",'m.m_id=g.g_mid','left')
+            ->field($field)
+            ->find();
+        if($info){
+            $imgWhere = ['g_id'=>$where['g.g_id']];
+            $info['img'] = Db::table('pai_goods_imgs') ->order('gi_sort asc')->where($imgWhere)->select();
+        }
+        return $info;
+    }
+    /**
+     * 地址信息转换id转为地址
+     * 邓赛赛
+     */
+    public function id_address($pid,$cid,$aid){
+        $region = Db::table("pai_region")->column('region_name','region_id');//替换使用(如:1,替换为北京
+        $address = '';
+        if(!empty($region[$pid])) {
+            $address = $region[$pid];
+        }
+        if(!empty($region[$cid])) {
+            $address = $address.','.$region[$cid];
+        }
+        if(!empty($region[$aid])) {
+            $address = $address.','.$region[$aid];
+        }
+        return $address;
+    }
+
+    /**
+     * 编辑中的商品
+     * 邓赛赛
+     */
+    public function continue_edit($data,$where,$g_state){
+        $img = Db::table("pai_goods_imgs")->field('gi_name')->where(['g_id'=>$data['g_id']])->select();       //获取之前主图片
+        $files = request()->file('g_img');
+        if(!$img && $g_state != 7){
+            if(empty($data['g_img']) && empty($files) && empty($img)){   //查看是否上传图片或者已有图片
+                return  ['status'=>0,'msg'=>'请上传图片'];
+            }
+        }
+        if($files){
+            $imgs = $this->uploads("shop","g_img");
+        }else{
+            if(!empty($data['g_img'])){
+                $imgs = $this->goods->ba64_img($data['g_img'],'shop');
+            }else{
+                $imgs[0]='';
+            }
+        }
+        $store_id = Db::table("pai_store")->where(['m_id'=>$where['m_id']])->field('store_id')->find();     //获取商家id
+        $insertGoods = [
+            'g_name'            => $data['g_name'],
+            'pid'               => $data['pid'],
+            'g_secondname'      => $data['g_secondname'],
+            'g_mid'             => $where['m_id'],
+            'g_storeid'         => $store_id['store_id'],
+            'g_description'     => $data['g_description'],
+            'g_typeid'          => empty($data['g_typeid']) ? '' : $data['g_typeid'] ,
+            'g_express'         => $data['g_express'],                                                           //运费
+            'g_express_way'     => empty($data['g_express_way']) ? '' : $data['g_express_way'],           //运送方式
+            'g_addtime'         => time(),
+            'g_starttime'       => $data['g_starttime'] ,
+            'g_endtime'         => $data['g_endtime'],
+            'g_img'             => empty($img[0]['gi_name']) ? $imgs[0] : $img[0]['gi_name'],                      //主图
+            'g_state'           => $g_state,                                                                      //商品状态
+        ];
+        $address = explode(',',$insertGoods['pid']);
+        $insertGoods['pid'] = empty($address[0]) ? '' : $address[0];
+        $insertGoods['cid'] = empty($address[1]) ? '' : $address[1];
+        $insertGoods['aid'] = empty($address[2]) ? '' : $address[2];
+        $res = $this->goods->getSave(['g_id'=>$data['g_id']],$insertGoods);
+        if($res){
+//            if(!empty($data['gp_market_price'])){                                    //插入goods_discounttype表（商品折扣信息）
+//                $this->add_dt_record($data['g_id'],$data['gd_info']);
+//            }
+            //有选择折扣信息时
+            if(!empty($data['gd_info'][0])){                                    //插入goods_discounttype表（商品折扣信息）
+                //折扣信息不为空时
+                if(!empty(array_filter($data['gd_info'][0]))){
+                    $this->add_dt_record($data['g_id'],$data['gd_info']);
+                }
+            }
+            $insertProduct = [
+                'gp_stock'              =>  $data['gp_stock'],
+                'gp_settlement_price'   =>  $data['gp_settlement_price'],
+                'gp_market_price'       =>  $data['gp_market_price'],
+                'gp_description'        =>  empty($data['gp_description']) ? '' : $data['gp_description'],
+                'gp_sn'                 =>  "SN".time().rand(1000,9999).$data['g_id'],
+                'gp_img'                =>  empty($imgs[0]) ? '' : $imgs[0],
+                'gp_state'              =>  $g_state,
+                'is_huodong'            =>  empty($data['is_huodong'])   ? 2 :$data['is_huodong'],
+                'is_fudai'              =>  empty($data['is_fudai'])     ? 2 :$data['is_fudai'],
+                'sort'                  =>  empty($data['sort'])         ? 0 :$data['sort'],
+            ];
+            Db::table("pai_goods_product")->where(['g_id'=>$data['g_id']])->update($insertProduct);         //添加puoduct表
+
+            $imgArr = array();
+            $imgs = array_unique($imgs);
+            if(array_filter($imgs)){
+                foreach($imgs as $k => $v){
+                    $imgArr[$k] = [
+                        'gi_name'=>$v,
+                        'gi_sort'=>count($img)+$k+1,
+                        'g_id'=>$data['g_id'],
+                    ];
+                }
+                Db::table("pai_goods_imgs")->insertAll($imgArr);      //添加pai_goods_imgs表
+            }
+            if($g_state == 1){
+                return ['status'=>2,'msg'=>'保证金不足','data'=>['g_id'=>$data['g_id']]];
+            }
+
+            //合成详情二维码
+            $pl_goods = new PopularityGoodsService();
+            $mid = 2;
+            $path_3 = '/uploads/code/popularity/shop/'.$mid.'code_'.$data['g_id'].".jpg";
+            //详情二维码
+            $merge = 'uploads/code/popularity/shop/'.$mid.'merge_'.$data['g_id'].".jpg";
+            if(is_file($merge)){
+                unlink(trim($merge,'/'));
+            }
+            //编辑时生成新二维码
+            $g_img = $this->goods->get_value(['g_id'=>$data['g_id']],'g_img');
+            $goodsData['code']  = $pl_goods->hebingImg('/uploads/logo/father.png',$g_img,$path_3,$data['g_name'],$insertProduct['gp_settlement_price'],$mid,$data['g_id']);
+
+            return  ['status'=>1,'msg'=>'ok'];
+        }else{
+            $msg =  ['status'=>0,'msg'=>'添加商品失败,请稍后重试'];
+            return $msg;
+        }
+    }
+
+    /**
+     * 发布商品验证
+     * 邓赛赛
+     */
+
+    public function check_goods($data){
+        if(mb_strlen($data['g_name'])>40 || mb_strlen($data['g_name'])<1)
+        {
+            return ['status'=>0,'msg'=>'拍品标题内容为1-40字'];
+        }
+        if(mb_strlen($data['g_secondname'])>30)
+        {
+            return ['status'=>0,'msg'=>'二级标题最多二十字'];
+        }
+        if(mb_strlen($data['g_description'])<5)
+        {
+            return ['status'=>0,'msg'=>'商品描述最少5个字符'];
+        }
+        if(empty($data['g_img']))
+        {
+            return ['status'=>0,'msg'=>'商品图片不能为空'];
+        }
+        if(empty($data['pid']))
+        {
+            return ['status'=>0,'msg'=>'地址不能为空'];
+        }
+        if(empty($data['gp_settlement_price']) || (!is_numeric($data['gp_settlement_price'])) || mb_strlen($data['gp_settlement_price'])>10)
+        {
+            return ['status'=>0,'msg'=>'结算金额为十位以内的数字'];
+        }
+        if(empty($data['gp_market_price']) || (!is_numeric($data['gp_market_price'])) || mb_strlen($data['gp_market_price'])>10)
+        {
+            return ['status'=>0,'msg'=>'市场价格金额为十位数以内数字'];
+        }
+        if($data['gp_market_price']*0.8 < $data['gp_settlement_price']){
+            return ['status' => 0, 'msg' => '结算价不可高于市场价80%'];
+        }
+
+        if($data['g_starttime'] >= $data['g_endtime'] ){
+            return ['status'=>0,'msg'=>'开始时间必须小于结束时间'];
+        }
+//        if(empty($data['g_starttime'])){
+//            if(($data['g_endtime'] - time())<86400*3 || ($data['g_endtime'] - time())>86400*15){
+//                return ['status'=>0,'msg'=>'结束时间必须大于发布时间三至五天在3-15日'];
+//            }
+//        }else{
+//            if((time()-$data['g_starttime']) > 0){
+//                return ['status'=>0,'msg'=>'开始时间不能小于发布时间'];
+//            }
+//            if(($data['g_endtime'] - $data['g_starttime'])<86400*3 || ($data['g_endtime'] - $data['g_starttime'])>86400*15){
+//                return ['status'=>0,'msg'=>'开始时间和结束时间区间在3-15日'];
+//            }
+//        }
+//        if(empty($data['g_endtime']))
+//        {
+//            return ['status'=>0,'msg'=>'结束时间必填'];
+//        }
+
+
+        if(empty($data['g_express_way']))
+        {
+            return ['status'=>0,'msg'=>'配送类型不能为空'];
+        }
+        if(empty($data['gp_stock']) || (!is_numeric($data['gp_stock'])) || mb_strlen($data['gp_stock'])>10)
+        {
+            return ['status'=>0,'msg'=>'库存为十位数以内数字'];
+        }
+    }
+
+    /**
+     * 查询商品列表
+     * 创建人 邓赛赛
+     * 时间 2017-07-14 11:10:21
+     */
+    public function goodsList($where='', $field='*', $order='goods_id desc', $cache='goods')
+    {
+        $list = $this->goods->getList($where, $order, $field, $cache);
+        return $list;
+    }
+    /**
+     *limit查询列表
+     *邓赛赛
+     */
+    public function get_limit_list($where=[],$order='g_id desc',$field='*',$page=1,$page_size=20){
+        $page = $page<1 ? 1 : $page;
+        $offset = ($page - 1) * $page_size;
+        $list = $this->goods->get_limit_list($where,$order,$field,$offset,$page_size);
+        return $list;
+    }
+
+    /**
+     * 查询推荐商品
+     * 邓赛赛
+     */
+    public function get_tj_list($where,$order='g.g_id desc',$field="*"){
+        $list = $this->goods->getTjList($where,$order,$field);
+        return $list;
+    }
+    /**
+     * 修改商品
+     * @param $where
+     * @param $data
+     * @return bool|int|string
+     * 邓赛赛
+     */
+    public function get_save($where,$data){
+        $res = $this->goods->getSave($where,$data,"");
+        return $res;
+    }
+
+    /**
+     * 搜索商品
+     * 邓赛赛
+     */
+    public function search_goods($where,$order,$field,$page,$page_size){
+        $page = $page < 1 ? 1 : $page;
+        $offset = ($page - 1) * $page_size;
+        $list = $this->goods->searchGoods($where,$order,$field,$offset,$page_size);
+        $list['page'] = $page;
+        return $list;
+    }
+
+    /**
+     * 商品详情
+     * 刘勇豪
+     * @param $where
+     * @param string $field
+     * @return array|false|mixed|\PDOStatement|string|\think\Model
+     */
+    public function goods_info($where='',$field="*"){
+        $info = Db::table("pai_goods")->alias("g")
+            ->join("pai_goods_product gp",'g.g_id=gp.g_id','left')
+            ->where($where)
+            ->field($field)
+            ->find();
+        return $info;
+    }
+
+}

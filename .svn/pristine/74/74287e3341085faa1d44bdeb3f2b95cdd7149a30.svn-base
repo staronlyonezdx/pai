@@ -1,0 +1,340 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/upload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/conf_order.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/details.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main >
+    {if condition="$gs_id < 2"}
+    <!--地址栏-->
+    <a href="/member/address/index/pcode/{$pcode}">
+        <div class="conf_order">
+            <div class="conf_list clear">
+                <div class="conf_img lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/orderpai/icon_nav_dingwei@2x.png">
+                </div>
+                {empty name="default_address"}
+                <a href="/member/address/edit/pcode/{$pcode}">添加收货地址</a>
+                {else/}
+                <div class="conf_name lf">
+                    <p class="conf_tit clear">
+                        {$default_address.name|default=''}
+                        {if condition="$default_address.is_default eq 1" }
+                        <span class="conf_default">默认</span>
+                        {/if}
+                        <span class="rt">{$default_address.secrecy_tel|default=''}</span>
+                    </p>
+
+                    <p class="conf_site">
+                        {$default_address.province}{$default_address.city}{$default_address.district}{$default_address.address}
+                        <span class="rt">
+                            <img src="__STATIC__/image/orderpai/icon_jump@2x.png">
+                        </span>
+                    </p>
+                    <input type="hidden" name="address_id" value="{$default_address.address_id}"/>
+                </div>
+                {/empty}
+            </div>
+            <div class="conf_seal">
+                <img src="__STATIC__/image/orderpai/icon_ft@2x.png">
+            </div>
+        </div>
+    </a>
+    {/if}
+    <a href="/member/orderpai/pai_rule">
+        <div class="details_rule clear">
+            <span class="lf">拍吖吖揭晓规则 了解一下~</span>
+            <span class="rt">
+                查看规则
+                <img src="/static/image/details/icon_jump@2x.png">
+            </span>
+        </div>
+    </a>
+
+    <div class="conf_content">
+        <div class="conf_con_tit">
+            <img src="/static/image/index/pic_home_taplace@2x.png" data-original='{$info.store_logo}'>
+            <span>{$info.stroe_name|default=''}</span>
+        </div>
+        <div class="conf_order_main clear">
+            <div class="conf_order_img lf">
+                <img src="/static/image/index/pic_home_taplace@2x.png" data-original='{$info.gp_img}'>
+            </div>
+            <div class="conf_order_text lf">
+                <p>{$info.g_name|default=''}</p>
+
+                <div class="conf_order_price clear">
+                    <span class="conf_order_new">
+                        {if condition="$info.gp_sale_price == $info.gp_market_price"}
+                        {$info.gp_sale_price|default='0.00'} 积分
+                        {else/}
+                        {$info.gp_sale_price|default='0.00'} 积分
+                        <span>{$info.gp_market_price|default='0.00'}</span>
+                        {/if}                       
+                    </span>
+                    <span class="conf_order_inventory rt">x
+                        <span class="mynum">{$num|default='0'}</span>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="conf_order_data">
+            <div class="clear">
+                截止日期
+                <span class="conf_order_hint">目标满额立即揭晓</span>
+                <span class="conf_order_time rt">{$info.g_endtime|date='Y-m-d H:i',###}</span>
+            </div>
+        </div>
+        <div class="conf_order_data conf_order_num">
+            <div class="clear">
+                吖吖码份数
+                <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
+                <div class="conf_order_but rt clear">
+                    <div class="conf_order_prep lf">
+                        <img src="__STATIC__/image/orderpai/icon_-@2x.png">
+                    </div>
+                    <div class="conf_order_inp lf">
+                        <input type="number" name="num" min="1" max="{$max_pai_num|default=0}"
+                               value="{$num|default='0'}" readonly>
+                    </div>
+                    <div class="conf_order_add lf">
+                        <img src="__STATIC__/image/orderpai/icon_+@2x.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="conf_order_data">
+            <div class="clear">
+                配送方式
+                <span class="conf_order_hint">{$info.g_express_way|default='未选择'}</span>
+                
+            </div>
+        </div>
+        <div class="conf_order_data">
+            <div class="clear">
+                总积分
+                <span class="conf_order_time conf_price rt"><small>{$all_money|default='0.00'}</small></span>
+            </div>
+        </div>
+    </div>
+    <div class="conf_order_btn ljzf_but" style="background:linear-gradient(90deg,rgba(255,111,35,1),rgba(255,172,44,1))">
+        提交订单
+    </div>
+    <!--支付密码浮动层-->
+    <div class="ftc_wzsf">
+        <div class="srzfmm_box">
+            <div class="qsrzfmm_bt clear_wl">
+
+                <span class="">请输入支付密码</span>
+                <img src="__STATIC__/image/orderpai/icon_x@2x.png" class="tx close fr conf_order_colse">
+            </div>
+            <div class="zfmmxx_shop conf_order_paypassword_main clear">
+                <!--<span class="conf_order_pay_text lf">需支付￥</span>-->
+                <p class="conf_order_hints">
+                    <span class="conf_order_pay_text">需支付</span>
+                    <span class="all_money">{$all_money}</span>
+                    <span class="conf_order_fuhao">积分</span>
+                </p>
+            </div>
+
+            <div class="inputBoxContainer" id="inputBoxContainer">
+                <input type="tel" class="realInput" autofocus="autofocus"/>
+                <div class="bogusInput">
+                    <input type="password" maxlength="6" disabled class="active99"/>
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                </div>
+            </div>
+            <div class="conf_order_paypassword_hint clear">
+                <div class="conf_order_balance lf">当前剩余
+                    <span> <small>{$syumem_info.tui_diamond|default='0.00'}</small>积分</span>
+                    <p class="lack_msg" style="display: none;">积分不足请立即充值</p>
+                </div>
+                <a href="/member/sitelogin/to_sy"><div class="conf_order_pay rt">充值</div></a>
+            </div>
+            <input type="hidden" name="o_id" value="0"/>
+            <input type="hidden" name="gp_id" value="{$gp_id}"/>
+            <input type="hidden" name="gs_id" value="{$gs_id|default=1}"/>
+            <a href="/member/Register/amnesia_payment">
+                <p class="conf_forget">忘记密码</p>
+            </a>
+        </div>
+        <div class="hbbj"></div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/orderpai/conf_order.js"></script>
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script type="text/javascript" src="__JS__/md5.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //提交订单
+        $(".ljzf_but").click(function(){            
+            if($('.conf_price').find('small').text()>{$syumem_info.tui_diamond|default='0.00'}) {
+                $('.lack_msg').show();
+            }
+            var address_id = $('input[name=address_id]').val();
+            var num = $('input[name=num]').val();
+            var gp_id = $('input[name=gp_id]').val();
+            var o_id = $('input[name=o_id]').val();
+            var gs_id = $('input[name=gs_id]').val();
+            $.ajax({
+                url: "/pointpai/Pointorder/creat_order",
+                dataType: 'json',
+                type: 'POST',
+                data: {address_id: address_id, num: num, gp_id: gp_id, o_id: o_id, gs_id: gs_id },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.status == 1) {
+                        $('input[name=o_id]').val(data.data);
+                        //打开浮动
+                        $(".ftc_wzsf").show();
+                        boxInput.init(function () {
+                            var pawval = boxInput.getBoxInputValue();
+                            setTimeout(function () {
+                                pwd = hex_md5(pawval);
+
+                                // 判断剩余积分                                
+                                if ({$all_money} > {$syumem_info.tui_diamond|default='0.00'}) {
+                                    // 失败提示
+                                    layer.msg("<span style='color:#fff'>积分不足，请充值</span>", {
+                                        time: 2000
+                                    });
+                                    return false;
+                                }
+                                // 支付请求
+                                var o_id = $("input[name=o_id]").val();
+                                o_id = Number(o_id);
+                                //alert(o_id);
+                                //alert(pwd);
+                                $.ajax({
+                                    url: "/pointpai/Pointorder/order_pay",
+                                    dataType: 'json',
+                                    type: 'POST',
+                                    data: {o_id: o_id, pwd: pwd},
+                                    success: function (data) {
+                                        if(data.status != 1){
+                                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>", {
+                                                time: 2000
+                                            });
+                                            $(".realInput").val('');
+                                            boxInput.setValue();
+                                        }else{
+                                            // 如果成团异步调用退款操作
+                                            if(data.data.is_mem_full > 0){
+                                                var gp_id = "{$gp_id|default=0}";
+                                                $.ajax({
+                                                    url: "/pointpai/Pointorder/point_pay_callback",
+                                                    dataType: 'json',
+                                                    type: 'POST',
+                                                    data: {gp_id: gp_id},
+                                                    success: function (data) {
+                                                        console.log(data);
+                                                        //不用做处理
+                                                    }
+                                                });
+                                            }
+                                            window.location.href="/pointpai/Pointorder/pay_result/o_id/"+o_id+"/j_type/1";
+                                        }
+                                    }
+                                });
+                            }, 200);
+                        });
+                    }else if(data.status == 2){
+                        //判断如果没有开通钱包
+                        window.location.href=data.data;
+                    } else {
+                        // 失败提示
+                        layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                            time: 2000
+                        });
+                    }
+                }
+            });
+        });
+
+        // 充值
+        $('.conf_order_pay').click(function () {
+            var o_id = $("input[name=o_id]").val();
+            window.location.href="/member/wallet/recharge/r_jump_type/1/r_jump_id/"+o_id;
+        });
+        // 数量加
+        $(".conf_order_add").click(function () {
+            var num = $('input[name=num]').val();
+            var max = $('input[name=num]').attr("max");
+            var left_num = $(".left_num").html();
+            num = parseInt(num);
+            max = parseInt(max);
+            left_num = parseInt(left_num);
+
+            if(left_num < max){
+                max = left_num;
+            }
+            if (max > num) {
+                num++;
+            } else {
+                layer.msg("<span style='color:#fff'>您当前最多能团" + max + "件</span>", {
+                    time: 2000
+                });
+            }
+            $('input[name=num]').val(num);
+            $(".mynum").html(num);
+            // 计算金额
+            settle(num);
+        });
+        // 数量减
+        $(".conf_order_prep").click(function () {
+            var num = $('input[name=num]').val();
+            var min = $('input[name=num]').attr("min");
+            num = parseInt(num);
+            min = parseInt(min);
+            if (min < num) {
+                num--;
+            }
+            $('input[name=num]').val(num);
+            $(".mynum").html(num);
+            // 计算金额
+            settle(num);
+        });
+        
+        //计算金额
+        function settle(num) {
+            var dj = "{$info.gp_sale_price|default='0.00'}";
+            var yf = Number("{$info.g_express|default='0.00'}");
+            $('.conf_price').find('small').text(((dj*num)+yf).toFixed(2));
+            $('.all_money').text(((dj*num)+yf).toFixed(2));
+        }
+
+        //关闭浮动
+        $(".close").click(function () {
+            $(".ftc_wzsf").hide();
+            $('.realInput').val();
+            boxInput.setValue();
+            i = 0;
+            is_setorder();
+        });
+
+        // 判断此页面是否已经生成订单 生成则跳转
+        function is_setorder() {
+            var o_id = $('input[name=o_id]').val();
+            if (o_id > 0) {
+                window.location.href = "/pointpai/Pointorder/index/o_id/" + o_id + "/j_type/1";
+            }
+        }
+        is_setorder();
+
+    });
+</script>
+{/block}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>修改客户评价|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/style.css">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<style>
+#content font span {
+    font-family: "Georgia";
+    font-weight: 900;
+    font-size: 22px;
+    color: #444;
+}
+#content .textarea{
+	width:75%;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	var $dldd = $('.form-group');
+	var le = 0 ;
+	//描述限制
+	$dldd.find('.textarea').each(function() {
+		le=$(this).val();		
+		$dldd.find('font span').text(200-le.length);
+	});
+	//描述限制
+	$dldd.find('.textarea').keyup(function() {
+		le=$(this).val();		
+		if (le.length>200) {
+			$(this).val(le.substr(0,200));
+			$dldd.find('font span').text(0);
+		}else {
+			console.log(le.length);
+			$dldd.find('font span').text(200-le.length);
+		}
+	});	
+	
+	$('#start_time').datetimepicker({
+	    format: 'yyyy-mm-dd hh:ii:ss'
+	});
+	$('#expired_time').datetimepicker({
+	    format: 'yyyy-mm-dd hh:ii:ss'
+	});
+});
+function ToUrl(x)   
+{   
+	location.href=x;
+	return false;
+}
+</script>
+</head>
+<body>
+<div class="container" style="margin-left:0;margin-right:0;">
+<div class="row" id="content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>修改客户评价</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form method="post" class="form-horizontal" action="{:url('assess/edit_do')}" id="add_link" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="title" value="{$result['title']}">
+                        </div>
+						<font>* 必填</font>	
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">客户名</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="user" value="{$result['user']}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="sort" value="{$result['sort']}">
+                        </div>
+						<font>* 必填 0为最前面，以此类推</font>	
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">描述：</label>
+                        <div class="col-md-10">
+                            <textarea class="textarea" name="content" rows="6">{$result['content']}</textarea>
+                            <font>* 你还可以输入<span>200</span>个字符</font>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                        	<input type="hidden" name="id" value="{$result['id']}" />
+                            <button class="btn btn-primary" type="submit">修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

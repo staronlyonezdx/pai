@@ -1,0 +1,721 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/productlist/product_list.css">
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/popularity/details.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+<link rel="stylesheet" href="__CSS__/liMarquee/liMarquee.css">
+<link rel="stylesheet" href="__CSS__/pointgoods/pointgoods.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/seckill/seckill_info_details.css">
+{/block}
+{block name="header"}
+<!--{include file="common/header" /}-->
+{/block}
+{block name="content"}
+<mian style="margin-top: 0;">
+    <div class="details_tab_list details_display">
+        <div class="details_tab clear">
+            <div class="details_tab_back lf back-btn">
+                <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
+            </div>
+            <div class="details_tab_btn lf clear">
+                <div class="details_list_btn  lf">
+                    <span class="details_list_bottom">商品</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>参团</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>详情</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>推荐</span>
+                </div>
+            </div>
+            <div class="details_top_rt rt">
+                <img src="__STATIC__/image/goodsproduct/icon_nav_fenxiang2@2x.png" alt="图片加载失败">
+            </div>
+        </div>
+    </div>
+
+    <div class="details_header_top">
+        <!-- 返回按钮 S -->
+        <div class="details_back lf details_fanhui back-btn">
+            <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png">
+        </div>
+        <!-- 返回按钮 E -->
+        <!-- 分享按钮 S -->
+        <div class="details_top_rt rt">
+            <img src="__STATIC__/image/goodsproduct/icon_nav_fenxiang@2x.png">
+        </div>
+        <!-- 分享按钮 E -->
+    </div>
+    <!--商品-->
+    <div class="details_tab_line">
+        <div class="detail_line_view">
+            <!-- 轮播banner S -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="details_pic">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide d2">
+                        <div class="details_pic">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!-- 轮播banner E -->
+
+            <!-- 公告 S -->
+            <!--<div class="details-act">-->
+            <!--<span></span>-->
+            <!--<small></small>-->
+            <!--<div class="dowebok"></div>-->
+            <!--</div>-->
+            <!-- 公告 E -->
+
+            <!-- 价格及倒计时 S-->
+            <div class="details_data clear">
+                <div class="details_ing"></div>
+                <!-- 价格 S-->
+                <div class="details_lf lf" style="display: block">
+                    <p class="details_lf_top">市场价
+                        <span class="details_old">￥100</span>
+                        <span class="details_hint">满额揭晓</span>
+                    </p>
+                    <p class="details_new">
+                        <small>￥</small>
+                        87.24~3744.92
+                    </p>
+                </div>
+                <!-- 价格 E-->
+
+                <!-- 倒计时 S -->
+                <div class="details_rt rt" style="display: block">
+                    <p class="details_hint_text">距秒杀结束还剩</p>
+                    <div class="details_time" id="first">
+                        <!--<span class="details_show details_day"></span>-->
+                        <!--<span class="details_fenhao">:</span>-->
+                        <span class="details_show details_hour">23</span>
+                        <span class="details_fenhao">:</span>
+                        <span class="details_show details_minute">23</span>
+                        <span class="details_fenhao">:</span>
+                        <span class="details_show details_second">23</span>
+                    </div>
+                </div>
+                <!-- 倒计时 E -->
+            </div>
+            <!-- 规则 S -->
+            <a href="/popularity/popularitygoods/p_rule/">
+                <div class="details_rule clear">
+                    <span class="lf">拍吖吖人气购规则 了解一下~</span>
+                    <span class="rt">
+                    查看规则
+                    <img src="__STATIC__/image/details/icon_jump@2x.png">
+                </span>
+                </div>
+            </a>
+            <!-- 规则 E -->
+            <!-- 产品名称 S -->
+            <div class="details_top clear">
+                <!--<div class="yg-num">-->
+                <!--0<br>-->
+                <!--<span>已购者</span>-->
+                <!--</div>-->
+                <div class="yg-num" style="color: #C3C3C3">
+                    暂无<br>
+                    <span>购中者</span>
+                </div>
+                <div class="details_top_lf lf" style="width:7.5rem">
+                    <img src="__STATIC__/image/seckill/Icon_miaoshabiaoqian@2x (1).png" alt="" class="jifen">
+                    <p style="display: inline-block">aaaaa</p>
+                    <span>bbbbb</span>
+                    <div class="details_top_hint">
+                        <span>快递：免运费</span>
+                        <span>已购10单</span>
+                        <span>北京天安门</span>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- 虚位以待 S -->
+            <div class="details_xw"></div>
+            <!-- 虚位以待 E -->
+
+        </div>
+    </div>
+
+    <!--参团-->
+    <div class="details_tab_line">
+        <div class="details_tit_view">
+            <div class="details_tit_top clear">
+                <!--<p class="lf">快去成为第一个参团人吧</p>-->
+                <div class="details_schedule_name_pic lf"><img alt=""
+                                                               src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                    <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                    <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png"></div>
+                <p class="lf">等共<span>94</span>人次已参与团购</p>
+            </div>
+        </div>
+        <div class="details_schedule_stirp clear">
+            <div class="details_miaosha_zhekou">
+                <img src="__STATIC__/image/seckill/icon_miaoshazhekou@2x.png" alt="">
+            </div>
+            <div class="details_carousel">
+                <div class="details_schedule_top clear">
+                    <div class="details_schedule_img lf">
+                        <img src="__STATIC__/image/seckill/icon_yizhe@2x.png" alt="" class="gdt_img1">
+                    </div>
+                    <div class="details_schedule_progress lf">
+                        <div class="details_sheng" style="left:40%;">
+                            <img src="__STATIC__/image/seckill/icon_miaoshashengyu@2x.png" alt="">
+                            <span class="sheng">仅剩17份</span>
+                        </div>
+                        <div class="progress progress_big lf">
+                            <span class="join">已参与247人</span>
+                            <span style="width:40%"></span>
+                        </div>
+                    </div>
+                    <a href="/activity/seckill/confirm_order">
+                        <div class="details_schedule_right_btn rt">
+                            秒杀
+                        </div>
+                    </a>
+                </div>
+                <div class="details_schedule_bottom clear">
+                    <!--<p class="goodsp_span">快去成为第一个参团的人吧~</p>-->
+
+                    <div class="details_ul_list">
+                        <div class="details_schedule_name_pic lf">
+                            <img alt="" src="__CDN_PATH__{$voo.m_avatar ?? ''}">
+                        </div>
+                        <p class="lf">拍吖吖<span>已参团</span></p>
+                        <span class="rt">2018-10-13 07:30</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details_schedule_stirp clear">
+            <div class="details_carousel">
+                <div class="details_schedule_top clear">
+                    <div class="details_schedule_img lf">
+                        <img src="__STATIC__/image/seckill/icon_sanzhe@2x.png" alt="" class="gdt_img1">
+                    </div>
+                    <div class="details_schedule_center lf">
+                        <p class="lf">已参与<span class="details_schedule_yew">28</span>人次</p>
+
+                        <p class="rt">剩余<span class="details_schedule_yew">32</span>人次
+                        </p>
+
+                        <div class="details_schedule_gray lf">
+                            <div class="details_schedule_red"></div>
+                        </div>
+                        <span class="details_schedule_per lf">50%</span>
+                    </div>
+                    <a href="/activity/seckill/confirm_order">
+                        <div class="details_schedule_right_btn rt">
+                            参团
+                        </div>
+                    </a>
+                </div>
+                <div class="details_schedule_bottom clear">
+                    <!--<p class="goodsp_span">快去成为第一个参团的人吧~</p>-->
+
+                    <div class="details_ul_list">
+                        <div class="details_schedule_name_pic lf">
+                            <img alt="" src="__CDN_PATH__{$voo.m_avatar ?? ''}">
+                        </div>
+                        <p class="lf">拍吖吖<span>已参团</span></p>
+                        <span class="rt">2018-10-13 07:30</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--没有评价的时候隐藏该div开始-->
+        <div class="goodsproduct_pingjia_view">
+            <div class="details_evaluate">
+                <div class="details_evaluate_tit clear">
+                    <p class="lf">
+                        已购评价<span>(2)</span>
+                    </p>
+                    <a href="/member/goodsproduct/comment_list/gp_id/1">
+                        <div class="rt">
+                              <span>
+                                      查看全部
+                                <img src="__STATIC__/image/details/right.png">
+                              </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="details_pingjia">
+                <div class="details_evaluate_list clear">
+                    <!--评价者头像 S-->
+                    <div class="details_evaluate_head lf">
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                    </div>
+                    <!--评价者头像 E-->
+
+                    <div class="details_evaluate_rt lf">
+                        <div class="details_pingjianame">
+                            <small class="details_pinjia_tuomin">静**朔</small>
+                            <!--<div class="details_evaluate_star rt">-->
+                            <!--<img src="__STATIC__/image/review/icon_huang@2x.png" alt="">-->
+                            <!--</div>-->
+                            <!--评价星星S-->
+                            <div class="details_evaluate_star rt">
+                                <img src="__STATIC__/image/review/icon_huang@2x.png" alt="">
+                                <!--<img src="__STATIC__/image/review/star4.png" alt="">-->
+                                <!--<img src="__STATIC__/image/review/star3.png" alt="">-->
+                                <!--<img src="__STATIC__/image/review/star2.png" alt="">-->
+                                <!--<img src="__STATIC__/image/review/star1.png" alt="">-->
+                            </div>
+                            <!--评价星星E-->
+                        </div>
+                        <!--评价内容S-->
+                        <div class="details_pingjia_view clear">
+                            <p class="details_pingjiatext lf" style="font-weight:400">
+                                非常满意非常满意非常满意非常满意非常满意
+                            </p>
+                            <img src="" alt="">
+                            <!--评价内容E-->
+                        </div>
+
+                    </div>
+                    <div class="details_pingjia_info clear">
+                        <span>2018-10-18</span>
+                        <span>一折场</span>
+                        <span>共七份吖吖码</span>
+                    </div>
+                </div>
+                <!--<div class="details_evaluate_main">-->
+
+                <!--<div class="details_evaluate_main_line">-->
+                <!--<p>{$vo['rg_content'] ?? ''}</p>-->
+                <!--{notempty name="$vo['img_list']"}-->
+                <!--<div class="details_evaluate_img_list clear">-->
+                <!--{volist name="$vo['img_list']" id='voo'}-->
+                <!--<div>-->
+                <!--<img src="{$voo.img_url}" alt="">-->
+                <!--</div>-->
+                <!--{/volist}-->
+                <!--</div>-->
+                <!--{/notempty}-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+            <!--没有评价的时候隐藏该div结束-->
+        </div>
+
+        <!--进入店铺-->
+        <a href="/member/shop/index/store_id/{$store_info.store_id|default=0}">
+            <div class="details_shopname">
+                <div class="details_shopname_top clear">
+                    <div class="details_shopname_head lf">
+                        <img width="50" height="50"
+                             src="{$store_info.store_logo ?? '__STATIC__/image/details/icon_V@2x.png'}">
+                    </div>
+                    <p class="lf">
+                        hhhhhhh
+                        <!--<img src="{$store_info.store_logo ?? '__STATIC__/image/details/icon_V@2x.png'}">-->
+                    </p>
+
+                    <div class="details_shopname_into rt">
+                        进入店铺
+                    </div>
+                </div>
+                <div class="details_shopname_data clear">
+                    <div class="lf">
+                        <p>10</p>
+                        <span>全部商品</span>
+                    </div>
+                    <div class="lf">
+                        <p>1</p>
+                        <span>最新上架</span>
+                    </div>
+                    <div class="lf">
+                        <p>200</p>
+                        <span>粉丝数量</span>
+                    </div>
+                    <div class="details_shopname_border lf">
+                    <span>
+                      商品描述
+                      <span>5.0</span>
+                    </span>
+                        <span>
+                      卖家服务
+                      <span>5.0</span>
+                    </span>
+                        <span>
+                      物流服务
+                      <span>5.0</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <!-- 商品详情 -->
+    <div class="details_tab_line">
+        <div class="details">
+            <div class="details_tit">
+                <p>商品详情</p>
+            </div>
+
+            <div class="details_text">
+                <div class="shop-num" style="margin:0 0 0.5rem 0;">商品编号：123456</div>
+                hhhhhhhhhhhhhhhhhhhhh
+            </div>
+        </div>
+    </div>
+
+    <!-- 推荐商品s -->
+    <div class="details_tab_line">
+        <div class="details">
+            <div class="details_tit  details_tit_line">
+                <p>推荐商品</p>
+            </div>
+        </div>
+        <div class="details_produce">
+            <div class="product_list_main goods_pro_main">
+                <div class="product_list_content clear">
+                    <a href="/member/goodsproduct/index/g_id/">
+                        <div class="product_list_list lf">
+                            <div class="product_list_pic">
+                                <img src="__CDN_PATH__{$vo.g_img ?? ''}">
+
+                                <div class="product_list_number">3人已参与</div>
+                            </div>
+                            <p class="product_list_tit_p">ffffffff</p>
+
+                            <p class="product_list_price clear">
+                                ￥
+                                <span class="product_list_red ">100 </span>
+                            </p>
+                            <span class="product_list_oldprice">￥10000</span>
+                        </div>
+                    </a>
+                    <a href="/member/goodsproduct/index/g_id/">
+                        <div class="product_list_list lf">
+                            <div class="product_list_pic">
+                                <img src="__CDN_PATH__{$vo.g_img ?? ''}">
+
+                                <div class="product_list_number">3人已参与</div>
+                            </div>
+                            <p class="product_list_tit_p">ffffffff</p>
+
+                            <p class="product_list_price clear">
+                                ￥
+                                <span class="product_list_red ">100 </span>
+                            </p>
+                            <span class="product_list_oldprice">￥10000</span>
+                        </div>
+                    </a>
+                    <a href="/member/goodsproduct/index/g_id/">
+                        <div class="product_list_list lf">
+                            <div class="product_list_pic">
+                                <img src="__CDN_PATH__{$vo.g_img ?? ''}">
+
+                                <div class="product_list_number">3人已参与</div>
+                            </div>
+                            <p class="product_list_tit_p">ffffffff</p>
+
+                            <p class="product_list_price clear">
+                                ￥
+                                <span class="product_list_red ">100 </span>
+                            </p>
+                            <span class="product_list_oldprice">￥10000</span>
+                        </div>
+                    </a>
+                    <a href="/member/goodsproduct/index/g_id/">
+                        <div class="product_list_list lf">
+                            <div class="product_list_pic">
+                                <img src="__CDN_PATH__{$vo.g_img ?? ''}">
+
+                                <div class="product_list_number">3人已参与</div>
+                            </div>
+                            <p class="product_list_tit_p">ffffffff</p>
+
+                            <p class="product_list_price clear">
+                                ￥
+                                <span class="product_list_red ">100 </span>
+                            </p>
+                            <span class="product_list_oldprice">￥10000</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--底部气泡-->
+    <div class="quanmiao_bottom">
+        <img src="__STATIC__/image/seckill/icon_tishi1@2x.png" alt="" class="alert_all">
+        <img src="__STATIC__/image/seckill/icon_x@2x.png" alt="" class="clickx">
+    </div>
+    <!--点击我要全秒和我要参团-->
+    <div class="details_canpai">
+        <div class="details_canpai_over"></div>
+        <div class="details_canpai_main">
+            <div class="details_canpai_top clear">
+                <div class="details_canpai_pic lf">
+                    <img src="__CDN_PATH__{$goods.gp_img|default=''}">
+                </div>
+                <div class="details_canpai_text lf">
+                    <p class="details_canpai_tit">ss</p>
+
+                    <p class="details_canpai_price">
+                        ￥<span class="details_canpai_new">100</span>
+                        <span class="details_canpai_old">￥1000</span>
+                    </p>
+                </div>
+                <div class="details_canpai_cancel rt">
+                    <img src="__STATIC__/image/details/652@2x.png">
+                </div>
+            </div>
+            <!--选择价格-->
+            <div class="details_canpai_quantity details_evaluate_padding clear">
+                <div class="details_canpainum  clear">
+                    <p>选择价格</p>
+                    <div class="details_discount lf details_pitch">一折价
+                        <!--<img src="__STATIC__/image/seckill/icon_miaoshajiaobiao1@2x.png" alt="">-->
+                        <img src="__STATIC__/image/seckill/icon_miaoshajiaobiao0@2x.png" alt="">
+                    </div>
+                    <div class="details_discount lf">三折价
+                        <img src="__STATIC__/image/seckill/icon_miaoshajiaobiao1@2x.png" alt="">
+                        <!--<img src="__STATIC__/image/seckill/icon_miaoshajiaobiao0@2x.png" alt="">-->
+                    </div>
+                    <div class="details_discount lf">五折价
+                        <img src="__STATIC__/image/seckill/icon_miaoshajiaobiao1@2x.png" alt="">
+                        <!--<img src="__STATIC__/image/seckill/icon_miaoshajiaobiao0@2x.png" alt="">-->
+                    </div>
+
+                    <input type="hidden" name="gdr_id"/>
+
+
+                </div>
+                <p class="details_pitch_text">当前折扣剩余<span class="left_num">264</span>份</p>
+            </div>
+            <!--选择价格 end-->
+            <div class="details_canpai_quantity clear">
+                <div class="details_canpainum lf">
+                    <p>份数(每份对应一个吖吖码)</p>
+                    <span> 秒杀商品不限购</span>
+                </div>
+                <div class="details_canpai_but rt clear">
+                    <div class="details_prep lf">
+                        <img src="__STATIC__/image/details/icon_-@2x.png">
+                    </div>
+                    <div class="details_inp lf">
+                        <input type="number" name="num" value="1" min="1" max="9" readonly>
+                    </div>
+                    <div class="details_add lf">
+                        <img src="__STATIC__/image/details/icon_+@2x.png">
+                    </div>
+                </div>
+            </div>
+
+            <a href="javascript:void(0);">
+                <input type="hidden" name="gs_id"/>
+                <input type="hidden" name="gp_id"/>
+                <input type="hidden" name="m_id"/>
+                <div class="details_canpai_sure lf all">
+                    全秒（含18份）
+                </div>
+                <div class="details_canpai_sure rt">
+                    确定参团
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- 安卓，ios分享效果 -->
+    <div class="details_fenxiang">
+        <div class="details_fxcon">
+            <div class="details_fxtit">
+                将商品分享至
+            </div>
+            <div class="details_fxlist clear">
+                <div class="details_fx_img lf" onclick="">
+                    <img src="__STATIC__/image/details/wx.png">
+                    微信好友
+                </div>
+                <div class="details_fx_img lf" onclick="">
+                    <img src="__STATIC__/image/details/pyq.png">
+                    朋友圈
+                </div>
+                <!-- <div class="details_fx_img lf">
+                    <img src="__STATIC__/image/details/iconqq@2x.png">
+                    QQ好友
+                </div>
+                <div class="details_fx_img lf">
+                    <img src="__STATIC__/image/details/icon微博@2x.png">
+                    新浪微博
+                </div> -->
+                <div class="details_fx_img lf" onclick="copyUrl()">
+                    <img src="__STATIC__/image/details/link.png">
+                    复制链接
+                </div>
+            </div>
+            <div class="details_fx_cancel">
+                取消
+            </div>
+        </div>
+    </div>
+</mian>
+{/block}
+{block name="footer"}
+<!--出售中-->
+<div class="details_bottom clear phonex">
+    <div class="details_bottom_lf lf clear">
+        <a href="tel:400-027-1888">
+            <div class="details_evaluate_kefu_view lf">
+                <div class="details_evaluate_kefu">
+                    <img src="__STATIC__/image/details/kefu.png">
+                </div>
+                <p class="details_bottom_border">客服</p>
+            </div>
+        </a>
+
+        <div class="details_lines lf"></div>
+        <a>
+            <div class="details_evaluate_kefu_view lf">
+                <div class="details_evaluate_kefu details_shoucang">
+                    <!--<img src="__STATIC__/image/details/shoucang.png">-->
+                    <img src="__STATIC__/image/goodsproduct/yishoucang1@2x.png">
+                </div>
+                <p class="details_bottom_border">收藏</p>
+            </div>
+        </a>
+    </div>
+
+    <!--<button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>-->
+    <button class="details_bottom_rt auction lf quanmiao">我要全秒</button>
+    <button class="details_bottom_rt auction lf">立即参与</button>
+
+    <!--<button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>-->
+</div>
+<!-- 分享弹窗 S -->
+<div class="share-pop">
+    <div class="share-over"></div>
+    <div class="share-tip"></div>
+    <div class="share-cont">
+        <img class="share-tit" src="__STATIC__/image/popularity/share-tit.png"/>
+        <img class="share-code" src="{empty name='$goods.code'}/uploads/logo/pai.png {else /} {$goods.code}{/empty}"/>
+        <p>长按保存二维码到本地</p>
+        <div class="share-link">直接分享</div>
+        <div class="share-link-wx">直接分享</div>
+    </div>
+</div>
+<!-- 分享弹窗 E -->
+<input type="hidden" id="app">
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/goodsproduct/details.js"></script>
+<script>
+
+    $(function () {
+
+        // 倒计时
+
+        var nowTime = parseInt(new Date().getTime());
+
+        function timer(intDiff, idName) {
+            window.setInterval(function (e) {
+                var day = 0,
+                    hour = 0,
+                    minute = 0,
+                    second = 0;
+                /*时间默认值*/
+                if (intDiff > 0) {
+                    day = Math.floor(intDiff / 1000 / 60 / 60 / 24);
+                    hour = Math.floor(intDiff / 1000 / 60 / 60 - (day * 24));
+                    minute = Math.floor((intDiff / 1000 / 60) - (day * 24 * 60) - (hour * 60));
+                    second = Math.floor((intDiff / 1000) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60));
+                    if (day == 0 && hour == 0 && minute == 0 && second == 0) {
+                        clearInterval(setInterval(e));
+                        location.reload();
+                    }
+                }
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+
+                $(idName + ' .details_day').html(' <span>' + day + '</span>天');
+                $(idName + ' .details_hour').html('<span>' + hour + '</span>');
+                $(idName + ' .details_minute').html('<span>' + minute + '</span>');
+                $(idName + ' .details_second').html('<span>' + second + '</span>');
+                intDiff -= 1000;
+            }, 1000);
+        }
+
+        timer(1444444400000,'#first')
+
+        // 底部提示点击
+        $('.quanmiao_bottom img.clickx').click(function () {
+            $('.quanmiao_bottom').hide()
+        })
+        $('.details_bottom_rt').click(function () {
+            // console.log($(this).index());
+            $('.details_canpai').show();
+            $('.details_canpai_cancel').click(function () {
+                $('.details_canpai').hide();
+            })
+
+        })
+
+        // 点击分享按钮
+        $('.details_top_rt').click(function () {
+            $('.share-pop').show();
+        })
+
+        //隐藏分享弹窗
+        $('.share-over').click(function () {
+            $('.share-pop').hide();
+        });
+
+        // 点击折扣
+        $(".details_discount").click(function () {
+            $(".details_discount").removeClass("details_pitch");
+            $(".details_discount img").attr('src','__STATIC__/image/seckill/icon_miaoshajiaobiao1@2x.png')
+            $(this).addClass("details_pitch");
+            // console.log($(this).children);
+            $(this).find('img').attr('src','__STATIC__/image/seckill/icon_miaoshajiaobiao0@2x.png')
+            $("input[name=num]").val(1);
+        })
+        // 点击到确认订单页面
+        $('.details_canpai_sure').click(function(){
+            window.location.href = "/activity/seckill/confirm_order"
+        })
+
+        $('.back-btn').click(function(){
+            window.history.back(-1)
+        })
+
+        $(document).ready(function () {
+            //对比图片的宽高
+            var wid = $(".details_pic img").width();
+            var hei = $(".details_pic img").height();
+            if (wid > hei) {
+                $(".details_pic img").css({width: "100%"});
+            } else {
+                $(".details_pic img").css({height: "100%"});
+            }
+        });
+    })
+</script>
+{/block}

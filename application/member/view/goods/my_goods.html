@@ -1,0 +1,506 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/search_index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/my_publish.css"> {/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="my_goods_search_img">
+        <img src="__STATIC__/image/goods/icon_nav_sousuo@2x.png" alt=""/>
+    </div>
+    <form action="/member/goods/search_goods/" method="post">
+        <div class="index_search_pop">
+            <!--搜索框-->
+            <div class="index_search_pop_top clear">
+                <div class="index_pop_text lf">
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+                </div>
+                <div class="index_search_pop_view clear lf">
+                    <div class="index_search_lfimg" class="lf">
+                        <img src="__STATIC__/image/index/searchbar_icon_search@2x.png">
+                    </div>
+                    <input type="text" name="g_name"  class="index_pop_inp lf">
+
+                    <div class="index_search_cancel rt">
+                        <img src="__STATIC__/image/index/icon_search_clear@2x.png" alt="">
+                    </div>
+                </div>
+                <button type="submit" class="index_pop_sousuo rt"> 搜索</button>
+            </div>
+            {notempty name='$searchs.self'}
+            <!--历史搜索-->
+            <div class="index_pop_history_view history">
+                <div class="index_pop_history clear">
+                    <p class="lf">历史搜索</p>
+
+                    <div class="rt del_search">清除</div>
+                </div>
+                <div class="index_pop_history_main clear">
+                    {volist name='searchs.self' id='vo'}
+                    <div class="lf">{$vo}</div>
+                    {/volist}
+                </div>
+            </div>
+            {/notempty}
+        </div>
+    </form>
+    <div id="nav" class="nav">
+        <p i="0">
+            <span>全部</span>
+        </p>
+        <p i="1">
+            <span>出售中</span>
+        </p>
+        <p i="2">
+            <span>草稿箱</span>
+        </p>
+        <p i="3">
+            <span>审核中</span>
+        </p>
+        <p i="4">
+            <span>已失败</span>
+        </p>
+    </div>
+
+    <!--轮播-->
+    <div id="swiper" class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--全部-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <div id="dataList0" class="data-list"></div>
+            </div>
+            <!--出售中-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <div id="dataList1" class="data-list"></div>
+            </div>
+            <!--草稿箱-->
+            <div id="mescroll2" class="swiper-slide mescroll">
+                <div id="dataList2" class="data-list"></div>
+            </div>
+            <!--审核中-->
+            <div id="mescroll3" class="swiper-slide mescroll">
+                <div id="dataList3" class="data-list"></div>
+            </div>
+            <!--已失败-->
+            <div id="mescroll4" class="swiper-slide mescroll">
+                <div id="dataList4" class="data-list"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="my_goods_pop">
+        <div class="my_goods_con">
+            <div class="my_goods_tit">修改商品库存</div>
+            <div class="my_goods_img">
+                <img src="__STATIC__/image/details/652@2x.png">
+            </div>
+            <div class="my_goods_mid clear">
+                <div class="my_goods_less lf">
+                    <img src="__STATIC__/image/orderpai/icon_-@2x.png">
+                </div>
+                <input type="number" name="" class="my_goods_num">
+                <input type="hidden" name="" class="g_id">
+                <div class="my_goods_add rt">
+                    <img src="__STATIC__/image/orderpai/icon_+@2x.png">
+                </div>
+            </div>
+            <div class="my_goods_save">
+                保存修改
+            </div>
+        </div>
+    </div>
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/Public.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(".my_goods_search_img").click(function(){
+    $(".index_search_pop").addClass("index_pop_block");
+    $(".index_search_pop_view input").focus();
+})
+//点击叉号
+$(".index_search_cancel").click(function () {
+    $(this).siblings("input").val("");
+    $(this).siblings("input").focus();
+    $(".index_pop_search_li").css({ display: "block" });
+})
+//点击取消
+$(".index_pop_text").click(function () {
+    $(".index_search_pop").removeClass("index_pop_block");
+})
+
+    //点击减号
+    $(".my_goods_less").click(function () {
+        var val_ = $(".my_goods_num").val();
+        if (val_ > 0) {
+            val_--;
+            $(".my_goods_num").val(val_);
+        } else {
+            $(".my_goods_num").val(0);
+        }
+    })
+    //点击加号
+    $(".my_goods_add").click(function () {
+        var val_ = $(".my_goods_num").val();
+        val_++;
+        $(".my_goods_num").val(val_);
+    })
+
+    // 取消发布
+    function cancel(id) {
+        layer.confirm('是否确定取消发布该商品？', {
+            title: false,/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['算了吧', '确认取消'], /*按钮*/
+            btn2: function () {
+                /*按钮2的回调*/
+                $.post("/member/goods/cancel", {
+                    g_id: id
+                }, function (res) {
+                    if (res.status == 1) {
+                        layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+                        $('.shop_tr' + id).remove();
+                    } else {
+                        layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+                    }
+                })
+            }
+        })
+    }
+
+    // 区分管理后台、前台发布商品
+    function opens(id) {
+        layer.msg('此商品是在管理后台发布，请到管理后台编辑此商品',{time:2000});
+    }
+
+    // 提交
+    function sub(id) {
+        $.post("/member/goods/examine", {
+            g_id: id
+        }, function (res) {
+            if (res.status == 1) {
+                layer.msg('<span style="color:#fff">商品已提交，等待审核！</span>',{time:2000},function(){
+                    location.reload();
+                });
+            } else {
+                layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+            }
+        })
+    }
+
+    //显示库存弹窗
+    function gp_stock(id) {
+        $('.g_id').val(id);
+        $('.my_goods_num').val($('.stock_'+id).text());
+        $(".my_goods_pop").addClass("my_goods_blo");
+    }
+    // 隐藏修改库存弹窗
+    $(".my_goods_img").click(function () {
+        $(".my_goods_pop").removeClass("my_goods_blo");
+    })
+
+    //修改库存
+    $('.my_goods_save').click(function () {
+        $(".my_goods_pop").removeClass("my_goods_blo");
+        var g_id = $('.g_id').val()
+        var my_goods_num = $('.my_goods_num').val()
+        $.post("/member/goodsproduct/set_stock", {
+            g_id: g_id,
+            gp_stock: my_goods_num
+        }, function (res) {
+            if (res.status == 1) {
+                $('.stock_' + g_id).html($('.my_goods_num').val());
+                layer.msg('<span style="color:#fff">'+ res.msg +'</span>');
+            } else {
+                layer.msg('<span style="color:#fff">'+ res.msg +'</span>');
+            }
+        });
+    });
+    $(function () {
+        var type = "{$g_state}";
+        
+        $('#nav').find('p').eq(type).addClass('active');
+        var curNavIndex = type;//全部0; 出售中1; 草稿箱2; 审核中3; 已失败4;
+        var mescrollArr = new Array(5);//5个菜单所对应的5个mescroll对象
+
+        //初始化首页
+        mescrollArr[type] = initMescroll("mescroll" + type, "dataList" + type);
+
+        /*初始化轮播*/
+        var swiper = new Swiper('#swiper', {
+            initialSlide: type,
+            onTransitionEnd: function (swiper) {
+                var i = swiper.activeIndex;//轮播切换完毕的事件
+                changePage(i);
+            }
+        });
+
+        /*初始化菜单*/
+        $("#nav p span").click(function () {
+            var i = Number($(this).parent().attr("i"));
+            swiper.slideTo(i);//以轮播的方式切换列表
+        })
+
+        /*切换列表*/
+        function changePage(i) {
+            if (curNavIndex != i) {
+                //更改列表条件
+                $("#nav p").each(function (n, dom) {
+                    if (dom.getAttribute("i") == i) {
+                        dom.classList.add("active");
+                    } else {
+                        dom.classList.remove("active");
+                    }
+                })
+                //隐藏当前回到顶部按钮
+                mescrollArr[curNavIndex].hideTopBtn();
+                //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                if (mescrollArr[i] == null) {
+                    mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
+                } else {
+                    //检查是否需要显示回到到顶按钮
+                    var curMescroll = mescrollArr[i];
+                    var curScrollTop = curMescroll.getScrollTop();
+                    if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                        curMescroll.showTopBtn();
+                    } else {
+                        curMescroll.hideTopBtn();
+                    }
+                }
+                //更新标记
+                curNavIndex = i;
+            }
+        }
+
+        $(".index_pop_sousuo").click(function(){
+            g_name=$("input[name='keyword']").val();
+
+
+//            $.ajax("/member/goods/my_goods/g_state/",{
+//                data:{g_name:g_name},
+//                dataType: 'json',
+//                type:"POST",
+//                success:function(data){
+//                    console.log(data.list.length);
+//                    var liDom = document.createElement("div");
+//                    liDom.className = 'my_publish_list shop_tr' + pd.g_id;
+//                    liDom.innerHTML = str;
+//                    listDom.appendChild(liDom);
+//                    if(data.list.length>0){
+//                        var html='';
+//                        for(var i=0;i<data.list.length;i++){
+//                            html+=''
+//                        }
+//                    }
+//                }
+//            })
+        })
+
+        /*创建MeScroll对象*/
+        function initMescroll(mescrollId, clearEmptyId) {
+            //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+            var mescroll = new MeScroll(mescrollId, {
+                //下拉刷新
+                down: {
+                    isLock: true, //锁定下拉
+                },
+                //上拉加载的配置项
+                up: {
+                    callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                    empty: {
+                        icon: "/static/image/goods/no-cont.png", //无数据图片
+                        tip: "当前还没发布过任何商品哟~", //提示
+                    },
+                    clearEmptyId: clearEmptyId, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                    htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                    htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                    toTop: { //配置回到顶部按钮
+                        src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    }
+                }
+            });
+            return mescroll;
+        }
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+            getListDataFromNet(dataIndex, page.num, page.size, function (pageData) {
+                //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+                //console.log("dataIndex=" + dataIndex + ", curNavIndex=" + curNavIndex + ", page.num=" + page.num + ", page.size=" + page.size + ", pageData.length=" + pageData.length);
+
+                //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                mescrollArr[dataIndex].endSuccess(pageData.length);
+
+                //设置列表数据
+                setListData(pageData, dataIndex);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescrollArr[dataIndex].endErr();
+            });
+        }
+
+        /*设置列表数据
+         * pageData 当前页的数据
+         * dataIndex 数据属于哪个nav */
+        function setListData(pageData, dataIndex) {
+            var listDom = document.getElementById("dataList" + dataIndex);
+            for (var i = 0; i < pageData.length; i++) {
+                var pd = pageData[i];
+                var hf;
+                var btn;
+
+                if (pd.g_state == 6) {
+                    hf = '<span class="my_publish_hint rt">出售中</span>';
+                    btn = '<div class="my_publish_modification rt" onclick="gp_stock(' + pd.g_id + ')">修改库存</div>';
+                } else if (pd.g_state == 7) {
+                    hf = '<span class="my_publish_hint rt my_publish_black">编辑中</span>';
+                    btn = '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                    if(pd.g_type == 1) {
+                        btn += '<div class="my_publish_share rt" onclick="opens">继续编辑</div>';
+                    }else {
+                        btn += '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">继续编辑</div></a>';
+                    }                    
+                } else if (pd.g_state == 8) {
+                    hf = '<span class="my_publish_hint rt">未团中</span>';
+                    if(pd.g_type == 1) {
+                        btn += '<div class="my_publish_share rt" onclick="opens">继续编辑</div>';
+                    }else {
+                        btn = '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">修改商品</div></a>';
+                    }                    
+                } else if (pd.g_state == 1) {
+                    if(pd.deposit == '0.00') {
+                        hf = '<span class="my_publish_hint rt">已支付保证金</span>';
+                        btn = '<div class="my_publish_modification rt" onclick="sub(' + pd.g_id + ')">提交</div>';
+                        btn += '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                    }else {
+                        hf = '<span class="my_publish_hint rt">等待支付保证金</span>';
+                        btn = '<a href="/member/store/deposit/g_id/' + pd.g_id + '"><div class="my_publish_modification rt">付款</div></a>';
+                        btn += '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                    }
+                } else if (pd.g_state == 2) {
+                    hf = '<span class="my_publish_hint rt my_publish_yew">正在审核</span>';
+                    btn = '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                } else if (pd.g_state == 4) {
+                    hf = '<span class="my_publish_hint rt my_publish_hui">审核未通过</span>';
+                    btn = '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                    if(pd.g_type == 1) {
+                        btn += '<div class="my_publish_share rt" onclick="opens">继续编辑</div>';
+                    }else {
+                        btn = '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">重新编辑</div></a>';
+                    }
+                } else if (pd.g_state == 9) {
+                    hf = '<span class="my_publish_hint rt">已完成</span>';
+                    if(pd.g_type == 1) {
+                        btn += '<div class="my_publish_share rt" onclick="opens">继续编辑</div>';
+                    }else {
+                        btn = '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">重新编辑</div></a>';
+                    }
+                }
+
+                var str = '<div class="my_publish_tit clear">';
+                str += '<span class="my_publish_bh lf">商品编号 ' + pd.gp_sn + '</span>';
+                str += hf;
+                str += '</div>';
+                str += '<div class="my_publish_main clear">';
+                if(pd.g_state == 6 || pd.g_state == 8 || pd.g_state == 2 || pd.g_state == 4 || pd.g_state == 9) {
+                    str += '<a href="/member/goodsproduct/index/g_id/' + pd.g_id + '">';
+                }
+
+                str += '<div class="my_publish_img lf">';
+                if (pd.g_img == '') {
+                    str += '<span class="no-img">暂未上传图片</span>';
+                } else {
+                    str += '<img src="' + pd.g_img + '">';
+                }
+                str += '</div>';
+                str += '<div class="my_publish_text lf">';
+                if (pd.g_name == '') {
+                    str += '<p>您还未填写商品标题</p>';
+                } else {
+                    str += '<p>' + pd.g_name + '</p>';
+                }
+                str += '<div class="my_publish_price clear">';
+                if (pd.max_gdr_price == null) {
+                    str += '<span class="my_publish_new">尚未填写价格</span>';
+                } else {
+                    str += '<span class="my_publish_new">￥' + pd.min_gdr_price + '~' + pd.max_gdr_price + '</span>';
+                }
+                str += '<span class="my_publish_inventory rt">库存x';
+                str += '<span class="stock stock_'+ pd.g_id +'">' + pd.gp_stock + '</span>';
+                str += '</span>';
+                str += '</div>';
+                str += '</div>';
+                if (pd.g_state == 6 || pd.g_state == 8 || pd.g_state == 2 || pd.g_state == 4 || pd.g_state == 9) {
+                    str += '</a>';
+                }
+                str += '</div>';
+                str += '<div class="my_publish_data clear">';
+                if (pd.g_state != 1) {
+                    if (pd.g_endtime == '0') {
+                        str += '<p class="rt">截止时间尚未设置</p>';
+                    } else {
+                        str += '<p class="rt">' + msToDate(pd.g_endtime * 1000).wasTime + '<span> 后截止</span></p>';
+                    }
+                } else {                        
+                    str += '<p>需支付保证金 ￥'+ pd.deposit +'</p>';                    
+                }
+                str += '</div>';
+                str += '<div class="my_publish_btn clear">';
+                if (pd.gp_settlement_price != '0.00') {
+                    str += '结算价￥' + pd.gp_settlement_price;
+                }
+                str += btn;
+                str += '</div>';
+
+                var liDom = document.createElement("div");
+                liDom.className = 'my_publish_list shop_tr' + pd.g_id;
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+
+        /*联网加载列表数据
+         在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+         请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+         实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+         * */
+        function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/member/goods/my_goods/',
+                    dataType: 'json',
+                    data: {
+                        g_state:curNavIndex,
+                        page: pageNum,
+                        page_size: pageSize
+                    },
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.list.length; i++) {
+                            listData.push(data.list[i]);
+                        }
+                        //回调
+                        successCallback(listData);
+                    },
+                    error: errorCallback
+                });
+            }, 500)
+        }
+    });
+
+
+</script> {/block}

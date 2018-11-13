@@ -1,0 +1,118 @@
+$(function () {
+//点击首页头部搜索
+$(".index_search").click(function () {
+    $(".index_search_pop").addClass("index_pop_block");
+    $(".index_search_pop_view input").focus();
+})
+//点击叉号
+$(".index_search_cancel").click(function () {
+    $(this).siblings("input").val("");
+    $(this).siblings("input").focus();
+    $(".index_pop_search_li").css({ display: "block" });
+})
+//点击取消
+$(".index_pop_text").click(function () {
+    $(".index_search_pop").removeClass("index_pop_block");
+})
+//点击搜索的tab切换
+var inp='<input type="hidden" name="type"/>';
+$(".index_pop_tab").eq(0).append(inp);
+$("input[name='type']").val("1");
+$(".index_pop_tab").click(function () {
+    $(".index_pop_tab").removeClass("index_pop_bold");
+    $(this).addClass("index_pop_bold");
+    $(".index_pop_tab").children("input[name='type']").remove();
+    $(this).append(inp);
+    if($(this).index()==0){
+        $(this).children("input").val("1");
+    }else{
+        $(this).children("input").val("2");
+    }
+    var inptype=$("input[name='type']").val();
+    var inpval=$("input[name='keyword']").val();
+    if(inpval!=""&&inpval!=null&&inpval!=undefined){
+        $(".index_pop_history_view").css({ display: "none" });
+        $.ajax("/index/index/search_index/",{
+            data:{keyword:inpval,type:inptype},
+            dataType:'json',
+            type:'get',
+            success:function(data){
+                var html='';
+                $(".index_pop_search_ul").html("");
+                if(data.list.length>0){
+                    for(var i=0;i<data.list.length;i++){
+                        if(inptype==1){
+                            html+=' <li class="index_pop_search_li clear"><span>'+data.list[i].g_name+'</span><img src="/__STATIC__/image/index/icon_nav_jump@2x.png" alt=""></li>'
+                        }else{
+                            html+=' <li class="index_pop_search_li clear"><span>'+data.list[i].stroe_name+'</span><img src="/__STATIC__/image/index/icon_nav_jump@2x.png" alt=""></li>'
+                        }
+                        
+                    }
+                    $(".index_pop_search_ul").append(html);
+                    if ($(".index_pop_inp").val().length <= 0) {
+                        $(".index_pop_search_ul").html("");
+                        $(".index_pop_history_view").css({ display: "block" });
+                    }
+                    //点击搜索出的列表
+                    $(".index_pop_search_li").click(function () {
+                        $(".index_pop_inp").val($(this).children("span").text());
+                        inpval=$("input[name='keyword']").val();
+                        window.location.href = "/index/index/search_index/type/" + inptype + "/keyword/" + inpval;
+                    })
+                }else{
+     
+                }
+            }
+        })
+    }
+})
+////实时监听输入搜索框的内容
+
+$(".index_pop_inp").on("input propertychange", function () {
+//    $(".index_pop_search_main").css({ display: "block" });
+    var inpval=$(this).val();
+    var inptype=$("input[name='type']").val();
+   $(".index_pop_history_view").css({ display: "none" });
+   $.ajax("/index/index/search_index/",{
+        data:{keyword:inpval,type:inptype},
+        dataType:'json',
+        type:'get',
+        success:function(data){
+            var html='';
+            $(".index_pop_search_ul").html("");
+            if(data.list.length>0){
+                for(var i=0;i<data.list.length;i++){
+                    if(inptype==1){
+                        html+=' <li class="index_pop_search_li clear"><span>'+data.list[i].g_name+'</span><img src="/__STATIC__/image/index/icon_nav_jump@2x.png" alt=""></li>'
+                    }else{
+                        html+=' <li class="index_pop_search_li clear"><span>'+data.list[i].stroe_name+'</span><img src="/__STATIC__/image/index/icon_nav_jump@2x.png" alt=""></li>'
+                    }
+                }
+                $(".index_pop_search_ul").append(html);
+                if ($(".index_pop_inp").val().length <= 0) {
+                    $(".index_pop_search_ul").html("");
+                    $(".index_pop_history_view").css({ display: "block" });
+                }
+                //点击搜索出的列表
+                $(".index_pop_search_li").click(function () {
+                    $(".index_pop_inp").val($(this).children("span").text());
+                    inpval=$("input[name='keyword']").val();
+                    window.location.href = "/index/index/search_index/type/" + inptype + "/keyword/" + inpval;
+                })
+
+            }else{
+
+            }
+        }
+    })
+})
+//点击历史搜索的清除
+$('.del_search').on('click', function () {
+    $.post('/index/index/del_search', {}, function (res) {
+        console.log(res);
+        if (res) {
+            $('.history').remove();
+        }
+    })
+})
+})

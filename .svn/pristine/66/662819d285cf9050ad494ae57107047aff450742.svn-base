@@ -1,0 +1,148 @@
+.edit_float{
+	margin-right: 30px;
+	float: left;
+}
+main{
+	background-color: #fff;
+	margin-top: 0.8rem;
+}
+.file-preview {
+	height:100px;
+	padding:0;
+}
+.file-drop-zone{
+	margin:0;
+	padding:0;
+	border:none;
+}
+.file-drop-zone-title{
+	display: none;
+}
+.krajee-default.file-preview-frame{
+	margin:0;
+	padding:0;
+	width:100px;
+	height:100px;
+	margin-right: 0.5rem;
+	margin-bottom: 0.2rem;
+}
+.krajee-default.file-preview-frame .kv-file-content{
+	width:100px;
+	height:100px;
+}
+.krajee-default .file-footer-caption{
+	display: none;
+}
+.krajee-default .file-upload-indicator {
+	display: none;
+}
+.file-preview-thumbnails{
+	display: block;
+}
+.krajee-default.file-preview-frame .file-thumbnail-footer{
+	width:100px;
+	height:100px;
+	border:1px solid #ddd;
+	position: absolute;
+	top:0;
+	left: 0;
+}
+.btn-sm {
+	padding:0;
+	width:0.4rem;
+	height:0.4rem;
+}
+.kv-file-upload{
+	display: none;
+}
+.kv-file-remove{
+	position: absolute;
+	right:8px;
+	top:0;
+	z-index: 2;
+}
+.kv-file-zoom{
+	width:100px;
+	height:100px;
+	opacity: 0;
+}
+.file-preview .fileinput-remove{
+	display: none;
+}
+.file-preview .fileinput-upload{
+	display: none;
+}
+.file-caption-main{
+	width:100px;
+	height:100px;
+	float: left;
+	position: absolute;
+	top:0;
+	left: 0;
+	border:1px solid #ddd;
+	background-color: rgba(153, 153, 153, 0.498039215686275);
+	opacity: 0;
+}
+/*.btn{
+	padding:0;
+}
+.btn-primary{
+	border:none;
+	background-color: rgba(153, 153, 153, 0.498039215686275);
+}*/
+.btn-primary:hover{
+	border:none;
+	background-color: rgba(153, 153, 153, 0.498039215686275);
+}
+.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle){
+	display: none;
+}
+.input-group-btn:last-child>.btn{
+	width:100px;
+	height:100px;
+}
+.clearfix{
+	display: none;
+}
+.view{
+	width:100px;
+	/*margin:0 auto;*/
+	position: relative;
+	margin-bottom: 0.2rem;
+}
+.photo{
+	width:100px;
+	height:100px;
+	position: absolute;
+	top:0rem;
+	left: 0rem;
+	background-color: rgba(153, 153, 153, 0.498039215686275);
+	background-size: 0.6rem 0.5rem;
+}
+.photo p{
+	position: absolute;
+	bottom:-0.2rem;
+	left:0.2rem;
+}
+.file-preview{
+	border:none;
+}
+.file-preview-image{
+	object-fit: cover!important;
+	width:100%!important;
+	height:100%!important;
+}
+.file-error-message{
+	position: fixed;
+	top:42%;
+	left:6%;
+}
+.header_nav{
+	height:0.8rem;
+	background-color: #ddd;
+	position: fixed;
+	top:0;
+	left:0;
+	width:100%;
+	z-index: 2;
+}

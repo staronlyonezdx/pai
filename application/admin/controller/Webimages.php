@@ -1,0 +1,156 @@
+<?php
+namespace app\admin\controller;
+
+use think\Controller;
+use think\Request;
+use think\Url;
+use app\data\service\BaseService as BaseService;
+use app\data\service\webImages\WebImagesService as WebImagesService;
+use app\data\service\webImagesType\WebImagesTypeService as WebImagesTypeService;
+
+class Webimages extends AdminHome
+{
+    /*
+    * 广告图片列表
+    * 创建人 刘勇豪
+    * 时间 2018-06-26 13:40:00
+    */
+    public function index()
+    {
+        $webImages = new WebImagesService();
+
+        $list = $webImages->webImagesPaginate('','*','wi_id desc',10);
+
+        $page = $list->render();
+        $total = $list->total();
+
+        $list = $list->toArray();
+        $list = $list['data'];
+
+        // 分类名
+        if(!empty($list)){
+            $webImagesType = new WebImagesTypeService();
+            foreach($list as $k => $v){
+                $wit_name = '普通图片';
+                if(!empty($v['wit_id'])){
+                    $type_info = $webImagesType->webImagesTypeInfo(['wit_id'=>$v['wit_id']]);
+                    if(!empty($type_info) && $type_info['wit_name']){
+                        $wit_name = $type_info['wit_name'];
+                    }
+                }
+                $list[$k]['wit_name'] = $wit_name;
+            }
+        }
+
+
+
+        $this->assign('page', $page);
+        $this->assign('total', $total);
+        $this->assign('list', $list);
+        return $this->fetch();
+    }
+
+    /*
+    * 广告图片编辑
+    * 创建人 刘勇豪
+    * 时间 2018-06-26 13:40:00
+    */
+    public function edit()
+    {
+        $wi_id = input('request.wi_id', 0);
+        $webImages = new WebImagesService();
+
+        //表单提交
+        if (request()->isPost()) {
+
+            // 图片
+            $file = request()->file();
+            $base = new BaseService();
+            if(!empty($file)){
+                $back = $base->upload('wi_img', 'wi_img', 2);
+                $imgurl = $back['info'];
+            }
+
+            //表单数据
+            if($wi_id){
+                // 修改
+                $data = $webImages->inputData('edit');
+            }else{
+                // 添加
+                $data = $webImages->inputData('add');
+            }
+            if(!$wi_id){
+                // 只有添加的时候才会赋初始值
+                $data['wi_imgurl'] = '';
+            }
+            if(isset($imgurl) && !empty($imgurl)){
+                $data['wi_imgurl'] = $imgurl;
+            }
+
+            //表单验证
+            $error_msg = $webImages->checkData($data);
+            if ($error_msg) {
+                $this->error($error_msg, url('Webimages/edit') . "?wi_id=" . $wi_id, 3);
+            }
+
+            if ($wi_id) {
+                // 修改
+                $where_save['wi_id'] = $wi_id;
+                $res = $webImages->webImagesSave($where_save, $data);
+                if (!$res) {
+                    $this->error('修改图片失败', url('Webimages/edit') . "?wi_id=" . $wi_id, 3);
+                }
+                $this->success("修改图片成功！", url('Webimages/index'), 3);
+            } else {
+                //添加
+                $res = $webImages->webImagesAdd($data);
+                if (!$res) {
+                    $this->error('添加图片失败', url('Webimages/edit'), 3);
+                }
+                $this->success("添加图片成功！", url('Webimages/index'), 3);
+            }
+        }
+
+        //查询图片详情
+        $info = [];
+        if ($wi_id) {
+            $where_find['wi_id'] = $wi_id;
+            $info = $webImages->webImagesInfo($where_find);
+            if (empty($info)) {
+                $this->error("非法请求，资源不存在！", url('Webimages/index'), 3);
+            }
+        }
+
+        // 查询图片全部分类
+        $webImagesType = new WebImagesTypeService();
+        $typeList = $webImagesType->webImagesTypeList();
+
+        $this->assign('info', $info);
+        $this->assign('typeList', $typeList);
+        $this->assign('wi_id', $wi_id);
+        return $this->fetch();
+    }
+
+    /*
+    * 广告图片删除
+    * 创建人 刘勇豪
+    * 时间 2018-06-26 13:40:00
+    */
+    public function delete()
+    {
+        $wi_id = input('request.wi_id', 0);
+        if (!$wi_id || !is_numeric($wi_id)) {
+            $this->error("非法请求！", url('Webimages/index'), 3);
+        }
+
+        // 删除
+        $webImages = new WebImagesService();
+        $res = $webImages->webImagesDel(['wi_id' => $wi_id]);
+
+        if (!$res) {
+            $this->error("图片删除失败！", url('Webimages/index'), 3);
+        }
+
+        $this->success("图片删除成功！", url('Webimages/index'), 3);
+    }
+}

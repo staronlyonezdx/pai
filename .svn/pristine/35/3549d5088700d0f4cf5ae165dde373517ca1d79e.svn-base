@@ -1,0 +1,63 @@
+html {
+    background-color: white;
+}
+
+.apply {
+    background-color: white;
+}
+
+.progress {
+    padding: 0.82rem 1rem 1.1rem 1.47rem;
+    position: relative;
+}
+
+.progress img {
+    width: 0.8rem;
+    height: 2.89rem;
+}
+
+.progress_content {
+    position: absolute;
+    left: 2.63rem;
+    top: 0.88rem;
+}
+
+.apply_commit {
+
+}
+
+.apply_commit:nth-child(2) {
+    margin-top: 0.71rem;
+}
+
+.apply_commit:nth-child(3) {
+    margin-top: 0.59rem;
+}
+
+.apply_title {
+    font-size: 0.24rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 1);
+    line-height: 0.3rem;
+}
+
+.apply_title.active {
+    font-size: 0.32rem;
+}
+
+.apply_content {
+    font-size: 0.22rem;
+    font-weight: 300;
+    color: rgba(187, 187, 187, 1);
+    line-height: 0.3rem;
+}
+.apply a {
+    width:6.9rem;
+    height:0.88rem;
+    display: block;
+    background:rgba(255,229,0,1);
+    border-radius:0.18rem;
+    text-align: center;
+    line-height: 0.88rem;
+    margin: 1rem auto 0;
+}

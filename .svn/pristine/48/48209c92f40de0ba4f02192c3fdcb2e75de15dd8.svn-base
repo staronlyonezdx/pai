@@ -1,0 +1,157 @@
+$(function () {
+    //banner图片报错给默认图
+    $('.details_img').on('error',function(){ 
+        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+    });
+
+    $(".click_big").click(function(){
+        // console.log($(this));
+        // console.log($(this).parents('swiper-slide'));
+        var index = $(this).attr('i');
+        // console.log(index);
+        $('.big_banner').css('display','block');
+        var swiper = new Swiper('.big_swiper-container', {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+
+        swiper.slideTo(index)
+        $('.details_cancelchan').click(function(){
+            $('.big_banner').css('display','none');
+        })
+    })
+
+    //banner对比图片的宽高
+    $('.details_img').each(function(){
+        //获取图片父容器的宽度
+        var pat = $(this).parent().width();
+
+        //获取图片父容器的高度
+        var pah = $(this).parent().height();
+
+        var img = $(this);
+        var wid;// 真实的宽度
+        var hei;// 真实的高度
+        // 这里做下说明，$("<img/>")这里是创建一个临时的img标签，类似js创建一个new Image()对象！
+        $("<img/>").attr("src", $(img).attr("src")).load(function() {
+            /*
+            * 如果要获取图片的真实的宽度和高度有三点必须注意 1、需要创建一个image对象：如这里的$("<img/>")
+            * 2、指定图片的src路径 3、一定要在图片加载完成后执行如.load()函数里执行
+            */
+            wid = this.width;
+            hei = this.height;
+
+            if (wid > hei) {
+                //图片宽度设置为100%
+                img.css({"width":pat+"px","height":"auto"});
+                
+                //居中显示
+                hei = hei/(wid/pat);
+                var mtp = (img.parent().height()-hei)/2;
+                img.css("margin-top",mtp+"px");
+            }
+        });
+    })
+
+    // 已参拍轮播
+    var lenlen = $(".details_ul").length;
+    function notice() {
+        $(".details_ul").each(function (i) {
+            setTimeout(function () {
+                $(".details_ul").eq(i).stop(true, true).animate({ marginTop: "-0.88rem" }, 1000, function () {
+                    $(".details_ul").css({ marginTop: "0rem" });
+                    $(".details_ul").eq(i).find(".details_ul_list:last").after($(".details_ul").eq(i).find(".details_ul_list:first"));
+                })
+            }, 2000 * i)
+
+        })
+    }
+    notice();
+    setInterval(notice, 2000 * lenlen);
+    //进度条的宽
+    $('.details_schedule_top').each(function () {
+        var num = $(this).find(".details_schedule_per").html();
+        $(this).find(".details_schedule_red").css("width", num);
+    })
+    
+    $(".details_canpai_cancel").click(function () {
+        $(".details_canpai").removeClass("details_canpai_dis");
+    })
+    $(".details_canpai_over").click(function () {
+        $(".details_canpai").removeClass("details_canpai_dis");
+    })
+    $(".details_top_rt").click(function () {
+        // $(".details_fenxiang").addClass("details_canpai_dis");
+        // $(".details_fx_cancel").click(function () {
+        //     $(".details_fenxiang").removeClass("details_canpai_dis");
+        // })
+    });
+    // 点击折扣
+    $(".details_discount").click(function () {
+        $(".details_discount").removeClass("details_pitch");
+        $(this).addClass("details_pitch");
+        $("input[name=num]").val(1);
+    })
+    // 滚动页面
+    var flag = true;
+    $(window).scroll(function () {
+        if (flag) {
+            $(".details_tab_line").each(function (i) {
+                var ofse = $(this).offset().top;
+                // console.log(ofse);
+                var scrol = $(window).scrollTop();
+                if (scrol > 1) {
+                    $(".details_header_top").addClass("details_display");
+                    $(".details_tab_list").removeClass("details_display");
+                } else {
+                    $(".details_header_top").removeClass("details_display");
+                    $(".details_tab_list").addClass("details_display");
+                }
+                // console.log(ofse-scrol);
+                if (ofse - scrol < 10 && ofse >= scrol) {
+                    $(".details_list_btn").children("span").removeClass("details_list_bottom");
+                    $(".details_list_btn").eq(i).children("span").addClass("details_list_bottom");
+                }
+            })
+        }
+    })
+    //点击导航
+    $(".details_list_btn").click(function () {
+        var inde = $(this).index();
+        flag = false;
+        var offs = $(".details_tab_line").eq(inde).offset().top - 46;
+        $("body,html").stop(true, true).animate({ scrollTop: offs }, function () {
+            flag = true;
+        });
+        $(".details_list_btn").children("span").removeClass("details_list_bottom");
+        $(this).children("span").addClass("details_list_bottom");
+    })
+    // 数量加
+    $(".details_add").click(function () {
+        var num = $('input[name=num]').val();
+        var max = $('input[name=num]').attr("max");        
+        num = parseInt(num);
+        max = parseInt(max); 
+        if (max > num) {
+            num++;
+        } else {
+            layer.msg("<span style='color:#fff'>您当前最多能拍" + max + "件</span>", {
+                time: 2000
+            });
+        }
+        $('input[name=num]').val(num);
+    });
+    // 数量减
+    $(".details_prep").click(function () {
+        var num = $('input[name=num]').val();
+        var min = $('input[name=num]').attr("min");
+        num = parseInt(num);
+        min = parseInt(min);
+        if (min < num) {
+            num--;
+        }
+        $('input[name=num]').val(num);
+    });
+})

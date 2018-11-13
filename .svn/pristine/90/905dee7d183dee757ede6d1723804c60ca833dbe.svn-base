@@ -1,0 +1,34 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/promotion/hd_gz1.css">
+{/block}
+{block name="header"}
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <img src="__STATIC__/image/promotion/icon_nav_biaoti@2x1.png" alt="" class="nav_biaoti">
+            <div class="header_back" {empty name='header_path' } onClick="javascript:history.back(-1);" {else
+            /} onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+            <img src="__STATIC__/icon/publish/icon_nav_back1@2x.png" name='out' class="smts">
+        </div>
+        <!--<div class="header_more rt">-->
+        <!--<img src="__STATIC__/image/promotion/icon_nav_more@2x.png" alt="">-->
+        <!--</div>-->
+    </div>
+</div>
+{/block}
+{block name="content"}
+<main>
+<div class="guize">
+    <img src="__STATIC__/image/promotion/icon_fudaiguize@2x.png" alt="">
+</div>
+</main>
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+
+</script>
+{/block}

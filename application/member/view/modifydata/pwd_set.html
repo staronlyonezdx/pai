@@ -1,0 +1,51 @@
+{extend name="common/base" /}
+{block name="style"}
+    <link rel="stylesheet" type="text/css" href="__CSS__/set/password_setting.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+  <!--<div class="header_nav">-->
+<!--&lt;!&ndash; fvafds &ndash;&gt;-->
+  <!--<div class="header_view">-->
+    <!--<div class="header_tit">-->
+         <!--密码设置-->
+        <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+          <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    <div class="password_com">
+        <a href="login_set">
+            <div class="password_login clear">
+                <div class="password_left lf">
+                    <p>重置登录密码</p>
+                    <span>建议您定期更改密码以保全账户安全</span>
+                </div>
+                <div class="password_more rt">
+                     <img src="__STATIC__/image/orderpai/icon_jump@2x.png">
+                </div>
+            </div>
+        </a>  
+    </div>
+    <div class="password_com">
+        <a href="payment_set">
+            <div class="password_login clear">
+                <div class="password_left lf">
+                    <p>重置支付密码</p>
+                    <span>用于您的钱包支付/充值/提现</span>
+                </div>
+                <div class="password_more rt">
+                     <img src="__STATIC__/image/orderpai/icon_jump@2x.png">
+                </div>
+            </div>
+        </a>  
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

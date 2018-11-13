@@ -1,0 +1,297 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/index.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="introduction_top clear">
+        <div class="introduction_head lf">
+            <input type="file"  accept="image/png, image/jpeg, image/gif, image/jpg">
+            <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$data.store_logo}" id="introduction_img" >
+            <div class="introduction_mod">修改头像</div>
+        </div>
+        <div class="introduction_head_name lf">
+            <p>{$data.stroe_name}</p>
+        </div>
+        <a href="/member/shop/index/store_id/{$data.store_id}">店铺预览</a>
+    </div>
+    <div class="info-cont">
+        <div>
+            <p>我的保证金</p><a class="link" href="/member/store/deposit_rule"></a>
+            ￥{$data.deposit ?? '0'}
+        </div>
+        <div>
+            <p><a href="/member/store/fans_list/store_id/{$data.store_id}">我的粉丝</a></p>
+            {$data.fans}
+        </div>
+    </div>
+
+    <div class="introduction_view">
+        <a href="/member/store/certificates/">
+            <div class="introduction_bg">
+                <span>证件信息</span>
+                <span class="rt"><img src="__STATIC__/image/index/icon_nav_jump@2x.png" alt="" ></span>
+            </div>
+        </a>
+    </div>
+    <div class="introduction_view">
+        <a href="/member/store/store_bk_img/">
+            <div class="introduction_bg">
+                <span>店铺背景墙</span>
+                <span class="rt"><img src="__STATIC__/image/index/icon_nav_jump@2x.png" alt="" ></span>
+            </div>
+        </a>
+    </div>
+    <div class="introduction_view">
+        <div class="introduction_bg share-btn">
+            <span>分享店铺</span>
+            <span class="rt"><img src="__STATIC__/image/index/icon_nav_jump@2x.png" alt="" ></span>
+        </div>
+    </div>
+
+    <!-- 分享弹窗 S -->
+    <div class="share-pop">
+        <div class="share-over"></div>
+        <div class="share-tip"></div>
+        <div class="share-cont">
+            <img class="share-tit" src="__STATIC__/image/store/share-tit.png" />
+            <img class="share-code" src="{$data.store_code}" />
+            <p>长按保存二维码到本地</p>
+            <div data-clipboard-text="{$share_link}" class="share-link">链接分享</div>
+            <div class="share-link-wx">链接分享</div>
+        </div>
+    </div>
+    <!-- 分享弹窗 E -->
+
+    <!-- 安卓，ios分享效果 S -->
+<div class="details_fenxiang">
+        <div class="details_fxcon">
+            <div class="details_fxtit">
+                将店铺分享至
+            </div>
+            <div class="details_fxlist clear">
+                <div class="details_fx_img lf" onclick="app(0)">
+                    <img src="__STATIC__/image/details/wx.png">
+                    微信好友
+                </div>
+                <div class="details_fx_img lf" onclick="app(1)">
+                    <img src="__STATIC__/image/details/pyq.png">
+                    朋友圈
+                </div>
+                <!-- <div class="details_fx_img lf">
+                    <img src="__STATIC__/image/details/iconqq@2x.png">
+                    QQ好友
+                </div>
+                <div class="details_fx_img lf">
+                    <img src="__STATIC__/image/details/icon微博@2x.png">
+                    新浪微博
+                </div> -->
+                <div class="details_fx_img lf" onclick="copyUrl()">
+                    <img src="__STATIC__/image/details/link.png">
+                    复制链接
+                </div>
+            </div>
+            <div class="details_fx_cancel">
+                取消
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="app" />
+    <!-- 安卓，ios分享效果 E -->
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script>
+    $(function(){
+    //上传头像
+    $(".introduction_head input").change(function(e){
+        var file=e.target.files || e.dataTransfer.files;
+        if(file){
+            var reader = new FileReader();
+            reader.onload=function(){
+                $("#introduction_img").attr("src",this.result);
+                var src = [];
+                src[0] = this.result;
+                $.post('/member/store/set_store',{store_logo:src},function(res){
+                    location.reload();
+                });
+            }
+            reader.readAsDataURL(file[0]);
+        }
+    });
+
+    var share_qr_image = "https://"+document.domain+"{$data.store_code}";
+
+    //显示分享弹窗
+    $('.share-btn').click(function(){
+        var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": "1","share_qr_image":"'+ share_qr_image +'","type": "1"}';
+
+        if($('#app').val() != '') {
+            if($('#app').val() == '1.0') {
+                /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+                setupWebViewJavascriptBridge(function(bridge) {
+                    /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                    bridge.callHandler('getShareParams',data);
+                })
+            }else {
+                $(".details_fenxiang").show();
+            }
+            
+        }else {
+            // 非微信浏览器端安卓分享
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        if(getCookie("version") == null) {
+                            $('.details_fenxiang').show();
+                        }else {
+                            window.android.getShareParams(data);
+                        }
+                    }
+                }else {
+                    $('.share-pop').show();
+                    $('.share-cont').show();
+                    $('.share-tip').hide();
+                }
+            }else {
+                $('.share-pop').show();
+                $('.share-cont').show();
+                $('.share-tip').hide();
+            }
+        }
+    });
+
+    //隐藏分享弹窗
+    $('.share-over').click(function(){
+        $('.share-pop').hide();
+    });
+
+    //复制功能
+    var btns = document.querySelectorAll('.share-link');
+    var clipboard = new ClipboardJS(btns);
+
+    clipboard.on('success', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+
+    clipboard.on('error', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+
+    // 判断是否在微信内
+    if(isWeiXin()){
+        $('.share-link-wx').show();
+        $('.share-link').hide();
+        //console.log(" 是来自微信内置浏览器")
+    }else{
+        $('.share-link').show();
+        $('.share-link-wx').hide();
+        //console.log("不是来自微信内置浏览器")
+    }
+
+    //微信分享提示
+    $('.share-link-wx').click(function(){
+        $('.share-cont').hide();
+        $('.share-tip').show();
+    });
+})
+
+// 获取地址栏是否带分享参数
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&|/)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+}
+
+//url带分享参数返回首页，否则返回上一页
+$('.back-btn').click(function(){
+    if(getQueryString("share") != null) {
+        window.location.href = "/index/index/";
+    }else {
+        window.history.go(-1);
+    }
+})
+
+//iosapp
+/*这段代码是固定的，必须要放到js中*/
+function setupWebViewJavascriptBridge(callback) {
+    if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+    if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+    window.WVJBCallbacks = [callback];
+    var WVJBIframe = document.createElement('iframe');
+    WVJBIframe.style.display = 'none';
+    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+    document.documentElement.appendChild(WVJBIframe);
+    setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+
+/*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+setupWebViewJavascriptBridge(function(bridge) {
+    /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+    bridge.callHandler('isApp',function(str) {
+        $('#app').val(str);
+    })
+})
+
+//关闭app分享弹窗
+$(".details_fx_cancel").click(function () {
+    $(".details_fenxiang").hide();
+})
+
+function app(id) {
+    var is_share_to_firend_circle = '';
+    if(id == 0) {
+        is_share_to_firend_circle = false;
+    }else {
+        is_share_to_firend_circle = true;
+    }
+
+    var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": '+is_share_to_firend_circle+'}';
+
+    if($('#app').val() != '') {
+        /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('getShareParams',data);
+        })
+    }else {
+        // 非微信浏览器端安卓分享
+        if(hideFlag){
+            if (typeof(window.android) != "undefined") {
+                if(androidIos() == 'android') {
+                    window.android.getShareParams(data);
+                }
+            }
+        }
+    }       
+    $('.details_fenxiang').hide();
+}
+
+function copyUrl() {
+    var link = $('.share-link').attr("data-clipboard-text");
+    var data = '{"copy_url": "'+ link +'"}';
+    if($('#app').val() != '') {
+        /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('getCopyUrl',data);
+        })
+    }else {
+        // 非微信浏览器端安卓复制链接
+        if(hideFlag){
+            if (typeof(window.android) != "undefined") {
+                if(androidIos() == 'android') {
+                    window.android.getCopyUrl(data);
+                }
+            }
+        }
+    }
+    $('.details_fenxiang').hide();
+}
+</script>
+{/block}

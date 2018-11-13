@@ -1,0 +1,359 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .table {
+        width: 100% !important;
+    }
+    .pagination li>a,.pagination li>span{font-size:12px;padding: 5px 10px;}
+    .pagi_bar{display: inline-block;padding-left: 0;margin: 20px 0;border-radius: 4px;font-size:12px;padding: 5px 10px;}
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+        z-index: 2;
+         color: #333;
+        cursor: default;
+     background-color: #ccc;
+     border-color: #ccc;
+    }
+    .pagination>li>a, .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #333 !important;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    .my_pgname{
+        width:150px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .my_second_name{
+        width:120px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .select_body  .upimg{width:20px;height:20px;display: none;}
+    .select_body .select_pic{display: inline-block;}
+    .list_body{display: none;}
+    .body_active{background: #ccc;}
+    .container-fluid {
+        height: 100%;
+        overflow: auto;
+    }
+    .review{cursor: pointer;color:#369;}
+    .now_public{padding: 3px 5px;height:auto;}
+    td .img_big{height:40px;width:auto !important;}
+    .top5{margin-top: 5px;}
+    .bottom5{margin-bottom: 5px;}
+    .btn-primary {
+        float: none;
+        margin-right: 0;
+    }
+    form{margin-bottom: 5px;}
+    form .form-group{width: auto}
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="menu"}
+{include file="common/menu" /}
+{/block}
+{block name="content"}
+<section class="Hui-article-box">
+<div class="container-fluid" >
+    <div class="panel panel-default" >
+        <div class="panel-body">
+            <div class="form-group  from_add_authority" >
+                <label>人气擂主列表</label>
+            </div>
+            <form class="form-inline" method="get">
+                <div class="form-group">
+                    <label for="pm_state">擂主状态:</label>
+                    <select class="form-control" id="pm_state" name="pm_state">
+                        <option value="0">全部</option>
+                        <option {if condition="$pm_state == 2"}selected{/if} value="2">成功参团</option>
+                        <option {if condition="$pm_state == 3"}selected{/if} value="3">成为人气王</option>
+                        <option {if condition="$pm_state == 4"}selected{/if} value="4">出道失败</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="m_name">擂主昵称:</label>
+                    <input type="text" class="form-control" id="m_name" name="m_name" placeholder="擂主昵称" value="{$m_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="pm_id">订单擂主编号:</label>
+                    <input type="text" class="form-control" id="pm_id" name="pm_id" placeholder="擂主编号"  value="{$pm_id|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="mm_mobile">注册手机:</label>
+                    <input type="text" class="form-control" id="mm_mobile" name="smm_mobile" placeholder="请输入完整的手机号"  value="{$smm_mobile|default=''}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-info">搜索</button>
+                </div>
+            </form>
+            {empty name="list"}
+                <p>没有数据哦~</p>
+            {else/}
+                <table class="table table-hover"  style="background: #eee;margin-top: 0;">
+                <tr>
+                    <th>订单编号</th>
+                    <th>排名</th>
+                    <th>期数</th>
+                    <th>擂主昵称</th>
+                    <th>擂主头像</th>
+                    <th>人气值</th>
+                    <th>时间</th>
+                    <th>真实姓名</th>
+                    <th>联系方式</th>
+                    <th>状态</th>
+                    <th style="width:100px;">操作</th>
+                </tr>
+                {volist name="list" id="voo"}
+                <tr class="list_info">
+                    <td>{$voo.pm_id}</td>
+                    <td>{$voo.pm_sort}</td>
+                    <td>{$voo.pm_periods}</td>
+                    <td>{$voo.m_name}</td>
+                    <td><img src="{$voo.m_avatar|default='/static/image/index/pic_home_taplace@2x.png'}" class='img_big' alt=""/></td>
+                    <td>{$voo.pm_popularity}</td>
+                    <td>
+                        <p><span>参拍时间：</span><span>{$voo.pm_paytime|default=0|date='Y-m-d H:i:s',###}</span></p>
+                        {if condition="$voo.pm_order_status > 0 and $voo.pm_order_status < 4"}
+                            <p><span>中奖时间：</span><span>{$publish_time|default=0|date='Y-m-d H:i:s',###}</span></p>
+                        {/if}
+                    </td>
+                    <td>{empty name="voo.real_name"}<span style="color:#999">未填写</span>{else/}<span>{$voo.real_name|default=''}</span>{/empty}</td>
+                    <td>{$voo.mm_mobile|default=''}</td>
+                    <td class="td_pm_status">
+                        {switch name="voo.pm_state" }
+                        {case value="1"}
+                        <span>待付款</span>
+                        {/case}
+                        {case value="2"}
+                        <span>成功参团</span>
+                        {/case}
+                        {case value="3"}
+                        <span style="color:green;">成为人气王</span>
+                        {/case}
+                        {case value="4"}
+                        <span>出道失败</span>
+                        {/case}
+                        {default /}
+                        <span>未知</span>
+                        {/switch}
+                    </td>
+                    <td pm_id="{$voo.pm_id|default=0}" pg_spec="{$voo.pg_spec|default=0}" pm_addressid="{$voo.pm_addressid|default=0}">
+                        {if condition="$voo.pm_order_status > 0 and $voo.pm_order_status < 2"}
+                            {if condition="$voo.pm_addressid >0"}
+                                <button type="button" class="btn btn-sm btn-warning bottom5 address_edit" onclick="">修改收货地址</button>
+                            {else/}
+                                <button type="button" class="btn btn-sm btn-danger bottom5 address_edit" onclick="">添加收货地址</button>
+                            {/if}
+                        {/if}
+                        {switch name="voo.pm_order_status"}
+                            {case value="1"}<button type="button" class="btn btn-sm btn-primary lijifahuo bottom5" onclick="">立即发货</button>{/case}
+                            {case value="2"}<button type="button" class="btn btn-sm btn-success fahuoxinxi bottom5" onclick="">发货信息</button>{/case}
+                            {case value="3"}<button type="button" class="btn btn-sm btn-success fahuoxinxi bottom5" onclick="">发货信息</button>{/case}
+                        {/switch}
+                        {if condition="$voo.is_jq == 1"}
+                            <button type="button" class="btn btn-sm btn-danger bottom5 add_pop" onclick="">可加人气</button>
+                        {/if}
+                        <button class="btn btn-sm btn-success pop_rank bottom5">好友点赞榜</button>
+                        <button class="btn btn-sm btn-warning order_info">订单详情</button>
+                    </td>
+                </tr>
+                {/volist}
+                </table>
+            {/empty}
+        </div>
+        <div>
+            <div class="page_box pull-right" style="">
+                <span class="pagi_bar pull-right">共&nbsp;{$total}&nbsp;条</span>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<img alt="" style="display:none" id="displayImg" src="" />
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+<script>
+    // 图片放大
+    $(".img_big").click(function(){
+        var src = $(this).attr("src");
+        $("#displayImg").attr("src", src);
+        var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+        var width = $("#displayImg").width();
+        var rate = height / width;
+        var win_width = $(window).width();
+        var win_height = $(window).height();
+        if(width > win_width/2){
+            width = win_width/2;
+            height = width * rate;
+        }
+        if(height > win_height){
+            var h_rate = win_height / height;
+            height = win_height;
+            width = width * h_rate;
+        }
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true,
+            area: [width + 'px', height + 'px'], //宽高
+            content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+        });
+    });
+
+    // 立即发货
+    $(".lijifahuo").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        var pg_spec = $(this).parents("td").attr("pg_spec");
+        var pm_addressid = $(this).parents("td").attr("pm_addressid");
+
+        if(pm_addressid == 0){
+            layer.confirm('买家没有点填写收货地址，请提醒买家填写收货地址！', {
+                btn: ['已获得地址','确定'] //按钮
+                ,icon: 2
+                ,skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+            }, function(){
+                layer.closeAll();
+                layer.open({
+                    type: 2,
+                    title: '物流信息页',
+                    shadeClose: true,
+                    shade: 0.5,
+                    area: ['380px', '90%'],
+                    content: '/business/Poporder/address/pm_id/'+pm_id+'/is_layer/1'
+                });
+            }, function(){
+                layer.closeAll();
+            });
+            return false;
+        }
+        if(pg_spec == 1){
+            layer.open({
+                type: 2,
+                title: '物流信息页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/Orderpai/new_pop_logistics/pm_id/'+pm_id+'/is_layer/1'
+            });
+        }else{
+            //询问框
+            var gs_name = '';
+            if(pg_spec == 3){
+                gs_name = "大宗商品";
+            }else{
+                gs_name = "虚拟商品";
+            }
+            layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    type: 'post',
+                    url: '/business/Poporder/fahuo_do',
+                    dataType: 'json',
+                    data:{pm_id:pm_id},
+                    success: function (data) {
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        if(data.status > 0){
+                            setTimeout(function () {
+                                layer.closeAll();
+                                window.location.reload();
+                            }, 1000)
+                        }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        }
+    });
+
+    // 发货信息
+    $(".fahuoxinxi").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '发货信息',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/member/Orderpai/pop_order_logistics/pm_id/'+pm_id+'/is_seller/1'
+        });
+    });
+
+    // 好友点赞榜
+    $(".pop_rank").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '发货信息',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/popularity/popularityorder/pop_rank/pm_id/'+ pm_id
+        });
+    });
+
+    // 修改地址 或 添加地址
+    $(".address_edit").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '物流信息页',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/business/Poporder/address/pm_id/'+pm_id+'/is_layer/1'
+        });
+    });
+
+    // 加人气
+    $(".add_pop").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '机器人列表',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/business/Poporder/robot_list2/pm_id/'+pm_id
+        });
+    });
+
+    // 订单详情
+    $(".order_info").click(function(){
+        var pm_id = $(this).parents("td").attr("pm_id");
+        layer.open({
+            type: 2,
+            title: '订单详情（注意：客户数据，请谨慎操作！）',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['380px', '90%'],
+            content: '/popularity/popularityorder/order_info/pm_id/'+pm_id
+        });
+    });
+</script>
+{/block}
+

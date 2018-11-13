@@ -1,0 +1,150 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="{:url('Orderpai/edit')}" id="edit_form" onsubmit="return form_submit()">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>拍品订单详情</label>
+                    <a class="pull-right" href="{:url('orderpai/index')}">返回</a>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>订单编号</label>
+                    <input type="text" name="o_sn" class="form-control" placeholder="订单编号" value="{$info.o_sn|default=''}" readonly>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>抽奖号码</label>
+                    {empty name="awardcodeList"}
+                        <p>没有数据</p>
+                    {else/}
+                    {volist name="awardcodeList" id="vo"}
+                    <p>
+                        <span>抽奖码:</span>
+                        <span>{$vo.oa_code}</span>
+                        &nbsp;&nbsp;
+                        <span>抽奖状态:</span>
+                        <span>
+                        <!--0参拍中，1中奖，2未中奖，3废弃-->
+                        {switch name="vo.oa_state"}
+                            {case value="0"}参拍中{/case}
+                            {case value="1"}恭喜中奖{/case}
+                            {case value="2"}遗憾未中奖{/case}
+                            {default /}已废弃
+                        {/switch}
+                        </span>
+                    </p>
+                    {/volist}
+                    {/empty}
+                </div>
+
+                <div class="form-group">
+                    <label>拍品名称</label>
+                    <input type="text" name="g_name" class="form-control" placeholder="拍品名称" value="{$info.g_name|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>商品图片</label><br>
+                    <img src="__CDN_PATH__{$info.gp_img}" alt="" class="gp_img" width="100px" height="100px;" style=""/>
+                </div>
+                <div class="form-group">
+                    <label>店铺名称</label>
+                    <input type="text" name="stroe_name" class="form-control" placeholder="订单金额" value="{$info.stroe_name|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>下单账号</label>
+                    <input type="text" name="m_name" class="form-control" placeholder="下单账号" value="{$info.m_name|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>订单金额</label>
+                    <input type="text" name="o_totalmoney" class="form-control" placeholder="订单金额" value="{$info.o_totalmoney|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>支付状态</label>
+                    <select name="o_paystate" class="form-control" id ="o_paystate" readonly>
+                        <option value="0" {notempty name="info"}{if condition="$info.o_paystate == 0"}selected{else/}disabled{/if}{/notempty}>待付款</option>
+                        <option value="1" {notempty name="info"}{if condition="$info.o_paystate == 1"}selected{else/}disabled{/if}{/notempty}>已付款</option>
+                        <option value="2" {notempty name="info"}{if condition="$info.o_paystate == 2"}selected{else/}disabled{/if}{/notempty}>退款中</option>
+                        <option value="3" {notempty name="info"}{if condition="$info.o_paystate == 3"}selected{else/}disabled{/if}{/notempty}>退款完成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>付款方式</label>
+                    <select name="o_paytype" class="form-control" id ="o_paytype" o_paytype="{$info.o_paytype|default='0'}" readonly>
+                        <option value="0" {notempty name="info"}{if condition="$info.o_paytype == 0"}selected{else/}disabled{/if}{/notempty}>未选择</option>
+                        <option value="1" {notempty name="info"}{if condition="$info.o_paytype == 1"}selected{else/}disabled{/if}{/notempty}>微信支付</option>
+                        <option value="2" {notempty name="info"}{if condition="$info.o_paytype == 2"}selected{else/}disabled{/if}{/notempty}>支付宝支付</option>
+                        <option value="3" {notempty name="info"}{if condition="$info.o_paytype == 3"}selected{else/}disabled{/if}{/notempty}>余额支付</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>下单时间</label>
+                    <span>{$info.o_addtime|date='y-m-d h:i:s',###}</span>
+                </div>
+                <div class="form-group">
+                    <label>收货地址</label>
+                    <input type="text" name="o_address" class="form-control" placeholder="收货地址" value="{$info.o_address|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>收件人</label>
+                    <input type="text" name="o_receiver" class="form-control" placeholder="收件人" value="{$info.o_receiver|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>收件人手机</label>
+                    <input type="text" name="o_mobile" class="form-control" placeholder="收件人手机" value="{$info.o_mobile|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>快递方式</label>
+                    <input type="text" name="g_express_way" class="form-control" placeholder="订单金额" value="{$info.g_express_way|default=''}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>快递费用</label>
+                    <input type="text" name="g_express" class="form-control" placeholder="订单金额" value="{$info.g_express|default='0'}" readonly>元
+                </div>
+                <div class="form-group">
+                    <label>是否已删除</label>
+                    <br>
+                    <div class="edit_float">
+                        <input type="radio" name="o_isdelete" class="" {notempty name="$info"}{if condition="$info.o_isdelete == 0"}checked{/if}{/notempty} value="0" readonly>
+                        <span>正常</span>
+                    </div>
+                    <div class="edit_float">
+                        <input type="radio" name="o_isdelete" class="" {notempty name="$info"}{if condition="$info.o_isdelete == 1"}checked{/if}{/notempty} value="1" readonly>
+                        <span>已删除</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <!--<input type="hidden" name="o_id" value="{$o_id|default='0'}"/>-->
+                <a href="{:url('orderpai/edit',['o_id' => $info.o_id])}">修改订单</a>
+                <!--<button type="reset" class="btn btn-default">取消操作</button>-->
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function form_submit(){
+
+        //表单验证 TODO。。
+
+        return true;
+    }
+
+    $(function(){
+        //
+
+    })
+</script>
+{/block}
+

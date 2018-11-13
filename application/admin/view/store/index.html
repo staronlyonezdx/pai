@@ -1,0 +1,50 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+	<div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group  from_add_authority">
+                    <label>商家分类列表</label>
+                </div>
+                <table class="table table-hover" style="margin-bottom:0">
+                    <thead>
+                        <tr>
+                            <th>分类ID</th>
+                            <th>分类名称</th>
+                            <th>父级分类</th>
+                            <th>分类排序</th>
+                            <th>管理</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="clist" id="citem"}
+                        <tr>
+                            <td>{$citem.sc_id}</td>
+                            <td>{$citem.sc_name}</td>
+                            <td>{$citem.sc_parent_name}</td>
+                            <td><input type="text" name="" value="{$citem.sc_sort}"></td>
+                            <td>
+                                <a href="{:url('store/storecategoryadd',['id'=>$citem.sc_id])}">
+                                   编辑
+                                </a>
+                                <a href="##" class="authoritylist_dele_btn">
+                                    删除
+                                </a>
+                            </td>
+                        </tr>
+                   {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{/block}
+

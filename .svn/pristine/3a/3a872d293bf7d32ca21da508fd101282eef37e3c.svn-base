@@ -1,0 +1,310 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/dropload/dropload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/storecollection/store_list.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/productlist/product_list.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/search_index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodscollection/goods_list.css"> {/block}
+ {block name="content"}
+<main>
+    <div class="header_nav">
+        <div class="header_view">
+            <div class="header_tit">
+                <span>{$header_title ?? ''}</span>
+                <div class="header_back" onclick="backH5()" >
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="goods_list_fix clear" style="display: none">
+        <div class="goods_list_search lf">
+            <img src="__STATIC__/image/goods/icon_nav_sousuo@2x.png" alt="" />
+        </div>
+        <div class="goods_list_manage lf">
+            <span class="goods_list_display">管理</span>
+            <span>完成</span>
+        </div>
+    </div>
+
+    <!-- <form action="/member/Goodscollection/search_goods_list" method="post"> -->
+        <div class="index_search_pop">
+            <!--搜索框-->
+            <div class="index_search_pop_top clear">
+                <div class="index_pop_text lf">
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+                </div>
+                <div class="index_search_pop_view clear lf">
+                    <div class="index_search_lfimg" class="lf">
+                        <img src="__STATIC__/image/index/searchbar_icon_search@2x.png">
+                    </div>
+                    <input type="text" name="g_name" class="index_pop_inp lf">
+    
+                    <div class="index_search_cancel rt">
+                        <img src="__STATIC__/image/index/icon_search_clear@2x.png" alt="">
+                    </div>
+                </div>
+                <a class="index_pop_sousuo rt"> 搜索</a>
+            </div>
+            {notempty name='$searchs.self'}
+            <!--历史搜索-->
+            <div class="index_pop_history_view history">
+                <div class="index_pop_history clear">
+                    <p class="lf">历史搜索</p>
+    
+                    <div class="rt del_search">清除</div>
+                </div>
+                <div class="index_pop_history_main clear">
+                    {volist name='searchs.self' id='vo'}
+                    <div class="lf">{$vo}</div>
+                    {/volist}
+                </div>
+            </div>
+            {/notempty}
+            <!--搜索出的列表-->
+            <div class="index_pop_search_main">
+                <ul class="index_pop_search_ul">
+    
+                </ul>
+            </div>
+        </div>
+    <!-- </form> -->
+
+    <div class="goods_list" style="display: none; background: #fff;">
+        <div class="goods_list_img">
+            <img src="__STATIC__/image/goodscollection/shoucang@2x.png" alt="" />
+        </div>
+        <p>e...竟然什么都没有哎！快去逛逛吧！</p>
+        <a href="/index/index/index"><div class="goods_list_btn">去逛逛</div></a>
+    </div>
+
+    <div class="details_produce">
+        <div class="product_list_main goods_pro_main lst">
+            <div class="product_list_content clear">
+
+            </div>
+        </div>
+    </div>
+
+    {notempty name='list.goods_tj'}
+    <div class="gooods_list_tuijian" style="display: none">
+        <h3>为你推荐</h3>
+        <div class="details_produce">
+            <div class="product_list_main goods_pro_main">
+                <div class="product_list_content clear">
+                    {volist name='list.goods_tj' id='vo'}
+                    <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+                        <div class="product_list_list lf">
+                            <div class="product_list_pic">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__{$vo.g_img}">
+
+                                <div class="product_list_number">已有{$vo.gp_num ?? 0}人</div>
+                            </div>
+                            <p class="product_list_tit_p">{$vo.g_name}</p>
+
+                            <p class="product_list_price clear">
+                                ￥
+                                <span class="product_list_red ">{$vo.gdr_price} </span>
+                                <!--<span class="rt"> 已有88人 </span>-->
+                            </p>
+                            <span class="product_list_oldprice">￥{$vo.gp_market_price}</span>
+                        </div>
+                    </a>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+    </div>
+    {/notempty}
+
+    <div class="bh"></div>
+    <div class="goods_list_delete phonex">
+        <div class="goods_list_allcheck lf">全选</div>
+        <div class="goods_list_delete_btn rt">删除</div>
+    </div>
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/dropload/dropload.js"></script>
+<script>
+    //点击搜索
+ $(".index_pop_sousuo").click(function(){
+        var g_name=$("input[name='g_name']").val();
+        // var typ=$("input[name='type']").val();
+        // console.log(keyword);
+        // console.log(typ);
+        window.location.href="/member/Goodscollection/search_goods_list/g_name/"+g_name;
+    })
+
+    $(".goods_list_search").click(function(){
+        $(".index_search_pop").addClass("index_pop_block");
+        $(".index_search_pop_view input").focus();
+    })
+    //点击叉号
+    $(".index_search_cancel").click(function () {
+        $(this).siblings("input").val("");
+        $(this).siblings("input").focus();
+        $(".index_pop_search_li").css({ display: "block" });
+    })
+    //点击取消
+    $(".index_pop_text").click(function () {
+        $(".index_search_pop").removeClass("index_pop_block");
+    })
+
+    $(".goods_list_manage").click(function () {
+        $(this).children("span").toggleClass("goods_list_display");
+        $(".goods_list_checkall").toggleClass("goods_list_display");
+        $(".goods_list_delete").toggleClass("goods_list_display");
+        $(".bh").toggleClass("goods_list_display");
+    })
+
+    // 单选点击选择
+    function checkclick(obj) {
+        $(obj).toggleClass("select");
+        $('.goods_list_checkall').each(function(){
+            if($(this).attr('class') == 'goods_list_checkall goods_list_display select') {
+                $('.goods_list_allcheck').addClass('select');
+            }else {
+                $('.goods_list_allcheck').removeClass('select');
+                return false;
+            }
+        })
+    }
+
+    //全选
+    $('.goods_list_allcheck').on("click", function () {
+        $(this).toggleClass('select');
+        if ($(this).attr('class') == 'goods_list_allcheck lf select') {
+            $('.goods_list_checkall').addClass('select');
+        } else {
+            $('.goods_list_checkall').removeClass('select');
+        }
+    })
+
+    //取消收藏
+    $('.goods_list_delete_btn').on("click", function () {
+        var arr = [];
+        $('.product_list_content').find('.select').each(function () {
+            var id = $(this).attr('data-id');
+            arr.push(id);
+        });
+        if (arr.length == 0) {
+            layer.msg('<span style="color:#fff">请选择要取消收藏的商品</span>');
+            return false;
+        }
+        $.ajax("/member/goodscollection/del_multiple", {
+            data: {
+                g_id: arr
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            success: function (res) {
+                if (res.status == 1) {
+                    layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+                    $('.product_list_content').find('.select').each(function () {
+                        $(this).parents(".product_list_list").remove();
+                    });
+                    if ($('.lst').find('.product_list_list').length == 0) {
+                        $('.goods_list_fix').remove();
+                        $('.lst').parent().remove();
+                        $('.bh').remove();
+                        $('.goods_list_delete').remove();
+                        $('.goods_list').show();
+                    }
+                } else {
+                    layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+                }
+            }
+        });
+    })
+
+    var itemIndex = 0;//点击的索引值
+    var tabLoadEnd = false;//加载后已没有数据
+    var page = 0;
+    // 上拉刷新
+    var dropload = $('.lst').dropload({
+        scrollArea: window,
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+            domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            domNoData: '<div class="dropload-noData">已无数据</div>'
+        },
+        loadDownFn: function (me) {
+            setTimeout(function () {
+                if (tabLoadEnd) {
+                    me.resetload();
+                    me.lock();
+                    me.noData();
+                    me.resetload();
+                    return;
+                }
+                page++;
+                $.ajax("/member/Goodscollection/goods_list", {
+                    data: { page: page },
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'get',//HTTP请求类型
+                    success: function (res) {
+                        //获得服务器响应
+                        var html = '';
+                        if (res.data.list.length > 0) {
+                            $('.goods_list_fix').show();
+                            for (var i = 0; i < res.data.list.length; i++) {
+                                if (res.data.new_num > 0) {
+                                    res.data.new_num--;
+                                } else {
+                                    tabLoadEnd = true;
+                                    break;
+                                }
+                                if (res.data.list[i].gp_num == null) {
+                                    res.data.list[i].gp_num = 0;
+                                }
+                                html += '<div class="product_list_list lf">';
+                                if ($('.goods_list_manage').find('span').eq(0).attr('class') != 'goods_list_display') {
+                                    if ($('.goods_list_delete').find('div').eq(0).attr('class') == 'goods_list_allcheck lf select') {
+                                        html += '<div class="goods_list_checkall goods_list_display select whs" data-id="' + res.data.list[i].g_id + '" onclick="checkclick(this)"></div>';
+                                    } else {
+                                        html += '<div class="goods_list_checkall goods_list_display whs" data-id="' + res.data.list[i].g_id + '" onclick="checkclick(this)"></div>';
+                                    }
+                                } else {
+                                    html += '<div class="goods_list_checkall whs" data-id="' + res.data.list[i].g_id + '" onclick="checkclick(this)"></div>';
+                                }
+                                html += '<a href="/member/goodsproduct/index/g_id/' + res.data.list[i].g_id + '">';
+                                html += ' <div class="product_list_pic">';
+                                html += ' <img src="' + res.data.list[i].g_img + '">';
+                                html += ' <div class="product_list_number">已有' + res.data.list[i].gp_num + '人</div>';
+                                html += '</div>';
+                                html += '<p class="product_list_tit_p">' + res.data.list[i].g_name + '</p>';
+                                html += '<p class="product_list_price clear">￥<span class="product_list_red ">' + res.data.list[i].gdr_price + ' </span></p>';
+                                html += '<span class="product_list_oldprice">￥'+ res.data.list[i].gp_market_price +'</span>';
+                                html += '</a></div>';
+                            }
+                            $('.lst').find('.product_list_content').append(html);
+
+                        } else {
+                            tabLoadEnd = true;
+                            $('.gooods_list_tuijian').show();
+                            if ($('.lst').find('.product_list_list').length == 0) {
+                                $('.goods_list').show();
+                                $('.goods_list_fix').remove();
+                                $('.lst').parent().remove();
+                            }
+                            me.noData();
+                        }
+                        me.resetload();
+                    }
+                });
+            }, 500);
+        }
+    });
+
+    var header_path = "{$header_path ?? ''}";
+    //返回按钮
+    function backH5() {
+        //非安卓或ios app        
+        if(header_path != '') {
+            window.location.href = header_path;
+        }else {
+            window.history.back();
+        }        
+    }
+</script> {/block}

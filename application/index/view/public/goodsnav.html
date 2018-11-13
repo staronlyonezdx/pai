@@ -1,0 +1,17 @@
+					<div class="col-sm-3 blog-sidebar taks">
+						<h2 class="mune-empty"></h2>
+						<h4 class="mune-title-son">Product Categories</h4>
+						<ul>
+						{foreach name="gclass" item="vo"}
+							{if condition="$vo.pid eq 0"}
+							<li ><a href="{:url('products/goodslist')}?classid={$vo.gc_id}" {if condition="$classid eq $vo.gc_id"}class="active" {/if}>{$vo.name_en}</a></li>
+							 {if condition="$vo.son neq ''"}
+								{foreach name="vo.son" item="so"}
+								<li style="background:none;" ><a href="{:url('products/goodslist')}?classid={$so.gc_id}"  {if condition="$classid eq $so.gc_id"} class="active" {/if}>&nbsp;&nbsp;{$so.name_en}</a></li>
+								{/foreach}
+							 {/if}
+							{/if}
+						{/foreach}
+
+						</ul>
+					</div>

@@ -1,0 +1,134 @@
+.hostiy-list {
+    background: #fff;
+    margin: 0 0 0.3rem 0;
+}
+.hostiy-list-title {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    padding: 0 0.3rem;
+    font-size: 0.28rem;
+    color: #333333;
+    font-weight: normal;
+    background: #fff;
+    margin: 0.2rem 0 0 0;
+}
+.hostiy-list-item {
+    background: #fff;
+    padding: 0.3rem;
+    position: relative;
+    margin: 1px 0 0 0;
+    transition:padding 0.5s;
+    -moz-transition:padding 0.5s; /* Firefox 4 */
+    -webkit-transition:padding 0.5s; /* Safari and Chrome */
+    -o-transition:padding 0.5s; /* Opera */
+}
+.hostiy-list-item img {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    left: 0.3rem;
+    top: 0.3rem;
+    object-fit:cover;
+    transition:left 0.5s;
+    -moz-transition:left 0.5s; /* Firefox 4 */
+    -webkit-transition:left 0.5s; /* Safari and Chrome */
+    -o-transition:left 0.5s; /* Opera */
+
+}
+.ostiy-list-mm {
+    margin: 0 0 0 2.3rem;
+    height: 2rem;
+    padding: 0.2rem 0 0 0;
+}
+.ostiy-list-mm p {
+    height: 0.6rem;
+    line-height: 0.3rem;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 0.28rem;
+    margin: 0 0 0.1rem 0;
+}
+.goods_list_manage {
+    margin: 0 0.5rem 0 0;
+}
+.ostiy-list-mm span {
+    color: #E54545;
+    display: block;
+    font-size: 0.24rem;
+    margin: 0 0 0.3rem 0;
+}
+.ostiy-list-mm span i {
+    font-size: 0.32rem;
+    font-style: normal;
+}
+.ostiy-list-mm small {
+    font-size: 0.24rem;
+    color: #B3B3B3;
+}
+.hostiy-list-item em {
+    position: absolute;
+    display: block;
+    width: 1.2rem;
+    height: 0.48rem;
+    font-size: 0.26rem;
+    line-height: 0.46rem;
+    text-align: center;
+    /*border: 1px solid #333;*/
+    background:linear-gradient(0deg,rgba(255,237,80,1),rgba(255,229,0,1));
+    border-radius: 0.1rem;
+    font-style: normal;
+    bottom: 0.5rem;
+    right: 0.3rem;
+    font-weight: 600;
+}
+.hostiy-list-item .active {
+    color: #666666;
+    border: 1px solid #666666;
+    background: #fff;
+}
+.hostiy-list-check {
+    position: absolute;
+    width: 0;
+    height: 2.6rem;
+    left: 0.3rem;
+    top: 0;
+    transition:width 0.5s;
+    -moz-transition:width 0.5s; /* Firefox 4 */
+    -webkit-transition:width 0.5s; /* Safari and Chrome */
+    -o-transition:width 0.5s; /* Opera */
+}
+.hostiy-list-check span {
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0.32rem;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: url(/static/image/goodscollection/icon_favorite_box_unselect@2x.png) no-repeat;
+    background-size: 99%;
+    transition:width 0.5s;
+    -moz-transition:width 0.5s; /* Firefox 4 */
+    -webkit-transition:width 0.5s; /* Safari and Chrome */
+    -o-transition:width 0.5s; /* Opera */
+}
+.hostiy-list-check .select {
+    background: url(/static/image/goodscollection/icon_favorite_box_select@2x.png) no-repeat;
+    background-size: 99%;
+}
+.pr {
+    padding-left: 0.8rem;
+}
+.pr img {
+    left: 0.8rem;
+}
+.pr .hostiy-list-check {
+    width: 0.32rem;
+}
+.pr .hostiy-list-check span {
+    width: 0.32rem;
+}

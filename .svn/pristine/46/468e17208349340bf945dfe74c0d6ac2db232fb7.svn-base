@@ -1,0 +1,274 @@
+<?php
+
+namespace app\data\model\member;
+use app\data\model\BaseModel;
+use app\data\service\config\ConfigService;
+use app\data\service\frozen\FrozenService;
+use app\data\service\member\MemberService;
+use app\data\service\moneyLog\MoneyLogService;
+use app\data\service\system_msg\SystemMsgService;
+use app\data\service\withdraw\WithdrawService;
+use think\Db;
+use think\Request;
+    class MemberModel extends BaseModel
+{
+    protected $db = 'member' ;//会员表
+        /**
+         * 获取用户表的等级
+         */
+        public function get_levelid(){
+            $levelid = Db('member')->group('m_levelid')->order('m_levelid asc')->column('m_levelid');
+            return $levelid;
+        }
+
+        /**
+         * 获取用户邀请商家列表
+         * 邓赛赛
+         */
+        public function get_store_list($where,$order,$field,$offset,$page_size){
+            $list = Db($this->db)->alias('m')->where($where)->join('pai_store s','m.m_id=s.m_id','left')->order($order)->field($field)->limit($offset,$page_size)->select();
+            return $list;
+        }
+
+        /**
+         * 统计数量
+         * 邓赛赛
+         */
+        public function get_count_num($where){
+            if(!$where){
+                return false;
+            }
+            $num = Db('member')
+                ->alias('m')
+                ->where($where)
+                ->count();
+            return $num;
+        }
+
+        /**
+         * 递归获取m_id
+         * 邓赛赛
+         */
+        public function digui_mid($param_mid){
+            $m_id = Db($this->db)->where('tj_mid',$param_mid)->value('m_id');
+            $level_path = '';
+            if($m_id){
+                $level_path .= $m_id.'-'.$param_mid;
+                $this->digui_mid($m_id);
+            }
+            return $level_path;
+        }
+
+        /**
+         * 提现操作
+         * 邓赛赛
+         */
+        public function withdrawMoney($m_id,$param){
+            $data = [
+                'frozen'         =>   empty($param['frozen'])         ? '' : $param['frozen'],            //提现金额
+                'w_type'         =>   empty($param['w_type'])         ? '' : $param['w_type'],            //提现类型
+                'm_payment_pwd'  =>   empty($param['m_payment_pwd'])  ? '' : $param['m_payment_pwd'],     //提现密码
+                'is_urgent'      =>   empty($param['is_urgent'])  ? 1 : $param['is_urgent'],             //是否加急
+            ];
+            $config = new ConfigService();
+            if($param['is_urgent'] == 2){
+                $rate_where = [
+                    'c_code'=>'DRAW_FEE2',
+                    'c_state'=>0
+                ];
+                $time_wehre = [
+                    'c_code'=>'DRAW_TIME2',
+                    'c_state'=>0
+                ];
+            }else{
+                $param['is_urgent'] = 1;
+                $rate_where = [
+                    'c_code'=>'DRAW_FEE1',
+                    'c_state'=>0
+                ];
+                $time_wehre = [
+                    'c_code'=>'DRAW_TIME1',
+                    'c_state'=>0
+                ];
+            }
+            //费率
+            $w_rate = $config->configGetValue($rate_where,'c_value');
+            //最迟打款时间
+            $w_last_time = $config->configGetValue($time_wehre,'c_value');
+            $date = date("Y-m-d",strtotime("+$w_last_time day"))." 23:59:59";
+            $w_last_time = strtotime($date);
+
+            if(empty($data['w_type'])){
+                return ['status'=>0,'msg'=>'无提现类型'];
+            }
+            if($data['frozen'] < 100){
+                return ['status'=>0,'msg'=>'提现金额不能小于100元'];
+            }
+            if(!$data['m_payment_pwd']){
+                return ['status'=>0,'msg'=>'支付密码不能为空'];
+            }
+            $mem = new MemberService();
+            $where = [
+                'm_id'=>$m_id,
+                'm_state'=>0,
+                'm_payment_pwd'=>md5($data['m_payment_pwd']),
+            ];
+            $field='m_money,m_frozen_money,m_income,m_frozen_income';
+            $info = $mem->get_info($where,$field);
+            if(!$info){
+                return ['status'=>0,'msg'=>'支付密码错误'];
+            }
+            $data2 = array();
+            $w_old_moneymount = 0;                                      //申请提现前金额
+            $ml_reason = '';                                              //原由
+            $money_type= '';                                             //金额类型 1余额 2邀请所得
+            switch($data['w_type']){                                  //计算金额(金额减少,冻结增加,并判断提现类型)
+                case 1:
+                    $frozen = $info['m_money'] - $data['frozen'];
+                    if($frozen < 0){
+                        return ['status'=>0,'msg'=>'您的账户余额不足'];
+                    }
+                    $w_old_moneymount = $info['m_money'];
+                    $ml_reason = '账户余额提现';
+                    $money_type=1;
+                    $m_frozen_money = $info['m_frozen_money'] + $data['frozen'];
+                    $data2=['m_money'=>$frozen,'m_frozen_money'=>$m_frozen_money];
+                    break;
+                case 2:
+                    $frozen = $info['m_income'] - $data['frozen'];
+                    if($frozen < 0){
+                        return ['status'=>0,'msg'=>'您的所得余额不足'];
+                    }
+                    $ml_reason = '提现到银行卡';
+                    $money_type=2;
+                    $w_old_moneymount = $info['m_income'];
+                    $m_frozen_money = $info['m_frozen_income'] + $data['frozen'];
+                    $data2=['m_income'=>$frozen,'m_frozen_income'=>$m_frozen_money];
+                    break;
+                default:
+                    return ['status'=>0,'msg'=>'未知的提现类型'];
+                    break;
+            }
+            Db::startTrans();
+            try{
+                $where2 = [
+                    'm_id'=>$m_id,
+                ];
+                //用户表
+                $this->getSave($where2,$data2);       //更改用户表金额
+                //提现表
+                $withdraw = new WithdrawService();
+                $data3=[
+                    'w_time' =>time(),
+                    'w_mid'  =>$m_id,
+                    'w_money'=>$data['frozen'],
+                    'w_state'=>0,
+                    'w_type' =>$data['w_type'],
+                    'w_rate' =>$w_rate,
+                    'w_last_time' =>$w_last_time,
+                    'w_old_moneymount' =>$w_old_moneymount,
+                    'is_urgent'=>$param['is_urgent'],                                               //费率
+                    'w_poundage'=>round($data['frozen'] * $w_rate,2),   //手续费
+                    'w_new_proce'=>$data['frozen'] - round($data['frozen'] * $w_rate,2),//现应退款金额
+                ];
+                $withdraw_id = $withdraw->get_add_id($data3);
+                //money_log表
+
+                $money = new MoneyLogService();
+                $data4=[
+                    'ml_type' =>'reduce',
+                    'ml_reason'  =>$ml_reason,
+                    'money_type'  =>$money_type,
+                    'ml_table'  =>1,
+                    'ml_money'  =>$data['frozen'],
+                    'add_time'=>time(),
+                    'from_id'=>$withdraw_id,
+                    'm_id' =>$m_id,
+                    'state' =>1,
+                ];
+                $money->get_add($data4);
+                //插入冻结表
+                $frozen = new FrozenService();
+                $f_money = $frozen->get_last_info('f_money',$m_id);
+                $f_moneys = $f_money['f_money']+$data['frozen'];
+                $data5 = [
+                    'f_type'=>'add',
+                    'f_money'=>$f_moneys,
+                    'f_typeid'=>1,
+                    'f_time'=>time(),
+                    'f_from_id'=>$withdraw_id,
+                    'm_id'=>$m_id
+                ];
+                $frozen->get_add($data5,"");
+                $system = new SystemMsgService();
+                $data = [
+                    'sm_addtime'=>time(),
+                    'sm_title'=>'提现通知',
+                    'sm_brief'=>'您有一条提现的记录',
+                    'sm_content'=>"您与".date('Y-m-d H:i')."有一笔".$data['frozen']."元的提现记录,请注意查收到账金额,如非本人操作,请联系管理员",
+                    'to_mid'=>$m_id
+                ];
+                $system->AddSystemMsg($data);
+                Db::commit();
+                $date = date('Y-m-d H:i');
+                return ['status'=>1,'msg'=>'申请提现成功','date'=>$date];
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+                return ['status'=>0,'msg'=>'申请提现失败,请稍后重试'];
+            }
+
+        }
+
+    /**
+     * app第一次注册奖励
+     * 邓赛赛
+     */
+    public function register_reward($m_id,$max_money){
+        // 启动事务
+        Db::startTrans();
+        try{
+            Db::table('pai_member')->where('m_id', $m_id)->setInc('m_money',$max_money);
+            $uuid = Db('member')->where('m_id',$m_id)->value('uuid');//查找用户的uuid
+            $data = [
+                'ml_type'=>'add',
+                'ml_reason'=>'注册奖励',
+                'ml_reason_id'=>5,
+                'ml_money'=>$max_money,
+                'money_type'=>1,
+                'add_time'=>time(),
+                'state'=>8,
+                'm_id'=>$m_id,
+            ];
+            if(!empty($uuid)){
+                $data['uuid'] = $uuid;
+            }
+            Db::table('pai_money_log')->insert($data);
+            $data = [
+                'sm_addtime'=>time(),
+                'sm_title'  =>'注册奖励',
+                'sm_brief'  =>'新用户注册即得',
+                'sm_content'=>'您有一笔'.$max_money.'元新用户注册奖励',
+                'to_mid'    =>$m_id
+            ];
+            Db::table('pai_system_msg')->insert($data);
+            // 提交事务
+            Db::commit();
+            $res = [
+                'status'=>1,
+                'msg'   =>'领取奖励成功',
+            ];
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            $res = [
+                'status'=>2,
+                'msg'   =>'领取失败',
+            ];
+        }
+        return $res;
+    }
+
+
+
+}

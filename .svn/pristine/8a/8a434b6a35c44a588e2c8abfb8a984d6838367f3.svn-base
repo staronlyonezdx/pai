@@ -1,0 +1,31 @@
+$(function(){
+	$(".form_each").each(function(){
+		$(this).find(".allcheckboxs").click(function(){
+			if($(this).is(":checked")){
+				$(this).parents(".form_each").find(".roleedit_checked").prop("checked", true);
+			}else{
+				$(this).parents(".form_each").find(".roleedit_checked").prop("checked", false);
+			}
+		})
+		var $sonChecks=$(this).find(".roleedit_checked");
+		$sonChecks.each(function(){
+			$(this).click(function(){
+				if($(this).is(":checked")){
+                    $(this).parents(".form_each").find(".allcheckboxs").prop("checked", true);
+
+				}else{
+					var len = $sonChecks.length;
+                    var num = 0;
+                    $sonChecks.each(function() {
+                        if (!$(this).is(':checked')) {
+                            num++;
+                        }
+                    });
+					if (num ==len) {
+                        $(this).parents(".form_each").find(".allcheckboxs").prop("checked", false);
+                    }
+				}
+			})
+		})
+	})
+})

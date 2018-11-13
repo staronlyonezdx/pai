@@ -1,0 +1,15 @@
+// var mySwiper = new Swiper('.swiper-container', {
+//     direction: 'horizontal',//滚动方向
+//     loop: false,//循环
+//     pagination: '.swiper-pagination',//分页器标签
+//     paginationClickable: true,//分页器
+//     autoplay: false,//自动轮播
+//     autoplayDisableOnInteraction: false,//用户操作swiper之后，是否禁止autoplay。默认为 true：停止。false是播放
+//     paginationType: 'custom',//自定义-分页器样式类型（前提）
+//
+//     onSlideChangeStart: function (swiper) {
+//         var index = swiper.activeIndex;
+//         // alert(index);
+//         // alert(swiper.activeIndex) //切换结束时，告诉我现在是第几个slide
+//     }
+// });

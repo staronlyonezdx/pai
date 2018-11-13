@@ -1,0 +1,148 @@
+<?php
+namespace app\admin\controller;
+
+use think\Controller;
+use think\Request;
+use think\Url;
+use app\data\service\BaseService as BaseService;
+use app\data\service\article\ArticleService as ArticleService;
+use app\data\service\articleType\ArticleTypeService as ArticleTypeService;
+
+class Article extends AdminHome
+{
+    /*
+    * 文章列表
+    * 创建人 刘勇豪
+    * 时间 2018-06-26 13:40:00
+    */
+    public function index()
+    {
+
+        $article = new ArticleService();
+
+        $list = $article->articlePaginate('','*','a_id desc',10);
+
+        $page = $list->render();
+        $total = $list->total();
+
+        $list = $list->toArray();
+        $list = $list['data'];
+
+        if(!empty($list)){
+            $articleType = new ArticleTypeService();
+            foreach($list as $k => $v){
+                $a_type = $v['a_type'];
+                $type_name = '';
+                $type_info = $articleType->articleTypeInfo(['at_id'=>$a_type]);
+                if( !empty($type_info) && $type_info['at_name']){
+                    $type_name = $type_info['at_name'];
+                    $list[$k]['type_name'] = $type_name;
+                }
+            }
+        }
+
+        $this->assign('page', $page);
+        $this->assign('total', $total);
+        $this->assign('list', $list);
+        return $this->fetch();
+    }
+
+    /*
+    * 文章编辑
+    * 创建人 刘勇豪
+    * 时间 2018-06-26 13:40:00
+    */
+    public function edit()
+    {
+        $a_id = input('request.a_id', 0);
+        $article = new ArticleService();
+
+        //表单提交
+        if (request()->isPost()) {
+
+            // 图片
+            $file = request()->file();
+            $base = new BaseService();
+            if(!empty($file)){
+                $back = $base->upload('a_img', 'a_img', 2);
+                $imgurl = $back['info'];
+            }
+
+            //表单数据
+            $type = 'add';
+            if( $a_id > 0 ){
+                $type = 'edit';
+            }
+            $data = $article->inputData($type);
+            if(isset($imgurl) && !empty($imgurl)){
+                $data['a_img'] = $imgurl;
+            }
+
+            //表单验证
+            $error_msg = $article->checkData($data);
+            if ($error_msg) {
+                $this->error($error_msg, url('article/edit') . "?a_id=" . $a_id, 3);
+            }
+
+            if ($a_id) {
+                // 修改
+                $where_save['a_id'] = $a_id;
+                $res = $article->articleSave($where_save, $data);
+                if (!$res) {
+                    $this->error('文章修改失败', url('article/edit') . "?a_id=" . $a_id, 3);
+                }
+                $this->success("文章修改成功！", url('article/index'), 3);
+            } else {
+                //添加
+                $res = $article->articleAdd($data);
+                if (!$res) {
+                    $this->error('文章添加失败', url('article/edit'), 3);
+                }
+                $this->success("文章添加成功！", url('article/index'), 3);
+            }
+        }
+
+        //查询文章详情
+        $info = [];
+        if ($a_id) {
+            $where_find['a_id'] = $a_id;
+            $info = $article->articleInfo($where_find);
+            if (empty($info)) {
+                $this->error("非法请求，规格不存在！", url('article/index'), 3);
+            }
+            $info['a_description'] = htmlspecialchars_decode($info['a_description']);
+        }
+
+        // 文章分类
+        $articleType = new ArticleTypeService();
+        $type_list = $articleType->articleTypeList();
+
+        $this->assign('info', $info);
+        $this->assign('type_list', $type_list);
+        $this->assign('a_id', $a_id);
+        return $this->fetch();
+    }
+
+    /*
+    * 文章删除
+    * 创建人 刘勇豪
+    * 时间 2018-06-26 13:40:00
+    */
+    public function delete()
+    {
+        $a_id = input('request.a_id', 0);
+        if (!$a_id || !is_numeric($a_id)) {
+            $this->error("非法请求！", url('article/index'), 3);
+        }
+        $article = new ArticleService();
+
+        // 删除
+        $res = $article->articleDel(['a_id' => $a_id]);
+
+        if (!$res) {
+            $this->error("文章删除失败！", url('article/index'), 3);
+        }
+
+        $this->success("文章删除成功！", url('article/index'), 3);
+    }
+}

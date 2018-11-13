@@ -1,0 +1,209 @@
+/* CSS RESET */
+* { padding: 0; margin: 0; }
+body { font: 12px "微软雅黑", Arial; background: #efeff4; min-width: 320px; max-width: 640px; color: #000; }
+a { text-decoration: none; color: #666666; }
+a, img { border: none; }
+img { vertical-align: middle; }
+ul, li { list-style: none; }
+em, i { font-style: normal; }
+.clear { overflow: hidden }
+.clear_wl:after { content: "."; height: 0; visibility: hidden; display: block; clear: both; }
+.fl { float: left }
+.fr { float: right }
+.all_w { width: 91.3%; margin: 0 auto; }
+/*基础字体属性*/
+.f10 { font-size: 10px }
+.f11 { font-size: 11px }
+.f12 { font-size: 12px }
+.f14 { font-size: 14px }
+.f13 { font-size: 13px }
+.f16 { font-size: 16px }
+.f18 { font-size: 18px }
+.f20 { font-size: 20px }
+.f22 { font-size: 22px }
+.f24 { font-size: 24px }
+.f26 { font-size: 26px }
+.f28 { font-size: 28px }
+.f32 { font-size: 32px }
+.fb { font-weight: bold }
+/********/
+.header { background: #393a3e; color: #f5f7f6; height: auto; overflow: hidden; }
+.gofh { float: left; height: 45px; display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-pack: center; -webkit-box-align: center; }
+.gofh a { padding-right: 10px; border-right: 1px solid #2e2f33; }
+.gofh a img { width: 40%; }
+.wenx_xx { text-align: center; font-size: 16px; padding: 18px 0; }
+.wenx_xx .zhifu_price { font-size: 45px; }
+.ljzf_but { border-radius: 3px; height: 45px; line-height: 45px; background: #44bf16; display: block; text-align: center; font-size: 16px; margin-top: 14px; color: #fff; }
+/*浮动层*/
+.ftc_wzsf { display:none; width: 100%; height: 100%; position: fixed; z-index: 999; top: 0; left: 0; min-width: 320px; max-width: 640px;}
+.ftc_wzsf .hbbj { width: 100%; height: 100%; position: absolute; z-index: 8; background: #000; opacity: 0.4; top: 0; left: 0; }
+.ftc_wzsf .srzfmm_box {width:6rem;height:5rem; position: absolute; z-index: 10; background: #ffffff;border-radius: 0.18rem; left: 50%; margin-left: -3rem; top: 15%; }
+.qsrzfmm_bt { font-size: 16px; border-bottom: 1px solid #F2F2F2; overflow: hidden; }
+.qsrzfmm_bt a { display: block; width: 10%; padding: 10px 0; text-align: center; }
+/*.qsrzfmm_bt img.tx {padding-top:0; }*/
+/*.qsrzfmm_bt span { padding: 15px 5px; }*/
+.zfmmxx_shop {font-size: 12px;overflow: hidden; }
+.zfmmxx_shop .mz { font-size: 14px; float: left; width: 100%; }
+.zfmmxx_shop .zhifu_price { font-size: 24px; float: left; width: 100%; }
+.ml5 { margin-left: 5px; }
+.mm_box {background: #FAFAFA; width: 5.5rem; margin:0 auto; height: 0.9rem; overflow: hidden;border-radius: 0.12rem; }
+.mm_box li { border-right: 0.01rem solid #efefef; line-height:0.9rem;text-align:center;height: 0.9rem; float: left; width:0.9rem; }
+.mm_box li.mmdd{ background:#FFF url(../../image/orderpai/icon_dian.png) center no-repeat ; background-size:100% 100%;}
+.mm_box li:last-child { border-right: none; }
+.xiaq_tb { padding: 5px 0; text-align: center; border-top: 1px solid #E2E2E2; }
+.numb_box { position: absolute; z-index: 10; background: #ffffff; width: 100%; bottom: 0px; }
+.nub_ggg { border: 1px solid #E2E2E2; overflow: hidden; border-bottom: none; }
+.nub_ggg li { width: 33.3333%; border-bottom: 1px solid #E2E2E2; float: left; text-align: center; font-size: 22px; }
+.nub_ggg li a { display: block; color: #000; height: 50px; line-height: 50px; overflow: hidden; }
+.nub_ggg li a:active  { background: #e0e0e0;}
+.nub_ggg li a.zj_x { border-left: 1px solid #E2E2E2; border-right: 1px solid #E2E2E2; }
+.nub_ggg li span { display: block; color: #e0e0e0; background: #e0e0e0; height: 50px; line-height: 50px; overflow: hidden; }
+.nub_ggg li span.del img { width: 30%; }
+
+.fh_but{ position:absolute; right:0px; top:12px; font-size:14px; color:#20d81f;}
+.spxx_shop{ background:#FFF; margin-left:4.35%; border-top:1px solid #dfdfdd; padding:10px 0; }
+.spxx_shop td{ color:#7b7b7b; font-size:14px; padding:10px 0;}
+.mlr_pm{margin-right:4.35%;}
+.nub_ggg li .zf_empty{background: #CECECE;}
+.nub_ggg li .zf_del{background: #CECECE;}
+.nub_ggg li .zf_del img{
+	width:0.72rem;
+	height:0.72rem;
+}
+.qsrzfmm_bt{
+    position: relative;
+    padding-top: 0.29rem;
+    padding-bottom: 0.29rem;
+}
+.conf_order_colse{
+    width:0.4rem;
+    height:0.4rem;
+    position: absolute;
+    right:0.21rem;
+    top:0.21rem;
+}
+.qsrzfmm_bt span{
+    display: block;
+    text-align: center;
+    font-size: 0.24rem;
+}
+.conf_order_paypassword_main .conf_order_hints{
+	width:6rem;
+	text-align: center;
+	/*margin:0 auto;*/
+	color:#333333;
+	font-size: 0.3rem;
+	margin-top: 0.25rem;
+	margin-bottom: 0.3rem;
+	font-weight: bold;
+	/*margin-left: -0.69rem;*/
+	/*width:;*/
+}
+.conf_order_paypassword_main .conf_order_pay_text{
+	margin-top: 0.44rem;
+	margin-bottom: 0.38rem;
+	font-size: 0.24rem;
+	margin-left: -0.8rem;
+}
+.conf_order_paypassword_main .all_money{
+	/*text-align: center;*/
+	font-size:0.54rem ;
+}
+.conf_order_paypassword_main .conf_order_fuhao{
+	font-size: 0.24rem;
+}
+.conf_forget{
+	color:#AAAAAA;
+	font-size: 0.24rem;
+	text-align: center;
+	margin-top: 0.3rem;
+}
+.conf_order_paypassword_hint{
+
+	/*width:89%;*/
+	/*margin:0 auto;*/
+	margin-top: 0.45rem;
+	margin-left: 0.4rem;
+	margin-right: 0.54rem;
+}
+.conf_order_balance{
+	color:#333333;
+	font-size: 0.24rem;
+
+
+}
+.conf_order_balance span{
+	color:#aaaaaa;
+	font-size: 0.2rem;
+}
+.conf_order_balance p{
+	color:#aaaaaa;
+	font-size: 0.2rem;
+}
+.conf_order_pay{
+	width:1.12rem;
+	height:0.54rem;
+	background: #FFE500;
+	color:#333333;
+	font-size: 0.24rem;
+	text-align: center;
+	border-radius: 0.09rem;
+	line-height: 0.54rem;
+	font-weight: 600;
+}
+
+
+.inputBoxContainer{
+    width: 240px;
+    height: 42px;
+    margin: 0 auto;
+    position: relative;
+}
+.inputBoxContainer .bogusInput{
+    width: 100%;
+    height: 100%;
+    border: #c3c3c3 1px solid;
+    border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 0;
+}
+.inputBoxContainer .realInput{
+    width: 200%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: 1;
+    filter:alpha(opacity=0);
+    -moz-opacity:0;
+    opacity:0;
+    color:transparent;
+    text-indent: -999rem;
+    margin-left: -100%; 
+}
+
+.inputBoxContainer .bogusInput input{
+    padding: 0;
+    width: 16.3%;
+    height: 100%;
+    float:left;
+    background-color: #fff;
+    text-align: center;
+    font-size: 20px;
+    border: none;
+    border-right: #C3C3C3 1px solid;
+}
+.inputBoxContainer .bogusInput input:last-child{
+    border: none;
+}12
+.ftc_wzsf .srzfmm_box{
+    height:auto;
+    padding-bottom: 0.35rem;
+}
+.withdraw_shouxufei{
+    text-align: center;
+    margin-bottom: 0.3rem;
+}

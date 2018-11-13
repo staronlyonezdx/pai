@@ -1,0 +1,5 @@
+$(function(){
+	// var wid=$(".conf_order_hints span").html().length*12;
+	// $(".conf_order_paypassword_main .conf_order_hints").width(wid);
+	// $(".zfmmxx_shop").width(wid+50);
+})

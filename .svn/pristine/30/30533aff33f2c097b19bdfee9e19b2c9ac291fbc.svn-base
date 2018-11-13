@@ -1,0 +1,226 @@
+<?php
+namespace app\promotion\controller;
+
+use app\data\service\BaseService;
+use app\data\service\config\ConfigService;
+use app\data\service\goods\GoodsService;
+use app\data\service\member\MemberService;
+use app\member\controller\IndexHome;
+use app\data\service\goodsProduct\GoodsProductService;
+use app\data\service\orderPai\OrderPaiService as OrderPaiService;
+use think\Controller;
+use think\Cookie;
+use think\Db;
+
+class Index extends IndexHome
+{
+   
+    /**
+     * 双十一活动首页
+     * 刘勇豪
+     * /promotion/index/double11/data/2018-11-05
+     */
+    public function double11(){
+        $data = input('param.data/s','2018-11-08');
+        if(strlen($data) != 10){
+            $data = '2018-11-11';
+        }
+
+        $array1 = ['start_date'=>$data.' 16:00:00','end_date'=>$data.' 16:10:00','is_active'=>1];//1541208600,1541215800
+        $array2 = ['start_date'=>$data.' 16:20:00','end_date'=>$data.' 16:30:00','is_active'=>0];//1541223000
+        $array3 = ['start_date'=>$data.' 16:40:00','end_date'=>$data.' 16:50:00','is_active'=>0];//1541939400,1541230200
+        $array4 = ['start_date'=>$data.' 17:00:00','end_date'=>$data.' 17:10:00','is_active'=>0];//1541237400
+        $array5 = ['start_date'=>$data.' 17:20:00','end_date'=>$data.' 17:30:00','is_active'=>0];//1541244600
+        $array6 = ['start_date'=>$data.' 17:40:00','end_date'=>$data.' 17:50:00','is_active'=>0];//1541244600
+        //$array7 = ['start_date'=>$data.' 20:00:00','end_date'=>$data.' 22:30:00','is_active'=>0];//1541244600
+        $ms_list = [$array1,$array2,$array3,$array4,$array5,$array6];
+
+        // 选择一个最新的活动
+        $limit = 1;//限制查询次数
+        $field = "g.g_id,g.g_name,g.g_secondname,g.g_storeid,g.g_img,g.g_typeid,g.g_starttime,g.g_endtime,gp.gp_id,gp.gp_stock,gp.gp_salenum,gp.is_huodong,gp.is_fudai,gp.sort,gp.gp_state,g.g_state";
+        $goodsProduct = new GoodsProductService();
+        $orderpai = new OrderPaiService();
+        foreach($ms_list as $k => $v){
+            $start_time = strtotime($v['start_date']);
+            $end_time = strtotime($v['end_date']);
+            if(time() >= $start_time && time() < $end_time ){
+                $ms_list[$k]['is_active'] = 1;
+                $ms_list[0]['is_active'] = 0;
+            }
+            $huodong_goods = '';
+            $huodong_goods = $goodsProduct->get_limit_huodong_goods($start_time,$end_time,$limit,$field);
+            if(!empty($huodong_goods)){
+                foreach($huodong_goods as $kk=>$vv){
+                    $pai_progress = '';
+                    $call_back = $orderpai->pai_progress($vv['g_id']);
+                    if($call_back['status']){
+                        $pai_progress = $call_back['data'];
+                    }
+                    $huodong_goods[$kk]['pai_progress'] = $pai_progress;
+                }
+            }
+            $ms_list[$k]['start_time'] = $start_time;
+            $ms_list[$k]['end_time'] = $end_time;
+            $ms_list[$k]['start_sf'] = date("H:i",$start_time);
+            $ms_list[$k]['huodong_goods'] = $huodong_goods;
+        }
+
+        // 如果活动全部结束
+        if(time() > strtotime($array5['end_date'])){
+            $ms_list[5]['is_active'] = 1;
+            $ms_list[0]['is_active'] = 0;
+        }
+
+        // 选择最新的11个福袋
+        $select_num = 11;//展示的数量
+        $start_date = $data.' 00:00:00';// 1541174400
+        $end_date = $data.' 23:59:59';// 1541260799
+        $start_time = strtotime($start_date);
+        $end_time = strtotime($end_date);
+        $field = "g.g_id,g.g_name,g.g_secondname,g.g_storeid,g.g_img,g.g_typeid,g.g_starttime,g.g_endtime,gp.gp_id,gp.gp_stock,gp.gp_salenum,gp.is_huodong,gp.is_fudai,gp.sort,gp.gp_state,g.g_state";
+
+        $fudai_goods = $goodsProduct->get_limit_fudai_goods($start_time,$end_time,$select_num,$field);
+        if(!empty($fudai_goods)){
+            foreach($fudai_goods as $kk=>$vv){
+                $pai_progress = '';
+                $call_back = $orderpai->pai_progress($vv['g_id']);
+                if($call_back['status']){
+                    $pai_progress = $call_back['data'];
+                }
+                $fudai_goods[$kk]['pai_progress'] = $pai_progress;
+            }
+        }
+
+//        dump($ms_list);
+//        dump($fudai_goods);
+//        die;
+
+        $this->assign('header_title','双十一活动首页');
+        $this->assign('now_time',time());
+        $this->assign('ms_list',$ms_list);
+        $this->assign('fudai_goods',$fudai_goods);
+        return view();
+    }
+    /**
+     * 福袋规则
+     * 
+     */
+    public function hd_gz1(){
+        $this->assign('header_title','福袋规则');
+        return view();
+    }
+
+    /**
+     * 查找最新的商品详情
+     * 刘勇豪
+     * @return array
+     * http://www.pai.com/promotion/index/get_goods_info/g_id/511
+     */
+    public function get_goods_info(){
+        $g_id = input('param.g_id/d', 0);
+        if(!$g_id){
+            return ['status'=>0,'msg'=>"参数错误",'data'=>''];
+        }
+        $where['g.g_id'] = $g_id;
+        $field = "g.g_id,g.g_name,g.g_secondname,g.g_storeid,g.g_img,g.g_typeid,g.g_starttime,g.g_endtime,gp.gp_id,gp.gp_stock,gp.gp_salenum,gp.is_huodong,gp.is_fudai,gp.sort";
+
+        $goodsProduct = new GoodsProductService();
+        $call_back = $goodsProduct->get_goods_info($where,$field);
+        return $call_back;
+    }
+
+    /**
+     * 修改活动商品活动时间
+     * http://www.pai.com/promotion/index/mytest/data/2018-11-08
+     */
+    public function mytest(){
+        $data = input('param.data/s','2018-11-08');
+        if(strlen($data) != 10){
+            $data = '2018-11-11';
+        }
+
+        $data_start = strtotime($data." 00:00:00");
+        $data_end = strtotime($data." 23:59:00");
+
+
+        $data_s1 = strtotime($data." 10:00:00");
+        $data_e1 = strtotime($data." 10:30:00");
+
+        $data_s2 = strtotime($data." 11:00:00");
+        $data_e2 = strtotime($data." 11:30:00");
+
+        $data_s3 = strtotime($data." 12:00:00");
+        $data_e3 = strtotime($data." 12:30:00");
+
+        $data_s4 = strtotime($data." 13:00:00");
+        $data_e4 = strtotime($data." 13:30:00");
+
+        $data_s5 = strtotime($data." 14:00:00");
+        $data_e5 = strtotime($data." 14:30:00");
+
+        $data_s6 = strtotime($data." 15:00:00");
+        $data_e6 = strtotime($data." 15:30:00");
+
+        //更新福袋商品
+        $where_fu = '';
+        //$where_fu['g_id'] = ['IN','521,522,523,524,525,526,527,528,529,530,531'];
+        //$where_fu['g_id'] = ['IN','908,909,910,911,912,913,914,915,916,917,918'];
+        $where_fu['g_id'] = ['IN','908,909,910,911,912,913,914,915,916,917,918'];
+        $date_fu = '';
+        $date_fu['g_starttime'] = $data_start;
+        $date_fu['g_endtime'] = $data_end;
+        Db("goods")->where($where_fu)->update($date_fu);
+
+        // 更新秒杀商品 515,517,518,519,520
+        // 更新秒杀商品 886,887,888,889,890,892
+        // 更新秒杀商品 902,903,904,905,906,907
+        $where_huo1['g_id'] = 902;
+        $data_huo1['g_starttime'] = $data_s1;
+        $data_huo1['g_endtime'] = $data_e1;
+        Db("goods")->where($where_huo1)->update($data_huo1);
+
+        $where_huo2['g_id'] = 903;
+        $data_huo2['g_starttime'] = $data_s2;
+        $data_huo2['g_endtime'] = $data_e2;
+        Db("goods")->where($where_huo2)->update($data_huo2);
+
+        $where_huo3['g_id'] = 904;
+        $data_huo3['g_starttime'] = $data_s3;
+        $data_huo3['g_endtime'] = $data_e3;
+        Db("goods")->where($where_huo3)->update($data_huo3);
+
+        $where_huo4['g_id'] = 905;
+        $data_huo4['g_starttime'] = $data_s4;
+        $data_huo4['g_endtime'] = $data_e4;
+        Db("goods")->where($where_huo4)->update($data_huo4);
+
+        $where_huo5['g_id'] = 906;
+        $data_huo5['g_starttime'] = $data_s5;
+        $data_huo5['g_endtime'] = $data_e5;
+        Db("goods")->where($where_huo5)->update($data_huo5);
+
+        $where_huo6['g_id'] = 907;
+        $data_huo6['g_starttime'] = $data_s6;
+        $data_huo6['g_endtime'] = $data_e6;
+        Db("goods")->where($where_huo6)->update($data_huo6);
+
+        echo "all success!";
+
+    }
+
+    /**
+     * 下一个福袋上线
+     * 刘勇豪
+     * http://www.pai.com/promotion/index/sale_next_fudai
+     */
+    public function sale_next_fudai(){
+
+        $orderpai = new OrderPaiService();
+        $call_back = $orderpai->sale_next_fudai();
+
+        dump($call_back);
+    }
+
+
+
+}

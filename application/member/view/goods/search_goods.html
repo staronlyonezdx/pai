@@ -1,0 +1,251 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/search_index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/my_publish.css"> {/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <!--展示上拉加载的数据列表-->
+    <div id="dataList" class="data-list"></div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/Public.js"></script>
+<script>
+//点击减号
+$(".my_goods_less").click(function () {
+    var val_ = $(".my_goods_num").val();
+    if (val_ > 0) {
+        val_--;
+        $(".my_goods_num").val(val_);
+    } else {
+        $(".my_goods_num").val(0);
+    }
+})
+//点击加号
+$(".my_goods_add").click(function () {
+    var val_ = $(".my_goods_num").val();
+    val_++;
+    $(".my_goods_num").val(val_);
+})
+
+// 取消发布
+function cancel(id) {
+    layer.confirm('是否确定取消发布该商品？', {
+        title: false,/*标题*/
+        closeBtn: 0,
+        btnAlign: 'c',
+        btn: ['算了吧', '确认取消'], /*按钮*/
+        btn2: function () {
+            /*按钮2的回调*/
+            $.post("/member/goods/cancel", {
+                g_id: id
+            }, function (res) {
+                if (res.status == 1) {
+                    layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+                    $('.shop_tr' + id).remove();
+                } else {
+                    layer.msg('<span style="color:#fff">' + res.msg + '</span>');
+                }
+            })
+        }
+    })
+}
+//显示库存弹窗
+function gp_stock(id) {
+    $('.g_id').val(id);
+    $('.my_goods_num').val($('.stock_314').text());
+    $(".my_goods_pop").addClass("my_goods_blo");
+}
+// 隐藏修改库存弹窗
+$(".my_goods_img").click(function () {
+    $(".my_goods_pop").removeClass("my_goods_blo");
+})
+
+//修改库存
+$('.my_goods_save').click(function () {
+    $(".my_goods_pop").removeClass("my_goods_blo");
+    var g_id = $('.g_id').val()
+    var my_goods_num = $('.my_goods_num').val()
+    $.post("/member/goodsproduct/set_stock", {
+        g_id: g_id,
+        gp_stock: my_goods_num
+    }, function (res) {
+        if (res.status == 1) {
+            $('.stock_' + g_id).html($('.my_goods_num').val());
+            layer.msg('<span style="color:#fff">'+ res.msg +'</span>');
+        } else {
+            layer.msg('<span style="color:#fff">'+ res.msg +'</span>');
+        }
+    });
+});
+$(function () {
+    var g_name = "{$g_name}";
+    //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+    var mescroll = new MeScroll("body", {
+        //下拉刷新
+        down: {
+            isLock: true, //锁定下拉
+        },
+        //上拉加载的配置项
+        up: {
+            callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+            noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+            empty: {
+                icon: "/static/image/index/no-cont.png", //图标,默认null
+                tip: "暂无搜索结果~", //提示
+            },
+            clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+            htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+            htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
+        }
+    });
+
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        getListDataFromNet(page.num, page.size, function (curPageData,totle_num) {
+            //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+            //必传参数(当前页的数据个数, 总数据量)
+            mescroll.endBySize(curPageData.length, totle_num);
+
+            //设置列表数据
+            setListData(curPageData);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescroll.endErr();
+        });
+    }
+
+    /*设置列表数据*/
+    function setListData(curPageData) {
+         var listDom = document.getElementById("dataList");
+        for (var i = 0; i <curPageData.length; i++) {
+            var pd = curPageData[i];
+            var hf;
+            var btn;
+            if (pd.g_state == 6) {
+                hf = '<span class="my_publish_hint rt">出售中</span>';
+                btn = '<div class="my_publish_modification rt" onclick="gp_stock(' + pd.g_id + ')">修改库存</div>';
+            } else if (pd.g_state == 7) {
+                hf = '<span class="my_publish_hint rt my_publish_black">编辑中</span>';
+                btn = '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                btn += '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">继续编辑</div></a>';
+            } else if (pd.g_state == 8) {
+                hf = '<span class="my_publish_hint rt">未成团</span>';
+                btn = '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">修改商品</div></a>';
+            } else if (pd.g_state == 1) {
+                hf = '<span class="my_publish_hint rt">等待支付保证金</span>';
+                btn = '<a href="/member/store/deposit/g_id/' + pd.g_id + '"><div class="my_publish_modification rt">付款</div>';
+                btn += '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+            } else if (pd.g_state == 2) {
+                hf = '<span class="my_publish_hint rt my_publish_yew">正在审核</span>';
+                btn = '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+            } else if (pd.g_state == 4) {
+                hf = '<span class="my_publish_hint rt my_publish_hui">审核未通过</span>';
+                btn = '<div class="my_publish_share rt"><span onclick="cancel(' + pd.g_id + ')">取消发布</span></div>';
+                btn += '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">重新编辑</div></a>';
+            } else if (pd.g_state == 9) {
+                hf = '<span class="my_publish_hint rt">已完成</span>';
+                btn = '<a href="/member/goods/reedit/g_id/' + pd.g_id + '"><div class="my_publish_share rt">重新编辑</div></a>';
+            }
+
+            var str = '<div class="my_publish_tit clear">';
+            str += '<span class="my_publish_bh lf">商品编号 ' + pd.gp_sn + '</span>';
+            str += hf;
+            str += '</div>';
+            str += '<div class="my_publish_main clear">';
+            if (pd.g_state != 7) {
+                str += '<a href="/member/goodsproduct/index/g_id/' + pd.g_id + '">';
+            }
+            str += '<div class="my_publish_img lf">';
+            if (pd.g_img == '') {
+                str += '<span class="no-img">暂未上传图片</span>';
+            } else {
+                str += '<img src="' + pd.g_img + '">';
+            }
+            str += '</div>';
+            str += '<div class="my_publish_text lf">';
+            if (pd.g_name == '') {
+                str += '<p>您还未填写商品标题</p>';
+            } else {
+                str += '<p>' + pd.g_name + '</p>';
+            }
+            str += '<div class="my_publish_price clear">';
+            if (pd.max_gdr_price == null) {
+                str += '<span class="my_publish_new">尚未填写价格</span>';
+            } else {
+                str += '<span class="my_publish_new">￥' + pd.min_gdr_price + '~' + pd.max_gdr_price + '</span>';
+            }
+            str += '<span class="my_publish_inventory rt">库存x';
+            str += '<span class="stock stock_'+ pd.g_id +'">' + pd.gp_stock + '</span>';
+            str += '</span>';
+            str += '</div>';
+            str += '</div>';
+            if (pd.g_state != 7) {
+                str += '</a>';
+            }
+            str += '</div>';
+            str += '<div class="my_publish_data clear">';
+            if (pd.g_state != 1) {
+                if (pd.g_endtime == '0') {
+                    str += '<p class="rt">截止时间尚未设置</p>';
+                } else {
+                    str += '<p class="rt">' + msToDate(pd.g_endtime * 1000).wasTime + '<span> 后截止</span></p>';
+                }
+            } else {
+                str += '<p>需支付保证金 ￥'+ pd.deposit +'</p>';
+            }
+            str += '</div>';
+            str += '<div class="my_publish_btn clear">';
+            if (pd.gp_settlement_price != '0.00') {
+                str += '结算价￥' + pd.gp_settlement_price;
+            }
+            str += btn;
+            str += '</div>';
+            var liDom = document.createElement("div");
+            liDom.className = 'my_publish_list shop_tr' + pd.g_id;
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+        }
+
+    }
+
+    /*联网加载列表数据
+     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+     实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+     * */
+    function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/member/goods/my_goods/',
+                data: {g_name:g_name},
+                dataType: 'json',
+                success: function (data) {
+                    var listData = [];
+                    for (var i = 0; i < data.list.length; i++) {
+                        listData.push(data.list[i]);
+                    }
+                    //回调
+                    successCallback(listData,data.totle_num);
+                },
+                error: errorCallback
+            });
+        }, 1000)
+    }
+});
+</script>
+{/block}

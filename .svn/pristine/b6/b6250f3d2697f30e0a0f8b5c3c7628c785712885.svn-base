@@ -1,0 +1,581 @@
+html {
+	background-color: #f2f2f2;
+}
+body{
+	/* background: #fefefe; */
+}
+.myhome_shop_bg{
+	background: #fff;
+}
+.mine_top{
+	width:7.5rem;
+	height:3.9rem;
+	background:url("../../image/myhome/icon_demo_dise@2x.png") no-repeat center center;
+	background-size: 100% 100%;
+	position: relative;
+	overflow: hidden;
+}
+.mine_tit{
+	width:7.5rem;
+	height:1.04rem;
+	line-height: 1.04rem;
+	position: relative;
+}
+.mine_text{
+	text-align: center;
+	font-size: 0.36rem;
+	font-family: SourceHanSansCN-Medium;
+	color:#000000;
+	font-weight: bold;
+
+}
+.mine_size{
+	width:0.56rem;
+	height:0.56rem;
+	position: absolute;
+	right:0.3rem;
+	top:0.24rem;
+}
+.mine_size img{
+	width:100%;
+	height:100%;
+	display: block;
+}
+.my-icon {
+	right: 1.1rem;
+}
+.my-icon span {
+	width: 0.12rem;
+	height: 0.12rem;
+	display: block;
+	right: 0;
+	top: 0;
+	background: #FF3F3F;
+	border-radius: 100%;
+	position: absolute;
+}
+.mine_name{
+	/*height: 1rem;*/
+	margin-left: 0.35rem;
+	margin-top: 0.47rem;
+}
+.mine_name img{
+	width:100%;
+	height:100%;
+}
+.mine_head_portrait{
+	width:1rem;
+	height:1rem;
+	border-radius: 50%;
+	overflow:hidden;
+}
+.mine_name_text{
+	font-size: 0.38rem;
+	color:#000000;
+	font-family:SourceHanSansCN-Bold;
+	font-weight: bold;
+	margin-left: 0.36rem;
+	margin-top: 0.04rem;
+	max-width: 45%;
+	white-space:nowrap; 
+	text-overflow:ellipsis; 
+	overflow:hidden;
+}
+.myhome_vip{
+width:1.16rem;
+	height:0.4rem;
+	margin-left: 1.3rem;
+	margin-top: -0.4rem;
+}
+.myhome_vip img{
+	width:100%;
+	height:100%;
+}
+.mine_name_texts{
+	font-size:0.2rem;
+	font-family:SourceHanSansCN-Regular;
+	color:#fff;
+	margin-left: 0.36rem;
+	margin-top: 0.04rem;
+}
+.mine_vip{
+	width:2.75rem;
+	height:3rem;
+	position:absolute;
+	right:0rem;
+	bottom:-0.4rem;
+}
+.mine_vip img{
+	width:100%;
+	height:100%;
+}
+.mine_wave{
+	height:1rem;
+	position: absolute;
+	bottom:0;
+	left: 0;
+}
+.mine_wave img{
+	width:100%;
+	height:100%;
+}
+.mine_nav{
+	height:1.32rem;
+}
+.mine_collect{
+	width:2.5rem;
+	margin-top:0.2rem;
+	text-align: center;
+	position: relative;
+	font-size: 0.4rem;
+	color:#000000;
+	font-family:ArialMT;
+}
+.mine_collect p{
+	color:#888888;
+	font-size: 0.22rem;
+	font-family:SourceHanSansCN-Regular;
+}
+.mine_new{
+	width:0.12rem;
+	height:0.12rem;
+	background:#ff3434;
+	border-radius: 50%;
+	position: absolute;
+	top:-0.1rem;
+	right:0.65rem;
+}
+.mine_bg{
+	height:0.15rem;
+	background:#f5f5f5;
+}
+.myhome_shop{
+	width:6.9rem;
+	height:2.8rem;
+	margin:0 auto;
+	box-shadow:0px 10px 24px rgba(255,225,27,0.2);
+	background: #fff;
+	overflow: hidden;
+	margin-bottom: 0.3rem;
+}
+.myhome_shop_top{
+	height:0.5rem;
+	line-height: 0.5rem;
+	margin-top: 0.25rem;
+	margin-left: 0.4rem;
+	margin-right: 0.23rem;
+}
+.myhome_shop_img{
+	width:0.5rem;
+	height:0.5rem;
+}
+.myhome_shop_img img{
+	width:100%;
+	height:100%;
+    object-fit:cover;
+}
+.myhome_shop_top p{
+	font-size: 0.26rem;
+	color:#000000;
+	font-weight: 600;
+	margin-left: 0.26rem;
+}
+.myhome_shop_select span{
+	font-size: 0.24rem;
+	color:#000000;
+	vertical-align: middle;
+}
+.myhome_shop_select img{
+	width:0.38rem;
+	height:0.38rem;
+	vertical-align: middle;
+}
+.myhome_shop_publish{
+	width:2.64rem;
+	height:0.96rem;
+	border-radius: 0.48rem;
+	background: #FFE11B;
+	line-height: 0.96rem;
+	text-align: center;
+	margin:0 auto;
+	margin-top: 0.29rem;
+	/*display: none;*/
+}
+.myhome_shop_publish img{
+	width:0.6rem;
+	height:0.6rem;
+	vertical-align: middle;
+}
+.myhome_shop_publish span{
+	color:#070707;
+	font-size: 0.3rem;
+	font-weight: 600;
+}
+.myhome_shop_pub_list{
+	width:6.3rem;
+	margin:0 auto;
+
+}
+.myhome_shop_pub_img,.myhome_shop_pub_image{
+    margin-top: 0.35rem;
+	width:1.575rem;
+	height:1.575rem;
+}
+.myhome_shop_pub_img img,.myhome_shop_pub_image img{
+	width:1.5rem;
+	height:1.5rem;
+	display: block;
+	margin:0 auto;
+	object-fit: cover;
+}
+.mine_compete{
+	line-height: 0.87rem;
+	height: 0.87rem;
+	border-bottom:0.01rem solid #F2F2F2;
+}
+.mine_compete p{
+	font-size: 0.25rem;
+	margin-left: 0.31rem;
+	color:#AAAAAA;
+}
+.mine_compete .mine_compete_action{
+	color:#000000;
+	font-size: 0.3rem;
+	font-weight: 600;
+}
+.mine_compete .active {
+	color: #000;
+	font-size: 0.29rem;
+	font-weight: bold;
+	position: relative;
+}
+.mine_compete .active:after {
+	width:0.4rem;
+	height:0.12rem;
+	background:rgba(255,229,0,1);
+	border-radius:0.06rem;
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	bottom: 0;
+}
+.mine_view{
+    position: relative;
+}
+.mine_return{
+    position:fixed;
+    right:0.49rem;
+    top:60%;
+    width:1.2rem;
+    height:1.2rem;
+	z-index: 10;
+	display:none;
+
+}
+.mine_return img{
+    width:100%;
+    height:100%;
+}
+.mine_compete span,.mine_compete img{
+	vertical-align: middle;
+	font-family: SourceHanSansCN-Regular;
+	font-size: 0.26rem;
+	color:#AAAAAA;
+}
+.mine_compete img{
+	width:0.38rem;
+	height:0.38rem;
+}
+.mine_tab{
+	padding-bottom: 0.28rem;
+}
+.mine_tab_list{
+	width:1.875rem;
+	text-align: center;
+	position: relative;
+	margin-top: 0.28rem;
+	margin-bottom: 0.28rem;
+}
+.mine_tab_list p{
+	color:#333333;
+	font-size: 0.24rem;
+	margin-top: 0.09rem;
+}
+.mine_tab_list img{
+	width:0.68rem;
+	height:0.68rem;
+}
+.mine_daiqueren{
+	width:1.87rem;
+	height:0.85rem;
+	background: url(../../image/myhome/bg_pao@2x.png) no-repeat center center;
+	background-size: 100% 100%;
+	font-size: 0.24rem;
+	color: #fff;
+	line-height: 0.85rem;
+	text-align: center;
+	position: absolute;
+	z-index: 989;
+}
+.mine_red_new{
+	position: absolute;
+	background:#FF3434;
+	width:0.3rem;
+	height:0.3rem;
+	border-radius: 50%;
+	font-size: 0.20rem;
+	color:#fff;
+	/*padding:0.01rem;*/
+	top:-0.06rem;
+	/*left:1.1rem;*/
+    right:0.3rem;
+    line-height: 0.3rem;
+	display: none;
+}
+.mine_red_num{
+	width:auto;
+	padding-left: 0.09rem;
+	padding-right: 0.09rem;
+	border-radius: 0.12rem;
+
+}
+.mine_tab_dingdan{
+    width:20%;
+}
+.mine_pat .mine_tab_list{
+	width:1.5rem;
+}
+.mine_pat .mine_red_new{
+	top:-0.07rem;
+	left:0.9rem;
+}
+.mine_fix{
+	position: fixed;
+	top:0;
+	left: 0;
+	background: #FFE500;
+	z-index: 2;
+}
+.mine_login{
+	width:1.32rem;
+	height:0.6rem;
+	background:rgba(249,255,99,0.6);
+	margin-left: 0.36rem;
+	margin-top: 0.21rem;
+	border-radius:0.09rem;
+	text-align: center;
+	line-height: 0.6rem;
+	color:#333333;
+}
+.mine_register{
+	width:1.32rem;
+	height:0.6rem;
+	background:rgba(255,255,255,0.6);
+	margin-left: 0.36rem;
+	margin-top: 0.21rem;
+	border-radius:0.09rem;
+	text-align: center;
+	line-height: 0.6rem;
+	color:#333333;
+}
+.mine_banner{
+	width:7.5rem;
+	height:1.52rem;
+}
+.mine_banner img{
+	width:100%;
+	height:100%;
+}
+.mine_fanxian_pop{
+    position: fixed;
+    width:100%;
+    height:100%;
+    left: 0;
+    top:0;
+    background: rgba(0,0,0,0.5);
+    z-index: 104;
+    display: none;
+}
+.mine_fanxian_con{
+    width:5.7rem;
+    height:6.2rem;
+    background:url("../../image/myhome/di@2x.png") no-repeat center center;
+    background-size:100% 100% ;
+    margin:0 auto;
+    margin-top: 3.23rem;
+    overflow: hidden;
+    position: relative;
+}
+.mine_fanxian_cons{
+    width:5.05rem;
+    height:6.88rem;
+    background:url("../../image/myhome/bg@2x.png") no-repeat center center;
+    background-size:100% 100% ;
+    margin:0 auto;
+    margin-top: 2.8rem;
+    overflow: hidden;
+    position: relative;
+}
+.mine_fanxian_con a{
+    color:#6A2118;
+    font-size: 0.24rem;
+    text-decoration:underline;
+    display: block;
+    margin-top: 1.67rem;
+    margin-left: 1.09rem;
+    font-weight: 600;
+}
+.mine_fanxian_cons a{
+    color:#6A2118;
+    font-size: 0.24rem;
+    text-decoration:underline;
+    display: block;
+    margin-top: 1.26rem;
+    margin-left:0.8rem;
+    font-weight: 600;
+}
+
+.mine_fanxian_icon{
+    width:0.34rem;
+    height:0.34rem;
+    position: absolute;
+    right:0.85rem;
+    top:0.83rem;
+}
+.mine_fanxian_icon img{
+    width:100%;
+    height:100%;
+    display: block;
+}
+.mine_fanxian_cons .mine_fanxian_icon{
+    top:0.42rem;
+    right:0.52rem;
+}
+.mine_fanxian_con .mine_num,.mine_fanxian_con small{
+    display: block;
+    font-size: 0.22rem;
+   text-align: center;
+}
+.mine_fanxian_con .mine_day{
+    font-size: 0.23rem;
+    color:#fff;
+    margin-left:1.4rem ;
+    margin-top:0.7rem;
+}
+.mine_fanxian_con .mine_gongxi{
+    color:#fff;
+    font-size: 0.25rem;
+    font-weight: 600;
+    margin-left: 1.31rem;
+    margin-top: 0.2rem;
+}
+.mine_fanxian_con .mine_hint{
+    color:#FFCE57;
+    font-size: 0.23rem;
+    margin-top: 0.16rem;
+    margin-left: 1.35rem;
+}
+.mine_fanxian_cons .mine_day{
+    font-size: 0.23rem;
+    color:#fff;
+    margin-left:1.2rem ;
+    margin-top:0.75rem;
+    margin-bottom: 0.45rem;
+}
+.mine_fanxian_cons .mine_leiji{
+    text-align: center;
+    color:#fff;
+    font-size:0.25rem ;
+    line-height:0.4rem ;
+}
+.mine_fanxian_cons .mine_leiji span{
+    color:#FEE58F;
+    font-size: 0.42rem;
+}
+.mine_fanxian_cons h3{
+    color:#FFFFFF;
+    font-size: 0.23rem;
+    margin-left: 0.81rem;
+    margin-top: 0.8rem;
+}
+.mine_fanxian_cons .mine_hint{
+    color:#FFCE57;
+    font-size: 0.23rem;
+    margin-top: 0.24rem;
+    text-align: center;
+}
+.mine_bg_view{
+	width:3.32rem;
+	height:0.64rem;
+	background:#A43525;
+	margin:0 auto;
+	margin-top: 0.24rem;
+	line-height: 0.64rem;
+	border-radius: 0.12rem;
+}
+.mine_fanxian_cons .mine_dan{
+	color:#FFFFFF;
+	font-size: 0.22rem;
+	text-align: center;
+	color:#FFFFFF;
+}
+.mine_fanxian_cons .mine_dan span{
+    font-size: 0.28rem;
+    color:#FEE58F;
+}
+.mine_all_order{
+	background:url("../../image/myhome/icon_1@2x.png") no-repeat left;
+	background-size: 0.14rem 0.58rem;
+}
+.renqi_dizhi{
+	position: relative;
+}
+.mine_fanxian_pop_dis{
+    display: block;
+
+}
+.promoters_in{
+	width: 100%;
+	height: 1.68rem;
+}
+.promoters_in img{
+	width: 100%;
+	height: 100%;
+}
+.promoters_in img.is_kaohe{
+	width: 1.96rem;
+	height: 0.8rem;
+	margin-left: 4.8rem;
+	margin-top: -0.1rem;
+	display: none;
+}
+.size_over{
+	overflow: inherit!important;
+}
+.is_promoters{
+	width: 2.29rem;
+	height: 0.96rem;
+	position: absolute;
+	top: 1.2rem;
+	left: 3.55rem;
+	/*display: none;*/
+
+}
+.is_promoters img{
+	width: 2.29rem;
+	height: 0.96rem;
+
+}
+.is_promoters span{
+	font-size:0.24rem;
+	font-family:PingFangSC-Medium;
+	font-weight:500;
+	color:rgba(255,255,255,1);
+	line-height:0.3rem;
+	display: inline;
+	position: absolute;
+	top: 0.2rem;
+	left: 0.23rem;
+}

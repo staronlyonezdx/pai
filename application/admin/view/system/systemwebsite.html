@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>网站配置|{:config('system.title')}</title>
+
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link href="__CSS__/style.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/cmmphp.css"  />
+<style>
+
+.krajee-default.file-preview-frame .kv-file-content{
+	height:80px;
+}
+.kv-preview-data{
+	height:50px;
+}
+</style>
+<script>
+function check() {
+	/*var UPLOAD_CAPACITY = $('#cdl .qtext').eq(0).val();*/
+	return true;
+}
+$(function(){
+	$("#logo_pic").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'],  
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "auto", height: "auto"},
+        },
+	    {if condition="$setconfig['WEB_LOGO'] neq ''"}
+        initialPreview: [
+           "__ROOT__{$setconfig['WEB_LOGO']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('system/deleteimage')}", key: 'WEB_LOGO'},
+        ]
+		{/if}
+	});
+	$("#web_ico").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "auto", height: "auto"},
+        },
+	    {if condition="$setconfig['WEB_ICO'] neq ''"}
+        initialPreview: [
+           "__ROOT__{$setconfig['WEB_ICO']}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('system/deleteimage')}", key: 'WEB_ICO'},
+        ]
+		{/if}
+	});
+});
+</script>
+</head>
+<body>
+<div id="content">
+	<h1>首页 > 系统管理 > 网站设置</h1>
+    <h2>
+    	<div class="h2_left">
+        	<a href="javascript:;" class="f5" onclick="f5();">刷新</a>
+            <a href="javascript:history.back();" class="Retreat">后退</a>
+            <a href="javascript:history.go(1);" class="Advance">前进</a>
+        </div>
+    </h2>
+    <h3>
+    	<a href="{:url('system/systemwebsite')}?type=1" class="h3a">网站设置</a>
+     	<!-- <a href="{:url('system/systemconfig')}">系统配置</a> -->
+       <!-- <a href="{:url('system/systemwebsite')}?type=3">核心配置</a> -->
+    </h3>
+	
+    <form action="{:url('system/systemwebsite_do')}?pid=1&explain=list" method="post" id="form" onsubmit="return check();" enctype="multipart/form-data">
+    <dl id="cdl">
+    	<dd>
+        	<span class="dd_left">网站标题：</span>
+            <span class="dd_right">
+            	<input type="text" name="WEB_TITLE" class="qtext" value="{$setconfig['WEB_TITLE']}" />
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">关键字：</span>
+            <span class="dd_right">
+            	<input type="text" name="WEB_KEYWORD" class="qtext" value="{$setconfig['WEB_KEYWORD']}" />
+            </span>
+			<font>* 多个关键字请用“|”分隔开。</font>
+        </dd>
+    	<dd>
+        	<span class="dd_left">版权：</span>
+            <span class="dd_right">
+            	<input type="text" name="WEB_COPYRIGHT" class="qtext" value="{$setconfig['WEB_COPYRIGHT']}" />
+            </span>
+            <font>* 列如：2017.广州市素材火信息科技有限公司</font
+        </dd>
+    	<dd>
+        	<span class="dd_left">备案号：</span>
+            <span class="dd_right">
+            	<input type="text" name="WEB_RECORD_NUMBER" class="qtext" value="{$setconfig['WEB_RECORD_NUMBER']}" />
+            </span>
+			<font>* 列如：粤ICP备15116264号</font>
+        </dd>
+    	<dd id="textarea-web">
+        	<span class="dd_left">网站描述：</span>
+            <span class="dd_right">
+				<textarea class="textarea" name="WEB_DESCRIPTION" rows="12">{$setconfig['WEB_DESCRIPTION']}</textarea>
+            </span>
+			<font>* 描述内容不得超过200字</font>
+        </dd>
+    	<dd>
+        	<span class="dd_left">浏览器窗口logo图片（ico）：</span>
+            <span class="dd_right">
+			<input type="file" class="form-control" id="web_ico" name="web_ico" aria-required="true" aria-invalid="true" >
+			<input type="hidden" name="primary_ico" value="{$setconfig['WEB_ICO']}">
+            	<font></font>
+            </span>
+        </dd>
+    	<dd>
+        	<span class="dd_left">LOGO图片：</span>
+            <span class="dd_right">
+			<input type="file" class="form-control" id="logo_pic" name="web_logo" aria-required="true" aria-invalid="true" >
+			<input type="hidden" name="primary_logo" value="{$setconfig['WEB_LOGO']}">
+            	<font></font>
+            </span>
+        </dd>
+		<input type="hidden" name="explain" class="qtext" value="edit" />
+		<!--pid必须要有 用于缓存-->
+		<input type="hidden" name="pid" class="qtext" value="1" />
+        <dd><input type="submit" value="提交" class="submit"/>	
+			</br>
+			</br>
+			</br>
+			</br>		
+		</dd>
+
+    </dl>
+
+    </form>
+
+</div>
+
+</body>
+</html>

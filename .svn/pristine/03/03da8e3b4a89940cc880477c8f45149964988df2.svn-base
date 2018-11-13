@@ -1,0 +1,42 @@
+$(function(){
+    var mySwiper= new Swiper('.swiper-container',{
+        effect : 'coverflow',
+        slidesPerView: 1,
+        centeredSlides: true,
+        coverflow: {
+          rotate: 0,// 旋转的角度
+          stretch:80,// 拉伸   图片间左右的间距和密集度
+          depth: 220,// 深度   切换图片间上下的间距和密集度
+          modifier:1,//修正值 该值越大前面的效果越明显
+          slideShadows:false,// 页面阴影效果
+           onSlideChangeStart: function(swiper){
+                // alert(swiper.activeIndex);
+            }
+        }
+    })
+    $(".index_main_list").click(function(){
+        var inde_=$(this).index();
+        $(".index_main_sanjiao").css({marginLeft:138*inde_+25});
+    })
+    $(window).scroll(function(){
+        var scro=$(window).scrollTop();
+        if(scro>10){
+            $(".header_tit").css({color:"#000000"});
+            $(".header_nav").css({backgroundColor:"#fff"});
+        }else{
+            $(".header_tit").css({color:"#fff"});
+            $(".header_nav").css({backgroundColor:"transparent"});
+        }
+    })
+//点击邀请弹框
+        $(".index_btn").click(function(){
+            $(".continue_pop").css({display:"block"});
+        })
+        $(".continue_pop").click(function(){
+            $(".continue_pop").css({display:"none"});
+        })
+        $(".continue_con").click(function(e){
+            e.stopPropagation();
+        })
+
+})

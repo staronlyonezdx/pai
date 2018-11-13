@@ -1,0 +1,64 @@
+$(function () {
+    mydropload(0);
+    $(".all_participants_border").click(function () {
+        $(".all_participants_border").find("img").toggleClass("all_participants_inline");
+        $(".all_participants_postion").toggleClass("all_participants_block");
+    })
+    $(".all_participants_list").click(function () {
+        $(".all_participants_list").removeClass("all_participants_black");
+        $(this).addClass("all_participants_black");
+        $(".all_participants_postion").removeClass("all_participants_block");
+
+        var select_type = $(this).attr("select_type");
+        var this_title = $(".all_participants_black").html();
+        $(".title").html(this_title);
+        $(".content-view").find('.lists-view').html('');
+        $(".dropload-down").remove();
+        mydropload(select_type);
+    })
+
+})
+
+function mydropload(type) {
+    // 页数
+    var page = 0;
+    // 每页展示5个
+    var size = 5;
+    // 折id
+    var gp_id = $("input[name=gp_id]").val();
+    // 期数
+    var o_periods = $("input[name=o_periods]").val();
+    $(".content-view").dropload({
+        scrollArea: window,
+        loadDownFn: function (me) {
+            var result = '';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: { page: page, size: size, gp_id: gp_id, o_periods: o_periods, type: type},
+                success: function (data) {
+                    console.log(data);
+                    if (data.status > 0) {
+                        result = data.data;
+                        page++;
+                    } else {
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    // 插入数据到页面，放到最后面
+                    $(".content-view").find('.lists-view').append(result);
+                    // 每次数据插入，必须重置
+                    me.resetload();
+                },
+                error: function (xhr, type) {
+                    alert('Ajax error!');
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        }
+    })
+}

@@ -1,0 +1,188 @@
+
+$(function(){
+
+
+    //精选拍品的下拉加载数据
+//    var itemIndex = 0;//点击的索引值
+    var tabLoadEnd =false;//加载后已没有数据
+    var page=1;
+//    // 上拉刷新
+    var dropload = $('.share_list').dropload({
+        scrollArea: window,
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh" style="color:#fff;">上拉加载更多</div>',
+            domLoad: '<div class="dropload-load" style="color:#fff;"><span class="loading"></span>加载中...</div>',
+            domNoData: '<div class="dropload-noData" style="color:#fff;">已经到底啦~</div>'
+        },
+        loadDownFn: function (me) {
+            setTimeout(function () {
+                if (tabLoadEnd) {
+                    me.resetload();
+                    me.lock();
+                    me.noData();
+                    me.resetload();
+                    return;
+                }
+                page++;
+                $.ajax("/Popularity/Popularitygoods/share_list/", {
+                    data: {page:page},
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'post',//HTTP请求类型
+                    success: function (data) {
+                        // console.log(data)
+//                        //获得服务器响应
+                        var html = '';
+                        if (data.list.length > 0) {
+                            for (var i = 0; i < data.list.length; i++) {                                
+                                html += '<div class="share_list_con lf">';
+                                html +='<div class="share_list_biaoji" onclick="collection(this,'+ data.list[i].pg_id +')">'
+                                if(data.list[i].is_collection == 0) {
+                                    html +='<img src="/static/image/share_list/icon_biaoji@2x.png" alt="">'
+                                }else {
+                                    html +='<img src="/static/image/share_list/icon_biaoji1@2x.png" alt="">'
+                                }                                
+                                html +='</div>'
+                                html += '<a href="/popularity/popularitygoods/commodity_info/pg_id/'+data.list[i].pg_id+'">';
+                                html += '<div class="share_list_con_img">';
+                                html += '<img alt="" src="'+data.list[i].pg_img+'"/>';                                
+                                html += '</div>';
+                                html += '<p>'+data.list[i].pg_name+'</p>';
+                                html += '<div class="share_list_price"><span>活动价<br></span>';
+                                html += '<small>¥'+data.list[i].pg_price+'</small></div>';
+                                html += '</a>';
+                                html += '</div>';
+                            }
+                            $('.share_list_main').append(html);
+                        } else {
+                            tabLoadEnd = true;
+                            me.noData();
+                        }
+                        me.resetload();
+                    }
+                });
+            }, 500);
+        }
+    });
+
+
+
+
+
+
+
+
+//       向上滑动查看活动
+    //    $(".share_list_touch").on("touchstart",function(e){
+    //        e.preventDefault();
+    //        startX= e.originalEvent.changedTouches[0].pageX,
+    //        startY= e.originalEvent.changedTouches[0].pageY;
+    //    });
+    //    $(".share_list_touch").on("touchmove",function(e){
+    //         e.preventDefault();
+    //         moveEndX= e.originalEvent.changedTouches[0].pageX,
+    //         moveEndY= e.originalEvent.changedTouches[0].pageY,
+    //         X=moveEndX-startX,
+    //         Y=moveEndY-startY;
+    //         if  ( Math.abs(Y) > Math.abs(X) && Y > 0) {
+    //             $(".share_list_bg").slideDown();
+    //             $(".share_list_susp").stop(true).animate({top:"0.4rem"},500);
+    //             $(".share_list_tit_con").removeClass("share_list_tit_bg");
+    //             $(".share_list_bg_a").css({display:"block"});
+    //         }else if  ( Math.abs(Y) > Math.abs(X) && Y < 0 ) {
+    //             $(".share_list_bg").slideUp();
+    //             $(".share_list_susp").stop(true).animate({top:"1.1rem"},500);
+    //             $(".share_list_tit_con").addClass("share_list_tit_bg");
+    //             $(".share_list_bg_a").css({display:"none"});
+    //         }
+    //     });
+
+//    $(".share_list_susp").stop().delay(1000).animate({opacity:1},1000,function(){
+//        $(".share_list_susp").stop().animate({opacity:1},2000,function(){
+//            $(".share_list_susp").stop().animate({opacity:0},2000);
+//        })
+//    });
+
+
+//    $.ajax({
+//
+//    })
+//    $(".share_list_susp").stop().delay(1000).animate({display:"block"},1000,function(){
+//        $(".share_list_susp").stop().animate({display:"block"},2000,function(){
+//            $(".share_list_susp").stop().animate({display:"none"},2000);
+//        })
+//    });
+$(".share_list_li .share_list_names").each(function() {  
+    console.log($(this));  
+    if ($(this).text().length >6) { 
+        // alert("e")
+        $(this).html($(this).text().replace(/\s+/g, "").substr(0, 6) + "...")    ;
+        
+    }
+})
+function notice(){
+    $(".share_list_ul").stop().animate({marginTop:"-0.48rem"},1000,function(){
+        $(".share_list_ul").css({marginTop:0});
+        $(".share_list_li:last").after($(".share_list_li:first"));
+    });
+}
+var time2=setInterval(notice,2000);
+
+    setInterval(function(){
+            $.ajax("/popularity/popularitygoods/is_join/",{
+                dataType:"json",
+                type:'post',
+                success:function(data){
+                    // window.sessionStorage.setItem("data",data.data);
+                    if(data.status==0){
+                        $(".share_list_susp").css({display:"none"});
+                    }else{
+                       
+                        // var datas = window.sessionStorage.getItem("data");
+                        $(".share_list_susp").css({display:"block"});
+                        // $(".share_list_ul").html("");
+                        
+                        // console.log($(".share_list_li:last"));
+                        // $(".share_list_li:last").siblings().empty();
+                        var shareli="";
+                        $(".share_list_ul li").last().siblings().remove();
+
+                       
+                        for(var i=0;i<data.data.length;i++){
+                            if(data.data[i].m_avatar==""){
+                                data.data[i].m_avatar="/static/image/myhome/TIM20180731142117.jpg"
+                            }
+                            shareli+=' <li class="share_list_li clear">'
+                            shareli+='<div class="share_list_name_img lf">'
+                            shareli+='<img src="'+data.data[i].m_avatar+'" alt=""/>'
+                            shareli+='</div>'
+                          
+                            if(data.data[i].pm_state==2){
+                                shareli+='<p class="lf"><span>'+data.data[i].m_name+'</span><small>刚刚参与了团购</small></p>'
+                            }else if(data.data[i].pm_state==3){
+                               
+                                shareli+='<p class="lf"><span>'+data.data[i].m_name+'</span><small>团中了</small><b class="share_list_names">'+data.data[i].pg_name+'</b></p>'
+                                
+                            }
+                           
+                            shareli+='<div class="share_list_list_more rt">'
+                            shareli+='<img src="/static/image/share_list/icon_jump@2x.png" alt="">'
+                            shareli+='</div>'
+                            shareli+='</li>'
+                        }
+                        $(".share_list_ul").append(shareli);
+                        // $(".share_list_ul").find("li").last().siblings().empty();
+                        notice();
+                        $(".share_list_li .share_list_names").each(function() {  
+                            console.log($(this));  
+                            if ($(this).text().length >6) { 
+                                // alert("e")
+                                $(this).html($(this).text().replace(/\s+/g, "").substr(0, 6) + "...")    ;
+                                
+                            }
+                        })
+                    }
+                }
+            })
+    },20000)
+});

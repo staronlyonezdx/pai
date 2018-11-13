@@ -1,0 +1,76 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/common/common.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/order_logistics.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+<!--&lt;!&ndash; fvafds &ndash;&gt;-->
+<!--<div class="header_view">-->
+<!--<div class="header_tit">-->
+<!--发货信息-->
+<!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+<!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    {if condition="$is_seller == 0 || $is_seller == ''"}
+    <div class="order_logistics_hint">
+        <div>
+            <span>您购买的商品已经发货了，请留意货物的物流信息。如果您有疑问，可以联系我们的客服代表，我们会竭诚为您服务！</span>
+        </div>
+    </div>
+    {/if}
+    <div class="order_logistics_main">
+        <div class="order_logistics_list">
+            <div class="order_logistics_lists clear">
+                物流名称
+                <span class="rt">{$info.o_express_way|default=''}</span>
+            </div>
+        </div>
+        <div class="order_logistics_list">
+            <div class="order_logistics_lists clear">
+                订单时间
+                <span class="rt">{$info.o_addtime|date='Y-m-d H:i',###}</span>
+            </div>
+        </div>
+        <div class="order_logistics_list">
+            <div class="order_logistics_lists clear">
+                快递单号
+                <span class="rt">{$info.o_express_num|default=''}</span>
+            </div>
+        </div>
+        <div class="order_logistics_list">
+            <div class="order_logistics_lists clear">
+                发货人姓名
+                <span class="rt">{$info.o_seller_name|default=''}</span>
+            </div>
+        </div>
+        <div class="order_logistics_list">
+            <div class="order_logistics_lists clear">
+                联系电话
+                <span class="rt">{$info.o_seller_mobile|default=''}</span>
+            </div>
+        </div>
+        {notempty name="$info.data_img"}
+        <div class="order_logistics_view clear">
+            {volist name="$info.data_img" id="vo"}
+            <div class="order_logistics_pic lf">
+                <div class="order_logistics_img">
+                    <img src="{$vo.oli_img|default='/static/image/orderpai/demo1@2x.png'}" alt="">
+                </div>
+            </div>
+            {/volist}
+        </div>
+        {/notempty}
+    </div>
+</main>
+{/block}
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+{/block}

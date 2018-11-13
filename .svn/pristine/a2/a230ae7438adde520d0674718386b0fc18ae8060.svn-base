@@ -1,0 +1,465 @@
+body {
+    background:#E92243;
+}
+
+.header_nav {
+    background: linear-gradient(90deg, rgba(242, 120, 53, 1), rgba(255, 51, 99, 1));
+    box-shadow: 0 0.12rem 0.07rem 0 rgba(0, 0, 0, 0.06);
+    border: none;
+}
+
+.nav_biaoti {
+    width: 2.48rem;
+    height: 0.48rem;
+}
+
+.header_more {
+    width: 0.56rem;
+    height: 0.56rem;
+}
+
+.header_more img {
+    width: 100%;
+    height: 100%;
+}
+
+.double_top {
+    width: 100%;
+    height: 4.8rem;
+    background: url("../../image/promotion/icon_top1@2x.png") center center;
+    background-size: 100%;
+}
+
+.double_top_main {
+    width: 100%;
+    height: 100%;
+    background: url("../../image/promotion/icon_xianshi@2x.png") center center;
+    background-size: 100%;
+    position: relative;
+}
+
+/*.timeaxis-current:after {*/
+/*content: "";*/
+/*position: absolute;*/
+/*top: 100%;*/
+/*left: 0;*/
+/*right: 0;*/
+/*z-index: 18;*/
+/*display: block;*/
+/*height: 0;*/
+/*width: 0;*/
+/*margin: auto;*/
+/*border-top: 7px solid #fc353a;*/
+/*border-left: 9px solid transparent;*/
+/*border-right: 9px solid transparent;*/
+/*}*/
+
+#swiper-container3 {
+    width: 100%;
+    height: 60px;
+    position: relative;
+    left: 0;
+}
+
+#swiper-container3 .swiper-slide {
+    height: 0.3rem;
+    width: 1.3rem !important;
+    font-size: 14px;
+    text-align: center;
+    color: #000;
+}
+
+.timeaxis-current {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 40%;
+    right: 40%;
+    z-index: 1;
+    background: #fc353a;
+}
+
+.timeaxis_warp {
+    width: 6.6rem;
+    height: 0.93rem;
+    position: absolute;
+    /*background: rgba(43, 43, 43, 1);*/
+    border-radius: 0.22rem 0.22rem 0 0;
+    top: 0.97rem;
+    left: 0.45rem;
+}
+
+.timeaxis-item-inner {
+    line-height: 20px;
+    padding-top: 0.15rem;
+}
+
+.timeaxis-time {
+    font-size: 0.28rem;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 0.3rem;
+    opacity: 0.8;
+}
+
+.timeaxis-info {
+    width: 0.8rem;
+    height: 0.2rem;
+    margin: 0 auto;
+}
+
+.timeaxis-info img {
+    width: 100%;
+    height: 100%;
+}
+
+.double_top_content {
+    width: 100%;
+    height: 2.4rem;
+    position: absolute;
+    top: 2.06rem;
+    padding-top: 0.03rem;
+    /*border-radius: 0.09rem;*/
+}
+.swiper-container2{
+    width: 6.3rem;
+    height: 2.4rem;
+    background: white;
+    margin: 0 auto;
+    border-radius: 0.09rem;
+    overflow: hidden;
+}
+.content_top {
+    margin-left: 0.13rem;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.tip_img {
+    width: 2.4rem;
+    height: 0.24rem;
+    padding-top: 0.1rem;
+}
+
+.jujieshu {
+    width: 0.64rem;
+    height: 0.2rem;
+    /*margin-top: 0.17rem;*/
+}
+
+.seckill_cutdown {
+    margin-right: 0.2rem;
+    margin-left: 0.14rem;
+    margin-top: 0.05rem;
+}
+
+.cutdown {
+    margin-bottom: 0.13rem;
+}
+
+.cutdown_num {
+    width: 0.36rem;
+    height: 0.34rem;
+    display: block;
+    text-align: center;
+    line-height: 0.34rem;
+    background-color: #454545;
+    font-size: 0.2rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    float: left;
+    border-radius: 0.1rem;
+    margin-top: 0.02rem;
+}
+
+.cutdown_mao {
+    color: rgba(69, 69, 69, 1);
+    float: left;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+}
+
+.seckill_cutdown p {
+    font-size: 0.22rem;
+    font-weight: 300;
+    color: rgba(21, 21, 21, 1);
+    text-align: center;
+    margin-top: 0.13rem;
+}
+
+.content_main {
+
+}
+.content_imgs{
+    width: 1.6rem;
+    height: 1.6rem;
+    position: relative;
+    margin-left: 0.24rem;
+}
+.content_img {
+    width: 100%;
+    height:100%;
+    border-radius: 0.1rem;
+    /*background: #0C0C0C;*/
+
+}
+.content_mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    /*display: none;*/
+}
+.content_detail {
+    width: 4rem;
+    margin-right: 0.32rem;
+}
+
+.content_name {
+    font-size: 0.26rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    line-height: 0.36rem;
+}
+
+.progress {
+    margin-top: 0.16rem;
+    /*margin-bottom: 0.26rem;*/
+}
+
+.progress_main {
+    width: 3.3rem;
+    height: 0.12rem;
+    background: rgba(255, 203, 203, 1);
+    border-radius: 0.06rem;
+    position: relative;
+    margin-top: 0.1rem;
+}
+
+.progress_inner {
+    /*width: 67%;*/
+    height: 0.12rem;
+    display: block;
+    background: rgba(255, 25, 25, 1);
+    border-radius: 0.06rem;
+}
+
+.progress_num {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    line-height: 0.36rem;
+}
+
+.content_data {
+
+}
+
+.content_price {
+    font-size: 0.22rem;
+    font-family: PingFangSC-Medium;
+    font-weight: bold;
+    color: rgba(243, 36, 44, 1);
+}
+
+.content_data .content_price span {
+    font-size: 0.36rem;
+    color: red;
+    margin-left: 0;
+    font-weight: bold;
+}
+
+.content_data span {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Light;
+    font-weight: 400;
+    color: rgba(170, 170, 170, 1);
+    margin-left: 0.23rem;
+}
+
+.double_middle {
+    width: 100%;
+    height: 3.37rem;
+    background: url("../../image/promotion/icon_fudainav@2x.png") center center;
+    background-size: 100%;
+}
+
+.double_middle img {
+    width: 1.62rem;
+    height: 1.2rem;
+    margin-left: 5.88rem;
+}
+
+.double_content {
+    padding-bottom: 0.3rem;
+}
+
+.content_item {
+    width: 2.36rem;
+    position: relative;
+    border-radius: 0.12rem;
+    margin-left: 0.1rem;
+    margin-top: 0.1rem;
+}
+
+.content_item_imgs {
+    width: 2.36rem;
+    height: 2.36rem;
+    background: white;
+    border-radius: 0.12rem;
+}
+
+.item_detail {
+    width: 2.36rem;
+    height: 1.18rem;
+    margin-top: -0.1rem;
+    background: url("../../image/promotion/icon_di2@2x.png") center center;
+    background-size: 100%;
+    background-size: 100%;
+}
+
+.content_item:nth-child(3) .item_detail {
+    background: url("../../image/promotion/icon_di2@2x (1).png") center center;
+    background-size: 100%;
+}
+
+.content_item:nth-child(6) .item_detail {
+    background: url("../../image/promotion/icon_di2@2x (1).png") center center;
+    background-size: 100%;
+}
+
+.content_item:nth-child(9) .item_detail {
+    background: url("../../image/promotion/icon_di2@2x (1).png") center center;
+    background-size: 100%;
+}
+
+.content_item:nth-child(4) .item_detail {
+    background: url("../../image/promotion/icon_di2@2x (2).png") center center;
+    background-size: 100%;
+}
+
+.content_item:nth-child(7) .item_detail {
+    background: url("../../image/promotion/icon_di2@2x (2).png") center center;
+    background-size: 100%;
+}
+
+.content_item:nth-child(10) .item_detail {
+    background: url("../../image/promotion/icon_di2@2x (2).png") center center;
+    background-size: 100%;
+}
+
+.fudai_img {
+    width: 2.36rem;
+    height: 2.36rem;
+    border-radius: 0.12rem 0.12rem 0 0;
+    /*background: wheat;*/
+}
+
+.double11 {
+    width: 0.6rem;
+    height: 0.38rem;
+    margin-left: 1.66rem;
+    margin-top: -4.8rem;
+}
+
+.item_detail_name {
+    width: 2.3rem;
+    text-align: center;
+    font-size: 0.26rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-top: 0.23rem;
+}
+
+.item_detail_price {
+    font-size: 0.2rem;
+    font-family: FZZZHUNHJW--GB1-0;
+    /*font-weight: 400;*/
+    color: rgba(255, 255, 255, 1);
+    margin-left: 0.25rem;
+}
+
+.item_detail_num {
+    font-size: 0.24rem;
+    font-family: PingFangSC-Light;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 1);
+    margin-right: 0.27rem;
+    margin-top: 0.1rem;
+}
+
+.mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*display: none;*/
+}
+
+.mask img {
+    width: 100%;
+    height: 100%;
+}
+.content_item.double_jinxing_detail{
+    width: 4.82rem;
+}
+
+.content_item.double_jinxing_detail .content_item_imgs{
+    width: 4.82rem;
+    height: 2.36rem;
+}
+.content_item.double_jinxing_detail .content_item_imgs .double11{
+    width: 0.6rem;
+    height: 0.38rem;
+    margin-left: 4.12rem;
+    margin-top: -4.8rem;
+}
+.content_item.double_jinxing_detail .content_item_imgs .fudai_img{
+    margin-left: 1.17rem;
+    border-radius: 0;
+}
+
+.content_item.double_jinxing_detail .item_detail{
+    width: 4.82rem;
+    /*height: 1.18rem;*/
+    margin-top: -0.1rem;
+    background: url("../../image/promotion/icon_di@2x (1).png") center center;
+    background-size: 100%;
+}
+.content_item.double_jinxing_detail .item_detail .item_detail_name_jinxing{
+    font-size: 0.26rem;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    padding-top: 0.23rem;
+    margin-left: 0.25rem;
+}
+
+.jingxing_tip {
+    /*width: 0.9rem;*/
+    /*height: 0.42rem;*/
+    background: rgba(22, 22, 22, 1);
+    opacity: 0.7;
+    border-radius: 0 0.21rem 0.21rem 0;
+    font-size: 0.2rem;
+    font-family: FZZZHUNHJW--GB1-0;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    position: absolute;
+    top: 0.33rem;
+    line-height: 0.42rem;
+    padding: 0.015rem 0.15rem 0.005rem 0.1rem;
+}
+

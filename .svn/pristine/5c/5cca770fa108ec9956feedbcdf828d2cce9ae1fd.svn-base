@@ -1,0 +1,226 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/core/invitation.css">
+ {/block} {block name="header"} {include file="common/header" /} {/block} {block name="content"}
+<main>
+    <div class="invitation">
+        <div class="invitation_img">
+            <p class="invitation_tit">邀请获得收入</p>
+            <p class="invitation_price">
+                <span>￥</span>{$list.total_money ?? 0}</p>
+            <p class="invitation_hint">已放入钱包，可在钱包查看明细</p>
+        </div>
+        <div id="nav" class="nav">
+            <p i="0">
+                 <span>邀请成功会员</span>
+                <!--<span>会员</span>-->
+            </p>
+            <p i="1">
+                 <span>邀请未激活会员</span>
+                <!--<span>商家</span>-->
+            </p>
+        </div>
+        <!-- <div class="tishi">温馨提示:被邀请人只有在拍吖吖平台参与团购才算被成功邀请哦！</div> -->
+        <div class="tips"><img src="__STATIC__/image/review/pg_tishi@2x.png" alt=""></div>
+        <!--轮播-->
+        <div id="swiper" class="swiper-container">
+
+            <div class="swiper-wrapper">
+
+                <!--会员--> <!--邀请成功会员-->
+                <div id="mescroll0" class="swiper-slide mescroll">
+                    <div id="dataList0" class="data-list">
+                            
+                    </div>
+                </div>
+
+                <!--商家--> <!--邀请未激活会员-->
+                <div id="mescroll1" class="swiper-slide mescroll">
+                    <div id="dataList1" class="data-list">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/member/core/continue_invitation">
+            <div class="invitation_btn">继续邀请</div>
+        </a>
+    </div>
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/Public.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        var type = "{$m_type}";
+
+        $('#nav').find('p').eq(type).addClass('active');
+
+        var curNavIndex = type;//会员0; 商家1;
+        var mescrollArr = new Array(2);//2个菜单所对应的2个mescroll对象
+
+        //初始化首页
+        mescrollArr[type] = initMescroll("mescroll"+type, "dataList"+type);
+
+        /*初始化轮播*/
+        var swiper = new Swiper('#swiper', {
+            initialSlide :type,
+            onTransitionEnd: function (swiper) {
+                var i = swiper.activeIndex;//轮播切换完毕的事件
+                changePage(i);
+            }
+        });
+
+        /*初始化菜单*/
+        $("#nav p span").click(function () {
+            var i = Number($(this).parent().attr("i"));
+            swiper.slideTo(i);//以轮播的方式切换列表
+        })
+
+        /*切换列表*/
+        function changePage(i) {
+            if (curNavIndex != i) {
+                //更改列表条件
+                $("#nav p").each(function (n, dom) {
+                    if (dom.getAttribute("i") == i) {
+                        dom.classList.add("active");
+                    } else {
+                        dom.classList.remove("active");
+                    }
+                })
+                //隐藏当前回到顶部按钮
+                mescrollArr[curNavIndex].hideTopBtn();
+                //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                if (mescrollArr[i] == null) {
+                    mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
+                } else {
+                    //检查是否需要显示回到到顶按钮
+                    var curMescroll = mescrollArr[i];
+                    var curScrollTop = curMescroll.getScrollTop();
+                    if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                        curMescroll.showTopBtn();
+                    } else {
+                        curMescroll.hideTopBtn();
+                    }
+                }
+                //更新标记
+                curNavIndex = i;
+            }
+        }
+
+        /*创建MeScroll对象*/
+        function initMescroll(mescrollId, clearEmptyId) {
+            //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+            var mescroll = new MeScroll(mescrollId, {
+                //下拉刷新
+                down: {
+                    isLock: true, //锁定下拉
+                },
+                //上拉加载的配置项
+                up: {
+                    callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                    empty: {
+                        icon: "/static/image/core/no-cont.png", //图标,默认null
+                        tip: "竟然什么都没有哎<br>快去邀请好友吧！", //提示
+                    },
+                    clearEmptyId: clearEmptyId, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                    htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                    htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                    toTop: { //配置回到顶部按钮
+                        src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    }
+                }
+            });
+            return mescroll;
+        }
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+            getListDataFromNet(dataIndex, page.num, page.size, function (pageData) {
+                //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+                //console.log("dataIndex=" + dataIndex + ", curNavIndex=" + curNavIndex + ", page.num=" + page.num + ", page.size=" + page.size + ", pageData.length=" + pageData.length);
+
+                //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                mescrollArr[dataIndex].endSuccess(pageData.length);
+
+                //设置列表数据
+                setListData(pageData, dataIndex);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescrollArr[dataIndex].endErr();
+            });
+        }
+
+        /*设置列表数据
+         * pageData 当前页的数据
+         * dataIndex 数据属于哪个nav */
+        function setListData(pageData, dataIndex) {
+            var listDom = document.getElementById("dataList" + dataIndex);
+            for (var i = 0; i < pageData.length; i++) {
+                var pd = pageData[i];
+
+                // var hf = '普通会员';
+                var name = pd.m_name;
+                // if(dataIndex == 1) {
+                    // hf = "商户"
+                    // name = pd.stroe_name
+                // }
+
+                var str = '<div class="clear">';
+                str += '<span class="invitation_name lf">'+ name +'</span>';
+                str += '<span class="invitation_phone lf">'+ pd.m_mobile +'</span>';
+                str += '<span class="invitation_vip rt">'+ pd.ml_name +'</span>';
+                str += '</div>';
+
+                var liDom = document.createElement("div");
+                liDom.className = 'invitation_list';
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+
+        /*联网加载列表数据
+         在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+         请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+         实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+         * */
+        function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {
+            var url = '';
+            if (curNavIndex == 0) {
+                // url = '/member/core/invitations_list/m_type/0/page/' + pageNum + '/page_size/' + pageSize;
+                url = '/member/promoters/invitation_list/is_auction/1/page/' + pageNum + '/page_size/' + pageSize + '/from/1';
+            } else if (curNavIndex == 1) {
+                // url = '/member/core/invitations_list/m_type/1/page/' + pageNum + '/page_size/' + pageSize;
+                url = '/member/promoters/invitation_list/is_auction/2/page/' + pageNum + '/page_size/' + pageSize + '/from/1';
+            }
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.list.length; i++) {
+                            listData.push(data.list[i]);
+                        }
+
+                        //回调
+                        successCallback(listData);
+                    },
+                    error: errorCallback
+                });
+            }, 500)
+        }
+    });
+</script>
+{/block}

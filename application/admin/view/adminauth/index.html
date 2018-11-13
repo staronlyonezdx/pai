@@ -1,0 +1,44 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="content"}
+	<div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group  from_add_authority">
+                    <label>权限列表</label>
+                </div>
+                <div class="form-group  from_add">
+                    <a href="{:url('Adminauth/authedit')}">新增权限</a>
+                </div>
+
+                {empty name="$authorityList"}
+                    <div class="form-group form_part">没有数据</div>
+                {else/}
+                {volist name="$authorityList" id="vo"}
+                    <div class="form-group form_part">
+                        <label>{$vo.authority_name}</label>
+                        &nbsp;
+                        <a href="{:url('Adminauth/authedit',['authority_id' => $vo.authority_id])}"> 编辑</a>
+                    </div>
+                    {notempty name="vo.child_auth"}
+                        <div class="form-group form-list-span">
+                        {volist name="$vo.child_auth" id="child"}
+                        <span>
+                            <label>{$child.authority_name}</label>
+                            &nbsp;
+                            <a href="{:url('Adminauth/authedit',['authority_id' => $child.authority_id])}"> 编辑</a>
+                            |
+                            <a href="{:url('Adminauth/authdel',['authority_id' => $child.authority_id])}" class="authoritylist_dele_btn">删除</a>
+                        </span>
+                        {/volist}
+                        </div>
+                    {/notempty}
+                {/volist}
+                {/empty}
+            </div>
+        </div>
+    </div>
+{/block}
+

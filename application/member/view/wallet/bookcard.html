@@ -1,0 +1,158 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/bookcard.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+
+{/block}
+{block name="content"}
+<main>
+
+    {empty name='card'}
+    <div class="bookcard_view" onclick="check_open()">
+        <div class="bookcard_img">
+            <img src="__STATIC__/image/wallet/icon_nav_ka@2x.png" alt="">
+        </div>
+        <p>绑定银行卡</p>
+        <span>绑定银行卡将用于账户充值提现等</span>
+        <div class="bookcard_btn" onclick="check_open()">绑定银行卡</div>
+    </div>
+    {else /}
+    <div class="bookcard_yes">
+        <!--<img src="__STATIC__/image/wallet/cardyes@2x.png" alt="" >-->
+        <p>{$card.m_bankname}</p>
+        <span>{$card.m_bankaccount}</span>
+        <div class="bookcard_btn">您已绑定银行卡</div>
+    </div>
+    {/empty}
+
+    <div class="yzm-view">
+        <div class="header_nav" >
+            <div class="header_view">
+                <div class="header_tit">
+                    <div class="header_back" id="fanhui">
+                        <img src="__STATIC__/icon/publish/icon_nav_back@2x.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yzm-title">验证码</div>
+        <div class="yzm-cont">为保障您的账户安全我们已向<span>{$info.m_mobile}</span>发送了验证码<br>请输入您收到的验证码</div>
+        <div class="yzm-input">
+            <input type="number" id="code" placeholder="请输入验证码" />
+            <button class="bangdingcard_code">发送验证码</button>
+        </div>
+        <div class="yzm-btn">确定</div>
+    </div>
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    var authentication = "{$info.authentication}"
+    var pops=window.sessionStorage.getItem("pop");
+
+    //去绑定银行卡弹窗
+    function check_open() {
+        
+        if(authentication == 1) {
+            $('.bookcard_view').hide();
+            $('.yzm-view').show();
+        }else {
+            if(pops){
+                $('.bookcard_view').hide();
+                    $('.yzm-view').show();   
+            }else{
+                layer.confirm("绑定银行卡<br>即可快速实名认证啦！", {
+                title: false, /*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['再想想', '立即绑定'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    $('.bookcard_view').hide();
+                    $('.yzm-view').show();                
+                }
+            })
+            }
+           
+        }        
+    }
+
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    //点击发送验证码
+    $(".bangdingcard_code").click(function(){        
+        curCount=count;
+        $('.bangdingcard_code').attr("disabled","true");
+        $(".bangdingcard_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+        $('.bangdingcard_code').text(curCount+"s后可重新发送");
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+        $.ajax({
+            type:"post",
+            url:"/member/register/news_code",
+            data: {
+                m_mobile: {$info.m_mobile2}
+            },
+            success: function(res){                        
+                layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{time:2000});                        
+            }
+        })        
+    })
+    //timer处理函数
+    function SetRemainTime(){
+        if(curCount==0){
+            window.clearInterval(InterValObj);//停止计时器
+            $(".bangdingcard_code").css({background:"transparent",color:"#2B2B2B",border:"0.02rem solid #000000"});
+            $(".bangdingcard_code").removeAttr("disabled");//启用按钮
+            $(".bangdingcard_code").text("重新发送");
+        }else{
+            curCount--;
+            $(".bangdingcard_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+            $(".bangdingcard_code").text(curCount+"s后可重新发送");
+        }
+    }
+
+    //隐藏发送验证窗口
+    $('#fanhui').click(function(){
+        $('.bookcard_view').show();
+        $('.yzm-view').hide();
+    })
+
+    //校验验证码
+    $('.yzm-btn').click(function(){
+        if($('#code').val() == '') {
+            layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{time:2000});
+            return false;
+        }
+        $.ajax({
+            type:"post",
+            url:"/member/wallet/checked_code",
+            data: {
+                verification: $('#code').val(),
+                m_mobile: "{$info.m_mobile2}"
+            },
+            success: function(res){
+                if(res.status == 1) {
+                    console.log(window.location.pathname);
+                    var path = window.location.pathname;
+                    if(path == '/member/wallet/bookCard/from/1'){
+                        // alert(11)
+                        window.location.href = '/member/wallet/bindingCard/from/1';
+                    }else{
+                        // alert(22)
+                        window.location.href = '/member/wallet/bindingCard';
+                    }
+
+                    $('#code').val('');
+                }else {
+                    layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{time:2000});
+                }                
+            }
+        })       
+    })
+</script>
+{/block}

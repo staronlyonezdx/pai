@@ -1,0 +1,48 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/common/common.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/orderfirm_res.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--&lt;!&ndash; fvafds &ndash;&gt;-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--确认收货-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+<div class="confirm_main">
+    <div class="confirm_img">
+        <img src="__STATIC__/image/orderpai/icon_gou@2x.png" alt="">
+    </div>
+    <!--确认收货开始-->
+    <p>已经成功确认收货</p>
+    <div class="confirm_chakan">
+        查看订单
+    </div>
+    <div class="confirm_btn">立即评价</div>
+    <!--确认收货结束-->
+
+    <!--评价开始-->
+    <p>评价已提交</p>
+    <p class="confirm_text">您的评价对别的小伙伴很有帮助哟</p>
+    <div class="confirm_chakan confirm_chakanpingjia">
+        查看评价
+    </div>
+    <div class="confirm_btn">继续评价</div>
+    <!--评价结束-->
+
+</div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

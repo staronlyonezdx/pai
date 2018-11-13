@@ -1,0 +1,319 @@
+.order_index{
+    width:7.5rem;
+    padding-bottom:0.2rem;
+    /*height:3.7rem;*/
+}
+.order_zhongjiang{
+    background-image: linear-gradient(90deg,
+    #FF6E5F 0%,
+    #FF3C3C 100%),
+    linear-gradient(
+            #FF6E5F,
+            #FF6E5F);
+}
+.order_jiexiaozhong,.order_yifahuo,.order_pingjia{
+    background-image: linear-gradient(90deg,
+    #FFBE41 0%,
+    #FF942B 100%),
+    linear-gradient(
+            #FFBE41,
+            #FFBE41);
+}
+.order_tuikaunzhong{
+    background-image: linear-gradient(90deg,
+    #82818D 0%,
+    #464460 100%),
+    linear-gradient(
+            #82818D,
+            #82818D);
+}
+.order_yiwancheng{
+    background-image: linear-gradient(90deg,
+    #828282 0%,
+    #444444 100%),
+    linear-gradient(
+            #828282,
+            #828282);
+}
+.order_daifukuan{
+    background-image: linear-gradient(90deg,
+    #FF7741 0%,
+    #FF3F2B 100%),
+    linear-gradient(
+            #FF7741,
+            #FF7741);
+    height:1.5rem;
+}
+.order_yiguanbi{
+    background-image: linear-gradient(90deg,
+    #828282 0%,
+    #444444 100%),
+    linear-gradient(
+            #828282,
+            #828282);
+    height:1.5rem;
+}
+.order_tuikuan{
+    background-image: linear-gradient(90deg,
+    #7E7E8A 0%,
+    #4A4863 100%),
+    linear-gradient(
+        #7E7E8A,
+        #7E7E8A);
+}
+.order_jiexiaozhong .order_index_top p{
+     margin-top: 0.28rem;
+}
+.order_over{
+    background-image: linear-gradient(90deg,
+    #828282 0%,
+    #444444 100%),
+    linear-gradient(
+        #828282,
+        #828282);
+}
+.order_img{
+    width:0.72rem;
+    height:0.72rem;
+    margin-left: 0.34rem;
+    margin-top: 0.15rem;
+}
+.order_img img{
+    width:100%;
+    height:100%;
+
+}
+.order_index_top p{
+    color:#fffafa;
+    font-size: 0.3rem;
+    margin-top: 0.3rem;
+    margin-left: 0.09rem;
+}
+.order_tuikuangz{
+    color:#fff;
+    margin-right:0.38rem;
+    margin-top: 0.33rem;
+    font-size:0.24rem;
+}
+.order_tuikuangz span{
+    vertical-align: middle;
+}
+.order_tuikuangz img{
+    width:0.24rem;
+    height:0.24rem;
+    vertical-align: middle;
+}
+.order_index_hink{
+    color:#fffafa;
+    font-size: 0.22rem;
+    margin-left: 1.15rem;
+}
+.order_index_pic{
+    width:6.8rem;
+    height:2.1rem;
+    margin:0 auto;
+    margin-top: 0.28rem;
+}
+.order_zhongjiang_pic{
+    background: url("../../image/orderpai/icon_ka1@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.order_jiexiaozhong_pic{
+    background: url("../../image/orderpai/icon_ka2@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.order_tuikaunzhong_pic{
+    background: url("../../image/orderpai/ka1@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.order_yiwancheng_pic{
+    background: url("../../image/orderpai/icon_ka3@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.order_tuikuan_pic{
+    background: url("../../image/orderpai/icon_ka15@2x.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.order_index_header{
+    width:0.42rem;
+    height:0.42rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: 0.56rem;
+    margin-top: 0.26rem;
+}
+.order_index_header img{
+    width:100%;
+    height:100%;
+    display: block;
+}
+.order_index_pic_top p{
+    color:#000000;
+    font-size: 0.24rem;
+    margin-top: 0.3rem;
+    margin-left: 0.26rem;
+    font-weight: 600;
+}
+.order_index_pic_top p span{
+    /* width:0.5rem; */
+    display:block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+}
+.order_index_all{
+    margin-right: 0.45rem;
+    margin-top: 0.24rem;
+}
+.order_index_all span{
+    color:#000000;
+    font-size: 0.24rem;
+    vertical-align: middle;
+
+}
+.order_index_all img{
+    width:0.24rem;
+    height:0.24rem;
+    vertical-align: middle;
+}
+.order_index_icon{
+    width:0.52rem;
+    height:0.52rem;
+    margin-top:0.5rem ;
+    margin-left: 0.56rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.order_index_icon img{
+    width:100%;
+    height:100%;
+}
+.order_index_bototm p{
+    color:#000000;
+    font-size: 0.24rem;
+    font-weight: 600;
+    margin-top: 0.57rem;
+    margin-left:0.2rem ;
+}
+.order_index_bototm span{
+    color:#000000;
+    font-size: 0.24rem;
+    margin-top: 0.57rem;
+    margin-right: 0.55rem;
+    font-weight: 600;
+}
+.order_index_bototm .order_index_chakan span{
+    margin-top: 0;
+}
+.conf_content{
+    background:#f2f2f2;
+}
+.conf_con_tit{
+    background: #fff;
+}
+.conf_order{
+    margin-top: 0;
+}
+.conf_order_data{
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    background: #fff;
+}
+.conf_order_data div{
+    font-size: 0.24rem;
+}
+.conf_order_hint{
+    color:#aaaaaa;
+}
+.order_index_margin{
+    margin-top: 0.2rem;
+}
+.conf_order_time span{
+    color:#FF4646;
+    font-size: 0.32rem;
+    margin-left: 0.25rem;
+}
+.order_index_padding{
+    padding-top: 0.32rem;
+    padding-bottom: 0.32rem;
+}
+.order_index_form{
+    background: #fff;
+    margin-top: 0.2rem;
+    padding-top: 0.26rem;
+    padding-left: 0.32rem;
+    padding-bottom: 0.01rem;
+    margin-bottom: 1.2rem;
+}
+.order_index_list p{
+    color:#000;
+    font-size: 0.24rem;
+    font-weight: 600;
+    margin-top: 0.04rem;
+}
+.order_index_list{
+    margin-bottom: 0.31rem;
+}
+.order_index_list p span{
+    margin-left:0.32rem;
+}
+.order_index_copy{
+    width:0.7rem;
+    height:0.42rem;
+    border:0.02rem solid #000000;
+    border-radius: 0.1rem;
+    color:#000;
+    font-size: 0.24rem;
+    text-align: center;
+    line-height: 0.42rem;
+    margin-left: 0.34rem;
+    /*margin-top: -0.01rem;*/
+}
+.order_index_btn{
+    width:7.5rem;
+    height:0.88rem;
+    position: fixed;
+    bottom:0;
+    left: 0;
+    background: #fff;
+}
+.order_index_btn div{
+    width:1.28rem;
+    height:0.48rem;
+    border:0.02rem solid #333333;
+    border-radius:0.09rem;
+    text-align: center;
+    line-height: 0.46rem;
+    color:#000000;
+    margin-top: 0.2rem;
+    margin-right:0.3rem ;
+    font-size: 0.24rem;
+}
+.order_index_btn .order_index_kefu{
+    margin-right: 0.2rem;
+}
+.order_index_btn .order_fenxiang_img{
+    width:1.6rem;
+    text-align: left;
+
+}
+.order_fenxiang_img img {
+    width: 0.32rem;
+    height: 0.32rem;
+    margin-top: -0.02rem;
+    margin-left: 0.05rem;
+    margin-right: 0.07rem;
+}
+.order_index_btn .order_index_shouhuo{
+    background: #FFE500;
+    border:none;
+}
+.order_index_chakan{
+    margin-top: 0.5rem;
+
+}
+.order_index_chakan span{
+    margin-right: 0rem;
+    font-weight: 200;
+}

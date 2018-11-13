@@ -1,0 +1,695 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: shine
+ * Date: 2018/8/15
+ * Time: 11:26
+ */
+
+namespace app\data\service\popularity;
+
+use app\data\service\BaseService;
+use app\data\model\popularity\PopularityGoodsModel;
+use app\data\service\member\MemberService;
+use think\Db;
+use think\Image;
+
+class PopularityGoodsService extends BaseService{
+
+    protected $cache = 'popularity_goods';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->goods = new PopularityGoodsModel();
+        $this->cache = 'popularity_goods';
+    }
+    /**
+     * 获取列表
+     * 邓赛赛
+     */
+    public function get_list($where,$order='g_id desc',$field,$cache){
+        $list = $this->goods->getList($where,$order,$field,$cache);
+        return $list;
+    }
+    /**
+     * 获取列表
+     * 邓赛赛
+     */
+    public function get_limit($where,$order,$field,$page,$page_size){
+        $page  = $page < 1 ? 1 : $page ;
+        $offset = ($page - 1) * $page_size;
+        $list = $this->goods->get_limit_list($where,$order,$field,$offset,$page_size);
+        return $list;
+    }
+    /**
+     * 获取一条
+     * 创建人 邓赛赛
+     * 时间 2017-07-14 11:40:09
+     */
+    public function get_info($where='', $field='*')
+    {
+        $info =  $this->goods->getInfo($where, $field, $this->cache);
+        return $info;
+    }
+    /**
+     * 获取某个值
+     * 创建人 邓赛赛
+     * 时间 2017-07-14 11:40:09
+     */
+    public function get_value($where='', $field='*')
+    {
+        $info =  $this->goods->get_value($where, $field, $this->cache);
+        return $info;
+    }
+
+    /**
+     * 添加一条数据
+     * 创建人 邓赛赛
+     * 时间 2017-09-10 20:10:00
+     */
+    public function get_add($data='')
+    {
+        $list = $this->goods->getAdd($data, $this->cache);
+        return $list;
+    }
+
+    /**
+     *删除一条
+     * 邓赛赛
+     */
+    public function get_del($where,$cache=''){
+        $list = $this->goods->getDel($where, $cache);
+        return $list;
+    }
+
+    /**
+     * 条件统计
+     * 创建人 邓赛赛
+     * 时间 2017-07-14 11:40:09
+     */
+    public function get_count($where='')
+    {
+        $Count =  $this->goods->getCount($where);
+        return $Count;
+    }
+
+    /**
+     * 查询某一列的值
+     * 创建人 邓赛赛
+     * 时间 2017-09-06 22:31:22
+     */
+    public function get_column($where='', $field='')
+    {
+        $Column =  $this->goods->getColumn($where, $field);
+        return $Column;
+    }
+
+    /**
+     * 查询最大期数
+     * 创建人 邓赛赛
+     */
+    public function get_max_periods($pg_id, $field='pg_periods')
+    {
+        $where = [
+            'pg_id'=>$pg_id
+        ];
+        $Column =  $this->goods->max_periods($where, $field);
+        return $Column;
+    }
+    /**
+     * 获取列表
+     * 邓赛赛
+     */
+    public function get_more_activities($where,$order,$field='*',$page=1,$page_size=20){
+        $page  = $page < 1 ? 1 : $page ;
+        $offset = ($page - 1) * $page_size;
+        $list = $this->goods->more_activities($where,$order,$field,$offset,$page_size);
+        return $list;
+    }
+
+    /**
+     * 热拍会员列表
+     * 邓赛赛
+     */
+    public function get_share_list($where,$order='pg_sortnum desc',$page,$page_size,$m_id){
+        //活动列表商品
+        $list['list'] = $this->get_limit($where,$order,'pg_id,pg_name,pg_img,pg_market_price,pg_price,pg_membernum',$page,$page_size);
+        //总条数
+        $list['total_new'] = $this->get_count($where);
+        //每页条数
+        $list['page_size'] =$page_size;
+        $p_collection = new PopularityCollectionService();
+        $p_member = new PopularityMemberService();
+        foreach($list['list'] as $k => $v){
+
+            //最大期数
+            $max_periods = $this->get_max_periods($v['pg_id']);
+            $where = [
+                'pg_id'     =>$v['pg_id'],
+                'pm_state'  =>2,
+                'pm_periods'  =>$max_periods
+            ];
+            //最大期参拍人数
+            $num= $p_member->get_count($where);
+            //前台百分比计算
+            $percentage = $num/$v['pg_membernum']*100;
+            //百分比舍进
+            $list['list'][$k]['percentage'] =  $this->percentage($percentage)."%";
+            //预上架商品是否收藏
+            if(empty($where['is_recommendation'])){
+                if($m_id){
+                    $where2 = [
+                        'm_id'=>$m_id,
+                        'pg_id'=>$v['pg_id'],
+                    ];
+                    $is_collection = $p_collection->get_count($where2);
+                    $list['list'][$k]['is_collection'] = $is_collection ? 1 : 0;
+                }else{
+                    $list['list'][$k]['is_collection'] = 0;
+                }
+            }
+
+        }
+        return $list;
+    }
+
+    /**
+     * 精品推荐
+     * 邓赛赛
+     */
+    public function get_recommendation($where,$field='*'){
+        $list = $this->goods->get_recommendation($where,$field);
+        return $list;
+    }
+
+    /**
+     * 商品详情
+     * 邓赛赛
+     */
+    public function get_commodity_info($pg_id,$m_id,$page,$page_size){
+        //获取商品信息
+        $where = [
+            'pg_id'=>$pg_id,
+        ];
+        $data = $this->get_info($where,'pg_id,pg_second_name,pg_name,pg_sn,pg_spec,pg_type,pg_img,pg_market_price,pg_price,pg_chosen_num,pg_membernum,pg_state,pg_periods,pg_des,end_time,pg_status');
+        $where = [
+            'pg_state'=>1,
+            'pg_id'=>['<>',$pg_id],
+            'end_time'=>['>',time()],
+            'pg_status'=>['in','1,2'],
+            'is_show'=>1,
+        ];
+
+        //活动列表商品
+        $data['more_activities']['list'] = $this->get_limit($where,'pg_sortnum desc','pg_id,pg_name,pg_market_price,pg_img,pg_price,pg_membernum',$page,$page_size);
+        $data['more_activities']['total_num'] = $this->get_count($where);//总条数
+        $list['page_size'] =$page_size;                                     //每页条数
+        $p_member = new PopularityMemberService();
+        foreach($data['more_activities']['list'] as $k => $v){
+            $max_periods = $this->get_max_periods($v['pg_id']);          //最大期数
+            $where = [
+                'pg_id'     =>$v['pg_id'],
+                'pm_state'  =>2,
+                'pm_periods'  =>$max_periods
+            ];
+            $num= $p_member->get_count($where);                             //最大期参拍人数
+            $percentage = $num/$v['pg_membernum']*100;                      //前台百分比计算
+            $data['more_activities']['list'][$k]['num'] = $num;
+            $data['more_activities']['list'][$k]['percentage'] = $this->percentage($percentage)."%"; //百分比舍/进计算
+        }
+        //轮播图
+        $where = [
+            'pg_id'=>$pg_id,
+        ];
+        $data['imgs'] = Db::table('pai_popularity_goods_imgs')->where($where)->column('pgi_url');
+
+        //已参加人数
+        $where = [
+            'pm_periods'        =>$this->get_max_periods($pg_id),
+            'pm_paystate'      => ['gt',1],
+            'pg_id'             =>$pg_id,
+        ];
+        $new_num = $p_member->get_count($where);
+        $data['new_num'] = $new_num;
+        $percentage = $new_num/$data['pg_membernum']*100;
+        //此商品百分比换算
+        $data['percentage'] = $this->percentage($percentage).'%';
+        //是否满员
+        $data['is_enough'] = $data['new_num'] >= $data['pg_membernum'] ? 1 : 0;
+
+        //是否收藏
+        $p_collection = new PopularityCollectionService();
+        $where = [
+            'pg_id'=>$pg_id,
+            'm_id'=>$m_id,
+        ];
+        $is_collection = $p_collection->get_count($where);
+        $data['is_collection'] = $is_collection ? 1 : 0;
+
+        //人气前十
+        $where = [
+            'pm.pm_periods'    =>$this->get_max_periods($pg_id),
+            'pm.pm_state'       => ['>=',2],
+            'pm.pg_id'         =>$pg_id,
+        ];
+        $field = 'pm.pm_id,pm.pm_state,pm.m_id,pm.pm_state,pm.pm_periods,pm.pm_paystate,pm.add_time,pm.pm_popularity,m.m_name,m.m_avatar';
+        $data['popularity_member'] = $p_member->popularity_member_join_member($where,'pm.pm_popularity desc,pm.pm_paytime asc',$field,1,10);
+        //人气换算（k/W）
+        foreach($data['popularity_member'] as  $k => $v){
+            $data['popularity_member'][$k]['pm_popularity'] = $this->pm_popularity($v['pm_popularity']);
+        }
+
+        //是否已经出道信息判定
+        $where = [
+            'm_id'=>$m_id,
+            'pg_id'=>$pg_id,
+        ];
+        //擂主信息
+        $popmem_info = Db("popularity_member")->where($where)->field('pm_id,pm_state,pm_paystate')->find();
+        $data['popmem_info'] = [
+            'm_id'          => empty($popmem_info['pm_id'])     ? '' : $popmem_info['pm_id'] ,
+            'pm_state'      => empty($popmem_info['pm_state'])  ? '' : $popmem_info['pm_state'] ,
+            'pm_paystate'   => empty($popmem_info['pm_state'])  ? '' : $popmem_info['pm_state'] ,
+        ];
+        $data['pm_id'] = $popmem_info['pm_id'];
+        //出道成功
+        $where2 = [
+            'pm.pg_id'=>$pg_id,
+            'pm.pm_state'=>3,
+            'pm.pm_periods'=>$this->get_max_periods($pg_id)
+        ];
+        $suc = Db::table('pai_popularity_member pm')->join('pai_member m','pm.m_id = m.m_id','left')->where($where2)->field('m.m_id,m.m_name,m.m_avatar')->find();
+        $where3 = [
+            'pg_id'=>$pg_id
+        ];
+        $pg_type = Db::table('pai_popularity_goods')->where($where3)->value('pg_type');
+        $data['suc'] = array();
+        if($suc){
+            $data['suc'] = [
+                'm_id'      => empty($suc['m_id'])      ? '' :$suc['m_id'],
+                'm_name'    => empty($suc['m_name'])    ? '' :$suc['m_name'],
+                'm_avatar'  => empty($suc['m_avatar'])  ? '' :$suc['m_avatar'],
+            ];
+        }
+        //擂主二维码和待复制链接
+        if(!empty($popmem_info['pm_id'])){
+            $data['challenger_code'] = $this->code($m_id,$pg_id);
+            $data['challenger_url'] = PAI_URL."/popularity/popularitygoods/new_people/pm_id/".$popmem_info['pm_id'].'/pg_id/'.$pg_id.'?share=1';
+        }else{
+            $data['challenger_code'] = '';
+            $data['challenger_url'] = '';
+        }
+
+        $data['popularity_url'] = PAI_URL."/popularity/popularitygoods/commodity_info/pg_id/".$pg_id.'?share=1';
+        //详情页二维码
+        $mid = 1;
+        if($pg_type == 3){
+            $mid = 6;
+        }
+        $path_3 = '/uploads/code/popularity/shop/'.$mid.'code_'.$pg_id.".jpg";
+
+        $data['popularity_code'] = $this->hebingImg('/uploads/logo/father.png',$data['pg_img'],$path_3,$data['pg_name'],$data['pg_price'],$mid,$data['pg_id']);
+
+        //账户余额
+        $mem = new MemberService();
+        $money = $mem->get_info(['m_id'=>$m_id],'m_money');
+        $data['m_money'] = empty($money['m_money']) ? sprintf("%.2f",0) : sprintf("%.2f",$money['m_money']);
+        return $data;
+    }
+
+    /**
+     * 我参与的
+     * 邓赛赛
+     */
+    public function get_attend($m_id,$status=1,$page=1,$page_size=6){
+        $page = $page < 1 ? 1 : $page;
+        $offset = ($page - 1) * $page_size;
+        //1送我出道 2我pick的 3我标记的
+        $status_array = [1,2,3];
+        if(!in_array($status,$status_array)){
+            return ['status'=>0,'msg'=>'访问参数错误'];
+        }
+        $where = [
+            'm_id'=>$m_id
+        ];
+        $mem = new MemberService();
+        $is_login = $mem->get_info($where,'m_id');
+        if(!$is_login){
+            return ['status'=>2,'msg'=>'暂未登录'];
+        }
+        $where['pm.pm_state'] = 2;
+
+        $data['list'] = array();
+        switch($status){
+            //我参拍的
+            case 1:
+                $list = Db::table("pai_popularity_member pm")
+                    ->where($where)
+                    ->join('pai_popularity_goods pg','pm.pg_id = pg.pg_id','left')
+                    ->field('pm.m_id,pm.pm_id,pm.pm_periods,pg.pg_id,pg_sn,pm.pm_popularity,pg.pg_name,pg.pg_img,pg.pg_market_price,pg.pg_price')
+                    ->order('pg.pg_id desc,pm.pm_periods desc')
+                    ->group('pm.pg_id')
+                    ->limit($offset,$page_size)
+                    ->select();
+                $data['total_num'] = Db::table("pai_popularity_member pm")
+                    ->join('pai_popularity_goods pg','pm.pg_id = pg.pg_id','left')
+                    ->where($where)
+                    ->group('pm.pg_id')
+                    ->count();
+                foreach($list as $k => $v){
+                    $data['list'][$k] = $v;
+                    $data['list'][$k]["pm_popularity"] = $this->pm_popularity($v['pm_popularity']);
+                    $where = [
+                        'pm_state'=>2,
+                        'pm_periods'=>$v['pm_periods'],
+                        'pg_id'=>$v['pg_id'],
+//                        'pm_popularity'=>['>',$v['pm_popularity']],
+                    ];
+                    //排名
+                    $ranking = Db::table('pai_popularity_member')->where($where)->order('pm_popularity desc,pm_paytime asc')->column('m_id');
+                    $ranking = empty($ranking) ? [] : $ranking;
+                    $data['list'][$k]['ranking'] = array_search($v['m_id'],$ranking)+1;
+                    $data['list'][$k]['popularity_code'] = $this->code($m_id,$v['pg_id']);
+                    $data['list'][$k]['popularity_url'] = PAI_URL."/popularity/popularitygoods/new_people/pm_id/".$v['pm_id'].'/pg_id/'.$v['pg_id'].'?share=1';
+                    $data['list'][$k]['popularity_title'] = '拍吖吖：只要￥'.$v['pg_price'].',你敢信?快跟我一起来抢购把';
+                    $data['list'][$k]['popularity_desc'] = $v['pg_name'];
+                }
+                break;
+            //我打call的
+            case 2:
+                $where = ['pj.m_id'=>$m_id];
+                $list = Db::table('pai_popularity_joinner pj')
+                    ->where($where)
+                    ->join('pai_member m','m.m_id=pj.pj_for_mid','left')
+                    ->join('pai_popularity_goods pg','pj.pj_for_pgid=pg.pg_id ','left')
+                    ->join('pai_popularity_member pm','pj.pm_id=pm.pm_id and pm.pm_periods=pj.pj_periods','left')
+                    ->field('pj.pj_periods,pj.pj_for_pgid pg_id,pj.pj_num,pg.pg_sn,pg.add_time,m.m_name,m.m_avatar,pg.pg_name,pg.pg_img,pm.pm_popularity')
+                    ->select();
+                $data['total_num'] = Db::table('pai_popularity_joinner pj')
+                    ->where($where)
+                    ->join('pai_member m','m.m_id=pj.pj_for_mid','left')
+                    ->join('pai_popularity_goods pg','pj.pj_for_pgid=pg.pg_id ','left')
+                    ->join('pai_popularity_member pm','pj.pm_id=pm.pm_id and pm.pm_periods=pj.pj_periods','left')
+                    ->count();
+                foreach($list as $k => $v){
+                    $data['list'][$k] = $v;
+                    $data['list'][$k]["pm_popularity"] = $this->pm_popularity($v['pm_popularity']);
+                    $where = [
+                        'pm_state'=>2,
+                        'pm_periods'=>$v['pj_periods'],
+                        'pg_id'=>$v['pg_id'],
+                        'pm_popularity'=>['>',$v['pm_popularity']],
+                    ];
+                    //排名
+                    $ranking = Db::table('pai_popularity_member')->where($where)->count();
+                    $data['list'][$k]['ranking'] = $ranking + 1;
+                }
+                break;
+            //我标记的
+            case 3:
+                $where = ['pc.m_id'=>$m_id];
+                $list = Db::table('pai_popularity_collection pc')
+                    ->where($where)
+                    ->join('pai_popularity_goods pg','pc.pg_id = pg.pg_id','left')
+                    ->join('pai_popularity_member pm','pc.m_id = pm.m_id and pc.pg_id=pm.pg_id and pm.pm_state>1','left')
+                    ->field('pc.pg_id,pg.pg_name,pg.pg_img,pg.pg_market_price,pg.pg_price,pg.pg_membernum,pg.pg_status,pm.pm_id')
+                    ->group('pc.pg_id')
+                    ->select();
+                $data['total_num'] = Db::table('pai_popularity_collection pc')
+                    ->where($where)
+                    ->join('pai_popularity_goods pg','pc.pg_id = pg.pg_id','right')
+                    ->count();
+                foreach($list as $k => $v){
+                    $data['list'][$k] = $v;
+                    $where = [
+                        'pm_state'  =>['>=',2],
+                        'pm_periods'=>$this->get_max_periods($v['pg_id']),
+                        'pg_id'     =>$v['pg_id'],
+                    ];
+//                    dump($this->get_max_periods($v['pg_id']));die;
+                    //是否为擂主
+                    $data['list'][$k]['is_challenger']   = empty($v['pm_id']) ? 0 : 1;
+                    $data['list'][$k]['popularity_code'] = '';
+                    $data['list'][$k]['popularity_url']  = '';
+                    if(!empty($v['pm_id'])){
+                        $data['list'][$k]['popularity_code'] =  $this->code($m_id,$v['pg_id']);
+                        $data['list'][$k]['popularity_url'] = PAI_URL."/popularity/popularitygoods/new_people/pm_id/".$v['pm_id'].'/pg_id/'.$v['pg_id'].'?share=1';
+                        $data['list'][$k]['popularity_title'] = '拍吖吖：只要￥'.$v['pg_price'].',你敢信?快跟我一起来抢购把';
+                        $data['list'][$k]['popularity_desc'] = $v['pg_name'];
+                    }
+                    $total_people = Db::table('pai_popularity_member')->where($where)->count();
+                    $percentage = $total_people/$v['pg_membernum']*100;
+                    $data['list'][$k]['percentage']     = $this->percentage($percentage)."%";
+                    $data['list'][$k]['total_people']   = $total_people;
+                }
+                //账户余额
+                $mem = new MemberService();
+                $money = $mem->get_info(['m_id'=>$m_id],'m_money');
+                $data['m_money'] = empty($money['m_money']) ? sprintf("%.2f",0) : sprintf("%.2f",$money['m_money']);
+                break;
+        }
+        return ['status'=>1,'msg'=>'ok','data'=>$data];
+    }
+
+
+    /**
+     * 生成二维码(擂主)
+     * 邓赛赛
+     */
+    public function code($m_id,$pg_id){
+
+        $pg_img = $this->get_value(['pg_id'=>$pg_id],'pg_img');
+
+        $file_url = 'uploads/code/popularity/user';
+        if(!is_dir($file_url)){
+            mkdir($file_url);
+            chmod($file_url,0777);
+        }
+        $user_code_url = $file_url.'/'.$m_id.'-'.$pg_id.'.jpg';
+        //有此商品二维码时直接返回路径
+
+        if(is_file($user_code_url)){
+            return '/'.$user_code_url;
+        }
+
+        $p_member = new PopularityMemberService();
+        $pm_id = $p_member -> get_info(['m_id'=>$m_id,'pg_id'=>$pg_id],'pm_id');
+        $server_url = PAI_URL."/popularity/popularitygoods/new_people/pm_id/".$pm_id['pm_id'].'/pg_id/'.$pg_id.'?share=1';  //上线地址
+        //api生成二维码
+        $get_code_url = 'https://bshare.optimix.asia/barCode?site=weixin&url='.$server_url;
+        $code = $file_url.'/'.$m_id.time().".jpg";
+
+        $content = file_get_contents($get_code_url);
+        file_put_contents($code,$content);
+        if(!is_file(ltrim($pg_img,'/'))){
+            $pg_img = 'uploads/logo/1.jpg';
+        }
+        $image = Image::open(ltrim($pg_img,'/'));
+        $ab_img = $file_url.'/'.$m_id.'ab_img'.'.jpg';
+        $image->thumb(35, 35,Image::THUMB_CENTER)->save($ab_img);
+        $image = Image::open($code);
+        $image->water($ab_img,Image::WATER_CENTER)->save($user_code_url);
+
+        unlink($code);
+        unlink($ab_img);
+        return '/'.$user_code_url;  //二维码路径
+    }
+
+    //合成详情二维码（人气详情和普通商品详情）
+     function hebingImg($path_1='/uploads/logo/father.png',$path_2,$path_3,$uname,$price,$mid='1',$g_id,$from_type=0){//加文字
+         if($from_type == 1){
+             if(is_file("uploads/code/pointpai/shop/".$mid.'merge_'.$g_id.'.jpg')){
+                 return "/uploads/code/pointpai/shop/".$mid.'merge_'.$g_id.'.jpg';
+             }
+         }elseif(is_file("uploads/code/popularity/shop/".$mid.'merge_'.$g_id.'.jpg') && !$from_type){
+             return "/uploads/code/popularity/shop/".$mid.'merge_'.$g_id.'.jpg';
+         }
+         try{
+             //底图
+             $path_1 = ltrim($path_1,'/');
+             //商品图
+             $path_2 = ltrim($path_2,'/');
+             //$image_1 = imagecreatefrompng($path_1);
+             list($width, $height,$type) = getimagesize($path_1);
+             switch($type){
+                 case 1:
+                     $image_1 = @imagecreatefromgif($path_1);
+                     break;
+                 case 2:
+                     $image_1 = @imagecreatefromjpeg($path_1);
+                     break;
+                 case 3:
+                     $image_1 = @imagecreatefrompng($path_1);
+                     break;
+                 default:
+                     $image_1 = @imagecreatefromwbmp($path_1);
+                     break;
+             }
+
+             $textcolor = imagecolorallocate($image_1, 0, 0,0); //设置水印字体颜色
+             $font = ROOT_PATH.'public/static/fonts/0.ttf'; //定义字体
+            //位子不可大于十八位
+             if(mb_strlen($uname) > 18){
+                 $uname = mb_substr($uname,0,18).'...';
+             }
+
+             imagettftext($image_1,14, 0, 30,580, $textcolor, $font, $uname);//将文字写到图片中
+             if($from_type == 1){
+                 imagettftext($image_1,14, 0, 30,620, $textcolor, $font, $price.'积分');//将文字写到图片中
+             }else{
+                 imagettftext($image_1,14, 0, 30,620, $textcolor, $font, '￥'.$price);//将文字写到图片中
+             }
+
+             //原图文件
+            $file = $path_2;
+            // 缩略图尺寸
+            list($width, $height,$type) = getimagesize($file);
+            $newwidth = 540;
+            $newheight =500;
+            // 加载图像
+            // $src_im = @imagecreatefromjpeg($file);
+            switch($type){
+                case 1:
+                    $src_im = @imagecreatefromgif($file);
+                    break;
+                case 2:
+                    $src_im = @imagecreatefromjpeg($file);
+                    break;
+                case 3:
+                    $src_im = @imagecreatefrompng($file);
+                    break;
+                default:
+                    $src_im = @imagecreatefromwbmp($file);
+                    break;
+            }
+
+             $dst_im = imagecreatetruecolor($newwidth, $newheight);
+             // 调整大小
+            imagecopyresized($dst_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+             $image_2 = $dst_im;
+             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+
+             $image_4 = imageCreatetruecolor(imagesx($image_2),imagesy($image_2));
+             imagecopymerge($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),100);
+             imagecopymerge($image_4,$image_2,0,0,0,0,imagesx($image_2),imagesy($image_2),100);
+             imagecopymerge($image_3,$image_4,0,0,0,0,540,500,100);
+
+            //无二维码是生成二维码
+            if(!is_file(trim($path_3,'/'))){
+                $path_3 = $this->popularity_code($g_id,$mid);
+            }
+            //二维码
+             $path_3 = trim($path_3,'/');
+             $src = imagecreatefromstring(file_get_contents(trim($path_3,'/')));
+             imagecopymerge($image_3, $src, 330, 520, 0, 0, 200, 200, 50);
+             $pic_name = $mid.'merge_'.$g_id.'.jpg';
+             if($from_type == 1){
+                 imagejpeg($image_3,"uploads/code/pointpai/shop/".$pic_name,50);
+                 imagedestroy($image_3);
+                 $path="/uploads/code/pointpai/shop/".$pic_name;
+             }else{
+                 imagejpeg($image_3,"uploads/code/popularity/shop/".$pic_name,50);
+                 imagedestroy($image_3);
+                 $path="/uploads/code/popularity/shop/".$pic_name;
+             }
+         }catch(\Exception $e){
+            return $e->getMessage();
+         }
+         return $path;
+    }
+
+    /**
+     * 生成二维码(详情)
+     * 邓赛赛
+     */
+    public function popularity_code($pg_id,$mid=1){
+        if($mid == 3){
+            $file_url = 'uploads/code/pointpai/shop';
+        }else{
+            $file_url = 'uploads/code/popularity/shop/';
+        }
+
+        if(!is_dir($file_url)){
+            mkdir($file_url);
+            chmod($file_url,0777);
+        }
+        //有此商品二维码时直接返回路径
+        $shop_code_url = $file_url.$mid.'code_'.$pg_id.".jpg";
+        if(is_file($shop_code_url)){
+            return $shop_code_url;
+        }
+        //1为人气商品详情
+        if($mid == 1){
+            $server_url = PAI_URL."/popularity/popularitygoods/commodity_info/pg_id/".$pg_id.'?share=1';  //人气商品详情地址上线地址
+        }else if($mid == 6){
+            $server_url = PAI_URL."/popularity/popularitygoods/line_goods/pg_id/".$pg_id.'?share=1';  //线下人气商品详情地址上线地址
+        }else if($mid == 3){
+            $server_url = PAI_URL."/pointpai/Pointgoods/index/g_id/".$pg_id.'?share=1';  //积分商品详情地址
+        }else{
+            $server_url = PAI_URL."/member/goodsproduct/index/g_id/".$pg_id.'?share=1';  //商品详情地址
+        }
+        //连图生成二维码（慢）
+        //$get_code_url = 'http://qr.liantu.com/api.php?text='.$server_url;
+        //快
+        $get_code_url = 'https://bshare.optimix.asia/barCode?site=weixin&url='.$server_url;
+        $code = $file_url.$mid.'code_'.$pg_id.".jpg";
+        $content = file_get_contents($get_code_url);
+        file_put_contents($code,$content);
+        $image = Image::open(ltrim($code,'/'));
+        $image->thumb(200, 200,Image::THUMB_CENTER)->save($code);
+        $image->water($code,Image::WATER_CENTER)->save($shop_code_url);
+        return '/'.$shop_code_url;  //二维码路径
+
+    }
+
+
+    //换算百分比（舍/进）
+    public function percentage($percentage){
+        switch($percentage){
+            case $percentage < 99:
+                $percentage = ceil($percentage);
+                break;
+            case $percentage >= 99 && $percentage < 100:
+                $percentage = floor($percentage);
+                break;
+            default:
+                $percentage = 100;
+                break;
+        }
+        return $percentage;
+    }
+
+    /**
+     * 人气换算
+     */
+    public function pm_popularity($pm_popularity){
+        switch(true){
+            case $pm_popularity < 1000:
+                $pm_popularity = sprintf("%.2f",$pm_popularity);
+                break;
+            case $pm_popularity >= 1000 && $pm_popularity < 10000:
+                $pm_popularity = sprintf("%.1f",$pm_popularity/1000).'k';
+                break;
+            case $pm_popularity >= 10000:
+                $pm_popularity = sprintf("%.1f",$pm_popularity/10000).'w';
+                break;
+
+        }
+        return $pm_popularity;
+    }
+
+    /**
+     * 上架商品有空缺时,预上架位置替补
+     * 邓赛赛
+     */
+    public function get_shangajia(){
+        $popularity = new PopularityGoodsModel();
+        $list = $popularity->go_time_shop();
+        return $list;
+    }
+
+
+
+
+}

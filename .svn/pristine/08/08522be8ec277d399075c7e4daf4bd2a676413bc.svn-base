@@ -1,0 +1,250 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/modifydata/use_help.css">
+{/block}
+{block name="header"}
+<!-- {include file="common/header" /} -->
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>{$header_title ?? ''}</span>
+            <!-- <div class="header_back" > -->
+            <div class="header_back" onClick="javascript:history.back();">
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
+{/block}
+{block name="content"}
+<main>
+<a href="/member/modifydata/search_use_help/">
+    <div class="use_help_search">
+        <img src="__STATIC__/image/index/searchbar_icon_search@2x.png" alt=""/>
+        <span>有问题？点我搜搜看吧！</span>
+    </div>
+</a>
+    {empty name='list'}
+    <div>暂无数据</div>
+    {else /}
+    {volist name='list' id='vo' }
+    <div class="use_help_list clear">
+        <a href="/member/modifydata/often_problem/at_id/{$vo.at_id}">
+            <div class="use_help_one lf">
+                <div class="use_help_img">
+                    <img src="{$vo.at_img}" alt=""/>
+                </div>
+                <p>{$vo.at_name ?? ''}</p>
+            </div>
+        </a>
+        <div class="use_help_con lf">
+            {volist name='vo.son' id='voo' offset="0" length='2'}
+            <a href="/member/modifydata/help_info/a_id/{$voo.a_id}">
+                <div class="use_help_con_top">
+                    {$voo.a_name}
+                </div>
+            </a>
+            {/volist}
+        </div>
+        <div class="use_help_con use_help_rtborder lf">
+            {volist name='vo.son' id='voo' offset="2" length='2'}
+            <a href="/member/modifydata/help_info/a_id/{$voo.a_id}">
+                <div class="use_help_con_top">
+                    {$voo.a_name}
+                </div>
+            </a>
+            {/volist}
+        </div>
+    </div>
+    {/volist}
+    {/empty}
+    <!--<div class="use_help_list clear">-->
+    <!--<a href="/member/modifydata/often_problem/">-->
+    <!--<div class="use_help_one lf">-->
+    <!--<div class="use_help_img">-->
+    <!--<img src="__STATIC__/image/modifydata/icon_help_ComPro@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p>常见问题</p>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<div class="use_help_con lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--参与流程-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--幸运码是什么-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="use_help_con use_help_rtborder lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--花生是什么-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--截止时间是什么-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--<div class="use_help_list clear">-->
+    <!--<a href="/member/modifydata/often_problem/">-->
+    <!--<div class="use_help_one lf">-->
+    <!--<div class="use_help_img">-->
+    <!--<img src="__STATIC__/image/modifydata/icon_help_order@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p>订单相关</p>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<div class="use_help_con lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--取消订单-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--订单自动退款-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="use_help_con use_help_rtborder lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--订单被关闭-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a>-->
+    <!--<div class="use_help_con_top use_help_border">-->
+
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--<div class="use_help_list clear">-->
+    <!--<a href="/member/modifydata/often_problem/">-->
+    <!--<div class="use_help_one lf">-->
+    <!--<div class="use_help_img">-->
+    <!--<img src="__STATIC__/image/modifydata/icon_help_finance@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p>财务相关</p>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<div class="use_help_con lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--如何提现-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--提现到账-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="use_help_con use_help_rtborder lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--邀请收益-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a>-->
+    <!--<div class="use_help_con_top use_help_border">-->
+
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--<div class="use_help_list clear">-->
+    <!--<a href="/member/modifydata/often_problem/">-->
+    <!--<div class="use_help_one lf">-->
+    <!--<div class="use_help_img">-->
+    <!--<img src="__STATIC__/image/modifydata/icon_help_logistics@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p>物流相关</p>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<div class="use_help_con lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--参与流程-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--申请退款-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="use_help_con use_help_rtborder lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--修改发货地址-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--未收到货-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--<div class="use_help_list clear">-->
+    <!--<a href="/member/modifydata/often_problem/">-->
+    <!--<div class="use_help_one lf">-->
+    <!--<div class="use_help_img">-->
+    <!--<img src="__STATIC__/image/modifydata/icon_help_logistics2@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p>商家相关</p>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<div class="use_help_con lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--开店流程-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--保证金规则-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="use_help_con use_help_rtborder lf">-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top">-->
+    <!--如何发布商品-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_help_con_top use_help_border">-->
+    <!--店铺等级-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <div class="use_help_fix phonex">
+        <a href="tel:400-027-1888">
+            <div class="use_help_kefu">
+                咨询时间7:00~17:00，确认咨询
+            </div>
+        </a>
+    </div>
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+
+</script>
+{/block}

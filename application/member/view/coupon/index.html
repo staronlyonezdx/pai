@@ -1,0 +1,305 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/coupon/index.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="coupon-top">
+        <!-- 兑换红包 S -->
+        <div class="red-exchange">
+            <div class="red-exchange-input"><input type="text" placeholder="输入红包兑换码" /></div>
+            <button class="red-exchange-btn">兑换</button>
+        </div>
+        <!-- 兑换红包 E -->
+
+        <!-- 可使用和已使用红包菜单 S -->
+        <div id="nav" class="coupon-nav">
+            <p class="active" i="0">当前可用(2)</p>
+            <p i="1">不可使用(2)</p>
+        </div>
+        <!-- 可使用和已使用红包菜单 E -->
+    </div>
+
+    <!-- 可使用和已使用 S -->
+    <div id="swiper" class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--当前可用-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <div id="dataList0" class="data-list"></div>
+            </div>
+
+            <!--不可使用-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <div id="dataList1" class="data-list"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 可使用和已使用 E -->
+
+    <!-- 红包兑换弹窗 S -->
+    <div class="coupon-pop">
+        <div class="coupon-cover" onclick="closePop()"></div>
+        <div class="coupon-pop-cont">
+            <div class="coupon-list coupon-pop-wid">
+                <div class="coupon-list-cont coupon-pop-wid coupon-pop-mar">
+                    <div class="coupon-list-left coupon-pop-pad">
+                        <p>￥<span>5</span><br><small>无门槛红包</small></p>
+                    </div>
+                    <div class="coupon-list-center coupon-pop-pad1">
+                        <p>新人专享红包</p><span>全场任意使用</span><span>此红包无使用截至时间</span>
+                    </div>
+                </div>
+            </div>
+            <div class="coupon-pop-btn">
+                <button class="fl" onclick="closePop()">先不兑换</button>
+                <button class="rt">立即兑换</button>
+            </div>
+        </div>
+    </div>
+    <!-- 红包兑换弹窗 E -->
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/Public.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script>
+    //关闭兑换弹窗
+    function closePop(){
+        $('.coupon-pop').hide();
+    }
+
+    //打开兑换弹窗
+    function openPop(){
+        $('.coupon-pop').show();
+    }
+
+    $(function () {
+        var curNavIndex = 0;//当前可用0; 不可使用1;
+        var mescrollArr = new Array(2);//2个菜单所对应的2个mescroll对象
+
+        //初始化首页
+        mescrollArr[0] = initMescroll("mescroll0", "dataList0");
+
+        /*初始化轮播*/
+        var swiper = new Swiper('#swiper', {
+            observer: true,
+            onTransitionEnd: function (swiper) {
+                var i = swiper.activeIndex;//轮播切换完毕的事件
+                changePage(i);
+            }
+        });
+
+        /*初始化菜单*/
+        $("#nav p").click(function () {
+            var i = Number($(this).attr("i"));
+            swiper.slideTo(i);//以轮播的方式切换列表
+        })
+
+        /*切换列表*/
+        function changePage(i) {
+            if (curNavIndex != i) {
+                //更改列表条件
+                $("#nav p").each(function (n, dom) {
+                    if (dom.getAttribute("i") == i) {
+                        dom.classList.add("active");
+                    } else {
+                        dom.classList.remove("active");
+                    }
+                })
+                //隐藏当前回到顶部按钮
+                mescrollArr[curNavIndex].hideTopBtn();
+                //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                if (mescrollArr[i] == null) {
+                    mescrollArr[i] = initMescroll("mescroll" + i, "dataList" + i);
+                } else {
+                    //检查是否需要显示回到到顶按钮
+                    var curMescroll = mescrollArr[i];
+                    var curScrollTop = curMescroll.getScrollTop();
+                    if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                        curMescroll.showTopBtn();
+                    } else {
+                        curMescroll.hideTopBtn();
+                    }
+                }
+                //更新标记
+                curNavIndex = i;
+            }
+        }
+
+        /*创建MeScroll对象*/
+        function initMescroll(mescrollId, clearEmptyId) {
+            //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+            var mescroll = new MeScroll(mescrollId, {
+                //下拉刷新
+                down: {
+                    isLock: true, //锁定下拉
+                },
+                //上拉加载的配置项
+                up: {
+                    callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                    empty: {
+                        icon: "/static/image/goodscollection/shoucang@2x.png", //图标,默认null
+                        tip: "暂无相关数据~", //提示
+                    },
+                    clearEmptyId: clearEmptyId, //相当于同时设置了clearId和empty.warpId; 简化写法;默认null; 注意vue中不能配置此项
+                    htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                    htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                    toTop: { //配置回到顶部按钮
+                        src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                        //offset : 1000
+                    },
+                    lazyLoad: {
+                        use: false // 是否开启懒加载,默认false
+                    }
+                }
+            });
+            return mescroll;
+        }
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+            getListDataFromNet(dataIndex, page.num, page.size, function (pageData, totalSize) {
+                //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                mescrollArr[dataIndex].endBySize(pageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量) 
+
+                //设置列表数据
+                setListData(pageData, dataIndex);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescrollArr[dataIndex].endErr();
+            });
+        }
+
+        /*设置列表数据
+            * pageData 当前页的数据
+            * dataIndex 数据属于哪个nav */
+        function setListData(pageData, dataIndex) {
+            var listDom = document.getElementById("dataList" + dataIndex);
+            for (var i = 0; i < pageData.length; i++) {
+                var pd = pageData[i];
+
+                var str = '<div class="coupon-list-cont">';
+                if (dataIndex == 1) {
+                    str += '<img class="coupon-list-cover" src="/static/image/coupon/tm.png">';
+                }
+                str += '<div class="coupon-list-left">';
+                str += '<p>￥<span>' + pd.pdImg + '</span><br><small>' + pd.pdName + '</small></p>';
+                str += '</div>';
+                str += '<div class="coupon-list-center">';
+                str += '<p>' + pd.pdPrice + '</p>';
+                str += '<span>' + pd.pdSold + '</span>';
+                str += '<span>' + pd.pdTime + '</span>';
+                str += '</div>';
+                if (dataIndex == 1) {
+                    if(i==0) {
+                        str += '<img class="coupon-list-right" src="/static/image/coupon/ysy.png">';
+                    }else {
+                        str += '<img class="coupon-list-right" src="/static/image/coupon/ygq.png">';
+                    }
+                } else {
+                    str += '<img class="coupon-list-right" src="/static/image/coupon/lg.png" onclick="openPop()">';
+                }
+
+                var liDom = document.createElement("div");
+                liDom.className = "coupon-list";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+
+        // 有真实数据时删除本模块 S
+        //本地模拟数据
+        var data = [
+            {
+                "pdImg": "5",
+                "pdName": "无门槛红包",
+                "pdPrice": '新人专享红包',
+                "pdSold": '全场任意使用',
+                "pdTime": '此红包无使用截至时间',
+            }, {
+                "pdImg": "7",
+                "pdName": "满20元可用",
+                "pdPrice": '卡券区专属红包',
+                "pdSold": '只可在【卡券区】使用',
+                "pdTime": '2018.5.27 - 2018.6.27',
+            }, {
+                "pdImg": "7",
+                "pdName": "满20元可用",
+                "pdPrice": '卡券区专属红包',
+                "pdSold": '只可在【卡券区】使用',
+                "pdTime": '2018.5.27 - 2018.6.27',
+            }, {
+                "pdImg": "7",
+                "pdName": "满20元可用",
+                "pdPrice": '卡券区专属红包',
+                "pdSold": '只可在【卡券区】使用',
+                "pdTime": '2018.5.27 - 2018.6.27',
+            }, {
+                "pdImg": "7",
+                "pdName": "满20元可用",
+                "pdPrice": '卡券区专属红包',
+                "pdSold": '只可在【卡券区】使用',
+                "pdTime": '2018.5.27 - 2018.6.27',
+            }
+        ]
+        // 有真实数据时删除本模块 E
+
+        /*联网加载列表数据
+            在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+            请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+            实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+            * */
+        function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {
+            //延时一秒,模拟联网
+            setTimeout(function () {
+
+                // 有真实数据时删除本模块 S
+                var listData = [];
+                for (var i = 0; i < data.length; i++) {
+                    listData.push(data[i]);
+                }
+
+                //回调
+                successCallback(listData, 2);
+                errorCallback
+                // 有真实数据时删除本模块 E
+
+                // 有真实数据时解开本模块 S
+                // $.ajax({
+                //     type: 'post',
+                //     url: '/member/Orderpai/get_paier_list',
+                //     data: {
+                //         type: type,
+                //         page: pageNum,
+                //         size: pageSize
+                //     },
+                //     dataType: 'json',
+                //     success: function (data) {
+                //         var listData = [];
+                //         for (var i = 0; i < data.data.length; i++) {
+                //             listData.push(data.data[i]);
+                //         }
+
+                //         //回调
+                //         successCallback(listData,data.total_num);
+                //     },
+                //     error: errorCallback
+                // });
+                // 有真实数据时解开本模块 E
+            }, 500)
+        }
+    });
+</script>
+{/block}

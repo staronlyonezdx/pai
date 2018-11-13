@@ -1,0 +1,212 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<!-- <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css"> -->
+<style>
+    .modal{
+        margin-top:100px;
+    }
+    .modal-footer{
+        text-align: center;
+    }
+    .red{
+        color:red;
+    }
+    .user{
+        color: #c36350;
+        margin-left:10px;
+    }
+    .excel{
+        display:flex;
+    }
+    .a_link{
+        margin-left:100px;
+    }
+    .font{
+        font-size:20px;
+        margin-bottom: 20px;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <div class="excel">
+                    <a type="button" class="btn btn-link font " href="/admin/wallet/money_info/m_id/{$user.m_id}/money_type/{$money_type}">{if condition='$money_type == 1'}余额资金详情{else /}收益资金详情{/if}</a><br/>
+                    <a href="/admin/wallet/money_info/m_id/{$user.m_id}//money_type/{$money_type}/excel/1" class="a_link">导出{if condition='$money_type == 1'}余额资金详情{else /}收益资金详情{/if}EXCEL</a>
+                </div>
+                <a type="button" class="btn btn-primary btn-xs" href="/admin/wallet/money_info/m_id/{$user.m_id}/recharge/1/money_type/{$money_type}">充值记录</a>
+                <a type="button" class="btn btn-primary btn-xs" href="/admin/wallet/money_info/m_id/{$user.m_id}/withdraw/1/money_type/{$money_type}" >提现记录</a>
+                <a type="button" class="btn btn-primary btn-xs" href="/admin/wallet/money_info/m_id/{$user.m_id}/consumption/1/money_type/{$money_type}" >消费记录</a>
+            </div>
+            <div>
+                <label class="user">用户ID:</label>
+                <span>{$user.m_id}</span>
+                <label  class="user">用户名字:</label>
+                <span>{$user.m_name}</span>
+                <label class="user">用户手机号:</label>
+                <span>{$user.m_mobile}</span>
+                <label class="user">用户余额:</label>
+                <span>{$user.m_money}</span>
+                <label class="user">用户现冻结余额:</label>
+                <span>{$user.m_frozen_money}</span>
+                <label class="user">用户收益:</label>
+                <span>{$user.m_income}</span>
+                <label class="user">用户现在冻结收益:</label>
+                <span>{$user.m_frozen_income}</span>
+            </div>
+            {notempty name="list"}
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>logID</th>
+                    <th>用户ID</th>
+                    <th>用户昵称</th>
+                    <th>用户名</th>
+                    <th>用户手机</th>
+                    <th>关联表</th>
+                    <th>开始日期</th>
+                    <th>变动日期</th>
+                    <th>金额</th>
+                    <th>增减</th>
+                    <th>状态</th>
+                    <th>变动理由</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr class="">
+                    <th scope="row">{$vo.ml_id}</th>
+                    <td>{$vo.m_id}</td>
+                    <td>{$vo.m_name}</td>
+                    <td>{$vo.real_name}</td>
+                    <td>{$vo.m_mobile}</td>
+                    <td>{$vo.ml_table}</td>
+                    <td>{$vo.add_time}</td>
+                    <td>{$vo.update_time}</td>
+                    <td>{$vo.ml_money}</td>
+                    <td>{$vo.ml_type}</td>
+                    <td>{$vo.state}</td>
+                    <td>{$vo.ml_reason}</td>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+            {/notempty}
+            {notempty name="$recharge_array"}
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <div class="excel">充值记录
+                    <a href="/admin/wallet/money_info/m_id/{$user.m_id}/recharge/1/money_type/2/excel/1" class="a_link">导出充值记录EXCEL</a>
+                </div>
+                <tr>
+                    <th>充值ID</th>
+                    <th>用户昵称</th>
+                    <th>用户名</th>
+                    <th>手机号</th>
+                    <th>日期</th>
+                    <th>充值方式</th>
+                    <th>充值金额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {volist name="$recharge_array" id="vo"}
+                    <tr class="">
+                        <th scope="row">{$vo.r_id}</th>
+                        <th scope="row">{$vo.m_name}</th>
+                        <th scope="row">{$vo.real_name}</th>
+                        <th scope="row">{$vo.m_mobile}</th>
+                        <th scope="row">{$vo.r_time}</th>
+                        <th scope="row">{$vo.r_type}</th>
+                        <th scope="row">{$vo.r_money}</th>
+                    </tr>
+                {/volist}
+            {/notempty}
+                </tbody>
+            </table>
+            {notempty name="$withdraw_array"}
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <div class="excel">提现记录
+                    <a href="/admin/wallet/money_info/m_id/{$user.m_id}/withdraw/1/money_type/2/excel/1" class="a_link">导出提现记录EXCEL</a>
+                </div>
+                <tr>
+                    <th>提现ID</th>
+                    <th>用户昵称</th>
+                    <th>用户名</th>
+                    <th>手机号</th>
+                    <th>申请日期</th>
+                    <th>打款日期</th>
+                    <th>提现金额</th>
+                    <th>状态</th>
+                    <th>不通过理由</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {volist name="$withdraw_array" id="vo"}
+                <tr class="">
+                    <th scope="row">{$vo.w_id}</th>
+                    <th scope="row">{$vo.m_name}</th>
+                    <th scope="row">{$vo.real_name}</th>
+                    <th scope="row">{$vo.m_mobile}</th>
+                    <th scope="row">{$vo.w_time}</th>
+                    <th scope="row">{$vo.w_success_time}</th>
+                    <th scope="row">{$vo.w_money}</th>
+                    <th scope="row">{$vo.w_state}</th>
+                    <th scope="row">{$vo.w_explain}</th>
+
+                </tr>
+                {/volist}
+                {/notempty}
+                {notempty name="$consumption_array"}
+                <table class="table table-hover" style="margin-bottom:0">
+                    <thead>
+                    <div class="excel">消费、退款记录
+                        <a href="/admin/wallet/money_info/m_id/{$user.m_id}/consumption/1/money_type/2/excel/1" class="a_link">导出消费、退款记录EXCEL</a>
+                    </div>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>用户昵称</th>
+                        <th>手机号</th>
+                        <th>日期</th>
+                        <th>金额</th>
+                        <th>类型</th>
+                        <th>原因</th>
+                        <th>退款状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                    {volist name="$consumption_array" id="vo"}
+                    <tr class="">
+                        <th scope="row">{$vo.ml_id}</th>
+                        <th scope="row">{$vo.m_name}</th>
+                        <th scope="row">{$vo.real_name}</th>
+                        <th scope="row">{$vo.m_mobile}</th>
+                        <th scope="row">{$vo.add_time}</th>
+                        <th scope="row">{$vo.ml_money}</th>
+                        <th scope="row">{$vo.ml_table}</th>
+                        <th scope="row">{$vo.ml_reason}</th>
+                        <th scope="row">{$vo.state}</th>
+                    </tr>
+                    {/volist}
+                    {/notempty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+

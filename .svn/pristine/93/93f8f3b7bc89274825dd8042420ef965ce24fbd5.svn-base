@@ -1,0 +1,71 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+<!-- {block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block} -->
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>管理员列表</label>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>管理员ID</th>
+                    <th>管理员账号</th>
+                    <th>管理员角色</th>
+                    <th>管理员管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.admin_id}</th>
+                    <td>{$vo.admin_name}</td>
+                    <td>{$vo.role_name}</td>
+                    <td>
+                        <a href="{:url('Adminuser/adminedit',['admin_id' => $vo.admin_id])}">
+                            编辑
+                        </a>
+                        <a href="{:url('Adminuser/update_admin_pwd',['admin_id' => $vo.admin_id])}">
+                            重置密码
+                        </a>
+                        {if condition="$vo.admin_id neq 1"}
+                        <a href="javascript:void(0);" class="dele_btn">
+                            删除
+                        </a>
+                        {/if}
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.dele_btn').click(function () {
+            //添加提示，确定删除吗？ TODO...
+
+
+            var admin_id = $(this).parents('tr').find('.sid').text();
+            window.location.href = "{:url('Adminuser/admindel')}" + "?admin_id=" + admin_id;
+        });
+    })
+</script>
+{/block}
+

@@ -1,0 +1,92 @@
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="__STATIC__/js/iphoneXfooter.js"></script>
+<script>
+//    title = '邀您入驻拍吖吖，享大福利！';
+    var title = '';
+    var share_title = "{$share_title ?? ''}";
+    if($.trim(share_title)){
+        title = share_title;
+    }else{
+        title = '拍吖吖：让快乐充满你的拍子！';
+    }
+
+//    var desc = '5折！3折！1折！还有1元价！尽在拍吖吖，快来抢购吧';
+    var desc = '';
+    var share_desc = "{$share_desc ?? ''}";
+    if($.trim(share_desc)){
+        desc = share_desc;
+    }else{
+        desc = '5折！3折！1折！还有1元价！尽在拍吖吖，快来抢购吧！';
+    }
+
+//    var link = 'http://www.paiyy.com.cn/member/register/it_to_rg/phone/{$info.m_mobile ?? ""}';
+    var link = '';
+    var share_link = "{$share_link ?? ''}";
+    if($.trim(share_link)){
+        link = share_link;
+    }else{
+        link = "{$Think.PAI_URL}";
+    }
+
+    //var imgUrl = 'https://gss0.bdstatic.com/70cFsj3f_gcX8t7mm9GUKT-xh_/avatar/100/r6s1g4.gif';
+    var imgUrl = '';
+    var share_imgUrl = "{$share_imgUrl ?? ''}";
+    if($.trim(share_imgUrl)){
+        imgUrl = share_imgUrl;
+    }else{
+        imgUrl = "{$Think.PAI_URL}"+'/uploads/logo/1.jpg';
+    }
+    wx.config({
+//        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: "{$appId}", // 必填，公众号的唯一标识
+        timestamp: "{$timestamp}", // 必填，生成签名的时间戳
+        nonceStr: "{$noncestr}", // 必填，生成签名的随机串
+        signature: "{$signature}",// 必填，签名
+        jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'onMenuShareQZone',
+        ], // 必填，需要使用的JS接口列表
+    });
+    wx.ready(function(){
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: title,
+            link: link,
+            imgUrl: imgUrl,
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        });
+        //分享到QQ
+        wx.onMenuShareQQ({
+            title:title,
+            desc: desc,
+            link:link,
+            imgUrl: imgUrl,
+        });
+        //分享到腾讯微博
+        wx.onMenuShareWeibo({
+            title:title,
+            desc: desc,
+            link:link,
+            imgUrl: imgUrl,
+        });
+        wx.onMenuShareQZone({
+            title:title,
+            desc: desc,
+            link:link,
+            imgUrl: imgUrl,
+        });
+    });
+
+</script>

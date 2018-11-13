@@ -1,0 +1,83 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>人气商品列表</label>
+                <a class="pull-right" href="{:url('popularitygoods/edit')}">添加商品</a>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>商品ID</th>
+                    <th>人气商品</th>
+                    <th>商品二级标题</th>
+                    <th>添加日期</th>
+                    <th>添加管理员ID</th>
+                    <th>市场价</th>
+                    <th>参加价格</th>
+                    <th>成团人数</th>
+                    <th>参拍状态</th>
+                    <th>参拍期数</th>
+                    <th>入选人数</th>
+                    <th>排序</th>
+                    <th>人气商品主图</th>
+                    <th>更新日期</th>
+                    <th>结束日期</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.pg_id}</th>
+                    <td>{$vo.pg_name}</td>
+                    <td>{$vo.pg_second_name}</td>
+                    <!--<td>{$vo.add_time}</td>-->
+                    <td>{notempty name='vo.add_time'}{$vo.add_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>{$vo.admin_id}</td>
+                    <td>{$vo.pg_market_price}</td>
+                    <td>{$vo.pg_price}</td>
+                    <td>{$vo.pg_membernum}</td>
+                    <td>{if condition="$vo.pg_state == 1"}参拍中{else/}参拍完成{/if}</td>
+                    <td>{$vo.pg_periods}</td>
+                    <td>{$vo.pg_chosen_num}</td>
+                    <td>{$vo.pg_sortnum}</td>
+                    <td><img src="__CDN_PATH__{$vo.pg_img|default=''}"></td>
+                    <td>{notempty name='vo.update_time'}{$vo.update_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.end_time'}{$vo.end_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>
+                        <a href="{:url('popularitygoods/edit',['pg_id' => $vo.pg_id])}">
+                            编辑
+                        </a>
+                        <a href="{:url('popularitygoods/delete',['pg_id' => $vo.pg_id])}" class="dele_btn" onclick="return confirm('确认要删除？');">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="page_box">
+        {$page}
+        <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+    </div>
+</div>
+
+{/block}

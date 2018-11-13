@@ -1,0 +1,26 @@
+<?php
+namespace RedisCache;
+use \Redis;
+use think\Config;
+
+class RedisCache extends Redis
+{
+
+    // 实例
+    protected static $_instance = null;
+
+    /**
+     * 单例模式
+     */
+    public static function getInstance($db = 10){
+        if (null === self::$_instance) {
+            self::$_instance = new self();
+//            self::$_instance->connect('r-bp10f0fdda6a2244.redis.rds.aliyuncs.com', 6379);
+//            self::$_instance->auth('Hr4+3!F52t');
+            self::$_instance->connect('10.0.2.164', 6379);
+            self::$_instance->auth('123456');
+            self::$_instance->select($db);
+        }
+        return self::$_instance;
+    }
+}

@@ -1,0 +1,37 @@
+body{
+    background: #fff;
+}
+.help_info{
+    margin-left: 0.3rem;
+    margin-top: 0.28rem;
+}
+.help_info p{
+    color:#333333;
+    font-size: 0.32rem;
+    font-weight: 600;
+}
+.help_info_main{
+    margin-top: 0.49rem;
+}
+.help_info_main div{
+    width:6.6rem;
+    overflow: hidden;
+    margin-top:0.08rem ;
+}
+.help_info_main div p{
+    color:#666666;
+    font-size: 0.28rem;
+    float: left;
+    font-weight: 400;
+}
+.help_info_main div span{
+    width:6.35rem;
+    float: left;
+    color:#666666;
+    font-size: 0.28rem;
+}
+.help_info_main div span a{
+    color:#4891EA;
+    font-size: 0.28rem;
+    text-decoration: underline;
+}

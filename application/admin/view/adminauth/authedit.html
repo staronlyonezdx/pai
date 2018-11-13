@@ -1,0 +1,56 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="{:url('Adminauth/authedit')}" id="edit_form" onsubmit="return form_submit()">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>编辑权限</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>权限名称</label>
+                    <input type="text" name="authority_name" class="form-control" placeholder="权限名称"
+                           value="{$info.authority_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label>权限父级</label>
+                    <select name="authority_parent_id" class="form-control">
+                        <option value="0"
+                        {notempty name="$info"}{if condition="$info.authority_parent_id == 0
+                        "}selected{/if}{/notempty}>顶级分类</option>
+                        {notempty name="$parentList"}
+                        {volist name="$parentList" id="vo"}
+                        <option value="{$vo.authority_id}"
+                        {notempty name="$info"}{if condition="$info.authority_parent_id == $vo.authority_id
+                        "}selected{/if}{/notempty}>{$vo.authority_name}</option>
+                        {/volist}
+                        {/notempty}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <input type="hidden" name="authority_id" value="{$authority_id}"/>
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function form_submit(){
+
+        //表单验证 TODO。。
+
+        return true;
+    }
+</script>
+{/block}
+

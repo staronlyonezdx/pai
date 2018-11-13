@@ -1,0 +1,2 @@
+<?php header('Access-Control-Allow-Origin:*'); ?>
+{"code":1,"msg":"1.jpg"}

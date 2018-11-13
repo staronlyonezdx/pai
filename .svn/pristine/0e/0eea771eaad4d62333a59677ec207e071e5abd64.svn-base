@@ -1,0 +1,58 @@
+.immediatele_bg{
+	width:7.5rem;
+	position: relative;
+}
+.immediatele_bg img{
+	width:100%;
+}
+.immediatele_code{
+	width:6.9rem;
+	height:7.16rem;
+	border-radius: 0.1rem;
+	background: #fff;
+	box-shadow:0 17px 29px rgba(255,212,0,0.15);
+	position: absolute;
+	top:0.41rem;
+	left: 0.3rem;
+}
+.immediatele_rule{
+	font-size: 0.24rem;
+	color:#333333;
+	margin-top: 0.29rem;
+	margin-right:0.23rem;
+}
+.immediatele_code p{
+	text-align: center;
+	color:#333333;
+	font-size: 0.32rem;
+	font-weight: 600;
+	margin-top: 0.2rem;
+	margin-bottom: 0.67rem;
+}
+.immediatele_pic{
+	width:3rem;
+	height:3rem;
+	border:0.01rem solid #333333;
+	margin:0 auto;
+}
+.immediatele_pic img{
+	width:100%;
+	height:100%;
+	border:0.01rem solid;
+}
+.immediatele_btn{
+	width:5.77rem;
+	margin:0 auto;
+	margin-top: 1.08rem;
+}
+.immediatele_btn div{
+	width:2.4rem;
+	height:0.6rem;
+	border-radius: 0.12rem;
+	background-color: #FFD400;
+	text-align: center;
+	line-height: 0.6rem;
+	font-size: 0.3rem;
+	color:#333333;
+	font-weight: 600;
+}

@@ -1,0 +1,84 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/systemmsg/systemmsg.css">
+{/block}
+{block name="header"}
+{include file="common/header1" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="sys_clear">
+        <img src="__STATIC__/image/systemmsg/icon_nav_clern@2x.png" alt="">
+    </div>
+    <div class="sys_conten">
+        <!-- 人工服务 -->
+        <a href="/member/systemmsg/index1">
+            <div class="sys_artificial clear">
+                <div class="sys_img lf">
+                    <img src="__STATIC__/image/systemmsg/icon_kefu@2x.png" alt="">
+                </div>
+                <div class="sys_text lf">
+                    <p>客服美吖<img src="__STATIC__/image/systemmsg/icon_GF@2x.png" alt=""></p>
+                    <span>有什么烦心事就和美吖讲吖～</span>
+                </div>
+                <div class="sys_all rt">
+                    <img src="__STATIC__/image/systemmsg/icon_jump@2x.png" alt="">
+                </div>
+            </div>
+        </a>
+         <!-- 系统消息 -->
+         <a href="##">
+            <div class="sys_artificial clear sys_xitong sys_margin">
+                <div class="sys_img lf">
+                    <img src="__STATIC__/image/systemmsg/icon_admin@2x.png" alt="">
+                </div>
+                <div class="sys_text lf">
+                    <p>系统消息<small class="sys_yuan">3</small></p>
+                    <span>吖吖将在今晚凌晨1点更新维护，如有影响...</span>
+                    <span>2018-09-19 12：32</span>
+                </div>
+                <div class="sys_all sys_xitong_all rt">
+                    <img src="__STATIC__/image/systemmsg/icon_jump@2x.png" alt="">
+                </div>
+            </div>
+        </a>
+        <a href="##">
+            <div class="sys_artificial clear sys_xitong">
+                <div class="sys_img lf">
+                    <img src="__STATIC__/image/systemmsg/icon_dingdan@2x.png" alt="">
+                </div>
+                <div class="sys_text lf">
+                    <p>订单消息<small class="sys_tuoyuan">35</small></p>
+                    <span>您有一笔订单已经发货，请注意物流</span>
+                    <span>2018-09-19 12：32</span>
+                </div>
+                <div class="sys_all sys_xitong_all rt">
+                    <img src="__STATIC__/image/systemmsg/icon_jump@2x.png" alt="">
+                </div>
+            </div>
+        </a>
+        <a href="##">
+            <div class="sys_artificial clear sys_xitong">
+                <div class="sys_img lf">
+                    <img src="__STATIC__/image/systemmsg/icon_qianbao@2x.png" alt="">
+                </div>
+                <div class="sys_text lf">
+                    <p>钱包消息<small class="sys_dayuan">99+</small></p>
+                    <span>您有一笔退款金额已到账户余额</span>
+                    <span>2018-09-19 12：32</span>
+                </div>
+                <div class="sys_all sys_xitong_all rt">
+                    <img src="__STATIC__/image/systemmsg/icon_jump@2x.png" alt="">
+                </div>
+            </div>
+        </a>
+    </div>
+</main>
+{/block} 
+{block name="footer"} 
+{include file="common/footer" /} 
+{/block} 
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/systemmsg/index.js"></script>
+{/block}

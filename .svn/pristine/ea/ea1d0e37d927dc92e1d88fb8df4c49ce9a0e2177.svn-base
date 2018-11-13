@@ -1,0 +1,28 @@
+$(function(){
+	$(".invitation_tab div").click(function(){
+		$(".invitation_tab div").removeClass("pitch");
+		$(this).addClass("pitch");
+		var index_=$(this).index();
+		$(".invitation_con").removeClass("invitation_block");
+		$(".invitation_con").eq(index_).addClass("invitation_block");
+		if($(".invitation_con").eq(index_).hasClass("invitation_button")){
+			$(".invitation_btn").addClass("invitation_block");
+		}else{
+			$(".invitation_btn").removeClass("invitation_block");
+		}
+		//判断内容是否为空 添加空白页
+		if($(".invitation_con").eq(index_).html()==""){
+			// alert("k");
+			$(".invitation_blank").addClass("invitation_block");
+		// }else{
+		
+		}else{
+			$(".invitation_blank").removeClass("invitation_block");
+			// alert("d")
+		}
+	})
+	//判断内容是否为空 添加空白页
+	if($(".invitation_con").html()==""){
+		$(".invitation_blank").addClass("invitation_block");
+	}
+})

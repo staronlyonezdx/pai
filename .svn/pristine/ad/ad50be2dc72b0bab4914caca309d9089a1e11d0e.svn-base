@@ -1,0 +1,160 @@
+// JavaScript Document
+var w_width,
+	w_height;
+//浏览器的宽高
+function win() {
+	w_width=$(window).width(); 
+	w_height=$(window).height();
+	$('#left').css({'width':'160px','height':(w_height-71)+'px'});
+	$('#right').css({'width':(w_width-176)+'px','height':(w_height-71)+'px'});
+}
+//刷新框架页面
+function f5() {
+	window.parent.frames['c'].location.reload();
+}
+function lhide() {
+	$('.left').click(function() {
+		if ($('#left').css('display')=='block') {
+			$('#left').hide();
+			$('#right').css({'width':w_width+'px'});
+			$('.left').css('left','-2px');
+		}else {
+			$('#left').show();
+			$('#right').css({'width':(w_width-176)+'px'});
+			$('.left').css('left','156px');
+		}
+	});
+}
+//表单控件阴影
+function shadow() {
+	$('#content .text, .qtext, .ctext, .dtext, textarea').focus(function() {
+		$(this).css({'border':'solid 1px #333','boxShadow':'0px 0px 6px #333'});
+	});
+	$('#content .text, .qtext, .ctext, .dtext, textarea').blur(function() {
+		$(this).css({'border':'solid 1px #ccc','boxShadow':'none'});
+	})
+}
+//全选复选框
+function funbox() {
+	//复选框选择
+	$('#table .indel').change(function() {
+		if (!$('#table .indel').prop('checked') == false) {
+			for (i=0; i<$('#table .delid').length; i++) {
+				if($('#table .delid').eq(i).attr('disabled') != "disabled")
+				$('#table .delid').eq(i).attr('checked',true);
+			}
+		}else {
+			for (i=0; i<$('#table .delid').length; i++) {
+				if($('#table .delid').eq(i).attr('disabled') != "disabled")
+				$('#table .delid').eq(i).attr('checked',false);
+			}
+		}
+	});
+	//全选
+	$('#page .selbox').click(function() {
+		for (i=0; i<$('#table .delid').length; i++) {
+			if($('#table .delid').eq(i).attr('disabled') != "disabled")
+			$('#table .delid').eq(i).attr('checked',true);
+		}
+		$('#table .indel').attr('checked',true);
+	});
+	//全不选
+	$('#page .unselbox').click(function() {
+		for (i=0; i<$('#table .delid').length; i++) {
+			if($('#table .delid').eq(i).attr('disabled') != "disabled")
+			$('#table .delid').eq(i).attr('checked',false);
+		}
+		$('#table .indel').attr('checked',false);
+	});
+	//反选
+	$('#page .anti').click(function() {
+		for (i=0; i<$('#table .delid').length; i++) {
+			if (!$('#table .delid').eq(i).prop('checked')==true) {
+				if($('#table .delid').eq(i).attr('disabled') != "disabled")
+				$('#table .delid').eq(i).attr('checked',true);
+			}else {
+				if($('#table .delid').eq(i).attr('disabled') != "disabled")
+				$('#table .delid').eq(i).attr('checked',false);
+			}
+		}
+	});
+}
+// 毫秒数转标准时间
+function msToDate (msec) {
+    var datetime = new Date(msec);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth();
+    var date = datetime.getDate();
+    var hour = datetime.getHours();
+    var minute = datetime.getMinutes();
+    var second = datetime.getSeconds();
+
+	var result0 = year + 
+                 '-' + 
+                 ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) + 
+                 '-' + 
+                 ((date + 1) < 10 ? '0' + date : date) + 
+                 ' ' + 
+                 ((hour + 1) < 10 ? '0' + hour : hour) +
+                 ':' + 
+                 ((minute + 1) < 10 ? '0' + minute : minute);
+
+    var result1 = year + 
+                 '-' + 
+                 ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) + 
+                 '-' + 
+                 ((date + 1) < 10 ? '0' + date : date) + 
+                 ' ' + 
+                 ((hour + 1) < 10 ? '0' + hour : hour) +
+                 ':' + 
+                 ((minute + 1) < 10 ? '0' + minute : minute) + 
+                 ':' + 
+                 ((second + 1) < 10 ? '0' + second : second);
+
+    var result2 = year + 
+                 '-' + 
+                 ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) + 
+                 '-' + 
+                 ((date + 1) < 10 ? '0' + date : date);
+
+    var result = {
+		wasTime: result0,
+        hasTime: result1,
+        withoutTime: result2
+    };
+    return result;
+}
+
+//验证支付密码
+var pay_pwd = /^\d{6}$/;
+
+// 价格正则验证
+var mm = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+
+//判断是否在微信内
+function isWeiXin() {
+	var ua = window.navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+		return true;
+	} else {
+		return false;
+	}
+}
+var hideFlag = false;
+
+// 获取地址栏是否带分享参数
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&|/)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+}
+
+$(window).resize(function() {
+	win();
+});
+$(function() {
+    win();
+	shadow();
+	funbox();
+	lhide();
+});

@@ -1,0 +1,253 @@
+<?php
+namespace app\member\controller;
+
+use app\data\service\config\ConfigService;
+use app\data\service\member\MemberAttestationService;
+use app\data\service\member\MemberService;
+use app\data\service\promoters\PromotersApplyService;
+use app\data\service\promoters\PromotersFrozenService;
+
+class Promoters extends MemberHome
+{
+    /**
+     * @return \think\response\View
+     * 推广员介绍页面
+     * 邓赛赛
+     */
+    public function index(){
+        $m_id = $this->m_id;
+        $where = [
+            'm_id'=>$m_id
+        ];
+        $member_at = new MemberAttestationService();
+        $is_attestation = $member_at->get_count($where);
+        $data['is_attestation'] = $is_attestation ? 1 : 0;
+        $member = new MemberService();
+        $data['is_promoters'] = $member->get_value($where,'is_promoters');
+        $this->assign('header_title','吖吖推广员');
+        $this->assign('data',$data);
+        return view();
+    }
+
+    /**
+     * 申请推广员
+     * 邓赛赛
+     */
+    public function promoters_apply(){
+        $m_id = $this->m_id;
+        $apply = input('post.apply','');
+        if(request()->isAjax() && $apply == 1){  //ajax且申请值为1时,为推广员申请
+            $promoters_apply = new PromotersApplyService();
+            $res = $promoters_apply->set_prepare_promoters($m_id);
+            return $res;
+        }
+    }
+    /**
+     * 提交申请成功或失败
+     * 邓赛赛
+     */
+    public function is_apply_success(){
+        $m_id = $this->m_id;
+        $member = new MemberService();
+        $is_promoters = $member->get_value(['m_id'=>$m_id],'is_promoters');
+        $this->assign('is_promoters',$is_promoters);
+        $this->assign('header_title','成功提交申请');
+        return view();
+    }
+
+    /**
+     * 申请成功或失败
+     * 邓赛赛
+     */
+    public function is_success(){
+
+        $m_id = $this->m_id;
+        $where = [
+            'm_id'=>$m_id
+        ];
+        $promoters_apply = new PromotersApplyService();
+        $apply_info = $promoters_apply->get_info($where,'pa_id,is_promoters,error_explain,add_time,update_time,start_time,end_time,qr_code');
+
+        if(!$apply_info){
+            $this->error('您还未申请推广员','/');
+        }
+
+        switch($apply_info['is_promoters']){
+            case 3:
+                $this->assign('header_title','审核未通过');
+                break;
+            case 4:
+                $member = new MemberService();
+                $member_info = $member->get_info(['m_id'=>$m_id],'*');
+                //总共需要多少人成为推广员
+                $config = new ConfigService();
+                $total_people = $config->configGetValue(['c_code'=>'TGY_ONE'],'c_value total_people');
+                //考核期人数计算(激活和未激活)
+                $people_num = $promoters_apply->get_promoters_people_num($m_id,4);
+                //总冻结金额
+                $promoters_frozen = new PromotersFrozenService();
+                $where1 = [
+                    'm_id'=>$m_id,
+                    'state'=>1,
+                ];
+                $sum_money = $promoters_frozen->get_sum($where1,'p_money');
+
+                //无二维码时获取新的二维码
+                if(empty($apply_info['qr_code']) || !is_file(trim($apply_info['qr_code'],'/'))){
+                    $file_url = 'uploads/code/promoters/'.date("Ymd").'/';
+                    $img_name = $apply_info['pa_id'].'promoters'.$member_info['promoters_code'].'.jpg';
+                    $server_url = PAI_URL."/member/register/it_to_rg?promoters_code=".$member_info['promoters_code'];
+                    $img = $member_info['m_avatar'];
+                    $new_code = $promoters_apply->new_code($member_info['m_id'],$file_url,$img_name,$server_url,$img);
+                    if($new_code){
+                        $promoters_apply->get_save(['m_id'=>$m_id],['qr_code'=>$new_code]);
+                        $apply_info['qr_code'] = $new_code;
+                    }
+                }
+                //考核期数据
+                $data = [
+                    'sum_money'     =>sprintf("%.2f",$sum_money),  //冻结资金
+                    'total_people'  =>$total_people,                        //共需要多少人
+                    'end_time'      =>empty($apply_info['end_time']) ? 0 : $apply_info['end_time'],                        //结束时间
+                    'auction'       =>empty($people_num['class_a']['auction'])    ? 0 : $people_num['class_a']['auction'],   //激活人数
+                    'no_auction'    =>empty($people_num['class_a']['no_auction']) ? 0 : $people_num['class_a']['no_auction'],//未激活人数
+                    'qr_code'       =>$apply_info['qr_code'],//邀请二维码
+                ];
+                $this->assign('data',$data);
+                $this->assign('header_title','审核通过');
+                break;
+            default:
+                $this->error('您的推广员状态已不能进入此页面','/member/myhome/index');
+                break;
+        }
+        $mem = new MemberService();
+        $m_avatar = $mem->get_value($where,'m_avatar');
+        $apply_info['m_avatar'] = $m_avatar;
+
+        $this->assign('apply_info',$apply_info);
+        $promoters_code = $mem->get_value($where,'promoters_code');
+        //分享参数
+        $this->assign('share_title','邀您入驻拍吖吖，享大福利！');
+        $this->assign('share_desc','新人注册立得10元现金！各种折扣尽在拍吖吖，快来抢购吧！');
+        $this->assign('share_link',PAI_URL.'/member/register/it_to_rg/promoters_code/'.$promoters_code);
+        $this->assign('share_imgUrl',PAI_URL.'/uploads/logo/new_10.png');
+//        dump($data);die;
+        return view();
+    }
+
+    /**
+     * 邀请直推人员列表(推广期)
+     * 邓赛赛
+     */
+    public function invitation_list(){
+        $from = input('param.from',1);
+        if(request()->isAjax()){
+            $m_id = $this->m_id;
+            $page = input('param.page',1);
+            $page_size = input('param.page_size',6);
+            $is_auction = input('param.is_auction',1);  //1参拍(激活) 2未参拍(未激活)
+            $promoters_apply = new PromotersApplyService();
+            $apply_info = $promoters_apply->get_info(['m_id'=>$m_id],'is_promoters,start_time,end_time');
+            $where = [
+                'm.m_id'=>$m_id,
+            ];
+            if(!empty($apply_info['is_promoters']) && $apply_info['is_promoters'] == 4 && $from == 2){
+                $where['son_m.add_time'] = ['between',[$apply_info['start_time'],$apply_info['end_time']]];
+            }
+
+            $list = $promoters_apply->get_assessment_user($where,$is_auction,$page,$page_size);
+            $list['page'] = $page;
+            return $list;
+        }
+        $this->assign('from',$from);
+        return view();
+    }
+
+    /**
+     * 冻结金额明细
+     * 邓赛赛
+     */
+    public function frozen_money(){
+       $this->assign('header_title','冻结资金明细');
+        return view();
+    }
+
+    /**
+     * 考核期资金明细
+     * 邓赛赛
+     */
+    public function assessment_money(){
+        $this->assign('header_title','推广员考核期收益');
+        return view();
+    }
+
+    /**
+     * ajax请求（冻结金额明细/考核期资金明细 两者为同一批数据）
+     * 邓赛赛
+     */
+    public function ajax_frozen_money(){
+        if(request()->isAjax()){
+            $m_id = $this->m_id;
+            $where = [
+                'pf.m_id'=>$m_id,
+                'pf.state'=>1,
+            ];
+            $page = input('param.page',1);
+            $page_size = input('param.page_size',6);
+
+            $promoters_frozen = new PromotersFrozenService();
+            $field = 'pf.*,m.m_name,ml.ml_name';
+            $data = $promoters_frozen->get_examination_money_list($where,$field,$page,$page_size);
+            $data['page'] = $page;
+            return $data;
+        }
+    }
+//
+//    /**
+//     * 考核期结束操作(推广员考核结束，审核定时任务)
+//     * 邓赛赛
+//     */
+//    public function assessment_end(){
+//        $promoters_apply = new PromotersApplyService();
+//        $res = $promoters_apply->set_assessment_end();
+//        dump($res);die;
+//    }
+//
+//    /**
+//     * 考核期资金计算(推广员考核期资金计算，审核定时任务)
+//     * 邓赛赛
+//     */
+//    public function get_examination_money(){
+//        $promoters_frozen = new PromotersFrozenService();
+//        $res = $promoters_frozen->get_examination_watch_bonus();
+//        dump($res);die;
+//    }
+//    /**
+//     * 计算推广员每日收益(观望奖-正式推广员 定时任务)
+//     * 邓赛赛
+//     */
+//    public function promoters_today_money(){
+//        $promoters_frozen = new PromotersFrozenService();
+//        $res = $promoters_frozen->get_today_money();
+//        dump($res);die;
+//    }
+//
+//    /**
+//     * 查询推广员推广数量
+//     * 邓赛赛
+//     */
+//    public function promoters_people_num(){
+//        $m_id = input('param.m_id',107);
+//        $promoters_apply = new PromotersApplyService();
+//        $list = $promoters_apply->get_promoters_people_num($m_id,5);
+//        dump($list);die;
+//    }
+
+//    public function thaw_money(){
+//        $promoters_frozen = new PromotersFrozenService();
+//        $res = $promoters_frozen->get_thaw_money(107,2,500);
+//        dump($res);die;
+//    }
+
+
+}

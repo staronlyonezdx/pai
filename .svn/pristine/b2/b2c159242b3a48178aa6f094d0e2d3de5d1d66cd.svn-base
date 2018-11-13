@@ -1,0 +1,505 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/promotion/double11.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/common/swiper.min.css">
+{/block}
+{block name="header"}
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <img src="__STATIC__/image/promotion/icon_nav_biaoti@2x.png" alt="" class="nav_biaoti">
+            <div class="header_back" {empty name='header_path' } onClick="javascript:history.back(-1);" {else
+            /} onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+            <img src="__STATIC__/icon/publish/icon_nav_back1@2x.png" name='out' class="smts">
+        </div>
+        <!--<div class="header_more rt">-->
+        <!--<img src="__STATIC__/image/promotion/icon_nav_more@2x.png" alt="">-->
+        <!--</div>-->
+    </div>
+</div>
+{/block}
+{block name="content"}
+<main>
+    <!--头部秒杀-->
+    <div class="double_top">
+        <div class="double_top_main">
+            <!--可滚动时间条-->
+            <div class="timeaxis_warp">
+                <div class="timeaxis-current"></div>
+                <div class="swiper-container" id="swiper-container3">
+                    <div class="swiper-wrapper">
+                        {notempty name='ms_list.0.huodong_goods'}
+                        {volist name='ms_list' id='vo'}
+
+                        <div class="swiper-slide" data-num="{$key}" data='{$vo.is_active}'>
+
+                            <div class="timeaxis-item-inner">
+                                <div class="timeaxis-time">{$vo.start_sf}</div>
+                                <div class="timeaxis-info">
+                                    <!--动态判断显示那个图片-->
+                                    <!--<img src="" alt="" class="top_isover_img">-->
+                                    <!--<img src="__STATIC__/image/promotion/icon_yijieshu@2x.png" alt="">-->
+                                    <!--<img src="__STATIC__/image/promotion/icon_zhengzaijinxing@2x.png" alt="">-->
+                                    <!--<img src="__STATIC__/image/promotion/icon_jijiangkaishi@2x.png" alt="">-->
+                                    <!--{if condition="$vo.huodong_goods.0.gp_state == 6 " }-->
+                                    {if condition="$vo.start_time < $now_time && $vo.end_time > $now_time" }
+                                    <!--正在进行-->
+                                    <img src="__STATIC__/image/promotion/icon_zhengzaijinxing@2x.png" alt="">
+                                    {elseif condition="$vo.end_time <= $now_time"/}
+                                    <!--已结束-->
+                                    <img src="__STATIC__/image/promotion/icon_yijieshu@2x.png" alt="">
+                                    {elseif condition=" $now_time <= $vo.start_time"/}
+                                    <!--即将开始-->
+                                    <img src="__STATIC__/image/promotion/icon_jijiangkaishi@2x.png" alt="">
+                                    {/if}
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/volist}
+                        {/notempty}
+
+                    </div>
+                </div>
+            </div>
+            <!--对应时间商品简介-->
+            <div class="double_top_content">
+                <div class="swiper-container2">
+                    <div class="swiper-wrapper">
+                        {notempty name='ms_list.0.huodong_goods'}
+                        {volist name='ms_list' id='vo'}
+                            {notempty name="vo.huodong_goods"}
+                            <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/{$vo['huodong_goods'][0]['g_id']}">
+                                <!--<div class="swiper_inner">-->
+                                <div class="content_top clear">
+                                    <img src="__STATIC__/image/promotion/icon_xianshi1@2x.png" alt=""
+                                         class="lf tip_img">
+                                    <div class="rt">
+                                        <!--动态判断显示那个图片-->
+                                        <!--<img src="" alt="" class="is_kaishi_img jujieshu">-->
+                                        <!--<img src="__STATIC__/image/promotion/icon_jujieshu@2x.png" alt=""-->
+                                        <!--class="jujieshu lf">-->
+                                        <!--<img src="__STATIC__/image/promotion/icon_yijieshu@2x1.png" alt=""-->
+                                        <!--class="jujieshu lf">-->
+                                        <!--<img src="__STATIC__/image/promotion/icon_jukaishi@2x2.png" alt=""-->
+                                        <!--class="jujieshu lf">-->
+
+                                        {if condition="$vo.start_time < $now_time && $vo.end_time > $now_time" }
+                                        <img src="__STATIC__/image/promotion/icon_jujieshu@2x.png" alt=""
+                                             class="jujieshu ">
+                                        {elseif condition="$vo.end_time <= $now_time"/}
+                                        <img src="__STATIC__/image/promotion/icon_yijieshu@2x1.png" alt=""
+                                             class="jujieshu ">
+                                        {elseif condition=" $now_time <= $vo.start_time"/}
+                                        <img src="__STATIC__/image/promotion/icon_jukaishi@2x2.png" alt=""
+                                             class="jujieshu ">
+                                        {/if}
+
+                                        <div class="seckill_cutdown rt">
+                                            <input type="hidden" name="start_time" value='{$vo.start_time}'>
+                                            <input type="hidden" name="end_time" value='{$vo.end_time}'>
+                                            <div class="cutdown clear rt" id="first{$key}">
+                                                <span class="cutdown_num details_hour"></span>
+                                                <span class="cutdown_mao">:</span>
+                                                <span class="cutdown_num details_minute"></span>
+                                                <span class="cutdown_mao">:</span>
+                                                <span class="cutdown_num details_second"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content_main">
+                                    <div class="content_imgs lf">
+                                        <img src="{$vo.huodong_goods.0.g_img}" alt="" class="content_img details_img">
+                                        <!--如果倒计时结束，已结束印章显示-->
+                                        {if condition="$vo.end_time <= $now_time"/}
+                                        <img src="__STATIC__/image/promotion/icon_yijieshuyinzhang@2x.png" alt=""
+                                             class="content_mask ">
+                                        {else/}
+                                        <img src="" alt="" class="content_mask ">
+                                        {/if}
+                                    </div>
+
+                                    <div class="rt content_detail">
+                                        <p class="content_name">{$vo.huodong_goods.0.g_name}</p>
+                                        <div class="progress clear">
+                                            <div class="progress_main lf">
+                                            <span class="progress_inner"
+                                                  style="width:{$vo.huodong_goods.0.pai_progress.gdr_lists.0.proportion}%"></span>
+                                            </div>
+                                            <span class="rt progress_num">{$vo.huodong_goods.0.pai_progress.gdr_lists.0.proportion}%</span>
+                                        </div>
+
+                                        <div class="content_data">
+                                            <p class="content_price lf">￥<span>{$vo.huodong_goods.0.pai_progress.gdr_lists.0.gdr_price}</span>
+                                            </p>
+                                            <span class="">已参与{$vo.huodong_goods.0.pai_progress.total_pai_num}人</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!--</div>-->
+                            </a>
+                        </div>
+                            {/notempty}
+                        {/volist}
+                        {/notempty}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--中间规则-->
+    <div class="double_middle">
+        <a href="/promotion/index/hd_gz1">
+            <img src="__STATIC__/image/promotion/icon_guize@2x.png" alt="">
+        </a>
+    </div>
+    <!--进行中-->
+    <!--<div class="double_jinxing clear">-->
+    <!--<div class=" jinxing lf">-->
+    <!--<div class="content_item_imgs">-->
+    <!--<p class="jingxing_tip">进行中</p>-->
+    <!--<img src="" alt="" class="fudai_img">-->
+
+    <!--<img src="__STATIC__/image/promotion/icon_11.11biasohi@2x.png" alt="" class="double11">-->
+    <!--</div>-->
+
+    <!--<div class="item_detail">-->
+    <!--<p class="item_jinxing_name">【第1袋】拍吖吖双11豪华大福袋</p>-->
+    <!--<p class="item_detail_price lf">福气价 <span style="font-size: 0.26rem">¥</span> <span-->
+    <!--style="font-size: 0.34rem">11.11</span></p>-->
+    <!--<span class="item_detail_num rt">剩余27人</span>-->
+    <!--</div>-->
+
+    <!--<div class="content_mask">-->
+    <!--&lt;!&ndash;第一袋已结束&ndash;&gt;-->
+    <!--&lt;!&ndash;第1袋结束后开始&ndash;&gt;-->
+    <!--<img src="__STATIC__/image/promotion/icon_yijieshu11@2x.png" alt="">-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="content_item  lf">-->
+    <!--<div class="content_item_imgs">-->
+    <!--&lt;!&ndash;<span>进行中</span>&ndash;&gt;-->
+    <!--<img src="" alt="" class="fudai_img">-->
+    <!--<img src="__STATIC__/image/promotion/icon_11.11biasohi@2x.png" alt="" class="double11">-->
+    <!--</div>-->
+
+    <!--<div class="double_jinxing_detail">-->
+    <!--<p class="item_detail_name">【第1袋】拍吖吖双11豪华大福袋</p>-->
+    <!--<p class="item_detail_price lf">福气价 <span style="font-size: 0.26rem">¥ </span><span-->
+    <!--style="font-size: 0.34rem">11.11</span></p>-->
+    <!--&lt;!&ndash;<span class="item_detail_num rt">剩余27人</span>&ndash;&gt;-->
+    <!--</div>-->
+
+    <!--<div class="mask">-->
+    <!--&lt;!&ndash;第一袋已结束&ndash;&gt;-->
+    <!--&lt;!&ndash;第1袋结束后开始&ndash;&gt;-->
+    <!--<img src="__STATIC__/image/promotion/icon_weikaishi@2x2.png" alt="">-->
+    <!--<img src="__STATIC__/image/promotion/icon_yijieshu1@2x.png" alt="" style="display: none">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--福袋列表-->
+    <ul class="double_content clear">
+        {notempty name='$fudai_goods'}
+        {volist name='$fudai_goods' id='vo'}
+
+            {if condition="($key == 0)"}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <li class="content_item double_jinxing_detail lf">
+                {else/}
+            <li class="content_item  lf">
+                {/if}
+
+                <div class="content_item_imgs">
+                    {if condition="($key == 0)"}
+                    {if condition="$vo.g_state == 6 && $now_time < $vo.g_endtime "}
+                    <span class="jingxing_tip">进行中</span>
+                    {/if}
+                    {/if}
+                    <img src="{$vo.g_img}" alt="" class="fudai_img details_img">
+                    <img src="__STATIC__/image/promotion/icon_11.11biasohi@2x.png" alt="" class="double11">
+                </div>
+
+                <div class="item_detail">
+                    {if condition="($key == 0)"}
+                    <p class="item_detail_name_jinxing">【第{$vo.sort}袋】{$vo.g_name}</p>
+                    {else/}
+                    <p class="item_detail_name">【第{$vo.sort}袋】{$vo.g_name}</p>
+                    {/if}
+                    <p class="item_detail_price lf">福气价 <span style="font-size: 0.26rem">¥ </span><span
+                            style="font-size: 0.34rem">{$vo.pai_progress.gdr_lists.0.gdr_price}</span></p>
+                    {if condition="($key == 0)"}
+                    <span class="item_detail_num rt">剩余{$vo.pai_progress.gdr_lists.0.left_num}人</span>
+                    {/if}
+                </div>
+
+                <div class="mask">
+                    <!--第一袋已结束-->
+                    <!--第1袋结束后开始-->
+                    <!--{if condition="$vo.g_state == 6 && $now_time < $vo.g_endtime && $vo.gp_state == 1 "}-->
+                    <!--&lt;!&ndash;参拍中&ndash;&gt;-->
+                    <!--<img src="__STATIC__/image/promotion/icon_yijieshu11@2x.png" alt="">-->
+                    <!--{else/}-->
+                    <!--&lt;!&ndash;不能参拍&ndash;&gt;-->
+                    <!--{if condition = "$key == 0"}-->
+                    <!--&lt;!&ndash;第一张 展示还未开始&ndash;&gt;-->
+                    <!---->
+                    <!--{elseif condition = "$now_time >= $vo.g_endtime"}-->
+                    <!--&lt;!&ndash;展示第几张结束后开始&ndash;&gt;-->
+                    <!--<img src="__STATIC__/image/promotion/icon_weikaishi@2x{$vo.sort}.png" alt="">-->
+                    <!--{else/}-->
+                    <!--<img src="__STATIC__/image/promotion/icon_yijieshu1@2x.png" alt="" style="display:none">-->
+                    <!--{/if}-->
+                    <!--{/if}-->
+
+
+                    {if condition="($key == 0)"}
+
+                    {if condition="$vo.g_state == 6 && $now_time < $vo.g_endtime && $vo.gp_state == 1 "}
+                    <!--是第一张，并且参拍中，没有遮罩-->
+                    <!--<img src="__STATIC__/image/promotion/icon_yijieshu11@2x.png" alt="">-->
+                    {elseif condition="$vo.g_state != 6 || $now_time >= $vo.g_endtime"}
+                    <!--参拍结束，显示参拍结束的遮罩-->
+                    <img src="__STATIC__/image/promotion/icon_yijieshu0@2x.png" alt="">
+                    {elseif condition="$now_time < $vo.g_starttime"/}
+                    <!--未开始参拍-->
+                    <img src="__STATIC__/image/promotion/icon_huodongjijiang@2x.png" alt="">
+                    {/if}
+                    {else/}
+                    <!--其余商品显示状态-->
+                    {if condition="$vo.g_state != 6 || $now_time > $vo.g_endtime"}
+                    <!--自己商品是已结束状态-->
+                    <img src="__STATIC__/image/promotion/icon_yijieshu{$vo.sort}@2x.png" alt="" style="">
+                    {else/}
+                    <!--别的商品是未开时的时候-->
+                    <img src="__STATIC__/image/promotion/icon_weikaishi@2x{$vo.sort}.png" alt="">
+                    {/if}
+                    {/if}
+                </div>
+            </li>
+        </a>
+        {/volist}
+        {/notempty}
+        <!--<li class="content_item lf">-->
+        <!--<div class="content_item_imgs">-->
+        <!--&lt;!&ndash;<span>进行中</span>&ndash;&gt;-->
+        <!--<img src="" alt="" class="fudai_img">-->
+        <!--<img src="__STATIC__/image/promotion/icon_11.11biasohi@2x.png" alt="" class="double11">-->
+        <!--</div>-->
+
+        <!--<div class="item_detail">-->
+        <!--<p class="item_detail_name">【第1袋】拍吖吖双11豪华大福袋</p>-->
+        <!--<p class="item_detail_price lf">福气价 <span style="font-size: 0.26rem">¥ </span><span-->
+        <!--style="font-size: 0.34rem">11.11</span></p>-->
+        <!--&lt;!&ndash;<span class="item_detail_num rt">剩余27人</span>&ndash;&gt;-->
+        <!--</div>-->
+
+        <!--<div class="mask">-->
+        <!--&lt;!&ndash;第一袋已结束&ndash;&gt;-->
+        <!--&lt;!&ndash;第1袋结束后开始&ndash;&gt;-->
+        <!--<img src="__STATIC__/image/promotion/icon_weikaishi@2x2.png" alt="">-->
+        <!--<img src="__STATIC__/image/promotion/icon_yijieshu1@2x.png" alt="" style="display: none">-->
+        <!--</div>-->
+        <!--</li>-->
+
+    </ul>
+
+</main>
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/common/swiper.min.js"></script>
+<script>
+    $(function () {
+        var initSlide;
+        // 遍历头部开始事件，拿到首次进入时候的值
+        $("#swiper-container3 .swiper-slide").each(function () {
+            var i = ($(this).attr("data"));
+            if (i == 1) {
+                initSlide = $(this).attr('data-num');
+                // console.log($(this).index());
+                var index = $(this).index();
+                var currentEndTime = $('.swiper-container2 .swiper-slide').eq(index).find('[name=end_time]').val();
+                var nextEndTime = $('.swiper-container2 .swiper-slide').eq(index+1).find('[name=end_time]').val();
+                // console.log(currentEndTime);
+                // 判断当前结束时间是不是小于0如果是，刷新页面，重新进入
+                var currentNowTime = '{$now_time}' ;
+                console.log(currentEndTime);
+                console.log(currentNowTime);
+                if (currentEndTime <= currentNowTime && nextEndTime >= currentNowTime  ) {
+                    // window.location.reload();
+                }
+            }
+
+        });
+        var Swiper2 = new Swiper('.swiper-container2', {
+            // slidesPerView: 1,
+            centeredSlides: true,
+            initialSlide: initSlide,
+        })
+        var mySwiper1 = new Swiper('.swiper-container', {
+
+            slidesPerView: "auto",
+            /*设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为number或者 'auto'则自动根据slides的宽度来设定数量。*/
+            freeMode: true,
+            /*自动贴合*/
+            freeModeSticky: true,
+            /*自动贴合。*/
+            centeredSlides: true,
+            /*设定为true时，活动块会居中，而不是默认状态下的居左。*/
+            slideToClickedSlide: true,
+            /*设置为true则swiping时点击slide会过渡到这个slide。*/
+            centeredSlides: true,
+            /*设定为true时，活动块会居中，而不是默认状态下的居左。*/
+            initialSlide: initSlide,
+            onInit: function (swiper) { /*回调函数，初始化后执行。*/
+                $(".swiper-container .swiper-slide-active ").css({
+                    "color": '#fff',
+                    "font-weight": 'bold'
+                });
+            },
+
+            onTransitionEnd: function (swiper) {
+                var i = swiper.activeIndex;
+                // console.log(swiper.activeIndex);
+                Swiper2.slideTo(i)
+                /* alert(     $(".swiper-slide-active").attr("data-num"));  ajax传参数*/
+                $(".swiper-container  .timeaxis-time").css({
+                    "color": 'rgba(255, 255, 255, 1)',
+                    "font-weight": 'normal',
+                    'font-size': '0.28rem'
+                });
+                $(".swiper-container .swiper-slide-active .timeaxis-time").css({
+                    "color": '#fff',
+                    "font-weight": 'bold',
+                    'font-size': '0.3rem'
+                });
+            },
+            onTouchMove: function () {
+                $(".swiper-container .swiper-slide").not('.swiper-slide-active').css({
+                    "color": 'rgba(255, 255, 255, 1)',
+                    "font-weight": 'normal',
+                    'font-size': '0.28rem'
+                });
+            }
+
+        })
+
+
+        Swiper2.on('transitionEnd', function (swiper) {
+            // alert(11)
+            var i = swiper.activeIndex;
+            // console.log(i);
+            mySwiper1.slideTo(i)
+            $(".swiper-container  .timeaxis-time").css({
+                "color": 'rgba(255, 255, 255, 1)',
+                "font-weight": 'normal'
+            });
+            $(".swiper-container .swiper-slide-active .timeaxis-time").css({
+                "color": '#fff',
+                "font-weight": 'bold'
+            });
+        })
+
+
+        // 格式化时间
+        function timer(intDiff, idName) {
+            timerInterval = setInterval(function (e) {
+                var day = 0,
+                    hour = 0,
+                    minute = 0,
+                    second = 0;
+                /*时间默认值*/
+                if (intDiff > 0) {
+                    day = Math.floor(intDiff / 1000 / 60 / 60 / 24);
+                    hour = Math.floor(intDiff / 1000 / 60 / 60 - (day * 24));
+                    minute = Math.floor((intDiff / 1000 / 60) - (day * 24 * 60) - (hour * 60));
+                    second = Math.floor((intDiff / 1000) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60));
+                    if (day == 0 && hour == 0 && minute == 0 && second == 1) {
+                        clearInterval(timerInterval);
+                    }
+                }
+                if (hour <= 9) hour = '0' + hour;
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+
+                $(idName + ' .details_day').html(' <span>' + day + '</span>天');
+                $(idName + ' .details_hour').html('<span>' + hour + '</span>');
+                $(idName + ' .details_minute').html('<span>' + minute + '</span>');
+                $(idName + ' .details_second').html('<span>' + second + '</span>');
+                // console.log(day, hour, minute, second);
+                intDiff -= 1000;
+            }, 1000);
+        }
+
+        $('.seckill_cutdown').each(function (i) {
+            var sTime = $(this).find('[name=start_time]').val() * 1000;
+            var eTime = $(this).find('[name=end_time]').val() * 1000;
+            // var sTime = $('[name=start_time]').val() * 1000;
+            // console.log(sTime*1000);
+            var nowTIME = "{$now_time}";
+            // console.log(nowTIME);
+            var startTime = sTime - nowTIME * 1000;
+            // console.log(startTime);
+            timer(startTime, '#first' + i);
+            if (sTime < nowTIME * 1000) {
+                var time = eTime - nowTIME * 1000;
+                timer(time, '#first' + i);
+            }
+            // 如果开始的时间减去当前服务器时间小于0，则表示已经开始秒杀，正在进行中
+            // 如果开始的时间减去当前服务器时间大于0，则表示还没有开始秒杀
+            // 如果结束的时间减去当前服务器时间小于0，说明活动已经结束
+            // if (startTime <= nowTIME) {
+            //     var time = eTime - nowTIME * 1000;
+            //     timer(time, '#first' + i);
+            //     if(time <= nowTIME){
+            //         $('.top_isover_img').attr('src', '__STATIC__/image/promotion/icon_zhengzaijinxing@2x.png');
+            //         $('.is_kaishi_img').attr('src', '__STATIC__/image/promotion/icon_jujieshu@2x.png');
+            //
+            //     }
+            //
+            //     if (time <= nowTIME) {
+            //         $('.top_isover_img').attr('src', '__STATIC__/image/promotion/icon_yijieshu@2x.png');
+            //         $('.is_kaishi_img').attr('src', '__STATIC__/image/promotion/icon_yijieshu@2x1.png');
+            //         $('.content_mask').show();
+            //     }
+            // } else {
+            //     $('.top_isover_img').attr('src', '__STATIC__/image/promotion/icon_jijiangkaishi@2x.png');
+            //     $('.is_kaishi_img').attr('src', '__STATIC__/image/promotion/icon_jukaishi@2x2.png');
+            // }
+
+        })
+
+        // console.log($('.details_img'));
+        $('.details_img').on('error', function () {
+            // console.log(11);
+            $(this).attr('src', '/static/image/index/pic_home_taplace@2x.png');
+        });
+
+        // 点击或者活动的时候去请求最新的值
+        function getNewData(g_id) {
+            $.ajax({
+                type: 'POST',
+                url: ' http://www.pai.com/promotion/index/get_goods_info/',
+                data: {g_id: g_id},
+                dataType: 'json'
+            }, function (res) {
+                if (res.status == 8) {
+
+                }
+            })
+        }
+    })
+
+
+</script>
+{/block}

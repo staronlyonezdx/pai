@@ -1,0 +1,56 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>APITOKEN页面列表</label>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>API账号ID</th>
+                    <th>账号名称</th>
+                    <th>TOKEN</th>
+                    <th>间隔时间（分）</th>
+                    <th>管理</th>
+                </tr>
+                </thead>
+                <tbody>
+                {notempty name="$list"}
+              {volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.at_id}</td>
+                    <td>{$vo.at_id}</td>
+                    <td>{$vo.at_name}</td>
+                    <td>{$vo.at_token}</td>
+                    <td>{$vo.at_interval_time}</td>
+                    <td>
+                        <a href="{:url('api/apitokenadd',['id'=>$vo.at_id])}">
+                            编辑
+                        </a>
+                        <a href="{:url('api/apitokenpwd',['id'=>$vo.at_id])}">
+                            修改密码
+                        </a>
+                        <a href="##" class="authoritylist_dele_btn">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+               {/volist}
+                {/notempty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+

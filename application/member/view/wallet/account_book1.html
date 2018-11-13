@@ -1,0 +1,174 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/account_book.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--邀请明细-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main style="margin-top: 0">
+    <div class="account_header clear">
+        <div class="account_back lf">
+            <img src="__STATIC__/image/wallet/icon_nav_back@2x.png" alt="">
+        </div>
+        <div class="account_tab lf clear">
+            <!--<a href="/member/wallet/account_book">-->
+                <div class="account_tab_list account_tab_pitch lf">
+                    <span>全部</span>
+                </div>
+            <!--</a>-->
+            <!--<a href="/member/wallet/account_book/ml_type/reduce">-->
+                <div class="account_tab_list lf">
+                    <span>支出</span>
+                </div>
+            <!--</a>-->
+            <!--<a href="/member/wallet/account_book/ml_type/add">-->
+            <div class="account_tab_list lf">
+                <span>收入</span>
+            </div>
+            <!--</a>-->
+        </div>
+    </div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper ">
+            <div class="swiper-slide">
+                <a href="">
+                    <div class="account_list_view">
+                        <div class="account_list clear">
+                            <div class="account_list_lf lf">
+                                <p>未团中自动退款</p>
+                                <span>今天 11:32</span>
+                            </div>
+                            <div class="account_list_rt rt">
+                                <span>+3,975.42</span>
+                                <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="account_list_view">
+                    <div class="account_list clear">
+                        <div class="account_list_lf lf">
+                            <p>账户余额提现</p>
+                            <span>2018-6-24 11:32</span>
+                        </div>
+                        <div class="account_list_rt account_list_red rt">
+                            <span>-3.00</span>
+                            <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="account_list_view">
+                    <div class="account_list clear">
+                        <div class="account_list_lf lf">
+                            <p>账户余额提现</p>
+                            <span>2018-6-24 11:32</span>
+                        </div>
+                        <div class="account_list_rt account_list_red rt">
+                            <span>-3.00</span>
+                            <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-slide">
+                <div class="account_list_view">
+                    <div class="account_list clear">
+                        <div class="account_list_lf lf">
+                            <p>未团中自动退款</p>
+                            <span>今天 11:32</span>
+                        </div>
+                        <div class="account_list_rt rt">
+                            <span>+3,975.42</span>
+                            <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/goods/swiper.min.js"></script>
+<script>
+    $(function(){
+        var mySwiper = new Swiper('.swiper-container', {
+            direction: 'horizontal',//滚动方向
+            loop: false,//循环
+            autoplay: false,//自动轮播
+            onSlideChangeStart: function (swiper) {
+                var index = swiper.activeIndex;
+                $(".account_tab_list").removeClass("account_tab_pitch");
+                $(".account_tab_list").eq(index).addClass("account_tab_pitch");
+            }
+        })
+        function clic(){
+            $(".account_tab_list").click(function(){
+                // e.preventDefault();
+                var inde_=$(this).index();
+                $(".account_tab_list").removeClass("account_tab_pitch");
+                $(this).addClass("account_tab_pitch");
+                mySwiper.slideTo(inde_, 500, false);//切换到第一个slide，速度为1秒
+            })
+        }
+        clic();
+    })
+</script>
+{/block}
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+    <!--<h2>明细列表（demo页面）</h2>-->
+    <!--<a href="/member/wallet/account_book">全部</a>-->
+    <!--<a href="/member/wallet/account_book/ml_type/reduce">支出</a>-->
+    <!--<a href="/member/wallet/account_book/ml_type/add">收入</a>-->
+
+    <!--<div style="border: 1px solid red;">-->
+        <!--{volist name='list' id='vo'}-->
+        <!--<a href="/member/wallet/details/ml_reason/{$vo.ml_reason}/from_id/{$vo.from_id}">-->
+            <!--<div style="border-bottom: 1px solid red;">-->
+                <!--<div>-->
+                    <!--{switch name="vo.ml_reason" }-->
+                    <!--{case value="1" }提现{/case}-->
+                    <!--{case value="2"}充值{/case}-->
+                    <!--{case value="3"}邀请{/case}-->
+                    <!--{default /}未知-->
+                    <!--{/switch}-->
+                <!--</div>-->
+                <!--<div>{$vo.add_time|date='Y-m-d H:s',###}</div>-->
+                <!--<div>-->
+                    <!--{switch name="vo.ml_type" }-->
+                    <!--{case value="reduce" }-{/case}-->
+                    <!--{case value="add"}+{/case}-->
+                    <!--{/switch}-->
+                    <!--{$vo.ml_money}-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</a>-->
+        <!--{/volist}-->
+    <!--</div>-->
+<!--</body>-->
+<!--</html>-->

@@ -1,0 +1,214 @@
+a:hover{
+	color:#333333;
+}
+.application_popups{
+	position:fixed;
+	top:0rem;
+	left: 0;
+	bottom:0;
+	right: 0;
+	background: #fff;
+	z-index: 100;
+	display: none;
+}
+.file-actions .glyphicon{
+	display: none;
+}
+.kv-file-remove{
+	/*display: none;*/
+}
+.application_menu{
+	width:25%;
+	background-color: #f8f8f8;
+	height:100%;
+	min-height:12rem;
+	position: fixed;
+	top:0rem;
+	left: 0;
+}
+.application_menu li{
+	text-align: center;
+	height:0.88rem;
+	line-height: 0.88rem;
+}
+.application_menu li a{
+	display: block;
+	color:#333333;
+	font-size: 0.26rem;
+}
+.application_menu li a.on{
+	border-left: 0.08rem solid #ffe500;
+	color:#000000;
+	font-size: 0.26rem;
+	font-weight: 600;
+	background-color: #fff;
+}
+.application_tabcon .on{
+	color:#ec454c;
+	font-size: 0.28rem;
+	font-weight: 600;
+	/*background-color: #fff;*/
+}
+.application_three a{
+	font-size: 0.24rem;
+	color:#aaaaaa;
+}
+.application_content{
+	width:75%;
+	margin-left: 25%;
+	position: absolute;
+	left:5rem;
+}
+
+.application_contentDiv{
+	padding:0 0.15rem;
+	min-height:12rem;
+}
+.application_tabcon{
+	display: none;
+}
+.application_tabcon li{
+	/*display: none;*/
+	overflow:hidden;
+}
+.application_tabcon li a{
+	display: block;
+	height:0.88rem;
+	line-height: 0.88rem;
+	margin-left: 0.3rem;
+}
+
+.application_dis{
+	display: block;
+}
+#license,#positive,#negative{
+	display: block;
+	width:2.6rem;
+	height:2.6rem;
+	position: absolute;
+	top:0rem;
+	left: 0rem;
+}
+.application_three{
+	display: none;
+}
+
+/*配送方式的弹框*/
+.delivery_pop{
+	z-index: 100;
+	position: fixed;
+	top:0;
+	left: 0;
+	width:100%;
+	height:100%;
+	/*bottom:0;*/
+	/*right:0;*/
+	background: rgba(0,0,0,0.12);
+	display: none
+}
+.delivery_con{
+	position: absolute;
+	bottom:0;
+	left: 0;
+	width:7.5rem;
+	background: #fff;
+
+}
+.delivery_list{
+	padding-top: 0.27rem;
+	padding-bottom: 0.24rem;
+	position: relative;
+	margin-left: 0.3rem;
+	margin-right: 0.3rem;
+
+}
+.delivery_list p{
+	color:#666666;
+	font-size: 0.24rem;
+}
+.delivery_img{
+	width:0.42rem;
+	height:0.42rem;
+	position: absolute;
+	top:0.18rem;
+	right:0;
+}
+.delivery_img img{
+	width:100%;
+	height:100%;
+}
+.delivery_lists{
+	padding-top: 0.3rem;
+	padding-bottom: 0.32rem;
+	padding-left: 0.3rem;
+	padding-right: 0.3rem;
+	border-top: 0.01rem solid #E2E2E2;
+}
+.delivery_lists p{
+	color:#151515;
+	font-size: 0.28rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+.delivery_lists span{
+	display: inline-block;
+	font-size:0.24rem;
+	color:#999999;
+	margin-left: 0.2rem;
+	vertical-align: middle;
+}
+.delivery_content{
+	display: none;
+}
+.application_tab_li{
+	display: block;
+}
+.modal{
+	background: #000!important;
+}
+.modal-body{
+	padding:0!important;
+	margin-top: 1rem;
+}
+
+.modal-content{
+	border:none!important;
+	background: #000!important;
+	box-shadow: none!important;
+	-webkit-box-shadow: none!important;
+	border:none!important;
+	border-radius:0!important;
+
+}
+.modal-title,.kv-zoom-title{
+	display: none!important;
+}
+.kv-zoom-actions .btn-toggleheader,.kv-zoom-actions .btn-fullscreen,.kv-zoom-actions .btn-borderless{
+	display: none!important;
+}
+.kv-zoom-actions .btn-close{
+	background:url("../../image/orderpai/icon_nav_X@2x1.png") no-repeat center center!important;
+	background-size: 100% 100%!important;
+	margin-top: 0.56rem!important;
+	margin-left: 0.3rem!important;
+}
+.modal-header{
+	padding:0!important;
+	border:none!important;
+
+}
+.file-zoom-dialog .modal-header{
+	align-items:baseline!important;
+}
+.file-zoom-content{
+	width:7.5rem!important;
+	height:7.5rem!important;
+}
+.file-zoom-content img{
+	width:100%!important;
+	height:100%!important;
+	object-fit: cover!important;
+}
+.modal-body .btn-prev, .modal-body .btn-next{
+	display: block!important;
+}

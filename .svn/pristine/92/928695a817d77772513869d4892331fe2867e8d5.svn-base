@@ -1,0 +1,67 @@
+{extend name="common/base" /}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/taking_money.css">
+{/block}
+{block name="content"}
+<main>
+    <!-- 数据为空时 -->
+    <!-- <div class="taking_empty">
+        <div class="taking_empty_img">
+            <img src="__STATIC__/image/wallet/pic_invite_null@2x.png" alt="">
+        </div>
+        <p>没有提现中的金额哦</p>
+    </div> -->
+    <!-- 有数据时 -->
+    <a href="/member/wallet/taking_money_result">
+        <div class="taking_list clear">
+            <div class="taking_lf lf">
+                <p>招商银行卡提现</p>
+                <span>07-06 10:11</span>
+            </div>
+            <div class="taking_img rt">
+                <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+            </div>
+            <div class="taking_rt rt">
+                <p>￥200.00</p>
+                <span class="taking_success">成功提价申请</span>
+            </div>
+        </div>
+    </a>
+    <a href="/member/wallet/taking_money_result">
+        <div class="taking_list clear">
+            <div class="taking_lf lf">
+                <p>招商银行卡提现</p>
+                <span>07-06 10:11</span>
+            </div>
+            <div class="taking_img rt">
+                <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+            </div>
+            <div class="taking_rt rt">
+                <p>￥200.00</p>
+                <span class="taking_fail">提价失败</span>
+            </div>
+        </div>
+    </a>
+    <a href="/member/wallet/taking_money_result">
+        <div class="taking_list clear">
+            <div class="taking_lf lf">
+                <p>招商银行卡提现</p>
+                <span>07-06 10:11</span>
+            </div>
+            <div class="taking_img rt">
+                <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+            </div>
+            <div class="taking_rt rt">
+                <p>￥200.00</p>
+                <span class="taking_begin">平台处理中</span>
+            </div>
+        </div>
+    </a>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

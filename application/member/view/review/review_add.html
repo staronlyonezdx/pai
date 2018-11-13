@@ -1,0 +1,529 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/publish.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/review/review_add.css">
+<style>
+    .view{
+        padding-bottom: 0.2rem;
+        overflow: hidden;
+    }
+    #upload{
+        display: block;
+        width:1.58rem;
+        height:1.58rem;
+        text-align: center;
+        border-radius: 5px;
+        background: #f2f2f2;
+        margin-left: 0.2rem;
+        float: left;
+    }
+    #upload img{
+        width:100%;
+        height:100%;
+        display: block;
+        margin: 0 auto;
+    }
+    #choose{
+        display: none;
+    }
+    .img-list{
+        /*float: left;*/
+    }
+    .img-list li{
+        position: relative;
+        width:1.58rem;
+        height:1.58rem;
+        background: #eee no-repeat center;
+        background-size: cover;
+        border-radius: 5px;
+        margin-left: 0.2rem;
+        margin-bottom: 0.2rem;
+        float: left;
+
+    }
+    .img-list li img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit:cover;
+    }
+    .pub_cross{
+        width:0.34rem;
+        height:0.34rem;
+        position: absolute;
+        top:0;
+        right:0;
+        z-index: 2;
+        background: url("/static/icon/publish/icon_deom_del.png") no-repeat;
+        background-size: 100%;
+    }
+    .pub_cross img{
+        width:100%;
+        height:100%;
+        display: block;
+    }
+    .goods_cancel_img{
+        width:0.56rem;
+        height:0.56rem;
+        position:absolute;
+        top:0.56rem;
+        left:0.3rem;
+        display: none;
+        z-index: 103;
+    }
+    .goods_cancel_img img{
+        width:100%;
+        height:100%;
+    }
+    .goods_cancel_img_block{
+        display: block;
+    }
+
+    .big_img {
+        position: fixed;
+        z-index: -1;
+        opacity: 0;
+        background: rgba(0, 0, 0, 1);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0
+    }
+
+    .big_img .swiper-container2 {
+        position: relative;
+        width: 100%;
+        height: 100%
+    }
+
+    .big_img .swiper-container2 .swiper-wrapper {
+        width: 100%;
+        height: 100%
+    }
+
+    .big_img .swiper-slide {
+        width: 100%;
+        height: 100%;
+        display: table
+    }
+
+    .big_img .swiper-slide .cell {
+        width: 100%;
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center
+    }
+
+    .big_img .swiper-slide img {
+        max-width: 90%;
+        max-height: 80%;
+        margin: 0 auto
+    }
+
+    .big_img .swiper-pagination2 {
+        position: absolute;
+        top: .2rem;
+        text-align: center;
+        width: 100%
+    }
+
+    .big_img .swiper-pagination2 span {
+        margin: 0 .05rem
+    }
+</style>
+
+{/block} {block name="header"} {include file="common/header" /}
+<!--<div class="header_nav">-->
+<!--<div class="header_view">-->
+<!--&lt;!&ndash;  <div class="header_back">-->
+<!--<img src="__STATIC__/icon/publish/icon_nav_back.png">-->
+<!--</div> &ndash;&gt;-->
+<!--<div class="header_tit">-->
+<!--发表评价-->
+<!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+<!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+{/block} {block name="content"}
+<main>
+    <form method="post" action="" id="edit_form">
+        <div class="review_add">
+            <div class="review_add_main">
+                <div class="review_add_tit clear">
+                    <div class="review_add_img lf">
+                        <img src="">
+                    </div>
+                    <p class="lf">描述相符</p>
+
+                    <div class="review_add_star lf">
+                        <div class="review_add_start_content click-star">
+                            <span class="active"></span>
+                            <span class="active"></span>
+                            <span class="active"></span>
+                            <span class="active"></span>
+                            <span class="active"></span>
+                            <input type="hidden" name="goods_score" value="5" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="review_textarea">
+                    <textarea id="textarea" class="rg_content" name="rg_content" placeholder="你有什么话想要对我说？我愿意听"></textarea>
+                </div>
+                <div class="view">
+                    <div class="goods_view_position">
+                        <ul class="img-list" >
+                            {notempty name='info.img'}
+                            {volist name='info.img' id='vo'}
+                            <li class="img{$vo.gi_id}" >
+                                <div class="pub_cross" onclick="imgs({$vo.gi_id},{$info.g_id})"></div>
+                                <img class="imgs" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__{$vo.gi_name}">
+                            </li>
+                            {/volist}
+                            {/notempty}
+                        </ul>
+                        <input type="file" id="choose" accept="image/*" multiple>
+                        <a id="upload">
+                            <img src="__STATIC__/icon/publish/icon_+@2x.png" alt=""/>
+                        </a>
+                    </div>
+                    <div class="goods_cancel_img">
+                        <img src="__STATIC__/image/goods/icon_X@2x.png" alt=""/>
+                    </div>
+                </div>
+                <!--<div class="view">-->
+                    <!--<div class="list clear">-->
+                        <!--<div class="photo lf">-->
+                            <!--<img src="__STATIC__/icon/publish/icon_+@2x.png">-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;  <div class="photos photos1 lf">-->
+                             <!--<img src="" class="reedit_old_img " >-->
+                             <!--<img src="__STATIC__/icon/publish/icon_deom_del.png" class="reedit_cancel_icon">-->
+                         <!--</div> &ndash;&gt;-->
+                        <!--<div class="file-loading">-->
+                            <!--<input id="file-fr" name="rgi_img" type="file" class="projectfile" value="" multiple>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="review_add_com">
+                <div class="review_add_view">
+                    <div class="review_add_tit review_add_list clear">
+                        <p class="lf">店铺态度</p>
+                        <div class="reivew_add_star lf">
+                            <div class="review_add_start_content click-star">
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <input type="hidden" name="service_score" value="5" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review_add_view">
+                    <div class="review_add_tit review_add_list clear">
+                        <p class="lf">物流服务</p>
+
+                        <div class="reivew_add_star lf">
+                            <div class="review_add_start_content click-star">
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <span class="active"></span>
+                                <input type="hidden" name="logistics_score" value="5" />
+                            </div>
+                        </div>
+                        <input type="hidden" name="logistics_score" value="5" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="rg_showname" value="0" />
+        <input type="hidden" name="store_id" value="{$orderInfo.store_id|default=0}" />
+        <input type="hidden" name="gp_id" value="{$orderInfo.gp_id|default=0}" />
+        <input type="hidden" name="o_id" value="{$o_id|default=0}" />
+        <button type="button" class="review_add_btn">提交评价</button>
+
+        <div class="big_img">
+            <div class="swiper-container2">
+                <div class="swiper-wrapper"></div>
+            </div>
+        </div>
+    </form>
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/applicationIn/textareaauto.js"></script>
+<script>
+//压缩图片
+var filechooser = document.getElementById("choose");
+//    用于压缩图片的canvas
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext('2d');
+//    瓦片canvas
+var tCanvas = document.createElement("canvas");
+var tctx = tCanvas.getContext("2d");
+var maxsize = 100 * 1024;
+$("#upload").on("click", function() {
+    filechooser.click();
+}).on("touchstart", function() {
+    $(this).addClass("touch")
+}).on("touchend", function() {
+    $(this).removeClass("touch")
+});
+filechooser.onchange = function() {
+    if (!this.files.length) return;
+
+    var files = Array.prototype.slice.call(this.files);
+    var fileli=$(".img-list li").length;
+
+//        console.log(fileli);
+    if (files.length+fileli> 12) {
+        layer.msg("<span style='color:#fff'>最多只能上传12张图片哦</span>",{
+            time:2000
+        });
+        return;
+    }
+    if (files.length+fileli> 11){
+        $("#upload").css({display:"none"});
+    }else{
+        $("#upload").css({display:"block"});
+    }
+    files.forEach(function(file, i) {
+        if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+        var reader = new FileReader();
+        var li = document.createElement("li");
+//          获取图片大小
+        var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+
+        li.innerHTML='<div class="pub_cross del"></div>'
+//            li.innerHTML = '<div class="progress"><span></span></div><div class="size">' + size + '</div>';
+        $(".img-list").prepend($(li));
+        reader.onload = function() {
+            var result = this.result;
+            var img = new Image();
+            img.src = result;
+//                $(".swiper-wrapper").append('<div class="swiper-slide"><img src="'+result+'" alt=""/></div>');
+            
+//                var swiper = new Swiper('.swiper-container');
+            //$(li).css("background-image", "url(" + result + ")");
+            //如果图片大小小于100kb，则直接上传
+            if (result.length <= maxsize) {
+                $(li).append('<img  class="imgs" src="'+ img.src +'">');
+                img = null;
+                return;
+            }
+//      图片加载完毕之后进行压缩，然后上传
+            if (img.complete) {
+                callback();
+            } else {
+                img.onload = callback;
+            }
+            function callback() {
+                var data = compress(img);
+                $(li).append('<img  class="imgs" src="'+ data +'">');
+                img = null;
+            }
+        };
+        reader.readAsDataURL(file);
+    })
+
+    $(".del").click(function(){
+        $(this).parent("li").remove();
+        var fileli=$(".img-list li").length;
+        console.log(fileli);
+        if(fileli<12){
+            $("#upload").css({display:"block"});
+        }
+    })
+};
+
+//    使用canvas对大图片进行压缩
+function compress(img) {
+    var initSize = img.src.length;
+    var width = img.width;
+    var height = img.height;
+    //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+    var ratio;
+    if ((ratio = width * height / 4000000) > 1) {
+        ratio = Math.sqrt(ratio);
+        width /= ratio;
+        height /= ratio;
+    } else {
+        ratio = 1;
+    }
+    canvas.width = width;
+    canvas.height = height;
+//        铺底色
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //如果图片像素大于100万则使用瓦片绘制
+    var count;
+    if ((count = width * height / 1000000) > 1) {
+        count = ~~(Math.sqrt(count) + 1); //计算要分成多少块瓦片
+//            计算每块瓦片的宽和高
+        var nw = ~~(width / count);
+        var nh = ~~(height / count);
+        tCanvas.width = nw;
+        tCanvas.height = nh;
+        for (var i = 0; i < count; i++) {
+            for (var j = 0; j < count; j++) {
+                tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+            }
+        }
+    } else {
+        ctx.drawImage(img, 0, 0, width, height);
+    }
+    //进行最小压缩
+    var ndata = canvas.toDataURL('image/jpeg', 0.3);
+//        console.log('压缩前：' + initSize);
+//        console.log('压缩后：' + ndata.length);
+//        console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");
+    tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+    return ndata;
+}
+
+/*调起大图 S*/
+var mySwiper = new Swiper('.swiper-container2', {
+    loop: false,
+    pagination: '.swiper-pagination2',
+})
+$(".view").on("click", ".img-list img",function() {
+    var imgBox = $(this).parents(".img-list").find("img");
+    var i = $(imgBox).index(this);
+    $(".big_img .swiper-wrapper").html("")
+
+    for(var j = 0 ,c = imgBox.length; j < c ;j++){
+        $(".big_img .swiper-wrapper").append('<div class="swiper-slide"><div class="cell"><img src="' + imgBox.eq(j).attr("src") + '" / ></div></div>');
+    }
+    mySwiper.updateSlidesSize();//这个方法会重新计算Slides的数量
+    mySwiper.updatePagination();//这个方法会重新计算Slides分页器的数量
+    $(".big_img").css({
+        "z-index": 1001,
+        "opacity": "1"
+    });
+    mySwiper.slideTo(i, 0, false);
+    return false;
+});
+
+$(".big_img").on("click",function() {
+    $(this).css({
+        "z-index": "-1",
+        "opacity": "0"
+    });
+});
+/*调起大图 E*/
+
+
+
+$(function () {
+        //星星评分
+        $('.click-star span').click(function () {
+            $(this).parent().find('span').removeClass('active'); //重置选中的星星
+            $(this).prevAll('span').addClass('active'); //选中当前星星前面的所有星星
+            $(this).addClass('active'); //选中当前星星
+
+            // 选中的星星赋值给input
+            if ($(this).parent().find('.active').length == 5) {
+                $(this).siblings('input').val(5);
+            } else if ($(this).parent().find('.active').length == 4) {
+                $(this).siblings('input').val(4);
+            } else if ($(this).parent().find('.active').length == 3) {
+                $(this).siblings('input').val(3);
+            } else if ($(this).parent().find('.active').length == 2) {
+                $(this).siblings('input').val(2);
+            } else if ($(this).parent().find('.active').length == 1) {
+                $(this).siblings('input').val(1);
+            }
+        })
+
+//        var myset = {
+//            theme: 'fa',
+//            language: 'zh', //设置语言
+//            // language: 'fr',
+//            uploadUrl: '#',//上传的地址
+//            allowedFileExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+//            maxFileCount: 4, //表示允许同时上传的最大文件个数
+//            msgFilesTooMany: "最多只能上传12张图片",
+//            //dropZoneEnabled: false,//是否显示拖拽区域
+//            msgLoading: '<img src="/static/gif/loaddings.gif">',
+//            msgProgress: '<img src="/static/gif/loaddings.gif">',
+//            initialPreviewAsData: true,
+//            initialPreviewFileType: 'image',
+//            purifyHtml: true
+//        };
+//        var imageurl = $("#file-fr").attr("value");
+//        if (imageurl) {
+//            var op = $.extend({
+//                initialPreview: [
+//                    // 预览图片的设置
+//                    imageurl
+//                ]
+//            }, myset);
+//
+//            $("#file-fr").fileinput(op);
+//        } else {
+//            $("#file-fr").fileinput(myset);
+//        }
+
+        // 点击提交
+        $(".review_add_btn").click(function () {
+            var store_id = $("input[name=store_id]").val();// 店铺id
+            var gp_id = $("input[name=gp_id]").val();// 商品ID
+            var o_id = $("input[name=o_id]").val();// 订单ID
+            var service_score = $("input[name=service_score]").val();// 店铺服务评分
+            var logistics_score = $("input[name=logistics_score]").val();// 物流评分
+            var goods_score = $("input[name=goods_score]").val();// 商品评分
+            var rg_content = $("#textarea").val();// 评价内容
+            var rg_showname = $("input[name=rg_showname]").val();// 是否匿名
+            var rgi_img = [];
+            $(".img-list li").each(function () {
+                rgi_img.push($(this).find("img").attr('src'));
+               // rgi_img[index] = $(this).find("img").attr('src');
+            });
+            $.ajax({
+                type: 'POST',
+                url: "/member/Review/review_add",
+                dataType: 'json',
+                data: {
+                    store_id: store_id,
+                    gp_id: gp_id,
+                    o_id: o_id,
+                    service_score: service_score,
+                    logistics_score: logistics_score,
+                    goods_score: goods_score,
+                    rg_content: rg_content,
+                    rg_showname: rg_showname,
+                    rgi_img: rgi_img
+                },
+                success: function (data) {
+                    if (data.status > 0) {
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        setTimeout(function(){
+                            window.location.href="/member/orderpai/orderlist/i/4";
+                        },2000);
+
+                    } else {
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                    }
+                },
+                error: function () {
+                    layer.msg("<span style='color:#fff'>服务器繁忙</span>",{time: 2000});
+                }
+            });
+        });
+
+    })
+</script> {/block}

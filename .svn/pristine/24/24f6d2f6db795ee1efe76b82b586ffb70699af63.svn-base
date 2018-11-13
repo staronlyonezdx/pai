@@ -1,0 +1,320 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/participate/participate.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/my_attend/my_attend.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+{/block}
+
+{block name="content"}
+<main>
+    <!--<div class="my_join_header">-->
+        <!--<div class="left">-->
+            <!--<span class="call_num">{if condition="$pop_info.popularity>100"}100{else/}{$pop_info.popularity}{/if}</span>-->
+            <!--<span class="call_info">当前剩余打气值</span><br>-->
+            <!--<span class="date_info"></span>-->
+            <!--<span class="call_fill">后恢复{$pop_info.add_pop}个打气值</span>-->
+        <!--</div>-->
+        <!--<img src="__STATIC__/image/popularitygoods/icon_tieshi@2x.png" alt="">-->
+    <!--</div>-->
+
+    <div class="my_header">
+
+        <div class="my_header_left lf">
+            <img src="__STATIC__/image/popularitygoods/icon_nav_back@2x.png" alt="" onClick="javascript:history.back();"
+                 class="goback">
+            <div style="margin-top: 0.54rem;margin-left: 0.3rem">
+                <span class="call_num">{if condition="$pop_info.popularity>100"}100{else/}{$pop_info.popularity}{/if}</span><br>
+                <p class="call_info">当前剩余打气值</p><br>
+                <span class="date_info"></span>
+                <span class="call_fill">后恢复{$pop_info.add_pop}个打气值</span>
+            </div>
+
+        </div>
+        <div class="my_header_right rt">
+            <img src="__STATIC__/image/popularitygoods/pic_xiaotieshi2@2x.png" alt="">
+            <div class="my_header_btns">
+                <a href="javaScript:;" class="cantuan">去参团</a>
+                <a href="javaScript:;" class="chongzhi">去充值</a>
+            </div>
+
+        </div>
+    </div>
+    <!--点击小贴士出现弹框-->
+    <div class="tieshi_mark">
+        <div class="alert_tieshi">
+            <div class="alert_tieshi_header">
+                <img src="__STATIC__/image/popularitygoods/icon_xiaotieshi@2x.png" alt="">
+                <span class="tieshi_num">当前人气值: {if condition="$pop_info.popularity>100"}100{else/}{$pop_info.popularity}{/if}</span>
+                <span class="tieshi_date">{$pop_info.left_time}</span>
+                <span class="tieshi_fill">后恢复{$pop_info.add_pop}个打气值</span>
+                <img src="__STATIC__/image/popularitygoods/icon_X@2x.png" alt="" class="click_cancle">
+
+            </div>
+            <div class="tieshi_content">
+                <p>1、主动恢复（上限为50点，2者满足其一即可):<br>
+                    ①在<span style="font-weight: 600;color:#333333;">拍吖吖普通场</span>每消费1元，人气值增加1点<br>
+                    ②每充值1元，人气值增加1点。
+                </p>
+                <p>2、自动恢复：若打气值不足50点，则会慢慢恢复，每2小时恢复5点，上限50点。</p>
+            </div>
+            <div class="buttons">
+                <a href="/member/wallet/recharge/">去充值</a>
+                <a href="/index/index/">去参团</a>
+            </div>
+        </div>
+    </div>
+    <!--<div class='human'>-->
+    <!--<p class='p1'>当前剩余人气值：34</p>-->
+    <!--<a href="javascript;">小贴士</a>-->
+    <!--</div>-->
+
+    <div class="participate_tab clear" style="top:4.2rem">
+        <div class="participate_tab_list participate_tab_color lf" i="0">
+            <span class="fr">好友点赞</span>
+        </div>
+        <div class="participate_tab_list lf" i="1">
+            <span class="lf">我的参团</span>
+        </div>
+        <div class="participate_tab_list lf" i="2">
+            <span class="lf">我的标记</span>
+        </div>
+    </div>
+
+    <!--轮播-->
+    <div id="swiper" class="swiper-container" style="top:5.4rem">
+        <div class="swiper-wrapper">
+            <!--好友点赞-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <div id="dataList0" class="data-list"></div>
+            </div>
+            <!--我的参团-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <div id="dataList1" class="data-list">
+                </div>
+            </div>
+
+            <!--我的标记-->
+            <div id="mescroll2" class="swiper-slide mescroll">
+                <div id="dataList2" class="data-list"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 支付密码浮动层 S -->
+<div class="ftc_wzsf">
+    <div class="srzfmm_box">
+        <div class="qsrzfmm_bt clear_wl">
+            <span class="">请输入支付密码</span>
+            <img src="__STATIC__/image/orderpai/icon_nav_X@2x.png" class="tx close fr conf_order_colse">
+        </div>
+        <div class="zfmmxx_shop conf_order_paypassword_main clear">
+            <p class="conf_order_hints">
+                <span class="conf_order_fuhao">￥</span>
+                <span class="all_money"></span>
+                <input type="hidden" id="pm_id"/>
+                <input type="hidden" id="pg_id"/>
+                <input type="hidden" id="m_money"/>
+            </p>
+        </div>
+
+        <div class="inputBoxContainer" id="inputBoxContainer">
+            <input type="tel" class="realInput" autofocus="autofocus"/>
+            <div class="bogusInput">
+                <input type="password" maxlength="6" disabled class="active99"/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+            </div>
+        </div>
+        <div class="conf_order_paypassword_hint clear">
+            <div class="conf_order_balance lf">当前余额
+                <span> ￥ <small></small></span>
+                <p class="lack_msg">余额不足请立即充值</p>
+            </div>
+            <a href="/member/wallet/recharge/r_jump_type/4/r_jump_id/1">
+                <div class="conf_order_pay rt">充值</div>
+            </a>
+        </div>
+        <a href="/member/register/amnesia_payment">
+            <p class="conf_forget">忘记密码</p>
+        </a>
+    </div>
+    <div class="hbbj"></div>
+</div>
+<!-- 支付密码浮动层 E -->
+
+<!-- 支付成功弹窗 S -->
+<div class="pay-success">
+    <div class="pay-success-over"></div>
+    <div class="pay-success-cont">
+        <h3>支付成功 <span></span></h3>
+        <img/>
+        <p></p>
+        <div><span class="lf">人气值：<small class="rqz"></small></span><span class="rt">排名：<small
+                class="pm"></small></span></div>
+        <small>快去邀请小伙伴为你点赞吧！</small>
+        <a onclick="share(this,2)">邀请好友</a>
+    </div>
+</div>
+<!-- 支付成功弹窗 E -->
+
+<!-- 分享弹窗 S -->
+<div class="share-pop">
+    <div class="share-over"></div>
+    <div class="share-tip"></div>
+    <div class="share-cont">
+        <img class="share-tit" src="__STATIC__/image/popularity/share-tit.png"/>
+        <img class="share-code"/>
+        <p>长按保存二维码到本地</p>
+        <div data-clipboard-text="" class="share-link">直接分享</div>
+        <div class="share-link-wx">直接分享</div>
+    </div>
+</div>
+<!-- 分享弹窗 E -->
+
+<!-- 安卓，ios分享效果 S -->
+<div class="details_fenxiang">
+    <div class="details_fxcon">
+        <div class="details_fxtit">
+            将商品分享至
+        </div>
+        <div class="details_fxlist clear">
+            <div class="details_fx_img lf" onclick="app(0)">
+                <img src="__STATIC__/image/details/wx.png">
+                微信好友
+            </div>
+            <div class="details_fx_img lf" onclick="app(1)">
+                <img src="__STATIC__/image/details/pyq.png">
+                朋友圈
+            </div>
+            <!-- <div class="details_fx_img lf">
+                <img src="__STATIC__/image/details/iconqq@2x.png">
+                QQ好友
+            </div>
+            <div class="details_fx_img lf">
+                <img src="__STATIC__/image/details/icon微博@2x.png">
+                新浪微博
+            </div> -->
+            <div class="details_fx_img lf" onclick="copyUrl()">
+                <img src="__STATIC__/image/details/link.png">
+                复制链接
+            </div>
+        </div>
+        <div class="details_fx_cancel">
+            取消
+        </div>
+    </div>
+</div>
+<!-- 安卓，ios分享效果 E -->
+
+<input type="hidden" id="app"/>
+<input type="hidden" id="title"/>
+<input type="hidden" id="imgUrl"/>
+<input type="hidden" id="share_title"/>
+<input type="hidden" id="share_desc"/>
+<input type="hidden" id="share_link"/>
+<input type="hidden" name="pm_id" value=""/>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script type="text/javascript" src="__JS__/md5.js"></script>
+<script src="__JS__/participate/participate.js"></script>
+<script src="__JS__/cookie/jquery.cookie.js"></script>
+<script>
+    $(function () {
+        // console.log({$pop_info.add_pop})
+        //点击小贴士出现弹框
+        $('.my_join_header img').click(function () {
+            $('.tieshi_mark').css('display', 'block');
+            $('.alert_tieshi .alert_tieshi_header img.click_cancle').click(function () {
+                $('.tieshi_mark').css('display', 'none');
+            })
+        })
+        // 格式化时间
+        var time = '{$pop_info.left_time}'
+        var timerId;
+
+        function formdate(date) {
+            var hours = Math.floor(date / 3600);
+            var leave1 = date % 3600;//计算小时数后剩余的毫秒数
+            var minutes = Math.floor(leave1 / 60);
+            var leave2 = leave1 % 60;//计算分钟数后剩余的毫秒数
+            var seconds = Math.floor(leave2);
+            if (hours < 9) {
+                hours = "0" + hours;
+            }
+            if (minutes < 9) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 9) {
+                seconds = "0" + seconds;
+            }
+            time--;
+            if (time < 0) {
+                   clearInterval(timerId);
+                window.location.reload();
+            }
+            // console.log({$pop_info.left_time});
+            // console.log(hours, minutes, seconds);
+            $('.my_header .my_header_left .date_info').html(hours + ':' + minutes + ':' + seconds)
+            $('.alert_tieshi .alert_tieshi_header .tieshi_date').html(hours + ':' + minutes + ':' + seconds)
+        }
+
+        timerId = setInterval(function () {
+            formdate(time)
+        }, 1000)
+        // 当人气值到达50的时候，提示自动恢复人气值到达上限，人气值到达100，则提示人气值已经到达上限
+        var callNum = '{$pop_info.popularity}'
+        // console.log(callNum);
+        // if (callNum >= 50) {
+        //     console.log(11);
+        //     clearInterval(timerId)
+        //     $('.my_join_header .left .date_info').html('您的自动恢复打气值已达上限')
+        //     $('.alert_tieshi .alert_tieshi_header .tieshi_date').html('您的自动恢复打气值已达上限')
+        //     $('.alert_tieshi .alert_tieshi_header .tieshi_fill').html('')
+        //     $('.my_join_header .left .call_fill').html('')
+        //     if (callNum >= 100) {
+        //         clearInterval(timerId)
+        //         console.log(22);
+        //         $('.my_join_header .left .date_info').html('您的打气值已达上限')
+        //         $('.alert_tieshi .alert_tieshi_header .tieshi_date').html('您的打气值已达上限')
+        //         $('.alert_tieshi .alert_tieshi_header .tieshi_fill').html('')
+        //         $('.my_join_header .left .call_fill').html('')
+        //     }
+        //
+        // }
+        if (callNum >= 50) {
+            clearInterval(timerId);
+            $('.my_header .my_header_left .date_info').html('');
+            $('.my_header .my_header_left .call_fill').html('您的自动恢复打气值已达上限')
+            if (callNum >= 100 ) {
+                clearInterval(timerId);
+                $('.my_header .my_header_left .date_info').html('');
+                $('.my_header .my_header_left .call_fill').html('您的打气值已达上限')
+            }
+        }
+    })
+
+
+
+    $('.my_header_btns a').click(function(){
+       //     console.log($(this).index());
+           var index = $(this).index();
+           if(index == 0){
+               window.location.href = '/popularity/popularitygoods/share_list'
+           }else if(index == 1){
+               window.location.href = '/member/wallet/recharge'
+           }
+    })
+</script>
+{/block}

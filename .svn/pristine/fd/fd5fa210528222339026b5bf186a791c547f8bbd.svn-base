@@ -1,0 +1,192 @@
+$(function(){
+    //验证店铺名
+    $("input[name='ba_stroe_name']").keyup(function(){
+        var shopname=$(this).val();
+        if(shopname.length>=30){
+            layer.msg("<span style='color:#fff'>请输入1-30个字符的店铺名</span>",{
+                time:2000
+            });
+            return false;
+        }
+    })
+
+    //验证企业名
+    $("input[name='corporation_name']").keyup(function(){
+        var corporation_name=$(this).val();
+        if(corporation_name.length>=40){
+            layer.msg("<span style='color:#fff'>请输入1-30个字符的企业名</span>",{
+                time:2000
+            });
+            return false;
+        }
+    })
+	//验证企业详细地址
+    $("textarea[name='address']").keyup(function(){
+        var address=$("textarea[name='address']").val();
+        if(address.length>=50){
+            layer.msg("<span style='color:#fff'>请输入5-50个字符的企业详细地址</span>",{
+                time:2000
+            });
+            return false;
+		}
+    })
+	//开户银行
+    $("input[name='ba_bankname']").keyup(function(){
+        var ba_bankname=$(this).val().length;
+        if(ba_bankname>=30){
+            layer.msg("<span style='color:#fff'>请输入正确的开户银行</span>",{
+                time:2000
+            });
+            return false;
+        }
+	})
+    //银行账号
+    $("input[name='ba_bankaccount']").keyup(function() {
+        var ba_bankaccount = $(this).val().length;
+        if (ba_bankaccount >=30) {
+            layer.msg("<span style='color:#fff'>银行账号长度不能大于30位</span>", {
+                time: 2000
+            });
+            return false;
+        }
+    })
+    //社会信用代码
+    $("input[name='ba_license']").keyup(function() {
+        var ba_license = $(this).val().length;
+        if (ba_license>= 19) {
+            layer.msg("<span style='color:#fff'>社会信用代码长度不能大于18位</span>", {
+                time: 2000
+            });
+            return false;
+        }
+    })
+    //法人姓名
+    $("input[name='ba_legal_person']").keyup(function() {
+        var ba_legal_person = $(this).val();
+        if(ba_legal_person.length>=16){
+            layer.msg("<span style='color:#fff'>法人姓名不能大于16个字</span>",{
+                time:2000
+            });
+            return false;
+        }
+    })
+	$(".application_in_submit").click(function(){
+        //验证店铺名
+        var textname=/^[\u4E00-\u9FA5A-Za-z0-9]{1,30}$/;
+		var shopname=$("input[name='ba_stroe_name']").val();
+		if(!textname.test(shopname)){
+			layer.msg("<span style='color:#fff'>请输入1-30个字符的店铺名</span>",{
+				time:2000
+			});
+			return false;
+		}
+		if(shopname==""||shopname==undefined){
+            layer.msg("<span style='color:#fff'>店铺名不能为空</span>",{
+                time:2000
+            });
+            return false;
+        }
+
+        //验证店铺分类
+		var cid=$("input[name='store_categoryid']").val();
+		if(cid == ''){
+			layer.msg("<span style='color:#fff'>请选择店铺分类</span>",{
+				time:2000
+			});
+			return false;
+		}
+        
+		//验证联系电话
+        var regtel =/^((1[3|4|5|6|7|8|9][0-9]{9})|(0\d{2,3}-\d{7,8}))$/;
+		var store_tel=$("input[name='store_tel']").val();
+		if(!regtel.test(store_tel)){
+			layer.msg("<span style='color:#fff'>请输入正确的手机号或座机号</span>",{
+				time:2000
+			});
+			return false;
+		}
+		//企业名称
+        var textnameqy=/^[\u4E00-\u9FA5A-Za-z0-9]{1,30}$/;
+		var corporation_name= $("input[name='corporation_name']").val();
+		if(!textnameqy.test(corporation_name)){
+			layer.msg("<span style='color:#fff'>请输入1-30个字符的企业名</span>",{
+				time:2000
+			});
+			return false;
+		}
+		//企业地址
+		var site=$("input[name='site']").val();
+		if(site==""){
+			layer.msg("<span style='color:#fff'>企业地址不能为空</span>",{
+				time:2000
+			});
+			return false;
+		}
+		//企业详细地址
+		var textnames=/^[\u4E00-\u9FA5A-Za-z0-9]{5,50}$/;
+		var address=$("textarea[name='address']").val();
+		if(!textnames.test(address)){
+			layer.msg("<span style='color:#fff'>请输入5-50个字符的企业详细地址</span>",{
+				time:2000
+			});
+			return false;
+		}
+		//开户银行
+		var textnamebank=/^[\u4E00-\u9FA5A-Za-z0-9]{4,40}$/;
+		var ba_bankname=$("input[name='ba_bankname']").val();
+		if(!textnamebank.test(ba_bankname)){
+			layer.msg("<span style='color:#fff'>请输入正确的开户银行</span>",{
+				time:2000
+			});
+			return false;
+		}
+		//银行账号
+		var ba_bankaccount=$("input[name='ba_bankaccount']").val()
+		if(ba_bankaccount == ''){
+			layer.msg("<span style='color:#fff'>银行账号不能为空</span>",{
+				time:2000
+			});
+			return false;
+        }
+        if(ba_bankaccount.length < 16 || ba_bankaccount.length > 19) {
+            layer.msg("<span style='color:#fff'>银行卡号长度必须在16到19之间</span>",{
+				time:2000
+			});
+            return false;
+        }
+        var num = /^\d*$/; //全数字
+        if(!num.exec(ba_bankaccount)) {
+            layer.msg("<span style='color:#fff'>银行卡号必须全为数字</span>",{
+				time:2000
+			});
+            return false;
+        }
+       
+		//社会信用代码
+		var ba_license=$("input[name='ba_license']").val().length;
+		if(ba_license!=18){
+			layer.msg("<span style='color:#fff'>请输入正确的社会信用代码</span>",{
+				time:2000
+			});
+			return false;
+        }
+        if($('#file1').val() == '') {
+            layer.msg("<span style='color:#fff'>请上传营业执照</span>",{
+				time:2000
+			});
+			return false;
+        }
+        
+	})
+	//点击同意协议的时候
+	$(".application_deal").click(function(){
+		$(this).siblings(".application_deal").toggleClass("application_block");
+		$(this).toggleClass("application_block");
+        if($(".application_block").attr("data")==1){
+            $(".application_in_submit").attr("disabled",true);
+        }else if($(".application_block").attr("data")==2){
+            $(".application_in_submit").attr("disabled",false);
+        }
+        $(".application_in_submit").toggleClass("application_yew");
+    })
+})

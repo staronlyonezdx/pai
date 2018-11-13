@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>500-错误提示</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/error/error.css">
+    <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/common/rem.js"></script>
+</head>
+
+<body>
+<div class="error">
+    <img src="/static/image/error/500.png" />
+    <p>吖吖找不到你想要的页面</p>
+    <div class="error-btn">
+        <a onclick="javascript:history.back(-1);">返回</a><span>重新加载</span>
+    </div>
+</div>
+
+<script>
+    $('.error-btn span').click(function(){
+        location.reload();
+    })
+</script>
+</body>
+</html>

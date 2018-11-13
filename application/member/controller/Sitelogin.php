@@ -1,0 +1,72 @@
+<?php
+namespace app\member\controller;
+use app\data\service\BaseService;
+use app\data\service\member\MemberService;
+use app\data\service\webImages\WebImagesService;
+use RedisCache\RedisCache;
+use think\Controller;
+use think\Cookie;
+use think\Db;
+
+class Sitelogin extends IndexHome
+{
+	/**
+	* 检测晟域站点到拍吖吖的登录
+     * 邓赛赛
+	*/
+    public function check_site()
+    {
+        $site_str = trim(input('param.site_str'));
+        if(!$site_str){
+            $this->redirect('/member/login/index');
+        }
+        $redis = RedisCache::getInstance();
+        $param = $redis->get($site_str);
+        if(!$param){
+            $this->redirect('/member/login/index');
+        }
+        $param = json_decode($param,true);
+        $member = new MemberService();
+        $is_user = $member->get_count($param);
+        if(!$is_user){
+            $this->redirect('/member/login/index');
+        }else{
+            $m_id = $member->encrypt('abcde'.$param['m_id']);
+            $time = 3600*24*365;
+            Cookie::set('m_id',$m_id,$time);
+            Cookie::set('phone',$param['m_mobile'],$time);
+            $redis->del($site_str);
+            $this->redirect('/pointpai/Pointgoods/goods_list');
+        }
+    }
+    /**
+     * 拍吖吖站点到晟域登录
+     * 邓赛赛
+     */
+    public function to_sy(){
+        $m_id = $this->m_id;
+        //传值确认落地页面 1首页 空为充值积分页面
+        $status = input('param.status','');
+        $where = [
+            'm_id'=>$m_id,
+        ];
+        $member = new MemberService();
+        $phone = $member->get_value($where,'m_mobile');
+        $redis = RedisCache::getInstance();
+        $redis_key = md5($member->encrypt('site'.$m_id));
+        $param = [
+            'm_id'=>$m_id,
+            'm_mobile'=>$phone,
+        ];
+        $param = json_encode($param);
+        $is_ok = $redis->set($redis_key,$param,60);
+        if($is_ok){
+            $this->redirect('http://cscs.syu666.com/member/login/check_site/site_str/'.$redis_key.'/status/'.$status);
+        }else{
+            return ['status'=>0,'msg'=>'保存数据错误'];
+        }
+    }
+
+
+
+}

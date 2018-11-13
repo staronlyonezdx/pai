@@ -1,0 +1,280 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+<!-- {block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block} -->
+{block name="style"}
+<style>
+    .select_box{
+        margin-left:30px;
+    }
+    .form-control{
+        width: 100px;
+        display:inline-block;
+    }
+    .fade{
+        margin-top:10%;
+
+    }
+    .modal-body{
+        z-index: 100000;
+    }
+    label{
+        width:80px;
+    }
+    .form-control{
+        width:250px;
+        height:200px;
+       vertical-align: middle;
+    }
+    .num{
+        width:80px;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>商品审核： </label>
+                <span class="select_box">
+                    <label> 商品状态:</label>
+                    <select type="text" class="form-control input-sm slt" >
+                        <option {eq name="g_state" value="2"}selected="selected"{/eq} value="2" >待审核</option>
+                        <option {eq name="g_state" value="6"}selected="selected"{/eq} value="6">审核通过</option>
+                        <option {eq name="g_state" value="4"}selected="selected"{/eq} value="4">审核失败</option>
+                    </select>
+                </span>
+            </div>
+            <div class="form-group  from_add_authority">
+                <span class="select_box">
+                    <label> 热拍商品:</label>
+                    <select type="text" class="form-control input-sm hot" >
+                        <option {eq name="is_heat" value=""}selected="selected"{/eq} value="" >全部</option>
+                        <option {eq name="is_heat" value="1"}selected="selected"{/eq} value="1">热拍</option>
+                    </select>
+                </span>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>申请ID</th>
+                    <th style="width:150px;">标题</th>
+                    <th style="width:150px;">二级标题</th>
+                    <th>地区</th>
+                    <th>商品图片</th>
+                    <!--<th style="width:200px;">商品描述</th>-->
+                    <th>商品类型</th>
+                    <th>开始日期</th>
+                    <th>结束日期</th>
+                    <th>申请时间</th>
+                    <th>审核时间</th>
+                    <th>市场价</th>
+                    <th>结算价</th>
+                    <th>快递方式</th>
+                    <th>快递费</th>
+                    <th style="width:200px;">限购数 </th>
+                    <th>是否推荐</th>
+                    <th>是否热拍</th>
+                    <th>状态 </th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="list" id="vo"}
+                <tr>
+                    <td class="id_{$vo.g_id}">{$vo.g_id}</td>
+                    <td class="name_{$vo.g_id}">{$vo.g_name}</td>
+                    <td>{$vo.g_secondname}</td>
+                    <td>{$vo.shop_address}</td>
+                    <td><img src="__CDN_PATH__{$vo.g_img}" alt="" width="50" height="50"></td>
+                    <!--<td>{$vo.g_description}</td>-->
+                    <!--<td>{$vo.g_typeid}</td>-->
+                    <td>{$spec[$vo.g_typeid] ?? '未知'}</td>
+                    <td>{notempty name='vo.g_starttime'}{$vo.g_starttime|date="m-d H:i",###} {else /}通过立即开拍{/notempty}</td>
+                    <td>{notempty name='vo.g_endtime'}{$vo.g_endtime|date="m-d H:i",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.g_addtime'}{$vo.g_addtime|date="m-d H:i",###} {else /}{/notempty}</td>
+                    <td>{notempty name='vo.g_audittime'}{$vo.g_audittime|date="m-d H:i",###} {else /}{/notempty}</td>
+                    <td>{$vo.gp_market_price}</td>
+                    <td>{$vo.gp_settlement_price}</td>
+                    <td>{$vo.g_express_way}</td>
+                    <td>{$vo.g_express}</td>
+                    <td>{volist name='$vo.limit_list' id='voo'}
+                            <div>{$voo.gdt_name}:<input type="text" id="g_limited{$voo.gdr_id}" placeholder="限购数" class="num{$vo.g_id}" data-value='{$voo.gdr_id}' value="{$voo.gdr_limited}"></div>
+                        {/volist}
+                    </td>
+                    <td>
+                        <input {eq name="$vo.is_tj" value="2"}checked {/eq} type="radio"  name='is_tj_{$vo.g_id}' class='is_tj_{$vo.g_id}'value="2">是
+                        <input {eq name="$vo.is_tj" value="1"}checked {/eq}  type="radio"  name='is_tj_{$vo.g_id}'  class='is_tj_{$vo.g_id}' value="1">否
+                    </td>
+                    <td>{if condition="$vo.is_heat == 0"}非热拍{else /}{$vo.is_heat}{/if}</td>
+                    <td>
+                        {if condition="$vo.g_state == 2"}
+                        待审核
+                        {elseif condition="$vo.g_state == 6"/}
+                        成功
+                        {elseif condition="$vo.g_state == 4"/}
+                        失败
+                        {else /}
+                        未知
+                        {/if}
+                    </td>
+                    <td>
+                        <button onclick="btn_info('{$vo.g_id}')" class='btn btn-primary btn-xs'>商品详情</button>
+                        {in name="g_state" value="2,4"}
+                            <button onclick="btn_success('{$vo.g_id}')" class='btn btn-success btn-xs'>通过</button>
+                        {/in}
+                        {in name="g_state" value="2,3"}
+                            <button  data-toggle="modal" onclick="btn_fail('{$vo.g_id}')"  class='btn btn-danger btn-xs' data-target="#exampleModal">不通过</button>
+                        {/in}
+                        {in name="g_state" value="6"}
+                    <button data-toggle="modal"  type="button" class="btn btn-info  btn-xs" data-target="#exampleModal" onclick="set_hot('{$vo.g_id}')">设为热拍</button>
+                        {/in}
+                    </td>
+
+                </tr>
+                {/volist}
+                {/empty}
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="margin-top:30px;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="exampleModalLabel">不通过理由</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form method="get" id='form' action="/admin/goods/set_state" onsubmit="return checkForm()">
+                                    <div class="form-group">
+                                        <input type="hidden" class="g_id" name='g_id' id="g_id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="g_state" class="control-label">商品标题:</label>
+                                        <input type="text" class="g_name"  id="g_name">
+                                    </div>
+                                    <input type="hidden" class="g_state" name='g_state' id="g_state" value="4">
+                                    <div class="form-group chge1">
+                                        <label for="g_des" class="control-label ">理由:</label>
+                                        <textarea class="form-control" name="g_des" id="g_des"></textarea>
+                                    </div>
+                                    <div class="form-group chge2" style="display:none">
+                                        <label for="g_des" class="control-label ">排序:</label>
+                                        <input type="text" class="is_heat" name="is_heat" >
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="submit" class="btn btn-primary">发送</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="page_box">
+        {$page}
+        <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+    </div>
+</div>
+<script>
+    $(function () {
+        //商品状态
+       $('.slt').change(function(){
+          var g_state = $(this).val();
+          location.href="/admin/goods/goodslist?g_state="+g_state
+       });
+       $('.hot').change(function(){
+           var is_heat = $(this).val();
+           location.href="/admin/goods/goodslist/?is_heat="+is_heat
+        })
+    })
+    ///通过
+    function btn_success(id){
+        var gdr_info = [];
+        var child = [];
+        $('.num'+id).each(function(index,item){
+            var gdr_id = $(this).attr('data-value');
+            var gdr_limited = $(this).val();
+            child = [gdr_id,gdr_limited];
+            gdr_info.push(child);
+        })
+        var is_tj = $('.is_tj_'+id+':checked').val();
+        var g_limited = $('#g_limited'+id).val()
+//        var g_invitations = $('#g_invitations'+id).val()
+//        location.href="/admin/goods/set_state?g_id="+id+"&g_state="+6+"&num="+"{$num}"+"&g_limited="+g_limited+"&g_invitations="+g_invitations+'&is_tj='+is_tj
+        $.post('/admin/goods/set_state',{
+            g_id:id,
+            g_state:6,
+            num:"{$num}",
+            g_limited:g_limited,
+            is_tj:is_tj,
+            gdr_info:gdr_info
+        },function(res){
+            if(res.code == 1){
+                location.href=res.url;
+            }
+        })
+    }
+    function btn_fail(id){
+        var g_id = $('.id_'+id).html();
+        var name = $('.name_'+id).html();
+        $("#g_id").val(g_id)
+        $("#g_name").val(name)
+//        $('.chge').empty()
+//        var html = ' <label for="g_des" class="control-label ">理由:</label>'+
+//            '<textarea class="form-control" name="g_des" id="g_des"></textarea>';
+//        $('.chge').html(html);
+        $('.chge1').show()
+        $('.chge2').hide()
+        $('#form').attr('action','/admin/goods/set_state');
+    }
+    //验证from表单
+    function checkForm(){
+        var name = $('#exampleModalLabel').html()
+        if(name == '理由'){
+            var g_des = $('#g_des').val()
+            if(!$.trim(g_des)){
+                alert('请输入不通过理由');
+                return false;
+            }
+        }
+    }
+    //设为热拍
+    function set_hot(id){
+        var g_id = $('.id_'+id).html();
+        var name = $('.name_'+id).html();
+        $("#g_id").val(g_id)
+        $("#g_name").val(name)
+        $('#exampleModalLabel').html('设为热拍');
+        $('.chge2').show()
+        $('.chge1').hide()
+//        var html = ' <label for="g_des" class="control-label ">排序:</label>' +
+//                    ' <input type="text" class="is_heat" name="is_heat" >';
+//        $('.chge').html(html);
+        $('#form').attr('action','/admin/goods/set_heat');
+    }
+
+    //查看商品详情
+    function btn_info(id){
+        location.href='/admin/goods/goods_info/g_id/'+id;
+    }
+
+</script>
+{/block}
+

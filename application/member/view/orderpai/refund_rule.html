@@ -1,0 +1,39 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/rule/peanut_explain.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="peanut_explain">
+        <h5>拍吖吖退款规则</h5>
+        <div class="peanut_yuandian">
+            <img src="__STATIC__/image/orderpai/1861@2x.png" alt=""/>
+            <h3>系统自动退款</h3>
+        </div>
+        <div class="rule_span rule_span_color">
+            <span>你邀请的会员在拍吖吖平台参与拍购，你得5个经验值，并享有所属会员参与手续费5%的收益（若你为黄金会员，得10%收益；若你为黑金会员，得15%的收益）</span>
+        </div>
+        <div class="peanut_yuandian">
+            <img src="__STATIC__/image/orderpai/1861@2x.png" alt=""/>
+            <h3>个人申请退款</h3>
+        </div>
+        <div class="rule_span rule_span_color">
+            <span>当您在参与的商品活动中抽中商品时，在商家发货前您可申请退款，提交退款申请后由后台人员审核，通过审核即可完成退款，退款金额将由审核通过后的七个工作日内到账</span>
+        </div>
+        <div class="peanut_yuandian">
+            <img src="__STATIC__/image/orderpai/1861@2x.png" alt=""/>
+            <h3>花生兑换</h3>
+        </div>
+        <div class="rule_span rule_span_color">
+            <span>您账户中的任何退款，拍吖吖都将扣除退款总金额的5%用来抵价为花生，花生可在[诺丁百利]商城中使用</span>
+        </div>
+</div>
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

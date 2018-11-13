@@ -1,0 +1,44 @@
+body {
+    background: #F2F2F2;
+}
+.error img {
+    width: 4rem;
+    display: block;
+    margin: 2.54rem auto 0 auto;
+}
+.error p {
+    font-size: 0.26rem;
+    text-align: center;
+    color: #532929;
+}
+.error-btn {
+    width: 4rem;
+    margin: 0.8rem auto 0 auto;
+    text-align: center;
+}
+.error-btn:after {
+    clear: both;
+    content: '';
+    display: table;
+}
+.error-btn a {
+    display: block;
+    width: 1.6rem;
+    height: 0.72rem;
+    line-height: 0.72rem;
+    float: left;
+    border: 1px solid #000;
+    font-size: 0.26rem;
+    border-radius: 0.15rem;
+}
+.error-btn span {
+    display: block;
+    width: 1.6rem;
+    height: 0.72rem;
+    line-height: 0.72rem;
+    float: right;
+    border: 1px solid #FFE500;
+    font-size: 0.26rem;
+    border-radius: 0.15rem;
+    background: #FFE500;
+}

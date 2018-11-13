@@ -1,0 +1,42 @@
+$(function(){
+	$(window).scroll(function(){
+				var scrol=$(window).scrollTop();
+				// console.log(scrol);
+				if(scrol>1){
+					$(".mine_tit").addClass("mine_fix");
+					$(".mine_name").css({marginTop:"1.51rem"});
+				}else{
+					$(".mine_tit").removeClass("mine_fix");
+					$(".mine_name").css({marginTop:"0.47rem"})
+				}
+		})
+	$(".mine_collect").each(function(){
+		var ht=$(this).children(".mine_new").children("span").html();
+		if(ht!=""){
+			$(this).children(".mine_new").css({display:"block"});
+			$(this).children(".mine_new").children("span").css({opacity:0});
+		}else{
+			$(this).children(".mine_new").css({display:"none"});
+		}
+	})
+	//循环参拍数据判断消息
+	$(".mine_tab_list").each(function(){
+		var htm=$(this).children(".mine_red_new").html();
+		if(htm!=""){
+			$(this).children(".mine_red_new").css({display:"block"});
+			var leng=htm.length;
+			if(leng>2){
+				$(this).children(".mine_red_new").addClass("mine_red_num");
+				$(this).children(".mine_red_new").text("99+");
+				$(this).children(".mine_red_new").css({paddingLeft:"0.07rem"});
+				$(this).children(".mine_red_new").css({paddingRight:"0.06rem"});
+			}else if(leng>1){
+				$(this).children(".mine_red_new").addClass("mine_red_num");
+			}else if(leng<2){
+				$(this).children(".mine_red_new").removeClass("mine_red_num");
+			}
+		}else{
+			$(this).children(".mine_red_new").css({display:"none"});
+		}
+	})
+})

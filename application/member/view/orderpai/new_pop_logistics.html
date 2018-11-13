@@ -1,0 +1,323 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/upload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/conf_order.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <!--地址栏-->
+    <div class="conf_order">
+        <div class="conf_list clear">
+            <div class="conf_img lf">
+                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                     data-original="__STATIC__/image/orderpai/icon_nav_dingwei@2x.png">
+            </div>
+            <div class="conf_name lf">
+                <p class="conf_tit clear">
+                    {$info.pm_receiver|default=''}
+                    <a href="tel:{$info.pm_mobile|default=''}" class="conf_default rt">拨打</a>
+                    <span class="rt">{$info.pm_mobile|default=''}</span>
+                    <!--<span class="conf_default" onClick="copyUrl2()">复制</span>-->
+                </p>
+                <div>
+                    <p class="conf_site">
+                        {$info.pm_address|default=''}
+                    </p>
+                    <textarea name="" id="new_select">{$info.pm_receiver|default=''},{$info.pm_mobile|default=''},{$info.pm_address|default=''}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="conf_seal">
+            <img src="__STATIC__/image/orderpai/icon_ft@2x.png">
+        </div>
+    </div>
+
+    <div class="conf_content">
+        <!--<a href="">-->
+            <!--<div class="conf_con_tit">-->
+                <!--<img src="__CDN_PATH__{$info.store_logo|default='/static/image/index/pic_home_taplace@2x.png'}">-->
+                <!--<span>{$info.stroe_name|default=''}</span>-->
+                <!--<img src="__STATIC__/image/orderpai/icon_jump3@2x.png" alt="" class="new_img" />-->
+            <!--</div>-->
+        <!--</a>-->
+
+        <div class="conf_order_main clear">
+            <div class="conf_order_img lf">
+                <img src="__CDN_PATH__{$info.pg_img|default='/static/image/index/pic_home_taplace@2x.png'}">
+            </div>
+            <div class="conf_order_text lf">
+                <p>{$info.pg_name|default=''}</p>
+
+                <div class="conf_order_price clear">
+                    <span class="conf_order_new">
+                        ￥{$info.pm_paymoney|default='0.00'}
+                        <span>{$info.pg_market_price|default='0.00'}</span>
+                    </span>
+
+                    <span class="conf_order_inventory rt">x
+                        <span class="mynum">1</span>
+                    </span>
+
+                    <!--<div class="conf_order_zhekou rt">-->
+                        <!--<img src="__CDN_PATH__{$info.gdt_img|default=''}" alt="">-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        <form method="post" action="new_logistics_post" onsubmit="return form_submit()" enctype="multipart/form-data">
+            <div class="conf_order_data conf_order_express">
+                <div class="clear">
+                    快递公司
+                    <span class="conf_order_hint conf_select">请选择快递公司</span>
+                    <span class="conf_order_hint conf_sele">请选择快递公司</span>
+
+                    <div class="conf_order_back_img rt">
+                        <img src="__STATIC__/image/orderpai/icon_nav_jump@2x.png" alt="">
+                    </div>
+                </div>
+                <input type="hidden" name="express_corid" value=""/>
+                <input type="hidden" name="express_way" value=""/>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    快递单号
+                    <input type="text" name="express_num" placeholder="请填写快递单号"/>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    卖家姓名
+                    <input type="text" name="seller_name" placeholder="填写寄件人姓名"/>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    联系电话
+                    <input type="text" name="seller_mobile" placeholder="填写寄件人联系电话"/>
+                </div>
+            </div>
+            <!--<div class="conf_view_pic">-->
+                <!--<div class="conf_file_inp">-->
+                    <!--<div class="conf_file_inp_img">-->
+                        <!--<input id="file" name="express_img[]" type="file"  accept="image/png, image/jpeg, image/gif, image/jpg" multiple />-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </form>
+    </div>
+    <div class="conf_order_btns ljzf_but" id="subbtn">
+        确认发货
+    </div>
+    <div class="logistics_pop">
+        <div class="logistics_list_header">
+            <div class="header_nav">
+                <div class="header_view">
+                    <div class="header_tit">
+                        <span>选择快递公司</span>
+
+                        <div class="header_back conf_header_back">
+                            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="logistics_list_main">
+            <div class="logistics_list" corid="1">
+                中通快递
+            </div>
+            <div class="logistics_list" corid="2">
+                顺丰快递
+            </div>
+            <div class="logistics_list" corid="3">
+                申通快递
+            </div>
+            <div class="logistics_list" corid="4">
+                韵达快递
+            </div>
+            <div class="logistics_list" corid="5">
+                圆通快递
+            </div>
+            <div class="logistics_list" corid="6">
+                天天快递
+            </div>
+            <div class="logistics_list" corid="7">
+                龙邦快递
+            </div>
+            <div class="logistics_list" corid="10">
+                其他
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    $(function () {
+        $(".conf_file_inp").click(function () {
+            if ($('.conf_file_pic').length < 4) {
+                //1、先回去input标签
+                var $input = $("#file");
+                //2、给input标签绑定change事件
+                $input.on("change", function () {
+                    //补充说明：因为我们给input标签设置multiple属性，因此一次可以上传多个文件
+                    //获取选择图片的个数
+                    var files = this.files;
+                    var length = files.length;
+                    if ($('.conf_file_pic').length + length > 4) {
+                        layer.msg("<span style='color:#fff'>最多只能上传4张图片</span>", {
+                            time: 2000
+                        });
+                        return false;
+                    }
+                    if ($('.conf_file_pic').length + length == 4) {
+                        $(".conf_file_inp").css({display: "none"})
+                    }
+                    //3、回显
+                    $.each(files, function (key, value) {
+                        //每次都只会遍历一个图片数据
+                        var div = document.createElement("div"),
+                                img = document.createElement("img"),
+                                img2 = document.createElement("img");
+                        img2.className = "cancel_pic";
+                        img2.setAttribute("src", "/static/icon/publish/icon_deom_del.png");
+                        div.className = "conf_file_pic";
+                        var fr = new FileReader();
+                        fr.onload = function () {
+                            img.src = this.result;
+                            div.appendChild(img2);
+                            div.appendChild(img);
+                            $(".conf_view_pic").append(div);
+                            //点击叉号
+                            $(".cancel_pic").on("click", function () {
+                                $(this).parent('.conf_file_pic').remove();
+                                if ($('.conf_file_pic').length < 4) {
+                                    $('.conf_file_inp').show();
+                                }
+                            })
+                        }
+                        fr.readAsDataURL(value);
+
+                    })
+                })
+
+            } else {
+                return false;
+            }
+            //4、我们把当前input标签的id属性remove
+            $input.removeAttr("id");
+            //我们做个标记，再class中再添加一个类名就叫test
+//        var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
+//        $(this).append($(newInput));
+
+        })
+        //点击选择快递
+        $(".conf_order_express").click(function () {
+            $(".logistics_pop").addClass("conf_dis");
+        })
+        $(".logistics_list").click(function () {
+            var valu = $(this).html();
+            var  corid = $(this).attr("corid");
+            $(".logistics_pop").removeClass("conf_dis");
+            $(".conf_select").css({display: "none"});
+            $(".conf_sele").css({display: "inline-block"});
+            $(".conf_sele").html(valu);
+
+            $("input[name=express_corid]").val(corid);
+            $("input[name=express_way]").val(valu);
+
+        })
+        $(".conf_header_back").click(function(){
+            $(".logistics_pop").removeClass("conf_dis");
+        })
+
+        // 提交表单
+        $("#subbtn").click(function(){
+
+            var pm_id = "{$pm_id|default=0}";
+            var is_layer = "{$is_layer|default=0}";
+            var express_corid = $("input[name=express_corid]").val();
+            var express_way = $("input[name=express_way]").val();
+            var express_num = $("input[name=express_num]").val();
+            var seller_name = $("input[name=seller_name]").val();
+            var seller_mobile = $("input[name=seller_mobile]").val();
+
+            //数据验证
+            if(!pm_id){
+                layer.msg("<span style='color:#fff'>参数错误</span>", {
+                    time: 2000
+                });
+                return false;
+            }
+            if(!express_corid || !express_way){
+                layer.msg("<span style='color:#fff'>请选择快递公司</span>", {
+                    time: 2000
+                });
+                return false;
+            }
+            if(seller_name==""){
+                layer.msg("<span style='color:#fff'>卖家姓名不能为空</span>",{
+                    time:2000
+                });
+                return false;
+            }
+            var tel_reg =/^1[3-9][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/;
+            if(seller_mobile==""){
+                layer.msg("<span style='color:#fff'>联系电话不能为空</span>",{
+                    time:2000
+                });
+                return false;
+            }
+//            else if (!tel_reg.test(seller_mobile)) {
+//                layer.msg("<span style='color:#fff'>联系电话输入有误</span>",{
+//                    time:2000
+//                });
+//                return false;
+//            };
+
+//            var express_img = [];
+//            $(".conf_file_pic").each(function (index) {
+//                express_img[index] = $(this).find(".cancel_pic").next("img").attr('src');
+//            });
+            // console.log(express_img);
+            $.ajax({
+                url: "/business/Poporder/fahuo_do",
+                dataType: 'json',
+                type: 'POST',
+                data: {pm_id:pm_id,express_corid: express_corid,express_way:express_way,express_num:express_num,seller_name:seller_name,seller_mobile:seller_mobile},
+                success: function (data) {
+                    console.log(data);
+                    if(!data.status){
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                    }else{
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        setTimeout(function(){
+                            if(is_layer == 1){
+                                parent.location.reload(); // 父页面刷新
+                            }else{
+                                window.location.href="/member/Orderpai/my_sell_list/i/1";
+                            }
+                        },2000);
+                    }
+                }
+            });
+        });
+    })
+    function copyUrl2() {
+        var Url2 = document.getElementById("new_select");
+        Url2.select();
+        document.execCommand("Copy");//执行浏览器复制命令
+        layer.msg("<span style='color:#fff'>复制成功，快去粘贴吧</span>", {
+            time: 2000
+        });
+//        console.log(Url2.select());
+    }
+</script>
+{/block}

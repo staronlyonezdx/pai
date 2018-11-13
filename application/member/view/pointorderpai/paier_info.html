@@ -1,0 +1,68 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/paier_info.css">
+{/block}
+{block name="header"}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view">-->
+        <!--<div class="header_tit">-->
+            <!--<div class="paier_info_header ">-->
+                <!--<img src="__STATIC__/image/orderpai/icon_gou@2x.png" alt="" >-->
+            <!--</div>-->
+            <!--{$m_name|default=''}-->
+            <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+                <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="paier_info_view">
+
+        {empty name="list"}
+        <p>没有数据</p>
+        {else/}
+        {volist name="$list" id="vo"}
+        <div class="paier_info_list">
+            {switch name="vo.oa_state" }
+                {case value="1"}
+                <p class="paier_info_hint">等待揭晓中</p>
+                {/case}
+                {case value="2"}
+                <p class="paier_info_hint">恭喜！该拍吖吖码已团中宝贝~<img src="__STATIC__/image/orderpai/icon_zhongjaing@2x.png" alt=""></p>
+                {/case}
+                {case value="3"}
+                <div class="paier_info_piczhezhao">
+                    <img src="__STATIC__/image/orderpai/ka4@2x.png" alt="">
+                </div>
+                <p class="paier_info_hint">抱歉未抽中商品</p>
+
+                {/case}
+                {default /}
+                <div class="paier_info_piczhezhao">
+                    <img src="__STATIC__/image/orderpai/ka4@2x.png" alt="">
+                </div>
+                <p class="paier_info_hint">废弃</p>
+            {/switch}
+            <div class="paier_info_bottom clear">
+                <div class="paier_info_pic lf">
+                    <img src="__STATIC__/image/orderpai/icon_gou@2x.png" alt="">
+                </div>
+                <p class="lf">
+                    吖吖码编号
+                </p>
+                <span class="rt">{$vo.oa_code|default=''}</span>
+            </div>
+        </div>
+        {/volist}
+        {/empty}
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<!--<script src="__STATIC__/js/orderpai/all_participants.js"></script>-->
+{/block}

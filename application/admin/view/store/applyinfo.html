@@ -1,0 +1,196 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+<!-- {block name="script"}
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block} -->
+{block name="style"}
+<style>
+    .max_img {
+        position: fixed;
+        top: 40%;
+        right: 10%;
+        display:none;
+    }
+    #describe{
+        position: absolute;
+        top: 40%;
+        right: 10%;
+    }
+    #describe textarea{
+        vertical-align:middle;
+    }
+</style>
+{/block}
+
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>商家入驻详情</label>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>详情</th>
+                    <th>状态</th>
+                    <th>商家类型</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <th>申请ID</th>
+                    <th class="ba_id">{$info.ba_id}</th>
+                    <th>{if condition="$info.ba_state == 0"}
+                        待审核
+                        {elseif condition="$info.ba_state == 8"/}
+                        成功
+                        {elseif condition="$info.ba_state == 9"/}
+                        失败
+                        {else /}
+                        未知
+                        {/if}
+                    </th>
+                    <th>
+                        <input {eq name="info.ba_type" value="1"}checked="true"{/eq} type="radio" name="ba_type" value="1" >自定商家
+                        <input {eq name="info.ba_type" value="2"}checked="true"{/eq}type="radio" name="ba_type" value="2" >其他商家
+                    </th>
+                    <th>
+                        {neq name='ba_state' value='8'}
+                        <a href="#" type="button" class="btn btn-success">通过</a>
+                        {/neq}
+                        {neq name='ba_state' value='9'}
+                        <a href="#" type="button" class="btn btn-danger">不通过</a>
+                        {/neq}
+                    </th>
+                </tr>
+                <tr>
+                    <th>会员ID</th>
+                    <th>{$info.m_id}</th>
+                </tr>
+                <tr>
+                    <th>店铺名称</th>
+                    <th>{$info.ba_stroe_name}</th>
+                </tr>
+                <tr>
+                    <th>店铺类型</th>
+                    <th>{$categoryList[$info.store_categoryid] ?? '未知'}</th>
+                </tr>
+                <tr>
+                    <th>店铺联联系</th>
+                    <th>{$info.store_tel}</th>
+                </tr>
+                <tr>
+                    <th>地址</th>
+                    <th>{$info.address}</th>
+                </tr>
+
+                <tr>
+                    <th>企业名</th>
+                    <th>{$info.corporation_name}</th>
+                </tr>
+
+                <tr>
+                    <th>开户银行</th>
+                    <th>{$info.ba_bankname}</th>
+                </tr>
+                <tr>
+                    <th>银行账号</th>
+                    <th>{$info.ba_bankaccount}</th>
+                </tr>
+
+                <tr>
+                    <th>营业执照号</th>
+                    <th>{$info.ba_license}</th>
+                </tr>
+                <tr>
+                    <th>营业执照图片</th>
+                    <th> <img src="{$info.ba_license_img}" alt="" width="100" height="50" class="img" ></th>
+
+                </tr>
+
+                <tr>
+                    <th>法人</th>
+                    <th>{$info.ba_legal_person}</th>
+                </tr>
+                <tr>
+                    <th>法人电话</th>
+                    <th>{$info.ba_legal_person_tel}</th>
+                </tr>
+                <tr>
+                    <th>法人身份证号</th>
+                    <th>{$info.ba_legal_person_idnumber}</th>
+                </tr>
+                <tr>
+                    <th>法人身份证</th>
+                    <th>
+                        <img src="{$info.ba_identification_positive_img}" alt="" width="100" height="50" class="img">
+                        <img src="{$info.ba_identification_negative_img}" alt="" width="100" height="50" class="img">
+                    </th>
+                </tr>
+                <tr>
+                    <th>申请时间</th>
+                    <th>{notempty name='info.ba_addtime'}{$info.ba_addtime|date="Y-m-d H:i",###} {else /}{/notempty}</th>
+                </tr>
+                <tr>
+                    <th>审核时间</th>
+                    <th>{notempty name='info.ba_authtime'}{$info.ba_authtime|date="Y-m-d H:i",###} {else /}{/notempty}</th>
+                </tr>
+                <tr>
+                    <th>通过时间</th>
+                    <th>{notempty name='info.ba_success_time'}{$info.ba_success_time|date="Y-m-d H:i",###} {else /}{/notempty}</th>
+                </tr>
+
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div  id="describe">
+    <label for="" class="des">不通过理由:</label>
+    <textarea name="ba_describe" class='ba_describe' cols="30" rows="10">
+        {$info.ba_describe}
+</textarea>
+</div>
+<!--<div class="max_img">-->
+    <img class="max_img" src="https://ss0.baidu.com/73x1bjeh1BF3odCf/it/u=138126325,1485620701&fm=85&s=7FAB2EC3909A35D01E299C1A030010D2" alt="" width='300' height='200' >
+<!--</div>-->
+<script>
+    $('.img').hover(function(){
+        var url = $(this).attr('src')
+        $('.max_img').show().attr('src',url);
+    },function(){
+        $('.max_img').hide().attr('src','');
+    })
+    //通过
+    $('.btn-success').click(function(){
+        var ba_type = $('input:radio[name="ba_type"]:checked').val();
+        if(!ba_type){
+            alert("商家类型必选");
+            return false;
+        }
+        var ba_id = $('.ba_id').html();
+        location.href="/admin/store/auditing?ba_id="+ba_id+'&ba_state='+8+'&ba_type='+ba_type
+    });
+    //不通过
+    $('.btn-danger').click(function(){
+        if(!confirm("审核不通过?")){
+            return false;
+        }
+        var ba_describe = $('.ba_describe').val();
+        if(!$.trim(ba_describe)){
+            $('.des').css('color','red')
+            $('.ba_describe').css({'border':'1px solid red'}).attr('placeholder','请输入不通过理由');
+            return false;
+        }
+        var ba_type = $('input:radio[name="ba_type"]:checked').val();
+        var ba_id = $('.ba_id').html();
+        location.href="/admin/store/auditing?ba_id="+ba_id+'&ba_state='+9+'&ba_type='+ba_type+'&ba_describe='+ba_describe
+    });
+</script>
+{/block}
+

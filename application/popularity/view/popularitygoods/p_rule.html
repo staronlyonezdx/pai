@@ -1,0 +1,39 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/share_list/activity_rule.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="p_rule">
+            {$content}
+    </div>
+    <div class="p_rule_text">
+        <small>
+            如有违法违规作弊行为将被取消参与资格！
+        </small>
+        <small>
+            人气购活动最终解释权归拍吖吖平台。
+        </small>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(window).scroll(function () {
+        var scrol = $(window).scrollTop();
+        if (scrol > 1) {
+            $(".header_nav").css({background:"#fff"});
+            $(".header_tit span").css({color:"#000000"});
+            $(".header_tit img").attr("src","__STATIC__/image/admit/icon_nav_back@2x.png");
+        } else {
+            $(".header_nav").css({background:"transparent"});
+            $(".header_tit span").css({color:"#fff"});
+            $(".header_tit img").attr("src","__STATIC__/image/goodsproduct/icon_nav_back2@2x.png");
+        }
+    })
+</script>
+{/block}

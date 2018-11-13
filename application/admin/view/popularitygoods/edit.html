@@ -1,0 +1,193 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/timepicker/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/webuploader/css/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/webuploader/css/diyUpload.css" />
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/webuploader/js/webuploader.html5only.min.js"></script>
+<script src="__STATIC__/lib/webuploader/js/diyUpload.js"></script>
+
+<!--百度富文本框编辑器-->
+<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+{/block}
+{block name="content"}
+<style>
+    .form-group{width:800px;}
+    .myeditor{height:600px;width:800px;margin: 0 auto;clear: both;}
+    #editor{width:100%;height:500px;}
+    .fileBoxUl {
+        list-style: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .fileBoxUl li {
+        list-style: none;
+        padding: 0;
+        margin-left: 0 !important;
+        margin-right: 5px;
+    }
+    .diyCancel {
+        z-index: 100;
+    }
+</style>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <form method="post" action="" id="edit_form" onsubmit="return form_submit()" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>{if condition="$pg_id > 0"}人气商品修改{else/}人气商品添加{/if}</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>人气商品标题</label>
+                    <input type="text" name="pg_name" class="form-control" placeholder="人气商品标题"
+                           value="{$info.pg_name|default=''}">
+                </div>
+
+                <div class="form-group">
+                    <label>商品二级标题</label>
+                    <input type="text" name="pg_second_name" class="form-control" placeholder="商品二级标题"
+                           value="{$info.pg_second_name|default=''}">
+                </div>
+
+                <div class="form-group">
+                    <label>结束日期</label>
+                    {notempty name='info.end_time'}
+                    <input type="text" name="end_time" class="form-control" placeholder="结束日期"
+                           readonly="readonly" style="cursor:pointer;" value="{$info.end_time|date='Y-m-d H:i:s',###}">
+                    {else /}
+                    <input type="text" name="end_time" class="form-control" placeholder="结束日期"
+                           readonly="readonly" style="cursor:pointer;" value="">
+                    {/notempty}
+                </div>
+
+                <div class="form-group">
+                    <label>市场价</label>
+                    <input type="text" name="pg_market_price" class="form-control" placeholder="市场价"
+                           value="{$info.pg_market_price|default=''}">
+                </div>
+
+                <div class="form-group">
+                    <label>参加价格</label>
+                    <input type="text" name="pg_price" class="form-control" placeholder="参加价格"
+                           value="{$info.pg_price|default=''}">
+                </div>
+
+                <div class="form-group">
+                    <label>成团人数</label>
+                    <input type="text" name="pg_membernum" class="form-control" placeholder="成团人数"
+                           value="{$info.pg_membernum|default=''}">
+                </div>
+
+                <div class="form-group">
+                    <label>入选人数</label>
+                    <input type="text" name="pg_chosen_num" class="form-control" placeholder="入选人数"
+                           value="{$info.pg_chosen_num|default=''}">
+                </div>
+
+                <div class="form-group">
+                    <label>排序</label>
+                    <input type="text" name="pg_sortnum" class="form-control" placeholder="排序"
+                           value="{$info.pg_sortnum|default=''}">
+                </div>
+
+                <div class="form-group" style="position: relative">
+                    <label>人气商品主图（建议上传800像素*800像素,默认第一张为主图）</label>
+                    <div id="box">
+                        <div id="box_img"></div>
+                        <div class="parentFileBox">
+                            <ul class="fileBoxUl">
+                                {notempty name="info.pg_imgs"}
+                                {volist name="info.pg_imgs" id="vo"}                        
+                                    <li class="diyUploadHover"> 					
+                                        <div class="viewThumb">
+                                            <img src="{$vo.pgi_url}" />
+                                        </div>    
+                                        <input type="hidden" class="pg_img" name="pg_img[]" value="{$vo.pgi_url}" />					
+                                        <div class="diyCancel" onclick="del(this,{$vo.pgi_id},{$pg_id})"></div> 					
+                                    </li>
+                                {/volist}
+                                {/notempty}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>商品描述</label>
+                </div>
+                <div class="myeditor">
+                    <textarea id="editor" name="pg_des" type="text/plain;" >{$info.pg_des|default=''}</textarea>
+                </div>
+
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <input type="hidden" name="a_id" value="{$a_id|default='0'}"/>
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $( "input[name='end_time']" ).datetimepicker();
+</script>
+<script>
+    $('#box_img').diyUpload({
+        chunked:true,
+        // 分片大小
+        chunkSize:512 * 1024,
+        //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+        fileNumLimit:50,
+        fileSizeLimit:500000 * 1024,
+        fileSingleSizeLimit:50000 * 1024,
+        //图片预览大小
+        thumb:{
+            width:800,
+            height:800,
+            quality:100
+        }
+    });
+
+    function form_submit() {
+        
+        //表单验证 TODO。。
+
+        return true;
+    }
+
+    //删除已上传的图片
+    function del(obj,pgi_id,pg_id) {
+        $.ajax({
+            type: "post",
+            url: "/admin/Popularitygoods/delete_img",
+            data: {
+                pgi_id:pgi_id,
+                pg_id,pg_id
+            },
+            success: function(res){
+                $(obj).parents('li').remove();
+            }
+        })
+    }
+    
+    //实例化编辑器
+    var ue = UE.getEditor('editor');
+</script>
+{/block}

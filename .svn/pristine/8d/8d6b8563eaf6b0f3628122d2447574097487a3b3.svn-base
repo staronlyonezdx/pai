@@ -1,0 +1,79 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/promoters/index.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="promoters">
+        <div class="promoters_content">
+            <p class="join_title">加入我们</p>
+            <div class="promoters_content_tips">
+                <p>加入拍吖吖成为吖吖推广员，</p>
+                <p>邀请会员拿海量推广奖，</p>
+                <p>还能拿到直接会员和所有间接会员的观望奖。</p>
+                <p>详情请咨询客服。</p>
+            </div>
+            <p class="join_zixun">咨询客服立刻加入我们吧！</p>
+            <div class="promoters_content_btns">
+                <a href="tel:400-027-1888">咨询客服</a>
+                <a href="javascript:;" class="apply">我已了解，一键申请</a>
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(function () {
+        var isShiming = "{$data['is_attestation']}";//1已实名认证 0 未实名认证会员状态
+        // console.log(isShiming);
+        $('.apply').click(function () {
+            if (isShiming == 1) {
+                layer.confirm('', {
+                    title:false,
+                    closeBtn:false,
+                    content:'<span class="promoters_alert">您是否已经通过客服详细了解推广员制度，确认申请？</span>',
+                    btn: ['取消', '立即申请'] //可以无限个按钮
+                    ,btn2: function(index, layero){
+                        $.ajax({
+                            url: "/member/promoters/promoters_apply",
+                            type: "POST",
+                            data:{
+                              apply:1
+                            },
+                            success: function (data) {
+                                if(data.status == 1){
+                                    window.location.href = '/member/promoters/is_apply_success'
+                                }else{
+                                    // data.msg
+                                    layer.msg("<span style='color:#fff'>"+ data.msg +"</span>",{
+                                        time:2000
+                                    });
+                                }
+                            }
+                        })
+                    }
+                });
+            }else{
+                var pop=window.sessionStorage.setItem("pop",0);
+                layer.confirm('', {
+                    title:false,
+                    closeBtn:false,
+                    content:'<span class="promoters_alert">您还未实名认证哦，绑定银行卡即可快速实名认证啦！</span>',
+                    btn: ['再想想', '立即绑定'] //可以无限个按钮
+                    ,btn2: function(index, layero){
+                        //按钮【按钮三】的回调
+                        window.location.href = '/member/wallet/bookCard/from/1'
+                    }
+                });
+            }
+        })
+        sessionStorage.removeItem('pop')
+    })
+
+</script>
+{/block}

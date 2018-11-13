@@ -1,0 +1,21 @@
+body {
+    background: #fff;
+}
+.message-content {
+    margin: 1.5rem 0.5rem;
+}
+.message-content h3 {
+    font-size: 0.4rem;
+    font-weight: bold;
+    margin: 0 0 0.2rem 0;
+}
+.message-content span {
+    font-size: 0.24rem;
+    color: #AAAAAA;
+}
+.message-content p {
+    font-size: 0.26rem;
+    color: #666;
+    margin: 0.4rem 0 0 0;
+    line-height: 0.5rem;
+}

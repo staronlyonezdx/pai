@@ -1,0 +1,382 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .top5{margin-top: 5px;}
+    .p_gname{
+        width:150px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .td_order_info p{margin-bottom: 1px;}
+    form .form-group{width: auto}
+    table td .suo_img{width:100px;height:auto;}
+    .jq_ren{
+        color:red;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>拍品订单列表</label>
+                <!--<a class="pull-right" href="{:url('orderpai/edit')}">添加分类</a>-->
+
+            </div>
+            <form class="form-inline" method="get">
+                <div class="form-group">
+                    <label for="status">订单状态:</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="0">所有</option>
+                        <option {if condition="$status == 1"}selected{/if} value="1">参拍中</option>
+                        <option {if condition="$status == 2"}selected{/if} value="2">待发货</option>
+                        <option {if condition="$status == 3"}selected{/if} value="3">已发货</option>
+                        <option {if condition="$status == 4"}selected{/if} value="4">已签收</option>
+                        <option {if condition="$status == 5"}selected{/if} value="5">交易完成</option>
+                        <option {if condition="$status == 6"}selected{/if} value="6">未中拍</option>
+                        <option {if condition="$status == 7"}selected{/if} value="7">流拍</option>
+                        <option {if condition="$status == 8"}selected{/if} value="8">待付款</option>
+                        <option {if condition="$status == 9"}selected{/if} value="9">已付款</option>
+                        <option {if condition="$status == 10"}selected{/if} value="10">退款中</option>
+                        <option {if condition="$status == 11"}selected{/if} value="11">退款完成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="g_name">宝贝名称:</label>
+                    <input type="text" class="form-control" id="g_name" name="g_name" placeholder="宝贝名称" value="{$g_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="m_name">买家昵称:</label>
+                    <input type="text" class="form-control" id="m_name" name="m_name" placeholder="买家昵称" value="{$m_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="o_sn">订单编号:</label>
+                    <input type="text" class="form-control" id="o_sn" name="o_sn" placeholder="订单编号"  value="{$o_sn|default=''}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-info">搜索 <span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </form>
+
+            <table class="table table-border table-bordered table-bg table-hover table-sort " style="width:100%">
+                <thead>
+                <tr class="text-c">
+                    <!--<th>订单编号</th>-->
+                    <th width="150px">商品信息</th>
+                    <th width="150px">店铺信息</th>
+                    <th>拍品信息</th>
+                    <th>状态</th>
+                    <th>购买信息</th>
+                    <th>中奖者</th>
+                    <th>订单日期</th>
+                    <th width="100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name='list' id='vo'}
+                <tr class="text-c va-m tr_{$vo.o_id}">
+                    <!--<td>{$vo.o_id}</td>-->
+                    <td>
+                        <p class="p_gname" title="{$vo.g_name}">{$vo.g_name}</p>
+                        <p><img src="{$vo.gp_img}" alt="" class="img_big suo_img" width="80" height="80"></p>
+                    </td>
+                    <td>
+                        <p class="stroe_name" title="{$vo.stroe_name}">{$vo.stroe_name|default=''}</p>
+                        <p><img src="{$vo.store_logo|default='/static/image/index/pic_home_taplace@2x.png'}" alt="" class="img_big suo_img" ></p>
+                    </td>
+                    <td>
+                        <p>
+                            <span>拍品价格：</span><br>
+                            <span>￥{$vo.min_price}-{$vo.max_price}</span>
+                        </p>
+                        <p>
+                            <span>商品属性：</span><br>
+                                <span>
+                                    {switch name="vo.gs_id"}
+                                    {case value="1"}（普通商品）{/case}
+                                    {case value="2"}（虚拟商品）{/case}
+                                    {case value="3"}（大宗商品）{/case}
+                                    {/switch}
+                                </span>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <span>支付状态：</span><br>
+                                <span>
+                                    {switch name="vo.o_paystate"}
+                                    {case value="1"}待付款{/case}
+                                    {case value="2"}已付款{/case}
+                                    {case value="3"}退款中{/case}
+                                    {case value="4"}退款完成{/case}
+                                    {/switch}
+                                </span>
+                        </p>
+                        <p>
+                            <span>订单状态：</span><br>
+                                <span>
+                                    {switch name="vo.o_state"}
+                                    {case value="1"}参拍中{/case}
+                                    {case value="2"}等待发货{/case}
+                                    {case value="3"}等待签收{/case}
+                                    {case value="4"}等待评价{/case}
+                                    {case value="5"}交易完成{/case}
+                                    {case value="10"}未中拍{/case}
+                                    {case value="11"}流拍{/case}
+                                    {/switch}
+                                </span>
+                        </p>
+                    </td>
+                    <td class="td_order_info">
+
+                        <p>
+                            <span>订单编号：</span>
+                            <span>{$vo.o_sn}</span>
+                        </p>
+                        <p>
+                            <span>买家昵称：</span>
+                            <span>{$vo.m_name}</span>
+                        </p>
+                        <p>
+                            <span>参拍期数：</span>
+                            <span>{$vo.o_periods}</span>
+                        </p>
+                        <p>
+                            <span>参拍价：</span>
+                            <span>￥{$vo.o_money}</span>
+                        </p>
+                        <p>
+                            <span>购买数量：</span>
+                            <span>{$vo.gp_num}</span>
+                        </p>
+                        <p>
+                            <span>邮费：</span>
+                            <span>￥{$vo.o_deliverfee}</span>
+                        </p>
+                        <p>
+                            <span>订单总费用：</span>
+                            <span>￥{$vo.o_totalmoney}</span>
+                        </p>
+                        <p>
+                            <span>是否为机器人：</span>
+                            {if condition='$vo.is_jq == 1'}<span class="jq_ren">是</span>{else /}<span>否</span>{/if}
+                        </p>
+                    </td>
+                    <td>
+                        {empty name="vo.award_m_name"}
+                            <p>无</p>
+                        {else/}
+                            <p><img src="{$vo.award_m_avatar|default='/static/image/index/pic_home_taplace@2x.png'}" class="img_big" width="50px" alt=""/></p>
+                            <p>{$vo.award_m_name|default=''}</p>
+                        {/empty}
+
+                    </td>
+                    <td>
+                        {notempty name='vo.o_addtime'}
+                        <p>
+                            <span>下单时间：</span><br>
+                            <span>{$vo.o_addtime|date="Y-m-d H:i:s",###}</span>
+                        </p>
+                        {/notempty}
+                        {notempty name='vo.o_paytime'}
+                        <p>
+                            <span>付款时间：</span><br>
+                            <span>{$vo.o_paytime|date="Y-m-d H:i:s",###}</span>
+                        </p>
+                        {/notempty}
+                        {notempty name='vo.o_publishtime'}
+                        <p>
+                            <span>中奖公布时间：</span><br>
+                            <span>{$vo.o_publishtime|date="Y-m-d H:i:s",###}</span>
+                        </p>
+                        {/notempty}
+                    </td>
+                    <td o_id="{$vo.o_id|default=0}" g_id="{$vo.g_id|default=0}" gs_id="{$vo.gs_id}">
+                        <button type="button" class="btn btn-sm btn-info goods_info">商品详情</button>
+                        <button type="button" class="btn btn-sm btn-info order_info top5" onclick="">订单详情</button>
+                        {switch name="vo.o_state"}
+                        {case value="3"}
+                            <button type="button" class="btn btn-sm top5 fahuoxinxi" onclick="">发货信息</button>
+                            {if condition="$admin_id eq 1"}
+                            <button type="button" class="btn btn-sm top5 order_index_shouhuo" onclick="">确认收货</button>
+                            {/if}
+                        {/case}
+                        {case value="4"}
+                        <button type="button" class="btn btn-sm top5 fahuoxinxi" onclick="">发货信息</button>
+                        {/case}
+                        {case value="5"}
+                        <button type="button" class="btn btn-sm top5 fahuoxinxi" onclick="">发货信息</button>
+                        {/case}
+                        {/switch}
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+            <div class="page_box pull-right" style="">
+                <span class="pagi_bar pull-right">共&nbsp;{$total}&nbsp;条</span>
+                {$page}
+            </div>
+        </div>
+    </div>
+    <img alt="" style="display:none" id="displayImg" src="" />
+</div>
+<script type="text/javascript">
+    $(function(){
+        // 商品详情
+        $(".goods_info").click(function(){
+            var g_id = $(this).parents("td").attr("g_id");
+            layer.open({
+                type: 2,
+                title: '商品详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/goodsproduct/index/g_id/'+g_id
+            });
+        });
+
+        // 订单详情
+        $(".order_info").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            layer.open({
+                type: 2,
+                title: '订单详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/orderpai/sell_goods_info/o_id/'+o_id
+            });
+        });
+
+        // 立即发货
+        $(".lijifahuo").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            var gs_id = $(this).parents("td").attr("gs_id");
+            if(gs_id == 1){
+                layer.open({
+                    type: 2,
+                    title: '物流信息页',
+                    shadeClose: true,
+                    shade: 0.5,
+                    area: ['380px', '90%'],
+                    content: '/member/Orderpai/new_logistics/o_id/'+o_id+'/is_layer/1'
+                });
+            }else{
+                //询问框
+                var gs_name = '';
+                if(gs_id == 3){
+                    gs_name = "大宗商品";
+                }else{
+                    gs_name = "虚拟商品";
+                }
+                layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.ajax({
+                        type: 'post',
+                        url: '/member/orderpai/send_out',
+                        dataType: 'json',
+                        data:{o_id:o_id},
+                        success: function (data) {
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                time:2000
+                            });
+                            if(data.status > 0){
+                                setTimeout(function () {
+                                    layer.closeAll();
+                                    window.location.reload();
+                                }, 1000)
+                            }
+                        }
+                    });
+                }, function(){
+                    layer.closeAll();
+                });
+            }
+        });
+
+        // 发货信息
+        $(".fahuoxinxi").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            layer.open({
+                type: 2,
+                title: '人气活动详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/orderpai/order_logistics/o_id/'+o_id+'/is_seller/1'
+            });
+        });
+
+        // 确认收货
+        $(".order_index_shouhuo").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            var admin_id = "{$admin_id|default=0}";
+            layer.confirm("是否确认买家已经收货？", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['取消', '确认'], //按钮
+                btn2: function (index) {
+                    //按钮2的回调
+                    $.ajax({
+                        type: 'POST',
+                        url: '/member/orderpai/confirm_order',
+                        data: {o_id: o_id, admin_id: admin_id},
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                    time: 2000
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                    time: 2000
+                                });
+                                layer.close(index);
+                            }
+                        }
+                    });
+                }
+            })
+        });
+
+        // 图片放大
+        $(".img_big").click(function(){
+            var src = $(this).attr("src");
+            $("#displayImg").attr("src", src);
+            var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+            var width = $("#displayImg").width();
+            var rate = height / width;
+            var win_width = $(window).width();
+            var win_height = $(window).height();
+            if(width > win_width/2){
+                width = win_width/2;
+                height = width * rate;
+            }
+            if(height > win_height){
+                var h_rate = win_height / height;
+                height = win_height;
+                width = width * h_rate;
+            }
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                area: [width + 'px', height + 'px'], //宽高
+                content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+            });
+        });
+    })
+</script>
+{/block}
+

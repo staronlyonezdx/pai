@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>邀请明细（demo页面）</h2>
+    <div>
+        <div>
+            {switch name="info.ml_type" }
+            {case value="reduce" }支出金额{/case}
+            {case value="add"}收入金额{/case}
+            {/switch}
+            -------------------
+            {switch name="info.ml_type" }
+            {case value="reduce" }-{/case}
+            {case value="add"}+{/case}
+            {/switch}
+            <span>{$info.ml_money}</span>
+        </div>
+        <div>
+            <span>交易类型-------------------
+                {switch name="info.ml_type" }
+                {case value="reduce" }支出{/case}
+                {case value="add"}收入{/case}
+                {/switch}</span>
+        </div>
+        <div>
+            交易时间-------------------{$info.add_time|date='Y-m-d H:i',###}
+        </div>
+        <div>
+            流水单号-------------------{$info.ml_id}
+        </div>
+        <div>
+            {if condition="($info.member_type == 1) OR ($info.member_type == 2) "}
+                <div>
+                    来源------{$info.nickname}--{$info.position}
+                </div>
+            {else /}
+                备注------------------------{$info.ml_reason ?? ''}
+            {/if}
+        </div>
+    </div>
+</body>
+</html>

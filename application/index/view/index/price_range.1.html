@@ -1,0 +1,813 @@
+{extend name="index/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/dropload/dropload.css"> -->
+<link rel=”prerender” href=”http://css-tricks.com”>
+<link rel="stylesheet" type="text/css" href="__CSS__/index/index.css">
+<link rel="stylesheet" href="text/css" href="">
+
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<div class="tabHead">
+    <span class="active one">一折场</span>
+    <span class="two">三折场</span>
+    <span class="three">五折场</span>
+    <b class="border"></b>
+</div>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div id="mescroll0" class="swiper-slide mescroll">
+        {volist name='top_one_list[0]' id='vo'}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <div class="index_module_main clear">
+                <div class="index_module_img_view lf">
+                    <div class="index_module_img">
+                        <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                    </div>
+                    <div class="index_module_pic">
+                        {between name="$vo.gp_market_price" value="0,1000"}
+                        <img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="1001,10000"}
+                        <img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="10001,1000000000"}
+                        <img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">
+                        {/between}
+                    </div>
+                </div>
+                <div class="index_module_text lf">
+                    <p>{$vo.g_name}</p>
+                    <span>￥<i>{$vo.gdr_price}</i>&nbsp;&nbsp;<del>￥{$vo.gp_market_price}</del></span>
+
+                    <div class="index_module_progress_view clear">
+                        <div class="index_module_progress lf">
+                            <div class="index_module_progressbar"
+                                 style="width: {empty name='$vo.gp_num'}0{else/}{$vo.gp_num/$vo.gdr_membernum*100|round=4}{/empty}%"></div>
+                        </div>
+                        <div class="index_module_progress_hint lf">
+                            {empty name='$vo.gp_num'}
+                            0%
+                            {else/}
+                            {if condition='$vo.gp_num/$vo.gdr_membernum*100 >= 100'}
+                            100%
+                            {elseif condition='($vo.gp_num/$vo.gdr_membernum*100 >= 99) AND
+                            ($vo.gp_num/$vo.gdr_membernum*100 < 100)'}
+                            99%
+                            {else /}
+                            {$vo.gp_num/$vo.gdr_membernum*100|ceil}%
+                            {/if}
+                            {/empty}
+                        </div>
+                    </div>
+                    <div class="index_module_progress_bottom clear">
+                        <span class="lf">{$vo.gp_num}人已参与</span>
+
+                        <div class="index_module_progress_canyu rt">立即参团</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {/volist} {volist name='top_two_list[0]["list"]' id='vo'}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <div class="index_module_main clear">
+                <div class="index_module_img_view lf">
+                    <div class="index_module_img">
+                        <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                    </div>
+                    <div class="index_module_pic">
+                        {between name="$vo.gp_market_price" value="0,1000"}
+                        <img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="1001,10000"}
+                        <img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="10001,1000000000"}
+                        <img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">
+                        {/between}
+                    </div>
+                </div>
+                <div class="index_module_text lf">
+                    <p>{$vo.g_name}</p>
+                    <span>￥<i>{$vo.gdr_price}</i>&nbsp;&nbsp;<del>￥{$vo.gp_market_price}</del></span>
+
+                    <div class="index_module_progress_view clear">
+                        <div class="index_module_progress lf">
+                            <div class="index_module_progressbar"
+                                 style="width: {empty name='$vo.gp_num'}0{else/}{$vo.gp_num/$vo.gdr_membernum*100|round=4}{/empty}%"></div>
+                        </div>
+                        <div class="index_module_progress_hint lf">
+                            {empty name='$vo.gp_num'}
+                            0%
+                            {else/}
+                            {if condition='$vo.gp_num/$vo.gdr_membernum*100 >= 100'}
+                            100%
+                            {elseif condition='($vo.gp_num/$vo.gdr_membernum*100 >= 99) AND
+                            ($vo.gp_num/$vo.gdr_membernum*100 < 100)'}
+                            99%
+                            {else /}
+                            {$vo.gp_num/$vo.gdr_membernum*100|ceil}%
+                            {/if}
+                            {/empty}
+                        </div>
+                    </div>
+                    <div class="index_module_progress_bottom clear">
+                        <span class="lf">{$vo.gp_num ?? 0}人已参与</span>
+
+                        <div class="index_module_progress_canyu rt">立即参团</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {/volist}
+        </div>
+        <div id="mescroll1" class="swiper-slide mescroll">
+        {volist name='top_one_list[1]' id='vo'}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <div class="index_module_main clear">
+                <div class="index_module_img_view lf">
+                    <div class="index_module_img">
+                        <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                    </div>
+                    <div class="index_module_pic">
+                        {between name="$vo.gp_market_price" value="0,1000"}
+                        <img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="1001,10000"}
+                        <img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="10001,1000000000"}
+                        <img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">
+                        {/between}
+                    </div>
+                </div>
+                <div class="index_module_text lf">
+                    <p>{$vo.g_name}</p>
+                    <span>￥<i>{$vo.gdr_price}</i>&nbsp;&nbsp;<del>￥{$vo.gp_market_price}</del></span>
+
+                    <div class="index_module_progress_view clear">
+                        <div class="index_module_progress lf">
+                            <div class="index_module_progressbar"
+                                 style="width: {empty name='$vo.gp_num'}0{else/}{$vo.gp_num/$vo.gdr_membernum*100|round=4}{/empty}%"></div>
+                        </div>
+                        <div class="index_module_progress_hint lf">
+                            {empty name='$vo.gp_num'}
+                            0%
+                            {else/}
+                            {if condition='$vo.gp_num/$vo.gdr_membernum*100 >= 100'}
+                            100%
+                            {elseif condition='($vo.gp_num/$vo.gdr_membernum*100 >= 99) AND
+                            ($vo.gp_num/$vo.gdr_membernum*100 < 100)'}
+                            99%
+                            {else /}
+                            {$vo.gp_num/$vo.gdr_membernum*100|ceil}%
+                            {/if}
+                            {/empty}
+                        </div>
+                    </div>
+                    <div class="index_module_progress_bottom clear">
+                        <span class="lf">{$vo.gp_num ?? 0}人已参与</span>
+
+                        <div class="index_module_progress_canyu rt">立即参团</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {/volist} {volist name='top_two_list[1]["list"]' id='vo'}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <div class="index_module_main clear">
+                <div class="index_module_img_view lf">
+                    <div class="index_module_img">
+                        <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                    </div>
+                    <div class="index_module_pic">
+                        {between name="$vo.gp_market_price" value="0,1000"}
+                        <img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="1001,10000"}
+                        <img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="10001,1000000000"}
+                        <img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">
+                        {/between}
+                    </div>
+                </div>
+                <div class="index_module_text lf">
+                    <p>{$vo.g_name}</p>
+                    <span>￥<i>{$vo.gdr_price}</i>&nbsp;&nbsp;<del>￥{$vo.gp_market_price}</del></span>
+
+                    <div class="index_module_progress_view clear">
+                        <div class="index_module_progress lf">
+                            <div class="index_module_progressbar"
+                                 style="width: {empty name='$vo.gp_num'}0{else/}{$vo.gp_num/$vo.gdr_membernum*100|round=4}{/empty}%"></div>
+                        </div>
+                        <div class="index_module_progress_hint lf">
+                            {empty name='$vo.gp_num'}
+                            0%
+                            {else/}
+                            {if condition='$vo.gp_num/$vo.gdr_membernum*100 >= 100'}
+                            100%
+                            {elseif condition='($vo.gp_num/$vo.gdr_membernum*100 >= 99) AND
+                            ($vo.gp_num/$vo.gdr_membernum*100 < 100)'}
+                            99%
+                            {else /}
+                            {$vo.gp_num/$vo.gdr_membernum*100|ceil}%
+                            {/if}
+                            {/empty}
+                        </div>
+                    </div>
+                    <div class="index_module_progress_bottom clear">
+                        <span class="lf">{$vo.gp_num ?? 0}人已参与</span>
+
+                        <div class="index_module_progress_canyu rt">立即参团</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {/volist}
+        </div>
+        <div id="mescroll2" class="swiper-slide mescroll">
+        {volist name='top_one_list[2]' id='vo'}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <div class="index_module_main clear">
+                <div class="index_module_img_view lf">
+                    <div class="index_module_img">
+                        <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                    </div>
+                    <div class="index_module_pic">
+                        {between name="$vo.gp_market_price" value="0,1000"}
+                        <img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="1001,10000"}
+                        <img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="10001,1000000000"}
+                        <img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">
+                        {/between}
+                    </div>
+                </div>
+                <div class="index_module_text lf">
+                    <p>{$vo.g_name}</p>
+                    <span>￥<i>{$vo.gdr_price}</i>&nbsp;&nbsp;<del>￥{$vo.gp_market_price}</del></span>
+
+                    <div class="index_module_progress_view clear">
+                        <div class="index_module_progress lf">
+                            <div class="index_module_progressbar"
+                                 style="width: {empty name='$vo.gp_num'}0{else/}{$vo.gp_num/$vo.gdr_membernum*100|round=4}{/empty}%"></div>
+                        </div>
+                        <div class="index_module_progress_hint lf">
+                            {empty name='$vo.gp_num'}
+                            0%
+                            {else/}
+                            {if condition='$vo.gp_num/$vo.gdr_membernum*100 >= 100'}
+                            100%
+                            {elseif condition='($vo.gp_num/$vo.gdr_membernum*100 >= 99) AND
+                            ($vo.gp_num/$vo.gdr_membernum*100 < 100)'}
+                            99%
+                            {else /}
+                            {$vo.gp_num/$vo.gdr_membernum*100|ceil}%
+                            {/if}
+                            {/empty}
+                        </div>
+                    </div>
+                    <div class="index_module_progress_bottom clear">
+                        <span class="lf">{$vo.gp_num}人已参与</span>
+
+                        <div class="index_module_progress_canyu rt">立即参团</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {/volist} {volist name='top_two_list[2]["list"]' id='vo'}
+        <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+            <div class="index_module_main clear">
+                <div class="index_module_img_view lf">
+                    <div class="index_module_img">
+                        <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                    </div>
+                    <div class="index_module_pic">
+                        {between name="$vo.gp_market_price" value="0,1000"}
+                        <img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="1001,10000"}
+                        <img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">
+                        {/between}
+                        {between name="$vo.gp_market_price" value="10001,1000000000"}
+                        <img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">
+                        {/between}
+                    </div>
+                </div>
+                <div class="index_module_text lf">
+                    <p>{$vo.g_name}</p>
+                    <span>￥<i>{$vo.gdr_price}</i>&nbsp;&nbsp;<del>￥{$vo.gp_market_price}</del></span>
+
+                    <div class="index_module_progress_view clear">
+                        <div class="index_module_progress lf">
+                            <div class="index_module_progressbar"
+                                 style="width: {empty name='$vo.gp_num'}0{else/}{$vo.gp_num/$vo.gdr_membernum*100|round=4}{/empty}%"></div>
+                        </div>
+                        <div class="index_module_progress_hint lf">
+                            {empty name='$vo.gp_num'}
+                            0%
+                            {else/}
+                            {if condition='$vo.gp_num/$vo.gdr_membernum*100 >= 100'}
+                            100%
+                            {elseif condition='($vo.gp_num/$vo.gdr_membernum*100 >= 99) AND
+                            ($vo.gp_num/$vo.gdr_membernum*100 < 100)'}
+                            99%
+                            {else /}
+                            {$vo.gp_num/$vo.gdr_membernum*100|ceil}%
+                            {/if}
+                            {/empty}
+                        </div>
+                    </div>
+                    <div class="index_module_progress_bottom clear">
+                        <span class="lf">{$vo.gp_num ?? 0}人已参与</span>
+
+                        <div class="index_module_progress_canyu rt">立即参团</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {/volist}
+        </div>
+    </div>
+</div>
+
+        {/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<!-- <script src="__JS__/dropload/dropload.js"></script> -->
+<script>
+
+    
+    //菜单项居中动画
+    var scrollxContent = document.getElementById("scrollxContent");
+        var star = scrollxContent.scrollLeft;//当前位置
+        var end = curNavDom.offsetLeft + curNavDom.clientWidth / 2 - document.body.clientWidth / 2; //居中
+        mescrollArr[curNavIndex].getStep(star, end, function (step, timer) {
+            scrollxContent.scrollLeft = step; //从当前位置逐渐移动到中间位置,默认时长300ms
+        });
+
+
+    function changePage(i) {
+            if (curNavIndex != i) {
+                //更改列表条件
+                var curNavDom;//当前菜单项
+                $("#nav li").each(function (n, dom) {
+                    if (dom.getAttribute("i") == i) {
+                        dom.classList.add("active");
+                        curNavDom = dom;
+                    } else {
+                        dom.classList.remove("active");
+                    }
+                });
+                //菜单项居中动画
+                var scrollxContent = document.getElementById("scrollxContent");
+                var star = scrollxContent.scrollLeft;//当前位置
+                var end = curNavDom.offsetLeft + curNavDom.clientWidth / 2 - document.body.clientWidth / 2; //居中
+                mescrollArr[curNavIndex].getStep(star, end, function (step, timer) {
+                    scrollxContent.scrollLeft = step; //从当前位置逐渐移动到中间位置,默认时长300ms
+                });
+                //隐藏当前回到顶部按钮
+                mescrollArr[curNavIndex].hideTopBtn();
+                //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                if (mescrollArr[i] == null) {
+                    mescrollArr[i] = initMescroll(i);
+                } else {
+                    //检查是否需要显示回到到顶按钮
+                    var curMescroll = mescrollArr[i];
+                    var curScrollTop = curMescroll.getScrollTop();
+                    if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                        curMescroll.showTopBtn();
+                    } else {
+                        curMescroll.hideTopBtn();
+                    }
+                }
+                //更新标记
+                curNavIndex = i;
+            }
+        }
+
+      function initMescroll(index) {
+            //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+            var mescroll = new MeScroll("mescroll" + index, {
+                //下拉刷新
+                down: {
+                    isLock: true, //锁定下拉
+                },
+                //上拉加载的配置项
+                up: {
+                    callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                    empty: {
+                        icon: "/static/image/participate/no-content.png", //图标,默认null
+                        tip: "当前暂未订单信息，吖吖狠伤心~", //提示
+                        btntext: "先去逛逛", //按钮,默认""
+						btnClick: function(){
+                            //点击按钮的回调,默认null
+							window.location.href = "/index/index";
+						},
+                    },
+                    clearEmptyId: "dataList" + index,
+                    htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                    htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                    toTop: { //配置回到顶部按钮
+                        src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                        //offset : 1000
+                    }
+                }
+            });
+            return mescroll;
+        }
+
+        function getListData(page) {
+            //联网加载数据
+            var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+            getListDataFromNet(dataIndex, page.num, page.size, function (pageData) {
+                //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+                //console.log("dataIndex="+dataIndex+", curNavIndex="+curNavIndex+", page.num="+page.num+", page.size="+page.size+", pageData.length="+pageData.length);
+
+                //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                //mescrollArr[dataIndex].endByPage(pageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+
+                //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                //mescrollArr[dataIndex].endBySize(pageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+
+                //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+                //mescrollArr[dataIndex].endSuccess(pageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+
+                //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                mescrollArr[dataIndex].endSuccess(pageData.length);
+
+                //设置列表数据
+                setListData(pageData, dataIndex);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescrollArr[dataIndex].endErr();
+            });
+        }
+        function setListData(pageData, dataIndex) {
+
+     var listDom = document.getElementById("dataList" + dataIndex);
+     for (var i = 0; i < pageData.length; i++) {
+         var pd = pageData[i];
+         var fh = '';
+         var bt = '';
+         var time = '';
+         var pay = '';          
+         if (pd.o_paystate == 1) {
+             if(pd.live_paytime > 0 && pd.o_isdelete < 2) {
+                 fh = '<span class="my_publish_hint rt">等待付款</span>';
+                 time = '<p class="rt">截至时间：'+ msToDate(pd.g_endtime * 1000).wasTime +'</p>';
+                 pay = '<div class="zfs fl">需支付 ￥'+ pd.o_totalmoney +'</div>';
+                 bt = '<div class="my_publish_share rt hs" data-id="' + pd.o_id + '" price="' + pd.o_totalmoney + '" onclick="pay(this)"><span>付款</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="cancel(this)"><span>取消订单</span></div>';
+             }                        
+         } else if (pd.o_paystate > 1) {
+             if(pd.o_state == 1) {
+                 fh = '<span class="my_publish_hint rt">等待揭晓</span>';
+                 time = '<p class="rt">截至时间：' + msToDate(pd.g_endtime * 1000).wasTime +'</p>';
+                 bt = '<div class="my_publish_share rt my_pub_share" onclick="share(this)" url="'+ pd.url +'" tit="'+ pd.g_name +'" imgs="'+ pd.gp_img +'" code="'+ pd.code +'" data-id="' + pd.o_id + '"><img src="__STATIC__/image/orderpai/fenxiang.png" /><span>分享商品</span></div>';
+             }
+             if(pd.o_state == 2) {
+                 fh = '<span class="my_publish_hint rt">等待发货</span>';
+                 time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                 bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a href="tel:400-029-8000">联系客服</span></a></div>';
+             }
+             if(pd.o_state == 3) {
+                 fh = '<span class="my_publish_hint rt">等待收货</span>';
+                 time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                 bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="logistics_info(this)">发货信息</span></div><div class="my_publish_share rt hs" data-id="' + pd.o_id + '" onclick="confirms(this)"><span>确认收货</span></div>';
+             }
+             if(pd.o_state == 4) {
+                 fh = '<span class="my_publish_hint rt">等待评价</span>';
+                 time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                 bt = '<div class="my_publish_share rt hs" data-id="' + pd.o_id + '"><span onclick="review_order(this)">评价商品</span></div>';
+             }
+             if(pd.o_state == 5) {
+                 fh = '<span class="my_publish_hint rt ls">已完成订单</span>';
+                 time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                 bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span>随便逛逛</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+             }
+             if(pd.o_state == 10 || pd.o_state == 11) {
+                 if(pd.o_paystate == 3) {
+                     fh = '<span class="my_publish_hint rt">退款中</span>';
+                     time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                     bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="refund_info(this)">退款详情</span></div>';
+                 }
+                 if(pd.o_paystate == 4) {
+                     fh = '<span class="my_publish_hint rt ls">已完成退款</span>';
+                     time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
+                     bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="refund_info(this)">退款详情</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                 }                            
+             }
+         }
+     
+         var str = '<div class="my_publish_tit clear">';
+         str += '<a href="/member/shop/index/store_id/'+ pd.store_id + '">';
+         str += '<span class="my_publish_bh lf">';
+         str += '<img src="' + pd.store_logo + '" alt="">' + pd.stroe_name + '</span></a>';
+         str += fh;
+         str += '</div>';
+         str += '<a href="/member/orderpai/index/o_id/' + pd.o_id + '">';
+         str += '<div class="my_publish_main clear">';
+         str += '<div class="my_publish_img lf pmg">';
+         str += '<img src="' + pd.gp_img + '">';
+         str += '</div>';
+         str += '<div class="my_publish_text lf pmgd">';
+         str += '<p>' + pd.g_name + '</p>';
+         str += '<div class="my_publish_price clear">';
+         str += '<span class="my_publish_new">' + pd.o_money;
+         str += '<span>￥' + pd.gp_market_price + '</span>';
+         str += '</span>';
+         str += '<span class="my_publish_inventory rt">x';
+         str += '<span>' + pd.gp_num + '</span>';
+         str += '</span>';
+         str += '</div>';
+         str += '</div>';
+         str += '</div>';
+         str += '</a>';
+         str += '<div class="my_publish_data clear">';
+         str += '<p class="lf">含' + pd.pai_num + '份吖吖码</p>';
+         str += time;
+         str += '</div>';
+         str += '<div class="my_publish_btn clear">';
+         str += pay;
+         str += bt;
+         str += '</div>';
+     
+         var liDom = document.createElement("div");
+         liDom.className = "my_publish_list";
+         liDom.innerHTML = str;
+         listDom.appendChild(liDom);
+     }
+     }
+     function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {  
+     
+     //延时一秒,模拟联网
+     setTimeout(function () {
+         $.ajax({
+             type: 'GET',
+             url: '/member/Orderpai/getorderlist/status/' + curNavIndex + '/page/' + pageNum + '/size/' + pageSize,
+             dataType: 'json',
+             success: function (data) {
+                 var listData = [];
+                 for (var i = 0; i < data.data.length; i++) {
+                     listData.push(data.data[i]);
+                 }
+     
+                 //回调
+                 successCallback(listData);
+             },
+             error: errorCallback
+         });
+     }, 500)
+     }
+
+
+    $(function () {
+        //
+        var swiper = new Swiper ('.swiper-container', {
+            direction: 'horizontal',
+            loop: false,
+            clickable :true,
+            el: '.swiper-pagination',
+            onTransitionEnd: function (swiper) {
+                console.log(swiper.activeIndex)
+                var i = swiper.activeIndex;
+                if (i == 0) {
+                    $('.tabHead .two').removeClass('active')
+                    $('.tabHead .three').removeClass('active')
+                    $('.tabHead .one').addClass('active')
+                    initMescroll(0)
+                } else if (i == 1) {
+                    $('.tabHead .one').removeClass('active')
+                    $('.tabHead .three').removeClass('active')
+                    $('.tabHead .two').addClass('active')
+                    initMescroll(1)
+                } else if (i == 2) {
+                    $('.tabHead .two').removeClass('active')
+                    $('.tabHead .one').removeClass('active')
+                    $('.tabHead .three').addClass('active')
+                    initMescroll(2)
+                }
+                // var i = swiper.activeIndex;//轮播切换完毕的事件
+                // changePage(i);
+            }
+            // spaceBetween: 30,
+            // centeredSlides: true
+        })
+
+
+
+        // var itemIndex = 0;//点击的索引值
+        // var tabLoadEndArray = [false, false, false];//加载后已没有数据
+        // // var tabScroolTopArray = [0, 0, 0];
+        // var url = '';
+        // window.sessionStorage.setItem('p0', 1);//分页
+        // window.sessionStorage.setItem('p1', 1);
+        // window.sessionStorage.setItem('p2', 1);
+        // var page;
+        // // 上拉刷新
+        // var dropload = $('.khfxWarp').dropload({
+        //     scrollArea: window,
+        //     domDown: {
+        //         domClass: 'dropload-down',
+        //         domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+        //         domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+        //         domNoData: '<div class="dropload-noData">已无数据</div>'
+        //     },
+        //     loadDownFn: function (me) {
+        //         setTimeout(function () {
+
+        //             if (tabLoadEndArray[itemIndex]) {
+        //                 me.resetload();
+        //                 me.lock();
+        //                 me.noData();
+        //                 me.resetload();
+        //                 return;
+        //             }
+        //             page = window.sessionStorage.getItem('p' + itemIndex);
+        //             page++;
+        //             window.sessionStorage.setItem('p' + itemIndex, page);
+        //             if (itemIndex == 0) {
+        //                 url = '/index/index/ajax_top_two_list/min_money/0/max_money/1000/page/' + page;
+        //             } else if (itemIndex == 1) {
+        //                 url = '/index/index/ajax_top_two_list/min_money/1000/max_money/10000/page/' + page;
+        //             } else if (itemIndex == 2) {
+        //                 url = '/index/index/ajax_top_two_list/min_money/10000/max_money/10000000/page/' + page;
+        //             }
+
+                    // $.ajax('/index/index/ajax_top_two_list/min_money/10000/max_money/10000000/page/', {
+                    //     data: {},
+                    //     dataType: 'json',//服务器返回json格式数据
+                    //     type: 'get',//HTTP请求类型
+                    //     success: function (res) {
+                    //         //获得服务器响应
+                    //         var html = '';
+                    //         if (res.list.length > 0) {
+                    //             for (var i = 0; i < res.list.length; i++) {
+                    //                 if (res.new_num > 0) {
+                    //                     res.new_num--;
+                    //                 } else {
+                    //                     // tabLoadEndArray[itemIndex] = true;
+                    //                     break;
+                    //                 }
+                    //                 var num;
+                    //                 if (res.list[i].gp_num == 0) {
+                    //                     num = 0;
+                    //                 } else {
+                    //                     num = res.list[i].gp_num / res.list[i].gdr_membernum * 100;
+                    //                     if (num >= 100) {
+                    //                         num = 100;
+                    //                     } else if (num >= 99 && num < 100) {
+                    //                         num = 99;
+                    //                     } else {
+                    //                         num = Math.ceil(num);
+                    //                     }
+                    //                 }
+
+                    //                 var img = '';
+                    //                 if(res.list[i].gp_market_price>=0 && res.list[i].gp_market_price<=1000) {
+                    //                     img = '<img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">'
+                    //                 }
+                    //                 if(res.list[i].gp_market_price>=1001 && res.list[i].gp_market_price<=10000) {
+                    //                     img = '<img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">'
+                    //                 }
+                    //                 if(res.list[i].gp_market_price>=10001) {
+                    //                     img = '<img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">'
+                    //                 }
+
+                    //                 html += '<a href="/member/goodsproduct/index/g_id/' + res.list[i].g_id + '">';
+                    //                 html += '<div class="index_module_main clear">';
+                    //                 html += '<div class="index_module_img_view lf">';
+                    //                 html += '<div class="index_module_img">';
+                    //                 html += '<img src="' + res.list[i].g_img + '" alt="">';
+                    //                 html += '</div>';
+                    //                 html += '<div class="index_module_pic">';
+                    //                 html += img;
+                    //                 html += '</div>';
+                    //                 html += '</div>';
+                    //                 html += '<div class="index_module_text lf">';
+                    //                 html += '<p>' + res.list[i].g_name + '</p>';
+                    //                 html += '<span>￥<i>' + res.list[i].gdr_price + '</i>&nbsp;&nbsp;<del>￥' + res.list[i].gp_market_price + '</del></span>';
+                    //                 html += '<div class="index_module_progress_view clear">';
+                    //                 html += '<div class="index_module_progress lf">';
+                    //                 html += '<div class="index_module_progressbar" style="width: ' + num + '%"></div>';
+                    //                 html += '</div>';
+                    //                 html += '<div class="index_module_progress_hint lf">' + num + '%</div>';
+                    //                 html += '</div>';
+                    //                 html += '<div class="index_module_progress_bottom clear">';
+                    //                 html += '<span class="lf">' + res.list[i].gp_num + '人已参与</span>';
+                    //                 html += '<div class="index_module_progress_canyu rt">立即参团</div>';
+                    //                 html += '</div>';
+                    //                 html += '</div>';
+                    //                 html += '</div>';
+                    //                 html += '</a>';
+                    //             }
+                    //             // $('.khfxPane').eq(itemIndex).append(html);
+
+                    //         } else {
+                    //             // tabLoadEndArray[itemIndex] = true;
+                    //             // me.noData();
+                    //         }
+                    //         // me.resetload();
+                    //     }
+                    // });
+        //         }, 500);
+        //     }
+      $('.tabHead .one').on('click',function () {
+         $('.tabHead .two').removeClass('active')
+         $('.tabHead .three').removeClass('active')
+         $('.tabHead .one').addClass('active')
+         swiper.slideTo(0)
+         initMescroll(0)
+      })
+      $('.tabHead .two').on('click',function () {
+        $('.tabHead .one').removeClass('active')
+        $('.tabHead .three').removeClass('active')
+        $('.tabHead .two').addClass('active')
+        swiper.slideTo(1)
+        initMescroll(1)
+      })
+      $('.tabHead .three').on('click',function () {
+        $('.tabHead .two').removeClass('active')
+        $('.tabHead .one').removeClass('active')
+        $('.tabHead .three').addClass('active')
+        swiper.slideTo(2)
+        initMescroll(2)
+      })
+
+    });
+
+    //     $('.tabHead span').on('click', function () {
+    //         //tabScroolTopArray[itemIndex] = $(window).scrollTop();
+    //         var $this = $(this);
+    //         itemIndex = $this.index();
+    //         //$(window).scrollTop(tabScroolTopArray[itemIndex]);
+    //         $(this).addClass('active').siblings('.tabHead span').removeClass('active');
+    //         $('.tabHead .border').css('left', $(this).offset().left + 'px');
+    //         $('.khfxPane').eq(itemIndex).show().siblings('.khfxPane').hide();
+    //         if (!tabLoadEndArray[itemIndex]) {
+    //             dropload.unlock();
+    //             dropload.noData(false);
+    //         } else {
+    //             dropload.lock('down');
+    //             dropload.noData();
+    //         }
+    //         dropload.resetload();
+    //     });
+    //     if({$type}==1){
+    //         $(".tabHead span").removeClass("active");
+    //         $(".tabHead span").eq(0).addClass("active");
+    //         $(".khfxPane").eq(0).show().siblings('.khfxPane').hide();
+    //     }else if({$type}==2){
+    //         $(".tabHead span").removeClass("active");
+    //         $(".tabHead span").eq(1).addClass("active");
+    //         $(".khfxPane").eq(1).show().siblings('.khfxPane').hide();
+    //     }else if({$type}==3){
+    //         $(".tabHead span").removeClass("active");
+    //         $(".tabHead span").eq(2).addClass("active");
+    //         $(".khfxPane").eq(2).show().siblings('.khfxPane').hide();
+    //     }
+    // });
+     
+
+    //   var i = 0;
+    //   $('.swiper-container').rhuiSwipe('swipeLeft',function () {
+    //       i++;
+    //       if (i = 1) {
+    //         $('.tabHead .one').removeClass('active')
+    //         $('.tabHead .three').removeClass('active')
+    //         $('.tabHead .two').addClass('active')
+    //       } else if (i = 2) {
+    //         $('.tabHead .two').removeClass('active')
+    //         $('.tabHead .one').removeClass('active')
+    //         $('.tabHead .three').addClass('active')
+    //         i--;
+    //       }
+    //   })
+    //   $('.swiper-container').rhuiSwipe('swipeLeft',function () {
+    //       i++;
+    //       if (i = 1) {
+    //         $('.tabHead .one').removeClass('active')
+    //         $('.tabHead .three').removeClass('active')
+    //         $('.tabHead .two').addClass('active')
+    //       } else if (i = 2) {
+    //         $('.tabHead .two').removeClass('active')
+    //         $('.tabHead .one').removeClass('active')
+    //         $('.tabHead .three').addClass('active')
+    //         i--;
+    //       }
+    //   })
+
+</script>
+{/block}

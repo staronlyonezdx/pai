@@ -1,0 +1,73 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .edit_chose a{padding:5px 10px;color:#333}
+    .edit_chose .active{color:#3498DB;}
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>网站参数列表</label>
+                <a class="pull-right" href="{:url('Config/edit')}">添加参数</a>
+                <div class="edit_chose">
+                    <a href="/admin/config/index/is_edit/1" {if condition="$is_edit eq 1"}class="active"{/if} >可编辑参数</a>
+                    <a href="/admin/config/index/is_edit/2" {if condition="$is_edit neq 1"}class="active"{/if}>不可编辑参数</a>
+                </div>
+            </div>
+
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>网站参数ID</th>
+                    <th>网站参数名称</th>
+                    <th>网站参数字段</th>
+                    <th>网站参数值</th>
+                    <th>网站参数状态</th>
+                    <th>是否可编辑</th>
+                    {if condition="$is_edit < 2"}
+                        <th>网站参数管理</th>
+                    {/if}
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="list" id="vo"}
+                <tr {if condition="$vo.c_is_edit == 2"}style="background: #eee;" {/if}>
+                    <th scope="row" class="sid">{$vo.c_id}</th>
+                    <td>{$vo.c_name}</td>
+                    <td>{$vo.c_code}</td>
+                    <td>{$vo.c_value}</td>
+                    <td>{if condition="$vo.c_state == 0"}正常{else/}非正常{/if}</td>
+                    <td>{if condition="$vo.c_is_edit == 1"}可编辑{else/}不可编辑{/if}</td>
+                    {if condition="$is_edit < 2"}
+                    <td>
+                        {if condition="$vo.c_is_edit == 1"}
+                        <a href="{:url('Config/edit',['c_id' => $vo.c_id])}">
+                            编辑
+                        </a>
+                        {/if}
+                        <a href="{:url('Config/delete',['c_id' => $vo.c_id])}" class="dele_btn">
+                            删除
+                        </a>
+                    </td>
+                    {/if}
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}

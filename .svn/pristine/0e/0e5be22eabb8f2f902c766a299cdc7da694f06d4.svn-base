@@ -1,0 +1,391 @@
+﻿{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/common/common.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/applicationIn/application_in.css"> {/block} {block name="header"} {include
+file="common/header" /} {/block} {block name="content"}
+<form enctype="multipart/form-data" method="post">
+    <main>
+        <div class="application_in_tit">
+            <div class="application_in_text">
+                <p>
+                    店铺信息<span>*</span>
+                </p>
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">店铺名称</p>
+                <input type="text" name="ba_stroe_name" value='{$info.ba_stroe_name ?? ""}' placeholder="请输入店铺名称" maxlength="30" oninput="if(value.length>30)value=value.slice(0,30)">
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list application_in_ify" id="classify">
+                <p class="application_in_hint">店铺分类</p>
+                <input type="text" placeholder="请选择店铺分类" value="{$info.store_categoryid_name ?? ''}" readonly="readonly" class="application_class">
+                <input type="hidden" name="store_categoryid" value="{$info.store_categoryid ?? ''}">
+                <span class="application_in_classify">
+                    <img src="__STATIC__/icon/applicationIn/pyy_btn_arrow.png">
+                </span>
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">联系电话</p>
+                <input type="text" name="store_tel" value='{$info.store_tel ?? ""}' placeholder="请输入店铺联系电话">
+            </div>
+        </div>
+        <div class="application_in_tit">
+            <div class="application_in_text">
+                <p>
+                    企业信息<span>*</span>
+                </p>
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">企业名称</p>
+                <input type="text" name="corporation_name" value='{$info.corporation_name ?? ""}' placeholder="请输入企业名称" maxlength="30" oninput="if(value.length>40)value=value.slice(0,40)">
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">企业地址</p>
+                <input type="text" name="site" readonly id="demo1" value='{$info.pid ?? ""}' placeholder="请输入企业的地址">
+                <input id="value1" type="hidden" name="pid" />
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list" id="demo">
+                <p class="application_in_hint">详细地址</p>
+                <textarea name="address" type="text" id="textarea" placeholder="请选择企业的详细地址" maxlength="50" oninput="if(value.length>50)value=value.slice(0,50)">{$info.address ?? ""}</textarea>
+                <!-- <input type="text" name="address"  value='' placeholder="请输入企业的详细地址"> -->
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">开户银行</p>
+                <input type="text" name="ba_bankname" value='{$info.ba_bankname ?? ""}' placeholder="请输入企业开户银行" maxlength="30" oninput="if(value.length>30)value=value.slice(0,30)">
+
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">银行账号</p>
+                <input type="number" name="ba_bankaccount" value='{$info.ba_bankaccount ?? ""}' placeholder="请输入企业银行账号" maxlength="30" oninput="if(value.length>30)value=value.slice(0,30)">
+            </div>
+        </div>
+        <div class="application_in_tit">
+            <div class="application_in_text">
+                <p>
+                    企业营业执照副本<span>*</span>
+                </p>
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">信用代码</p>
+                <input type="text" name="ba_license" placeholder="请输入企业社会信用代码" value='{$info.ba_license ?? ""}' oninput="if(value.length>=19)value=value.slice(0,19)">
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_width">
+                <p>请上传原始比例的营业执照副本照片或扫描件，请勿裁剪涂改，保证营业执照信息清晰显示，否则无法通过审核.</p>
+            </div>
+            <!--</div>-->
+            <!--<form enctype="multipart/form-data">-->
+            <div class="view">                
+                <div class="photo">
+                    <input type="file" class="hidden-file" id="choose1" accept="image/*" multiple>
+                    <img id="imgs1" class="imgs" src="__STATIC__/image/application/icon_+@2x.png" data-original="__CDN_PATH__{$info.ba_license_img ?? '_STATIC__/image/application/icon_+@2x.png'}">
+                    <input id="file1" type="hidden" name='ba_license_img[]'>
+                </div>
+            </div>
+        </div>
+        <div class="application_in_tit">
+            <div class="application_in_text">
+                <p>
+                    <span></span>身份信息
+                </p>
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">法人姓名</p>
+
+                <input type="text" name="ba_legal_person" value='{$info.ba_legal_person ?? ""}' placeholder="请输入法人姓名" maxlength="16" oninput="if(value.length>18)value=value.slice(0,16)">
+            </div>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_list">
+                <p class="application_in_hint">身份证号</p>
+                <input type="text" name="ba_legal_person_idnumber" value='{$info.ba_legal_person_idnumber ?? ""}' placeholder="请输入法人身份证号码"
+                    maxlength="18" oninput="if(value.length>18)value=value.slice(0,18)">
+            </div>
+        </div>
+        <div class="application_in_width">
+            <p>请上传原始比例的身份证正反面照片或扫描件，请勿裁剪涂改，保证身份证信息清晰显示.</p>
+        </div>
+        <div class="application_in_box">
+            <div class="application_in_con clear">
+                <div class="view lf">                    
+                    <div class="photo">
+                        <input type="file" class="hidden-file" id="choose2" accept="image/*" multiple>
+                        <img id="imgs2" class="imgs" src="__STATIC__/image/application/icon_zheng@2x.png" data-original="__CDN_PATH__{$info.ba_identification_positive_img ?? '__STATIC__/image/application/icon_zheng@2x.png'}">
+                        <input id="file2" type="hidden" name='ba_identification_positive_img[]'>
+                    </div>
+                </div>
+                <div class="view lf">                    
+                    <div class="photo">
+                        <input type="file" class="hidden-file" id="choose3" accept="image/*" multiple>
+                        <img id="imgs3" class="imgs" src="__STATIC__/image/application/icon_fang@2x.png" data-original="__CDN_PATH__{$info.ba_identification_negative_img ?? '__STATIC__/image/application/icon_fang@2x.png'}">
+                        <input id="file3" type="hidden" name='ba_identification_negative_img[]'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 分类的弹框 -->
+        <div class="application_popups">
+            <div class="application_menu">
+                <ul>
+                    <!-- 判断不为空 -->
+                    {notempty name="category"} {volist name='category' id='vo'}
+                    <li><a class="" name="{$vo.status}" id="{$vo.sc_id}">{$vo.sc_name}</a></li>
+                    {/volist} {/notempty}
+                </ul>
+            </div>
+            <div class="application_content">
+                <div class="application_contentDiv">
+                    <ul class="application_tabcon">
+                        {notempty name="category"} {volist name='category' id='vo'} {notempty name="category"} {volist name='vo.son' id='voo'}
+                        <li>
+                            <a sc_id="" class="application_two" name="{$voo.status}" id="{$voo.sc_id}">{$voo.sc_name}</a>
+                            <div class="application_three">
+                                {notempty name="category"} {volist name='voo.son' id='vooo'}
+                                <a sc_id="" name="{$vooo.status}" id="{$vooo.sc_id}">{$vooo.sc_name}</a>
+                                {/volist} {/notempty}
+                            </div>
+                        </li>
+                        {/volist} {/notempty} {/volist} {/notempty}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="application_in_agreement clear">
+        <div class="application">
+            <img src="__STATIC__/image/register/icon_weixuanze@2x.png" class="application_deal" data="1">
+            <img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="application_deal application_block" data="2">
+            <div class="application_in_agree"><a href="/index/index/agreement/at_name/商户注册协议">同意《拍吖吖商户注册协议》</a></div>
+        </div>
+    </div>
+    <button class="application_in_submit application_yew">提交申请</button>
+</form>
+{/block} {block name="script"} {include file="common/js_sdk" /}
+<script src="__JS__/applicationIn/application_in.js"></script>
+<script src="__JS__/goods/publish.js"></script>
+<script src="__JS__/applicationIn/application.js"></script>
+<script src="__JS__/applicationIn/textareaauto.js"></script>
+<script>
+    //textarea高度自适应
+    var text = document.getElementById("textarea");
+    autoTextarea(text);// 调用
+
+    var filechooser1 = document.getElementById("choose1");
+    var filechooser2 = document.getElementById("choose2");
+    var filechooser3 = document.getElementById("choose3");
+    //用于压缩图片的canvas
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext('2d');
+    //瓦片canvas
+    var tCanvas = document.createElement("canvas");
+    var tctx = tCanvas.getContext("2d");
+    var maxsize = 100 * 1024;
+    $("#imgs1").on("click", function() {
+        filechooser1.click();
+    })
+    $("#imgs2").on("click", function() {
+        filechooser2.click();
+    })
+    $("#imgs3").on("click", function() {
+        filechooser3.click();
+    })
+    filechooser1.onchange = function() {
+        if (!this.files.length) return;
+        var files = Array.prototype.slice.call(this.files);
+        if (files.length > 1) {
+            layer.msg("<span style='color:#fff'>最多同时只可选择1张图片</span>", {
+                time: 2000
+            });
+            return;
+        }
+        
+        files.forEach(function (file, i) {
+            if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+            var reader = new FileReader();
+            //获取图片大小
+            var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+            reader.onload = function () {
+                var result = this.result;
+                var img = new Image();
+                img.src = result;
+                
+                //$(li).css("background-image", "url(" + result + ")");
+                //如果图片大小小于100kb，则直接上传
+                if (result.length <= maxsize) {
+                    $('#file1').val(img.src);
+                    $('#imgs1').attr('src',img.src);
+                    img = null;
+                    return;
+                }
+                //图片加载完毕之后进行压缩，然后上传
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+                function callback() {
+                    var data = compress(img);
+                    $('#file1').val(data);
+                    $('#imgs1').attr('src',data);
+                    img = null;
+                }
+            };
+            reader.readAsDataURL(file);
+        })
+    }
+
+    filechooser2.onchange = function() {
+        if (!this.files.length) return;
+        var files = Array.prototype.slice.call(this.files);
+        if (files.length > 1) {
+            layer.msg("<span style='color:#fff'>最多同时只可选择1张图片</span>", {
+                time: 2000
+            });
+            return;
+        }
+        
+        files.forEach(function (file, i) {
+            if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+            var reader = new FileReader();
+            //获取图片大小
+            var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+            reader.onload = function () {
+                var result = this.result;
+                var img = new Image();
+                img.src = result;
+                
+                //$(li).css("background-image", "url(" + result + ")");
+                //如果图片大小小于100kb，则直接上传
+                if (result.length <= maxsize) {
+                    $('#file2').val(img.src);
+                    $('#imgs2').attr('src',img.src);
+                    img = null;
+                    return;
+                }
+                //图片加载完毕之后进行压缩，然后上传
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+                function callback() {
+                    var data = compress(img);
+                    $('#file2').val(data);
+                    $('#imgs2').attr('src',data);
+                    img = null;
+                }
+            };
+            reader.readAsDataURL(file);
+        })
+    }
+
+    filechooser3.onchange = function() {
+        if (!this.files.length) return;
+        var files = Array.prototype.slice.call(this.files);
+        if (files.length > 1) {
+            layer.msg("<span style='color:#fff'>最多同时只可选择1张图片</span>", {
+                time: 2000
+            });
+            return;
+        }
+        
+        files.forEach(function (file, i) {
+            if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+            var reader = new FileReader();
+            //获取图片大小
+            var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+            reader.onload = function () {
+                var result = this.result;
+                var img = new Image();
+                img.src = result;
+                
+                //$(li).css("background-image", "url(" + result + ")");
+                //如果图片大小小于100kb，则直接上传
+                if (result.length <= maxsize) {
+                    $('#file3').val(img.src);
+                    $('#imgs3').attr('src',img.src);
+                    img = null;
+                    return;
+                }
+                //图片加载完毕之后进行压缩，然后上传
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+                function callback() {
+                    var data = compress(img);
+                    $('#file3').val(data);
+                    $('#imgs3').attr('src',data);
+                    img = null;
+                }
+            };
+            reader.readAsDataURL(file);
+        })
+    }
+
+    //使用canvas对大图片进行压缩
+    function compress(img) {
+        var initSize = img.src.length;
+        var width = img.width;
+        var height = img.height;
+        //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+        var ratio;
+        if ((ratio = width * height / 4000000) > 1) {
+            ratio = Math.sqrt(ratio);
+            width /= ratio;
+            height /= ratio;
+        } else {
+            ratio = 1;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        //铺底色
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //如果图片像素大于100万则使用瓦片绘制
+        var count;
+        if ((count = width * height / 1000000) > 1) {
+            count = ~~(Math.sqrt(count) + 1); //计算要分成多少块瓦片
+            //计算每块瓦片的宽和高
+            var nw = ~~(width / count);
+            var nh = ~~(height / count);
+            tCanvas.width = nw;
+            tCanvas.height = nh;
+            for (var i = 0; i < count; i++) {
+                for (var j = 0; j < count; j++) {
+                    tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                    ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+                }
+            }
+        } else {
+            ctx.drawImage(img, 0, 0, width, height);
+        }
+        //进行最小压缩
+        var ndata = canvas.toDataURL('image/jpeg', 0.3);
+        //console.log('压缩前：' + initSize);
+        //console.log('压缩后：' + ndata.length);
+        //console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");
+        tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+        return ndata;
+    }
+</script> {/block}

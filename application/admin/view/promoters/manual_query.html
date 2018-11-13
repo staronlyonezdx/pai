@@ -1,0 +1,124 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<style>
+    .btn-group{
+        display:flex;
+        margin-top:10px;
+        /*margin-left:0px;*/
+        /*width: auto;*/
+    }
+    .btn-group .g_name{
+        margin-top: auto;
+        margin-right:10px;
+    }
+    .btn-group .form-control{
+        width:200px;
+    }
+    .user_info span{
+        margin-right:15px;
+        color:red;
+    }
+
+</style>
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>管理员添加推广员</label>
+            </div>
+            <div>
+            <div class="btn-group">
+                <label class="g_name">用户手机号码:</label>
+                <input type="text" class="form-control" id="m_mobile" name="m_mobile" placeholder="手机号码" value="{$m_mobile|default=''}">
+                    <button type="submit" class=" btn btn-info" onclick="btn_info()">搜索 <span class="glyphicon glyphicon-search"></span></button>
+            </div>
+                {notempty name="$data"}
+                <div class="user_info">
+                    用户昵称: <span>{$info.m_name}</span>
+                    用户状态:<span class="is_promoters">{switch name="$info.is_promoters" }
+                    {case value="1" }普通会员{/case}
+                    {case value="2"}申请中{/case}
+                    {case value="3"}审核失败{/case}
+                    {case value="4"}考核中{/case}
+                    {case value="5"}考核成功{/case}
+                    {case value="6"}考核失败{/case}
+                    {default /}未知
+                    {/switch}</span>
+                    是否为机器人: <span>{if condition='$info.is_jq ==1 '}是{else /}否{/if}</span>
+
+                        {if condition='$info.is_promoters == 1  || $info.is_promoters == 3'}
+                        <button type="button" class="btn btn-success btn-xs btn-promoters" onclick="apply_promoters('{$info.m_id}')">
+                            申请成为推广员
+                        </button>
+                        {/if}
+
+                </div>
+                {/notempty}
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>认证ID</th>
+                    <th>真实姓名</th>
+                    <th>身份证号</th>
+                    <th>银行卡号</th>
+                    <!--<th>状态</th>-->
+                    <!--<th>操作</th>-->
+                </tr>
+                </thead>
+                {notempty name="$data"}
+                <tbody>
+                {volist name='$data' id='vo'}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.real_name}</td>
+                        <td>{$vo.identification}</td>
+                        <td>{$vo.bankaccount}</td>
+
+                    </tr>
+                {/volist}
+                </tbody>
+                {else /}
+                <tr>
+                    <td colspan="20">
+                        {empty name="$data"}{empty name='error_info'}未查到此用户实名认证信息{else /}{$error_info}{/empty} {/empty}
+                    </td>
+                </tr>
+                {/notempty}
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <script>
+        //查询操作
+        function btn_info(){
+            var m_mobile = $('#m_mobile').val();
+            location.href='/admin/promoters/manual_query/m_mobile/'+m_mobile;
+        };
+        //申请成为推广员
+        function apply_promoters(m_id){
+            var self = $(this)
+            $(".btn-apply").attr('disabled',true);
+            $.post('/admin/promoters/manual_query',{m_id:m_id},function(res){
+                if(res.status == 1){
+                    $('.is_promoters').html('申请中');
+                    $('.btn-promoters').remove();
+                    layer.msg(res.msg, {icon: 1,time:2000});
+                }else{
+                    layer.msg(res.msg, {icon: 1,time:2000});
+                    $(".btn-apply").attr('disabled',false);
+                }
+            })
+        };
+    </script>
+{/block}
+
+

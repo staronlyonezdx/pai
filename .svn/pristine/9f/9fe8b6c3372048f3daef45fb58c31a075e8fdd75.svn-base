@@ -1,0 +1,301 @@
+body {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    outline: none;
+    width: 100%;
+    border: none;
+}
+
+.register_list {
+    width: 7.5rem;
+    /*height:0.8rem;*/
+
+    background-color: #fff;
+}
+
+.register_inp {
+    /*width: 90%;*/
+    /*margin:0 auto;*/
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    /*line-height: 0.8rem;*/
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.register_inp p {
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    padding-right: 0.23rem;
+    /*width:17%;*/
+    /*float: left;*/
+    font-size: 0.28rem;
+    color: #000000;
+    border-right: 0.01rem solid #e2e2e2;
+    /*text-align:justify;*/
+    /*text-align-last:justify;*/
+}
+
+.register_inp input {
+    width: 100%;
+    padding-top: 0.42rem;
+    padding-bottom: 0.32rem;
+    text-indent: 0.2rem;
+    font-size: 0.28rem;
+}
+
+.register_inp .m_mobile {
+    text-indent: 1rem;
+}
+
+.register_code {
+    position: absolute;
+    right: 0;
+    top: 0.23rem;
+    width: 2.2rem;
+    height: 0.6rem;
+    border: 0.02rem solid #000000;
+    font-size: 0.24rem;
+    line-height: 0.6rem;
+    text-align: center;
+    color: #2B2B2B;
+    border-radius: 0.3rem;
+    background-color: transparent;
+}
+
+.register_agreements {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    width: 7.5rem;
+    margin-top: 0.2rem;
+}
+
+.register_agreements p {
+    font-size: 0.24rem;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.register_agreements p a {
+    font-size: 0.24rem;
+    color: #333333;
+    vertical-align: middle;
+}
+
+.register_agreements p .register_radio {
+    /*display: inline-block;*/
+    width: 0.28rem;
+    height: 0.28rem;
+    margin-right: 0.4rem;
+    display: none;
+}
+
+.register_agreements p .register_radios {
+    display: inline-block;
+}
+
+.register_agreements p span {
+    vertical-align: middle;
+}
+
+.register_area {
+    height: 1.6rem;
+}
+
+.register_area .register_inp {
+    line-height: 0.3rem;
+}
+
+.register_inp textarea {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    width: 70%;
+    height: 1.58rem;
+}
+
+.address_icon {
+    width: 0.38rem;
+    height: 0.38rem;
+    margin-right: 0.1rem;
+    vertical-align: middle;
+}
+
+.address_text {
+    vertical-align: middle;
+    color: #4c4c4c;
+    font-size: 0.26px;
+}
+
+.register_btn {
+    width: 6.9rem;
+    height: 0.88rem;
+    margin: 0 auto;
+    background-image: linear-gradient(0deg,
+    #DDDDDD 0%,
+    #EFEFEF 100%),
+    linear-gradient(
+            #DDDDDD,
+            #DDDDDD);
+    box-shadow: 18px 0px 21px rgba(221, 221, 221, 0.15);
+    border-radius: 0.18rem;
+    line-height: 0.88rem;
+    color: #AAAAAA;
+    font-size: 0.32rem;
+    text-align: center;
+    margin-top: 0.42rem;
+}
+
+.editaddress_margin {
+    margin-top: 0.3rem;
+    border: none;
+}
+
+.editaddress_inp input {
+    margin-top: 0;
+}
+
+.register_yellow {
+    background-image: linear-gradient(0deg,
+    #FFE500 0%,
+    #FFED50 100%),
+    linear-gradient(
+            #FFE500,
+            #FFE500);
+    color: #000000;
+    font-family: SourceHanSansCN-Medium;
+    font-weight: 600;
+}
+
+.amnesia_login .amnesia_code {
+    width: 100%;
+    text-indent: 0.2rem;
+}
+
+.register_cancel_icon, .register_eye_icon, .register_cancel_icons, .register_eye_icons {
+    width: 0.44rem;
+    height: 0.44rem;
+    position: absolute;
+    top: 0.39rem;
+
+}
+
+.register_cancel_icon img, .register_eye_icon img, .register_cancel_icons img, .register_eye_icons img {
+    width: 100%;
+    height: 100%;
+}
+
+.register_cancel_icon, .register_cancel_icons {
+    right: 1rem;
+    display: none;
+}
+
+.register_eye_icon, .register_eye_icons {
+    right: 0.2rem;
+}
+
+/*#pwd2{
+	display: none;
+}
+#pwd4{
+	display: none;
+}*/
+#t1 {
+    display: none;
+}
+
+#t2 {
+    display: none;
+}
+
+.register_forget_payment {
+    position: absolute;
+    right: 0rem;
+    top: 0.38rem;
+}
+
+.layui-layer-btn .layui-layer-btn0 {
+    color: #333 !important;
+    border: none !important;
+}
+
+.register_address {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 100;
+    display: none;
+}
+
+.register_address .add_address {
+    font-size: 0.48rem;
+    font-family: PingFangSC-Semibold;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+    margin-top: 1.48rem;
+    margin-left: 0.42rem;
+}
+
+.editaddress_inp {
+    width: 6.69rem;
+    margin: 0.7rem auto 0;
+    overflow: hidden;
+    border-bottom: 0.02rem solid #E2E2E2;
+    position: relative;
+}
+
+.editaddress_inp img {
+    width: 0.34rem;
+    height: 0.34rem;
+    position: absolute;
+}
+
+.editaddress_inp img.dingwei {
+    left: 0;
+    top: 0.4rem;
+}
+
+.editaddress_inp img.address_edit {
+    left: 6rem;
+    top: 0.4rem;
+}
+
+.editaddress_inp .address_input {
+    width: 100%;
+    padding-top: 0.42rem;
+    padding-bottom: 0.32rem;
+    text-indent: 1rem;
+}
+
+.success_register {
+    width: 6.9rem;
+    height: 0.88rem;
+    display: block;
+    text-align: center;
+    line-height: 0.88rem;
+    background: linear-gradient(0deg,
+    #DDDDDD 0%,
+    #EFEFEF 100%),
+    linear-gradient(
+            #DDDDDD,
+            #DDDDDD);
+    border-radius: 0.18rem;
+    font-size: 0.32rem;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #aaaaaa;
+    margin: 0.67rem auto 0;
+}

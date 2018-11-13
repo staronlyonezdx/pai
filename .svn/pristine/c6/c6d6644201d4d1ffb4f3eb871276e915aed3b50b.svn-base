@@ -1,0 +1,217 @@
+<?php
+namespace app\member\controller;
+use app\data\service\address\AddressService as AddressService;
+use app\data\service\region\RegionService as RegionService;
+use think\Controller;
+use think\Request;
+use think\Cookie;
+class Address extends MemberHome
+{
+    /*
+	* 我的收货地址列表
+	* 创建人 刘勇豪
+	* 时间 2018-06-25 10:21:00
+	*/
+    public function index(){
+
+        $m_id = $this->m_id;
+        $encrypt = input('param.encrypt',0);
+        $pm_id = input('param.pm_id',0);
+        $pcode = input('param.pcode',0);
+
+        $address = new AddressService();
+        $list = $address->addressList(['m_id'=>$m_id],"is_default desc,updatetime desc");
+
+        // 获取的详细的省市区
+        if(!empty($list)){
+            $region = new RegionService();
+            foreach($list as $k => $v){
+                $pid = $v['pid'];
+                $pname = '';
+                $cid = $v['cid'];
+                $cname = '';
+                $did = $v['did'];
+                $dname = '';
+
+                // 省
+                if($pid){
+                    $pname = $region->regionName($pid);
+                }
+
+                // 市
+                if($cid){
+                    $cname = $region->regionName($cid);
+                }
+
+                // 区
+                if($did){
+                    $dname = $region->regionName($did);
+                }
+                $list[$k]['pname'] = $pname;
+                $list[$k]['cname'] = $cname;
+                $list[$k]['dname'] = $dname;
+            }
+        }
+        $header_path = '';
+        if(!$encrypt && !$pm_id){
+            $header_path = "/member/modifydata/set_data";
+        }
+        $this->assign('list',$list);
+        $this->assign('encrypt',$encrypt);
+        $this->assign('pm_id',$pm_id);
+        $this->assign('pcode',$pcode);
+        $this->assign('header_path',$header_path);
+        $this->assign('header_title','收货地址');
+
+        return $this->fetch();
+    }
+
+    /*
+	* 收货地址编辑新增页
+	* 创建人 刘勇豪
+	* 时间 2018-06-25 10:21:00
+	*/
+    public function edit(){
+        $address_id = input('param.address_id',0);
+        $encrypt = input('param.encrypt',0);
+        $pm_id = input('param.pm_id',0);
+        $pcode = input('param.pcode',0);
+
+        $encrypt = str_replace("liuyonghao","/",$encrypt);
+        $pcode = str_replace("liuyonghao","/",$pcode);
+
+        $address = new AddressService();
+        $region = new RegionService();
+
+        // 处理提交信息
+        if(request()->isPost() || request()->isAjax()){
+
+            if($address_id){
+                // 修改
+                $res = $address->addressRoomEditDoo();
+
+                if(!$res['status']){
+                    return array('status'=>0,'msg'=>$res['msg'],'data'=>'');
+                }
+                return array('status'=>1,'msg'=>'修改地址成功','data'=>$res);
+            }else{
+                // 判断收货地址超过10条不能添加
+                $m_id = Cookie::get('m_id');
+                $count = $address->addressCount(['m_id'=>$m_id]);
+                if($count > 9){
+                    return array('status'=>0,'msg'=>'个人收货地址不能超过10条！','data'=>'');
+                }
+
+                //添加
+                $res = $address->addressRoomAdd();
+                if(!$res['status']){
+                    return array('status'=>0,'msg'=>$res['msg'],'data'=>'');
+                }
+                return array('status'=>1,'msg'=>'添加地址成功','data'=>$res);
+            }
+        }
+
+        $info = [];
+        if($address_id){
+
+            $info = $address->addressInfo(['address_id'=>$address_id]);
+            if(!empty($info)){
+                $pid = $info['pid'];
+                $pname = '';
+                $cid = $info['cid'];
+                $cname = '';
+                $did = $info['did'];
+                $dname = '';
+                $regids = '';
+
+                // 省
+                if($pid){
+                    $pname = $region->regionName($pid);
+                    $regids .= $pid;
+                }
+                // 市
+                if($cid){
+                    $cname = $region->regionName($cid);
+                    $regids .= ','.$cid;
+                }
+                // 区
+                if($did){
+                    $dname = $region->regionName($did);
+                    $regids .= ','.$did;
+                }
+
+                $info['pname'] = $pname;
+                $info['cname'] = $cname;
+                $info['dname'] = $dname;
+                $info['regids'] = $regids;
+            }
+        }
+
+        $header_title = "添加地址";
+        if($address_id){
+            $header_title = "编辑地址";
+        }
+
+        $this->assign('info',$info);
+        $this->assign('address_id',$address_id);
+        $this->assign('encrypt',$encrypt);
+        $this->assign('pm_id',$pm_id);
+        $this->assign('pcode',$pcode);
+        $this->assign('header_title',$header_title);
+        return $this->fetch();
+    }
+
+    /*
+	* 收货地址编辑新增页
+	* 创建人 刘勇豪
+	* 时间 2018-06-25 10:21:00
+	*/
+    public function setdefault(){
+        $m_id = $this->m_id;
+        $address_id = input('param.address_id',0);
+        $is_default = input('param.is_default',0);
+
+        $address = new AddressService();
+
+        //如果设为此条数据是设置为默认地址，其他地址都要改为非默认
+        if($is_default == 1){
+            $data_default['is_default'] = 0;
+            $where_default['m_id'] = $m_id;
+            $address->addressSave($where_default, $data_default);
+        }
+
+        $where['m_id'] = $m_id;
+        $where['address_id'] = $address_id;
+        $new_data['is_default'] = $is_default;
+        $info = $address->addressInfo($where);
+
+        if($info && $address->addressSave($where, $new_data))
+        {
+            return array('status'=>1,'msg'=>'设置成功','data'=>'');
+        }
+        else
+        {
+            return array('status'=>0,'msg'=>'设置失败','data'=>'');
+        }
+    }
+
+    /*
+	* 收货地址编辑新增页
+	* 创建人 刘勇豪
+	* 时间 2018-06-25 10:21:00
+	*/
+    public function delete(){
+        $address_id = input('param.address_id',0);
+
+        $address = new AddressService();
+        $res = $address ->addressRoomDel();
+
+        if(!$res){
+            return array('status'=>0,'msg'=>'删除失败','data'=>$address_id);
+        }
+
+        return array('status'=>1,'msg'=>'删除成功','data'=>$address_id);
+
+
+    }
+}

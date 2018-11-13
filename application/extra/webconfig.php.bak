@@ -1,0 +1,10 @@
+<?php 
+ return [	
+	'WEB_LOGO'           => '',//网站logo图片
+	'WEB_TITLE'          => 'CMMPHP',//网站标题
+	'WEB_KEYWORD'        => '11',//网站关键字
+	'WEB_COPYRIGHT'      => '2017.广州市素材火信息科技有限公司',//网站版权
+	'WEB_RECORD_NUMBER'  => '粤ICP备15116264号',//网站备案号
+	
+];
+?>

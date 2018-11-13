@@ -1,0 +1,840 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/myhome/mine.css">
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css"> -->
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/2.7.0/idangerous.swiper.css" rel="stylesheet">
+{/block}
+{block name="content"}
+<main style="margin-top: 0;background: #fefefe;">
+    <div class="mine_top">
+        <div class="mine_tit">
+            <p class="mine_text">我的</p>
+            <!--<div class="mine_size my-icon">-->
+            <!--{if condition="$data.is_read == 1"}-->
+            <!--<span></span>-->
+            <!--{/if}-->
+            <!--&lt;!&ndash;<a href="/member/systemmsg/index">&ndash;&gt;-->
+            <!--&lt;!&ndash;<img src="__STATIC__/image/myhome/msg.png">&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+            <!--</div>-->
+            <div class="mine_size">
+                <a href="/member/modifydata/set_data">
+                    <img src="__STATIC__/image/myhome/icon_nav_set@2x.png">
+                </a>
+            </div>
+        </div>
+        <div class="mine_name">
+            <a href="/member/modifydata/self_data">
+                <!--用户显示-->
+                <div class="clear">
+                    <div class="mine_head_portrait lf">
+                        <img src="__STATIC__/image/myhome/TIM20180731142117.jpg"
+                             data-original="__CDN_PATH__{$data.m_avatar ?? ''}">
+                    </div>
+                    <p class="mine_name_text lf">{$data.m_name ?? ''}</p>
+                </div>
+                <div class="myhome_vip">
+                    <img src="{$data.ml_img ?? ''}" alt="">
+                    <!--吖吖推广员显示-->
+                    <!--<img src="__STATIC__/image/myhome/icon_tuiguang@2x.png" alt="">-->
+                </div>
+                <!-- 已登录显示下边样式 -->
+                <!-- 未登录或者未注册显示下边样式 -->
+                <!--<div class="lf">-->
+                <!--<p class="mine_name_texts">登录注册拍吖吖 享受超级大福利</p>-->
+                <!--<div class="clear">-->
+                <!--<a href=""><div class="mine_login lf">登录</div></a>-->
+                <!--<a href=""><div class="mine_register lf">注册</div></a>-->
+                <!--</div>-->
+                <!--</div>-->
+            </a>
+        </div>
+        <!-- 已登录显示下边样式 -->
+        <a href="/member/core/index">
+            <div class="mine_vip">
+                <img src="__STATIC__/image/myhome/vip@2x.png">
+            </div>
+        </a>
+        <div class="mine_wave">
+            <img src="__STATIC__/image/myhome/icon_demo_jianbian@2x.png">
+        </div>
+    </div>
+    <!--用户显示-->
+    {if condition='$data.m_type==0'}
+    <div class="mine_nav clear">
+        <a href="{:url('goodscollection/goods_list')}">
+            <div class="mine_collect lf">
+                {$data.goods_collection ?? 0}
+                <!--<div class="mine_new"><span>1</span></div>-->
+                <p>收藏夹</p>
+            </div>
+        </a>
+        <a href="{:url('storecollection/store_list')}">
+            <div class="mine_collect lf">
+                {$data.store_collection ?? 0}
+                <!--<div class="mine_new"><span>1</span></div>-->
+                <p>关注店铺</p>
+            </div>
+        </a>
+        <a href="/member/myhome/visit_list">
+            <div class="mine_collect lf">
+                {$data.visit_goods_history ?? 0}
+                <!--<div class="mine_new"><span>1</span></div>-->
+                <p>历史足迹</p>
+            </div>
+        </a>
+    </div>
+    <div class="mine_bg"></div>
+    {/if}
+    <!--用户显示结束-->
+    <!--商家显示-->
+    {if condition='$data.m_type==1'}
+    <div class="myhome_shop">
+        <div class="myhome_shop_top clear">
+            <div class="myhome_shop_img lf">
+                <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$data.store_logo}">
+            </div>
+            <p class="lf">{$data.store_name}</p>
+            <div class="myhome_shop_select rt">
+                <a href="/member/store/index/store_id/{$data.store_id}">
+                    <span>我的店铺</span>
+                </a>
+                <img src="__STATIC__/image/myhome/icon_jump3@2x.png" alt="">
+            </div>
+        </div>
+        <!--没有发布商品的时候-->
+        {if condition='$data.goods.len == 0'}
+        <a href="/member/goods/index">
+            <div class="myhome_shop_pub_list clear">
+                <div class="myhome_shop_publish">
+                    <img src="__STATIC__/image/myhome/icon_xiangji@2x.png" alt="">
+                    <span>立即发布</span>
+                </div>
+            </div>
+        </a>
+        {elseif condition='$data.goods.len < 4'}
+        <!--发布商品不超过4个时-->
+        <div class="myhome_shop_pub_list clear">
+            <a href="/member/goods/index">
+                <div class="myhome_shop_pub_img lf">
+                    <img src="__STATIC__/image/myhome/icon_+@2x.png" alt="">
+                </div>
+            </a>
+            {volist name='$data.goods.list' id='vo'}
+            <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+                <div class="myhome_shop_pub_img lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                </div>
+            </a>
+            {/volist}
+
+        </div>
+        {else /}
+        <div class="myhome_shop_pub_list clear">
+            <a href="/member/goods/index">
+                <div class="myhome_shop_pub_img lf">
+                    <img src="__STATIC__/image/myhome/icon_+@2x.png" alt="">
+                </div>
+            </a>
+            {volist name='$data.goods.list' id='vo'}
+            <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+                <div class="myhome_shop_pub_img lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.g_img}">
+                </div>
+            </a>
+            {/volist}
+
+        </div>
+
+        <!--&lt;!&ndash;发布商品超过4个时&ndash;&gt;-->
+        <!--<div class="myhome_shop_pub_list clear">-->
+        <!--{volist name='$data.goods.list' id='vo'}-->
+        <!--<a href="/member/goodsproduct/index/g_id/{$vo.g_id}">-->
+        <!--<div class="myhome_shop_pub_img lf">-->
+        <!--<img src="{$vo.g_img}" alt="加载中">-->
+        <!--</div>-->
+        <!--</a>-->
+        <!--{/volist}-->
+        <!--&lt;!&ndash;<div class="myhome_shop_pub_img myhome_shop_pub_image lf">&ndash;&gt;-->
+        <!--&lt;!&ndash;<img src="__STATIC__/image/myhome/icon_fazhan@2x.png" alt="">&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="myhome_shop_pub_img lf">&ndash;&gt;-->
+        <!--&lt;!&ndash;<img src="__STATIC__/image/myhome/icon_huoban@2x.png" alt="">&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="myhome_shop_pub_img lf">&ndash;&gt;-->
+        <!--&lt;!&ndash;<img src="__STATIC__/image/myhome/icon_jifen@2x.png" alt="">&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+        {/if}
+    </div>
+    {/if}
+    <!--商家显示结束-->
+
+    <!--商家显示-->
+    <div class="mine_view">
+        <div class="mine_compete clear">
+            <p class="lf active" i=0>吖吖订单</p>
+            {if condition="$is_lord ==1"}
+
+            {else /}
+            <p class="lf" i=1>人气购订单</p>
+            <p class="lf" i=2>积分订单</p>
+            {/if}
+        </div>
+
+        <!--轮播-->
+        <div id="swiper" class="swiper-container size_over">
+            <div id="swiperWrapper" class="swiper-wrapper">
+                <!--吖吖订单-->
+                <div class="swiper-slide">
+                    <div class="mine_tab clear">
+                        <a href="/member/Orderpai/orderlist/i/1">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d1.png">
+                                <p>待付款</p>
+                                <div class="mine_red_new"></div>
+                                <!-- {notempty name="$order[1]"}{$order[1] ?? ''}{/notempty} -->
+                            </div>
+                        </a>
+                        <a href="/member/Orderpai/orderlist/i/2">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d2.png">
+                                <p>进行中</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/member/Orderpai/orderlist/i/3">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d3.png">
+                                <p>待发货</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/member/Orderpai/orderlist/i/4">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d4.png">
+                                <p>待评价</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+
+                        <a href="/member/Orderpai/orderlist/i/0">
+                            <div class="mine_tab_list mine_tab_dingdan lf mine_all_order">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d5.png">
+                                <p>全部订单</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {if condition="$is_lord ==1"}
+                {else /}
+                <!--人气购订单-->
+                <div id="mescroll1" class="swiper-slide mescroll size_over">
+                    <div class="mine_tab">
+                        <a href="/popularity/popularityorder/order_list/i/1">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/myhome/d2.png">
+                                <p>进行中</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/popularity/popularityorder/order_list/i/2">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/myhome/icon_daifahuo@2x.png">
+                                <p>待确认</p>
+                                <!-- <p>待发货</p> -->
+                                <div class="mine_red_new"></div>
+
+                                <div class="mine_daiqueren" style="display: none;">
+                                    待选择地址
+                                </div>
+                            </div>
+                        </a>
+                        <a href="/popularity/popularityorder/order_list/i/3">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/myhome/d3.png">
+                                <p>待收货</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/popularity/popularityorder/order_list/i/4">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/myhome/icon_weipaizhong@2x.png">
+                                <p>已结束</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/popularity/popularityorder/order_list/i/0">
+                            <div class="mine_tab_list mine_tab_dingdan lf mine_all_order">
+                                <img src="__STATIC__/image/myhome/d5.png">
+                                <p>全部订单</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <!--积分订单-->
+                <div class="swiper-slide">
+                    <div class="mine_tab clear">
+                        <a href="/pointpai/Pointorder/orderlist/i/1">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d1.png">
+                                <p>待付款</p>
+                                <div class="mine_red_new"></div>
+                                <!-- {notempty name="$order[1]"}{$order[1] ?? ''}{/notempty} -->
+                            </div>
+                        </a>
+                        <a href="/pointpai/Pointorder/orderlist/i/2">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d2.png">
+                                <p>进行中</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/pointpai/Pointorder/orderlist/i/3">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d3.png">
+                                <p>待发货</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                        <a href="/pointpai/Pointorder/orderlist/i/4">
+                            <div class="mine_tab_list mine_tab_dingdan lf">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d4.png">
+                                <p>待评价</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+
+                        <a href="/pointpai/Pointorder/orderlist/i/0">
+                            <div class="mine_tab_list mine_tab_dingdan lf mine_all_order">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__STATIC__/image/myhome/d5.png">
+                                <p>全部订单</p>
+                                <div class="mine_red_new"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {/if}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mine_bg"></div>
+    <!--<div class="mine_bg"></div>-->
+    {if condition='$data.m_type==0'}
+    <!--用户显示-->
+    <!--<div class="mine_view mine_pat">-->
+    <!--<div class="mine_compete clear">-->
+    <!--<p class="lf">我团中的</p>-->
+    <!--<a href="/member/Orderpai/orderlist/type/1">-->
+    <!--<div class="rt">-->
+    <!--<span>所有团中</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png">-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="mine_tab clear">-->
+    <!--<a href="/member/Orderpai/orderlist/type/1/i/1">-->
+    <!--<div class="mine_tab_list lf">-->
+    <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_yipaizhong@2x.png">-->
+    <!--<p>待发货</p>-->
+    <!--<div class="mine_red_new">{$order[2] ?? ''}</div>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/Orderpai/orderlist/type/1/i/2">-->
+    <!--<div class="mine_tab_list lf">-->
+    <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_yifahuo@2x.png">-->
+    <!--<p>待收货</p>-->
+    <!--<div class="mine_red_new">{$order[3] ?? ''}</div>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/Orderpai/orderlist/type/1/i/3">-->
+    <!--<div class="mine_tab_list lf">-->
+    <!--<a href="{:url('Review/review_add')}">-->
+    <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_pingjia@2x.png">-->
+    <!--<p>待评价</p>-->
+    <!--</a>-->
+    <!--<div class="mine_red_new">{$order[4] ?? ''}</div>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/Orderpai/orderlist/type/1/i/4">-->
+    <!--<div class="mine_tab_list lf">-->
+    <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_tuikuan_shouhou@2x.png">-->
+    <!--<p>退款/售后</p>-->
+    <!--<div class="mine_red_new"></div>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/member/Orderpai/orderlist/type/1/i/5">-->
+    <!--<div class="mine_tab_list lf">-->
+    <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_yiwancheng@2x.png">-->
+    <!--<p>已完成</p>-->
+    <!--<div class="mine_red_new"></div>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="mine_bg"></div>-->
+    <!--申请商家入驻-->
+    <!--<a href="/member/admit/apply_store" >-->
+    <!--<div class="mine_banner">-->
+    <!--<img src="__STATIC__/image/myhome/bannerruzhu@2x.png" alt="">-->
+    <!--</div>-->
+    <!--</a>-->
+    {/if}
+
+    {if condition="$is_lord ==1"}
+
+    {else /}
+    <!--吖吖推广员入口-->
+    <div class="promoters_in">
+        <img src="__STATIC__/image/myhome/pic_tgy@2x.png" alt="">
+        <img src="__STATIC__/image/promoters/bg_qipaokh@2x.png" alt="" class="is_kaohe">
+    </div>
+    {/if}
+
+
+    <!--<div class="mine_bg"></div>-->
+    <!--用户显示结束-->
+    <!--<div class="mine_bg"></div>-->
+    <!--用户显示-->
+    {if condition="$is_lord ==1"}
+
+    {else /}
+    <div class="mine_return">
+        <img src="__STATIC__/image/myhome/icon_fubiao@2x.png" alt="">
+    </div>
+    {/if}
+    {if condition='$data.m_type==0'}
+    <div class="mine_view">
+
+        <div class="mine_compete clear">
+            <p class="lf mine_compete_action">我的功能</p>
+        </div>
+        <div class="mine_tab clear">
+            <!--<a href="/member/wallet/index">-->
+            <a class="mine_tab_list mine_money lf">
+                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                     data-original="__STATIC__/image/myhome/icon_qinabao@2x.png">
+                <p>我的钱包</p>
+                <div class="mine_red_new"></div>
+            </a>
+            <!--</a>-->
+            <a href="/member/myhome/peanut">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_huasheng@2x.png">
+                    <p>我的花生</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <a href="{:url('Review/index')}">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_pingjia@2.png">
+                    <p>我的评价</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <!--<a href="##">-->
+            <!--<div class="mine_tab_list lf">-->
+            <!--<img src="__STATIC__/image/myhome/icon_yaoqing@2x.png">-->
+            <!--<p>我的兑换</p>-->
+            <!--<div class="mine_red_new"></div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <a href="/member/modifydata/use_help/">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_kefu@2x.png">
+                    <p>帮助中心</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <!--<a href="/member/partner/index">-->
+            <!--<div class="mine_tab_list lf">-->
+            <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_huoban1@2x.png">-->
+            <!--<p>合伙人</p>-->
+            <!--<div class="mine_red_new"></div>-->
+            <!--</div>-->
+            <!--</a>-->
+        </div>
+    </div>
+    {/if}
+    <!--用户显示结束-->
+    <!--商家显示-->
+    {if condition='$data.m_type==1'}
+    <div class="mine_view">
+        <div class="mine_compete clear">
+            <p class="lf mine_compete_action">我的功能</p>
+        </div>
+        <div class="mine_tab clear">
+            <!--<a href="/member/wallet/index">-->
+            <a class="mine_tab_list mine_money lf">
+                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                     data-original="__STATIC__/image/myhome/icon_qinabao@2x.png">
+                <p>我的钱包</p>
+                <div class="mine_red_new"></div>
+            </a>
+            <!--</a>-->
+            <a href="/member/myhome/peanut">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_huasheng@2x.png">
+                    <p>我的花生</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <a href="{:url('Review/index')}">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_pingjia@2.png">
+                    <p>我的评价</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <a href="/member/Goodscollection/goods_list">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_shoucang@2x.png">
+                    <p>我的收藏</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <a href="/member/Storecollection/store_list">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_guanzhu@2x.png">
+                    <p>我的关注</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <a href="/member/myhome/visit_list">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_lishi@2x.png">
+                    <p>历史足迹</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <a href="/member/modifydata/use_help/">
+                <div class="mine_tab_list lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                         data-original="__STATIC__/image/myhome/icon_kefu@2x.png">
+                    <p>帮助中心</p>
+                    <div class="mine_red_new"></div>
+                </div>
+            </a>
+            <!--<a href="/member/partner/index">-->
+            <!--<div class="mine_tab_list lf">-->
+            <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/myhome/icon_huoban1@2x.png">-->
+            <!--<p>合伙人</p>-->
+            <!--<div class="mine_red_new"></div>-->
+            <!--</div>-->
+            <!--</a>-->
+        </div>
+    </div>
+    {/if}
+    <!--商家显示结束-->
+
+    <!--等待刘勇豪的数据s-->
+    <!--累积满7天之后的展示效果s-->
+    <!--<div class="mine_fanxian_pop">-->
+    <!--<div class="mine_fanxian_con">-->
+    <!--<a href="/member/myhome/cashback_rule/">查看规则</a>-->
+    <!--<div class="mine_fanxian_icon">-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump0@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p class="mine_day">累计<span>7</span>天</p>-->
+    <!--<p class="mine_gongxi">恭喜！获得未成团全额退款资格</p>-->
+    <!--<p class="mine_hint">每日拍一单，即可维持该资格</p>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--累积满7天之后的展示效果e-->
+    <!--一天拍够3单的展示效果s-->
+    <!--<div class="mine_fanxian_pop">-->
+    <!--<div class="mine_fanxian_con">-->
+    <!--<a href="/member/myhome/cashback_rule/">查看规则</a>-->
+    <!--<div class="mine_fanxian_icon">-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump0@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--<p class="mine_day">今日已团<span>3</span>单</p>-->
+    <!--<p class="mine_gongxi">今日获得未成团全额退款资格</p>-->
+    <!--<p class="mine_hint">连续7天参团，也可获得资格</p>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--一天拍够3单的展示效果e-->
+
+
+    <!--累积不满7天并且一天也没有拍够3单的展示效果s-->
+    <div class="mine_fanxian_pop">
+        <!--<div class="mine_fanxian_cons">-->
+        <!--<a href="/member/myhome/cashback_rule/">查看规则</a>-->
+        <!--<div class="mine_fanxian_icon">-->
+        <!--<img src="__STATIC__/image/myhome/icon_jump0@2x.png" alt=""/>-->
+        <!--</div>-->
+        <!--<p class="mine_day">今日已团<span>3</span>单</p>-->
+        <!--<p class="mine_leiji">已累计<span>3</span>天,满7天后</p>-->
+        <!--<p class="mine_leiji">即可获得未成团全额退款资格</p>-->
+        <!--<h3>条件二:</h3>-->
+        <!--<p class="mine_hint">当天拍3单，也可获得特权</p>-->
+        <!--<p class="mine_dan">今天已团<span>2</span>单,还差<span>1</span>单</p>-->
+        <!--</div>-->
+    </div>
+    <!--累积不满7天并且一天也没有拍够3单的展示效果e-->
+    <!--等待刘勇豪的数据e-->
+
+    <!--是吖吖推广员时显示-->
+    {if condition ="$data.tgy_img != ''" }
+    <div class="is_promoters">
+        <img src={$data['tgy_img']} alt="">
+        <!--<span>恭喜成为推广员</span>-->
+    </div>
+    {/if}
+</main>
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/myhome/mine.js"></script>
+<!-- <script src="__JS__/swiper/swiper-3.3.1.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/2.7.0/idangerous.swiper.js"></script>
+<script src="__JS__/cookie/jquery.cookie.js"></script>
+<script>
+    $.ajax({
+        type: 'POST',
+        url: '/popularity/popularityorder/find_no_address_aworder',
+        dataType: 'json',
+        success: function (data) {
+            if (data.status == 8) {
+                $(".mine_daiqueren").show();
+            }
+        }
+    })
+    // 手机调试
+    // var vConsole = new VConsole();
+    // console.log('VConsole is cool');
+    /*初始化轮播*/
+    var swiper = new Swiper('#swiper', {
+        initialSlide: 0,
+        onSlideChangeEnd: function (swiper) {
+            // alert("e");
+            var i = swiper.activeIndex;//轮播切换完毕的事件
+            $.cookie('index', i, {expire: 7});
+            changePage(i);
+        }
+        // onTransitionEnd: function (swiper) {
+        // alert("e")
+        // var i = swiper.activeIndex;//轮播切换完毕的事件
+        // changePage(i);
+        // }
+    });
+
+    /*菜单点击事件*/
+    $(".mine_compete p").click(function () {
+        var i = Number($(this).attr("i"));
+        /* 创建cookie来记录选中的状态*/
+        $.cookie('index', i, {expire: 7});
+        // swiper.slideTo(i);//以轮播的方式切换列表
+        swiper.swipeTo(i);
+    });
+    /*当页面切换时，读取cookie中index的状态，渲染到页面*/
+    //问题：退出当前账号的时候，清除cookie，$.cookie('index', null);
+    function getCookies() {
+        var index = $.cookie('index');
+        if (index) {
+            $(".mine_compete p").removeClass('active')
+            $(".mine_compete p").eq(index).addClass('active')
+        }
+        // swiper.slideTo(index);
+        swiper.swipeTo(index)
+    }
+
+    getCookies();
+
+    /*切换列表*/
+    function changePage(i) {
+        $(".mine_compete p").each(function (n, dom) {
+            if (dom.getAttribute("i") == i) {
+                dom.classList.add("active");
+                curNavDom = dom;
+            } else {
+                dom.classList.remove("active");
+            }
+        });
+    }
+
+    $(".mine_return").click(function () {
+        console.log(11);
+        $.ajax({
+            type: 'POST',
+            url: '/member/Orderpai/get_tip_detail',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                var days = data.data.no_tip_time - data.data.today_pai_num;
+                console.log(days);
+                var html = '';
+                $(".mine_fanxian_pop").empty();
+                if (data.status == 1) {
+                    $(".mine_fanxian_pop").addClass("mine_fanxian_pop_dis");
+                    if (data.data.total_days >= data.data.no_tip_days) {
+                        html += '<div class="mine_fanxian_cons">';
+                        html += ' <a href="/index/index/agreement/at_name/全额返活动规则">查看规则</a>';
+                        //   html+=' <a href="/member/myhome/cashback_rule/">查看规则</a>';
+                        html += '<div class="mine_fanxian_icon">';
+                        html += '<img src="__STATIC__/image/myhome/icon_jump0@2x.png" alt=""/>';
+                        html += '</div>';
+                        html += ' <p class="mine_day">累计<span>' + data.data.total_days + '</span>天</p>'
+                        html += '<p class="mine_gongxi">恭喜！获得未团中全额退款资格</p>'
+                        html += '<p class="mine_hint">每日购一单，即可维持该资格</p>'
+                        html += '</div>'
+                        $(".mine_fanxian_con").css({
+                            background: 'url("__STATIC__/image/myhome/di@2x.png") no-repeat center center',
+                            backgroundSize: "100% 100%"
+                        });
+                    } else if (data.data.today_pai_num >= data.data.no_tip_time) {
+                        html += '<div class="mine_fanxian_con">';
+                        html += ' <a href="/index/index/agreement/at_name/全额返活动规则">查看规则</a>';
+                        //   html+=' <a href="/member/myhome/cashback_rule/">查看规则</a>';
+                        html += '<div class="mine_fanxian_icon">';
+                        html += '<img src="__STATIC__/image/myhome/icon_jump0@2x.png" alt=""/>';
+                        html += '</div>';
+                        html += ' <p class="mine_day">今日已购<span>' + data.data.today_pai_num + '</span>单</p>'
+                        html += '<p class="mine_gongxi">今日获得未团中全额退款资格</p>'
+                        html += ' <p class="mine_hint">连续' + data.data.no_tip_days + '天购单，也可获得资格</p>'
+                        html += '</div>'
+
+                    } else {
+                        html += '<div class="mine_fanxian_cons">';
+                        html += ' <a href="/index/index/agreement/at_name/全额返活动规则">查看规则</a>';
+                        //   html+=' <a href="/member/myhome/cashback_rule/">查看规则</a>';
+                        html += '<div class="mine_fanxian_icon">';
+                        html += '<img src="__STATIC__/image/myhome/icon_jump0@2x.png" alt=""/>';
+                        html += '</div>';
+                        html += '<p class="mine_day">今日已购<span>' + data.data.today_pai_num + '</span>单</p>';
+                        html += '<p class="mine_leiji">已累计<span>' + data.data.total_days + '</span>天,满<span>' + data.data.no_tip_days + '</span>天后</p>';
+                        html += '<p class="mine_leiji">即可获得未团中全额退款资格</p>';
+                        html += '<h3>条件二:</h3>';
+                        html += '<p class="mine_hint">当天购<span>' + data.data.no_tip_time + '</span>单，也可获得特权</p>';
+                        html += '<div class="mine_bg_view"><p class="mine_dan">今天已购<span>' + data.data.today_pai_num + '</span>单,还差<span>' + days + '</span>单</p></div>';
+                        html += '</div>';
+                        $(".mine_fanxian_cons").css({
+                            background: 'url("__STATIC__/image/myhome/bg@2x.png") no-repeat center center',
+                            backgroundSize: "100% 100%"
+                        });
+                    }
+                }
+                $(".mine_fanxian_pop").append(html);
+                $(".mine_fanxian_icon").click(function () {
+                    $(".mine_fanxian_pop").removeClass("mine_fanxian_pop_dis");
+                })
+            },
+            error: function (err) {
+                console.log(22);
+                console.log(err);
+            }
+        })
+    })
+
+    //活动参数
+    //活动参数
+    /**
+     * 接口url：/member/Orderpai/get_tip_detail
+     * 返回：status:0失败 1成功
+     *       msg:提示信息
+     *       data:返回数据
+     *
+     *       no_tip_time：系统的设置当天多少单后免手续费
+     *       no_tip_days：系统的设置连续几天参团后免手续费
+     *       today_pai_num：今天已经参团的订单数
+     *       total_days：已经参团几天了(不含今天)
+     **/
+
+
+    var pwd = "{$data.m_payment_pwd}";
+    //点击我的钱包
+    $(".mine_money").click(function (e) {
+        // alert("d");
+        e.preventDefault();
+        if (pwd == false) {
+            layer.confirm('请先设置支付密码', {
+                title: false, /*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['取消', '立即设置'],
+                btn2: function () {
+                    location.href = "/member/modifydata/first_payment_pwd";
+                }
+            })
+        } else {
+            location.href = "/member/wallet/index/type/0";
+        }
+    });
+
+    var is_pomoters = "{$data['is_promoters']}";
+    console.log(is_pomoters);
+    if (is_pomoters == 4) {
+        $('.promoters_in img.is_kaohe').show()
+    }
+
+    if (is_pomoters == 1) {
+        $('.promoters_in').click(function () {
+            // 1普通会员
+            window.location.href = '/member/promoters/index'
+        })
+
+    } else if (is_pomoters == 4 || is_pomoters == 3) {
+        // 3审核失败
+        // 4考核中
+        $('.promoters_in').click(function () {
+            window.location.href = '/member/promoters/is_success'
+        })
+
+    } else if (is_pomoters == 2) {
+        // 2申请中
+        $('.promoters_in').click(function () {
+            window.location.href = '/member/promoters/is_apply_success'
+        })
+    } else if (is_pomoters == 5) {
+        // 5考核成功(推广员)  气泡显示，之后隐藏 吖吖推广员入口消失
+        $('.promoters_in').hide();
+        // 成为吖吖推广员的时候显示，然后自己消失
+        // $('.is_promoters').show();
+
+
+    } else if (is_pomoters == 6) {
+        // 6考核失败 吖吖推广员入口消失
+        $('.promoters_in').hide()
+    }
+
+    // var isShow = "{$data['tgy_img']}";
+    // console.log(isShow);
+    // if(isShow){
+    //    // $('.is_promoters').show();
+    // }else{
+    //    // $('.is_promoters').hide();
+    //    $('.is_promoters').html=
+    // }
+
+</script>
+{include file="common/js_sdk" /}
+{/block}
+

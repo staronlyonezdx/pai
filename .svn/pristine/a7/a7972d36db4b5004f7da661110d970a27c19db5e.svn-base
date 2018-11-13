@@ -1,0 +1,64 @@
+
+{extend name="index:base" /}
+{block name="title"}<title>Guangzhou Congfei Hardware Products Co., Ltd</title>{/block}
+		{block name="style"}
+        <link rel="stylesheet" href="__HOME_CSS__/bootstrap.min.css">
+        <link rel="stylesheet" href="__HOME_CSS__/icomoon-social.css">
+		
+        <link rel="stylesheet" href="__HOME_CSS__/leaflet.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/main.css">
+		<link rel="stylesheet" href="__HOME_CSS__/cmm.css">
+
+        <script src="__HOME_JS__/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		{/block}
+		{block name="style2"}
+		{/block}
+<!-- 广告 -->
+{block name="ad"}
+         <!-- 广告开始 -->
+        <div class="homepage-slider">
+        	<div id="sequence">
+				<ul class="sequence-canvas">
+					<li class="bg1" style="background-image:url('__HOME_IMG__/homepage-slider/about.jpg');">
+					</li>
+				</ul>
+			</div>
+        </div>
+        <!-- 广告结束 -->
+{/block}
+{block name="body"}
+		
+		<!-- 关于我们 -->
+        <div class="section">
+	    	<div class="container">
+				<div class="row">
+					<!-- 关于我们导航 -->
+					<div class="col-sm-3 blog-sidebar taks">
+						<h2 class="mune-empty"></h2>
+						<h4 class="mune-title-son">about us</h4>
+						<ul>
+						{foreach name="lists" item="vo"}
+							<li ><a href="{:url('news/about')}?get_id={$vo.ID}" {if condition='$vo.ID eq $getid'}class="active"{/if}>{$vo.Title}</a></li>
+						{/foreach}
+						</ul>
+					</div>
+					
+					<!-- 关于我们 内容 -->
+					<div class="col-sm-9">
+						<h2 class="mune-empty"></h2>
+						<h4 class="mune-title-son">{$info['Title']}</h4>
+						<div class="blog-post blog-single-post">
+								<p>{$info['Content']|htmlspecialchars_decode}</p>
+ 
+							<!-- End Comments -->
+						</div>
+					</div>
+					<!-- End Blog Post -->
+				</div>
+			</div>
+	    </div>
+
+{/block}
+ {block name="script"}
+{include file="common/js_sdk" /}
+{/block}

@@ -1,0 +1,48 @@
+.order_logistics_hint{
+    width:7.5rem;
+    height:1rem;
+    background:#FFF6AB;
+    padding-top: 0.1rem;
+}
+.order_logistics_hint div{
+    margin-left: 0.31rem;
+    margin-right: 0.31rem;
+
+}
+.order_logistics_hint span{
+    font-size: 0.24rem;
+    color:#FFB400;
+}
+.order_logistics_main{
+    background: #fff;
+}
+.order_logistics_list{
+    width:7.5rem;
+    height:0.88rem;
+    line-height: 0.88rem;
+}
+.order_logistics_lists{
+    margin-left:0.46rem ;
+    margin-right: 0.46rem;
+    border-bottom: 0.01rem solid #f2f2f2;
+    font-size: 0.26rem;
+    color:#000000;
+}
+.order_logistics_view{
+    width:6.9rem;
+    margin:0 auto;
+    margin-top:0.3rem ;
+    padding-bottom: 0.3rem;
+}
+.order_logistics_pic{
+    width:1.725rem;
+}
+.order_logistics_img{
+    width:1.58rem;
+    height:1.58rem;
+    margin:0 auto;
+}
+.order_logistics_img img{
+    width:100%;
+    height:100%;
+}

@@ -1,0 +1,53 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<form method="post" action="{:url('store/dostorecategoryadd')}" id="add_store_category_form" enctype="multipart/form-data">
+	<div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+            	<div class="form-group from_add_authority">
+                    <label>添加商家分类</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>分类名称</label>
+                    <input type="text" class="form-control" placeholder="分类名称" name="sc_name" {notempty name="data"} value="{$data.sc_name}" {/notempty}>
+                </div>
+                <div class="form-group">
+                    <label>上级分类</label>
+                    <select class="form-control storecate_sele" name="sc_parent_id">
+                        {notempty name="data"}
+                             <option value="0">顶级分类</option>
+                            {volist name="clist" id="citem"}
+                            <option value="{$citem.sc_id}" {if condition="$citem.sc_id eq $data.sc_parent_id"}selected{/if} >|-{$citem.sc_name}</option>
+                            {/volist}
+                        {/notempty}
+                        {empty name="data"}
+                        <option value="0">顶级分类</option>
+                        {volist name="clist" id="citem"}
+                        <option value="{$citem.sc_id}">|-{$citem.sc_name}</option>
+                        {/volist}
+                        {/empty}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>排序</label>
+                    <input type="text" class="form-control" placeholder="排序" name="sc_sort" {notempty name="data"} value="{$data.sc_sort}" {/notempty}>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                    <input type="hidden" {notempty name="data"} value="{$data.sc_id}"  {/notempty} name="sc_id"/>
+                    <input type="submit" class="btn btn-primary" value="保存信息"/>
+                    <input  type="button" class="btn btn-default" value="取消操作"/>
+            </div>
+        </div>
+    </div>
+    </form>
+{/block}
+

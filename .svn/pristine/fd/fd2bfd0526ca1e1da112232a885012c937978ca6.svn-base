@@ -1,0 +1,209 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .red{
+        color:red;
+    }
+    .attestation{
+        display:none;
+    }
+    .btn{
+        margin-top:2px;
+    }
+    .modal-footer{
+        display:flex;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>推广员列表</label>
+            </div>
+            <div>
+                <span>商品状态：</span>
+                <a href="/admin/promoters/index/is_promoters/2" type="button" class="btn {eq name='is_promoters' value='2'}btn-success {else /} btn-info {/eq} btn-xs">申请中</a>
+                <a href="/admin/promoters/index/is_promoters/3" type="button" class="btn {eq name='is_promoters' value='3'}btn-success {else /} btn-info {/eq} btn-xs">审核失败</a>
+                <a href="/admin/promoters/index/is_promoters/4" type="button" class="btn {eq name='is_promoters' value='4'}btn-success {else /} btn-info {/eq} btn-xs">考核中</a>
+                <a href="/admin/promoters/index/is_promoters/5" type="button" class="btn {eq name='is_promoters' value='5'}btn-success {else /} btn-info {/eq} btn-xs">推广员</a>
+                <a href="/admin/promoters/index/is_promoters/6" type="button" class="btn {eq name='is_promoters' value='6'}btn-success {else /} btn-info {/eq} btn-xs">考核失败</a>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th width="100px;">申请ID</th>
+                    <th width="100px;">用户ID</th>
+                    <th  width="100px;">申请账号</th>
+                    <th width="150px;">昵称</th>
+                    <th width="150px;">账号状态</th>
+                    <th width="170px;">添加时间</th>
+                    <th width="170px;">审核开始时间</th>
+                    <th width="170px;">审核结束时间</th>
+                    <th width="250px;">添加此条申请信息的管理员</th>
+                    <th  width="150px;">通过此条申请的管理员</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="$lists"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+
+                {else/}
+                {volist name="$lists" id="vo"}
+                <tr class="tr_{$vo.pa_id}">
+                    <th scope="row" class="sid">{$vo.pa_id}</th>
+                    <td>{$vo.m_id}</td>
+                    <td class="m_mobile_{$vo.pa_id}"}>{$vo.m_mobile}</td>
+                    <td>{$vo.m_name}</td>
+                    <td>
+                        {switch name="$vo.is_promoters" }
+                        {case value="1" }普通会员{/case}
+                        {case value="2"}申请中{/case}
+                        {case value="3"}审核失败{/case}
+                        {case value="4"}考核中{/case}
+                        {case value="5"}考核成功{/case}
+                        {case value="6"}考核失败{/case}
+                        {default /}未知
+                        {/switch}
+                    </td>
+                    <td>{notempty name='$vo.add_time'}{$vo.add_time|date='Y-m-d H:i',###}{/notempty}</td>
+                    <td>{notempty name='$vo.start_time'}{$vo.start_time|date='Y-m-d H:i',###}{/notempty}</td>
+                    <td>{notempty name='$vo.end_time'}{$vo.end_time|date='Y-m-d H:i',###}{/notempty}</td>
+                    <td>{if condition='$vo.add_admin_id != null'}管理员ID:{$vo.add_admin_id}<br/>管理员昵称:{$vo.add_admin_name}{/if}</td>
+                    <td>{if condition='$vo.update_admin_id != null'}管理员ID:{$vo.update_admin_id}<br/>管理员昵称:{$vo.update_admin_name}{/if}</td>
+                    <td>
+                        {in name="is_promoters" value="2,3"}
+                        <button class='btn btn-primary btn-xs' onclick="scs_promoters('{$vo.m_id}','{$vo.pa_id}')">
+                            成为考核期推广员
+                        </button><br/>
+                        {/in}
+                        {in name="is_promoters" value="2"}
+                        <button  data-toggle="modal" class='btn btn-danger btn-xs' onclick="err_promoters('{$vo.m_id}','{$vo.pa_id}')"  data-target="#exampleModal">
+                            不通过
+                        </button><br/>
+                        {/in}
+                        <button onclick="is_show('{$vo.pa_id}')" class='btn btn-success btn-xs'>查看认证信息</button>
+                    </td>
+                </tr>
+                    {empty name="$vo.attestation"}
+                        <tr class='attestation{$vo.pa_id} attestation'>
+                            <td colspan="20">没有数据</td>
+                        </tr>
+                        {else /}
+                        {volist name='$vo.attestation' id='voo'}
+                        <tr  class='attestation{$vo.pa_id} attestation'>
+                            <td></td>
+                            <td>真实姓名: <span class="red">{$voo.real_name}</span></td>
+                            <td>身份证号码: <span class="red">{$voo.identification}</span></td>
+                            <td>身份证号码: <span class="red">{$voo.identification}</span></td>
+                            <td>身份证所在地: <span class="red">{$voo.area}</span></td>
+                            <td>银行卡号: <span class="red">{$voo.bankowner}</span></td>
+                            <td>开户银行: <span class="red">{$voo.bankname}</span></td>
+                            <td>开户支行: <span class="red">{$voo.bank_branch}</span></td>
+                            <td>银行卡号: <span class="red">{$voo.bankaccount}</span></td>
+                            <td>银行卡联系人: <span class="red">{$voo.bank_phone}</span></td>
+                        </tr>
+                        {/volist}
+
+                    {/empty}
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="margin-top:30px;">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">不通过理由</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--<form method="post" id='form' action="/admin/promoters/index" onsubmit="return checkForm()">-->
+                                <div class="form-group">
+                                    <input type="hidden" class="g_id" name='g_id' id="g_id">
+                                </div>
+                                <div class="form-group">
+                                    <label for="m_mobile" class="control-label">申请者账号:</label>
+                                    <span  id="m_mobile"></span>
+                                </div>
+                                <input type="hidden" class="promoters" name='promoters' id="promoters" value="3">
+                                <input type="hidden" class="promoters" name='m_id' id="m_id" >
+                                <input type="hidden" class="promoters" name='pa_id' id="pa_id">
+                                <div class="form-group chge1">
+                                    <label for="error_explain" class="control-label ">理由:</label>
+                                    <textarea style='vertical-align: middle;'class="error_explain" name="error_explain" id="error_explain" rows=5   cols=27 placeholder="请输入不通过理由"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary " onclick='error_info()'>发送</button>
+                                </div>
+                            <!--</form>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //显示和隐藏认证信息
+    function is_show(id){
+        $('.attestation'+id).toggle();
+    }
+
+    //审核通过(成为考核期推广员)
+    function scs_promoters(m_id,pa_id){
+        if(confirm('确定成为推广期推荐员？')){
+           $.post('/admin/promoters/index',{promoters:4,m_id:m_id,pa_id:pa_id},function(res){
+                if(res.status == 1){
+                    layer.msg(res.msg, {icon: 1,time:2000});
+                    $('.tr_'+pa_id).hide();
+                }else{
+                    layer.msg(res.msg, {icon: 2,time:2000});
+                }
+           })
+        }
+    }
+    //审核不通过(成为考核期推广员)
+    function err_promoters(m_id,pa_id){
+        var m_mobile = $('.m_mobile_'+pa_id).html();
+        $('#m_mobile').html(m_mobile);
+        $('#m_id').val(m_id);
+        $('#pa_id').val(pa_id);
+    }
+    //审核不通过ajax
+    function error_info(){
+        var m_id = $('#m_id').val();
+        var pa_id = $('#pa_id').val();
+        var promoters = 3;
+        var error_explain = $('#error_explain').val();
+            $.post('/admin/promoters/index',{promoters:4,m_id:m_id,pa_id:pa_id,error_explain:error_explain,promoters:promoters},function(res){
+                $('#exampleModal').modal('toggle')
+                if(res.status == 1){
+                    layer.msg(res.msg, {icon: 1,time:2000});
+                    $('.tr_'+pa_id).hide();
+                }else{
+                    layer.msg(res.msg, {icon: 2,time:2000});
+                }
+            })
+    }
+
+    //检测发布的from表达
+    function checkForm(){
+        var error_explain = $('#error_explain').val();
+        if(!$.trim(error_explain)){
+            layer.msg('请输入审核不通过理由', {icon: 2,time:2000});
+            return false;
+        }
+    }
+</script>
+{/block}
+

@@ -1,0 +1,165 @@
+.pay {
+    background: #fff;
+    height: 1.72rem;
+    padding: 0.2rem 0.4rem;
+    position: relative;
+}
+.pay img {
+    position: absolute;
+    width: 1.32rem;
+    height: 1.32rem;
+    border-radius: 0.06rem;
+    top: 0.2rem;
+    left: 0.4rem;
+}
+.pay div {
+    height: 1.32rem;
+    margin: 0 0.4rem 0 1.7rem;
+    padding: 0.2rem 0 0 0;
+    color: #AAAAAA;
+    font-size: 0.24rem;
+}
+.pay div p {
+    height: 0.32rem;
+    line-height: 0.32rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.3rem;
+    color: #333;
+    margin: 0 0 0.2rem 0;
+}
+.pay div span {
+    color: #FF3E3E;
+    font-size: 0.2rem;
+}
+.pay div span i {
+    font-size: 0.28rem;
+    font-style: normal;
+}
+.pay-list {
+    margin: 0.3rem 0 0 0;
+}
+.pay-list-item {
+    padding: 0.3rem 0.4rem;
+    background: #fff;
+    margin: 0 0 1px 0;
+    font-size: 0.28rem;
+    color: #000;
+    position: relative;
+}
+.pay-list-item i {
+    font-style: normal;
+    font-size: 0.24rem;
+    padding: 0 0 0 1rem;
+}
+.pay-list-item em {
+    font-style: normal;
+    font-size: 0.24rem;
+    position: absolute;
+    right: 0.4rem;
+}
+.pay-list-item .red {
+    color: #FF3E3E;
+}
+.pay-list-item span {
+    position: absolute;
+    width: 0.8rem;
+    height: 0.8rem;
+    display: block;
+    left: 0.4rem;
+    background: url(/static/image/store/pay.png) no-repeat;
+    background-size: 100%;
+}
+.pay-list-item p {
+    margin: 0 0 0 1.2rem;
+    font-size: 0.28rem;
+    color: #000;
+    padding: 0.05rem 0 0 0;
+}
+.pay-list-item p font {
+    color: #AAAAAA;
+    font-size: 0.22rem;
+}
+.pay-list-item p small {
+    color: #AAAAAA;
+    font-size: 0.24rem;
+}
+.pay-list-item a {
+    display: block;
+    position: absolute;
+    width: 1.2rem;
+    height: 0.6rem;
+    text-align: center;
+    line-height: 0.6rem;
+    background: #FFE500;
+    border-radius: 0.12rem;
+    right: 0.4rem;
+    top: 0.4rem;
+}
+.pay-server {
+    padding: 0 0.4rem 0 0.9rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    position: relative;
+    font-size: 0.24rem;
+    color: #000;
+}
+.pay-server span {
+    display: block;
+    width: 0.28rem;
+    height: 0.28rem;
+    left: 0.4rem;
+    top: 0.46rem;
+    background: url(/static/image/store/check.png) no-repeat center;
+    background-size: 100%;
+    position: absolute;
+}
+.pay-server .active {
+    background: url(/static/image/store/checked.png) no-repeat center;
+    background-size: 100%;
+}
+.pay-btn {
+    position: fixed;
+    height: 1rem;
+    width: 100%;
+    line-height: 1rem;
+    color: #000000;
+    text-align: center;
+    bottom: 0;
+    background: #FFD800;
+    border: 0;
+    font-weight: bold;
+    font-size: 0.3rem;
+}
+.conf_order_paypassword_hint {
+    margin-top: 0.45rem;
+    margin-left: 0.4rem;
+    margin-right: 0.54rem;
+}
+.conf_order_balance {
+    color: #333333;
+    font-size: 0.24rem;
+}
+.conf_order_balance span {
+    color: #aaaaaa;
+    font-size: 0.2rem;
+}
+.conf_order_balance p {
+    color: #aaaaaa;
+    font-size: 0.2rem;
+}
+.ftc_wzsf .srzfmm_box {
+    height: 5.3rem;
+}
+.conf_order_pay {
+    width: 1.12rem;
+    height: 0.54rem;
+    background: #FFE500;
+    color: #333333;
+    font-size: 0.24rem;
+    text-align: center;
+    border-radius: 0.09rem;
+    line-height: 0.54rem;
+    font-weight: 600;
+}

@@ -1,0 +1,166 @@
+<?php
+namespace app\index\controller;
+use app\data\service\sms\SmsService;
+use app\data\service\wx\WxService;
+use think\Controller;
+use think\Request;
+use think\Url;
+use think\Config;
+use think\Cache;
+use think\Session;
+use app\member\controller\IndexHome;
+use app\data\service\recharge\RechargeService;
+use think\log;
+use app\data\service\member\MemberService;
+use think\cookie;
+
+class Mobilelogin extends IndexHome
+{
+    public  $m_id;
+    public  $m_name;
+    //手机短信登录入口
+    public function mobilecode_enter()
+    {
+        $wxS = new WxService();
+        $reurl = "/";
+        $returl = input('returl');
+        if (!empty($returl)) {
+            $reurl = "/";
+        }
+        //判断是否登录
+        $islogin = $wxS->isLogin();
+        //如果已经登录
+        if ($islogin['state'] == '1') {
+            redirect($reurl);
+        } //如果没有登录
+        else {
+            $this->assign('returl',$reurl);
+            return view('mobilecode_enter');
+        }
+    }
+    //手机短信登录ajax
+    public function mobilecodelogin_ajax(){
+        $mobile = input('post.mobile');
+        $verification = input('post.verification');
+        //此处检测短信验证是否正确
+        $sms = new SmsService();
+        $res = $sms->checkSmsCode($verification,$mobile);
+        if($res['status']!=1){
+            $ret=$res['msg'];
+            return ['state'=>0,'msg'=>$ret];
+        }
+        if(empty($mobile)){
+            $return=array("state"=>'0',"msg"=>"手机号码不能为空");
+            echo json_encode($return);die;
+        }
+        $wxS = new WxService();
+        $result = $wxS->checkMobileCode($mobile);
+        //mobile都存在且匹配,直接登录
+        if($result['state']=='1'){
+            $mdata=array();
+            $mdata['m_mobile']=$mobile;
+            $result2= $wxS->member_login($mdata);
+            if($result2['state']=='1'){
+                $return=array("state"=>'1',"msg"=>"登录成功");
+                echo json_encode($return);die;
+            }
+            else{
+                $return=array("state"=>'0',"msg"=>"登录失败");
+                echo json_encode($return);die;
+            }
+        }
+        //mobile都不存在
+        if($result['state']=='2'){
+            $data=array();
+            $data['m_mobile'] = trim($mobile);
+            $data['verification'] = trim($verification);
+            $regres=$wxS->register_mobilecode($data);
+            if($regres['status']=='1'){
+                $mdata3['m_mobile']=$mobile;
+                $result3= $wxS->member_login($mdata3);
+                if($result3['state']=='1'){
+                    $return=array("state"=>'1',"msg"=>"登录成功");
+                    echo json_encode($return);die;
+                }
+                else{
+                    $return=array("state"=>'0',"msg"=>"登录失败");
+                    echo json_encode($return);die;
+                }
+            }
+            else{
+                $return=array("state"=>'0',"msg"=>"注册用户失败");
+                echo json_encode($return);die;
+            }
+
+        }
+    }
+    //检查手机号码是否已经绑定
+    public function checkbdmobile(){
+        $mobile = input('post.mobile');
+        $wxS = new WxService();
+        $res = $wxS->checkMobile($mobile);
+        if($res['state']=='1'){
+            $return=array("state"=>'1',"msg"=>"可以绑定");
+            echo json_encode($return);die;
+        }
+        else{
+            $return=array("state"=>'0',"msg"=>$res['msg']);
+            echo json_encode($return);die;
+        }
+    }
+
+    public function toenter(){
+        $m_id = Cookie::get("m_id");
+        $m_mobile = Cookie::get("phone");
+        $mem = new MemberService();
+        $m_id = $mem->decrypt($m_id);       //解密账号id
+        $m_id = str_replace('abcde','',$m_id);//删除多余字符(加盐字符串)
+        $this->m_id = $m_id;
+        $res = $mem->get_info(['m_id'=>$m_id,'m_state'=>0,'m_mobile'=>$m_mobile],'m_id,m_name,m_type');
+        if(!$res){
+            //如果微信浏览器授权---------------------start
+            if($this->is_weixin()){
+                $ws=new WxService();
+                $cururl=$ws->curPageURL();
+                $returl=urlencode($cururl);
+                //去微信授权
+                $redirect_uri =PAI_URL."/index/thirdlogin/one_enter/returl/$returl";
+                $href = $ws->toWxAuth($redirect_uri);
+                header('Location:' . $href);
+                die;
+            }else{
+                $this->redirect("/member/login/index");
+            }
+            //如果微信浏览器授权---------------------end
+
+        }
+
+    }
+    //判断是否微信浏览器
+    public function is_weixin(){
+        if ( strpos($_SERVER['HTTP_USER_AGENT'],
+                'MicroMessenger') !== false ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return string
+     * 发送手机验证码(会员调用)
+     */
+    public function news_code()
+    {
+        $mobile = input('post.mobile');
+        if(empty($mobile)){
+            $return=array("state"=>'1',"msg"=>"手机不能为空");
+            echo json_encode($return);die;
+        }
+        $sms = new SmsService();
+        $info = $sms->smsSingleSender($mobile);
+        return $info;
+    }
+
+
+
+}

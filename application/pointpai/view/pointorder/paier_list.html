@@ -1,0 +1,53 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/conf_order.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/all_participants.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/dropload/dropload.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+
+{/block}
+{block name="content"}
+<main>
+    <div class="all_participants_header">
+        <div class="all_participants_tab clear">
+            <div class="all_participants all_participants_border lf">
+                <span>
+                    <span class="title">所有参与者</span>
+                    <img src="__STATIC__/image/orderpai/icon_xia@2x.png" class="all_participants_inline">
+                    <img src="__STATIC__/image/orderpai/icon_shang@2x.png">
+                </span>
+            </div>
+            <div class="all_participants lf">
+                <a href="/member/orderpai/pai_rule">
+                    <span>揭晓规则<img src="__STATIC__/image/orderpai/icon__@2x.png"></span>
+                </a>
+            </div>
+        </div>
+        <div class="all_participants_postion ">
+            <div class="all_participants_screen">
+                <div class="all_participants_list all_participants_black" select_type="0">所有参与者</div>
+                <div class="all_participants_list" select_type="1">只看我的</div>
+                <div class="all_participants_list" select_type="2">只看抽中者</div>
+            </div>
+            <div class="all_participants_zhezhao"></div>
+        </div>
+    </div>
+    <div class="all_participants_main content-view">
+        <div class="lists-view">
+
+        </div>
+    </div>
+    <input type="hidden" name="gp_id" value="{$gp_id|default=0}"/>
+    <input type="hidden" name="o_periods" value="{$o_periods|default=0}"/>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/js/pointpai/all_participants.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/dropload/dropload.min.js"></script>
+<script>
+    var url = "/pointpai/Pointorder/get_paier_list";
+</script>
+{/block}

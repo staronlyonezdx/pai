@@ -1,0 +1,313 @@
+$(function () {
+    //隐藏引导提示
+    $('.guide .t2').click(function () {
+        $('.guide').hide();
+    })
+
+    //擂主id
+    var pm_id = $("input[name=pm_id]").val();
+
+    //判断是否是自己的账号
+    var other_id = $('#other_id').val();
+
+    //判断是否登录
+    var my_id = $('#my_id').val();
+
+    // 为好友点赞
+    $(".new_people_call_btn").click(function () {
+        if (my_id == 0 || my_id == null) {
+            $(".new_people_pop").addClass("new_people_pop_main_dis");
+            $(".login-no").addClass("new_people_pop_main_dis");
+            $(".login-yes").removeClass("new_people_pop_main_dis");
+        } else {
+            if (my_id == other_id) {
+                layer.msg("<span style='color:#fff'> 自己不能给自己点赞呦 </span>", {
+                    time: 2000
+                });
+            } else {
+                getDz()
+            }
+        }
+    });
+
+    //获取人气值及点赞
+    function getDz() {
+        $.ajax({
+            type: 'post',
+            url: '/popularity/popularitygoods/get_mypop',
+            success: function (res) {
+                if (res.status == 1) {
+                    if (res.data.popularity > 100) {
+                        res.data = "100.00";
+                    }
+                    $(".details-rqz").css('z-index','100');
+                    $('#r').val(res.data.popularity);
+                    $('#times').val(res.data.left_time);
+                    $('#tops').val(res.data.add_pop);
+
+                    if (res.data.popularity < 20 && res.data.popularity >= 0) {
+                        $('.call_no .value_under .value_under_bottom p').html('当前人气值:' + res.data.popularity); //当前人气值
+                        $('.date_call_full').html('后恢复'+ res.data.add_pop +'个经验值'); //时间段内后恢复人气值
+                        $(".new_people_pop").addClass("new_people_pop_main_dis");
+                        $(".login-yes").addClass("new_people_pop_main_dis");
+                        $(".login-no").removeClass("new_people_pop_main_dis");
+                        $('.call_yes').css('display', 'none')
+                        $('.call_no').css('display', 'block')
+                        // 格式化时间
+                        if(res.data.left_time > 0) {
+                            var time = res.data.left_time; //人气值后恢复倒计时
+                        }else {
+                            var time = 0;
+                        }                        
+                       
+                        function formdate(date) {
+                            var hours = Math.floor(date / 3600);
+                            var leave1 = date % 3600;//计算小时数后剩余的毫秒数
+                            var minutes = Math.floor(leave1 / 60);
+                            var leave2 = leave1 % 60;//计算分钟数后剩余的毫秒数
+                            var seconds = Math.floor(leave2);
+                            if (hours < 9) {
+                                hours = "0" + hours;
+                            }
+                            if (minutes < 9) {
+                                minutes = "0" + minutes;
+                            }
+                            if (seconds < 9) {
+                                seconds = "0" + seconds;
+                            }
+    
+                            time--;
+                            if (time == 0) {
+                                clearInterval(timess);
+                                $(".new_people_pop").removeClass("new_people_pop_main_dis");
+                                $(".login-yes").removeClass("new_people_pop_main_dis");
+                            }
+                            
+                            $(".date_info").html(hours + ':' + minutes + ':' + seconds)
+                        }
+    
+                        var timess = setInterval(function () {
+                            formdate(time)
+                        }, 1000)
+                    } else if (res.data.popularity < 100 && res.data.popularity >= 20) {
+                        // 弹出20-100引导框
+                        $('.new_people_pop').show();
+                        $('.login_yes').show();
+                        $('.zan_success').show();
+                        $('.call_yes').hide();
+                        $('.call_queren').show();
+                        $('.aueren_call').hide();
+                        $('.call_no').hide();
+                        $('.call_num_new').html(res.data.popularity);
+                    } else if(res.data.popularity == 100 ) {
+                        $.ajax({
+                            type: "POST",//用post方式传输
+                            dataType: "JSON",//数据格式：JSON
+                            url: "/popularity/popularitygoods/make_calls",//目标地址
+                            data: {
+                                pm_id: pm_id
+                            },
+                            success: function (data) {
+                                if (data.status == 8) {
+
+                                    // 点赞成功
+                                    if (data.data.num_call > 100) {
+                                        data.data.num_call = "100.00";
+                                    }
+                                    if(data.data.m_avatar == '') {
+                                        data.data.m_avatar = '/static/image/myhome/TIM20180731142117.jpg';
+                                    }
+                                    $(".details-rqz").css('z-index','100');
+                                    $('#r').val(data.data.num_call);
+                                    $('.call_yes .call_bg .bg_middle .img_icon').attr('src', data.data.m_avatar);
+                                    $('.call_yes').find('.new_name').html(data.data.m_name);
+                                    $('.call_yes').find('.call_num').html("+" + data.data.num_call);
+                                    $('.call_yes').find('.call_order').html('No.' + data.data.pm_sort);
+                                    $(".new_people_pop").addClass("new_people_pop_main_dis");
+                                    $('.call_yes').css('display', 'block');
+                                    $(".login-yes").addClass("new_people_pop_main_dis");
+                                    $(".login-no").removeClass("new_people_pop_main_dis");
+                                    $('.all_no').css('display', 'none');    
+                                    $('.img_icon').on('error',function(){ 
+                                        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+                                    });
+                                    getMyCall();
+                                } else {
+                                    layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                                        time: 2000
+                                    });                                
+                                    $('.new_people_pop').hide();
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        })
+    }
+
+    $('.click_cancle').click(function () {
+        $(".new_people_pop").css('display', 'none');
+        $('.call_yes').css('display', 'none');
+        $(".login-yes").css('display', 'none');
+        $(".login-no").css('display', 'none');
+        $('.all_no').css('display', 'none');
+        window.location.reload();
+    })
+
+    $(".new_people_border").click(function () {
+        var ind = $(this).index();
+        $(".new_people_border").removeClass("new_people_pitch");
+        $(this).addClass("new_people_pitch");
+        $(".new_people_pop_main").removeClass("new_people_pop_main_dis");
+        $(".new_people_pop_main").eq(ind).addClass("new_people_pop_main_dis");
+    })
+
+    $(".new_people_cancel").click(function () {
+        $(".new_people_pop").removeClass("new_people_pop_main_dis");
+        window.location.reload();
+    })
+
+    // 点击注册并给好友点赞
+    $("#regist_btn").click(function () {
+        var phone = $('input[name=m_mobile]').val();
+        var code = $('input[name=code]').val();
+        var pm_id = $("input[name=pm_id]").val();
+
+        $.ajax({
+            type: "POST",//用post方式传输
+            dataType: "JSON",//数据格式：JSON
+            url: "/popularity/popularitygoods/new_login",//目标地址
+            data: { phone: phone, code: code, pm_id: pm_id },
+            success: function (res) {
+                if (res.status == 8) {
+                    $('.login-no').removeClass('new_people_pop_main_dis');
+                    getDz()                    
+                } else {
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                        time: 2000
+                    });
+                }
+            }
+        });
+    });
+
+
+    // 发送验证码
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    $(".new_people_code_test").click(function () {
+        var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        var m_mobile = $("input[name='m_mobile']").val();
+        if (!myreg.test(m_mobile)) {
+            //弹框
+            layui.use("layer", function () {/*layui的规则*/
+                var layer = layui.layer;
+                layer.msg("<span style='color:#fff'>手机号输入有误</span>", {
+                    time: 2000
+                });
+            })
+            return false;
+        } else {
+            $.ajax({
+                type: "POST",//用post方式传输
+                dataType: "JSON",//数据格式：JSON
+                url: "/popularity/popularitygoods/register_code",//目标地址
+                data: { phone: m_mobile },
+                success: function (res) {
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                        time: 2000
+                    });
+                    if (res['status']) {
+                        curCount = count;
+                        //设置button效果，开始计时
+                        $('.new_people_code_test').attr("disabled", "true");
+                        $(".new_people_code_test").css({ background: "#F2F2F2", color: "#aaaaaa", border: "none" });
+                        $('.new_people_code_test').text(curCount + "s后可重新发送");
+                        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                    }
+                }
+            })
+        }
+    })
+
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            $(".new_people_code_test").css({ background: "transparent", color: "#2B2B2B" });
+            $(".new_people_code_test").removeAttr("disabled");//启用按钮
+            $(".new_people_code_test").text("重新发送");
+        } else {
+            curCount--;
+            $(".new_people_code_test").css({ background: "#F2F2F2", color: "#aaaaaa", border: "none" });
+            $(".new_people_code_test").text(curCount + "s后可重新发送");
+        }
+    }
+
+    //人气值20-100之间弹窗的点赞按钮
+    $('.call_queren_zan').click(function () {
+        $.ajax({
+            type: "POST",//用post方式传输
+            dataType: "JSON",//数据格式：JSON
+            url: "/popularity/popularitygoods/make_calls",//目标地址
+            data: {
+                pm_id: pm_id
+            },
+            success: function (res) {
+                if (res.status == 8) {
+                    // 点赞成功
+                    if(res.data.m_avatar == '') {
+                        res.data.m_avatar = '/static/image/myhome/TIM20180731142117.jpg';
+                    }
+                    $('.queren_call').find('.img_icon').attr('src', res.data.m_avatar);
+                    $('.queren_call').find('.new_name').html(res.data.m_name);
+                    $('.queren_call').find('.call_num').html("+" + res.data.num_call);
+                    $('.queren_call').find('.call_order').html('No.' + res.data.pm_sort);
+                    $(".new_people_pop").addClass("new_people_pop_main_dis");
+                    $('.call_yes').hide();
+                    $('.call_queren').hide();
+                    $(".queren_call").show();
+                    $(".login-yes").addClass("new_people_pop_main_dis");
+                    $(".login-no").removeClass("new_people_pop_main_dis");
+                    getMyCall();
+                    $('.img_icon').on('error',function(){ 
+                        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+                    });
+                } else {
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                        time: 2000
+                    });
+                    $('.new_people_pop').hide();
+                }
+            }
+        })
+    })
+})
+
+//去充值
+$('.call_queren_chong').click(function () {
+    window.location.href = '/member/wallet/recharge'
+})
+
+function getMyCall() {
+    //获取浮窗人气值
+    $.ajax({
+        type: 'post',
+        url: '/popularity/popularitygoods/get_mypop',
+        success: function (res) {
+            if (res.status == 1) {
+                if (res.data.popularity > 100) {
+                    res.data.popularity = "100.00";
+                }
+                $(".details-rqz").css('z-index','100');
+                $('#r').val(res.data.popularity);
+                $('#times').val(res.data.left_time);
+                $('#tops').val(res.data.add_pop);
+            }
+        }
+    })
+}
+
+getMyCall();

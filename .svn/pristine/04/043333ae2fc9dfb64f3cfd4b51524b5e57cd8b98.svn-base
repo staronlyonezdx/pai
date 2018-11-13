@@ -1,0 +1,80 @@
+.prize_list_wrap{
+    width: 100%;
+    /*height: 13.34rem;*/
+    background-color: #fff;
+}
+
+
+.prize_list_wrap .prize_list_content{
+
+}
+.prize_list_wrap .prize_list_content .prize_list_item{
+    width: 100%;
+    height: 2rem;
+    position: relative;
+    padding: 0.15rem 0.3rem;
+}
+.prize_list_wrap .prize_list_content .prize_list_item img{
+    width: 2.7rem;
+    height: 2rem;
+    float: left;
+    background-color: navajowhite;
+}
+.prize_list_wrap .prize_list_content .prize_list_item .prize_list_info{
+    float: left;
+    width: 50%;
+    margin-left: 0.1rem;
+}
+.prize_list_wrap .prize_list_content .prize_list_item .prize_list_info .prize_list_name{
+    font-size:0.28rem;
+    font-weight:600;
+    width: 100%;
+    display: block;
+    color:rgba(21,21,21,1);
+    line-height:0.7rem;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.prize_list_wrap .prize_list_content .prize_list_item .prize_list_info .prize_list_detail{
+    font-size:0.22rem;
+    font-weight:300;
+    width: 100%;
+    display: block;
+    color:rgba(170,170,170,1);
+    line-height:0.3rem;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.prize_list_wrap .prize_list_content .prize_list_item .prize_list_info .prize_list_date{
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(51,51,51,1);
+    line-height:0.7rem;
+    display: block;
+    margin-top: 0.3rem;
+}
+
+.no-message {
+    margin: 2rem auto;
+    display: none;
+}
+.no-message img {
+    width: 2.1rem;
+    height: 2.1rem;
+    display: block;
+    margin: 0 auto;
+}
+.no-message p {
+    text-align: center;
+    color: #AAAAAA;
+    font-size: 0.26rem;
+}
+.prize_list_wrap .prize_list_content .prize_list_item img.zhiding{
+    width: 0.6rem;
+    height: 0.32rem;
+    position: absolute;
+    top: 0.15rem;
+    left: 0.3rem;
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>添加荣誉证书|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+<link href="__CSS__/style.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/cmmphp.css"  />
+<style>
+#content font span {
+    font-family: "Georgia";
+    font-weight: 900;
+    font-size: 22px;
+    color: #444;
+}
+#content .textarea{
+	width:75%;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+	var ue = UE.getEditor('container', {
+		initialFrameWidth: 1000,
+		initialFrameHeight: 400
+	});
+	$("#p_image").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'], 		
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	});
+});
+function ToUrl(x)   
+{   
+	location.href=x;
+	return false;
+}
+</script>
+</head>
+<body>
+<div class="container" style="margin-left:0;margin-right:0;">
+<div class="row" id="content">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>添加证书</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form method="post" class="form-horizontal" action="{:url('prove/add_do')}" id="add_link" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">证书名称 (Name)</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="p_name">
+                        </div>
+                    </div>
+					
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片 (picture)</label>
+                        <div class="col-md-4">
+                            <input type="file" class="form-control" id="p_image" name="p_image" aria-required="true" aria-invalid="true">
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容</label>
+                        <div class="col-md-5">
+                            <script id="container" name="p_content" type="text/plain"></script>
+                            <span class="help-block m-b-none"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+							<!-- <input type="hidden" name="_method" value="PUT" > -->
+                            <button class="btn btn-primary" type="submit">添加</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+var i=2;
+var j=0;
+var k=-2;
+function myFunction(){	
+	var textnode = '<div class="org"><div class="col-md-6"  style="padding-left:0px;"><input type="text" class="form-control" name="organi_name[]" value="" placeholder="属性名"></div><div class="col-md-6" style="margin-bottom:5px;padding-left:0px;"><input type="text" class="form-control" name="organi_value[]" value="" placeholder="属性值"></div></br></br></div>';
+	var list = document.getElementById("org");
+	$(textnode).insertAfter(list);
+	i = i+1;
+}
+
+function removeLastOption()
+{
+	if(j==0){
+		j = i-3;
+	}
+	if(k==-2){
+		k=j;
+	}	
+	//console.log(i);
+	$(".org:eq("+k+")").remove();
+	k = k-1;
+	i = i-1;  
+}
+
+</script>
+
+</html>

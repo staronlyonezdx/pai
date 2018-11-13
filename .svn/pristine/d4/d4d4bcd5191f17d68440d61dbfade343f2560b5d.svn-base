@@ -1,0 +1,83 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/rule.css">
+<style>
+    .header_nav{
+        background: #fff;
+    }
+    .header_tit span{
+        color:#000;
+    }
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="rule">
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>如何获得吖吖码</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>用户下单付款，将获得与参团份数相对应的吖吖码。吖吖码由加密的用户ID、付款序列号组成。付款序列号将直接决定是否团中，用户ID为唯一的既定的不可更改的标识</span>
+            </div>
+        </div>
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>吖吖码揭晓方式</p>
+            </div>
+            <div class="rule_mian_text">
+                <p>一、达成目标</p>
+                <span class="rule_main_span">人次目标数由商品的市场价与折扣类型计算而出，达到目标将立即计算团中的吖吖号</span>
+            </div>
+            <div class="rule_mian_text rule_margin">
+                <p>二、获得时间戳</p>
+                <span class="rule_main_span">拍吖吖根据该轮最后一个人次的付款时间计算时间戳，获得一个总秒数</span>
+            </div>
+            <div class="rule_mian_text rule_margin">
+                <p>三、时间戳取余</p>
+                <span class="rule_main_span">通过时间戳获得的总秒数与总人次取余数再+1，得到一个付款序列号，即确定团中的吖吖码</span>
+            </div>
+        </div>
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_juxing">
+                    <img src="__STATIC__/image/goodsproduct/yuxing1905@2x.png" alt=""/>
+                </div>
+                <p>举例说明</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>1.商品A的5折价目标人次为100人，您作为第50人次参团付款，得到一个吖吖码[YYM233520-<small>50</small>]</span>
+            </div>
+            <div class="rule_mian_text rule_margin_top">
+                <span>2.第100人次付款时间为2018-07-23 12:00:00，目标达成后则可根据时间戳计算出总秒数：1532318400（s)</span>
+            </div>
+            <div class="rule_mian_text rule_margin_top">
+                <span>3. 1532318400÷100 =15323184……0，余数0+1=1，本轮团中的吖吖码则为[YYM568121-<small>1</small>]</span>
+            </div>
+        </div>
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_juxing">
+                    <img src="__STATIC__/image/goodsproduct/yuxing1905@2x.png" alt=""/>
+                </div>
+                <p>注意事项</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>时间戳指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒秒)起至现在的总秒数。时间戳是一份能够表示一份数据在一个特定时间点已经存在的完整的可验证的数据，它可以用来支撑公开密钥基础设施的“不可否认” 服务，绝对公平公正</span>
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

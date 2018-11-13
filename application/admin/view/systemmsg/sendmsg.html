@@ -1,0 +1,162 @@
+{extend name="common/base" /}
+{block name="style"}
+
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/edit.css">
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+<!--百度富文本框编辑器-->
+<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+{/block}
+{block name="content"}
+<style>
+    .form-group{width:800px;}
+    .myeditor{height:600px;width:800px;margin: 0 auto;clear: both;}
+    #editor{width:100%;height:500px;}
+    .sm_title{
+        width:300px;
+        display:inline-block;
+    }
+    .sm_brief{
+        vertical-align: middle;
+        margin-bottom:10px;
+    }
+    .m_levelid{
+        display:inline-block;
+        width:200px;
+
+    }
+    .user{
+        display:inline-block;
+        width:300px;
+    }
+    label{
+        width:100px;
+    }
+    .m_type{
+        text-align: center;
+        color:#111;
+    }
+    .nav{
+        border:1px solid #eee;
+    }
+    .eyebrow2{
+        display:none;
+    }
+    .use_user{
+        padding-top:15px;
+        text-align: left;
+        margin-bottom:10px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="form-group">
+            <label>发布系统消息</label>
+        </div>
+        <div class="form-group m_type">
+            <label class="">指定接收者</label>
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation" onclick="selecred(1)" class="btn1 active"><a href="#">选择用户发送</a></li>
+                <li role="presentation" onclick="selecred(2)" class="btn2"><a href="#">选择等级发送</a></li>
+            </ul>
+            <div class="form-group eyebrow1 use_user">
+                <label>指定单个用户:</label>
+                <input type="text" class="form-control user m_mobile" name='phone' placeholder="请输入用户手机号">
+                <button type="button" class="btn btn-success sele" >查询</button><span class="m_name"></span>
+            </div>
+            <div class="form-group eyebrow2 use_user">
+                <label>指定会员等级:</label>
+                <select name="m_levelid" id="m_levelid" class="form-control m_levelid" onchange="levelid()" >
+                    <option value="">会员等级</option>
+                    {volist name='level' id='vo'}
+                    <option value="{$vo.ml_id}">{$vo.ml_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+
+        <form method="post" action="" id="edit_form" onsubmit="return form_submit()" enctype="multipart/form-data">
+            <div class="panel-body">
+                <input type="hidden" id="member" name="">
+                <div class="form-group">
+                    <label>消息标题:</label>
+                    <input type="text" name="sm_title" class="form-control sm_title" placeholder="请输入消息标题">
+                </div>
+                <div class="form-group">
+                    <label>消息简介:</label>
+                    <textarea name="sm_brief"  cols="50" rows="2" class="sm_brief"></textarea>
+                </div>
+
+                <div class="myeditor">
+                    <textarea id="editor" name="sm_content" type="text/plain;" ></textarea>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <button type="submit" class="btn btn-primary">保存信息</button>
+                <button type="reset" class="btn btn-default">取消操作</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function selecred(num){
+        var hid = (num == 1) ? 2 :1
+        $('.btn'+num).addClass('active')
+        $('.btn'+hid).removeClass('active')
+        $('.eyebrow'+num).show();
+        $('.eyebrow'+hid).hide()
+        $('#member').val('')
+    }
+    $('.sele').click(function(){
+        var to_mid  = $('.m_mobile').val();
+        var pattern = /^1[34578]\d{9}$/;
+        if(!pattern.test(to_mid)){
+            alert('手机号码格式有误');
+            return false;
+        }
+        $.post('getInfo',{m_mobile:to_mid},function(res){
+            console.log(res);
+            if(res){
+                $('#member').val(res.m_id).attr('name','to_mid')
+                $('.m_name').html('用户已找到--昵称为：'+ res.m_name).css('color','#35ff24');
+            }else{
+                $('.m_name').html('无此用户').css('color','#f00');
+                $('#member').val('')
+            }
+        })
+    })
+
+    function levelid(){
+        var m_levelid = $('#m_levelid').val();
+        $('#member').val(m_levelid).attr('name','m_levelid')
+    }
+    //表单验证
+    function form_submit() {
+        var para  = $('#member').val()
+        if(!para){
+            alert('请选择接收者');
+            return false;
+        }
+        var sm_title  = $('.sm_title').val()
+        var sm_brief  = $('.sm_brief').val()
+        var editor  = $('#editor').val()
+        if($.trim(sm_title) && $.trim(sm_brief) && $.trim(editor)){
+            alert('标题、简介、内容');
+            return false;
+        }
+    }
+
+    //实例化编辑器
+    var ue = UE.getEditor('editor');
+</script>
+{/block}

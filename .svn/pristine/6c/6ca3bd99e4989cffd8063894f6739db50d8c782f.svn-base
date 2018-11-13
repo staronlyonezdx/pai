@@ -1,0 +1,773 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/business/goods/add_goods.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="menu"}
+{include file="common/menu" /}
+{/block}
+{block name='content'}
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">余额商品</span>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <div class="page-container">
+            <h3 class="text-c red">
+                {switch name="type" }
+                {case value="1"}普通商品{/case}
+                {case value="2"}福袋商品{/case}
+                {case value="3"}福袋商品{/case}
+                {default /}普通商品发布
+                {/switch}
+            </h3>
+            <form class="form form-horizontal" id="form-article-add">
+                <input type="hidden" id="g_state" value="{$info.g_state ?? '0'}">
+                <input type="hidden" id="hidden_val" value="{$info.g_id ?? ''}">
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拍品标题：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="{$info.g_name ?? ''}" placeholder="" id="g_name" name="g_name">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">二级标题：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" value="{$info.g_secondname ?? ''}" placeholder="" id="g_secondname" name="g_secondname">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>上传图片（建议上传800像素*600像素,默认第一张为主图）：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <div class="item">
+                            <div class="addImg" onclick="clickImg(this);"></div>
+                            <input name="url" type="file" class="upload_input" onchange="change(this)" />
+                            <div class="preBlock">
+                                <img class="preview" alt="" name="pic" src="{$info.img[0]['gi_name'] ?? ''}" />
+                            </div>
+                            <img class="delete" onclick="deleteImg(this,'{$info.img[0]['gi_id'] ?? ''}','{$info.img[0]['g_id'] ?? ''}')" src="/static/image/business/goods/delete.png" />
+                        </div>
+                        <div class="item">
+                            <div class="addImg" onclick="clickImg(this);"></div>
+                            <input name="url" type="file" class="upload_input" onchange="change(this)" />
+                            <div class="preBlock">
+                                <img class="preview" alt="" name="pic" src="{$info.img[1]['gi_name'] ?? ''}" />
+                            </div>
+                            <img class="delete" onclick="deleteImg(this,'{$info.img[1]['gi_id'] ?? ''}','{$info.img[1]['g_id'] ?? ''}')" src="/static/image/business/goods/delete.png" />
+                        </div>
+                        <div class="item">
+                            <div class="addImg" onclick="clickImg(this);"></div>
+                            <input name="url" type="file" class="upload_input" onchange="change(this)" />
+                            <div class="preBlock">
+                                <img class="preview" alt="" name="pic" src="{$info.img[2]['gi_name'] ?? ''}" />
+                            </div>
+                            <img class="delete" onclick="deleteImg(this,'{$info.img[2]['gi_id'] ?? ''}','{$info.img[2]['g_id'] ?? ''}')" src="/static/image/business/goods/delete.png" />
+                        </div>
+                        <div class="item">
+                            <div class="addImg" onclick="clickImg(this);"></div>
+                            <input name="url" type="file" class="upload_input" onchange="change(this)" />
+                            <div class="preBlock">
+                                <img class="preview" alt="" name="pic" src="{$info.img[3]['gi_name'] ?? ''}" />
+                            </div>
+                            <img class="delete" onclick="deleteImg(this,'{$info.img[3]['gi_id'] ?? ''}','{$info.img[3]['g_id'] ?? ''}')" src="/static/image/business/goods/delete.png" />
+                        </div>
+                        <div class="item">
+                            <div class="addImg" onclick="clickImg(this);"></div>
+                            <input name="url" type="file" class="upload_input" onchange="change(this)" />
+                            <div class="preBlock">
+                                <img class="preview" alt="" name="pic" src="{$info.img[4]['gi_name'] ?? ''}" />
+                            </div>
+                            <img class="delete" onclick="deleteImg(this,'{$info.img[4]['gi_id'] ?? ''}','{$info.img[4]['g_id'] ?? ''}')" src="/static/image/business/goods/delete.png" />
+                        </div>
+                        <div class="item">
+                            <div class="addImg" onclick="clickImg(this);"></div>
+                            <input name="url" type="file" class="upload_input" onchange="change(this)" />
+                            <div class="preBlock">
+                                <img class="preview" alt="" name="pic" src="{$info.img[5]['gi_name'] ?? ''}" />
+                            </div>
+                            <img class="delete" onclick="deleteImg(this,'{$info.img[5]['gi_id'] ?? ''}','{$info.img[5]['g_id'] ?? ''}')" src="/static/image/business/goods/delete.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>选择地址：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <div class="row cl" style="margin-top:0">
+                            <div class="col-xs-4 col-sm-4">
+                                <span class="select-box">
+                                    <select class="select" id="province"  onchange="address(this,1)">
+                                        <option value="省份">省份</option>
+                                        {notempty name="address"}
+                                        {volist name='address' id='vo'}
+                                        <option {notempty name="$info.pid"}{eq name="$vo.region_code" value="$info.pid"}selected{/eq}{/notempty}  value="{$vo.region_code}">{$vo.region_name}</option>                              
+                                        {/volist}
+                                        {/notempty}
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <span class="select-box">
+                                    <select class="select" onchange="address(this,2)" id="city">
+                                        <option value="城市">城市</option>
+                                        {notempty name="$info.cid"}
+                                        {volist name='region_list' id='vo'}
+                                            <option  {notempty name="$info.cid"}{eq name="$vo.region_code" value="$info.cid"}selected{/eq}{/notempty}   value="{$info.cid}">{$vo.region_name}</option>
+                                        {/volist}
+                                        {/notempty}
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <span class="select-box">
+                                    <select class="select" id="area">
+                                        <option value="地区">地区</option>
+                                        {notempty name="$info.aid"}
+                                        {volist name='region_list' id='vo'}
+                                            <option  {notempty name="$info.aid"}{eq name="$vo.region_code" value="$info.aid"}selected{/eq}{/notempty}   value="{$info.aid}">{$vo.region_name}</option>
+                                        {/volist}
+                                        {/notempty}
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拍品分类：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <div class="row cl" style="margin-top:0">
+                            <div class="col-xs-4 col-sm-4">
+                                <span class="select-box">
+                                    <select class="select" id="cate1" onchange="cate(this,1)">
+                                        <option value="一级分类">一级分类</option>                                
+                                        {notempty name="category1"}
+                                        {volist name='category1' id='vo'}
+                                        <option {notempty name="$info['str_gc_id'][0]" } {eq name="$info['str_gc_id'][0]" value='$vo.gc_id'} selected {/eq}{/notempty} value="{$vo.gc_id}">{$vo.gc_name}</option>                              
+                                        {/volist}
+                                        {/notempty}
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <span class="select-box">
+                                    <select class="select" id="cate2" onchange="cate(this,2)">
+                                        <option value="二级分类">二级分类</option>
+                                        {notempty name="category2"}
+                                        {volist name='category2' id='vo'}
+                                            <option {notempty name="$info['str_gc_id'][1]" } {eq name="$info['str_gc_id'][1]" value='$vo.gc_id'} selected {/eq}{/notempty} value="{$vo.gc_id}">{$vo.gc_name}</option>    
+                                        {/volist}
+                                        {/notempty}
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <span class="select-box">
+                                    <select class="select" id="cate3" onchange="cate(this,3)">
+                                        <option value="三级分类">三级分类</option>
+                                        {notempty name="category3"}
+                                        {volist name='category3' id='vo'}
+                                        <option {notempty name="$info['str_gc_id'][2]" } {eq name="$info['str_gc_id'][2]" value='$vo.gc_id'} selected {/eq}{/notempty} value="{$vo.gc_id}">{$vo.gc_name}</option>                              
+                                        {/volist}
+                                        {/notempty}
+                                    </select>
+                                </span>
+                            </div>
+                            <input type="hidden" id="classify" value="{$info.gc_id ?? ''}">
+                        </div>
+                    </div>
+                </div>
+                <!--{if condition='$type == 3'}-->
+                <!--<div class="row cl">-->
+                    <!--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否活动商品：</label>-->
+                    <!--<input type="radio" name="is_huodong" value="1"  {notempty name="$info.is_huodong"}{if condition='$info.is_huodong == 1'}checked{/if}{/notempty}>是-->
+                    <!--<input type="radio" name="is_huodong" value="2" {empty name="$info.is_huodong"}checked {else/}{if condition='$info.is_huodong == 2'}checked{/if}{/empty}>否-->
+                <!--</div>-->
+                <!--{/if}-->
+                {if condition='$type == 2'}
+                    <!--<div class="row cl" style="display:block">-->
+                        <!--<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>是否福袋商品：</label>-->
+                        <!--<input type="radio" name="is_fudai" value="1" checked onclick="fudai(1)">是-->
+                        <!--<input type="radio" name="is_fudai" value="2"  onclick="fudai(2)">否-->
+                    <!--</div>-->
+                    <div class="row cl sort_box" >
+                        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>福袋排序：</label>
+                        <div class="formControls col-xs-8 col-sm-2">
+                            <input type="number" class="input-text sort" name="sort" value="{$info.sort ?? ''}" placeholder="福袋商品排序" >
+                        </div>
+                    </div>
+                {/if}
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>结算价：</label>
+                    <div class="formControls col-xs-8 col-sm-2">
+                        <input type="number" class="input-text" value="{$info.gp_settlement_price ?? ''}" placeholder="" id="gp_settlement_price" name="gp_settlement_price">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>市场价：</label>
+                    <div class="formControls col-xs-8 col-sm-2">
+                        <input type="number" class="input-text" value="{$info.gp_market_price ?? ''}" placeholder="" id="gp_market_price" name="gp_market_price">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"></label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <div class="content_number">
+                            {notempty name='info.dt_record'}
+                                {volist name='info.dt_record' id='vo'}
+                                <div class="content_number_list">
+                                    <input type="checkbox" {if condition="$vo.is_check == 1"} checked {/if} name="nod" value="{$vo.gdt_id ?? ''}" />
+                                    <img src="__CDN_PATH__{$vo.gdt_img ?? ''}"  class="gdt_img{$key+1}">
+                                    <span class="content_margin_left gdt_name{$key+1}">{$vo.gdt_name ?? ''}</span>
+                                    <span class="content_price_view gdr_price{$key+1}">￥<input type="number" name="gdr_price" g_id="{$info.g_id ?? ''}" value="{$vo.gdr_price ?? ''}" /></span>
+                                    <span>参与人次
+                                      <span class="content_number_view gdr_membernum{$key+1}"><input type="number" name="membernum" value="{$vo.gdr_membernum ?? ''}" g_id="{$info.g_id ?? ''}" />人</span>
+                                    </span>
+                                </div>
+                                {/volist}
+                            {/notempty}
+                        </div>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">开始时间：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" name="start_time" id="countTimestart" onfocus="selecttime(1)" size="17" class="input-text Wdate" readonly>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">截至时间：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" name="end_time" id="countTimeend" onfocus="selecttime(2)" size="17" class="input-text Wdate" readonly>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拍品库存：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="number" class="input-text" value="{$info.gp_stock|default=''}" placeholder="至少1件" id="gp_stock" name="gp_stock">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>配送方式：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <span class="select-box">
+                            <select class="select" id="ps">
+                                <option>请选择</option>
+                                {volist name='$spec' id='vo'}
+                                <option {notempty name="$info.g_typeid"}{eq name="$vo.gs_id" value="$info.g_typeid"}selected{/eq}{/notempty} value="{$vo.gs_id}" data="{$vo.gs_name}" >{$vo.gs_name}（{$vo.gs_des}）</option>
+                                {/volist}
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="row cl" id="kdf">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>快递费：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="number" class="input-text" value="{$info.g_express ?? ''}" placeholder="" id="g_express" name="g_express">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>拍品描述：</label>
+                    <div class="formControls col-xs-8 col-sm-9"> 
+                        <script id="editor" type="text/plain" style="width:100%;height:400px;">{$info.g_description ?? ''}</script>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                        <div class="over"></div>
+                        <div onClick="save_submit(this);" class="btn btn-primary radius" id='button_id'><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+{/block}
+{block name="script2"}
+<script type="text/javascript" src="/static/h-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="/static/js/Public.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var ue = UE.getEditor('editor',{
+            autoFloatEnabled:false//是否保持toolbar位置不懂
+        }); //编辑器
+    });
+
+    var g_id = "{$info.g_id ?? ''}";
+
+    if($('#ps').val() == 1) {
+        $('#kdf').show();
+    }
+
+    //显示隐藏快递费
+    $('#ps').change(function(){
+        if($(this).val() == '1') {
+            $('#kdf').show();
+        }else {
+            $('#kdf').hide();
+        }
+    })
+
+    $('.preview').each(function(){
+        if($(this).attr('src') != '') {
+            $(this).parents('.item').find('.delete').show();
+            $(this).parents('.item').find('.preBlock').css("background","#fff");
+        }
+    })
+    
+    //点击
+    var clickImg = function(obj){
+        $(obj).parent().find('.upload_input').click();
+    }
+    //删除
+    var deleteImg = function(obj,gi_id,g_id){
+        if(gi_id != '' && g_id != '') {
+            $.ajax({
+                type: "post",
+                url: "/business/goods/delete_img/",
+                data: {
+                    gi_id: gi_id,
+                    g_id:g_id
+                },
+                success: function(res){
+
+                }
+            })
+        }
+        $(obj).parent().find('input').val('');
+        $(obj).parent().find('img.preview').attr("src","");
+        //IE9以下
+        $(obj).parent().find('img.preview').css("filter","");
+        $(obj).hide();
+        $(obj).parent().find('.addImg').show();
+        $(obj).siblings('.preBlock').css("background","none");
+    }
+    //选择图片
+    function change(file) {
+        //预览
+        var pic = $(file).parent().find(".preview");
+        //添加按钮
+        var addImg = $(file).parent().find(".addImg");
+        //删除按钮
+        var deleteImg = $(file).parent().find(".delete");
+  
+        var ext=file.value.substring(file.value.lastIndexOf(".")+1).toLowerCase();
+        
+        // gif在IE浏览器暂时无法显示
+        if(ext!='png'&&ext!='jpg'&&ext!='jpeg'){
+            if (ext != '') {
+                layer.msg("图片的格式必须为png或者jpg或者jpeg格式！"); 
+            } 
+            return;
+        }
+        //判断IE版本
+        var isIE = navigator.userAgent.match(/MSIE/)!= null,
+            isIE6 = navigator.userAgent.match(/MSIE 6.0/)!= null;
+            isIE10 = navigator.userAgent.match(/MSIE 10.0/)!= null;
+        if(isIE && !isIE10) {
+            file.select();
+            var reallocalpath = document.selection.createRange().text;
+            // IE6浏览器设置img的src为本地路径可以直接显示图片
+            if (isIE6) {
+                pic.attr("src",reallocalpath);
+            }else{
+                // 非IE6版本的IE由于安全问题直接设置img的src无法显示本地图片，但是可以通过滤镜来实现             
+                pic.css("filter","progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + reallocalpath + "\")");
+                // 设置img的src为base64编码的透明图片 取消显示浏览器默认图片
+                pic.attr('src','data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');             
+            }
+            addImg.hide();
+            deleteImg.show();
+        }else {
+            html5Reader(file,pic,addImg,deleteImg);
+        }
+    }
+    //H5渲染
+    function html5Reader(file,pic,addImg,deleteImg){
+        var size = 1048576 // 图片大小不能大于1M
+        var file = file.files[0];
+        if(file.size>size) {
+            layer.msg("上传图片大小不能大于1M");
+            return false;
+        }
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e){
+            pic.attr("src",this.result);
+            pic.parent().css("background","#fff");
+        }
+        addImg.hide();
+        deleteImg.show();
+    }
+    function save_submit(obj) {
+        $("#button_id").attr('disabled',true);
+        var cancel ='';
+        var aid = '';
+        
+        var num = $.trim($('#g_name').val()).length;
+        if(num < 1 || num > 40) {
+            layer.msg("<span style='color:#fff'>拍品标题长度为1-40字</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+//        if($('#g_name').val() == '') {
+//            layer.msg("<span style='color:#fff'>请填写拍品标题</span>",{time:2000});
+//            return false;
+//        }
+        //图片
+        var g_img = [];
+
+        $('.preview').each(function(){
+            if($(this).attr('src') != undefined) {
+                var imgs = $(this).attr('src');
+                if($.trim(imgs) != ''){
+                    g_img.push(imgs);
+                }
+            }            
+        })
+        if(g_img.length == 0) {
+            layer.msg("<span style='color:#fff'>请至少上传一张图片</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        if($('#province').val() == '省份') {
+            layer.msg("<span style='color:#fff'>请选择省份</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        if($('#city').val() == '城市' || $('#city').val() == '请选择') {
+            layer.msg("<span style='color:#fff'>请选择城市</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        if($('#area').val() == '地区' || $('#area').val() == '请选择') {
+            aid = '';
+        }else {
+            aid = $('#area').val();
+        }
+        if($('#cate1').val() == '一级分类') {
+            layer.msg("<span style='color:#fff'>请选择分类</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+
+
+        if($('#gp_settlement_price').val() == '') {
+            layer.msg("<span style='color:#fff'>请输入结算价</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        
+        // 价格正则验证
+        var mm = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if(!mm.test($('#gp_settlement_price').val())) {
+			layer.msg("您输入的结算价格式不正确");
+            $("#button_id").attr('disabled',false);
+			return false;
+		}
+
+        if($('#gp_market_price').val() == '') {
+            layer.msg("<span style='color:#fff'>请输入市场价</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        if(!mm.test($('#gp_market_price').val())) {
+			layer.msg("您输入的市场价格式不正确");
+            $("#button_id").attr('disabled',false);
+			return false;
+		}
+        //折扣价参与人数
+        var gd_info = [];
+        var child = [];
+        $('input[name="nod"]:checked').each(function(index,item){
+            var gdt_id = $(this).val();
+            var gdr_membernum = $(this).parents('.content_number_list').find('input[name="membernum"]').val();
+            var gdr_price = $(this).parents('.content_number_list').find('input[name="gdr_price"]').val();
+            child = [gdt_id,gdr_membernum,gdr_price];
+            gd_info.push(child);
+        })
+        if(gd_info.length == 0) {
+            layer.msg("请选择最少一个折扣类型");
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+//        if($('#countTimestart').val() == '') {
+//            layer.msg("<span style='color:#fff'>请输入开始时间</span>",{time:2000});
+//            return false;
+//        }
+//        if($('#countTimeend').val() == '') {
+//            layer.msg("<span style='color:#fff'>请输入截至时间</span>",{time:2000});
+//            return false;
+//        }
+        if($('#gp_stock').val() == '') {
+            layer.msg("<span style='color:#fff'>请输入库存</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        if($('#gp_stock').val() <= 0) {
+            layer.msg("<span style='color:#fff'>库存必须大于0</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+        if($('#ps').val() == '请选择') {
+            layer.msg("<span style='color:#fff'>请选择配送方式</span>",{time:2000});
+            $("#button_id").attr('disabled',false);
+            return false;
+        }
+
+
+
+        var g_id = $("#hidden_val").val();
+        var g_state = $("#g_state").val();
+        var g_name = $('input[name="g_name"]').val();
+        var g_secondname = $('input[name="g_secondname"]').val();
+        var g_description = UE.getEditor('editor').getContent();
+        var pid = $('#province').val();
+        var cid = $('#city').val();        
+        var gp_settlement_price = $('input[name="gp_settlement_price"]').val();
+        var gp_market_price = $('input[name="gp_market_price"]').val();
+        var g_peoplenumber = $('input[name="g_peoplenumber"]').val();
+        var g_express = $('input[name="g_express"]').val();
+        var g_express_way = $('#ps').find("option:selected").attr('data');
+        var g_typeid = $('#ps').val();
+        var g_starttime = $('#countTimestart').val();
+        var g_endtime = $('#countTimeend').val();
+        var gp_stock = $('input[name="gp_stock"]').val();
+        var gc_id = $('#classify').val();
+        var is_fudai    = 2;
+        var is_huodong = 2;
+        var sort = 0;
+        if({$type} == 2){
+            is_fudai = 1;   //福袋
+            var sort = $('.sort').val();
+            var reg=/^[1-9]\d*$/
+            if(!reg.test(sort)){
+                layer.msg("<span style='color:#fff'>福袋商品请输入正整数的排序数字</span>",{time:2000});
+                return false;
+            }
+        }else if({$type} == 3){
+            is_huodong = 1; //活动
+        }
+
+        var url = '';
+        if(g_state == 0){
+            url = '/business/goods/add_goods';
+        }else if(g_state == 7 ){
+            url = '/business/goods/reedit';
+        }else if(g_state == 8 ){
+            url = '/business/goods/reedit';
+
+            //现不用此方法
+            //url = '/business/goods/supply';
+        }
+        $('.over').show();
+        $(obj).css("background-color","#ccc");
+
+        $.post(url,{
+            cancel:cancel,
+            g_name:g_name,
+            g_secondname:g_secondname,
+            g_description:g_description,
+            gc_id:gc_id,
+            g_typeid:g_typeid,
+            pid:pid,
+            cid:cid,
+            aid:aid,
+            g_img:g_img,
+            gp_settlement_price:gp_settlement_price,
+            gp_market_price:gp_market_price,
+            g_express:g_express,
+            g_express_way:g_express_way,
+            g_starttime:g_starttime,
+            g_endtime:g_endtime,
+            gp_stock:gp_stock,
+            g_id:g_id,
+            gd_info:gd_info,
+            g_type:1,
+            is_fudai:is_fudai,
+            sort:sort,
+            is_huodong:is_huodong
+        },function(res){
+            if(res.status == 1){
+                layer.msg("<span style='color:#fff'>提交成功</span>",{
+                    time:2000
+                },function(){
+                    location.href="/business/goods/goods_list/type/" + {$type};
+                });
+            }else {
+                layer.msg('<span style="color:#fff">'+ res.msg +'</span>',{
+                    time:2000
+                });
+                $('.over').hide();
+                $(obj).css("background-color","#286090");
+                $("#button_id").attr('disabled',false);
+            }
+        })
+    }
+    
+    var t = new Date();//当前时间
+    var t_s = t.getTime();//转化为时间戳毫秒数
+    t.setTime(t_s + 1000 * 60 * 10);//设置新时间比旧时间多十分钟;
+
+    var tt = new Date();//当前时间
+    var tt_s = tt.getTime();//转化为时间戳毫秒数
+    tt.setTime(600000 + tt_s + 1000 * 60 * 60 * 24 *15);//设置新时间比旧时间多15天加十分钟;
+
+    var datestart = "{$info.g_starttime|default=0}"
+    if(datestart !=0) {
+        datestart = "{$info.g_starttime|default=0}";
+        $('#countTimestart').val(datestart);
+    }else {
+        $('#countTimestart').val(msToDate(t).wasTime);
+    }
+    
+    var dateend = "{$info.g_endtime|default=0}"
+    if(dateend !=0) {
+        dateend = "{$info.g_endtime|default=0}";
+        $('#countTimeend').val(dateend);
+    }else {
+        $('#countTimeend').val(msToDate(tt).wasTime);
+    }
+
+    //时间控件
+    function selecttime(flag){
+        if(flag==1){
+            var endTime = $("#countTimeend").val();
+            if(endTime != ""){
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'%y-%M-%d'})
+            }else{
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }
+        }else{
+            var startTime = $("#countTimestart").val();
+
+            var t = new Date();//当前时间
+            var t_s = t.getTime();//转化为时间戳毫秒数
+            t.setTime(t_s + 1000 * 60 * 10);//设置新时间比旧时间多十分钟;
+
+            //标准日期转标准时间
+            var t3 = new Date(startTime);
+            //标准时间转毫秒数
+            var result = t3.getTime();
+            t3.setTime(result + 1000 * 60 * 60 * 24 *60);//设置新时间比旧时间多60天;
+
+            if(startTime != ""){
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:startTime,maxDate:msToDate(t3).wasTime})
+            }else{
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }
+        }
+    }    
+
+    //省市联动
+    function address(obj,id) {
+        var region_code = $(obj).val();
+        $.ajax({
+            type: "post",
+            url: "/business/goods/address/",
+            data: {
+                region_code: region_code
+            },
+            success: function(res){
+                if(id == 1) {
+                    $('#city').empty().append('<option value="请选择">请选择</option>');
+                    $('#area').empty().append('<option value="请选择">请选择</option>');
+                }else if(id == 2) {
+                    $('#area').empty().append('<option value="请选择">请选择</option>');
+                }
+                
+                for(i=0;i<res.length;i++) {
+                    var html = '<option value="'+ res[i].region_code +'">'+ res[i].region_name +'</option>';  
+                    if(id==1) {
+                        $('#city').append(html);
+                    }else if(id==2) {
+                        $('#area').append(html);
+                    }                    
+                }                                
+            }
+        })
+    }
+
+    //分类联动
+    function cate(obj,id) {
+        var gc_id = $(obj).val();
+        $('#classify').val(gc_id);
+        if(id != 3) {
+            $.ajax({
+                type: "post",
+                url: "/business/goods/category",
+                data: {
+                    gc_id: gc_id
+                },
+                success: function(res){
+                    if(id == 1) {
+                        $('#cate2').empty().append('<option value="请选择">请选择</option>');
+                        $('#cate3').empty().append('<option value="请选择">请选择</option>');
+                    }else if(id == 2) {
+                        $('#cate3').empty().append('<option value="请选择">请选择</option>');
+                    }
+                    for(i=0;i<res.length;i++) {
+                        var html = '<option value="'+ res[i].gc_id +'">'+ res[i].gc_name +'</option>';   
+                        if(id==1) {
+                            $('#cate2').append(html);
+                        }else if(id==2) {
+                            $('#cate3').append(html);
+                        }
+                    }                              
+                }
+            })
+        }        
+    }
+
+    //实时折扣价
+    var inp_val=$('#gp_market_price').val();
+    if(inp_val==""||inp_val==undefined){
+        $(".content_number").removeClass("application_tab_li");
+    }else{
+        $(".content_number").addClass("application_tab_li");
+    }
+    $('#gp_market_price').keyup(function(){
+        var inp_val=$(this).val();
+        if(inp_val==""){
+             $(".content_number").removeClass("application_tab_li");
+        }else{
+             $(".content_number").addClass("application_tab_li");
+            $.get('/business/goods/get_discount',{money:inp_val},function(res){
+                if(res.status==1){
+                    $('.content_number').empty();
+                    var html = '';
+                    for(var i=0; i<res.data.length; i++) {
+                        var num = Number(i)+1;
+                        html = '<div class="content_number_list">';
+                        if(g_id != '') {
+                            if(res.data[i].is_check == 0) {
+                                html += '<input type="checkbox"  name="nod" value="'+ res.data[i].gdt_id +'" />';
+                            }
+                        }else {
+                            html += '<input type="checkbox" checked name="nod" value="'+ res.data[i].gdt_id +'" />';
+                        }
+                        
+                        html += '<img src="'+ res.data[i].gdt_img +'"  class="gdt_img'+ num +'">';
+                        html += '<span class="content_margin_left gdt_name'+ num +'">'+ res.data[i].gdt_name +'</span>';
+                        html += '<span class="content_price_view gdr_price'+ num +'" >￥<input type="number" name="gdr_price" g_id="'+ g_id +'" value="'+ res.data[i].gdr_price +'" /></span>';
+                        html += '<span>参与人次';
+                        html += '<span class="content_number_view gdr_membernum'+ num +'"><input type="number" name="membernum" g_id="'+ g_id +'" value="'+ res.data[i].gdr_membernum +'" />人</span>';
+                        html += '</span>';
+                        html += '</div>';
+                        $('.content_number').append(html);
+                    }                   
+                }
+            })
+        }
+    })
+</script>
+{/block}

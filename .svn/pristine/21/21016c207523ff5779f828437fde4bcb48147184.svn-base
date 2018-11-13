@@ -1,0 +1,36 @@
+// $(function(){
+  // $("#set_pwd").click(function(){
+  //         var used_pwd = $('#used_pwd').val();
+  //         var new_pwd = $('#new_pwd').val();
+  //         var m_pwd = $('#m_pwd').val();
+  //        //输入值待做验证,必须为数组和字母组成的6-16位,旧密码不能等于新密码,新密码和确认密码保持一致
+  //        $.ajax({
+  //            type: "POST",
+  //            url: "login_set",
+  //            data: {
+  //                used_pwd:used_pwd,
+  //                new_pwd:new_pwd,
+  //                m_pwd:m_pwd,
+  //            },
+  //            dataType: "json",
+  //            success: function(data){
+  //              if(data.status == 1){
+  //                 layer.confirm(data.msg, {
+  //                   title:false,/*标题*/
+  //                   closeBtn: 0,
+  //                   btnAlign: 'c',
+  //                   btn: ['前去登录'], //按钮
+  //                   btn1:function(){
+  //                     location.href="/member/login/index";
+  //                   }
+  //                 })
+  //              }else{
+  //                 layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+  //                   time:2000
+  //                 });
+  //                  // alert(data.msg)
+  //              }
+  //            }
+  //        });
+  //    })
+// })

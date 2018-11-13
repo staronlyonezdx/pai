@@ -1,0 +1,78 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>后台菜单</label>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>菜单ID</th>
+                    <th>菜单名称</th>
+                    <th>父级菜单</th>
+                    <th>菜单排序</th>
+                    <th>菜单权限</th>
+                    <th>菜单模块</th>
+                    <th>菜单链接</th>
+                    <th>管理</th>
+                </tr>
+                </thead>
+                <tbody>
+              {volist name="menulist" id="vo">
+                <tr>
+                    <td>{$vo.menu_id}</td>
+                    <td>{$vo.menu_id}</td>
+                    <td><span style="font-weight:bold;color:red">{$vo.menu_name}</span></td>
+                    <td>{$vo.menu_parent_name}</td>
+                    <td>{$vo.menu_sort}</td>
+                    <td>{$vo.authstr}</td>
+                    <td>{$vo.menu_c}</td>
+                    <td>{$vo.menu_url}</td>
+                    <td>
+                        <a href="{:url('menu/menuadd',['id'=>$vo.menu_id])}">
+                            编辑
+                        </a>
+                        <a href="##" class="authoritylist_dele_btn">
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                  {notempty name="$vo.menu_son"}
+               {volist name  name="$vo.menu_son" id="vo_son"}
+                <tr>
+                  <td>{$vo_son.menu_id}</td>
+                  <td>{$vo_son.menu_name}</td>
+                  <td>{$vo_son.menu_parent_name}</td>
+                  <td>{$vo_son.menu_sort}</td>
+                  <td>{$vo_son.authstr}</td>
+                  <td>{$vo_son.menu_c}</td>
+                    <td>{$vo_son.menu_url}</td>
+                  <td>
+                      <a href="{:url('menu/menuadd',['id'=>$vo_son.menu_id])}">
+                          编辑
+                      </a>
+                      <a href="##" class="authoritylist_dele_btn">
+                          删除
+                      </a>
+                  </td>
+              </tr>
+              {/volist}
+                  {/notempty}
+               {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+

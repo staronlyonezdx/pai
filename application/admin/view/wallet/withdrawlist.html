@@ -1,0 +1,191 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<!-- <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css"> -->
+<style>
+    .modal{
+        margin-top:100px;
+    }
+    .modal-footer{
+        text-align: center;
+    }
+    .red{
+        color:red;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>提现列表</label>
+            </div>
+            <a href="/admin/wallet/withdrawlist/w_state/0" type="button" class="btn {eq name='w_state' value='0'}btn-success {else /} btn-info {/eq} btn-xs">申请中</a>
+            <a href="/admin/wallet/withdrawlist/w_state/1" type="button" class="btn {eq name='w_state' value='1'}btn-success {else /} btn-info {/eq} btn-xs">通过</a>
+            <a href="/admin/wallet/withdrawlist/w_state/2" type="button" class="btn {eq name='w_state' value='2'}btn-success {else /} btn-info {/eq} btn-xs">不通过</a>
+            <a href="/admin/wallet/withdrawlist/w_state/3" type="button" class="btn {eq name='w_state' value='3'}btn-success {else /} btn-info {/eq} btn-xs">提现完成</a>
+            <table class="table table-hover radius table-bordered" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>提现ID</th>
+                    <th>用户ID</th>
+                    <th>用户昵称</th>
+                    <th>手机号</th>
+                    <th>提现类型</th>
+                    <th>提款前余额</th>
+                    <th>提款额</th>
+                    <th>手续费</th>
+                    <th>费率</th>
+                    <th class="red">实际打款</th>
+                    <th>开户人</th>
+                    <th>开户行</th>
+                    <th>银行卡</th>
+                    <th>是否加急</th>
+                    <th>申请时间</th>
+                    <th class="red">最迟打款时间</th>
+                    <th>状态</th>
+                    <th width="200px;">客服操作</th>
+                    <th>财务操作</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr class="tr_{$vo.w_id}">
+                    <th scope="row" class="th_w_id{$vo.w_id}">{$vo.w_id}</th>
+                    <td>{$vo.w_mid}</td>
+                    <td>{$vo.m_name}</td>
+                    <td>{$vo.m_mobile}</td>
+                    <td>
+                        {if condition="$vo.w_type == 1"}余额提现
+                        {elseif condition='$vo.w_type == 2'}收益提现
+                        {else/}未知提现类型
+                        {/if}
+                    </td>
+                    <td>{$vo.w_old_moneymount}</td>
+                    <td>{$vo.w_money}</td>
+                    <td>{$vo.w_poundage}</td>
+                    <td>{$vo.w_rate}</td>
+                    <td  class="red">{$vo.w_new_proce}</td>
+                    <td>{$vo.m_bankowner}</td>
+                    <td>{$vo.m_bankname}</td>
+                    <td>{$vo.m_bankaccount}</td>
+                    <td>{if condition='$vo.is_urgent == 1'} 否 {else /}是{/if}</td>
+                    <td>{$vo.w_time|date='Y-m-d H:i',###}</td>
+                    {if condition='$vo.is_urgent == 1'}
+                        <td class="red">{$vo.w_time+86400*6|date='Y-m-d H:i',###}</td>
+                    {else /}
+                        <td class="red">{$vo.w_last_time|date='Y-m-d H:i',###}</td>
+                    {/if}
+                    <td class="state{$vo.w_id}">{if condition="$vo.w_state == 0"}审核中{elseif condition='$vo.w_state == 1'}审核通过{elseif condition='$vo.w_state == 2'}不通过{else/}已提现{/if}</td>
+                    <td class="text-c">
+                        {if condition='$w_state == 0'}
+                        <button type="button" class="btn btn-primary btn-xs acceptance{$vo.w_id}" onclick="acceptance({$vo.w_id})">通过</button>
+                        <button type="button" class="btn btn-primary btn-xs acceptance{$vo.w_id}"  onclick="no_acceptance({$vo.w_id})" data-toggle="modal" data-target="#exampleModal">不通过</button>
+                        {/if}
+                    </td>
+                    <td>
+                        <!--<button type="button" class="btn btn-success btn-xs withdraw{$vo.w_id}" style="display:none" onclick="withdraw({$vo.w_id})">提现完成</button>-->
+                        {if condition='$w_state == 1'}
+                        <button type="button" class="btn btn-success btn-xs "  onclick="withdraw({$vo.w_id})">提现完成</button>
+                        {/if}
+                    </td>
+                    <td>
+                        <a href="/admin/wallet/money_info/m_id/{$vo.w_mid}/money_type/{$vo.w_type}" type="button" class="btn btn-success btn-xs " target="view_window">金钱详情</a>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">拒绝理由</h4>
+                        </div>
+                        <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="message-text" class="control-label">不通过理由:</label>
+                                    <input type="hidden" name="w_id" class="w_id">
+                                    <textarea class="form-control" id="message-text"></textarea>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="modal()">发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                {$page}
+                <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function acceptance(w_id){
+        $.post("/admin/wallet/acceptance",{w_id:w_id,num:1},function(res){
+            if(res){
+                $('.state'+w_id).html('审核通过');
+                $('.acceptance'+w_id).hide();
+                $('.withdraw'+w_id).show();
+            }else{
+                alert('未受理,请稍后重试或联系管理员');
+            }
+        })
+    }
+    function no_acceptance(w_id){
+        $('.w_id').val(w_id)
+    }
+
+    function modal(){
+        var w_explain = $('.form-control').val();
+        var w_id = $('.w_id').val();
+
+        if(!$.trim(w_explain)){
+            alert('请输入不通过理由');
+            return false;
+        }
+        $.post("/admin/wallet/acceptance",{w_id:w_id,num:2,w_explain:w_explain},function(res){
+            console.log('.tr_'+w_id);
+            if(res){
+                $('.tr_'+w_id).remove();
+            }else{
+                alert('未受理,请稍后重试或联系管理员');
+            }
+        })
+    }
+
+    function withdraw(w_id){
+        if(!confirm("确定已转款?")){
+            return false;
+        }
+        $.post("/admin/wallet/withdraw",{w_id:w_id},function(res){
+            console.log(res);
+            if(res.status){
+                $('.tr_'+w_id).remove();
+                alert('已经提现完成');
+            }else{
+                alert('提现失败')
+            }
+        })
+    }
+
+//    function w_state(v){
+//        location.href='/admin/wallet/withdrawlist/w_state/'+v
+//    }
+</script>
+{/block}
+

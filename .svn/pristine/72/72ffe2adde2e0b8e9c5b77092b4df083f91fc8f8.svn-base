@@ -1,0 +1,142 @@
+{extend name="common/mem_base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/address/address.css">
+<style>
+    .lastbox{height:1rem;position: fixed;bottom: 0;width:100%;background: #ccc;}
+    .lastbox p{line-height: 0.3rem;font-size: 0.2rem;}
+    .lastbox p .board-left{width:1.8rem;text-align: right;display: inline-block;}
+    .address_btn{display:inline-block;float: right;width:3rem;background: #FFE500;}
+    .text-board{display:inline-block;float: left;background: #ccc;height:1rem;padding: 2px;}
+    .address_con{clear: both;height:0.8rem;}
+    .address_con .robox1{float: left;padding: 0.1rem;}
+    .address_con .robox1 img{width:40px;}
+    .address_con .robox1 img{width:0.5rem:height:0.5rem;margin-top: 0.05rem}
+    .address_con .robox2{float: left;margin-top: 0.15rem}
+    .address_con .robox2 input{border:1px solid #ccc;border-radius: 0.1rem;}
+    .address_con .robox3{float: right;margin-top: 0.45rem}
+    .address_con .robox3 .selector{cursor: pointer}
+</style>
+{/block}
+{block name="header"}
+
+{/block}
+{block name="content"}
+<main style="margin-top: 0;">
+    <div class="address-msg"></div>
+    <div class="address_main">
+        {empty name="list"}
+        <div class="address_list" style="background: #f2f2f2;">
+            <div class="address_noview">
+                <div class="address_nomain">
+                    <img src="__STATIC__/image/goods/dw@2x.png">
+                </div>
+                <p>当前还没添加机器人呢~</p>
+            </div>
+        </div>
+        {else/}
+        {volist name="list" id="vo"}
+        <div class="address_list" m_id = {$vo.m_id}>
+            <div class="address_con">
+                <div class="robox1">
+                    <img src="{$vo.m_avatar|default='/static/image/index/pic_home_taplace@2x.png'}" alt=""/>
+                </div>
+                <div class="robox2">
+                    <p>
+                        <span>{$vo.m_id}</span>
+                        <span>{$vo.m_name}</span>
+                        <span >{$vo.m_mobile2}</span>
+                    </p>
+                    <p>
+                        <input type="text" class="popval" value="{$vo.round_num|default='50.00'}"/>
+                    </p>
+                </div>
+                <div class="robox3">
+                    <input class='selector' name="selector[]" type="checkbox" value="{$vo.m_id|default=0}">
+                </div>
+            </div>
+        </div>
+        {/volist}
+        {/empty}
+        <!-- 空 -->
+    </div>
+</main>
+    <div class="lastbox" >
+        <div class="text-board">
+            <p><span class="board-left">当前人气值：</span><span id="num1">{$info.pm_popularity|default=0}</span></p>
+            <p><span class="board-left">+</span> <span id="num2">0.00</span></p>
+            <p><span class="board-left">=</span> <span id="num3">{$info.pm_popularity|default=0}</span></p>
+        </div>
+        <div class="address_btn">
+            确认添加
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/lib/layui/layui.js"></script>
+<script src="__JS__/common/popups.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/dropload/dropload.min.js"></script>
+<script>
+    function sum_pop(){
+        var num1 = "{$info.pm_popularity|default=0}";
+        num1 = parseFloat(num1);
+        var num2 = 0;
+        $(".selector").each(function(){
+            if($(this).is(':checked')){
+                var this_pop = $(this).parent(".robox3").siblings(".robox2").find(".popval").val();
+                num2 += parseFloat(this_pop);
+            }
+        });
+        var num3 = num1 + num2;
+        $("#num2").text(num2.toFixed(2));
+        $("#num3").text(num3.toFixed(2));
+    }
+    $(function(){
+        $(".address_btn").click(function(){
+            var datastr = '';
+            $(".selector").each(function(){
+                var pop = 0;
+                if($(this).is(':checked')){
+                    var str = '';
+                    str += $(this).val();
+                    str += ':';
+                    var this_pop = $(this).parent(".robox3").siblings(".robox2").find(".popval").val();
+                    pop += parseFloat(this_pop);
+                    str += pop.toFixed(2);
+                    str += ',';
+                    datastr += str;
+                }
+            });
+            if(datastr.length > 0){
+                var pm_id = "{$pm_id}";
+                // 提交
+                $.ajax({
+                    url:"{:url('/business/Poporder/add_pm_pop')}",
+                    dataType:'JSON',
+                    type:'POST',
+                    data:{pm_id:pm_id,datastr:datastr},
+                    success: function(data) {
+                        console.log(data);
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        if(data.status){
+                            setTimeout(function(){
+                                window.parent.location.reload();
+                            },500);
+                        }
+                    }
+                });
+            }
+        });
+
+        // 求和运算
+        $(".selector").click(function(){
+            sum_pop();
+        });
+        $(".popval").change(function(){
+            sum_pop();
+        });
+    })
+</script>
+{/block}

@@ -1,0 +1,161 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/mui/mui.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/search_index.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/classify/classify.css">
+{/block}
+{block name="header"}
+<div class="index_searsh_top head_search_view">
+	<div class="index_search head_search">
+		<img src="__STATIC__/image/classify/search@2x.png">
+        <p>搜索您想要的分类商品或店铺</p>
+	</div>
+</div>
+{/block}
+{block name="content"}
+<main>
+    <!-- <form action="/index/index/search_index" method="post"> -->
+        <div class="index_search_pop">
+            <!--搜索框-->
+            <div class="index_search_pop_top clear">
+                    <div class="index_pop_text lf">
+                        <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+                    </div>
+                    <div class="index_search_pop_view clear lf">
+                        <div class="index_search_lfimg" class="lf">
+                            <img src="__STATIC__/image/index/searchbar_icon_search1@2x.png">
+                        </div>
+                        <input type="text" name="keyword" class="index_pop_inp lf">
+        
+                        <div class="index_search_cancel rt">
+                            <img src="__STATIC__/image/index/icon_qingchu1@2x.png" alt="">
+                        </div>
+                    </div>
+                    <!-- <button type="submit" class="index_pop_sousuo rt"> 搜索</button> -->
+                    <a class="index_pop_sousuo rt"> 搜索</a>
+                </div>
+            <!--tab切换-->
+            <div class="index_pop_class clear">
+                <div class="index_pop_tab index_pop_bold lf">
+                    <img src="__STATIC__/image/index/icon_nav_scroll@2x.png" alt="">
+                    <span>商品</span>
+                </div>
+                <div class="index_pop_tab  lf">
+                    <img src="__STATIC__/image/index/icon_nav_scroll@2x.png" alt="">
+                    <span>店铺</span>
+                </div>
+            </div>
+            {notempty name='$searchs.self'}
+            <!--历史搜索-->
+            <div class="index_pop_history_view history">
+                <div class="index_pop_history clear">
+                    <p class="lf">历史搜索</p>
+
+                    <div class="rt del_search">清除</div>
+                </div>
+                <div class="index_pop_history_main clear">
+                    {volist name='searchs.self' id='vo'}
+                    <a href="/index/index/search_index/keyword/{$vo}"><div class="lf">{$vo}</div></a>
+                    {/volist}
+                </div>
+            </div>
+            {/notempty}
+            {notempty name='$searchs.hot'}
+            <!--热门搜索-->
+            <div class="index_pop_history_view">
+                <div class="index_pop_history clear">
+                    <p class="lf">热门搜索</p>
+                </div>
+                <div class="index_pop_history_main clear">
+                    {volist name='searchs.hot' id='vo'}
+                    <a href="/index/index/search_index/keyword/{$vo}">
+                    <div class="lf">{$vo}</div>
+                        </a>
+                    {/volist}
+                </div>
+            </div>
+            {/notempty}
+            <!--搜索出的列表-->
+            <div class="index_pop_search_main">
+                    <ul class="index_pop_search_ul">
+        
+                    </ul>
+                </div>
+            <!--<div class="index_pop_search_main">-->
+            <!--<ul class="index_pop_search_ul">-->
+            <!--<li class="index_pop_search_li clear">-->
+            <!--<span>移动电源</span>-->
+            <!--<img src="__STATIC__/image/index/icon_nav_jump@2x.png" alt="">-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+        </div>
+    <!-- </form> -->
+	<div class="mui-content mui-row mui-fullscreen">
+		<div class="mui-col-xs-3">
+			<div  class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical" id="segmentedControls">
+			</div>
+		</div>
+		<div  class="mui-col-xs-9" id="segmentedControlContents">
+			<div class="classify_content">
+				<!--加载内容区域-->
+			</div>
+		</div>
+    </div>
+
+</main>
+{/block}
+{block name="footer"}
+	{include file="common/footer" /}
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/js/mui/mui.min.js"></script>
+<script src="__JS__/index/index.js"></script>
+<script type="text/javascript" src="__STATIC__/js/classify/classify.js"></script>
+<script> 
+    //点击搜索
+    $(".index_pop_sousuo").click(function(){
+        var keyword=$("input[name='keyword']").val();
+        var typ=$("input[name='type']").val();
+        window.location.href="/index/index/search_index/type/"+typ+"/keyword/"+keyword;
+    })
+
+    mui.init({
+        swipeBack: true //启用右滑关闭功能
+    });
+    var controls = document.getElementById("segmentedControls");
+    var contents = document.getElementById("segmentedControlContents");
+    var title = {$title};
+    
+    var html = [];
+    var i = 0,
+        j = 0,
+        m = title.length;
+
+    for (i = 0; i < m; i++) {
+        html.push('<a class="mui-control-item" data-index="' + i + '" href="#content' + i + '">'+title[i]+'</a>');
+    }
+    controls.innerHTML = html.join('');
+    var list = {$list};
+    html = [];
+
+    for (i = 0; i < m; i++) {
+        html.push('<div id="content' + i + '" class="mui-control-content classify_all_con"><a href="/member/classify/index/gc_id/'+list[i]['gc_id']+'"><div class="classify_content"><div class="classify_main classify_dis"><div class="classify_banner"><img src="'+list[i]['gc_banner_img']+'"></div><div class="classify_all"><span></span><p>'+list[i]['gc_name']+'</p></a><span></span></div><ul class="mui-table-view classify_all_con clear">');
+        var n = list[i]['son'].length
+        if(n !=0) {
+            for (j = 0; j < n; j++) {
+                html.push('<li class="mui-table-view-cell lf"><a href="/member/classify/index/gc_id/'+list[i]['son'][j]['gc_id']+'"><div class="classify_list "><div><img src="'+list[i]['son'][j]['gc_img']+'"></div><p>'+list[i]['son'][j]['gc_name']+'</p></div></a></li>');
+            }
+        }
+
+        html.push('</ul></div></div></div>');
+    }
+    contents.innerHTML = html.join('');
+    //默认选中第一个
+    if(controls.querySelector('.mui-control-item') != null) {
+        controls.querySelector('.mui-control-item').classList.add('mui-active');
+    }    
+</script>
+{include file="common/js_sdk" /}
+{/block}
+

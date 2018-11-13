@@ -1,0 +1,102 @@
+
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/payment_success.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <!--支付成功-->
+    {if condition="$info['r_state'] neq '8'"}
+    <!--支付失败-->
+    <style>
+        body{
+            background: #fff;
+        }
+    </style>
+    <!--<p>订单支付失败</p>-->
+    <div class="payment_failure">
+        <div class="payment_failure_img">
+            <img src="__STATIC__/image/orderpai/icon_X@2x.png" alt="">
+        </div>
+        <p>支付请求中，请刷新...</p>
+        <span>支付在请求中，请刷新重试</span>
+    </div>
+    <a href="/member/wallet/recharge"><div class="payment_failure_btn">再次充值</div></a>
+    {else /}
+    <div class="payment_success">
+        <div class="payment_success_tit ">
+            <div class="payment_success_con clear">
+                <span>
+                  <img src="__STATIC__/image/orderpai/icon_gou@2x.png">
+                 成功充值
+                    <span>￥{$info['r_money']}</span>
+                </span>
+            </div>
+        </div>
+        <div class="payment_success_bottom">
+            <div class="payment_success_list clear">
+                <p class="lf">充值方式</p>
+                <p class="rt">
+                   {$info['r_type_code']}
+                </p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">充值时间</p>
+                <p class="rt">{$info['r_success_time']}</p>
+            </div>
+        </div>
+        <div class="payment_success_border"></div>
+    </div>
+    <div class="payment_success_chilun">
+        <img src="__STATIC__/image/orderpai/icon_chilun@2x.png">
+    </div>
+    <a href="{$jump_url}">
+        <div class="payment_success_btn">
+            返回
+        </div>
+    </a>
+    {/if}
+
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+/*判断余额是否充值成功，如果状态是8则充值成功*/
+    $(function(){
+        setTimeout("reFresh()",1000)
+    })
+    function reFresh(){
+        if({$info['r_state']}==8){
+
+        }else{
+            var i=0;
+            var st=setInterval(function(){
+                i++;
+                toCheck();
+                if(i>2){
+                    clearInterval(st);
+                }
+            },2000)
+        }
+    }
+    function toCheck(){
+        var rid={$info['r_id']};
+        $.ajax({
+            url:'/member/wallet/get_recharge_state',
+            type:"POST",
+            data:{r_id:rid},
+            success:function(data){
+                if(data.status=='1'){
+                    window.location.reload();
+                }else{
+                }
+            }
+        })
+    }
+</script>
+{/block}

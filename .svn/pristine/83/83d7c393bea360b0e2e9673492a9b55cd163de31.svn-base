@@ -1,0 +1,32 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/modifydata/feedback.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+<button class="feedback_btn" disabled="disabled">提交</button>
+        <textarea class="feedback_main" id="textarea" placeholder="欢迎提出宝贵的建议与意见"></textarea>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/js/applicationIn/textareaauto.js"></script>
+<script>
+    var text = document.getElementById("textarea");
+    autoTextarea(text);// 调用
+    $('textarea').bind('input propertychange', function() {
+        var val=$(this).val();
+        if(val==""){
+            $(".feedback_btn").removeClass("feedback_yew");
+            $(".feedback_btn").attr("disabled",true);
+        }else{
+            $(".feedback_btn").addClass("feedback_yew");
+            $(".feedback_btn").attr("disabled",false);
+        }
+    });
+
+</script>
+{/block}

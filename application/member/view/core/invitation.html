@@ -1,0 +1,72 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/core/immediatele_invited.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+  <!--<div class="header_view">-->
+   <!--&lt;!&ndash;  <div class="header_back">-->
+        <!--<img src="__STATIC__/icon/publish/icon_nav_back.png">-->
+    <!--</div> &ndash;&gt;-->
+    <!--<div class="header_tit">-->
+      <!--立即邀请-->
+        <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+          <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png">-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+   <main> 
+  <div class="immediatele_bg">
+    <img src="__STATIC__/image/core/pic_invite_strategy@2x.png">
+    <div class="immediatele_code">
+      <div class="clear">
+        <a href="/member/core/rule" class="immediatele_rule rt">活动规则</a>
+      </div>
+      <p>邀请新人，你得收益</p>
+      <div class="immediatele_pic">
+        <img src="__CDN_PATH__{$info.m_code ?? ''}">
+      </div>
+      <div class="immediatele_btn clear">
+          <a href="{//$m_code}" download="my_code.jpg">
+              <a href="/uploads/code/20180711/44new_code.jpg?mp.wexin.qq.com" download="{$info.m_name}.jpg">
+          <div class="lf preservation">保存二维码</div>
+        </a>
+        <a href="##">
+          <div class="rt ivt">分享链接</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<!--<script src="__JS__/core/jquery.qrcode.js"></script>-->
+<!--<script src="__JS__/core/utf.js"></script>-->
+<script>
+    $('.ivt').click(function(){
+        alert('待接入微信JS_SDK');
+    })
+//    var img = "{//$m_avatar['m_avatar']}";
+//    $('.immediatele_pic').qrcode({
+//        render    : "canvas",
+//        text    : "http://www.baidu.com?phone="+"{//$m_avatar['m_mobile']}",
+//        width : "200",               //二维码的宽度
+//        height : "200",              //二维码的高度
+//        background : "#ffffff",       //二维码的后景色
+//        foreground : "#000000",        //二维码的前景色
+//        src: img             //二维码中间的图片
+//    });
+//    $('.preservation').click(function(){
+//        var type = 'png';
+//        var c = $("canvas").get(0);
+//        var imgData =  c.toDataURL(type);
+//        $.post("code",{m_code:imgData});
+//    })
+
+</script>
+{/block}

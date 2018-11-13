@@ -1,0 +1,40 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__CSS__/common/common.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/applicationIn/apply_store_success.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+  <div class="success_main">
+    <div class="success_view clear">
+      <div class="apply_img">
+        <img src="__STATIC__/image/register/icon_jd@2x.png">
+      </div>
+    	<div class="success_new">
+    		<div class="success_first">
+  	  		<p>已成功提交商品</p>
+  	  		<span>{$data.date}</span>
+    		</div>
+    		<div class="success_list">
+  	  		<p>进入后台审核</p>
+  	  		<span>审核将在三个工作日内完毕</span>
+  	  	</div>
+  	  	<div class="success_list">
+  	  		<p>商品发布成功</p>
+  	  		<span>即可开始开放出售</span>
+  	  	</div>
+    	</div>
+    	
+    </div>
+    <div class="success_back">
+        <a href="/member/goodsproduct/index/g_id/{$data.g_id}">查看该商品</a>
+      </div>
+  </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

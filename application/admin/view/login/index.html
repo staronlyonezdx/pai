@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/bootstrap-clearmin.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/roboto.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/admin.css">
+    <script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+    <title>拍吖吖后台管理系统</title>
+    <style></style>
+</head>
+<body class="cm-login">
+
+<div class="text-center" style="padding:90px 0 30px 0;background:#fff;border-bottom:1px solid #ddd">
+    <img src="__ADMIN_LIB_CLEARMINMASTER_IMG__/logo-big.svg" width="300" height="45">
+</div>
+
+<div class="col-sm-6 col-md-4 col-lg-3" style="margin:40px auto; float:none;">
+    <form method="post" action="{:url('Login/index')}" id="add_admin_form">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-fw fa-user"></i></div>
+                    <input type="text" name="username" class="form-control" placeholder="管理员账号" id="username">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-fw fa-lock"></i></div>
+                    <input type="password" name="password" class="form-control" placeholder="管理员密码" id="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" name="code" class="form-control verification_inp" placeholder="verificationCode" id="code">
+                    <div class="input-group-addon verification_code"><img src="__CDN_PATH__{:captcha_src()}" id="verify" ></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="checkbox"><label><input type="checkbox"> Remember me</label></div>
+        </div>
+        <div class="col-xs-6">
+            <button type="button" class="btn btn-block btn-primary admin_submit">Sign in</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        // 更新验证码
+        $('#verify').click(function () {
+            $(this).attr('src', '{:captcha_src()}?' + Math.random());
+        });
+        setTimeout(function(){
+            $('#verify').attr('src', '{:captcha_src()}?' + Math.random());
+        },100);
+
+        $(document).keyup(function(event){
+            if(event.keyCode ==13){
+                logins();
+            }
+        });
+
+        function logins() {
+            var username=$('#username').val();
+            var password=$('#password').val();
+            var code=$('#code').val();
+            if (!/^[a-zA-Z0-9_-]|[\u4e00-\u9fa5]{2,16}$/.test(username)) {
+                alert('请输入正确的用户名');
+                $('#username').focus();
+                return false;
+            }
+            if (password.length<6) {
+                 alert('请输入6位数以上的密码');
+                $('#password').focus();
+                return false;
+            }
+            $("#add_admin_form").submit();
+        }
+        $(".admin_submit").click(function(){
+            logins();
+        })
+    })
+</script>
+
+

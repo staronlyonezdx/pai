@@ -1,0 +1,39 @@
+{extend name="index/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/index/notice_info.css">
+<style>
+    /*.mescroll-upwarp {*/
+    /*padding: 0.5rem 0 1.6rem 0;*/
+    /*}*/
+
+    /*.layui-layer-msg {*/
+    /*width: 3.8rem;*/
+    /*}*/
+</style>
+{/block}
+
+{block name="header"}
+{include file="common/header" /}
+{/block}
+
+{block name="content"}
+<main>
+
+
+
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script>
+
+    $(function () {
+
+
+
+
+    })
+
+</script>
+{/block}

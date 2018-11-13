@@ -1,0 +1,53 @@
+.pop_rank{
+    background: #fff;
+    margin-top:0.2rem ;
+}
+/*.pop_rank_view{*/
+    /*padding:0 0.3rem*/
+/*}*/
+.pop_rank_view h3{
+    color:#333333;
+    font-size: 0.32rem;
+    padding:0.29rem 0.3rem;
+    font-weight: 600;
+}
+.pop_rank_list{
+    border-top:1px solid #f2f2f2;
+    padding:0 0.3rem;
+    /*padding:0.17rem 0;*/
+}
+.pop_rank_list img{
+    float: left;
+    width:0.56rem;
+    height:0.56rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 0.17rem;
+}
+.pop_rank_list p{
+    float: left;
+    color:#333333;
+    font-size: 0.28rem;
+    line-height: 0.88rem;
+    margin-left: 0.25rem;
+}
+.pop_rank_list span{
+    float: right;
+    font-size: 0.24rem;
+    color:#333333;
+    line-height: 0.88rem;
+}
+.pop_yaoqing_btn{
+    width:6.9rem;
+    height:0.88rem;
+    background:linear-gradient(-90deg,rgba(255,106,34,1),rgba(255,176,45,1),rgba(254,188,80,1));
+    position: fixed;
+    bottom:0;
+    left:50%;
+    margin-left: -3.45rem;
+    border-radius: 0.08rem;
+    text-align: center;
+    line-height: 0.88rem;
+    color:#fff;
+    font-size: 0.28rem;
+}

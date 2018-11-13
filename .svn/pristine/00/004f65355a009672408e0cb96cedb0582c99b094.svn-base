@@ -1,0 +1,57 @@
+.sficon_1{
+	background-image: url("../../lib/clearmin-master/img/sf/house.svg")!important;
+}
+.sficon_2{
+	background-image: url("../../lib/clearmin-master/img/sf/window-layout.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/window-system.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/address-book.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/bag.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/basket.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/beer.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/bell.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/bitcoin.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/book.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/box-full.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/box-in.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/brick.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/bubble.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/bubbles.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/building.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/bullhorn.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/calendar.svg")!important;
+}
+.sficon_3{
+	background-image: url("../../lib/clearmin-master/img/sf/carton.svg")!important;
+}

@@ -1,0 +1,59 @@
+html,body,ul,li,ol,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,form,fieldset,legend,img {
+    margin: 0;
+    padding: 0;
+}
+fieldset,img {
+   border: 0;
+}
+img{
+	display: block;
+	vertical-align: middle;
+}
+ul,ol{
+	list-style: none;
+}
+li{
+	list-style: none;
+}
+input::-moz-focus-inner {
+  	border: 0;
+    padding: 0;
+}
+select,input {
+    vertical-align: middle;
+}
+select,input,textarea {
+   	font-size: 12px;
+   	margin: 0;
+}
+textarea {
+    resize: none;
+}
+input[type="text"],input[type="password"],textarea {
+  	outline-style: none;
+    -webkit-appearance: none;
+}
+table {
+  	border-collapse: collapse;
+}
+a{
+	text-decoration: none;
+}
+body{
+	background: #fff;
+}
+html{
+	font-size: 100px;
+}
+button {
+   cursor: pointer;
+}
+.clear{
+	overflow: hidden;
+}
+.lf{
+	float:left;
+}
+.rt{
+	float: right;
+}

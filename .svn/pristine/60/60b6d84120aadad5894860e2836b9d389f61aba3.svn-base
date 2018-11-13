@@ -1,0 +1,106 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/payment_success.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view clear">-->
+        <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+            <!--<img src="__STATIC__/image/goods/icon_nav_back@2x.png">-->
+        <!--</div>-->
+        <!--{if condition="$info.o_paystate > 1"}-->
+        <!--<div class="header_tit">-->
+            <!--确认订单-->
+        <!--</div>-->
+        <!--{else/}-->
+        <!--<div class="header_tit">-->
+            <!--订单失败-->
+        <!--</div>-->
+        <!--{/if}-->
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    <!--支付成功-->
+    {if condition="$info.o_paystate > 1"}
+    <div class="payment_success">
+        <div class="payment_success_tit ">
+            <div class="payment_success_con clear">
+                <span>
+                  <img src="__STATIC__/image/orderpai/icon_gou@2x.png">
+                  订单支付成功
+                </span>
+                <a href="/member/Orderpai/index/o_id/{$info.o_id}/j_type/1">
+                    <div class="rt">查看订单</div>
+                </a>
+            </div>
+        </div>
+        <div class="payment_success_bottom">
+            <div class="payment_success_list clear">
+                <p class="lf">支付方式</p>
+
+                <p class="rt">
+                    {switch name="info.o_paytype" }
+                    {case value="1"}微信{/case}
+                    {case value="2"}支付宝{/case}
+                    {case value="3"}余额支付{/case}
+                    {default /}默认
+                    {/switch}
+                </p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">订单时间</p>
+                <p class="rt">{$info.o_addtime|date='Y-m-d H:i',###}</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">订单编号</p>
+                <p class="rt">{$info.o_sn}</p>
+            </div>
+            <div class="payment_success_list clear">
+                <p class="lf">订单金额</p>
+                <p class="rt">￥{$info.o_totalmoney|default='0.00'}</p>
+            </div>
+        </div>
+        <div class="payment_success_border"></div>
+    </div>
+    <div class="payment_success_chilun">
+        <img src="__STATIC__/image/orderpai/icon_chilun@2x.png">
+    </div>
+    <a href="/index/index/search_index"><div class="payment_success_btn">再去逛逛宝贝~</div></a>
+    <!--支付失败-->
+    {else/}
+    <style>
+        body{
+            background: #fff;
+        }
+    </style>
+    <!--<p>订单支付失败</p>-->
+    <div class="payment_failure">
+        <div class="payment_failure_img">
+            <img src="__STATIC__/image/orderpai/icon_X@2x.png" alt="">
+        </div>
+        <p>订单支付失败</p>
+        <span>系统发生错误订单支付失败 请再次尝试支付</span>
+    </div>
+    <a href="/member/orderpai/index/o_id/{$o_id|default=0}">
+        <div class="payment_failure_btn">再次支付</div>
+    </a>
+    <!--<p>请在{$time_str}内完成付款，否则订单会被系统取消</p>-->
+    <!--<a href="/member/Orderpai/index/o_id/{$info.o_id}">查看订单</a>-->
+    <!--<a href="##">充新付款</a>-->
+    {/if}
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(function(){
+        // 返回首页
+        $(".payment_success_btn").click(function(){
+            window.location.href="/";
+        });
+    })
+</script>
+{/block}

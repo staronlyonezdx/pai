@@ -1,0 +1,809 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/my_publish1.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/search_index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css"> {/block} {block name="header"} {include file="common/header"
+/} {/block} {block name="content"}
+<main>
+<div class="my_goods_search_img">
+    <img src="__STATIC__/image/goods/icon_nav_sousuo@2x.png" alt=""/>
+</div>
+
+<form action="/member/Orderpai/order_search/type/{$type}" method="post">
+    <div class="index_search_pop">
+        <!--搜索框-->
+        <div class="index_search_pop_top clear">
+            <div class="index_pop_text lf">
+                <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+            </div>
+            <div class="index_search_pop_view clear lf">
+                <div class="index_search_lfimg" class="lf">
+                    <img src="__STATIC__/image/index/searchbar_icon_search@2x.png">
+                </div>
+                <input type="text" name="keyword" class="index_pop_inp lf">
+
+                <div class="index_search_cancel rt">
+                    <img src="__STATIC__/image/index/icon_search_clear@2x.png" alt="">
+                </div>
+            </div>
+            <button type="submit" class="index_pop_sousuo rt"> 搜索</button>
+        </div>
+        {notempty name='$searchs.self'}
+        <!--历史搜索-->
+        <div class="index_pop_history_view history">
+            <div class="index_pop_history clear">
+                <p class="lf">历史搜索</p>
+
+                <div class="rt del_search">清除</div>
+            </div>
+            <div class="index_pop_history_main clear">
+                {volist name='searchs.self' id='vo'}
+                <div class="lf">{$vo}</div>
+                {/volist}
+            </div>
+        </div>
+        {/notempty}
+        <!--搜索出的列表-->
+        <div class="index_pop_search_main">
+            <ul class="index_pop_search_ul">
+
+            </ul>
+        </div>
+    </div>
+</form>
+
+
+    {if condition="$type > 0"}
+    <!--我团中的 导航-->
+    <!--菜单 需加上mescroll-touch-x,原因: http://www.mescroll.com/qa.html#q10 -->
+    <div class="top-nav">
+        <div class="scrollx mescroll-touch-x">
+            <div id="scrollxContent" class="scrollx-content">
+                <ul id="nav" class="nav">
+                    <li i="0">全部</li>
+                    <li i="1">待发货</li>
+                    <li i="2">待收货</li>
+                    <li i="3">待评价</li>
+                    <li i="4">退款/售后</li>
+                    <li i="5">已完成</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--轮播-->
+    <div id="swiper" class="swiper-container">
+        <div id="swiperWrapper" class="swiper-wrapper">
+
+            <!--全部-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <ul id="dataList0" class="data-list">
+                </ul>
+            </div>
+
+            <!--待发货-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <ul id="dataList1" class="data-list"> </ul>
+            </div>
+
+            <!--待收货-->
+            <div id="mescroll2" class="swiper-slide mescroll">
+                <ul id="dataList2" class="data-list"> </ul>
+            </div>
+
+            <!--待评价-->
+            <div id="mescroll3" class="swiper-slide mescroll">
+                <ul id="dataList3" class="data-list"> </ul>
+            </div>
+
+            <!--退款/售后-->
+            <div id="mescroll4" class="swiper-slide mescroll">
+                <ul id="dataList4" class="data-list"> </ul>
+            </div>
+
+            <!--已完成-->
+            <div id="mescroll5" class="swiper-slide mescroll">
+                <ul id="dataList5" class="data-list"> </ul>
+            </div>
+
+        </div>
+    </div>
+    {else/}
+    <!--我参团的 导航-->
+    <div class="top-nav">
+        <div class="scrollx mescroll-touch-x">
+            <div id="scrollxContent" class="scrollx-content">
+                <ul id="nav" class="nav">
+                    <li i="0">全部</li>
+                    <li i="1">待付款</li>
+                    <li i="2">参团中</li>
+                    <li i="3">未团中</li>
+                    <li i="4">已关闭</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--轮播-->
+    <div id="swiper" class="swiper-container">
+        <div id="swiperWrapper" class="swiper-wrapper">
+
+            <!--全部-->
+            <div id="mescroll0" class="swiper-slide mescroll">
+                <ul id="dataList0" class="data-list">
+                </ul>
+            </div>
+
+            <!--待付款-->
+            <div id="mescroll1" class="swiper-slide mescroll">
+                <ul id="dataList1" class="data-list"> </ul>
+            </div>
+
+            <!--参团中-->
+            <div id="mescroll2" class="swiper-slide mescroll">
+                <ul id="dataList2" class="data-list"> </ul>
+            </div>
+
+            <!--未团中-->
+            <div id="mescroll3" class="swiper-slide mescroll">
+                <ul id="dataList3" class="data-list"> </ul>
+            </div>
+
+            <!--已关闭-->
+            <div id="mescroll4" class="swiper-slide mescroll">
+                <ul id="dataList4" class="data-list"> </ul>
+            </div>
+
+        </div>
+    </div>
+    {/if}
+
+    <!--支付密码浮动层-->
+    <div class="ftc_wzsf">
+        <div class="srzfmm_box">
+            <div class="qsrzfmm_bt clear_wl">
+                <span class="">请输入支付密码</span>
+                <img src="__STATIC__/image/orderpai/icon_nav_X@2x.png" class="tx close fr conf_order_colse">
+            </div>
+            <div class="zfmmxx_shop conf_order_paypassword_main clear">
+                <p class="conf_order_hints">
+                    <span class="conf_order_fuhao">￥</span>
+                    <span class="all_money"></span>
+                    <input type="hidden" id="o_id" />
+                </p>
+            </div>
+            <!-- <ul class="mm_box">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul> -->
+            <div class="inputBoxContainer" id="inputBoxContainer">
+                <input type="tel" class="realInput" autofocus="autofocus"/>
+                <div class="bogusInput">
+                    <input type="password" maxlength="6" disabled class="active99"/>
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                </div>
+            </div>
+            <a href="/member/Register/amnesia_payment">
+                <p class="conf_forget">忘记密码</p>
+            </a>
+        </div>
+        <!-- <div class="numb_box">
+            <ul class="nub_ggg">
+                <li>
+                    <a href="javascript:void(0);" class="zf_num">1</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zj_x zf_num">2</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_num">3</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_num">4</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zj_x zf_num">5</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_num">6</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_num">7</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zj_x zf_num">8</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_num">9</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_empty">清空</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zj_x zf_num">0</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="zf_del">
+                        <img src="__STATIC__/image/orderpai/icon_01@2x.png">
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+        <div class="hbbj"></div>
+    </div>
+
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/Public.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" src="__JS__/md5.js"></script>
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $(".my_goods_search_img").click(function(){
+            $(".index_search_pop").addClass("index_pop_block");
+            $(".index_search_pop_view input").focus();
+        })
+//点击叉号
+        $(".index_search_cancel").click(function () {
+            $(this).siblings("input").val("");
+            $(this).siblings("input").focus();
+            $(".index_pop_search_li").css({ display: "block" });
+        })
+//点击取消
+        $(".index_pop_text").click(function () {
+            $(".index_search_pop").removeClass("index_pop_block");
+        })
+
+        //订单类型
+        var type = "{$type}";
+        var t = "{$i}";
+
+        $('#nav').find('li').eq(t).addClass('active');
+
+        //导航菜单
+        if (type > 0) {
+            var mescrollArr = new Array(6);//每个菜单对应一个mescroll对象
+        } else {
+            var mescrollArr = new Array(5);//每个菜单对应一个mescroll对象
+        }
+
+        //当前菜单下标
+        var curNavIndex = t;
+
+        //初始化首页
+        mescrollArr[t] = initMescroll(t);
+
+        /*初始化轮播*/
+        var swiper = new Swiper('#swiper', {
+            initialSlide: t,
+            onTransitionEnd: function (swiper) {
+                var i = swiper.activeIndex;//轮播切换完毕的事件
+                changePage(i);
+            }
+        });
+
+        /*菜单点击事件*/
+        $("#nav li").click(function () {
+            var i = Number($(this).attr("i"));
+            swiper.slideTo(i);//以轮播的方式切换列表
+        })
+
+        $("#nav li").each(function (n, dom) {
+            if (dom.getAttribute("i") == t) {
+                curNavDom = dom;
+            } 
+        });
+        //菜单项居中动画
+        var scrollxContent = document.getElementById("scrollxContent");
+        var star = scrollxContent.scrollLeft;//当前位置
+        var end = curNavDom.offsetLeft + curNavDom.clientWidth / 2 - document.body.clientWidth / 2; //居中
+        mescrollArr[curNavIndex].getStep(star, end, function (step, timer) {
+            scrollxContent.scrollLeft = step; //从当前位置逐渐移动到中间位置,默认时长300ms
+        });
+
+        /*切换列表*/
+        function changePage(i) {
+            if (curNavIndex != i) {
+                //更改列表条件
+                var curNavDom;//当前菜单项
+                $("#nav li").each(function (n, dom) {
+                    if (dom.getAttribute("i") == i) {
+                        dom.classList.add("active");
+                        curNavDom = dom;
+                    } else {
+                        dom.classList.remove("active");
+                    }
+                });
+                //菜单项居中动画
+                var scrollxContent = document.getElementById("scrollxContent");
+                var star = scrollxContent.scrollLeft;//当前位置
+                var end = curNavDom.offsetLeft + curNavDom.clientWidth / 2 - document.body.clientWidth / 2; //居中
+                mescrollArr[curNavIndex].getStep(star, end, function (step, timer) {
+                    scrollxContent.scrollLeft = step; //从当前位置逐渐移动到中间位置,默认时长300ms
+                });
+                //隐藏当前回到顶部按钮
+                mescrollArr[curNavIndex].hideTopBtn();
+                //取出菜单所对应的mescroll对象,如果未初始化则初始化
+                if (mescrollArr[i] == null) {
+                    mescrollArr[i] = initMescroll(i);
+                } else {
+                    //检查是否需要显示回到到顶按钮
+                    var curMescroll = mescrollArr[i];
+                    var curScrollTop = curMescroll.getScrollTop();
+                    if (curScrollTop >= curMescroll.optUp.toTop.offset) {
+                        curMescroll.showTopBtn();
+                    } else {
+                        curMescroll.hideTopBtn();
+                    }
+                }
+                //更新标记
+                curNavIndex = i;
+            }
+        }
+
+        /*创建MeScroll对象*/
+        function initMescroll(index) {
+            //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+            var mescroll = new MeScroll("mescroll" + index, {
+                //下拉刷新
+                down: {
+                    isLock: true, //锁定下拉
+                },
+                //上拉加载的配置项
+                up: {
+                    callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                    noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                    empty: {
+                        tip: "暂无相关数据~", //提示
+                    },
+                    clearEmptyId: "dataList" + index,
+                    htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                    htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                    toTop: { //配置回到顶部按钮
+                        src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                        //offset : 1000
+                    }
+                }
+            });
+            return mescroll;
+        }
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            var dataIndex = curNavIndex; //记录当前联网的nav下标,防止快速切换时,联网回来curNavIndex已经改变的情况;
+            getListDataFromNet(dataIndex, page.num, page.size, function (pageData) {
+                //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+                //console.log("dataIndex="+dataIndex+", curNavIndex="+curNavIndex+", page.num="+page.num+", page.size="+page.size+", pageData.length="+pageData.length);
+
+                //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                //mescrollArr[dataIndex].endByPage(pageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+
+                //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                //mescrollArr[dataIndex].endBySize(pageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+
+                //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+                //mescrollArr[dataIndex].endSuccess(pageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+
+                //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                mescrollArr[dataIndex].endSuccess(pageData.length);
+
+                //设置列表数据
+                setListData(pageData, dataIndex);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescrollArr[dataIndex].endErr();
+            });
+        }
+
+        /*设置列表数据
+         * pageData 当前页的数据
+         * dataIndex 数据属于哪个nav */
+        function setListData(pageData, dataIndex) {
+            var listDom = document.getElementById("dataList" + dataIndex);
+            for (var i = 0; i < pageData.length; i++) {
+                var pd = pageData[i];
+                var fh = '';
+                var bt = '';
+                var time = '';
+
+                if (type > 0) {
+                    if (pd.o_state == 1) {
+                        fh = '<span class="my_publish_hint rt">参团中</span>';
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    } else if (pd.o_state == 2) {
+                        fh = '<span class="my_publish_hint rt">等待发货</span>';
+                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a href="tel:400-027-1888">联系客服</span></a></div>';
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    } else if (pd.o_state == 3) {
+                        fh = '<span class="my_publish_hint rt">等待收货</span>';
+                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="logistics_info(this)">发货信息</span></div><div class="my_publish_share rt hs" data-id="' + pd.o_id + '" onclick="confirms(this)"><span>确认收货</span></div>';
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    } else if (pd.o_state == 4) {
+                        fh = '<span class="my_publish_hint rt">等待评价</span>';
+                        bt = '<div class="my_publish_share rt hs" data-id="' + pd.o_id + '"><span onclick="review_order(this)">评价商品</span></div>';
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    } else if (pd.o_paystate > 2) {
+                        fh = '<span class="my_publish_hint rt">退款/售后</span>';
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    } else if (pd.o_state == 5) {
+                        fh = '<span class="my_publish_hint rt ls">已完成订单</span>';
+                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span>随便逛逛</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    }
+                } else {
+                    if (pd.o_paystate == 1) {
+                        if (pd.o_isdelete == 2) {
+                            fh = '<span class="my_publish_hint rt">已取消</span>';
+                            bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                            time = '<p class="rt">截止时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                        } else {
+                            fh = '<span class="my_publish_hint rt">等待付款</span>';
+                            bt = '<div class="my_publish_share rt hs" data-id="' + pd.o_id + '" price="' + pd.o_totalmoney + '" onclick="pay(this)"><span>付款</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="cancel(this)"><span>取消订单</span></div>';
+                            time = '<p class="rt">截止时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                        }
+                    } else if (pd.o_paystate == 2 && pd.o_state == 1) {
+                        fh = '<span class="my_publish_hint rt">等待揭晓</span>';
+                        bt = '<div class="my_publish_share rt my_pub_share" onclick="" data-id="' + pd.o_id + '"><img src="__STATIC__/image/orderpai/fenxiang.png" /><span>分享商品</span></div>';
+                        time = '<p class="rt">截止时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    } else if (pd.o_state == 10) {
+                        if (pd.o_paystate == 3) {
+                            fh = '<span class="my_publish_hint rt">退款中</span>';
+                            bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="refund_info(this)">退款详情</span></div>';
+
+                        } else if (pd.o_paystate == 4) {
+                            fh = '<span class="my_publish_hint rt ls">已完成退款</span>';
+                            bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span onclick="refund_info(this)">退款详情</span></div><div class="my_publish_share rt" data-id="' + pd.o_id + '" onclick="del(this)"><span>删除订单</span></div>';
+                        }
+                        time = '<p class="rt">揭晓时间 ' + msToDate(pd.g_endtime * 1000).wasTime;
+                    }
+                }
+
+                var str = '<div class="my_publish_tit clear">';
+                str += '<a href="/member/shop/index/store_id/'+ pd.store_id + '">';
+                str += '<span class="my_publish_bh lf">';
+                str += '<img src="' + pd.store_logo + '" alt="">' + pd.stroe_name + '</span></a>';
+                str += fh;
+                str += '</div>';
+                str += '<a href="/member/orderpai/index/o_id/' + pd.o_id + '">';
+                str += '<div class="my_publish_main clear">';
+                str += '<div class="my_publish_img lf">';
+                str += '<img src="' + pd.gp_img + '">';
+                str += '</div>';
+                str += '<div class="my_publish_text lf">';
+                str += '<p>' + pd.g_name + '</p>';
+                str += '<div class="my_publish_price clear">';
+                str += '<span class="my_publish_new">' + pd.o_money;
+                str += '<span>￥' + pd.gp_market_price + '</span>';
+                str += '</span>';
+                str += '<span class="my_publish_inventory rt">x';
+                str += '<span>' + pd.gp_num + '</span>';
+                str += '</span>';
+                str += '</div>';
+                str += '</div>';
+                str += '</div>';
+                str += '</a>';
+                str += '<div class="my_publish_data clear">';
+                str += '<p class="lf">含' + pd.pai_num + '份幸运码</p>';
+                str += time;
+                str += '</p>';
+                str += '</div>';
+                str += '<div class="my_publish_btn clear">';
+                str += bt;
+                str += '</div>';
+
+                var liDom = document.createElement("div");
+                liDom.className = "my_publish_list";
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+            }
+        }
+
+        /*联网加载列表数据
+         在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+         请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+         实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+         * */
+        function getListDataFromNet(curNavIndex, pageNum, pageSize, successCallback, errorCallback) {
+            if (type > 0) {
+                var status = 10;
+                if (curNavIndex == 1) {
+                    status = 11;
+                } else if (curNavIndex == 2) {
+                    status = 12;
+                } else if (curNavIndex == 3) {
+                    status = 13;
+                } else if (curNavIndex == 4) {
+                    status = 14;
+                } else if (curNavIndex == 5) {
+                    status = 15;
+                }
+            } else {
+                var status = 0;
+                if (curNavIndex == 1) {
+                    status = 1;
+                } else if (curNavIndex == 2) {
+                    status = 2;
+                } else if (curNavIndex == 3) {
+                    status = 3;
+                } else if (curNavIndex == 4) {
+                    status = 4;
+                }
+            }
+
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/member/Orderpai/getorderlist/status/' + status + '/page/' + pageNum + '/size/' + pageSize,
+                    dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.data.length; i++) {
+                            listData.push(data.data[i]);
+                        }
+
+                        //回调
+                        successCallback(listData);
+                    },
+                    error: errorCallback
+                });
+            }, 500)
+        }
+    });
+
+    //确认收货
+    function confirms(obj) {
+        var o_id = $(obj).attr('data-id');
+        layer.confirm("是否确认收货？", {
+            title: false,/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['取消', '确认'], //按钮
+            btn2: function (index) {
+                //按钮2的回调
+                $.ajax({
+                    type: 'GET',
+                    url: '/member/orderpai/confirm_order/o_id/' + o_id,
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            }, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            });
+                            layer.close(index);
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    //删除订单
+    function del(obj) {
+        var o_id = $(obj).attr('data-id');
+        layer.confirm("是否确认删除该订单？", {
+            title: false,/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['取消', '确认'], //按钮
+            btn2: function (index) {
+                //按钮2的回调
+                $.ajax({
+                    type: 'GET',
+                    url: '/member/orderpai/delete_order/o_id/' + o_id,
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            }, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            });
+                            layer.close(index);
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    //取消订单
+    function cancel(obj) {
+        var o_id = $(obj).attr('data-id');
+        layer.confirm("是否确认取消该订单？", {
+            title: false,/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['取消', '确认'], //按钮
+            btn2: function (index) {
+                //按钮2的回调
+                $.ajax({
+                    type: 'GET',
+                    url: '/member/orderpai/cancel_order/o_id/' + o_id,
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            }, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                time: 2000
+                            });
+                            layer.close(index);
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    // 申请退款
+    function apply_refund() {
+        layer.msg("<span style='color:#fff'>功能建设中...~</span>", {
+            time: 2000
+        });
+    }
+
+    // 退款详情
+    function refund_info() {
+        layer.msg("<span style='color:#fff'>功能建设中，如急需查看请联系客服哦~</span>", {
+            time: 2000
+        });
+    }
+
+    // 评价商品
+    function review_order(obj) {
+        var o_id = $(obj).parent(".my_publish_share").attr('data-id');
+        window.location.href = "/member/review/review_add/o_id/" + o_id;
+    }
+
+    // 物流详情
+    function logistics_info(obj){
+        var o_id = $(obj).parent(".my_publish_share").attr('data-id');
+        window.location.href = "/member/Orderpai/order_logistics/o_id/" + o_id;
+    }
+
+    //关闭浮动
+    $(".close").click(function () {
+        $(".ftc_wzsf").hide();
+        $(".mm_box li").removeClass("mmdd");
+        $(".mm_box li").attr("data", "");
+        i = 0;
+        // is_setorder();
+    });
+
+    //点击安全支付
+    function pay(obj) {
+        var o_id = $(obj).attr('data-id');
+        var prices = $(obj).attr('price');
+        $('.all_money').text(prices);
+        $('#o_id').val(o_id);
+        $(".ftc_wzsf").show();
+    }
+
+//     //数字显示隐藏
+//     $(".xiaq_tb").click(function () {
+
+//         $(".numb_box").slideUp(500);
+//     });
+//     $(".mm_box").click(function () {
+//         $(".numb_box").slideDown(500);
+//     });
+//     //点击数字
+//     var i = 0;
+//     $(".nub_ggg li .zf_num").click(function () {
+// //        var txt = $(this).text();
+//         if (i < 6) {
+// //            $(".mm_box li").eq(i).html(txt);
+// //            setTimeout(function () {
+// //                $(".mm_box li").eq(i - 1).html("");
+// //                $(".mm_box li").eq(i - 1).addClass("mmdd");
+// //            }, 100);
+//             $(".mm_box li").eq(i).addClass("mmdd");
+//             $(".mm_box li").eq(i).attr("data", $(this).text());
+//             i++
+//             if (i == 6) {
+//                 setTimeout(function () {
+//                     var pwd = "";
+//                     $(".mm_box li").each(function () {
+//                         pwd += $(this).attr("data");
+//                     });
+
+//                     md5_pwd = hex_md5(pwd);
+
+//                     // 支付请求
+//                     var o_ids = $("#o_id").val();
+//                     $.ajax({
+//                         url: "/member/Orderpai/order_pay",
+//                         dataType: 'json',
+//                         type: 'POST',
+//                         data: { o_id: o_ids, pwd: md5_pwd },
+//                         success: function (data) {
+//                             if (data.status == 2) {
+//                                 $(".mm_box li").removeClass("mmdd");
+//                                 $(".mm_box li").attr("data", "");
+//                                 i = 0;
+//                                 layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+//                                     time: 2000
+//                                 });
+//                             } else {
+//                                 window.location.href = "/member/orderpai/pay_result/o_id/" + o_ids;
+//                             }
+//                         }
+//                     });
+//                 }, 200)
+//             }
+//         }
+//     });
+//     $(".nub_ggg li .zf_del").click(function () {
+//         if (i > 0) {
+//             i--
+//             $(".mm_box li").eq(i).removeClass("mmdd");
+//             $(".mm_box li").eq(i).attr("data", "");
+//         }
+//     });
+//     $(".nub_ggg li .zf_empty").click(function () {
+//         $(".mm_box li").removeClass("mmdd");
+//         $(".mm_box li").attr("data", "");
+//         i = 0;
+//     });
+        boxInput.init(function () {
+            var pawval = boxInput.getBoxInputValue();
+            
+            setTimeout(function () {
+                md5_pwd = hex_md5(pawval);
+
+                // 支付请求
+                var o_ids = $("#o_id").val();
+                $.ajax({
+                    url: "/member/Orderpai/order_pay",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: { o_id: o_ids, pwd: md5_pwd },
+                    success: function (data) {
+                        if (data.status == 2) {
+                            $(".mm_box li").removeClass("mmdd");
+                            $(".mm_box li").attr("data", "");
+                            i = 0;
+                            layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                                time: 2000
+                            });
+                            $(".realInput").val('')
+                            boxInput.setValue();
+                        } else {
+                            window.location.href = "/member/orderpai/pay_result/o_id/" + o_ids;
+                        }
+                    }
+                });
+            }, 200)
+        });
+</script> {/block}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>系统管理|{:config('system.title')}</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/content.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/public.css"  />
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__JS__/bootstrap-fileinput-master/css/fileinput.min.css">
+<link href="__CSS__/style.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/Public.js"></script>
+<script type="text/javascript" src="__JS__/winpop.js"></script>
+<script type="text/javascript" src="__JS__/check.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__CSS__/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script type="text/javascript" src="__JS__/bootstrap-fileinput-master/js/locales/zh.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/cmmphp.css"  />
+<script>
+
+$(function(){
+	$("#h_pic").fileinput({
+		language: 'zh', //设置语言  
+	    showUpload: false,
+	    showCaption: false,
+	    browseClass: "btn btn-primary btn-lg",
+	    allowedPreviewTypes: ['image'],  
+	    allowedFileTypes: ['image'],  
+	    allowedFileExtensions: ['jpg', 'png', 'gif'],
+	    previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	    overwriteInitial: false,
+	    initialPreviewAsData: true,
+        previewSettings: {
+            image: {width: "100px", height: "100px"},
+        },
+	    {if condition="$homeset['h_pic'] neq ''"}
+        initialPreview: [
+           "__ROOT__{$homeset.h_pic}",
+        ],
+        initialPreviewConfig: [
+            {caption: "图片", size: 329892, width: "120px", url: "{:url('home/deleteimage')}", key: {$homeset['h_id']}},
+        ]
+		{/if}
+
+	});
+});
+</script>
+</head>
+
+<body>
+
+<div id="content">
+	<h1>首页 &gt; 首页管理 &gt; 首页设置</h1>
+    <h2>
+    	<div class="h2_left">
+        	<a href="javascript:;" class="f5" onclick="f5();">刷新</a>
+            <a href="javascript:history.back();" class="Retreat">后退</a>
+            <a href="javascript:history.go(1);" class="Advance">前进</a>
+        </div>
+    </h2>
+    <h3>
+    	<a href="{:url('home/index')}?type=1" class="h3a">企业介绍</a>
+		<a href="{:url('home/gclass')}">首页商品类目</a>
+    </h3>
+    <form action="{:url('home/homeEdit_do')}" method="post" id="form" onsubmit="return check();" enctype="multipart/form-data">
+    <dl id="cdl">
+
+    	<dd>
+        	<span class="dd_left">企业封面图片：</span>
+            <span class="dd_right">
+            	<input type="file" class="form-control" id="h_pic" name="h_pic" aria-required="true" aria-invalid="true">
+                <font></font>
+            </span>
+        </dd>
+    	<dd id="textarea-web">
+        	<span class="dd_left">企业简介：</span>
+            <span class="dd_right">
+				<textarea class="textarea" name="h_text" rows="9">{$homeset.h_text}</textarea>
+            </span>
+        </dd>
+		<input type="hidden" name="h_id" class="qtext" value="{$homeset.h_id}">
+		<input type="hidden" name="h_type" class="qtext" value="{$homeset.h_type}">
+        <dd><input type="submit" value="提交" class="submit"></dd>
+    </dl>
+    </form>
+</div>
+</body>
+</html>

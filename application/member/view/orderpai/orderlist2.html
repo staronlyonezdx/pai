@@ -1,0 +1,354 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/dropload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/my_publish1.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!--<div class="header_nav">-->
+    <!--<div class="header_view clear">-->
+        <!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+            <!--<img src="__STATIC__/image/goods/icon_nav_back@2x.png">-->
+        <!--</div>-->
+        <!--<div class="header_tit">-->
+            <!--我参团的-->
+            <!--<div class="header_backs rt">-->
+                <!--<img src="__STATIC__/image/goods/icon_nav_sousuo@2x.png">-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
+{/block}
+{block name="content"}
+<main>
+    <div id="wrapper">
+        <ul class="orderlist_ul clear">
+            <li class="title_active">
+                <span>全部</span>
+            </li>
+            <li>
+                <span> 待付款</span>
+            </li>
+            <li>
+                <span>参团中</span>
+            </li>
+            <li>
+                <span>未团中</span>
+            </li>
+            <li>
+                <span>已关闭</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="swiper-container">
+        <button id="test">test btn</button>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="content">
+                    <div class="lists">
+                        <div class="my_publish_list">
+                            <div class="my_publish_tit clear">
+                                <span class="my_publish_bh lf"><img src="__STATIC__/image/orderpai/dp@2x.png" alt="">商家名字</span>
+                                <span class="my_publish_hint rt">等待付款</span>
+                            </div>
+                            <div class="my_publish_main clear">
+                                <div class="my_publish_img lf">
+                                    <img src="">
+                                </div>
+                                <div class="my_publish_text lf">
+                                    <p>AIR JORDAN 1 HOMAGE TO HOME  芝加哥禁穿阴阳 44.5-45</p>
+                                    <div class="my_publish_price clear">
+                              <span class="my_publish_new">
+                                ￥3099.00
+                                <span>￥3899.00</span>
+                              </span>
+                                        <span class="my_publish_inventory rt">x
+                                <span>1</span>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my_publish_data clear">
+                                <p class="lf">
+                                    含5份吖吖码
+                                </p>
+                                <p class="rt">
+                                    2018-06-24 12:32
+                                    <span>后截止</span>
+                                </p>
+                            </div>
+                            <div class="my_publish_btn clear">
+                                <div class="my_publish_lf_text lf">
+                                    <span class="lf">需支付</span>
+                                    <p class="lf"><span>￥</span>3099.00</p>
+                                </div>
+                                <div class="my_publish_modification rt">
+                                    <span>付款</span>
+                                </div>
+                                <div class="my_publish_share rt">
+                                    <span>取消订单</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my_publish_list">
+                            <div class="my_publish_tit clear">
+                                <span class="my_publish_bh lf"><img src="__STATIC__/image/orderpai/dp@2x.png" alt="">商家名字</span>
+                                <span class="my_publish_hint rt">等待揭晓</span>
+                            </div>
+                            <div class="my_publish_main clear">
+                                <div class="my_publish_img lf">
+                                    <img src="">
+                                </div>
+                                <div class="my_publish_text lf">
+                                    <p>AIR JORDAN 1 HOMAGE TO HOME  芝加哥禁穿阴阳 44.5-45</p>
+                                    <div class="my_publish_price clear">
+                              <span class="my_publish_new">
+                                ￥3099.00
+                                <span>￥3899.00</span>
+                              </span>
+                                        <span class="my_publish_inventory rt">库存x
+                                <span>1</span>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my_publish_data clear">
+                                <p class="lf">
+                                    含5份吖吖码
+                                </p>
+                                <p class="rt">
+                                    2018-06-24 12:32
+                                    <span>截止时间</span>
+                                </p>
+                            </div>
+                            <div class="my_publish_btn clear">
+                                <div class="my_publish_share my_pub_share rt">
+                                    <img src="__STATIC__/image/orderpai/fenxiang.png" alt="">
+                                    <span>分享商品</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my_publish_list">
+                            <div class="my_publish_tit clear">
+                                <span class="my_publish_bh lf"><img src="__STATIC__/image/orderpai/dp@2x.png" alt="">商家名字</span>
+                                <span class="my_publish_hint rt">退款中</span>
+                            </div>
+                            <div class="my_publish_main clear">
+                                <div class="my_publish_img lf">
+                                    <img src="">
+                                </div>
+                                <div class="my_publish_text lf">
+                                    <p>AIR JORDAN 1 HOMAGE TO HOME  芝加哥禁穿阴阳 44.5-45</p>
+                                    <div class="my_publish_price clear">
+                               <span class="my_publish_new">
+                                ￥3099.00
+                                <span>￥3899.00</span>
+                              </span>
+                                        <span class="my_publish_inventory rt">库存x
+                                <span>1</span>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my_publish_data clear">
+                                <p class="lf">
+                                    含5份吖吖码
+                                </p>
+                                <p class="rt">
+                                    2018-06-24 12:32
+                                    <span>后截止</span>
+                                </p>
+                            </div>
+                            <div class="my_publish_btn clear">
+                                <div class="my_publish_lf_text lf">
+                                    <span class="lf">退款金额</span>
+                                    <p class="lf"><span>￥</span>3099.00</p>
+                                </div>
+                                <div class="my_publish_share rt">
+                                    <span>退款详情</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my_publish_list">
+                            <div class="my_publish_tit clear">
+                                <span class="my_publish_bh lf"><img src="__STATIC__/image/orderpai/dp@2x.png" alt="">商家名字</span>
+                                <span class="my_publish_hint my_publish_green rt">已完成退款</span>
+                            </div>
+                            <div class="my_publish_main clear">
+                                <div class="my_publish_img lf">
+                                    <img src="">
+                                </div>
+                                <div class="my_publish_text lf">
+                                    <p>AIR JORDAN 1 HOMAGE TO HOME  芝加哥禁穿阴阳 44.5-45</p>
+                                    <div class="my_publish_price clear">
+                              <span class="my_publish_new">
+                                ￥3099.00
+                                <span>￥3899.00</span>
+                              </span>
+                                        <span class="my_publish_inventory rt">库存x
+                                <span>1</span>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my_publish_data clear">
+                                <p class="lf">
+                                    含5份吖吖码
+                                </p>
+                                <p class="rt">
+                                    2018-06-24 12:32
+                                    <span>后截止</span>
+                                </p>
+                            </div>
+                            <div class="my_publish_btn clear">
+                                <div class="my_publish_lf_text lf">
+                                    <span class="lf">已退还</span>
+                                    <p class="lf"><span>￥</span>3.40</p>
+                                </div>
+
+                                <div class="my_publish_share rt">
+                                    <span>删除订单</span>
+                                </div>
+                                <div class="my_publish_share rt">
+                                    <span>退款详情</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" >
+                <div class="content">
+                    <div class="lists">
+
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" >
+                <div class="content">
+                    <div class="lists">Slide3</div>
+                </div>
+            </div>
+            <div class="swiper-slide" >
+                <div class="content">
+                    <div class="lists">Slide4</div>
+                </div>
+            </div>
+            <div class="swiper-slide" >
+                <div class="content">
+                    <div class="lists">Slide5</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/orderpai/iscroll.js"></script>
+<script type="text/javascript" src="__JS__/goods/swiper.min.js"></script>
+<script type="text/javascript" src="__STATIC__/lib/dropload/dropload.min.js"></script>
+<script type="text/javascript" src="__JS__/goods/my_publish1.js"></script>
+<script>
+    var wids=$(".orderlist_ul li").width()*$(".orderlist_ul li").length;
+    $(".orderlist_ul").width(wids);
+    console.log(wids);
+    var myscroll=new iScroll("wrapper",{
+        scrollX: true,
+        scrollY: false,
+        hScrollbar:false,
+        vScrollbar : false,
+        vScroll:false
+    })
+    $(".orderlist_ul li").click(function(){
+        var ind=$(this).index();
+        console.log(ind)
+        $(".orderlist_ul li").removeClass("title_active");
+        $(this).addClass("title_active");
+        mySwiper.slideTo(ind, 500, false);//切换到第一个slide，速度为1秒
+    })
+    var mySwiper = new Swiper ('.swiper-container', {
+        direction: 'horizontal',
+        loop: true,
+        loop: false,//循环
+        // touchMoveStopPropagation : false,//阻止touchmove冒泡事件的属性
+        onSlideChangeStart: function (swiper) {
+            var index = swiper.activeIndex;
+            // $(".swiper-slide").html('');
+            // $(".swiper-slide").eq(index).html("fdfgdf");
+            // alert(index);
+            $(".orderlist_ul li").removeClass("title_active");
+            $(".orderlist_ul li").eq(index).addClass("title_active");
+        }
+    })
+    // 页数
+    var page = 0;
+    // 每页展示5个
+    var size = 2;
+    // dropload
+    $('.content').dropload({
+        scrollArea : window,
+        loadDownFn : function(me){
+            page++;
+            // 拼接HTML
+            var result = '';
+            $.ajax({
+                type: 'GET',
+                url: 'http://ons.me/tools/dropload/json.php?page='+page+'&size='+size,
+                dataType: 'json',
+                success: function(data){
+                    var arrLen = data.length;
+                    if(arrLen > 0){
+                        for(var i=0; i<arrLen; i++){
+                            result +=   '<a class="item opacity" href="'+data[i].link+'">'
+                                +'<img src="'+data[i].pic+'" alt="">'
+                                +'<h3>'+data[i].title+'</h3>'
+                                +'<span class="date">'+data[i].date+'</span>'
+                                +'</a>';
+                        }
+                        // 如果没有数据
+                    }else{
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        // 插入数据到页面，放到最后面
+                        $('.lists').append(result);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },1000);
+                },
+                error: function(xhr, type){
+                    alert('Ajax error!');
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        }
+    });
+    $(function(){
+        $("#test").click(function(){
+            // 动态获取我参团的列表页数据
+            var page = 0;//第几页
+            var size = 5;//每页取几条
+            var ind = 0;//0全部 1待付款 2参团中 3未团中 4已关闭
+            $.ajax({
+                type: 'post',
+                url: "/member/orderpai/getorderlist2/page/" + page + '/size/' + size + '/ind/' + ind,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+    })
+</script>
+{/block}

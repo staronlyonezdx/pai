@@ -1,0 +1,202 @@
+<?php
+/**
+* 腾讯云短信接口Service
+*-------------------------------------------------------------------------------------------
+* 版权所有 杭州市拍吖吖科技有限公司
+* 创建日期 2018-06-20
+* 版本 v.1.0.0
+* 网站：www.pai.com
+*--------------------------------------------------------------------------------------------
+*/
+namespace app\data\service\sms;
+use app\data\service\member\MemberService;
+use RedisCache\RedisCache;
+use think\Config;
+use think\Session;
+
+use Sms\SmsSingleSender;
+use Sms\SmsMultiSender;
+use Sms\SmsVoiceVerifyCodeSender;
+use Sms\SmsVoicePromptSender;
+use Sms\SmsStatusPuller;
+use Sms\SmsMobileStatusPuller;
+use Sms\VoiceFileUploader;
+use Sms\FileVoiceSender;
+use Sms\TtsVoiceSender;
+use app\data\service\BaseService as BaseService;
+
+class SmsService extends BaseService
+{
+    // 短信应用SDK AppID
+    protected $appid;
+
+    // 短信应用SDK AppKey
+    protected $appkey;
+
+    // 短信模板ID，需要在短信应用中申请
+    protected $templateId;
+
+    // 签名
+    protected $smsSign;
+
+    // 短信有效时长（分钟）
+    protected $lifeTime;
+
+    // 短信几秒之后可以重发
+    protected $reliveTime;
+
+    // 需要发送短信的手机号码
+    // $phoneNumbers = ["21212313123", "12345678902", "12345678903"];
+    // $phoneNumbers = ["18258421827"];
+
+    public function __construct()
+    {
+        $this->appid = Config::get('sms.appid');
+        $this->appkey = Config::get('sms.appkey');
+        $this->templateId = Config::get('sms.templateId');
+        $this->smsSign = Config::get('sms.smsSign');
+        $this->lifeTime = Config::get('sms.lifeTime');
+        $this->reliveTime = Config::get('sms.reliveTime');
+    }
+
+    /**
+     * 单发短信
+     * 创建人 刘勇豪
+     * 时间 2018-06-20 10:51:00
+     */
+    public function smsSingleSender($phone)
+    {
+        // 检查是否可以发送
+        $res = $this->checkUp($phone);
+        if(!$res['status']){
+            return ['status'=>0,'msg'=>$res['msg'],'data'=>$res['data']];
+        }
+
+        // 生成验证码
+        $randNum = $this->setNumRedis($phone);//验证码
+        $lifeTime = $this->lifeTime;
+        // 单发短信
+        try {
+            $ssender = new SmsSingleSender($this->appid, $this->appkey);
+            //您的验证码为：{1}有效时间为{2}分
+            $result = $ssender->send(0, "86", $phone,
+                "【智胜电商】您的验证码为：{$randNum}有效时间为{$lifeTime}分", "", "");
+            $rsp = json_decode($result,true);
+            return ['status'=>1,'msg'=>"验证码已发送！",'data'=>''];
+        } catch(\Exception $e) {
+            return ['status'=>0,'msg'=>'短信发送失败！','data'=>$e];
+        }
+    }
+
+    /**
+     * 检测验证码是否在正确或过期
+     * 创建人 刘勇豪
+     * 时间 2018-06-20 10:51:00
+     */
+    public function checkSmsCode($num,$phone)
+    {
+        if(!isset($num) || empty($num)){
+            return ['status'=>0,'msg'=>'请输入验证码！'];
+        }
+
+        if(!isset($phone) || !preg_match("/^1[3456789]{1}\d{9}$/",$phone)){
+            return ['status'=>0,'msg'=>'手机号未填写，或手机号非法！'];
+        }
+        $redis = RedisCache::getInstance();
+        $smsCode = $redis->get('smsCode_'.$phone);
+        $codeBirthTime = $redis->get('codeBirthTime_'.$phone);
+        if(empty($smsCode) || empty($codeBirthTime)){
+            return ['status'=>0,'msg'=>'您还没有发送验证码，请点击发送！','data'=>''];
+        }
+
+
+        $lifeTime = $this->lifeTime;// 有效时间(分钟)
+        $nowTime = time();
+
+        if($nowTime > ($codeBirthTime + $lifeTime*60)){
+            return ['status'=>0,'msg'=>'短信验证码已失效，请重新发送！','data'=>''];
+        }
+
+        $mysmsCode = $phone . '_' . $num;
+        if($smsCode != $mysmsCode){
+            return ['status'=>0,'msg'=>'验证码错误！','data'=>''];
+        }
+        return ['status'=>1,'msg'=>'验证码正确！','data'=>''];
+
+    }
+
+    /**
+     * 检查配置文件
+     * 创建人 刘勇豪
+     * 时间 2018-06-20 10:51:00
+     */
+    protected function checkSmsConfig(){
+        $smsConfig = Config::get('sms');
+        $error_msg = '';
+        if(empty($smsConfig)){
+            $error_msg = "您还没有给短信接口添加配置文件，请联系管理员添加次配置文件！";
+        }
+        return $error_msg;
+    }
+    /**
+     * 生成并保存验证码
+     * 创建人 刘勇豪（修改人：邓赛赛）
+     * 时间 2018-06-20 10:51:00
+     */
+    protected function setNumRedis($phone){
+        //生成随机数
+        $min = 1000;
+        $max = 9999;
+        $randNum = rand($min,$max);
+        $lifeTime = $this->lifeTime;
+        $smsCode = $phone . '_' . $randNum;
+        $redis = RedisCache::getInstance();
+        //保存时时间
+        $redis->set('codeBirthTime_'.$phone,time());
+        //此手机号、验证码、有限时长
+        $redis->set('smsCode_'.$phone,$smsCode,$lifeTime*60);
+        return $randNum;
+    }
+
+    /**
+     * 检测是否可以发送验证码
+     * 创建人 刘勇豪（修改人：邓赛赛）
+     * 时间 2018-06-20 10:51:00
+     */
+    protected function checkUp($phone){
+        // 检查手机号
+        if(!preg_match("/^1[3456789]{1}\d{9}$/",$phone)){
+            return ['status'=>0,'msg'=>'手机号非法！','data'=>''];
+        }
+        $en_phone = $this->encrypt($phone);
+        $member = new MemberService();
+        $where = [
+            'm_mobile'=>$en_phone,
+            'is_jq'=>1
+        ];
+        $is_jq = $member->get_count($where);
+        if($is_jq){
+            return ['status'=>0,'msg'=>"此账号已被使用,请联系管理员",'data'=>''];
+        }
+        // 检测是否发送频繁
+        $redis = RedisCache::getInstance();
+        $codeBirthTime = $redis->get('codeBirthTime_'.$phone);
+        $nowTime = time();
+        $reliveTime = $this->reliveTime;
+        //保存时时间
+        $data['codeBirthTime'] = $codeBirthTime;
+        //现在时间
+        $data['nowTime'] = $nowTime;
+        //有效时长
+        $data['reliveTime'] = $reliveTime;
+
+        $smsCode = $redis->get('smsCode_'.$phone);
+        if(!empty($smsCode)){
+            $differTime =  $codeBirthTime + $reliveTime - $nowTime;
+            if($differTime > 0){
+                return ['status'=>0,'msg'=>"发送太过频繁，请".$differTime."秒之后再发！",'data'=>$data];
+            }
+        }
+        return ['status'=>1,'msg'=>"OK",'data'=>$data];
+    }
+}

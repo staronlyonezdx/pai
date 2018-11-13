@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请普通/商家会员列表</title>
+</head>
+<body>
+<h2>邀请所得（{$list.total_money ?? 0}）</h2>
+<div><a href="/member/core/invitations_list/m_type/0">会员</a>-----------------<a href="/member/core/invitations_list/m_type/1">商家</a></div>
+    <div>
+        {volist name='list.list' id='vo'}
+        <ul>
+            <li>{$vo.m_name ?? '吖吖'}</li>
+            <li>{$vo.m_mobile ?? ''}</li>
+
+            <li>{if condition='$vo.m_type ==0'}普通会员{else if condition='$vo.m_type ==1'}商户{/if}</li>
+        </ul>
+        {/volist}
+        -----------------------------------------------
+        <div>当前页{$list.page}</div>
+        <div>当前页条数{$list.num}</div>
+        <div>每页条数{$list.page_size}</div>
+        <div>总条数{$list.total_num}</div>
+        <div>总页数{$list.total_page}</div>
+        <div>当前页{$list.page}</div>
+    </div>
+
+
+</body>
+</html>

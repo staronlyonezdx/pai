@@ -1,0 +1,156 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/dropload/dropload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/prize_list/prize_list.css">
+{/block}
+
+{block name="content"}
+<div class="header_nav">
+        <div class="header_view">
+            <div class="header_tit">
+                <span>通告列表</span>
+                <div class="header_back">
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+                </div>
+            </div>
+        </div>
+    </div>
+<main>
+
+
+    <div class="no-message">
+        <img src="/static/image/systemmsg/icon_xiaoxi@2x.png"/>
+        <p>天呐~这里目前没有任何消息~</p>
+    </div>
+
+
+
+    <div class="prize_list_wrap">
+        <div class="prize_list_content">
+            <!--<a href="/popularity/popularitygoods/prize_info/a_id/'+res.list[i].a_id+'">-->
+            <!--<div class="prize_list_item">-->
+                <!--<img src="'+res.list[i].a_img+'" alt="">-->
+                <!--<img src="__STATIC__/image/systemmsg/icon_zhiding@2x.png" alt="" class="zhiding">-->
+                <!--<div class="prize_list_info">-->
+                    <!--<span class="prize_list_name">hhhhhhhhhh</span>-->
+                    <!--<span class="prize_list_detail">ffffffff</span>-->
+                    <!--<span class="prize_list_date">mmmmmmmmmmm</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</a>-->
+        </div>
+    </div>
+
+</main>
+{/block}
+
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/dropload/dropload.js"></script>
+<script>
+$(".header_back").click(function(){
+    if(window.sessionStorage.getItem("backUrl")!=null){
+        window.location.href="/popularity/popularitygoods/share_list/"
+        window.sessionStorage.removeItem("backUrl");
+    }else{
+        window.history.back();
+    }
+})
+
+
+// 时间戳转换时间S
+function getMyDate(str){
+    var oDate = new Date(str),
+    oYear = oDate.getFullYear(),
+    oMonth = oDate.getMonth()+1,
+    oDay = oDate.getDate(),
+    oHour = oDate.getHours(),
+    oMin = oDate.getMinutes(),
+    oSen = oDate.getSeconds(),
+    oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+getzf(oMin) +':'+getzf(oSen);//最后拼接时间            
+    return oTime;        
+};        
+//补0操作      	
+function getzf(num){          
+    if(parseInt(num) < 10){              
+        num = '0'+num;        
+    }          	
+    return num;      	
+}
+// 时间戳转换时间E
+
+    var itemIndex = 0;//点击的索引值
+    var tabLoadEnd = false;//加载后已没有数据
+    var page = 0;
+    // 上拉加载
+    var dropload = $('.prize_list_wrap').dropload({
+        scrollArea: window,
+        domDown: {
+            domClass: 'dropload-down',
+            domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+            domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            domNoData: '<div class="dropload-noData">已无数据</div>'
+        },
+        loadDownFn: function (me) {
+            setTimeout(function () {
+                if (tabLoadEnd) {
+                    me.resetload();
+                    me.lock();
+                    me.noData();
+                    me.resetload();
+                    return;
+                }
+                page++;
+                $.ajax("/popularity/popularitygoods/prize_list/page/" + page, {
+                    data: {},
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'get',//HTTP请求类型
+                    success: function (res) {
+                        // console.log(res);
+                        //获得服务器响应
+                        var html = '';
+                        
+                        if (res.list.length > 0) {
+                            for (var i = 0; i < res.list.length; i++) {
+                                var datas=getMyDate(res.list[i].a_addtime*1000);
+                                console.log(datas)
+                                if (res.new_num > 0) {
+                                    res.new_num--;
+                                } else {
+                                    tabLoadEnd = true;
+                                    break;
+                                }
+                                html += '<a href="/popularity/popularitygoods/prize_info/a_id/'+res.list[i].a_id+'">'
+                                html += '<div class="prize_list_item">';
+                                html += '<img src="'+res.list[i].a_img+'" alt="">';
+                                if(i == 1){
+                                     html += '<img src="__STATIC__/image/systemmsg/icon_zhiding@2x.png" alt="" class="zhiding">'
+                                }
+                                html += '<div class="prize_list_info">';
+                                html += '<span class="prize_list_name">'+res.list[i].a_name+'</span>';
+                                html += '<span class="prize_list_detail">'+res.list[i].a_brief+'</span>';
+                                html += '<span class="prize_list_date">'+datas+'</span>';
+                                html += '</div>';
+                                html += '</div>'
+                                html += '</a>'
+                            }
+                            $('.prize_list_content').append(html);
+                        } else {
+                            tabLoadEnd = true;
+                            if ($('.prize_list_item').length == 0) {
+                                $(".dropload-down").css({display: "none"});
+                                // $('.no-message').show();
+                            }
+                            me.noData();
+                        }
+                        me.resetload();
+                    }
+                });
+            }, 500);
+        }
+    });
+</script>
+
+
+{/block}

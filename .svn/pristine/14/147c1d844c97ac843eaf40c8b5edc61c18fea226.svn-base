@@ -1,0 +1,32 @@
+<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+<div sty="text-align:center;margin:10px auto;"></div>
+<script>
+    $(document).ready(function () {
+        function onBridgeReady(){
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',{$jsApiParameters} ,
+                    function(res){
+                        if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                            window.location.href="https://m.paiyy.com.cn/member/wallet/recharge_success/r_id/{$o_id}";
+                        }else{
+                            alert(res.err_msg);
+                            alert('支付失败');
+                            history.back();
+                        }
+                    }
+            );
+        }
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        }else{
+
+            onBridgeReady();
+        }
+    });
+
+</script>

@@ -1,0 +1,65 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/modifydata/use_help.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    {empty name='list'}
+    <div>暂无数据</div>
+    {else /}
+    {volist name='list' id='vo'}
+    <a href="/member/modifydata/help_info/a_id/{$vo.a_id}">
+        <div class="use_search_list">
+            <span>{$vo.a_name}</span>
+            <img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>
+        </div>
+    </a>
+    {/volist}
+    {/empty}
+    <!--<a href="/member/modifydata/help_info/">-->
+    <!--<div class="use_search_list">-->
+    <!--<span>参与流程</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="">-->
+    <!--<div class="use_search_list">-->
+    <!--<span>花生是什么</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="">-->
+    <!--<div class="use_search_list">-->
+    <!--<span>诺丁百利是什么</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="">-->
+    <!--<div class="use_search_list">-->
+    <!--<span>截止时间怎么算</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="">-->
+    <!--<div class="use_search_list">-->
+    <!--<span>花生怎么使用</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--</a>-->
+    <!--<a href="">-->
+    <!--<div class="use_search_list">-->
+    <!--<span>怎么邀请</span>-->
+    <!--<img src="__STATIC__/image/myhome/icon_jump@2x.png" alt=""/>-->
+    <!--</div>-->
+    <!--</a>-->
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+
+</script>
+{/block}

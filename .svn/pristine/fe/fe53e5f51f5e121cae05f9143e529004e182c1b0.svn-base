@@ -1,0 +1,221 @@
+.all_participants_tab{
+    width:7.5rem;
+    background: #fff;
+    height:0.88rem;
+    position: relative;
+    /*line-height: 0.88rem;*/
+}
+.all_participants{
+    width:3.74rem;
+    text-align: center;
+    height:0.35rem;
+    margin-top:0.25rem ;
+}
+.all_participants_border{
+    border-right: 0.01rem solid #e2e2e2;
+}
+.all_participants_border img{
+    display: none;
+}
+.all_participants span{
+    font-size: 0.26rem;
+    color:#000000;
+    font-weight: 600;
+    /*border-right: 0.01rem solid #e2e2e2;*/
+    /*display: inline-block;*/
+}
+.all_participants span img{
+    width:0.24rem;
+    height:0.24rem;
+    margin-left: 0.14rem;
+    margin-top: -0.05rem;
+}
+.all_participants_postion{
+    width:7.5rem;
+    position: absolute;
+    top:1.76rem;
+    left: 0;
+    display: none;
+    z-index:3;
+}
+.all_participants_screen{
+    background: #fff;
+}
+.all_participants_zhezhao{
+    background:rgba(0,0,0,0.12);
+    position: fixed;
+    width:100%;
+    height:100%;
+    top:4.4rem;
+    left: 0;
+    bottom:0;
+}
+.all_participants_list{
+    height:0.88rem;
+    color:#AAAAAA;
+    line-height: 0.88rem;
+    border-top:0.01rem solid #f2f2f2;
+    padding-left: 0.51rem;
+}
+.all_participants_black{
+    color:#000000;
+    font-weight: 600;
+}
+.all_participants_main{
+    margin-top: 0.1rem;
+    background: #fff;
+}
+.all_participants_main_list{
+    padding-top: 0.19rem;
+    padding-bottom: 0.19rem;
+   border-bottom: 0.01rem solid #f2f2f2;
+}
+.all_participants_main_picview{
+    position: relative;
+    width:0.72rem;
+    height:0.72rem;
+    margin-left: 0.3rem;
+}
+.all_participants_main_pic{
+    width:0.72rem;
+    height:0.72rem;
+    border-radius: 50%;
+    overflow: hidden;
+
+}
+.all_participants_main_pic img{
+    width:100%;
+    height:100%;
+}
+.all_participants_zhongpai{
+    position: absolute;
+    bottom:0;
+    left: 0;
+    width:0.62rem;
+    height:0.26rem;
+    z-index:2;
+    width:0.72rem;
+    height:0.76rem;
+}
+.all_participants_zhongpai img{
+    width:100%;
+    height:100%;
+}
+.all_participants_text{
+    width:5.89rem;
+    margin-left: 0.29rem;
+}
+.all_participants_text p{
+    color:#000000;
+    font-size: 0.28rem;
+    font-weight: 600;
+    position: relative;
+    padding: 0 2.5rem 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+.all_participants_text div{
+    color:#787878;
+    font-size: 0.24rem;
+    margin-top: 0.02rem;
+}
+.all_participants_text div img{
+    width:0.32rem;
+    height:0.32rem;
+}
+.all_participants_text p span{
+    color:#787878;
+    font-size: 0.24rem;
+    font-weight: 400;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.all_participants_block{
+    display: block;
+}
+.all_participants_border .all_participants_inline{
+    display: inline-block;
+}
+.paier_detail{
+    width: 100%;
+    height: 3.4rem;
+    background-color: white;
+    position: relative;
+}
+
+.paier_con{
+    position: relative;
+    width:1.36rem;
+    height:1.44rem;
+    margin:0 auto;
+    margin-top: 0.8rem;
+}
+.paier_view{
+    width:1.28rem;
+    height:1.28rem;
+    margin-left: 0.05rem;
+    margin-top: 0.02rem;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.paier_view img{
+    width:100%;
+    height:100%;
+    display: block;
+}
+.paier_view_img{
+    width:1.36rem;
+    height:1.44rem;
+    position: absolute;
+    top:0;
+    left: 0;
+}
+.paier_view_img img{
+    width:100%;
+    height:100%;
+}
+.paier_detail_bg {
+    width: 5.64rem;
+    height: 3.97rem;
+    margin:0 auto;
+    background: url("../../image/orderpai/bg_zhuangshi@2x.png") no-repeat center center;
+    background-size:100% 100%; 
+    overflow: hidden;
+    /* margin-left: 0.89rem; */
+}
+/* .tuanzhong_bg{
+    width: 1.36rem;
+    height: 1.44rem;
+    position: absolute;
+    top: 0.78rem;
+    left: 3.1rem;
+    z-index: 2;
+}
+.tuanzhong{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 0.8rem;
+    left: 3.3rem;
+} */
+.paier_detail_name{
+    text-align: center;
+    margin-top: -1.57rem;
+    font-size: 0.24rem;
+    font-weight: bold;
+}
+.paier_detail_yaya{
+    text-align: center;
+    font-size:0.24rem;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:0.3rem;
+    margin-top: 0.1rem;
+}
+.fdbg {
+    background: url(../../image/orderpai/fdbg.png) no-repeat;
+    background-size: 100% 100%;
+}

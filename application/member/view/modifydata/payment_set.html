@@ -1,0 +1,128 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/address/register.css"> {/block} {block name="header"} {include file="common/header"
+/}
+<!--<div class="header_nav">-->
+<!--<div class="header_view">-->
+<!--&lt;!&ndash;  <div class="header_back">-->
+<!--<img src="__STATIC__/icon/publish/icon_nav_back.png">-->
+<!--</div> &ndash;&gt;-->
+<!--<div class="header_tit">-->
+<!--<div class="header_back" onClick="javascript :history.back(-1);">-->
+<!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+{/block} {block name="content"}
+
+<main>
+    <p class="login_tit">重置支付密码</p>
+    <div class="register_list">
+        <div class="register_inp">
+            <input type="password" name="used_payment_pwd" id="used_payment_pwd" class="tj_mobile" placeholder="旧支付密码">
+        </div>
+    </div>
+
+    <!-- <div class="register_list">
+    <div class="register_inp">
+      <p>旧密码<span></span></p>
+      <input type="password" name="used_payment_pwd" id="used_payment_pwd" placeholder="请输入旧密码">
+    </div>
+  </div> -->
+    <div class="register_list">
+        <div class="register_inp">
+            <input type="password" name="new_payment_pwd" id="new_payment_pwd" class="tj_mobile" placeholder="新支付密码">
+        </div>
+    </div>
+    <!-- <div class="register_list">
+    <div class="register_inp">
+      <p>新密码<span></span></p>
+      <input type="password" name="new_payment_pwd" id="new_payment_pwd" placeholder="请输入6-16位含数字或字母的密码">
+    </div>
+  </div> -->
+    <div class="register_list">
+        <div class="register_inp">
+            <input type="password" name="m_payment_pwd" id="m_payment_pwd" class="tj_mobile" placeholder="确定密码">
+            <a href="/member/register/amnesia_payment"><div class="register_forget_payment">忘记支付密码</div></a>
+        </div>
+    </div>
+    <!--  <div class="register_list">
+    <div class="register_inp">
+      <p>确认密码<span></span></p>
+      <input type="password" name="m_payment_pwd" id="m_payment_pwd" placeholder="请确认新密码">
+    </div>
+  </div> -->
+    <div class="register_btn register register_yellow" id="payment_pwd" disabled="disabled">
+        保存修改
+    </div>
+</main>
+<!-- <a href="/member/register/amnesia_payment">忘记密码</a> -->
+<!-- <div class="register_btn">
+            <input type="hidden" name="address_id" value="{$address_id|default='0'}"/>
+            <button type="submit" id="payment_pwd">保存</button>
+        </div> -->
+{/block} {block name="script"} {include file="common/js_sdk" /}
+<script href="__JS__/set/register.js"></script>
+<script href="__JS__/Public.js"></script>
+<script>
+    $("#payment_pwd").click(function () {
+        var pay_pwd = /^\d{6}$/;
+        var used_payment_pwd = $('#used_payment_pwd').val();
+        var new_payment_pwd = $('#new_payment_pwd').val();
+        var m_payment_pwd = $('#m_payment_pwd').val();
+
+        if(used_payment_pwd == '') {
+            layer.msg("<span style='color:#fff'>请输入六位数的旧支付密码</span>", { time: 2000 });
+            return false;
+        }
+
+        if (!pay_pwd.test(used_payment_pwd)) {
+            layer.msg("<span style='color:#fff'>旧支付密码格式不正确</span>", { time: 2000 });
+            return false;
+        }
+
+        if(new_payment_pwd == '') {
+            layer.msg("<span style='color:#fff'>请输入六位数的新支付密码</span>", { time: 2000 });
+            return false;
+        }
+
+        if (!pay_pwd.test(new_payment_pwd)) {
+            layer.msg("<span style='color:#fff'>新支付密码格式不正确</span>", { time: 2000 });
+            return false;
+        }
+
+        if(m_payment_pwd == '') {
+            layer.msg("<span style='color:#fff'>确认密码不能为空</span>", { time: 2000 });
+            return false;
+        }
+
+        if(new_payment_pwd != m_payment_pwd) {
+            layer.msg("<span style='color:#fff'>新支付密码与确认密码不一致</span>", { time: 2000 });
+            return false;
+        }
+
+        //输入值待做验证,必须为数组和字母组成6-16位,旧密码不能等于新密码,新密码和确认密码保持一致,(第一次设置支付密码时可不输入旧密码)
+        $.ajax({
+            type: "POST",
+            url: "payment_set",
+            data: {
+                used_payment_pwd: used_payment_pwd,
+                new_payment_pwd: new_payment_pwd,
+                m_payment_pwd: m_payment_pwd
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg("<span style='color:#fff'>"+ data.msg +"</span>",{time:2000},function(){
+                        window.history.go(-1)
+                    })
+                } else {
+                    layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                        time: 2000
+                    });
+                    // alert(data.msg)
+                }
+            }
+        });
+    });
+</script> {/block}

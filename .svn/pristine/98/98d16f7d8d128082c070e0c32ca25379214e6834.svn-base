@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 viewport-fit=cover">
+        <meta name="format-detection" content="telephone=no">
+        <!--<link rel="stylesheet" type="text/css" href="__CSS__/mui/mui.min.css">-->
+        <!--<link rel="stylesheet" type="text/css" href="__CSS__/common/bootstrap.min.css">-->
+
+        <!--<link rel="stylesheet" type="text/css" href="__STATIC__/lib/bootstrap-fileinput-master/css/fileinput.min.css">-->
+        <link rel="stylesheet" type="text/css" href="__CSS__/common/larea.css">
+        <link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+        <link rel="stylesheet" type="text/css" href="__CSS__/common/size.css">
+        <link rel="stylesheet" type="text/css" href="__CSS__/common/popups.css">
+        {block name="style"}{/block}
+        <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+        <script src="__JS__/common/rem.js"></script>
+        <script src="__JS__/common/jquery_lazyload.js"></script>
+        <script src="__JS__/common/lazyload.js"></script>
+        <!--<script src="__JS__/mui/mui.min.js"></script>-->
+        <!--<script src="__JS__/mui/mui.pullToRefresh.js"></script>-->
+        <!--<script src="__JS__/mui/mui.pullToRefresh.material.js"></script>-->
+        <script src="__JS__/common/site.js"></script>
+        <script src="__JS__/common/larea.js"></script>
+        <!--<script src="__JS__/common/bootstrap.min.js"></script>-->
+        <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.js"></script>-->
+        <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
+        <script src="__STATIC__/lib/layui/layui.js"></script>
+        <script src="__JS__/common/popups.js"></script>
+        <script src="__JS__/common/vconsole.min.js"></script>
+        {block name="title"}<title></title>{/block}
+    </head>
+    <body>
+        <header>{block name="header"}{/block}</header>
+        <header>{block name="header1"}{/block}</header>
+        {block name="content"}{/block}
+        <footer>{block name="footer"}{/block}</footer>
+    </body>
+
+    <!--bugtags 开始-->
+    <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
+    <script>
+        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
+        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
+    </script>
+    <!--bugtags 结束-->
+
+    {block name="script"}
+    {/block}
+</html>

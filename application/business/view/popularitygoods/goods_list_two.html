@@ -1,0 +1,389 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .Hui-article-box{
+        overflow: auto;
+    }
+    .table {
+        width: 100% !important;
+    }
+    .model_input{
+        width:80px;
+        margin-top:10px;
+    }
+    .fade {opacity: 0;
+        -webkit-transition: opacity .15s linear;
+        -o-transition: opacity .15s linear;
+        transition: opacity .15s linear}
+    .fade.in {opacity: 1}
+    .modal-open {overflow: hidden}
+    .modal{ position:fixed; left:0; top:0; right:0; bottom:0; z-index:1040; display:none; overflow:hidden;-webkit-overflow-scrolling:touch; outline:0}
+    .modal.fade .modal-dialog{
+        -webkit-transition: -webkit-transform .3s ease-out;
+        -o-transition: -o-transform .3s ease-out;
+        transition: transform .3s ease-out;
+        -webkit-transform: translate(0,-50%);
+        -ms-transform: translate(0,-50%);
+        -o-transform: translate(0,-50%);
+        transform: translate(0,-50%)}
+    .modal.in .modal-dialog {
+        -webkit-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+        -o-transform: translate(0, 0);
+        transform: translate(0, 0)}
+    .modal-open .modal {overflow-x: hidden;overflow-y: auto}
+    .modal-backdrop {position: fixed;top: 0;right: 0;bottom: 0;left: 0;background-color: #000}
+    .modal-backdrop.fade {filter: alpha(opacity=0);opacity: 0}
+    .modal-backdrop.in {filter: alpha(opacity=50);opacity: .5}
+    .modal-dialog {position: relative;width: auto;margin: 10px}
+    .modal-content{position: relative;background-color: #fff;border: 1px solid #999;border: 1px solid rgba(0,0,0,.2);outline: 0;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        box-shadow: 0 3px 9px rgba(0,0,0,.5)}
+
+    .modal-header {min-height: 16.42857143px;padding: 15px;border-bottom: 1px solid #eee; position:relative}
+    .modal-header .close{position:absolute; right:10px; top:10px}
+    .modal-header h3,.modal-header .modal-title{margin:0; padding:10px 0; font-size:16px}
+
+    .modal-body {position:relative;padding: 15px;overflow-y:visible;word-break:break-all}
+    .modal-form {margin-bottom: 0}
+
+    .modal-footer {padding:15px;margin-bottom: 0;text-align: right;background-color: #f5f5f5;border-top: 1px solid #eee;*zoom: 1}
+    .modal-footer:before,.modal-footer:after {display: table;content: ""}
+    .modal-footer:after {clear: both}
+    .modal-footer .btn + .btn {margin-left: 5px;margin-bottom: 0}
+    .modal-footer .btn-group .btn + .btn {margin-left: -1px}
+    .modal-footer .btn-block + .btn-block {margin-left: 0}
+
+    .modal-scrollbar-measure {position: absolute;top: -9999px;width: 50px;height: 50px;overflow: scroll}
+
+    .radius .modal-content{ border-radius:6px}
+    .radius .modal-footer{ border-bottom-left-radius:6px; border-bottom-right-radius:6px}
+    @media (min-width: 768px) {
+        .modal-dialog {width: 600px;margin: 30px auto}
+        .modal-content {-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);box-shadow: 0 5px 15px rgba(0, 0, 0, .5)}
+        .modal-sm {width: 300px}
+    }
+    @media (min-width: 992px) {
+        .modal-lg {width: 900px}
+    }
+
+    .modal-alert{position:fixed; right:auto; bottom:auto; width:300px; left:50%;margin-left:-150px; top:50%;margin-top:-30px; z-index:9999;background-color: #fff;border: 1px solid #999;border: 1px solid rgba(0,0,0,.2);outline: 0;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        box-shadow: 0 3px 9px rgba(0,0,0,.5)}
+    .modal-alert-info{padding:30px; text-align:center; font-size:14px; background-color:#fff}
+    .input-text{
+        display:inline-block;
+        width:200px;
+    }
+    .box_img{
+        width:400px;
+        height:400px;
+        background-color:red;
+        position: fixed;
+        top: 200px;
+        left:300px;
+    }
+    .sele_box{
+        margin-top:20px;
+    }
+    .sele{
+        display: inline-block;
+        width:350px;
+    }
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="menu"}
+{include file="common/menu" /}
+{/block}
+{block name="content"}
+<section class="Hui-article-box">
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group  from_add_authority">
+                <label>线下活动人气商品列表</label>
+                <a class="pull-right" href="{:url('popularitygoods/edit')}">添加商品</a>
+            </div>
+            <span>商品状态：</span>
+            <a href="/business/popularitygoods/goods_list_two/pg_state/0" type="button" class="btn {eq name='pg_state' value='0'}btn-success {else /} btn-info {/eq} btn-xs">全部</a>
+            <a href="/business/popularitygoods/goods_list_two/pg_state/1" type="button" class="btn {eq name='pg_state' value='1'}btn-success {else /} btn-info {/eq} btn-xs">参拍中</a>
+            <a href="/business/popularitygoods/goods_list_two/pg_state/8" type="button" class="btn {eq name='pg_state' value='8'}btn-success {else /} btn-info {/eq} btn-xs">参拍完成</a>
+
+            <a href="/business/popularitygoods/goods_list_two/pg_status/1" type="button" class="btn {eq name='pg_status' value='1'}btn-success {else /} btn-info {/eq} btn-xs">上架</a>
+            <a href="/business/popularitygoods/goods_list_two/pg_status/2" type="button" class="btn {eq name='pg_status' value='2'}btn-success {else /} btn-info {/eq} btn-xs">预上架</a>
+
+            <div class="sele_box">
+                <span>搜索：</span>
+                <input type="text" class="input-text radius size-M sele sn_code" placeholder="请输入商品pg_id或编号或商品名称"><button class="btn btn-success radius" onclick="pg_se()">搜索</button>
+            </div>
+            <table class="table table-hover" style="margin-bottom:0">
+                <thead>
+                <tr>
+                    <th>商品ID</th>
+                    <th>编号</th>
+                    <th width="150px;">人气商品</th>
+                    <th>添加日期</th>
+                    <th>添加管理员ID</th>
+                    <th>市场价</th>
+                    <th>参加价格</th>
+                    <th>成团人数</th>
+                    <th>参拍期数</th>
+                    <th>入选人数</th>
+                    <th>排序</th>
+                    <th>领取方式</th>
+                    <th>人气商品主图</th>
+                    <th>更新日期</th>
+                    <th>结束日期</th>
+                    <th>首页展示</th>
+                    <th>精选推荐</th>
+                    <th>上架状态</th>
+                    <th>参拍状态</th>
+                    <th>二维码</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                {empty name="list"}
+                <tr>
+                    <td colspan="20">没有数据</td>
+                </tr>
+                {else/}
+                {volist name="$list" id="vo"}
+                <tr>
+                    <th scope="row" class="sid">{$vo.pg_id}</th>
+                    <th scope="row" >{$vo.pg_sn}</th>
+                    <td>{$vo.pg_name}</td>
+                    <td>{notempty name='vo.add_time'}{$vo.add_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td>{$vo.admin_id}</td>
+                    <td>{$vo.pg_market_price}</td>
+                    <td>{$vo.pg_price}</td>
+                    <td>{$vo.pg_membernum}</td>
+                    <td class="pg_periods_{$vo.pg_id}">{$vo.pg_periods}</td>
+                    <td class="pg_chosen_num_{$vo.pg_id}">{$vo.pg_chosen_num}</td>
+                    <td class="pg_sortnum_{$vo.pg_id}">{$vo.pg_sortnum}</td>
+                    <td>{if condition='$vo.pg_type == 1'}在线公布{elseif condition='$vo.pg_type==2'}现场领取{elseif condition='$vo.pg_type==3'}线下活动{else}未知{/if}</td>
+                    <td><img style="width:100px;height:100px;" src="{$vo.pg_img|default=''}"></td>
+                    <td class="update_time_{$vo.pg_id}">{notempty name='vo.update_time'}{$vo.update_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td class="end_time_{$vo.pg_id}">{notempty name='vo.end_time'}{$vo.end_time|date="Y-m-d H:i:s",###} {else /}{/notempty}</td>
+                    <td >{if condition='$vo.is_show == 1'}显示{else /}不显示{/if}</td>
+                    <td>{if condition='$vo.is_recommendation == 1'}精选{else /}非精选{/if}</td>
+                    <td>{if condition='$vo.pg_status == 1'}上架{elseif condition='$vo.pg_status == 2'}预上架{else /}下架{/if}</td>
+                    <td class="pg_state_{$vo.pg_id}">{if condition="$vo.pg_state == 1"}参拍中{elseif condition="$vo.pg_state == 8"}参拍完成{else/}未知{/if}</td>
+                    <td><img style="width:100px;height:100px;" src="{$vo.goods_code}" alt="" class="goods_code" onclick="openimg(this)"></td>
+                    <td>
+                        <a href="{:url('popularitygoods/edit',['pg_id' => $vo.pg_id])}" class="btn btn-success-outline radius size-MINI">
+                            编辑
+                        </a>
+                        <!--<button  type="button" class="btn btn-success-outline radius size-MINI " onclick="check_release('{$vo.pg_id}','{$vo.pg_chosen_num}','{$vo.pg_sortnum}')" >-->
+                            <!--再次发布-->
+                        <!--</button>-->
+                        <button data-clipboard-text="{$vo.goods_fuzhi}"  type="button" class="btn btn-success-outline radius size-MINI copyBtn" >
+                            复制链接
+                        </button>
+                    </td>
+                </tr>
+                {/volist}
+                {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <div class="modal-header">
+                    <h3 class="modal-title">再次发布</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <input type="hidden" class='model_pg_id' value="">
+                        <label class="model_input">入选人数：</label>
+                        <input class="input-text radius  size-S model_pg_chosen_num " placeholder="请输入入选人数"><br/>
+                        <label class="model_input">排序：</label>
+                        <input class="input-text radius  size-S model_pg_sortnum"  placeholder="请输入排序"><br/>
+                        <label class="model_input">结束日期：</label>
+                        <input class="input-text radius  size-S model_end_time" onfocus="selecttime(1)" size="17" readonly><br/>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="submit_shop()">确定</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<img src="" alt="" class="box_img">-->
+
+<div>
+    <div class="page_box">
+        {$page}
+        <span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+    </div>
+</div>
+    <img alt="" style="display:none" id="displayImg" src="" />
+</section>
+<script type="text/javascript" src="/static/h-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/static/js/clipboard.min.js"></script>
+<script>
+    function pg_se(){
+        var value = $('.sn_code').val();
+        console.log($.trim(value));
+        value = $.trim(value)
+        if(value){
+            location.href='/business/popularitygoods/goods_list_two/pg_sn/'+value
+        }
+    }
+
+    // 图片放大
+    function  openimg(obj) {
+        var src = $(obj).attr("src");
+        $("#displayImg").attr("src", src);
+        var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+        var width = $("#displayImg").width();
+        var rate = height / width;
+        var win_width = $(window).width();
+        var win_height = $(window).height();
+        if(width > win_width/2){
+            width = win_width/2;
+            height = width * rate;
+        }
+        if(height > win_height){
+            var h_rate = win_height / height;
+            height = win_height;
+            width = width * h_rate;
+        }
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true,
+            area: [width + 'px', height + 'px'], //宽高
+            content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+        });
+    }
+
+//    $(".goods_code").click(function(){
+//
+//    });
+
+    //复制功能
+    var btns = document.querySelectorAll('.copyBtn');
+    var clipboard = new ClipboardJS(btns);
+
+    clipboard.on('success', function(e) {
+        layer.msg("<span style='color:#fff'>成功</span>",{time:1000});
+    });
+
+    clipboard.on('error', function(e) {
+        layer.msg("<span style='color:#fff'>失败</span>",{time:1000});
+    });
+
+//    $('.goods_code').hover(function(){
+//        alert(1)
+////        var goods_src = $('.goods_code').attr('src');
+////        $('.box_img').show().attr('src',goods_src);
+//    });
+
+
+
+//    var copyBtn = new ClipboardJS('.copyBtn');
+//
+//    copyBtn.on("success",function(e){
+//        // 复制成功
+//        alert(e.text);
+//        e.clearSelection();
+//    });
+//    copyBtn.on("error",function(e){
+//        //复制失败；
+//        console.log( e.action )
+//    });
+
+
+    //检查是否可再次发布
+    function check_release(id,pg_chosen_num,pg_sortnum){
+        $('.model_pg_chosen_num').val();
+        $('.model_pg_sortnum').val();
+        $.post("/business/popularitygoods/check_release",{id:id},function(res){
+            if(res.status == 0){
+                $.Huimodalalert('商品参拍中，不可再次发布',1000);
+            }else{
+                $("#modal-demo").modal("show")
+                $('.model_pg_id').val(id);
+                $('.model_pg_chosen_num').val(pg_chosen_num);
+                $('.model_pg_sortnum').val(pg_sortnum);
+            }
+        });
+    }
+    //修改商品
+    function submit_shop(){
+        var model_pg_id = $('.model_pg_id').val();
+        var pg_chosen_num = $('.model_pg_chosen_num').val();
+        var pg_sortnum = $('.model_pg_sortnum').val();
+        var model_end_time = $('.model_end_time').val();
+        if(!$.trim(pg_chosen_num)){
+            layer.msg("<span style='color:#fff'>请输入入选人数</span>",{time:1000});
+            return false;
+        }
+        if(!$.trim(pg_sortnum)){
+            layer.msg("<span style='color:#fff'>请输入商品排序</span>",{time:1000});
+            return false;
+        }
+        if(!$.trim(model_end_time)){
+            layer.msg("<span style='color:#fff'>请输入结束时间</span>",{time:1000});
+            return false;
+        }
+        $.post('/business/popularitygoods/multiple_release',
+            {
+                pg_id:model_pg_id,
+                pg_chosen_num:pg_chosen_num,
+                pg_sortnum:pg_sortnum,
+                end_time:model_end_time
+            },
+            function(res){
+                if(res.status == 1){
+                    $("#modal-demo").modal("hide")
+                    $('.pg_chosen_num_'+model_pg_id).html(pg_chosen_num);
+                    $('.pg_sortnum_'+model_pg_id).html(pg_sortnum);
+                    $('.end_time_'+model_pg_id).html(model_end_time);
+                    var pg_periods =  $('.pg_periods_'+model_pg_id).html();
+                    pg_periods = Number(pg_periods)+1
+                    $('.pg_periods_'+model_pg_id).html(pg_periods);
+                    $('.pg_state_'+model_pg_id).html('参拍中');
+                    $('.update_time_'+model_pg_id).html(res.data);
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>",{time:1000});
+                }else{
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>",{time:1000});
+                }
+            }
+        )
+    }
+
+    var datas = new Date();
+    //时间控件
+    function selecttime(flag){
+        var endTime = $("#countTimeend").val();
+        if(endTime != ""){
+            WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+        }else{
+            WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+        }
+    }
+</script>
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+{/block}
