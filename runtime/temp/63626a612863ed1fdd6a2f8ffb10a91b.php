@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1542071865;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1542182119;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -1033,15 +1033,15 @@ function getQueryString(name) {
         if(getQueryString("share") != null) {
             window.location.href = "/index/index/";
         }else if(getQueryString("from") != null){
-            window.history.back()
+            // window.history.back()
+            window.history.go(-1);
         }else if(data3){
             window.location.href='/index/index/search_index/type/'+data3+'/keyword/'+data4;
             sessionStorage.removeItem('data');
             sessionStorage.removeItem('keyword');
         }else {
-            // window.history.go(-1)
-            window.history.back(-1);
-            // history.go(-1);
+            window.history.go(-1);
+            // window.history.back(-1);
         }
     })
     
@@ -1251,7 +1251,6 @@ $(function () {
             data: {num: num, gp_id: gp_id, gdr_id: gdr_id, gs_id: gs_id},
             success: function (data) {
                 if (data.status == 1) {
-                    return false;
                     window.location.href = '/member/Orderpai/confirm/param/' + data.data;
                 } else {
                     layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {

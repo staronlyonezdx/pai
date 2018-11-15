@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="e38fa7ff-2b50-4aad-ae1f-8d9730cd51a8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$" afterPath="$PROJECT_DIR$" />
+      <change beforePath="$PROJECT_DIR$/.idea" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/application/member/view/address/index.html" afterPath="$PROJECT_DIR$/application/member/view/address/index.html" />
       <change beforePath="$PROJECT_DIR$/public/uploads/code/popularity/user/108-140.jpg" afterPath="$PROJECT_DIR$/public/uploads/code/popularity/user/108-140.jpg" />
       <change beforePath="$PROJECT_DIR$/public/uploads/code/popularity/user/108-85.jpg" afterPath="$PROJECT_DIR$/public/uploads/code/popularity/user/108-85.jpg" />
     </list>
@@ -20,18 +21,15 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>initSlide</find>
-      <find>ajax</find>
-      <find>orderlist/i</find>
-      <find>details_tab_back</find>
-      <find>backH5</find>
-      <find>orderlist</find>
-      <find>back-btn</find>
-      <find>details_rt</find>
-      <find>即将</find>
-      <find>.content_detail</find>
       <find>.content_item.double_jinxing_detail .item_detail .item_detail_name_jinxing</find>
       <find>jujieshu</find>
       <find>content_mask</find>
@@ -52,6 +50,16 @@
       <find>share</find>
       <find>share-yq</find>
       <find>yg</find>
+      <find>address_list</find>
+      <find>getqu</find>
+      <find>address_top</find>
+      <find>return fa</find>
+      <find>refund_bot_list</find>
+      <find>order_index_hink</find>
+      <find>vip_img lf</find>
+      <find>address</find>
+      <find>register</find>
+      <find>details-act</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -68,7 +76,6 @@
         <option value="$PROJECT_DIR$/application/member/view/orderpai/index.html" />
         <option value="$PROJECT_DIR$/application/pointpai/view/pointorder/index.html" />
         <option value="$PROJECT_DIR$/application/pointpai/view/pointorder/pay_result.html" />
-        <option value="$PROJECT_DIR$/application/pointpai/view/pointgoods/goods_list.html" />
         <option value="$PROJECT_DIR$/application/pointpai/view/pointorder/orderlist.html" />
         <option value="$PROJECT_DIR$/application/index/view/index/navigation_goods.html" />
         <option value="$PROJECT_DIR$/application/member/view/orderpai/orderlist.html" />
@@ -81,9 +88,18 @@
         <option value="$PROJECT_DIR$/application/member/view/common/footer.html" />
         <option value="$PROJECT_DIR$/application/popularity/view/common/footer.html" />
         <option value="$PROJECT_DIR$/application/pointpai/view/common/footer.html" />
-        <option value="$PROJECT_DIR$/application/pointpai/view/pointorder/confirm_order.html" />
         <option value="$PROJECT_DIR$/public/static/css/my_attend/my_attend.css" />
         <option value="$PROJECT_DIR$/application/pointpai/view/pointgoods/index.html" />
+        <option value="$PROJECT_DIR$/application/member/view/goodsproduct/index.html" />
+        <option value="$PROJECT_DIR$/application/pointpai/view/pointorder/confirm_order.html" />
+        <option value="$PROJECT_DIR$/application/member/view/address/index.html" />
+        <option value="$PROJECT_DIR$/application/pointpai/view/pointgoods/goods_list.html" />
+        <option value="$PROJECT_DIR$/public/static/js/new_people/new_people.js" />
+        <option value="$PROJECT_DIR$/application/member/view/register/ios_guide.html" />
+        <option value="$PROJECT_DIR$/application/member/view/core/index.html" />
+        <option value="$PROJECT_DIR$/public/static/js/set/register.js" />
+        <option value="$PROJECT_DIR$/application/member/view/register/index.html" />
+        <option value="$PROJECT_DIR$/shuiweiqu.html" />
       </list>
     </option>
   </component>
@@ -94,8 +110,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="586" />
-    <option name="y" value="129" />
+    <option name="x" value="633" />
+    <option name="y" value="57" />
     <option name="width" value="1237" />
     <option name="height" value="854" />
   </component>
@@ -117,6 +133,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -125,51 +142,17 @@
               <item name="pai" type="b2602c69:ProjectViewProjectNode" />
               <item name="pai" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="pai" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pai" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pai" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pai" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="pointpai" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pai" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pai" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="pointpai" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pai" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pai" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="pointpai" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="pointgoods" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pai" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pai" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="pointpai" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="review" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="D:/paiyaya" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -228,20 +211,22 @@
       <workItem from="1541725499818" duration="18783000" />
       <workItem from="1541897223119" duration="4486000" />
       <workItem from="1541984121067" duration="13518000" />
-      <workItem from="1542071715146" duration="916000" />
+      <workItem from="1542071715146" duration="7389000" />
+      <workItem from="1542154726014" duration="11424000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80391000" />
+    <option name="totallyTimeSpent" value="98288000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="586" y="129" width="1237" height="854" extended-state="0" />
+    <frame x="633" y="57" width="1237" height="854" extended-state="0" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21351126" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31025854" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32859176" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24941361" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -253,7 +238,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -268,111 +252,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/member/view/classify/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-342">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/static/css/index/yy_notice.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="285" column="14" lean-forward="false" selection-start-line="285" selection-start-column="14" selection-end-line="285" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/index/view/index/price_range.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/index/view/index/yy_notice.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="217" column="57" lean-forward="false" selection-start-line="217" selection-start-column="57" selection-end-line="217" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/static/css/productlist/product_list.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="130" column="27" lean-forward="false" selection-start-line="130" selection-start-column="27" selection-end-line="130" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/view/pointorder/pay_result.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1226">
-          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/view/pointorder/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18283">
-          <caret line="13" column="55" lean-forward="false" selection-start-line="13" selection-start-column="55" selection-end-line="13" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/member/view/orderpai/paier_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="203" column="58" lean-forward="false" selection-start-line="203" selection-start-column="58" selection-end-line="203" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/controller/Review.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1539">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/validate/CheckAddGoods.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-423">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/validate/CheckApp.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-195">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/validate/CheckBindingCard.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/member/view/common/header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/controller/Goodscollection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2451">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/controller/IndexHome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1202">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/pointpai/controller/MemberHome.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-727">
@@ -405,20 +284,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5800">
           <caret line="13" column="6" lean-forward="false" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/view/pointgoods/goods_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="64" lean-forward="false" selection-start-line="13" selection-start-column="64" selection-end-line="13" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/member/view/orderpai/orderlist.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="846" column="9" lean-forward="false" selection-start-line="842" selection-start-column="6" selection-end-line="846" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -540,38 +405,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/index/view/index/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="46" column="21" lean-forward="false" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/member/view/orderpai/confirm.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9709">
           <caret line="523" column="59" lean-forward="false" selection-start-line="523" selection-start-column="52" selection-end-line="523" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/member/view/address/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="248" column="9" lean-forward="false" selection-start-line="248" selection-start-column="9" selection-end-line="248" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/member/view/goodsproduct/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="216" column="34" lean-forward="false" selection-start-line="216" selection-start-column="34" selection-end-line="216" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/pointpai/view/pointorder/confirm_order.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="336" column="27" lean-forward="false" selection-start-line="336" selection-start-column="27" selection-end-line="336" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -579,6 +417,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
           <caret line="43" column="42" lean-forward="false" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="42" />
+          <folding>
+            <marker date="1542081232419" expanded="true" signature="47676:47686" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="48336:48346" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="50355:50365" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="50674:50684" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="51380:51390" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="51698:51708" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="52396:52406" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="52691:52701" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="53565:53575" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="53892:53902" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="57166:57176" ph="..." />
+            <marker date="1542081232419" expanded="true" signature="57295:57305" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -614,12 +466,250 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="598">
           <caret line="76" column="17" lean-forward="false" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/pointpai/view/pointorder/confirm_order.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="49" lean-forward="false" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/address/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="338" column="121" lean-forward="false" selection-start-line="338" selection-start-column="44" selection-end-line="338" selection-end-column="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/pointpai/view/pointgoods/goods_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="135" column="80" lean-forward="false" selection-start-line="135" selection-start-column="80" selection-end-line="135" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/goodsproduct/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="1177" column="17" lean-forward="false" selection-start-line="1177" selection-start-column="17" selection-end-line="1177" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/static/js/new_people/new_people.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2831">
+          <caret line="197" column="19" lean-forward="false" selection-start-line="197" selection-start-column="19" selection-end-line="197" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/popularity/view/popularitygoods/new_people.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1968">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/orderpai/refund_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="92" column="35" lean-forward="false" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/register/az_guide.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/activity/view/seckill/sec_kill_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1541491295067" expanded="true" signature="5680:5686" ph=" " />
-            <marker date="1541491295067" expanded="true" signature="5686:5692" ph=" " />
-            <marker date="1541491295067" expanded="true" signature="5692:5698" ph=" " />
-            <marker date="1541491295067" expanded="true" signature="5698:5704" ph=" " />
+            <marker date="1541491285497" expanded="true" signature="12239:12259" ph="..." />
+            <marker date="1541491285497" expanded="true" signature="13090:13099" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/register/ios_guide.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/popularity/view/popularityorder/order_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="108" column="42" lean-forward="false" selection-start-line="108" selection-start-column="42" selection-end-line="108" selection-end-column="42" />
+          <folding>
+            <marker date="1541765257191" expanded="true" signature="39436:39446" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="40140:40150" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="41660:41670" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="42067:42077" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="42826:42836" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="44755:44765" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="45466:45476" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="45761:45771" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="46725:46735" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="47097:47107" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="50465:50475" ph="..." />
+            <marker date="1541765257191" expanded="true" signature="50619:50629" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/core/index1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="113" column="22" lean-forward="false" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#main#0;n#!!top" expanded="false" />
+            <marker date="1541491283478" expanded="true" signature="29918:29928" ph="..." />
+            <marker date="1541491283478" expanded="true" signature="30050:30060" ph="..." />
+            <marker date="1541491283478" expanded="true" signature="31269:31301" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/orderpai/orderlist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="59" lean-forward="false" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="59" />
+          <folding>
+            <marker date="1541765257049" expanded="true" signature="24837:24843" ph=" " />
+            <marker date="1541765257049" expanded="true" signature="25008:25014" ph=" " />
+            <marker date="1541765257049" expanded="true" signature="28298:28308" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="28593:28603" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="29465:29475" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="29760:29770" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="30635:30645" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="30930:30940" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="31266:31276" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="32917:32927" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="37447:37457" ph="..." />
+            <marker date="1541765257049" expanded="true" signature="37576:37586" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/core/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="86" column="93" lean-forward="false" selection-start-line="86" selection-start-column="93" selection-end-line="86" selection-end-column="93" />
+          <folding>
+            <marker date="1542174419452" expanded="true" signature="26906:26916" ph="..." />
+            <marker date="1542174419452" expanded="true" signature="27035:27045" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/register/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="79" column="6" lean-forward="false" selection-start-line="79" selection-start-column="6" selection-end-line="79" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/static/js/set/register.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="636">
+          <caret line="542" column="65" lean-forward="false" selection-start-line="542" selection-start-column="57" selection-end-line="542" selection-end-column="65" />
+          <folding>
+            <marker date="1542181729746" expanded="true" signature="459:469" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="2123:2133" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="3343:3353" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="3763:3773" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="4827:4837" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="5269:5279" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="5690:5700" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="6413:6423" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="6855:6865" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="7276:7286" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="7998:8008" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="8440:8450" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="8861:8871" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="9665:9675" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="10111:10121" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="10532:10542" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="11573:11583" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="11958:11968" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="12825:12835" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="13270:13280" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="14399:14409" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="14870:14880" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="15317:15327" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="16082:16092" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="16553:16563" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="17000:17010" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="17780:17790" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="18251:18261" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="18698:18708" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="19590:19600" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="20061:20071" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="20508:20518" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="22743:22753" ph="..." />
+            <marker date="1542181729746" expanded="true" signature="23699:23709" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/member/view/register/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="79" column="13" lean-forward="false" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/static/js/index/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/activity/view/pickout/pickout_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/index/view/index/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1411">
+          <caret line="926" column="31" lean-forward="false" selection-start-line="926" selection-start-column="20" selection-end-line="926" selection-end-column="31" />
+          <folding>
+            <marker date="1542081232442" expanded="true" signature="20013:20023" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="30713:30723" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="35433:35452" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="35659:35665" ph=" " />
+            <marker date="1542081232442" expanded="true" signature="35665:35671" ph=" " />
+            <marker date="1542081232442" expanded="true" signature="40155:40165" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="40306:40316" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="40463:40473" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="40948:40958" ph="..." />
+            <marker date="1542081232442" expanded="true" signature="41101:41111" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shuiweiqu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="54" column="20" lean-forward="false" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>

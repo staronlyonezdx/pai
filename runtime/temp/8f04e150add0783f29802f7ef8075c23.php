@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542071865;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542081232;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -58,7 +58,7 @@
                     <a href="<?php echo isset($vo['wi_href']) ? $vo['wi_href'] :  '#'; ?>"><img src="<?php echo isset($vo['wi_imgurl']) ? $vo['wi_imgurl'] :  ''; ?>"></a>
                     <?php else: ?>
                     <img src="<?php echo isset($vo['wi_imgurl']) ? $vo['wi_imgurl'] :  ''; ?>">
-                    <?php endif; ?>
+                    <?php endif; ?>0
                 </div>
                 <?php endforeach; endif; else: echo "" ;endif; endif; ?>
             </div>
@@ -881,11 +881,6 @@
         $('.sm-icon').show();
     }
 
-    //安卓点击扫码按钮
-    $('.sm-icon').click(function(){
-        window.android.doScanQrImage();
-    })
-
     function hclic(id){
         var vo=$(id).children().html();
         var typ = $("input[name='type']").val();
@@ -949,11 +944,12 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp', function (str) {
             $('#app').val(str);
-            //ios app显示扫码位置            
-            // $('.index_search').addClass('smjk');
-            // $('.index_searsh_top').addClass('smapp');
-            // $('.sm-icon').show();
-            // alert(str)                
+            //ios app显示扫码位置
+            if($('#app').val() == '1.0') {
+                $('.index_search').addClass('smjk');
+                $('.index_searsh_top').addClass('smapp');
+                $('.sm-icon').show();
+            }            
             
             //ios app领取红包
             $(".new_pop_btn").html("立即领取红包");
@@ -968,17 +964,22 @@
         })
     })
 
-    //ios app点击扫码按钮
-    if($('#app').val() != '') {
-        $('.sm-icon').click(function(){
+    //ios app点击扫码按钮    
+    $('.sm-icon').click(function(){
+        if(getCookie("versionScan") != null) {
+            //安卓点击扫码按钮
+            $('.sm-icon').click(function(){
+                window.android.doScanQrImage();
+            })
+        }else if($('#app').val() == '1.0') {
             /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
             setupWebViewJavascriptBridge(function(bridge) {
-                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/ 
                 bridge.callHandler('doScanQrImage');
             })
-        })
-    }    
-
+        }
+    })
+    
     //点击隐藏红包
     $(".new_pop_con img").click(function () {
         $(".new_pop").hide();

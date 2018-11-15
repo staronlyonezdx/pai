@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/core/index.html";i:1541765256;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/core/index.html";i:1542174419;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -123,18 +123,19 @@
             </p>
             <div class="vip_privilege_con clear">
                 <div class="vip_img lf">
-                    <!--<?php if(($info['ml_name'] == '普通会员')): ?>-->
-                    <!--<img src="__STATIC__/image/core/pthy.png">-->
-                    <!--<?php elseif(($info['ml_name'] == '白银会员')): ?>-->
-                    <!--<img src="__STATIC__/image/core/byhy.png">-->
-                    <!--<?php elseif(($info['ml_name'] == '黄金会员')): ?>-->
-                    <!--<img src="__STATIC__/image/core/hjhy.png">-->
-                    <!--<?php elseif(($info['ml_name'] == '黑金会员')): ?>-->
-                    <!--<img src="__STATIC__/image/core/hejhy.png">-->
-                    <!--<?php elseif(($info['ml_name'] == '吖吖推广员')): ?>-->
-                    <!--<img src="__STATIC__/image/core/icon_mber_tgy_select@2x.png">-->
-                    <!--<?php endif; ?>-->
-                    <img src=<?php echo $info['ml_img']; ?> alt="">
+                    <?php if(($info['is_promoters']== '4' || $info['is_promoters']== '5' )): ?>
+                    <img src="__STATIC__/image/core/icon_mber_tgy_select@2x.png">
+                    <?php else: if(($info['ml_name'] == '普通会员')): ?>
+                        <img src="__STATIC__/image/core/pthy.png">
+                        <?php elseif(($info['ml_name'] == '白银会员')): ?>
+                        <img src="__STATIC__/image/core/byhy.png">
+                        <?php elseif(($info['ml_name'] == '黄金会员')): ?>
+                        <img src="__STATIC__/image/core/hjhy.png">
+                        <?php elseif(($info['ml_name'] == '黑金会员')): ?>
+                        <img src="__STATIC__/image/core/hejhy.png">
+                        <?php endif; ?>
+                    <!--<img src=<?php echo $info['ml_img']; ?> alt="">-->
+                    <?php endif; ?>
                 </div>
                 <div class=" vip_test lf">
                     <p class="normal_p">还差<?php echo $info['ml_tj2']-$info['experience']; ?>点升级为<?php echo $info['target']; ?>，尊享更多福利！</p>
@@ -413,10 +414,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
      <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\project\pai\public/../application/pointpai/view/pointorder/orderlist.html";i:1541640662;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1541491294;s:69:"D:\project\pai\public/../application/pointpai/view/common/header.html";i:1541491294;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\project\pai\public/../application/pointpai/view/pointorder/orderlist.html";i:1541765257;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/header.html";i:1541491294;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -274,11 +274,11 @@
     </body>
 
     <!--bugtags 开始-->
-    <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script>
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -974,10 +974,19 @@
         var imgUrl = $('#imgUrl').val();
         var share_qr_image = "https://"+document.domain+$('.share-code').attr('src');
 
-        var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ url +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": "1","share_qr_image": "'+ share_qr_image +'"}';
+        var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ url +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": "1","share_qr_image": "'+ share_qr_image +'","type": "1"}';
 
-        if($('#app').val() != '') {            
-            $(".details_fenxiang").show();
+        if($('#app').val() != '') {
+            if($('#app').val() == '1.0') {
+                /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+                setupWebViewJavascriptBridge(function(bridge) {
+                    /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                    bridge.callHandler('getShareParams',data);
+                })
+            }else {
+                $(".details_fenxiang").show();
+            }
+            
         }else {
             // 非微信浏览器端安卓分享
             if(hideFlag){

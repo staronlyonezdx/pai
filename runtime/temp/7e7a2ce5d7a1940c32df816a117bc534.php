@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:75:"D:\project\pai\public/../application/index/view/index/navigation_goods.html";i:1541642760;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1541491294;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:75:"D:\project\pai\public/../application/index/view/index/navigation_goods.html";i:1541642760;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -87,11 +87,11 @@
     </body>
 
     <!--bugtags 开始-->
-    <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script>
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- // </script> -->
     <!--bugtags 结束-->
 
     

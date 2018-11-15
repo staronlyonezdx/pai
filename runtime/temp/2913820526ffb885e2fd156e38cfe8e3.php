@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/member/view/orderpai/index.html";i:1541765257;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/member/view/orderpai/index.html";i:1542081232;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -77,7 +77,7 @@
             <p class="lf">订单已关闭</p>
         </div>
         <?php if($info['o_isdelete'] > 1): ?>
-        <p class="order_index_hink">该订单已取消或已删除</p>
+        <p class="order_index_hink">该订单已取消</p>
         <?php else: ?>
         <p class="order_index_hink">该订单已超时并关闭</p>
         <?php endif; ?>
@@ -1071,10 +1071,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     

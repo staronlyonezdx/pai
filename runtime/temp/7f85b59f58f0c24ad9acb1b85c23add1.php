@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\project\pai\public/../application/member/view/address/index.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\project\pai\public/../application/member/view/address/index.html";i:1542102895;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -134,10 +134,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -437,15 +437,20 @@
                 var address_name = $(".address_list").eq(i).find('.address_name').html();
                 var address_pad = $(".address_list").eq(i).find('.address_pad').html();
                 var encrypt = $("input[name=encrypt]").val();
+                var pcode = $("input[name=pcode]").val();
                 var pm_id = $("input[name=pm_id]").val();
                 var address_id = $(this).parents(".address_list").attr("aid");
-                if("<?php echo $encrypt; ?>"!=0) {
-                    window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
-                }else if("<?php echo $pcode; ?>"!=0) {
-                    window.location.href = "/pointpai/Pointorder/confirm_order/pcode/<?php echo $pcode; ?>/address_id/" + address_id;
-                }                
+
+                $.cookie('address_id', address_id, {expire: 7,path:"/"});
+                window.history.go(-1);
+                // if("<?php echo $encrypt; ?>"!=0) {
+                //     window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
+                // }else if("<?php echo $pcode; ?>"!=0) {
+                //     window.location.href = "/pointpai/Pointorder/confirm_order/pcode/"+pcode+"/address_id/" + address_id;
+                // }                
             })
         }
+
         function changeAddress(){
                 $(".address_top").click(function(){
                     // alert("e");
@@ -474,8 +479,7 @@
                                     success: function(data) {
                                         console.log(data);
                                         if(data.status){
-                                            // console.log(11);
-                                            window.history.back();
+                                            window.history.go(-1);
                                             // window.location.href="/popularity/popularityorder/order_info/pm_id/"+pm_id;
                                         }else{
                                             if(data.status){
@@ -500,7 +504,7 @@
                     });
                 })
             }
-        
+
     })
 </script>
 

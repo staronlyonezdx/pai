@@ -1,0 +1,369 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/address/address.css">
+{/block}
+{block name="header"}
+<!--{include file="common/header" /}-->
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>{$header_title ?? ''}</span>
+            <div class="header_back" >
+            <!--<div class="header_back"  {empty name='header_path'} onClick="javascript:history.back();" {else/} onClick="javascript:window.location.href='{$header_path}'" {/empty} >-->
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
+{/block}
+    
+{block name="content"}
+<main>
+    <div class="address-msg"></div>
+    <div class="address_main">
+        <input type="hidden" name="encrypt" value="{$encrypt|default=0}"/>
+        <input type="hidden" name="pm_id" value="{$pm_id|default=0}"/>
+        <input type="hidden" name="pcode" value="{$pcode|default=0}"/>
+        {notempty name="list"}
+            {volist name="list" id="vo"}
+            <div class="address_list" aid = {$vo.address_id}>
+                <div class="address_con">
+                    <div class="address_top" data="{$key}">
+                        <p class="address_name clear">
+                            {$vo.name|default=''}
+                            <span class="rt">{$vo.tel|default=''}</span>
+                        </p>
+                        <p class="address_name address_pad">{$vo.pname|default=''} {$vo.cname|default=''} {$vo.dname|default=''} {$vo.address|default=''}</p>
+                    </div>
+                    <div class="address_site clear">
+                        <!-- <input type="radio" name="address" class="address_inp"> -->
+
+                        {if condition="$vo.is_default == 1"}
+                        <img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="address_icon">
+                        <!-- <img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="address_icon"> -->
+
+                        <span class="address_text">默认地址</span>
+                        {else/}
+                        <img src="__STATIC__/image/register/icon_weixuanze@2x.png" class="address_icon">
+                        <!-- <img src="__STATIC__/image/register/icon_yixuanze@2x.png" class="address_icon"> -->
+
+                        <span class="address_text">设为默认地址</span>
+                        {/if}
+                        <span class="address_dele  address_edit rt">
+                            <img src="__STATIC__/image/register/icon_del@2x.png" class="">
+                            <span>删除</span>
+                        </span>
+                        <a href="/member/address/edit/encrypt/{$encrypt}/address_id/{$vo.address_id}/pm_id/{$pm_id}/pcode/{$pcode}">
+                            <span class="address_dele adress_compile rt">
+                                <img src="__STATIC__/image/register/icon_bianji@2x.png" class="">
+                                <span>编辑</span>
+                            </span>
+                        </a>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            {/volist}
+        {/notempty}
+        <div class="address_list">
+            <a href="/member/address/edit/encrypt/{$encrypt}/pm_id/{$pm_id}/pcode/{$pcode}">
+                <div class="address_noview">
+                    <div class="address_nomain">
+                        <img src="__STATIC__/image/goods/icon_+@2x.png">
+                    </div>
+                    <p>添加收货地址</p>
+                </div>
+            </a>
+        </div>
+        
+    </div>
+</main>
+<!-- <a href="/member/address/edit/encrypt/{$encrypt}/pm_id/{$pm_id}/pcode/{$pcode}" class="phonex addr">
+    <div class="address_btn">
+        添加收货地址
+    </div>
+</a> -->
+
+
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__STATIC__/lib/layui/layui.js"></script>
+<script src="__JS__/common/popups.js"></script>
+<script src="__JS__/cookie/jquery.cookie.js"></script>
+<script>
+    $(function(){
+        // var add_icon=$(".address_list .address_icon").is("src","static/image/register/icon_weixuanze@2x.png");
+        // console.log(add_icon);
+
+
+        // $(".address_list").first().find(".address_icon").attr("src","__STATIC__/image/register/icon_yixuanze@2x.png");
+        // $(".address_icon").click(function(){
+        //      $(".address_icon").attr("src","__STATIC__/image/register/icon_weixuanze@2x.png");
+        //      $(this).attr("src","__STATIC__/image/register/icon_yixuanze@2x.png");
+        //
+        // })
+        // 设为默认地址
+        $(".address_site .address_icon").click(function(){
+            // alert(1)
+            $(".address_icon").attr("src","__STATIC__/image/register/icon_weixuanze@2x.png");
+            $(this).attr("src","__STATIC__/image/register/icon_yixuanze@2x.png");
+            $(this).parents(".address_list").prependTo(".address_main");
+            var aid = $(this).parents(".address_list").attr("aid");
+            var is_default = 1;//TODO。。。（需要前端完善,这里是否要选中还是取消，1选中 0不选中）
+            if(is_default==1){
+                $(".address_icon").attr("src","__STATIC__/image/register/icon_weixuanze@2x.png");
+                $(this).attr("src","__STATIC__/image/register/icon_yixuanze@2x.png");
+                $(".address_icon").siblings(".address_text").html("设为默认地址");
+                $(this).siblings(".address_text").html("默认地址");
+            }
+            $.ajax({
+                url:"{:url('address/setdefault')}",
+                dataType:'JSON',
+                type:'POST',
+                data:{is_default:is_default,address_id:aid},
+                success: function(data) {
+                    console.log(data);
+                    if(data.status){
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        // alert(data.msg+"..........具体处理请前端完善");
+//                        window.location.reload();
+                    }else{
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        // alert(data.msg+"..........具体处理请前端完善");
+//                        window.location.reload();
+                    }
+                }
+            });
+        });
+
+        // 删除地址
+        $(".address_edit").click(function(){
+            layer.confirm('是否确认删除该地址？', {
+                title:false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['取消','删除'], //按钮
+                btn2:function(){
+                    remov();
+                }
+            })
+            var aid = $(this).parents(".address_list").attr("aid");
+            function remov(){
+                $.ajax({
+                    url:"{:url('address/delete')}",
+                    dataType:'JSON',
+                    type:'POST',
+                    data:{address_id:aid},
+                    success: function(data) {
+                        console.log(data);
+                        if(data.status){
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                time:2000
+                            });
+                            // alert(data.msg+"..........具体处理请前端完善");
+                            window.location.reload();
+                        }else{
+                            if(data.status){
+                                layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                    time:2000
+                                });
+                                // alert(data.msg+"..........具体处理请前端完善");
+                                window.location.reload();
+                            }
+                        }
+                    },
+                    error:function(data){
+                        alert(data);
+                    }
+
+                })
+            }
+    })
+
+        // 订单页选择收货地址
+        // $(".address_top").click(function(){
+        //     var encrypt = $("input[name=encrypt]").val();
+        //     console.log(encrypt);
+        //     var pm_id = $("input[name=pm_id]").val();
+        //     var address_id = $(this).parents(".address_list").attr("aid");
+        //     if(encrypt != '' && encrypt != 0){
+        //         window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
+        //     }else if(pm_id > 0){
+        //         // 更新擂主地址
+        //         $.ajax({
+        //             url:"/popularity/popularityorder/change_address",
+        //             dataType:'JSON',
+        //             type:'POST',
+        //             data:{address_id:address_id,pm_id:pm_id},
+        //             success: function(data) {
+        //                 console.log(data);
+        //                 if(data.status){
+        //                     window.history.back();
+        //                     // window.location.href="/popularity/popularityorder/order_info/pm_id/"+pm_id;
+        //                 }else{
+        //                     if(data.status){
+        //                         layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+        //                             time:2000
+        //                         });
+        //                         window.location.reload();
+        //                     }
+        //                 }
+        //             },
+        //             error:function(data){
+        //                 alert(data);
+        //             }
+        //
+        //         })
+        //     }
+        // });
+        
+        var pm_id = $("input[name=pm_id]").val();
+        $.ajax({
+            url:"/popularity/popularitygoods/get_pm_address_status",
+            dataType:'JSON',
+            type:'POST',
+            data:{pm_id:pm_id},
+            success: function(data) {
+                if(data.status == 1) {
+                    $('.address-msg').text(data.msg).show();
+                }
+            }
+        })
+
+        //如果是普通商品或者积分商品进入地址页面
+        if("{$encrypt}"!=0 || "{$pcode}"!=0){
+            $('.header_back').click(function(){                
+                window.history.back();
+            })
+            ptchangeAddress();
+        }
+
+        //如果是人气商品进入地址页面
+        if("{$pm_id}"==""||"{$pm_id}"==0||"{$pm_id}"==null){
+        }else{
+            var hasAddress = $.cookie('hasAddress');
+            // 判断是否已添加收货地址，如果未添加点击返回则弹框
+            if(hasAddress == 0){
+                $('.header_back').click(function(){
+                    layer.confirm('当前尚未添加收货地址揭晓商品将无法送到您手里', {
+                        title:false,/*标题*/
+                        closeBtn: 0,
+                        btnAlign: 'c',
+                        btn: ['暂不添加','留下选择'], //按钮
+                        btn1:function(){
+                            var header_path = "{$header_path|default=''}";
+                            if(header_path.length > 0){
+                                window.location.href=header_path;
+                            }else{
+                                window.history.back();
+                            }
+                        },
+                    })
+                })
+                changeAddress();
+            }else{
+                //修改地址弹框
+                changeAddress();
+                $('.header_back').click(function(){
+                    window.history.back();
+                })
+            }
+        }
+        if(getUrlParam('thisinfo')==1){
+            $('.header_back').click(function(){
+                window.history.back();
+            })
+            // ptchangeAddress();
+        }
+        //个人中心设置地址
+        function getUrlParam(name) {    
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); 
+            // 构造一个含有目标参数的正则表达式对象    
+            var r = window.location.search.substr(1).match(reg);  
+            // 匹配目标参数    
+            if (r != null) return unescape(r[2]); return null; // 返回参数值
+        }
+        function ptchangeAddress(){
+            $(".address_top").click(function(){
+                var i = $(this).attr('data');
+                var address_name = $(".address_list").eq(i).find('.address_name').html();
+                var address_pad = $(".address_list").eq(i).find('.address_pad').html();
+                var encrypt = $("input[name=encrypt]").val();
+                var pcode = $("input[name=pcode]").val();
+                var pm_id = $("input[name=pm_id]").val();
+                var address_id = $(this).parents(".address_list").attr("aid");
+
+                $.cookie('address_id', address_id, {expire: 7,path:"/"});
+                window.history.go(-1);
+                // if("{$encrypt}"!=0) {
+                //     window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
+                // }else if("{$pcode}"!=0) {
+                //     window.location.href = "/pointpai/Pointorder/confirm_order/pcode/"+pcode+"/address_id/" + address_id;
+                // }                
+            })
+        }
+    
+        function changeAddress(){
+                $(".address_top").click(function(){
+                    // alert("e");
+                    var i = $(this).attr('data');
+                    var address_name = $(".address_list").eq(i).find('.address_name').html();
+                    var address_pad = $(".address_list").eq(i).find('.address_pad').html();
+                    layer.confirm('<p>'+ address_name +'</p><span>'+ address_pad +'</span><p style="color:#D8791D">注：人气王公布后地址便不可修改！</p>', {
+                        title:'确认该收货地址',/*标题*/
+                        closeBtn: 0,
+                        btnAlign: 'c',
+                        btn: ['我再想想','确认添加'], //可以无限个按钮
+                        btn2: function(index, layero){
+                            //按钮【按钮三】的回调
+                            var encrypt = $("input[name=encrypt]").val();
+                            var pm_id = $("input[name=pm_id]").val();
+                            var address_id = $(".address_list").eq(i).attr("aid");
+                            // if(encrypt != '' && encrypt != 0){
+                            //     window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
+                            // }else if(pm_id > 0){
+                                // 更新擂主地址
+                                $.ajax({
+                                    url:"/popularity/popularityorder/change_address",
+                                    dataType:'JSON',
+                                    type:'POST',
+                                    data:{address_id:address_id,pm_id:pm_id},
+                                    success: function(data) {
+                                        console.log(data);
+                                        if(data.status){
+                                            // console.log(11);
+                                            window.history.back();
+                                            // window.location.href="/popularity/popularityorder/order_info/pm_id/"+pm_id;
+                                        }else{
+                                            if(data.status){
+                                                layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                                    time:2000
+                                                });
+                                                window.location.reload();
+                                            }
+                                        }
+                                    },
+                                    error:function(data){
+                                        alert(data);
+                                    }
+
+                                })
+                            // }
+                            $.cookie('hasAddress','1',{path:'/',expire:10000})
+                        }
+                    }, function(index, layero){
+                        //按钮【按钮一】的回调
+                        layer.closeAll()
+                    });
+                })
+            }
+        
+    })
+</script>
+{/block}

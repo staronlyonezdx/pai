@@ -1,0 +1,595 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/upload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/conf_order.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/details.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+<!-- <div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>{$header_title ?? ''}</span>
+            <div class="header_back" >
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div> -->
+{/block}
+{block name="content"}
+<main >
+    {if condition="$gs_id < 2"}
+    <!--地址栏-->
+    <a href="/member/address/index/encrypt/{$encrypt}">
+        <div class="conf_order">
+            <div class="conf_list clear">
+                <div class="conf_img lf">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/orderpai/icon_nav_dingwei@2x.png">
+                </div>
+                {empty name="default_address"}
+                <a href="/member/address/edit/encrypt/{$encrypt}">添加收货地址</a>
+                {else/}
+                <div class="conf_name lf">
+                    <p class="conf_tit clear">
+                        {$default_address.name|default=''}
+                        {if condition="$default_address.is_default eq 1" }
+                        <span class="conf_default">默认</span>
+                        {/if}
+                        <span class="rt">{$default_address.secrecy_tel|default=''}</span>
+                    </p>
+
+                    <p class="conf_site">
+                        {$default_address.province}{$default_address.city}{$default_address.district}{$default_address.address}
+                        <span class="rt">
+                            <img src="__STATIC__/image/orderpai/icon_jump@2x.png">
+                        </span>
+                    </p>
+                    <input type="hidden" name="address_id" value="{$default_address.address_id}"/>
+                </div>
+                {/empty}
+            </div>
+            <div class="conf_seal">
+                <img src="__STATIC__/image/orderpai/icon_ft@2x.png">
+            </div>
+        </div>
+    </a>
+    {/if}
+
+    <!-- 加判断 -->
+    
+    {if condition="$is_lord ==1"}
+    {else/}
+    
+    <a href="/member/orderpai/pai_rule">
+        <div class="details_rule clear">
+            <span class="lf">拍吖吖揭晓规则 了解一下~</span>
+            <span class="rt">
+                查看规则
+                <img src="/static/image/details/icon_jump@2x.png">
+            </span>
+        </div>
+    </a>
+    {/if}
+    <div class="conf_content">
+        <div class="conf_con_tit">
+            <img src="__STATIC__/image/orderpai/dp@2x.png">
+            <span>{$info.stroe_name|default=''}</span>
+        </div>
+        <div class="conf_order_main clear">
+            {if condition="$info.is_fudai ==1 || $info.is_huodong ==1"}
+                <div class="conf_order_img conf_order_fudai lf">
+                    <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt="" class="conf_order_img_fudai">
+                    <img src="__CDN_PATH__{$info.gp_img|default='/static/image/index/pic_home_taplace@2x.png'}">
+                </div>
+            {else/}
+                <div class="conf_order_img lf">
+                    <img src="__CDN_PATH__{$info.gp_img|default='/static/image/index/pic_home_taplace@2x.png'}">
+                </div>
+            {/if}
+            <div class="conf_order_text lf">
+                {if condition="$info.is_fudai ==1"}
+                    <p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png" alt="" style="width:0.8rem;height:0.3rem;">{$info.g_name|default=''}</p>
+                {elseif condition="$info.is_huodong ==1"/}
+                    <p style="background:url(__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png) no-repeat left 0.035rem;background-size: 0.8rem; text-indent: 0.9rem;">{$info.g_name|default=''}</p>
+                {else/}
+                    <p>{$info.g_name|default=''}</p>
+                {/if}
+                <div class="conf_order_price clear">
+                    <span class="conf_order_new">
+                        ￥{$info.gdr_price|default='0.00'}
+                        <span>{$info.gp_market_price|default='0.00'}</span>
+                    </span>
+
+                    <span class="conf_order_inventory rt">x
+                        <span class="mynum">{$num|default='0'}</span>
+                    </span>
+                    <div class="conf_order_zhekou rt">
+                        <img src="__CDN_PATH__{$info.gdt_img|default='/static/image/index/pic_home_taplace@2x.png'}" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="conf_order_data">
+            <div class="clear">
+                截止日期
+                <!-- 加判断 -->
+                {if condition="$is_lord ==1"}
+                {else/}
+                <span class="conf_order_hint">目标满额立即揭晓</span>
+                {/if}
+                
+                <span class="conf_order_time rt">{$info.g_endtime|date='Y-m-d H:i',###}</span>
+            </div>
+        </div>
+
+
+        <div class="conf_order_data conf_order_num">
+                <div class="clear">
+                    吖吖码份数
+                    <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
+                    <div class="conf_order_but rt clear">
+                        <div class="conf_order_prep lf">
+                            <img src="__STATIC__/image/orderpai/icon_-@2x.png">
+                        </div>
+                        <div class="conf_order_inp lf">
+                            <input type="number" name="num" min="1" max="{$max_pai_num|default=0}"
+                                   value="{$num|default='0'}" readonly>
+                        </div>
+                        <div class="conf_order_add lf">
+                            <img src="__STATIC__/image/orderpai/icon_+@2x.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+        <div class="conf_order_data">
+            <div class="clear">
+                配送方式
+                <span class="conf_order_hint">{$info.g_express_way|default='未选择'}</span>
+                <span class="conf_order_time rt">￥{$info.g_express|default='0.00'}</span>
+            </div>
+        </div>
+        <div class="conf_order_data">
+            <div class="clear">
+                总额
+                <span class="conf_order_time conf_price rt">￥ {$all_money|default='0.00'}</span>
+            </div>
+        </div>
+    </div>
+    {if condition="$info.is_fudai ==1"}
+        <div class="conf_order_btn ljzf_but phonex conf_order_btn_fudai" >
+            <span >
+                提交订单
+            </span>
+        </div>
+    {else/}
+        <div class="conf_order_btn ljzf_but phonex " >
+            <span>
+                提交订单
+            </span>
+        </div>
+    {/if}
+
+    <!--支付密码浮动层-->
+    <div class="ftc_wzsf">
+        <div class="srzfmm_box">
+            <div class="qsrzfmm_bt clear_wl">
+
+                <span class="">请输入支付密码</span>
+                <img src="__STATIC__/image/orderpai/icon_x@2x.png" class="tx close fr conf_order_colse">
+            </div>
+            <div class="zfmmxx_shop conf_order_paypassword_main clear">
+                <!--<span class="conf_order_pay_text lf">需支付￥</span>-->
+                <p class="conf_order_hints">
+                    <span class="conf_order_pay_text">需支付</span>
+                    <span class="conf_order_fuhao">￥</span>
+                    <span class="all_money">{$all_money}</span>
+                    <!--{$all_money}-->
+                </p>
+            </div>
+            <!-- <ul class="mm_box">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul> -->
+
+            <div class="inputBoxContainer" id="inputBoxContainer">
+                <input type="tel" class="realInput" autofocus="autofocus"/>
+                <div class="bogusInput">
+                    <input type="password" maxlength="6" disabled class="active99"/>
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                    <input type="password" maxlength="6" disabled />
+                </div>
+            </div>
+            <div class="conf_order_paypassword_hint clear">
+                <div class="conf_order_balance lf">当前余额
+                    <span> ￥ {$mem_info.m_money|default='0.00'}</span>
+
+                    <p class="lack_msg" style="display: none;">余额不足请立即充值</p>
+                </div>
+                <div class="conf_order_pay rt">充值</div>
+            </div>
+            <input type="hidden" name="o_id" value="0"/>
+            <input type="hidden" name="gp_id" value="{$gp_id}"/>
+            <input type="hidden" name="gdr_id" value="{$gdr_id}"/>
+            <input type="hidden" name="gs_id" value="{$gs_id|default=1}"/>
+            <a href="/member/Register/amnesia_payment">
+                <p class="conf_forget">忘记密码</p>
+            </a>
+        </div>
+        <!-- <div class="numb_box">
+            <div class="xiaq_tb">
+                <img src="img/zhifu/jftc_14.jpg" height="10"></div>
+            <ul class="nub_ggg">
+                <li><a href="javascript:void(0);" class="zf_num">1</a></li>
+                <li><a href="javascript:void(0);" class="zj_x zf_num">2</a></li>
+                <li><a href="javascript:void(0);" class="zf_num">3</a></li>
+                <li><a href="javascript:void(0);" class="zf_num">4</a></li>
+                <li><a href="javascript:void(0);" class="zj_x zf_num">5</a></li>
+                <li><a href="javascript:void(0);" class="zf_num">6</a></li>
+                <li><a href="javascript:void(0);" class="zf_num">7</a></li>
+                <li><a href="javascript:void(0);" class="zj_x zf_num">8</a></li>
+                <li><a href="javascript:void(0);" class="zf_num">9</a></li>
+                <li><a href="javascript:void(0);" class="zf_empty">清空</a></li>
+                <li><a href="javascript:void(0);" class="zj_x zf_num">0</a></li>
+                <li><a href="javascript:void(0);" class="zf_del"><img
+                        src="__STATIC__/image/orderpai/icon_01@2x.png"></a></li>
+            </ul>
+        </div> -->
+        <div class="hbbj"></div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/orderpai/conf_order.js"></script>
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script type="text/javascript" src="__JS__/md5.js"></script>
+<script type="text/javascript">
+// $(".header_back").click(function(){
+//     window.location.href="/member/goodsproduct/index/g_id/957"
+// })
+    $(function () {
+        //提交订单
+        $(".ljzf_but").click(function () {
+            
+            var address_id = $('input[name=address_id]').val();
+            var num = $('input[name=num]').val();
+            var gp_id = $('input[name=gp_id]').val();
+            var gdr_id = $('input[name=gdr_id]').val();
+            var o_id = $('input[name=o_id]').val();
+            var gs_id = $('input[name=gs_id]').val();
+            $.ajax({
+                url: "/member/Orderpai/creat_order",
+                dataType: 'json',
+                type: 'POST',
+                data: {address_id: address_id, num: num, gp_id: gp_id, gdr_id: gdr_id, o_id: o_id, gs_id: gs_id },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.status == 1) {
+                        $('input[name=o_id]').val(data.data);
+                        //打开浮动
+                        $(".ftc_wzsf").show();
+                    }else if(data.status == 2){
+                        // 判断是否开通钱包
+                        window.location.href=data.data;
+                    } else {
+                        // 失败提示
+                        layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                            time: 2000
+                        });
+                    }
+                }
+            });
+        });
+
+
+        //关闭浮动
+        $(".close").click(function () {
+            $(".ftc_wzsf").hide();
+            $(".mm_box li").removeClass("mmdd");
+            $(".mm_box li").attr("data", "");
+            i = 0;
+            is_setorder();
+        });
+//         //数字显示隐藏
+//         $(".xiaq_tb").click(function () {
+//             $(".numb_box").slideUp(500);
+//         });
+//         $(".mm_box").click(function () {
+//             $(".numb_box").slideDown(500);
+//         });
+//         //点击数字
+//         var i = 0;
+//         $(".nub_ggg li .zf_num").click(function () {
+// //            var txt = $(this).text();
+//             if (i < 6) {
+// //                $(".mm_box li").eq(i).html(txt);
+// //                setTimeout(function () {
+// //                    $(".mm_box li").eq(i - 1).html("");
+// //                    $(".mm_box li").eq(i - 1).addClass("mmdd");
+// //                }, 100);
+//                 $(".mm_box li").eq(i).addClass("mmdd");
+//                 $(".mm_box li").eq(i).attr("data", $(this).text());
+//                 i++
+//             }
+//             if (i == 6) {
+//                 setTimeout(function () {
+//                     var pwd = "";
+//                     $(".mm_box li").each(function () {
+//                         pwd += $(this).attr("data");
+//                     });
+//                     pwd = hex_md5(pwd);
+
+//                     // 判断余额
+//                     var $pay_money = parseFloat("{$all_money|default='0'}");
+//                     var $my_money = parseFloat("{$mem_info.m_money|default='0'}");
+//                     if ($pay_money > $my_money) {
+//                         // 失败提示
+//                         layer.msg("<span style='color:#fff'>余额不足，请充值</span>", {
+//                             time: 2000
+//                         });
+//                         return false;
+//                     }
+
+//                     // 支付请求
+//                     var o_id = $("input[name=o_id]").val();
+//                     o_id = Number(o_id);
+//                     $.ajax({
+//                         url: "/member/Orderpai/order_pay",
+//                         dataType: 'json',
+//                         type: 'POST',
+//                         data: {o_id: o_id, pwd: pwd},
+//                         success: function (data) {
+//                             //console.log(data);exit();
+//                             if(data.status != 1){
+//                                 layer.msg("<span style='color:#fff'>"+data.msg+"</span>", {
+//                                     time: 2000
+//                                 });
+//                             }else{
+//                                 window.location.href="/member/orderpai/pay_result/o_id/"+o_id+"/j_type/1";
+//                             }
+//                         }
+//                     });
+//                 }, 200);
+//             }
+//         });
+
+//         $(".nub_ggg li .zf_del").click(function () {
+//             if (i > 0) {
+//                 i--
+//                 $(".mm_box li").eq(i).removeClass("mmdd");
+//                 $(".mm_box li").eq(i).attr("data", "");
+//             }
+//         });
+//         $(".nub_ggg li .zf_empty").click(function () {
+//             // $(".mm_box li").text("");
+//             $(".mm_box li").removeClass("mmdd");
+//             $(".mm_box li").attr("data", "");
+//             i = 0;
+//         });
+
+
+
+
+
+        // 充值
+        $('.conf_order_pay').click(function () {
+            var o_id = $("input[name=o_id]").val();
+            window.location.href="/member/wallet/recharge/r_jump_type/1/r_jump_id/"+o_id;
+        });
+
+        // 数量加
+        $(".conf_order_add").click(function () {
+            var num = $('input[name=num]').val();
+            var max = $('input[name=num]').attr("max");
+            var left_num = $(".left_num").html();
+            num = parseInt(num);
+            max = parseInt(max);
+            left_num = parseInt(left_num);
+
+            if(left_num < max){
+                max = left_num;
+            }
+            if (max > num) {
+                num++;
+            } else {
+                layer.msg("<span style='color:#fff'>您当前最多能团" + max + "件</span>", {
+                    time: 2000
+                });
+            }
+            $('input[name=num]').val(num);
+            $(".mynum").html(num);
+            // 计算金额
+            settle();
+        });
+        // 数量减
+        $(".conf_order_prep").click(function () {
+            var num = $('input[name=num]').val();
+            var min = $('input[name=num]').attr("min");
+            num = parseInt(num);
+            min = parseInt(min);
+            if (min < num) {
+                num--;
+            }
+            $('input[name=num]').val(num);
+            $(".mynum").html(num);
+            // 计算金额
+            settle();
+        });
+
+        // 初始化金额
+        settle();
+
+        // var container = $("#inputBoxContainer");
+        // // $(".realInput").dblclick( function (event, a) {
+        //     // console.log(a)
+        // // $(".realInput").trigger('dblclick').focus();
+        //     // $('#showValue2').html(a)
+        // // }).trigger("dblclick", 'ssss');
+        // var allBogusInputInput = $("input[type='password']");
+        // console.log(allBogusInputInput)
+        // var boxInput = {
+        //     maxLength: "",
+        //     realInput: "",
+        //     bogusInput: "",
+        //     bogusInputArr: "",
+        //     callback: "",
+        //     init: function (fun) {
+        //         var that = this;
+        //         this.callback = fun;
+        //         that.realInput = container.children()[0];
+        //         that.bogusInput = container.children()[1];
+        //         that.bogusInputArr = that.bogusInput.children;
+        //         that.maxLength = that.bogusInputArr[0].getAttribute("maxlength");
+        //         that.realInput.oninput = function () {
+        //             that.setValue();
+        //         }
+        //         that.realInput.onpropertychange = function () {
+        //             that.setValue();
+        //         }
+        //     },
+        //     setValue: function () {
+        //         this.realInput.value = this.realInput.value.replace(/\D/g, "");
+        //         var real_str = this.realInput.value;
+        //         for (var i = 0; i < this.bogusInputArr.length; i++) {
+        //             $(this.bogusInputArr[i]).removeClass('active');
+        //         }
+                
+        //         for (var i = 0; i < this.maxLength; i++) {
+        //             this.bogusInputArr[i].value = real_str[i] ? real_str[i] : "";
+        //             if(this.getBoxInputValue().length==i){
+        //                 $(this.bogusInputArr[i]).addClass('active');
+        //             }
+        //         }
+        //         if (real_str.length >= this.maxLength) {
+        //             this.realInput.value = real_str.substring(0, 6);
+        //             this.callback();
+        //         }
+        //     },
+        //     getBoxInputValue: function () {
+        //         var realValue = "";
+        //         for (var i in this.bogusInputArr) {
+        //             if (!this.bogusInputArr[i].value) {
+        //                 break;
+        //             }
+        //             realValue += this.bogusInputArr[i].value;
+        //         }
+        //         return realValue;
+        //     }
+        // }
+        boxInput.init(function () {
+            var pawval = boxInput.getBoxInputValue();
+            setTimeout(function () {
+                pwd = hex_md5(pawval);
+
+                // 判断余额
+                var $pay_money = parseFloat("{$all_money|default='0'}");
+                var $my_money = parseFloat("{$mem_info.m_money|default='0'}");
+                if ($pay_money > $my_money) {
+                    // 失败提示
+                    layer.msg("<span style='color:#fff'>余额不足，请充值</span>", {
+                        time: 2000
+                    });
+                    return false;
+                }
+                // 支付请求
+                var o_id = $("input[name=o_id]").val();
+                o_id = Number(o_id);
+                $.ajax({
+                    url: "/member/Orderpai/order_pay",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {o_id: o_id, pwd: pwd},
+                    success: function (data) {
+                        //console.log(data);exit();
+                        if(data.status != 1){
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>", {
+                                time: 2000
+                            });
+                            $(".realInput").val('')
+                            boxInput.setValue();
+                        }else{
+                            // 如果成团异步调用退款操作
+                            if(data.data.is_mem_full > 0){
+                                $.ajax({
+                                    url: "/member/orderpai/pai_pay_callback",
+                                    dataType: 'json',
+                                    type: 'POST',
+                                    success: function (data) {
+                                        console.log(data);
+                                        //不用做处理
+                                    }
+                                });
+                            }
+                            window.location.href="/member/orderpai/pay_result/o_id/"+o_id+"/j_type/1";
+                            sessionStorage.setItem('backUrl',window.location.href);
+                        }
+                    }
+                });
+            }, 200);
+        });
+    });
+
+    // 计算金额
+    function settle() {
+        var num = $('input[name=num]').val();
+        var price = parseFloat("<?php echo $info['gdr_price'] ?>");
+        var express_money = parseFloat("<?php echo $info['g_express'] ?>");
+        var total_money = (price * 100 * num / 100 + express_money).toFixed(2);
+        var my_money = parseFloat("<?php echo $mem_info['m_money'] ?>");
+
+        $(".conf_price").html('￥ ' + total_money);
+        $('.all_money').html(total_money);
+
+        if (total_money > my_money) {
+            $('.lack_msg').show();
+        } else {
+            $('.lack_msg').hide();
+        }
+    }
+
+    // 判断此页面是否已经生成订单 生成则跳转
+    function is_setorder() {
+        var o_id = $('input[name=o_id]').val();
+        if (o_id > 0) {
+            window.location.href = "/member/orderpai/index/o_id/" + o_id + "/j_type/1";
+            sessionStorage.setItem('backUrl',window.location.href);
+        }
+    }
+    is_setorder();
+
+    // 当前折扣剩余最大参团数量
+    function get_max_pai_num_bygdrid(){
+        var gdr_id = "{$gdr_id|default=0}";
+        // 请求
+        $.ajax({
+            url: "{:url('Goodsproduct/get_max_pai_num_bygdrid')}",
+            dataType: 'json',
+            type: 'POST',
+            data: {gdr_id: gdr_id},
+            success: function (data) {
+                console.log(data);
+                if(!data.status){
+                    layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                        time: 2000
+                    });
+                }else{
+                    $("input[name=num]").attr("max",data.data.left_max_pai_num);
+                }
+            }
+        });
+    }
+    get_max_pai_num_bygdrid();
+</script>
+{/block}

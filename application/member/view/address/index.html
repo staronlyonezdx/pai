@@ -298,14 +298,17 @@
                 var pcode = $("input[name=pcode]").val();
                 var pm_id = $("input[name=pm_id]").val();
                 var address_id = $(this).parents(".address_list").attr("aid");
-                if("{$encrypt}"!=0) {
-                    window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
-                }else if("{$pcode}"!=0) {
-                    window.location.href = "/pointpai/Pointorder/confirm_order/pcode/"+pcode+"/address_id/" + address_id;
-                }                
+
+                $.cookie('address_id', address_id, {expire: 7,path:"/"});
+                window.history.go(-1);
+                // if("{$encrypt}"!=0) {
+                //     window.location.href = "/member/Orderpai/confirm/param/" + encrypt + "/address_id/" + address_id;
+                // }else if("{$pcode}"!=0) {
+                //     window.location.href = "/pointpai/Pointorder/confirm_order/pcode/"+pcode+"/address_id/" + address_id;
+                // }                
             })
         }
-    
+
         function changeAddress(){
                 $(".address_top").click(function(){
                     // alert("e");
@@ -334,8 +337,7 @@
                                     success: function(data) {
                                         console.log(data);
                                         if(data.status){
-                                            // console.log(11);
-                                            window.history.back();
+                                            window.history.go(-1);
                                             // window.location.href="/popularity/popularityorder/order_info/pm_id/"+pm_id;
                                         }else{
                                             if(data.status){
@@ -360,7 +362,7 @@
                     });
                 })
             }
-        
+
     })
 </script>
 {/block}

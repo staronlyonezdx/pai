@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\project\pai\public/../application/member/view/register/index.html";i:1541491284;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\project\pai\public/../application/member/view/register/index.html";i:1542181765;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -121,8 +121,8 @@
         </p>
     </div>
   <div class="register_btn register" disabled="disabled">
-      <!--加入拍吖吖-->
-      下一步
+      加入拍吖吖
+      <!--下一步-->
   </div>
 
 
@@ -130,20 +130,20 @@
 </main>
 
 <!--填写地址页面-->
-<div class="register_address">
-    <div class="header_back" >
-        <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt close_address">
-    </div>
-    <p class="add_address">选择地址区域</p>
-    <div class=" editaddress_inp">
+<!--<div class="register_address">-->
+    <!--<div class="header_back" >-->
+        <!--<img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt close_address">-->
+    <!--</div>-->
+    <!--<p class="add_address">选择地址区域</p>-->
+    <!--<div class=" editaddress_inp">-->
 
-        <img src="__STATIC__/image/register/icon_dizhi@2x.png" alt="" class="dingwei">
-        <input id="demo1" type="text" name="pid "   readonly="readonly" placeholder="选择当前所在地址省/市/区" class="address_input">
-        <input id="value1" type="hidden" name="area_id" />
-        <img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" class="address_edit">
-    </div>
-    <div class="success_register " disabled="disabled">完成注册</div>
-</div>
+        <!--<img src="__STATIC__/image/register/icon_dizhi@2x.png" alt="" class="dingwei">-->
+        <!--<input id="demo1" type="text" name="pid "   readonly="readonly" placeholder="选择当前所在地址省/市/区" class="address_input">-->
+        <!--<input id="value1" type="hidden" name="area_id" />-->
+        <!--<img src="__STATIC__/icon/publish/icon_nav_jump@2x.png" class="address_edit">-->
+    <!--</div>-->
+    <!--<div class="success_register " disabled="disabled">完成注册</div>-->
+<!--</div>-->
 
 
         <footer></footer>
@@ -151,10 +151,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -262,22 +262,22 @@
         if (r != null) return unescape(r[2]); return null; //返回参数值
     }
 
-    $(function(){
-        //调用地址插件
-        var area1 = new LArea();
-        area1.init({
-            'trigger': '#demo1', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
-            'valueTo': '#value1', //选择完毕后id属性输出到该位置
-            'keys': {
-                id: 'id',
-                name: 'name'
-            }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-            'type': 1, //数据源类型
-            'data': LAreaData //数据源
-        });
-        area1.value=[0,0,0];
-
-    });
+    // $(function(){
+    //     //调用地址插件
+    //     var area1 = new LArea();
+    //     area1.init({
+    //         'trigger': '#demo1', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+    //         'valueTo': '#value1', //选择完毕后id属性输出到该位置
+    //         'keys': {
+    //             id: 'id',
+    //             name: 'name'
+    //         }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+    //         'type': 1, //数据源类型
+    //         'data': LAreaData //数据源
+    //     });
+    //     area1.value=[0,0,0];
+    //
+    // });
 </script>
 
 </html>

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1541575155;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1542096917;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -42,13 +42,22 @@
     </head>
     <body>
         <header>
-<div class="header_nav">
+<!-- <div class="header_nav">
     <div class="header_view">
         <div class="header_tit">
             <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
             <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.back();" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?>>
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
             </div>
+        </div>
+    </div>
+</div> -->
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
+            <div class="header_back" >
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
         </div>
     </div>
 </div>
@@ -288,10 +297,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -389,6 +398,20 @@
 <script type="text/javascript" src="__JS__/order_info/payment.js"></script>
 <script type="text/javascript" src="__JS__/md5.js"></script>
 <script type="text/javascript">
+// $(".header_back").click(function(){
+//     window.location.href="/member/goodsproduct/index/g_id/957"
+// })
+var g_id=window.sessionStorage.getItem("g_id")//从sessionStorage中取数据
+$(".header_back").click(function(){
+    if(g_id){
+        sessionStorage.removeItem('g_id');//删除sessionstorage
+        window.location.href="/member/goodsproduct/index/g_id/"+g_id;
+    }else{
+        window.history.back();
+    }
+})
+
+
     $(function () {
         //提交订单
         $(".ljzf_but").click(function () {
