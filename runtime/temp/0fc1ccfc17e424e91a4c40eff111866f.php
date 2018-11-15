@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/orderpai/orderlist.html";i:1541765257;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/orderpai/orderlist.html";i:1542249675;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -979,11 +979,9 @@
     var header_path = "<?php echo isset($header_path) ? $header_path :  ''; ?>";
     //返回按钮
     function backH5() {
-        if(header_path != '') {
-            window.location.href = header_path;
-        }else {
+
             window.history.back();
-        }
+       
     }
 
     //显示分享弹窗

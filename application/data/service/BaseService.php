@@ -10,6 +10,7 @@
  */
 
 namespace app\data\service;
+use app\data\service\sms\AliService;
 use think\Cache;
 use think\Db;
 use think\File;
@@ -732,9 +733,81 @@ class BaseService
                     $data[$key][$ck]=iconv("UTF-8", "GBK//IGNORE", $cv);
                 }
                 $data[$key]=implode("\t", $data[$key]);
-
             }
             echo implode("\n",$data);die;
+        }
+    }
+
+    /**
+     * 注册根据手机号码插入地址
+     * 邓赛赛
+     */
+    public function add_mobile_city($m_id,$mobile=''){
+        $city_info = $this->mobile_city($mobile);
+        if(!$city_info['status']){
+            return ['status'=>0,'msg'=>$city_info['msg']];
+        }
+        $data = [
+            'm_id'=>$m_id,
+            'mobile'    =>$city_info['data']['mobile'],
+            'province'  =>$city_info['data']['province'],
+            'city'      =>$city_info['data']['city'],
+            'isp'       =>$city_info['data']['service_provider'],
+            'post_code' =>$city_info['data']['postcode'],
+            'city_code' =>$city_info['data']['city_code'],
+        ];
+        $count_city = Db::table('pai_member_area')->where('m_id',$m_id)->count();
+        if($count_city){
+            return ['status'=>0,'msg'=>'此用户地址信息不可重复插入'];
+        }
+        $res = Db::table('pai_member_area')->insert($data);
+        if($res){
+            return ['status'=>1,'msg'=>'ok'];
+        }else{
+            return ['status'=>0,'msg'=>'插入数据失败'];
+        }
+
+    }
+    /**
+     * 根据手机号前七位获取省市地址
+     * 邓赛赛
+     */
+    public function mobile_city($mobile){
+
+        if(empty($mobile)){
+            return ['status'=>0,'msg'=>'手机号码为空'];
+        }
+        //检测手机号,报错return
+        $res = $this->is_phone($mobile);
+        if($res){
+            return $res;
+        }
+        $phone = substr($mobile,0,7);
+        $where = [
+            'phone'=>$phone,
+        ];
+        $city_info = Db::table('mobile')->where($where)->find();
+        if($city_info){
+            $city_info['mobile'] = (string)$mobile;
+            return ['status'=>1,'msg'=>'ok','data'=>$city_info];
+        }else{
+            $ali = new AliService();
+            $data = $ali->get_address($mobile);
+            if(!empty($data['ret']) &&  $data['ret'] == 200){
+                $city_api_info= [
+                    'phone'     =>$phone,
+                    'province'  =>$data['data']['prov'],
+                    'city'      =>$data['data']['city'],
+                    'service_provider' =>$data['data']['types'],
+                    'city_code' =>$data['data']['city_code'],
+                    'postcode'  =>$data['data']['zip_code'],
+                    'mobile'    =>(string)$mobile,
+                ];
+                return ['status'=>1,'msg'=>'ok','data'=>$city_api_info];
+            }else{
+                return ['status'=>0,'msg'=>'未匹配到城市信息'];
+
+            }
         }
     }
 

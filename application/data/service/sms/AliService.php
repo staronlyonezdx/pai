@@ -58,6 +58,25 @@ class AliService extends BaseService
         return $res;
     }
 
+    /**
+     * 获取用户手机号地址信息
+     * 邓赛赛
+     */
+    public function get_address($mobile){
+        $host = "https://api04.aliyun.venuscn.com";
+        $path = "/mobile";
+//        $method = "GET";
+        $appcode = $this->AppCode;
+        $headers = array();
+//        array_push($headers, "Authorization:APPCODE " . $appcode);
+        $querys = "mobile=".$mobile;
+//        $bodys = "";
+//        $url = $host . $path . "?" . $querys;
+        $res = $this->send_curl($host,$path,$appcode,$querys);
+        $res = json_decode($res,true);
+        return $res;
+    }
+
     //curl请求
 	public function send_curl($host,$path,$appcode,$querys){
         $method = "GET";

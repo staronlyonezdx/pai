@@ -690,8 +690,14 @@ class Wallet extends MemberHome
             case 5:
                 $info['r_type_code'] = '余额充值花生';
                 break;
+            case '6':
+                $info['r_type_code'] ="微信APP支付";
+                break;
+            case '7':
+                $info['r_type_code'] ="支付宝APP支付";
+                break;
             default:
-                $info['r_type_code'] = '未知';
+                $info['r_type_code'] = '移动支付';
                 break;
         }
         $info['r_money'] = empty($info['r_money']) ? 0 : $info['r_money'];

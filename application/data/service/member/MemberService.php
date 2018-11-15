@@ -193,9 +193,10 @@ class MemberService extends BaseService
         }
         return $msg;
     }
+
 	//注册用户（App和PC端）
 	public function addUserAP($data,$tj=''){
-        $parameter['m_mobile'] = trim($data['m_mobile']);
+        $mobile = $parameter['m_mobile'] = trim($data['m_mobile']);
         $parameter['m_pwd'] =trim($data["m_pwd"]);
         $parameter['re_pwd'] = empty($data["re_pwd"]) ? '' : trim($data["re_pwd"]) ;
         $parameter['verification'] = trim($data["verification"]);
@@ -300,6 +301,8 @@ class MemberService extends BaseService
             $insert['tj_mid'] = $parameter['tj_mid'];
         }
         $id = $this->member->insertId($insert);
+        //通过手机号码获取并插入用户省、市信息
+        $this->add_mobile_city($id,$mobile);
             //推荐者不为空是走此项
             if($parameter['tj_mid']){
                 //注册log
@@ -319,67 +322,25 @@ class MemberService extends BaseService
                     if(!empty($tj_info['m_id']) && in_array($tj_info['is_promoters'],$arr)){
                         $invitation['descendants_num']  = 1;
                         $invitation['group_gene']       = $parameter['tj_mid'];
-//                        //读取配置文件奖励
-//                            $where = [
-//                                'c_state'=>0,
-//                                'c_code'=>'TGY_ZT'
-//                            ];
-//                            $c_value = $config->configGetValue($where,'c_value');
-//                            if($tj_info['is_promoters'] == 4){
-//                                //插入冻结收益
-//                                $pa_info = [
-//                                    'm_id'=>$tj_info['m_id'],
-//                                    'from_id'=>$id,
-//                                    'p_money'=>$c_value,
-//                                    'e_money'=>10,
-//                                    'descendants_num'=>1,
-//                                    'type'=>1,
-//                                    'state'=>1,
-//                                    'add_time'=>time(),
-//                                ];
-//                                $promoters = new PromotersFrozenService();
-//                                $promoters->get_add($pa_info);
-//                            }
-                            //如果推荐者还有推荐者
-                            if($tj_info['tj_mid']){
-                                $where2 = [
-                                    'm_id'=>$tj_info['tj_mid'],
-                                    'm_state'=>0,
-                                ];
-                                $top_member = $this->get_info($where2,'m_id,tj_mid,is_promoters');
-                                //顶级推荐者为真，推广员状态为 考核期推广员4或正式推广员5
-                                if(!empty($top_member['m_id']) && in_array($top_member['is_promoters'],$arr)){
-                                    //多插入一次顶级注册log
-                                    $invitation2['tj_mid']   = $parameter['tj_mid'];
-                                    $invitation2['m_id']     =$id;
-                                    $invitation2['add_time'] =time();
-                                    $invitation2['descendants_num']  = 2;
-                                    $invitation2['group_gene']       = $top_member['m_id'];
-                                    Db('invitation_log')->insert($invitation2);
-
-//                                    $where3 = [
-//                                        'c_state'=>0,
-//                                        'c_code'=>'TGY_JT'
-//                                    ];
-//                                    $c_value = $config->configGetValue($where3,'c_value');
-//                                    if($top_member['is_promoters'] == 4){
-//                                        //插入冻结收益
-//                                        $pa_info = [
-//                                            'm_id'=>$top_member['m_id'],
-//                                            'from_id'=>$id,
-//                                            'p_money'=>$c_value,
-//                                            'e_money'=>0,
-//                                            'descendants_num'=>2,
-//                                            'type'=>2,
-//                                            'state'=>1,
-//                                            'add_time'=>time(),
-//                                        ];
-//                                        $promoters = new PromotersFrozenService();
-//                                        $promoters->get_add($pa_info);
-//                                    }
-                                }
+                        //如果推荐者还有推荐者
+                        if($tj_info['tj_mid']){
+                            $where2 = [
+                                'm_id'=>$tj_info['tj_mid'],
+                                'm_state'=>0,
+                            ];
+                            $top_member = $this->get_info($where2,'m_id,tj_mid,is_promoters');
+                            //顶级推荐者为真，推广员状态为 考核期推广员4或正式推广员5
+                            if(!empty($top_member['m_id']) && in_array($top_member['is_promoters'],$arr)){
+                                //多插入一次顶级注册log
+                                $invitation2['tj_mid']   = $parameter['tj_mid'];
+                                $invitation2['m_id']     =$id;
+                                $invitation2['add_time'] =time();
+                                $invitation2['descendants_num']  = 2;
+                                $invitation2['group_gene']       = $top_member['m_id'];
+                                Db('invitation_log')->insert($invitation2);
                             }
-                        }else{
+                        }
+                    }else{
                         //推荐者非推广员进入此项，检测上上级是否为推广员
                         if(!empty($tj_info['tj_mid'])){
                             $where = [
@@ -396,26 +357,6 @@ class MemberService extends BaseService
                                 $invitation2['descendants_num'] = 2;
                                 $invitation2['group_gene'] = $top_tj_info['m_id'];
                                 Db('invitation_log')->insert($invitation2);
-//                                if ($top_tj_info['is_promoters'] == 4) {
-//                                    $where3 = [
-//                                        'c_state' => 0,
-//                                        'c_code' => 'TGY_JT'
-//                                    ];
-//                                    $c_value = $config->configGetValue($where3, 'c_value');
-//                                    //插入冻结收益
-//                                    $pa_info = [
-//                                        'm_id' => $top_tj_info['m_id'],
-//                                        'from_id' => $id,
-//                                        'p_money' => $c_value,
-//                                        'e_money' => 0,
-//                                        'descendants_num' => 2,
-//                                        'type' => 2,
-//                                        'state' => 1,
-//                                        'add_time' => time(),
-//                                    ];
-//                                    $promoters = new PromotersFrozenService();
-//                                    $promoters->get_add($pa_info);
-//                                }
                             }
                         }
                     }
@@ -437,184 +378,13 @@ class MemberService extends BaseService
             Db('error_log')->insert($arr);//插入错误日志表
             return ['status'=>0, 'msg' => '注册失败'];
         }
-//        }else{
-//            $msg = ['status'=>0,'msg' => '请稍后重试'];
-//        }
         return $msg;
     }
-
-//    //注册用户（推广员邀请注册)
-//    public function promoters_add($data){
-//        $parameter['m_mobile']  = empty($data["m_mobile"]) ? '' : trim($data["m_mobile"]);
-//        $parameter['m_pwd']     = empty($data["m_pwd"]) ? '' : trim($data["m_pwd"]) ;
-//        $parameter['re_pwd']    = empty($data["re_pwd"]) ? '' : trim($data["re_pwd"]) ;
-//        $parameter['verification'] = empty($data["verification"]) ? '' : trim($data["verification"]);
-//
-//        $parameter['promoters_code'] = empty($data["promoters_code"]) ? '' : trim($data["promoters_code"]);
-//        //写入IP--------wu start
-//        $uip=$this->getIp();
-//        $parameter['ip'] = empty($data["ip"]) ? $uip : $data["ip"];
-//        //写入IP--------wu end
-//        //写入渠道--------wu start
-//        if(!empty($_COOKIE['channel'])){
-//            $parameter['channel'] =$_COOKIE['channel'];
-//        }
-//        else{
-//            $parameter['channel']="";
-//        }
-//        //写入渠道--------wu end
-//
-//        //检测手机号
-//        $is_phone = $this->is_phone($parameter['m_mobile']);
-//        if($is_phone){ return $is_phone;}
-//        //检测密码
-//        $is_pwd = $this->is_pwd($parameter['m_pwd']);
-//        if($is_pwd){ return $is_pwd;}
-//        if(empty($parameter['verification'])){
-//            return ['status'=>0,'msg'=>'请输入验证码'];
-//        }
-//        //检测验证码
-//        $sms = new SmsService();                                //此处检测短信验证是否正确
-//        $res = $sms->checkSmsCode($parameter['verification'],$parameter['m_mobile']);
-//        if($res['status']!=1){
-//            return $res;
-//        }
-//        //推荐者账号是否正确
-//        $parameter['tj_mid'] = '';
-//        $level_path = '';   //家族id
-//        if(!$parameter['promoters_code']){
-//            return ['status'=>0,'msg'=>'推荐者为空'];
-//        }
-//        $sele['promoters_code'] = $parameter['promoters_code'];
-//        $where = [
-//            'promoters_code'=>$parameter['promoters_code']
-//        ];
-//        //推广员信息id和状态
-//        $tj_info = $this->member->getInfo($where,'m_id,is_promoters');
-//        //推广员状态 4考核中 5考核成功(推广员)
-//        $arr = [4,5];
-//        if($tj_info['m_id'] && in_array($tj_info['is_promoters'],$arr)){
-//            $level_path = $this->member->get_value(['m_id'=>$tj_info['m_id']],'level_path');
-//            $level_path = trim($level_path.'-'.$tj_info['m_id'],'-');
-//            $parameter['tj_mid'] = $tj_info['m_id'];
-//        }else{
-//            return ['status'=>0,'msg'=>'未找到此推广员'];
-//        }
-//
-//
-//        $parameter['m_mobile'] = $this->encrypt($parameter['m_mobile']); //手机号加密存储****切记****
-//        $map = [
-//            'm_mobile'=>$parameter['m_mobile']
-//        ];
-//        $info = $this->member->getInfo($map,'m_id');
-//
-//        if($info){
-//            return ['status'=>0,'msg'=>'该手机号已被注册'];
-//        }
-//
-//        Db::startTrans();
-//        try{
-//            $insert = [                                         //开始注册
-//                'm_mobile'  =>$parameter['m_mobile'],
-//                'm_pwd'     =>md5($parameter['m_pwd']),
-//                'level_path'=>$level_path,
-//                'add_time'  =>time(),
-//                'm_state'   =>0,
-//                'popularity'=>100,
-//                'm_name'    =>'m'.substr($data['m_mobile'],5),
-//                'm_ip'      =>$parameter['ip'],
-//                'm_channel' =>$parameter['channel'],
-//                'tj_mid'    =>$parameter['tj_mid'],
-//            ];
-//            $city = "";   //获取地理位置
-//            if($city){
-//                $insert['m_province'] = $city['region'];
-//                $insert['m_city'] = $city['city'];
-//            }
-//            //插入member表
-//            $id = $this->member->insertId($insert);
-//
-//            $config = new ConfigService();
-//            $where = [
-//                'c_state'=>0,
-//                'c_code'=>'TGY_ZT'
-//            ];
-//            $c_value = $config->configGetValue($where,'c_value');
-//            //插入冻结收益
-//            $pa_info = [
-//                'm_id'=>$parameter['tj_mid'],
-//                'from_id'=>$id,
-//                'p_money'=>$c_value,
-//                'e_money'=>$c_value,
-//                'descendants_num'=>1,
-//                'type'=>1,
-//                'state'=>1,
-//                'add_time'=>time(),
-//            ];
-//            $promoters = new PromotersFrozenService();
-//            $promoters->get_add($pa_info);
-//
-//            //注册log
-//            $invitation['tj_mid'] =$parameter['tj_mid'];
-//            $invitation['m_id'] =$id;
-//            $invitation['add_time'] =time();
-//            $invitation['descendants_num'] =1;
-//            $invitation['group_gene'] = $parameter['tj_mid'] ;
-//            Db('invitation_log')->insert($invitation);
-//            $where = [
-//                'm.m_id'=>$parameter['tj_mid']
-//            ];
-//            //上上级信息
-//            $top_member = Db::table('pai_member m')
-//                ->join('pai_member fm','fm.m_id = m.tj_mid','left')
-//                ->where($where)
-//                ->field('fm.m_id,fm.m_state,fm.is_promoters')
-//                ->find();
-//            //上上级是账号正常的推广员时
-//            if($top_member['m_state'] == 0 && ($top_member['is_promoters'] == 4 || $top_member['is_promoters'] == 5)){
-//                //注册log
-//                $invitation['tj_mid'] =$parameter['tj_mid'];
-//                $invitation['m_id'] =$id;
-//                $invitation['add_time'] =time();
-//                $invitation['descendants_num'] =2;
-//                $invitation['group_gene'] = $top_member['m_id'];
-//                Db('invitation_log')->insert($invitation);
-//
-//                //插入冻结收益
-//                $pa_info = [
-//                    'm_id'=>$top_member['m_id'],
-//                    'from_id'=>$id,
-//                    'p_money'=>$c_value,
-//                    'e_money'=>$c_value,
-//                    'descendants_num'=>2,
-//                    'type'=>2,
-//                    'state'=>1,
-//                    'add_time'=>time(),
-//                ];
-//                $promoters = new PromotersFrozenService();
-//                $promoters->get_add($pa_info);
-//            }
-//            // 提交事务
-//            Db::commit();
-//            return ['status'=>1, 'msg' => '注册成功'];
-//        } catch (\Exception $e) {
-//            // 回滚事务
-//            Db::rollback();
-//            $error_msg = $e ->getMessage();//错误信息
-//            $arr = array(
-//                'el_type_id'    =>5,
-//                'el_description'=>date('Y-m-d H:i:s').'推广员注册失败'.$error_msg,
-//                'el_time'       =>time(),
-//            );
-//            Db('error_log')->insert($arr);//插入错误日志表
-//            return ['status'=>0, 'msg' => '注册失败'];
-//        }
-//    }
 
 
 //微信用户登录
     public function addUserWx($data,$tj=''){
-        $parameter['m_mobile'] = trim($data['m_mobile']);
+        $mobile = $parameter['m_mobile'] = trim($data['m_mobile']);
         $parameter['m_avatar'] = trim($data['m_avatar']);
         $parameter['m_name'] = trim($data['m_name']);
         $parameter['wx_openid'] = trim($data['wx_openid']);
@@ -699,6 +469,7 @@ class MemberService extends BaseService
             $insert['tj_mid'] = $parameter['tj_mid'];
         }
         $id = $this->member->insertId($insert);
+        $this->add_mobile_city($id,$mobile);
         if($id){
             if($parameter['tj_mid']){
                 //注册log
@@ -718,7 +489,7 @@ class MemberService extends BaseService
 
     //手机短信用户登录
     public function addUserMobileCode($data,$tj=''){
-        $parameter['m_mobile'] = trim($data['m_mobile']);
+        $mobile = $parameter['m_mobile'] = trim($data['m_mobile']);
         $parameter['m_name'] = 'm'.substr(trim($data['m_mobile']),5);
         $parameter['m_pwd'] ="a".trim($data["m_mobile"]);
         $parameter['verification'] = trim($data["verification"]);
@@ -815,6 +586,7 @@ class MemberService extends BaseService
                 $insert['tj_mid'] = $parameter['tj_mid'];
             }
             $id = $this->member->insertId($insert);
+            $this->add_mobile_city($id,$mobile);
 //        if($id){
             if($parameter['tj_mid']){
                 //注册log
@@ -1156,7 +928,10 @@ class MemberService extends BaseService
         }else{
             if(!empty($data['m_avatar']) && is_array($data) ){
                 $data['m_avatar'] = array_values(array_filter($data['m_avatar']));
-                $update['m_avatar'] = $this->member->ba64_img($data['m_avatar'],'m_avatar')[0];
+                $avatar = $this->member->ba64_img($data['m_avatar'],'m_avatar');
+                $m_avatar = empty($avatar[0]) ? '' : $avatar[0];
+                $update['m_avatar']     = $m_avatar;
+                $update['m_s_avatar']   = str_replace('/uploads/','/s_uploads/',$m_avatar);
 
                 $this->member->getSave($where,$update);
                 //上传代码修改二维码logo

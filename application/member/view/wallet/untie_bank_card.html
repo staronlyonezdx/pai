@@ -1,0 +1,50 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/untie_bank_card.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+
+{/block}
+{block name="content"}
+<main>
+    <div class="bookcard_yes">
+        <div class="untie_bank_card">
+            <h3>请选择需要解绑的卡号</h3>
+            <ul>
+                <li>建设银行储蓄卡尾号(2701)<span>已选</span></li>
+                <li>中信银行储蓄卡尾号(5870)<span>已选</span></li>
+            </ul>
+        </div>
+        <div class="bookcard_btn">当前还暂未选择解绑卡号</div>
+        <div class="bookcard_btn active_btn">已选1张，我要解绑</div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $('.untie_bank_card').find('li').off('click').on('click',function(){
+        $('.untie_bank_card').find('li').each(function(){
+            $(this).removeClass('active')
+            $(this).find('span').hide();
+        })
+        $(this).addClass('active');
+        $(this).find('span').show();
+        $('.active_btn').show();
+    })
+    $('.active_btn').off('click').on('click',function(e){
+        layer.confirm("解绑后将不再享受此卡服务", {
+            skin: 'demo-class',//skin属性可以将layer的标签提取出来，重新定义样式
+            title: false,/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['我再想想', '确认解绑'], //按钮
+            // 按钮2的回调
+            btn2: function () {
+                layer.msg('<span style="color:#fff">解绑成功</span>');
+            }
+        })
+    })
+</script>
+{/block}

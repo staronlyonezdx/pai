@@ -1,0 +1,89 @@
+.bookcard_btn{
+    width:7.5rem;
+    height:1rem;
+    background:#ddd ;
+    text-align: center;
+    line-height: 1rem;
+    text-align: center;
+    color:#aaa;
+    font-size: 0.32rem;
+    position: fixed;
+    bottom:0;
+    left: 0;
+    font-weight: 600;
+}
+.bookcard_btn i{
+    display: inline-block;
+    width: 0.20rem;
+    height: 0.20rem;
+    margin-right: 0.18rem;
+    position: relative;
+    top: -0.03rem;
+}
+.bookcard_btn i img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.bookcard_yes .untie_bank_card{
+    margin-top:0.16rem;
+}
+
+.bookcard_yes .untie_bank_card h3{
+    color:#787878;
+    font-size: 0.24rem;
+    line-height: 0.72rem;
+    padding: 0 0.3rem;
+}
+
+.bookcard_yes .untie_bank_card ul{
+    
+}
+
+.bookcard_yes .untie_bank_card ul li{
+    font-size: 0.28rem;
+    color: #aaa;
+    line-height: 0.72rem;
+    background-color: #fff;
+    border-top: 1px solid #F2F2F2;
+    padding: 0 0.3rem;
+    font-family:PingFangSC-Regular;
+}
+.bookcard_yes .untie_bank_card ul li:first-child{
+    border-top: 0;
+}
+.bookcard_yes .untie_bank_card ul li span{
+    display: none;
+    color: #F32E2E;
+    font-size: 0.28rem;
+    float: right;
+    font-family:PingFangSC-Regular;
+}
+.bookcard_yes .untie_bank_card ul li.active{
+    color: #000;
+}
+
+div.active_btn{
+    background-color: #FF5050;
+    color: #fff;
+    display: none;
+}
+
+body .demo-class{
+    width: 0.43rem;
+}
+body .demo-class .layui-layer-content{
+    padding: 0.72rem 0.6rem 0.54rem 0.6rem;
+    font-size: 0.26rem;
+    color:#787878;
+}
+body .demo-class .layui-layer-btn0{
+    
+}
+body .demo-class .layui-layer-btn1{
+    color:#F63D3D;
+}
+body .demo-class .layui-layer-btn a {
+    padding: 0 0.58rem !important;
+}

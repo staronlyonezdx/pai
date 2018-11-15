@@ -3,12 +3,12 @@
 <link rel="stylesheet" type="text/css" href="__CSS__/wallet/bookcard.css">
 {/block}
 {block name="header"}
-{include file="common/header" /}
+{include file="common/header_card" /}
 
 {/block}
 {block name="content"}
 <main>
-
+    
     {empty name='card'}
     <div class="bookcard_view" onclick="check_open()">
         <div class="bookcard_img">
@@ -16,15 +16,46 @@
         </div>
         <p>绑定银行卡</p>
         <span>绑定银行卡将用于账户充值提现等</span>
-        <div class="bookcard_btn" onclick="check_open()">绑定银行卡</div>
+        <div class="bookcard_btn" onclick="check_open()"><i><img src="__STATIC__/image/wallet/icon_(.png" alt=""></i>绑定银行卡</div>
     </div>
     {else /}
-    <div class="bookcard_yes">
+    <div class="bookcard_yes bookcard_yes1">
         <!--<img src="__STATIC__/image/wallet/cardyes@2x.png" alt="" >-->
-        <p>{$card.m_bankname}</p>
-        <span>{$card.m_bankaccount}</span>
-        <div class="bookcard_btn">您已绑定银行卡</div>
+        <div class="bankcard_info clearfloat">
+            <img src="__STATIC__/image/wallet/icon_ZX_Bank.png" alt="">
+            <!-- <p>{$card.m_bankname}</p> -->
+            <div class="bankcard_name">
+                <h3>中信银行</h3>
+                <span>储蓄卡</span>
+            </div>
+            
+        </div>
+        <p>
+            <span>{$card.m_bankaccount | substr=0,4}</span>
+            <span>{$card.m_bankaccount | substr=5,4}</span>
+            <span>{$card.m_bankaccount | substr=10,4}</span>
+            <span>{$card.m_bankaccount | substr=15,4}</span>
+        </p>
+        <div class="bookcard_btn" onclick="check_open()"><i><img src="__STATIC__/image/wallet/icon_(.png" alt=""></i>绑定银行卡</div>
     </div>
+    <div class="bookcard_yes bookcard_yes2">
+            <!--<img src="__STATIC__/image/wallet/cardyes@2x.png" alt="" >-->
+            <div class="bankcard_info clearfloat">
+                <img src="__STATIC__/image/wallet/icon_JS_Bank2.png" alt="">
+                <!-- <p>{$card.m_bankname}</p> -->
+                <div class="bankcard_name">
+                    <h3>建设银行</h3>
+                    <span>储蓄卡</span>
+                </div>
+            </div>
+            <p>
+                <span>{$card.m_bankaccount | substr=0,4}</span>
+                <span>{$card.m_bankaccount | substr=5,4}</span>
+                <span>{$card.m_bankaccount | substr=10,4}</span>
+                <span>{$card.m_bankaccount | substr=15,4}</span>
+            </p>
+            <div class="bookcard_btn" onclick="check_open()"><i><img src="__STATIC__/image/wallet/icon_(.png" alt=""></i>绑定银行卡</div>
+        </div>
     {/empty}
 
     <div class="yzm-view">

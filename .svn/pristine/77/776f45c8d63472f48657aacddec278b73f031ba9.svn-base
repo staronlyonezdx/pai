@@ -1,0 +1,189 @@
+/*清除浮动代码*/ 
+.clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0} 
+.clearfloat{zoom:1}
+.bookcard_view{
+    width: 6.6rem;
+    height: 2.7rem;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 0.18rem;
+    margin-top: 0.3rem;
+    padding-top: 0.2rem;
+}
+.bookcard_img{
+    width:1.5rem;
+    height:1.5rem;
+    margin:0 auto;
+}
+.bookcard_img img{
+    width:100%;
+    height:100%;
+}
+.bookcard_view p,.bookcard_view span{
+    text-align: center;
+}
+.bookcard_view p{
+    color:#000000;
+    font-size: 0.32rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+.bookcard_view span{
+    display: block;
+    color:#aaaaaa;
+    font-size: 0.24rem;
+}
+.bookcard_btn{
+    width:7.5rem;
+    height:1rem;
+    background:#FFE500 ;
+    text-align: center;
+    line-height: 1rem;
+    text-align: center;
+    color:#000000;
+    font-size: 0.32rem;
+    position: fixed;
+    bottom:0;
+    left: 0;
+    font-weight: 600;
+}
+.bookcard_btn i{
+    display: inline-block;
+    width: 0.20rem;
+    height: 0.20rem;
+    margin-right: 0.18rem;
+    position: relative;
+    top: -0.03rem;
+}
+.bookcard_btn i img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.bookcard_yes{
+    width: 6.6rem;
+    height: 2.1rem;
+    margin: 0 auto;
+    margin-top: 0.3rem;
+    padding-top: 0.4rem;
+    background: url(../../image/wallet/icon_Bank_1.png) no-repeat center;
+    background-size: 100% 100%;
+    box-sizing: border-box;
+}
+.bookcard_yes1{
+    background: url(../../image/wallet/icon_Bank_1.png) no-repeat center;
+    background-size: 100% 100%;
+}
+.bookcard_yes2{
+    background: url(../../image/wallet/icon_Bank_2.png) no-repeat center;
+    background-size: 100% 100%;
+}
+.bookcard_yes .bankcard_info{
+    
+}
+.bookcard_yes .bankcard_info img{
+    display: block;
+    width: 0.7rem;
+    height: 0.7rem;
+    float: left;
+    margin-left: 0.4rem;
+}
+.bookcard_yes .bankcard_info .bankcard_name{
+    margin-left: 0.24rem;
+    float: left;
+}
+.bookcard_yes .bankcard_info .bankcard_name h3{
+    font-size: 0.3rem;
+    color: #fffefe;
+    line-height: 0.3rem;
+    margin-bottom: 0.04rem;
+}
+.bookcard_yes .bankcard_info .bankcard_name span{
+    font-size: 0.22rem;
+    color: #fffefe;
+}
+.bookcard_yes p{
+    color: #fffefe;
+    font-size: 0.42rem;
+    text-align: center;
+    margin-top: 0.3rem;
+}
+.bookcard_yes p span{
+    margin: 0 0.28rem;
+    display: inline-block;
+}
+.bookcard_yes p span:nth-child(4){
+    position: relative;
+    top: -0.12rem;
+}
+/* .bookcard_yes p{
+    font-size:0.3rem;
+    font-weight:bold;
+    color:rgba(255,255,255,1);
+    line-height:0.3rem;
+    margin-left: 0.89rem;
+    padding-top: 0.73rem;
+}
+.bookcard_yes span{
+    display: block;
+    font-size:0.3rem;
+    font-weight:600;
+    color:rgba(255,255,255,1);
+    line-height:0.3rem;
+    margin-left: 0.86rem;
+    padding-top: 1rem;
+} */
+.yzm-view {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 100;
+    display: none;
+}
+.yzm-title {
+    margin: 1.4rem 0.3rem 0 0.3rem;
+    font-size: 0.36rem;
+    font-weight: bold;
+    color: #333;
+}
+.yzm-cont {
+    font-size: 0.28rem;
+    color: #999;
+    margin: 0.3rem;
+}
+.yzm-cont span {
+    color: #333;
+}
+.yzm-input {
+    height: 0.8rem;
+    border-bottom: 1px solid #EEEEEE;
+    position: relative;
+    margin: 0 0.3rem;
+}
+.yzm-input input {
+    width: 100%;
+    height: 100%;
+}
+.bangdingcard_code {
+    border: 1px solid #333;
+    color: #333;
+    background: none;
+    position: absolute;
+    right: 0;
+    top: 0.1rem;
+    border-radius: 0.3rem;
+    padding: 0.1rem 0.2rem;
+}
+.yzm-btn {
+    height:0.88rem;
+    background:#FFE500;
+    border-radius:0.18rem;
+    text-align: center;
+    font-size: 0.32rem;
+    font-weight: bold;
+    line-height: 0.88rem;
+    margin: 1rem 0.3rem 0 0.3rem;
+}
