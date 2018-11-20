@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/index/view/index/yy_notice.html";i:1541574477;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1541491294;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/index/view/index/yy_notice.html";i:1542349080;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -47,13 +47,14 @@
         <header></header>
         
 <main style="margin-top: 0">
+
     <div class="yy_notice_header">
         <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt="" class="go_back">
         <span>吖吖公告</span>
     </div>
-
+    <div class="main_top">
     <div class="yy_main_banner">
-        <div class="swiper-container1">
+        <div class="swiper-container1 swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <img src="/uploads/wi_img/20180731/67e38ba812963729ef2fbcca80710cd5.png" alt="">
@@ -94,7 +95,7 @@
             <span class="rt">全部中奖者 ></span>
         </div>
         <div class="yy_prize_banner">
-            <div class="swiper-container2">
+            <div class="swiper-container2 swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <img src="/uploads/m_avatar/20181016/1539671363240886860.jpg" alt="" class="prize_img">
@@ -184,8 +185,8 @@
     </div>
 
 
-    <div class="yy_notice_content">
-        <div class="swiper-container3" id="topNav">
+     <div class="yy_notice_content">
+        <div class="swiper-container3 swiper-container" id="topNav">
             <div class="swiper-wrapper">
                 <div class="swiper-slide item active">咨询公告</div>
                 <div class="swiper-slide item">吖吖新闻</div>
@@ -195,50 +196,50 @@
                 <div class="swiper-slide item">一折抢购</div>
             </div>
         </div>
+    </div>
+
+    </div>
+    <div id="swiper" class="swiper-container4 swiper-container">
+        <div id="swiperWrapper" class="swiper-wrapper">
+
+            <!--咨询公告-->
+            <div id="mescroll0" class="mescroll swiper-slide">
+                <ul id="dataList0" class="data-list">
+                    <!--<li class="content_item clear">-->
+                    <!--<div class="content_item_detail lf">-->
+                    <!--<p class="content_item_tit">iPhone8P：基本可以和iPhoneXsMax说再见了</p>-->
+                    <!--<p class="content_item_data">2018-10-24 15:24 · 评论</p>-->
+                    <!--</div>-->
+                    <!--<img src="" alt="" class="rt">-->
+                    <!--</li>-->
+                </ul>
+            </div>
+
+            <!--吖吖新闻-->
+            <div id="mescroll1" class=" mescroll swiper-slide">
+                <ul id="dataList1" class="data-list"></ul>
+            </div>
+
+            <!--好物订阅-->
+            <div id="mescroll2" class=" mescroll swiper-slide">
+                <ul id="dataList2" class="data-list"></ul>
+            </div>
+
+            <!--精选推荐-->
+            <div id="mescroll3" class=" mescroll swiper-slide">
+                <ul id="dataList3" class="data-list"></ul>
+            </div>
 
 
-        <div id="swiper" class="swiper-container4">
-            <div id="swiperWrapper" class="swiper-wrapper">
-
-                <!--咨询公告-->
-                <div id="mescroll0" class="mescroll swiper-slide">
-                    <ul id="dataList0" class="data-list">
-                        <!--<li class="content_item clear">-->
-                        <!--<div class="content_item_detail lf">-->
-                        <!--<p class="content_item_tit">iPhone8P：基本可以和iPhoneXsMax说再见了</p>-->
-                        <!--<p class="content_item_data">2018-10-24 15:24 · 评论</p>-->
-                        <!--</div>-->
-                        <!--<img src="" alt="" class="rt">-->
-                        <!--</li>-->
-                    </ul>
-                </div>
-
-                <!--吖吖新闻-->
-                <div id="mescroll1" class=" mescroll swiper-slide">
-                    <ul id="dataList1" class="data-list"></ul>
-                </div>
-
-                <!--好物订阅-->
-                <div id="mescroll2" class=" mescroll swiper-slide">
-                    <ul id="dataList2" class="data-list"></ul>
-                </div>
-
-                <!--精选推荐-->
-                <div id="mescroll3" class=" mescroll swiper-slide">
-                    <ul id="dataList3" class="data-list"></ul>
-                </div>
+            <!--火爆新闻-->
+            <div id="mescroll4" class=" mescroll swiper-slide">
+                <ul id="dataList4" class="data-list"></ul>
+            </div>
 
 
-                <!--火爆新闻-->
-                <div id="mescroll4" class=" mescroll swiper-slide">
-                    <ul id="dataList4" class="data-list"></ul>
-                </div>
-
-
-                <!--一折抢购-->
-                <div id="mescroll5" class=" mescroll swiper-slide">
-                    <ul id="dataList5" class="data-list"></ul>
-                </div>
+            <!--一折抢购-->
+            <div id="mescroll5" class=" mescroll swiper-slide">
+                <ul id="dataList5" class="data-list"></ul>
             </div>
         </div>
     </div>
@@ -248,11 +249,11 @@
     </body>
 
     <!--bugtags 开始-->
-    <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script>
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- // </script> -->
     <!--bugtags 结束-->
 
     
@@ -359,7 +360,7 @@
         })
 
         var mySwiper2 = new Swiper('.swiper-container2', {
-            slidesPerView: 3,
+            slidesPerView: 'auto',
             spaceBetween: 20,
         })
 
@@ -369,7 +370,7 @@
             slidesPerView: 'auto',
             onTransitionEnd: function (swiper) {
                 var i = swiper.activeIndex;//轮播切换完毕的事件
-                console.log(i);
+                // console.log(i);
                 mySwiper.slideTo(i);
 
                 changePage(i);
@@ -511,6 +512,22 @@
                     htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
                 }
             });
+            // console.log($('#swiper').css('top'));
+            //  $('#mescroll' + index).scroll(function(){
+            //      // console.log($(this).scrollTop());
+            //       var top = $(this).scrollTop();
+            //      // console.log($('#swiper').css('top'));
+            //      //
+            //          $('.main_top').css({
+            //              'position':'absolute',
+            //              'top':-top
+            //          });
+            //      $('#swiper').css({
+            //          'top':top
+            //      })
+            //
+            //
+            //  })
             return mescroll;
         }
 
@@ -537,6 +554,7 @@
 
                 //设置列表数据
                 setListData(pageData, dataIndex);
+
             }, function () {
                 //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
                 mescrollArr[dataIndex].endErr();
@@ -620,6 +638,8 @@
         $('.go_back').click(function () {
             window.history.back();
         })
+
+
     })
 
 

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:75:"D:\project\pai\public/../application/index/view/index/navigation_goods.html";i:1542249604;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:75:"D:\project\pai\public/../application/index/view/index/navigation_goods.html";i:1542249789;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -46,7 +46,7 @@
             <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smts">
         </div>
 
-        <a href="javascript:;" class="to_order">
+        <a href="/member/orderpai/orderlist/i/0">
             <div class="pointpai_dingdan">
                 <img src="__STATIC__/image/pointpai/icon_dingdan@2x.png" alt="">
             </div>
@@ -292,11 +292,6 @@
     $('img').on('error', function () {
         $(this).attr('src', '/static/image/index/pic_home_taplace@2x.png');
     });
-
-    $('.to_order').click(function(){
-        window.location.href = '/member/orderpai/orderlist/i/0'
-        window.sessionStorage.setItem("toOrder",1);
-    })
 </script>
 
 </html>

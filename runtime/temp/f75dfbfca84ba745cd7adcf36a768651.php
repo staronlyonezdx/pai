@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:67:"D:\project\pai\public/../application/business/view/index/index.html";i:1541491289;s:67:"D:\project\pai\public/../application/business/view/common/base.html";i:1541491289;s:69:"D:\project\pai\public/../application/business/view/common/header.html";i:1541491289;s:67:"D:\project\pai\public/../application/business/view/common/menu.html";i:1541677268;s:69:"D:\project\pai\public/../application/business/view/common/footer.html";i:1541491289;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:67:"D:\project\pai\public/../application/business/view/index/index.html";i:1541491289;s:67:"D:\project\pai\public/../application/business/view/common/base.html";i:1541491289;s:69:"D:\project\pai\public/../application/business/view/common/header.html";i:1541491289;s:67:"D:\project\pai\public/../application/business/view/common/menu.html";i:1542013166;s:69:"D:\project\pai\public/../application/business/view/common/footer.html";i:1542013166;}*/ ?>
 <!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <html>
@@ -88,16 +88,16 @@
 <aside class="Hui-aside">
     <div class="menu_dropdown bk_2">
         <dl id="menu-article">
-            <dt class="selected"><i class="Hui-iconfont">&#xe616;</i>余额商品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd >
+            <dt><i class="Hui-iconfont">&#xe616;</i>余额商品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
                 <ul>
-                    <li ><a href="/business/goods/goods_list/type/1" title="余额商品列表">1.余额商品列表</a></li>
-                    <li ><a href="/business/goods/add_goods/type/1" title="添加余额商品">添加余额商品</a></li>
+                    <li class="itemli"><a href="/business/goods/goods_list/type/1" title="余额商品列表">1.余额商品列表</a></li>
+                    <li class="itemli"><a href="/business/goods/add_goods/type/1" title="添加余额商品">添加余额商品</a></li>
                     <?php if(!(empty($store_type) || (($store_type instanceof \think\Collection || $store_type instanceof \think\Paginator ) && $store_type->isEmpty()))): if($store_type == 1): ?>
-                    <li><a href="/business/goods/goods_list/type/2" title="余额商品列表">2.福袋商品列表</a></li>
-                    <li><a href="/business/goods/add_goods/type/2" title="添加福袋商品">添加福袋商品</a></li>
-                    <li><a href="/business/goods/goods_list/type/3" title="余额商品列表">3.活动商品列表</a></li>
-                    <li><a href="/business/goods/add_goods/type/3" title="添加福袋商品">添加活动商品</a></li>
+                    <li class="itemli"><a href="/business/goods/goods_list/type/2" title="余额商品列表">2.福袋商品列表</a></li>
+                    <li class="itemli"><a href="/business/goods/add_goods/type/2" title="添加福袋商品">添加福袋商品</a></li>
+                    <li class="itemli"><a href="/business/goods/goods_list/type/3" title="余额商品列表">3.活动商品列表</a></li>
+                    <li class="itemli"><a href="/business/goods/add_goods/type/3" title="添加福袋商品">添加活动商品</a></li>
                     <?php endif; endif; ?>
                 </ul>
             </dd>
@@ -106,7 +106,7 @@
             <dt><i class="Hui-iconfont">&#xe613;</i> 余额商品订单<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="/business/paiorder/order_list" title="订单列表">订单列表</a></li>
+                    <li class="itemli"><a href="/business/paiorder/order_list" title="订单列表">订单列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -114,8 +114,8 @@
             <dt><i class="Hui-iconfont">&#xe620;</i> 积分商品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="/business/pointgoods/goods_list" title="积分商品列表">积分商品列表</a></li>
-                    <li><a href="/business/pointgoods/add_goods" title="添加积分商品">添加积分商品</a></li>
+                    <li class="itemli"><a href="/business/pointgoods/goods_list" title="积分商品列表">积分商品列表</a></li>
+                    <li class="itemli"><a href="/business/pointgoods/add_goods" title="添加积分商品">添加积分商品</a></li>
                 </ul>
             </dd>
         </dl>
@@ -123,7 +123,7 @@
             <dt><i class="Hui-iconfont">&#xe622;</i> 积分商品订单<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="/business/pointorder/order_list" title="订单列表">订单列表</a></li>
+                    <li class="itemli"><a href="/business/pointorder/order_list" title="订单列表">订单列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -131,9 +131,9 @@
             <dt><i class="Hui-iconfont">&#xe60d;</i> 人气商品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="/business/popularitygoods/goodslist" title="人气商品列表">人气商品列表</a></li>
-                    <li><a href="/business/popularitygoods/goods_list_two" title="人气商品列表">线下活动人气商品列表</a></li>
-                    <li><a href="/business/popularitygoods/edit" title="添加人气商品">添加人气商品</a></li>
+                    <li class="itemli"><a href="/business/popularitygoods/goodslist" title="人气商品列表">人气商品列表</a></li>
+                    <li class="itemli"><a href="/business/popularitygoods/goods_list_two" title="人气商品列表">线下活动人气商品列表</a></li>
+                    <li class="itemli"><a href="/business/popularitygoods/edit" title="添加人气商品">添加人气商品</a></li>
                 </ul>
             </dd>
         </dl>
@@ -141,7 +141,7 @@
             <dt><i class="Hui-iconfont">&#xe62e;</i> 人气商品订单<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="/business/Poporder/goods_list" title="订单列表">订单列表</a></li>
+                    <li class="itemli"><a href="/business/Poporder/goods_list" title="订单列表">订单列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -206,6 +206,21 @@
 <script type="text/javascript" src="/static/h-ui.admin/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="/static/h-ui/js/H-ui.js"></script>
 <script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<script>
+    $('.itemli').on('click',function () {
+        var wurl = $(this).find('a').attr('href');
+        sessionStorage.setItem('wurl',wurl);
+    })
+    var links = window.location.pathname;
+    $('.itemli').each(function () {
+        var ur = $(this).find('a').attr('href');
+        if(links == ur) {
+            $(this).parents('dd').css("display","block");
+            $(this).addClass('current');
+            $(this).parents('dl').find('dt').addClass('selected');
+        }
+    })
+</script>
 
 <!--/_footer /作为公共模版分离出去-->
 

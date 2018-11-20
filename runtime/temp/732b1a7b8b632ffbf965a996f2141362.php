@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_list.html";i:1541765257;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_list.html";i:1542589248;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -355,6 +355,14 @@
         })
     })
 
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
+
     var header_path = "<?php echo isset($header_path) ? $header_path :  ''; ?>";
     //返回按钮
     function backH5() {
@@ -647,7 +655,7 @@
                             }
                         }
                     }                 
-                    bt = '<div class="my_publish_share rt" data-id="' + pd.pm_id + '"><span><a href="tel:400-027-1888">联系客服</span></a></div>'+dizhi;
+                    bt = '<div class="my_publish_share rt" data-id="' + pd.pm_id + '"><span><a class="phs" href="tel:400-027-1888">联系客服</span></a></div>'+dizhi;
                 }else if(pd.pm_order_status == 1){
                     fh = '<span class="my_publish_hint rt">待选择收货地址</span>';          
                     if(pd.pg_spec==1){
@@ -728,6 +736,8 @@
                 liDom.className = "my_publish_list";
                 liDom.innerHTML = str;
                 listDom.appendChild(liDom);
+
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
             }
              //点击跳转页面后存session
     // $(".my_publish_share").click(function(){

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_info.html";i:1541765257;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_info.html";i:1542589248;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -646,7 +646,7 @@
                             <!-- 有地址 E -->
                             <!-- <?php endif; ?> -->
                     <!-- <?php endif; ?> -->
-                <a href="tel:400-027-1888">
+                <a class="phs" href="tel:400-027-1888">
                     <div class="order_index_review rt ">联系客服</div>
                 </a>
             </div>
@@ -1229,9 +1229,18 @@
     setupWebViewJavascriptBridge(function(bridge) {
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
+            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
             $('#app').val(str);
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     title = "<?php echo $info['share_title']; ?>";
     link = "<?php echo $info['share_link']; ?>";

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/pointpai/view/pointgoods/index.html";i:1542008099;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/pointpai/view/pointgoods/index.html";i:1542694680;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -192,12 +192,14 @@
             </a>
             <!-- 规则 E -->
             <!-- 产品名称 S -->
-            <a href="/pointpai/review/gp_review_list/gp_id/<?php echo $goods_info['gp_id']; ?>">
+
             <div class="details_top clear">
+                <a href="/pointpai/review/gp_review_list/gp_id/<?php echo $goods_info['gp_id']; ?>">
                 <div class="yg-num">                    
                     <?php echo isset($review_count) ? $review_count :  0; ?>
                     <br><span>已购者</span>
                 </div>
+                </a>
                 <div class="details_top_lf lf">                    
                     <p><img src="__STATIC__/image/pointgoods/icon_renqigou@2x.png" alt="" class="jifen">&nbsp;&nbsp;<?php echo (isset($goods_info['g_name']) && ($goods_info['g_name'] !== '')?$goods_info['g_name']:''); ?></p>
                     <span><?php echo (isset($goods_info['g_secondname']) && ($goods_info['g_secondname'] !== '')?$goods_info['g_secondname']:''); ?></span>
@@ -208,7 +210,7 @@
                     </div>
                 </div>
             </div>
-        </a>
+
             <!-- 虚位以待 S -->
             <div class="details_xw"></div>
             <!-- 虚位以待 E -->
@@ -329,9 +331,10 @@
         <?php endif; ?>
 
         <!--进入店铺-->
-        <a href="/member/shop/index/store_id/<?php echo (isset($store_info['store_id']) && ($store_info['store_id'] !== '')?$store_info['store_id']:0); ?>">
+
             <div class="details_shopname">
-                <div class="details_shopname_top clear">
+                <a href="/member/shop/index/store_id/<?php echo (isset($store_info['store_id']) && ($store_info['store_id'] !== '')?$store_info['store_id']:0); ?>">
+                    <div class="details_shopname_top clear">
                     <div class="details_shopname_head lf">
                         <img width="50" height="50" src="<?php echo isset($store_info['store_logo']) ? $store_info['store_logo'] :  '__STATIC__/image/details/icon_V@2x.png'; ?>">
                     </div>
@@ -344,20 +347,28 @@
                         进入店铺
                     </div>
                 </div>
+                </a>
                 <div class="details_shopname_data clear">
-                    <div class="lf">
+                    <a href="/member/shop/index/store_id/<?php echo (isset($store_info['store_id']) && ($store_info['store_id'] !== '')?$store_info['store_id']:0); ?>">
+                         <div class="lf">
                         <p><?php echo (isset($store_info['totle_goods']) && ($store_info['totle_goods'] !== '')?$store_info['totle_goods']:0); ?></p>
                         <span>全部商品</span>
                     </div>
-                    <div class="lf">
+                    </a>
+                    <a href="/member/shop/index/store_id/<?php echo (isset($store_info['store_id']) && ($store_info['store_id'] !== '')?$store_info['store_id']:0); ?>/from/xinpin">
+                        <div class="lf">
                         <p><?php echo (isset($store_info['new_goods']) && ($store_info['new_goods'] !== '')?$store_info['new_goods']:0); ?></p>
                         <span>最新上架</span>
                     </div>
-                    <div class="lf">
+                    </a>
+                    <a href="/member/shop/index/store_id/<?php echo (isset($store_info['store_id']) && ($store_info['store_id'] !== '')?$store_info['store_id']:0); ?>">
+                        <div class="lf">
                         <p><?php echo (isset($store_info['fans']) && ($store_info['fans'] !== '')?$store_info['fans']:0); ?></p>
                         <span>粉丝数量</span>
                     </div>
-                    <div class="details_shopname_border lf">
+                    </a>
+                    <a href="/member/shop/index/store_id/<?php echo (isset($store_info['store_id']) && ($store_info['store_id'] !== '')?$store_info['store_id']:0); ?>">
+                        <div class="details_shopname_border lf">
                     <span>
                       商品描述
                       <span><?php echo (isset($store_info['g_score']) && ($store_info['g_score'] !== '')?$store_info['g_score']:'5.0'); ?></span>
@@ -371,6 +382,7 @@
                       <span><?php echo (isset($store_info['e_score']) && ($store_info['e_score'] !== '')?$store_info['e_score']:'5.0'); ?></span>
                     </span>
                     </div>
+                    </a>
                 </div>
             </div>
         </a>
@@ -481,7 +493,7 @@
     <!-- 底部浮动按钮 S -->
     <div class="details_bottom clear phonex">
         <div class="details_bottom_lf lf clear">
-            <a href="tel:400-027-1888">
+            <a class="phs" href="tel:400-027-1888">
                 <div class="details_evaluate_kefu_view lf">
                     <div class="details_evaluate_kefu">
                         <img src="/static/image/details/kefu.png">
@@ -767,8 +779,17 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp', function (str) {
             $('#app').val(str);
+            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     //关闭app分享弹窗
     $(".details_fx_cancel").click(function () {

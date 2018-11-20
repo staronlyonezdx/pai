@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542247346;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542678708;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -58,7 +58,7 @@
                     <a href="<?php echo isset($vo['wi_href']) ? $vo['wi_href'] :  '#'; ?>"><img src="<?php echo isset($vo['wi_imgurl']) ? $vo['wi_imgurl'] :  ''; ?>"></a>
                     <?php else: ?>
                     <img src="<?php echo isset($vo['wi_imgurl']) ? $vo['wi_imgurl'] :  ''; ?>">
-                    <?php endif; ?>0
+                    <?php endif; ?>
                 </div>
                 <?php endforeach; endif; else: echo "" ;endif; endif; ?>
             </div>
@@ -206,69 +206,137 @@
 
         </div> -->
     <!--秒杀折扣捡漏-->
+    <!--<div class="seckill_picker clear">-->
+        <!--&lt;!&ndash; <a href="/activity/seckill/sec_kill_list"> &ndash;&gt;-->
+            <!--<div class="seckill lf">-->
+                <!--<div class="seckill_top clear">-->
+                    <!--<div class="seckill_logo lf">-->
+                        <!--<img src="__STATIC__/image/index/icon_miaosha@2x.png" alt="">-->
+                        <!--<img src="__STATIC__/image/index/icon_miaoshachang@2x.png" alt="" class="lf">-->
+                        <!--<img src="__STATIC__/image/index/icon_jijiangshangxian@2x.png" alt="" class="lf">-->
+                    <!--</div>-->
+                    <!--<div class="seckill_cutdown rt">-->
+                        <!--<div class="cutdown clear rt" id="first" >-->
+                            <!--<span class="cutdown_num details_hour">00</span>-->
+                            <!--<span class="cutdown_mao">:</span>-->
+                            <!--<span class="cutdown_num details_minute">00</span>-->
+                            <!--<span class="cutdown_mao">:</span>-->
+                            <!--<span class="cutdown_num details_second">00</span>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;<p>距离本场结束</p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>超值商品敬请期待</p>&ndash;&gt;-->
+
+                    <!--</div>-->
+                    <!--<img src="__STATIC__/image/index/icon_wenzi@2x.png" alt="" class="qidai rt">-->
+                <!--</div>-->
+                <!--<ul class="seckill_bottom clear">-->
+                    <!--<li class="seckill_item lf">-->
+                        <!--<img src="__STATIC__/image/index/img1@2x.png" alt="">-->
+                        <!--<p class="seckill_price">¥27.00</p>-->
+                        <!--<p class="seckill_old_price">¥12377.00</p>-->
+                    <!--</li>-->
+                    <!--<li class="seckill_item lf">-->
+                        <!--<img src="__STATIC__/image/index/img2@2x.png" alt="">-->
+                        <!--<p class="seckill_price">¥87.00</p>-->
+                        <!--<p class="seckill_old_price">¥15100.00</p>-->
+                    <!--</li>-->
+                    <!--<li class="seckill_item lf">-->
+                        <!--<img src="__STATIC__/image/index/img3@2x.png" alt="">-->
+                        <!--<p class="seckill_price">¥99.00</p>-->
+                        <!--<p class="seckill_old_price">¥21800.00</p>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--&lt;!&ndash; </a> &ndash;&gt;-->
+
+
+        <!--&lt;!&ndash; <a href="/activity/pickout/pickout_list"> &ndash;&gt;-->
+            <!--<div class="picker rt">-->
+                <!--<img src="__STATIC__/image/index/icon_jianlo1@2x.png" alt="" class="picker_img">-->
+                <!--<p class="title">精品捡漏 即将上线</p>-->
+                <!--&lt;!&ndash;<p class="title">精品捡漏 下单即揭晓</p>&ndash;&gt;-->
+                <!--<ul class="seckill_bottom seckill_right_bottom clear">-->
+                    <!--<li class="seckill_item lf">-->
+                        <!--<img src="__STATIC__/image/index/img5@2x.png" alt="">-->
+                        <!--<p class="seckill_price">¥77.00</p>-->
+                        <!--<p class="seckill_old_price">¥853.00</p>-->
+                    <!--</li>-->
+                    <!--<li class="seckill_item lf">-->
+                        <!--<img src="__STATIC__/image/index/img4@2x.png" alt="">-->
+                        <!--<p class="seckill_price">¥288.00</p>-->
+                        <!--<p class="seckill_old_price">¥429.00</p>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--&lt;!&ndash; </a> &ndash;&gt;-->
+
+    <!--</div>-->
+
+
+
     <div class="seckill_picker clear">
         <!-- <a href="/activity/seckill/sec_kill_list"> -->
-            <div class="seckill lf">
-                <div class="seckill_top clear">
-                    <div class="seckill_logo lf">
-                        <img src="__STATIC__/image/index/icon_miaosha@2x.png" alt="">
-                        <img src="__STATIC__/image/index/icon_miaoshachang@2x.png" alt="" class="lf">
-                        <img src="__STATIC__/image/index/icon_jijiangshangxian@2x.png" alt="" class="lf">
-                    </div>
-                    <div class="seckill_cutdown rt">
-                        <div class="cutdown clear rt" id="first" >
-                            <span class="cutdown_num details_hour">00</span>
-                            <span class="cutdown_mao">:</span>
-                            <span class="cutdown_num details_minute">00</span>
-                            <span class="cutdown_mao">:</span>
-                            <span class="cutdown_num details_second">00</span>
-                        </div>
-                        <!--<p>距离本场结束</p>-->
-                        <!--<p>超值商品敬请期待</p>-->
-
-                    </div>
-                    <img src="__STATIC__/image/index/icon_wenzi@2x.png" alt="" class="qidai rt">
+        <div class="seckill rt">
+            <div class="seckill_top clear">
+                <div class="seckill_logo lf">
+                    <img src="__STATIC__/image/index/icon_miaosha@2x.png" alt="">
+                    <img src="__STATIC__/image/index/icon_miaoshachang@2x.png" alt="" class="lf">
+                    <img src="__STATIC__/image/index/icon_jijiangshangxian@2x.png" alt="" class="lf">
                 </div>
-                <ul class="seckill_bottom clear">
-                    <li class="seckill_item lf">
-                        <img src="__STATIC__/image/index/img1@2x.png" alt="">
-                        <p class="seckill_price">¥27.00</p>
-                        <p class="seckill_old_price">¥12377.00</p>
-                    </li>
-                    <li class="seckill_item lf">
-                        <img src="__STATIC__/image/index/img2@2x.png" alt="">
-                        <p class="seckill_price">¥87.00</p>
-                        <p class="seckill_old_price">¥15100.00</p>
-                    </li>
-                    <li class="seckill_item lf">
-                        <img src="__STATIC__/image/index/img3@2x.png" alt="">
-                        <p class="seckill_price">¥99.00</p>
-                        <p class="seckill_old_price">¥21800.00</p>
-                    </li>
-                </ul>
+                <div class="seckill_cutdown rt">
+                    <div class="cutdown clear rt" id="first" >
+                        <span class="cutdown_num details_hour">00</span>
+                        <span class="cutdown_mao">:</span>
+                        <span class="cutdown_num details_minute">00</span>
+                        <span class="cutdown_mao">:</span>
+                        <span class="cutdown_num details_second">00</span>
+                    </div>
+                    <!--<p>距离本场结束</p>-->
+                    <!--<p>超值商品敬请期待</p>-->
+
+                </div>
+                <img src="__STATIC__/image/index/icon_wenzi@2x.png" alt="" class="qidai rt">
             </div>
+            <ul class="seckill_bottom clear">
+                <li class="seckill_item lf">
+                    <img src="__STATIC__/image/index/img1@2x.png" alt="">
+                    <p class="seckill_price">¥27.00</p>
+                    <p class="seckill_old_price">¥12377.00</p>
+                </li>
+                <li class="seckill_item lf">
+                    <img src="__STATIC__/image/index/img2@2x.png" alt="">
+                    <p class="seckill_price">¥87.00</p>
+                    <p class="seckill_old_price">¥15100.00</p>
+                </li>
+                <li class="seckill_item lf">
+                    <img src="__STATIC__/image/index/img3@2x.png" alt="">
+                    <p class="seckill_price">¥99.00</p>
+                    <p class="seckill_old_price">¥21800.00</p>
+                </li>
+            </ul>
+        </div>
         <!-- </a> -->
 
 
-        <!-- <a href="/activity/pickout/pickout_list"> -->
-            <div class="picker rt">
-                <img src="__STATIC__/image/index/icon_jianlo1@2x.png" alt="" class="picker_img">
-                <p class="title">精品捡漏 即将上线</p>
-                <!--<p class="title">精品捡漏 下单即揭晓</p>-->
-                <ul class="seckill_bottom seckill_right_bottom clear">
-                    <li class="seckill_item lf">
-                        <img src="__STATIC__/image/index/img5@2x.png" alt="">
-                        <p class="seckill_price">¥77.00</p>
-                        <p class="seckill_old_price">¥853.00</p>
-                    </li>
-                    <li class="seckill_item lf">
-                        <img src="__STATIC__/image/index/img4@2x.png" alt="">
-                        <p class="seckill_price">¥288.00</p>
-                        <p class="seckill_old_price">¥429.00</p>
-                    </li>
-                </ul>
-            </div>
-        <!-- </a> -->
+         <a href="/activity/index/index">
+        <div class="picker lf" style="border-right: 0.01rem solid rgba(245,245,245,1);height:100%">
+            <img src="__STATIC__/image/index/icon_fudai@2x.png" alt="" class="picker_img">
+            <p class="title">参与必中 还有额外大奖</p>
+            <!--<p class="title">精品捡漏 下单即揭晓</p>-->
+            <ul class="seckill_bottom seckill_right_bottom clear">
+                <li class="seckill_item lf">
+                    <img src="__STATIC__/image/index/img5@2x.png" alt="">
+                    <p class="seckill_price">¥77.00</p>
+                    <p class="seckill_old_price">¥853.00</p>
+                </li>
+                <li class="seckill_item lf">
+                    <img src="__STATIC__/image/index/img4@2x.png" alt="">
+                    <p class="seckill_price">¥288.00</p>
+                    <p class="seckill_old_price">¥429.00</p>
+                </li>
+            </ul>
+        </div>
+         </a>
 
     </div>
 
@@ -1399,11 +1467,11 @@
         });
     })
     // 捡漏
-    $(".picker").click(function(){
-        layer.msg("<span style='color:#fff'>暂未开放，敬请期待！</span>",{
-            time:2000
-        });
-    })
+    // $(".picker").click(function(){
+    //     layer.msg("<span style='color:#fff'>暂未开放，敬请期待！</span>",{
+    //         time:2000
+    //     });
+    // })
 
     // 大额
     $(".index_areas").click(function(){

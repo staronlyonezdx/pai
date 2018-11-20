@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1542182119;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1542693190;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -548,9 +548,10 @@
     </div> -->
     <?php endif; endif; ?>
     <!-- 店铺信息 -->
-    <a href="/member/shop/index/store_id/<?php echo $store_info['store_id']; ?>">
+
         <div class="details_shopname">
-            <div class="details_shopname_top clear">
+            <a href="/member/shop/index/store_id/<?php echo $store_info['store_id']; ?>">
+                <div class="details_shopname_top clear">
                 <div class="details_shopname_head lf">
                     <img width="50" height="50" src="__CDN_PATH__<?php echo isset($store_info['store_logo']) ? $store_info['store_logo'] :  ''; ?>"
                             data-original="__CDN_PATH__<?php echo isset($store_info['store_logo']) ? $store_info['store_logo'] :  ''; ?>" onerror="onerror=null;src='__STATIC__/image/index/pic_home_taplace@2x.png'">
@@ -564,20 +565,28 @@
                     进入店铺
                 </div>
             </div>
+            </a>
             <div class="details_shopname_data clear">
-                <div class="lf">
+                <a href="/member/shop/index/store_id/<?php echo $store_info['store_id']; ?>">
+                    <div class="lf">
                     <p><?php echo isset($store_info['totle_goods']) ? $store_info['totle_goods'] :  0; ?></p>
                     <span>全部商品</span>
                 </div>
-                <div class="lf">
+                </a>
+                <a href="/member/shop/index/store_id/<?php echo $store_info['store_id']; ?>/from/xinpin">
+                    <div class="lf">
                     <p><?php echo isset($store_info['new_goods']) ? $store_info['new_goods'] :  0; ?></p>
                     <span>最新上架</span>
                 </div>
-                <div class="lf">
+                </a>
+                <a href="/member/shop/index/store_id/<?php echo $store_info['store_id']; ?>">
+                    <div class="lf">
                     <p><?php echo isset($store_info['fans']) ? $store_info['fans'] :  0; ?></p>
                     <span>粉丝数量</span>
                 </div>
-                <div class="details_shopname_border lf">
+                </a>
+                <a href="/member/shop/index/store_id/<?php echo $store_info['store_id']; ?>">
+                    <div class="details_shopname_border lf">
                 <span>
                     商品描述
                     <span><?php echo isset($store_info['g_score']) ? $store_info['g_score'] :  0; ?></span>
@@ -591,6 +600,7 @@
                     <span><?php echo isset($store_info['e_score']) ? $store_info['e_score'] :  0; ?></span>
                 </span>
                 </div>
+                </a>
             </div>
         </div>
     </a>
@@ -780,7 +790,7 @@
 <?php elseif(($goods['g_state'] == 6)): ?>
 <div class="details_bottom clear phonex">
     <div class="details_bottom_lf lf clear">
-        <a href="tel:400-027-1888">
+        <a class="phs" href="tel:400-027-1888">
             <div class="details_evaluate_kefu_view lf">
                 <div class="details_evaluate_kefu">
                     <img src="__STATIC__/image/details/kefu.png">
@@ -820,7 +830,7 @@
 <?php else: ?>
 <div class="details_bottom clear phonex">
     <div class="details_bottom_lf lf clear">
-        <a href="tel:400-027-1888">
+        <a class="phs" href="tel:400-027-1888">
             <div class="details_evaluate_kefu_view lf">
                 <div class="details_evaluate_kefu">
                     <img src="__STATIC__/image/details/kefu.png">
@@ -1006,9 +1016,18 @@
     setupWebViewJavascriptBridge(function(bridge) {
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
+            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
             $('#app').val(str);
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
 var swiper = new Swiper('.swiper-container', {
     pagination: {

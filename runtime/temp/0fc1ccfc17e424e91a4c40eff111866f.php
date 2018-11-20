@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/orderpai/orderlist.html";i:1542249675;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/orderpai/orderlist.html";i:1542589248;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -651,7 +651,7 @@
                     if(pd.o_state == 2 || pd.o_state == 12) {
                         fh = '<span class="my_publish_hint rt">等待发货</span>';
                         time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';
-                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a href="tel:400-027-1888">联系客服</span></a></div>';
+                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a class="phs" href="tel:400-027-1888">联系客服</span></a></div>';
                     }
                     if(pd.o_state == 3 || pd.o_state == 13) {
                         fh = '<span class="my_publish_hint rt">等待收货</span>';
@@ -741,6 +741,10 @@
                 $('.my_publish_bh img').error(function(){
                     $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
                 })
+                
+                if($('#app').val() != '') {
+                    $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+                }                
             }
         }
 
@@ -973,15 +977,26 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
             $('#app').val(str);
+            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     var header_path = "<?php echo isset($header_path) ? $header_path :  ''; ?>";
     //返回按钮
     function backH5() {
-
+        if(header_path != '') {
+            window.location.href = header_path;
+        }else {
             window.history.back();
-       
+        }
     }
 
     //显示分享弹窗

@@ -30,7 +30,7 @@
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/{$vo.pg_id}">
                         <div class="share_list_box clear">
                             <div class="share_list_pic lf">
-                                <img src="{$vo.pg_img}" alt="">
+                                <img src="{$vo.pg_s_img}" alt="">
                             </div>
                             <div class="share_list_text lf">
                                 <p class="share_list_biaoti">{$vo.pg_name}</p>
@@ -178,10 +178,14 @@
                         <div class="swiper-wrapper">
                             {notempty name='yy_gg'}
                             {volist name='yy_gg' id='vo'offset="0" length='6'}
-                            <div class="swiper-slide">
+                            <div class="swiper-slide clear">
                                 <a href="/popularity/popularitygoods/prize_list/">
                                     <div>
-                                        <img src="{$vo.a_img}" alt="" class="lf annunciate_img ">
+                                        <div class="yy_notice_img lf">
+                                            <!--<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="" class="lf annunciate_img ">-->
+                                            <img src="{$vo.a_img}" alt="" class="lf annunciate_img ">
+                                        </div>
+
                                         <div class="notice_info rt">
                                             <p class="annunciate_name">{$vo.a_name}</p>
                                             <p class="annunciate_tip">{$vo.a_brief}</p>
@@ -223,13 +227,13 @@
                     <img src="__STATIC__/image/share_list/icon_downchankan@2x.png" alt=""/>
                 </div> -->
             </div>
-        <div id="share_list_main clear">
+        <div id="share_list_main " class="clear">
             {notempty name='list.data2.list'}
                 {volist name='list.data2.list' id='vo'}
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/{$vo.pg_id}">
                         <div class="share_list_con lf">
                             <div class="share_list_con_img">
-                                <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.pg_img}"/>
+                                <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.pg_s_img}"/>
                             </div>
                             <div class="share_list_con_text clear">
                                 <div class="share_list_bar lf">
@@ -266,7 +270,7 @@
                     </div>
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/{$vo.pg_id}">
                         <div class="share_list_con_img">
-                            <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.pg_img}"/>                            
+                            <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="{$vo.pg_s_img}"/>                            
                         </div>
                         <p>{$vo.pg_name}</p>
                         <div class="share_list_price">
@@ -287,10 +291,10 @@
                         <li class="share_list_li clear">
                             <div class="share_list_name_img lf">
                                 
-                                {if condition="$vo.m_avatar==''"}
+                                {if condition="$vo.m_s_avatar==''"}
                                 <img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="">
                                 {else /}
-                                <img src="{$vo.m_avatar}" alt=""/>
+                                <img src="{$vo.m_s_avatar}" alt=""/>
                                 {/if}
                             </div>
                             {if condition="$vo.pm_state == 2"}
@@ -390,6 +394,47 @@
 <script src="__STATIC__/js/share_list/share_list.js"></script>
 <script type="text/javascript" src="__JS__/liMarquee/jquery.liMarquee.js"></script>
 <script>
+    $(window).load(function () {
+        //banner对比图片的宽高
+        $('.annunciate_img').each(function(){
+            //获取图片父容器的宽度
+            var pat = $(this).parent().width();
+
+
+            //获取图片父容器的高度
+            var pah = $(this).parent().height();
+            var img = $(this);
+            var wid;// 真实的宽度
+            var hei;// 真实的高度
+            // 这里做下说明，$("<img/>")这里是创建一个临时的img标签，类似js创建一个new Image()对象！
+            $("<img/>").attr("src", $(img).attr("src")).load(function() {
+                /*
+                * 如果要获取图片的真实的宽度和高度有三点必须注意 1、需要创建一个image对象：如这里的$("<img/>")
+                * 2、指定图片的src路径 3、一定要在图片加载完成后执行如.load()函数里执行
+                */
+                wid = this.width;
+                hei = this.height;
+                // console.log(wid,hei);
+                if (wid > hei) {
+                    //图片宽度设置为100%
+                    img.css({"width":pat+"px","height":"auto"});
+
+                    //居中显示
+                    hei = hei/(wid/pat);
+                    var mtp = (img.parent().height()-hei)/2;
+                    img.css("margin-top",mtp+"px");
+                    // console.log(wid,hei);
+                }else if(wid <= hei){
+                    //图片宽度设置为100%
+                    img.css({"width":'auto',"height":'100%'});
+                    //居中显示
+                    wid = wid/(hei/pah);
+                    var mtp = (img.parent().width()-wid)/2;
+                    img.css("margin-left",mtp+"px");
+                }
+            });
+        })
+    })
 
    // 弹框出现，点击消失
     $('.popularity_person').on('click',function(){

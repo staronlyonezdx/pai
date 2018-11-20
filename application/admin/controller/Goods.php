@@ -111,7 +111,7 @@ class Goods extends AdminHome
     /**
      * 审核商品
      * 邓赛赛
-     */ 
+     */
     public function set_state(){
         $input = input('param.');
         $where['g_id']      = $input['g_id'];

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/new_people.html";i:1542263718;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/new_people.html";i:1542352725;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -18,6 +18,7 @@
         <link rel="stylesheet" type="text/css" href="__CSS__/common/popups.css">
         
 <link rel="stylesheet" type="text/css" href="__CSS__/new_people/new_people.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/animate.css">
 
         <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
         <!--<script type="text/javascript" src="__JS__/zepto.min.js"></script>-->
@@ -241,53 +242,92 @@
             <div class="new_people_line login-yes">
                 <div class="zan_success">
                     <!--人气值满100点，可以为朋友打气，并且打气成功之后显示-->
+                    <!--<div class="call_yes">-->
+                    <!--<div class="call_bg">-->
+                        <!--&lt;!&ndash;<img src="__STATIC__/image/new_people/pic_dianzan@2x.png" alt="" class="bg"/>&ndash;&gt;-->
+                        <!--<div class="bg_top">-->
+                            <!--<span class="zan_yes">已成功帮好友点赞！</span>-->
+                            <!--<img src="__STATIC__/image/new_people/icon_X@2x.png" alt="" class="click_cancle"/>-->
+                        <!--</div>-->
+                        <!--<div class="bg_middle">-->
+                            <!--<img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt="" class="img_icon">-->
+                            <!--<div class="pers">-->
+                                <!--<div class="bg_top">-->
+                                    <!--<span class="new_name"></span>-->
+                                    <!--<span class="call_num"></span>-->
+                                <!--</div>-->
+                                <!--<div class="bg_bottom">-->
+                                    <!--<span class="call_order"></span>-->
+                                    <!--<span class="new_t">已经为TA增长</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="bg_bottom">-->
+                            <!--<img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt=""/>-->
+                            <!--<a class="fight" href="/popularity/popularitygoods/share_list/">争夺人气王</a>-->
+
+                        <!--</div>-->
+
+                    <!--</div>-->
+                    <!--<div class="my_call_yes">-->
+                        <!--<div class="red_packet">-->
+                            <!--<span>下载APP更有10元红包等着你！</span>-->
+                        <!--</div>-->
+
+                        <!--<div class="download">-->
+                            <!--<span class="andro">Android下载</span>-->
+                            <!--<span class="ios">IOS下载</span>-->
+                        <!--</div>-->
+                        <!--<div class="imgs">-->
+                            <!--<img src="__STATIC__/image/new_people/qrcode_for_gh_8284d74f422f_258.jpg" alt="">-->
+                            <!--<img src="__STATIC__/image/new_people/gunzhu.png" alt="">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
                     <div class="call_yes">
-                        <div class="call_bg">
-                            <!--<img src="__STATIC__/image/new_people/pic_dianzan@2x.png" alt="" class="bg"/>-->
-                            <div class="bg_top">
-                                <span class="zan_yes">已成功帮好友点赞！</span>
-                                <img src="__STATIC__/image/new_people/icon_X@2x.png" alt="" class="click_cancle"/>
-                            </div>
-                            <div class="bg_middle">
-                                <img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt="" class="img_icon">
-                                <div class="pers">
-                                    <div class="bg_top">
-                                        <span class="new_name"></span>
-                                        <span class="call_num"></span>
-                                    </div>
-                                    <div class="bg_bottom">
-                                        <span class="call_order"></span>
-                                        <span class="new_t">已经为TA增长</span>
-                                    </div>
+                        <img src="__STATIC__/image/new_people/icon_X@2x (1).png" alt="" class="click_cancle close">
+                        <div class="call_info">
+                            <img src="" alt="" class="img_icon call_info_img lf">
+                            <div class="pers lf">
+                                <div class="bg_top clear">
+                                    <span class="new_name"></span>
+                                    <span class="call_num rt"></span>
+                                </div>
+                                <div class="bg_bottom clear">
+                                    <span class="call_order"></span>
+                                    <span class="new_t rt" style="margin-left: 1.5rem">已经为TA增长</span>
                                 </div>
                             </div>
-                            <div class="bg_bottom">
-                                <img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt=""/>
-                                <a class="fight" href="/popularity/popularitygoods/share_list/">争夺人气王</a>
-
-                            </div>
-
                         </div>
-                        <div class="my_call_yes">
-                            <div class="red_packet">
-                                <span>下载APP更有10元红包等着你！</span>
+                        <a href="/popularity/popularitygoods/share_list/">
+                            <div class="call_yes_zhengduo">
+                                <img src="__STATIC__/image/new_people/btn_zhengduo@2x (1).png" alt="" >
                             </div>
+                        </a>
+                        <p class="call_yes_tip ">下载APP更有<small>10元</small>红包等着你！</p>
+                        <div style="position: absolute;top:5.8rem">
+                            <div class="call_yes_btns clear">
+                                <a href="/member/register/ios_guide" class="lf">
+                                    <img src="__STATIC__/image/new_people/btn_ios@2x.png" alt="">
 
-                            <div class="download">
-                                <span class="andro">Android下载</span>
-                                <span class="ios">IOS下载</span>
+                                </a>
+                                <a href="/member/register/az_guide" class="lf">
+                                    <img src="__STATIC__/image/new_people/btn_android@2x.png" alt="">
+                                </a>
                             </div>
                             <div class="imgs">
-                                <img src="__STATIC__/image/new_people/qrcode_for_gh_8284d74f422f_258.jpg" alt="">
-                                <img src="__STATIC__/image/new_people/gunzhu.png" alt="">
+                                <img src="__STATIC__/image/new_people/qrcode_wechat@2x.png" alt="">
+                                <img src="__STATIC__/image/new_people/aa@2x.png" alt="">
                             </div>
                         </div>
+
                     </div>
 
                     <!--人气在20-100之间，显示-->
                     <div class="call_queren">
                         <img src="__STATIC__/image/new_people/icon_Xs@2x.png" alt="" class="click_cancle"
-                             style="width:0.56rem;height:0.56rem;position: absolute;top:0.13rem;right:0.13rem;"/>
+                             style="width:0.56rem;height:0.56rem;position: absolute;top:1.13rem;right:0.13rem;"/>
                         <p class="call_queren_title">充值赠送打气值</p>
                         <p class="call_queren_num"> 当前打气值：<span class="call_num_new"></span></p>
                         <p class="call_queren_tip">充值可以快速恢复打气值最高到<span style="color: #FF6753">100</span><span
@@ -309,12 +349,12 @@
                             <div class="bg_middle">
                                 <img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt="" class="img_icon">
                                 <div class="pers">
-                                    <div class="bg_top">
-                                        <span class="new_name"></span>
-                                        <span class="call_num"></span>
+                                    <div class="bg_top clear">
+                                        <span class="new_name">11</span>
+                                        <span class="call_num">22</span>
                                     </div>
-                                    <div class="bg_bottom">
-                                        <span class="call_order"></span>
+                                    <div class="bg_bottom clear">
+                                        <span class="call_order">33</span>
                                         <span class="new_t">已经为TA增长</span>
                                     </div>
                                 </div>

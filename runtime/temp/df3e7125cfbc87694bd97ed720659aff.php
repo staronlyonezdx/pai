@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1542096917;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1542182120;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -42,22 +42,13 @@
     </head>
     <body>
         <header>
-<!-- <div class="header_nav">
+<div class="header_nav">
     <div class="header_view">
         <div class="header_tit">
             <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
             <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.back();" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?>>
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
             </div>
-        </div>
-    </div>
-</div> -->
-<div class="header_nav">
-    <div class="header_view">
-        <div class="header_tit">
-            <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
-            <div class="header_back" >
-            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
         </div>
     </div>
 </div>
@@ -398,24 +389,9 @@
 <script type="text/javascript" src="__JS__/order_info/payment.js"></script>
 <script type="text/javascript" src="__JS__/md5.js"></script>
 <script type="text/javascript">
-// $(".header_back").click(function(){
-//     window.location.href="/member/goodsproduct/index/g_id/957"
-// })
-var g_id=window.sessionStorage.getItem("g_id")//从sessionStorage中取数据
-$(".header_back").click(function(){
-    if(g_id){
-        sessionStorage.removeItem('g_id');//删除sessionstorage
-        window.location.href="/member/goodsproduct/index/g_id/"+g_id;
-    }else{
-        window.history.back();
-    }
-})
-
-
     $(function () {
         //提交订单
         $(".ljzf_but").click(function () {
-            
             var address_id = $('input[name=address_id]').val();
             var num = $('input[name=num]').val();
             var gp_id = $('input[name=gp_id]').val();
@@ -445,8 +421,6 @@ $(".header_back").click(function(){
                 }
             });
         });
-
-
         //关闭浮动
         $(".close").click(function () {
             $(".ftc_wzsf").hide();

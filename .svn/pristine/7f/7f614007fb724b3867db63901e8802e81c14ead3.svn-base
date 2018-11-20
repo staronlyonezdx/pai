@@ -1,0 +1,424 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goods/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/index.css">
+{/block}
+{block name="content"}
+<main>
+
+    <!-- <div class="fail_tip">
+        <span class="alert">!</span>
+        <span class="alert_tip">您有一笔提现失败，快去看看吧！</span>
+        <img src="__STATIC__/image/wallet/icon_go@2x.png" alt="">
+    </div> -->
+    <div class="header_nav">
+        <div class="header_view">
+            <div class="header_tit">
+                <span>{$header_title ?? ''}</span>
+                <div class="header_back" onclick="backH5()" >
+                    <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="index_tab clear">
+        <!--<div class="index_tab_list lf">-->
+            <!--<div class="index_tab_line ">-->
+                <!--<img src="__STATIC__/image/wallet/juxing1615@2x.png" alt="" class="index_tab_block">-->
+            <!--</div>-->
+            <!--<p>交易所得</p>-->
+        <!--</div>-->
+        <div class="index_tab_list lf">
+            <div class="index_tab_line ">
+                <img src="__STATIC__/image/wallet/line1615@2x.png" class="index_tab_block" alt="" >
+            </div>
+            <p>账户余额</p>
+        </div>
+        <div class="index_tab_list lf">
+            <div class="index_tab_line ">
+                <img src="__STATIC__/image/wallet/line21615@2x.png" alt="">
+            </div>
+            <p>我的收益</p>
+        </div>
+
+    </div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper ">
+            <!--<div class="swiper-slide index_card_thr">-->
+                <!--<div class="index_card_view clear">-->
+                    <!--<div class="index_card_lf lf">-->
+                        <!--<p>当前余额</p>-->
+                        <!--<p>￥<span>{$money.store_goodsmoney}</span></p>-->
+                    <!--</div>-->
+                    <!--<a href="/member/wallet/goodsmoney_log">-->
+                        <!--<div class="index_card_rt index_carf_red_rt rt">-->
+                            <!--交易明细-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--<div class="index_card_text clear">-->
+                    <!--<p class="lf">提现中金额   ￥ <span>{$money.store_frozen_goodsmoney}</span></p>-->
+
+                <!--</div>-->
+            <!--</div>-->
+            <div class="swiper-slide index_card_one">
+                <div class="index_card_view clear">
+                    <div class="index_card_lf lf">
+                        <p>可用余额</p>
+                        <p>￥<span>{$money.m_money}</span></p>
+                    </div>
+                    <a href="/member/wallet/surplus_book">
+                        <div class="index_card_rt rt">
+                            余额明细
+                        </div>
+                    </a>
+
+                </div>
+                
+                <div class="index_card_text">
+                    <a href="/member/wallet/taking_money">
+                        <p>提现中金额   ￥ <span>{$money.m_frozen_money}</span>
+                            <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="">
+                        </p>
+                    </a>
+                </div>
+            
+            </div>
+            <div class="swiper-slide index_card_two">
+                <div class="index_card_view clear">
+                    <div class="index_card_lf lf">
+                        <p>可用余额</p>
+                        <p>￥<span>{$money.m_income}</span></p>
+                    </div>
+                    <a href="/member/wallet/profit_book">
+                        <div class="index_card_rt index_carf_red_rt rt">
+                            收益明细
+                        </div>
+                    </a>
+                </div>
+
+
+                <!--<div class="is_promoters clear">-->
+                    <!--<p >提现中金额￥<span>{$money.m_frozen_income}</span><img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt=""></p>-->
+                    <!--&lt;!&ndash;吖吖推广员审核阶段显示&ndash;&gt;-->
+                    <!--<p class="dongjie">推广冻结金额￥<span class='dongjiezijin'></span><a href="/member/wallet/profit_book"style="color:white"><img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt=""></a></p>-->
+                    <!--<div class="wallet_help_text rt help" style="margin-top: -0.6rem">-->
+                        <!--<img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>-->
+                        <!--<span>帮助说明</span>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+
+                <div class="is_promoters2">
+                    <div class="wallet_help_text rt help" style="margin-top: -0.5rem;margin-right: 0">
+                        <img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>
+                        <span>帮助说明</span>
+                    </div>
+                    <div class="clear">
+                        <div class="lf" style="margin-top: 0.1rem">
+                            <p>￥<span>{$money.m_frozen_income}</span></p>
+                            <p style="margin-top: 0.1rem">提现中金额</p>
+                            <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="" class="more">
+                        </div>
+                        <a href="/member/wallet/profit_book">
+                            <div class="rt" style="margin-top: 0.1rem">
+                                <p>￥<span class="dongjiezijin"></span></p>
+                                <p style="margin-top: 0.1rem">推广冻结金额</p>
+                                <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="" class="more">
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="index_card_text clear no_promoters">
+                    <!-- <a href="/member/wallet/taking_money"> 
+                        <p class="lf">提现中金额￥<span>{$money.m_frozen_income}</span>
+                            <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="">
+                        </p>
+                    </a> -->
+                    <div class="wallet_help_text rt help">
+                        <img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>
+                        <span>帮助说明</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="swiper-slide">4654654</div>-->
+        </div>
+    </div>
+    <div class="index_cart_all">
+        <!--交易所得开始-->
+        <!-- <div class="index_action index_action_dis">
+            <a href="/member/wallet/withdraw/w_type/1">
+                <div class="index_action_list clear">
+                    <div class="index_action_img lf">
+                        <img src="__STATIC__/image/wallet/icon_tixian@2x.png" alt="">
+                    </div>
+                    <p class="lf">交易所得提现</p>
+                    <div class="index_action_icon rt">
+                        <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                    </div>
+                </div>
+            </a>
+        </div> -->
+        <!--交易所得结束-->
+        <!--账户余额开始-->
+        <div class="index_action index_action_dis">
+            <a href="/member/wallet/recharge">
+                <div class="index_action_list clear">
+                    <div class="index_action_img lf">
+                        <img src="__STATIC__/image/wallet/icon_chognzhi@2x.png" alt="">
+                    </div>
+                    <p class="lf">余额充值</p>
+                    <div class="index_action_icon rt">
+                        <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                    </div>
+                </div>
+            </a>
+            
+            <div class="index_action_list clear">
+                <div class="qs"></div>
+                <a href="/member/wallet/withdraw/w_type/1">
+                    <div class="qc">
+                        <div class="index_action_img lf">
+                            <img src="__STATIC__/image/wallet/icon_tixian@2x.png" alt="">
+                        </div>
+                        <p class="lf">余额提现</p>
+                        <!-- <div class="index_action_icon rt">
+                            <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                        </div> -->
+                    </div>
+                </a>
+            </div>
+            
+            <a href="/member/wallet/bookCard">
+                <div class="index_action_list index_action_card clear">
+                    <div class="index_action_img lf">
+                        <img src="__STATIC__/image/wallet/icon_ka@2x.png" alt="">
+                    </div>
+                    <p class="lf">银行卡</p>
+                    <div class="index_action_icon rt">
+                        <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--账户余额结束-->
+
+        <!--邀请所得开始-->
+        <div class="index_action">
+            <div class="wallet_show">
+                <h3>沉淀资金分润收益</h3>
+                <div class="wallet_show_con clear">
+                    <div class="wallet_show_tab lf">
+                        <p>{$money.last_money ?? 0.00}</p>
+                        <span>昨日收益(元)</span>
+                    </div>
+                    <div class="wallet_show_tab lf">
+                        <p>{$money.total_money ?? 0.00}</p>
+                        <span>累计收益(元)</span>
+                    </div>
+                    <div class="wallet_show_tab lf">
+                        <p>{$money.rate}</p>
+                        <span>万份收益(元)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="wallet_hint">
+                <!--每日收益固定次日00:00生成流水到账-->
+                每日收益固定次日00:00生成流水到账
+                <img src="__STATIC__/image/wallet/icon_delete@2x.png" alt=""/>
+            </div>
+            <!-- <div class="index_action_list clear">
+                <div class="index_action_img lf">
+                    <img src="__STATIC__/image/wallet/icon_chognzhi2@2x.png" alt="">
+                </div>
+                <p class="lf">转出到百利账户</p>
+                <div class="index_action_icon rt">
+                    <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                </div>
+            </div> -->
+            <div class="index_action_list clear index_action_card">
+                <!-- <div class="qs"></div> -->
+
+                <a href="/member/tomoney/index">
+                    <div class="qc">
+                        <div class="index_action_img lf">
+                            <img src="__STATIC__/image/wallet/icon_yue@2x.png" alt="">
+                        </div>
+                        <p class="lf">转入余额</p>
+                        <div class="index_action_icon rt">
+                            <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                        </div>
+                        <span class="rt">可用于团购</span>
+                    </div>
+                </a>
+            </div>
+            <!-- <div class="index_action_list clear index_action_card">
+                <div class="qs"></div>
+                <a href="/member/wallet/withdraw/w_type/2">
+                    <div class="qc">
+                        <div class="index_action_img lf">
+                            <img src="__STATIC__/image/wallet/icon_tixian@2x.png" alt="">
+                        </div>
+                        <p class="lf">收益提现</p> -->
+                        <!-- <div class="index_action_icon rt">
+                            <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                        </div> -->
+                    <!-- </div>
+                </a>
+            </div> -->
+            
+            <a href="/member/wallet/bookCard">
+            <div class="index_action_list clear action_line index_action_card"> 
+                <div class="index_action_img lf">
+                    <img src="__STATIC__/image/wallet/icon_ka@2x.png" alt="">
+                </div>
+                <p class="lf">银行卡</p>
+                <div class="index_action_icon rt">
+                    <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                </div>
+            </div>
+            </a>
+            <!-- <a href="/member/wallet/bookCard">
+                <div class="index_action_list index_action_card clear">
+                    <div class="index_action_img lf">
+                        <img src="__STATIC__/image/wallet/icon_yaoqing@2x.png" alt="">
+                    </div>
+                    <p class="lf">邀请好友</p>
+                    <div class="index_action_icon rt">
+                        <img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">
+                    </div>
+                    <div class="index_action_code rt">
+                        <img src="__STATIC__/image/wallet/icon_erweima@2x.png" alt="">
+                    </div>
+                </div>
+                </a> -->
+            <!--<a href="{:url('wallet/instructions')}">-->
+                <!--<div class="index_action_list index_action_card clear">-->
+                    <!--<div class="index_action_img lf">-->
+                        <!--<img src="__STATIC__/image/wallet/icon_shuo@2x.png" alt="">-->
+                    <!--</div>-->
+                    <!--<p class="lf">使用说明</p>-->
+                    <!--<div class="index_action_icon rt">-->
+                        <!--<img src="__STATIC__/image/wallet/icon_jump@2x.png" alt="">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</a>-->
+        </div>
+        <!--邀请所得结束-->
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/goods/swiper.min.js"></script>
+<script>
+    $(function(){
+        var mySwiper = new Swiper('.swiper-container', {
+            direction: 'horizontal',//滚动方向
+            loop: false,//循环
+            autoplay: false,//自动轮播
+            slidesPerView :"1.2",//设置一页显示几个slide
+            centeredSlides :true,//设定为true时，active slide会居中，而不是默认状态下的居左。
+            onSlideChangeStart: function (swiper) {
+                var index = swiper.activeIndex;
+                $(".index_tab_list").find("img").removeClass("index_tab_block");
+                $(".index_tab_list").eq(index).find("img").addClass("index_tab_block");
+                $(".index_action").removeClass("index_action_dis");
+                $(".index_action").eq(index).addClass("index_action_dis");
+                var type = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+                type = index;
+                history.replaceState(null,null,type)
+            },
+        })
+        function clic(){
+            $(".index_tab_list").click(function(){
+                var inde_=$(this).index();
+                // console.log(inde_);
+                $(".index_tab_list").find("img").removeClass("index_tab_block");
+                $(this).find("img").addClass("index_tab_block");
+                mySwiper.slideTo(inde_, 500, false);//切换到第一个slide，速度为1秒
+                $(".index_action").removeClass("index_action_dis");
+                $(".index_action").eq(inde_).addClass("index_action_dis");
+                var type = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+                type = inde_;
+                history.replaceState(null,null,type)
+            })
+        }
+        clic();
+        var path = window.location.pathname;
+        // console.log(path);
+        if(path == '/member/wallet/index/type/1'){
+            $(".index_tab_list").find("img").removeClass("index_tab_block");
+            $(".index_tab_list").eq(1).find("img").addClass("index_tab_block");
+            mySwiper.slideTo(1, 500, false);//切换到第一个slide，速度为1秒
+            $(".index_action").removeClass("index_action_dis");
+            $(".index_action").eq(1).addClass("index_action_dis");
+        }
+    })
+    $(".index_yaoqing").click(function(){
+        layer.confirm("邀请收益说明", {
+            title:['邀请收益说明','color:#666666;font-size:0.24rem;margin-left:0.25rem;margin-right:0.25rem;border-bottom:0.01rem solid #e2e2e2!important;'],/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            content: '<div id="lay_pop">\n' +
+            '    <p style="color:#333333;font-size:0.26rem;text-align: left;">1. 邀请所得收益可用于在拍吖吖拍购使用邀请所得收益可用于在拍吖吖拍购使用。</p>\n' +
+            '    <p style="color:#333333;font-size:0.26rem;text-align: left;margin-top: 0.2rem;">1. 邀请所得收益可用于在拍吖吖拍购使用邀请所得收益可用于在拍吖吖拍购使用。<a href="##" style="color:#4891EA;font-size: 0.24rem;">什么是诺丁百利？</a></p>\n' +
+            '    <p style="color:#333333;font-size:0.26rem;text-align: left;margin-top: 0.2rem;">1. 邀请所得收益可用于在拍吖吖拍购使用邀请所得收益可用于在拍吖吖拍购使用。</p>\n' +
+            '</div>\n',
+            btn: '我知道啦~',
+
+        })
+    })
+    $(".wallet_help_text").click(function(){
+        $(".layui-layer-dialog .layui-layer-content").css({paddingTop:0});
+        layer.confirm("",{
+            title:['邀请收益说明','color:#666666;font-size:0.24rem;border-bottom:0.01rem solid #eee!important;margin-left:0.2rem;margin-right:0.2rem;'],/*标题*/
+//        title:true,/*标题*/
+            closeBtn:1,
+            btnAlign: 'c',
+            closeBtn: 0,
+            btn:'我知道啦~',
+            content:'<p style="text-align: left;color:#333333;font-size: 0.26rem;">1.收益可以转入余额在吖吖商城中使用哦！</p><p style="text-align: left;color:#333333;font-size: 0.26rem;">2.收益可以通过绑定银行卡直接提现哦！</p><p style="text-align: left;color:#333333;font-size: 0.26rem;">3.邀请所得收益也可以提现到个人银行卡，支付宝以及微信账户。</p> ',
+        });
+    })
+    $(".wallet_hint img").click(function(){
+        $(this).parent(".wallet_hint").remove();
+    })
+    $('.qs').click(function(){
+        window.location.href = "/index/index/agreement/at_name/余额提现规则";
+    })
+
+
+    // 如果是吖吖会员，则显示冻结金额
+    var is_dongjie = "{$promoters_info.is_show}";
+    console.log(is_dongjie);
+    if(is_dongjie == 0){
+        $('.no_promoters').show();
+        $('.is_promoters2').hide()
+    }else if(is_dongjie == 1){
+        $('.no_promoters').hide();
+        $('.is_promoters2').show()
+
+        var money_dongjie = "{$promoters_info.money}"
+        $('.dongjiezijin').html(money_dongjie)
+
+    }
+    var header_path = "{$header_path ?? ''}";
+    //返回按钮
+    function backH5() {        
+        if(header_path != '') {
+            window.location.href = header_path;
+        }else {
+            window.history.back();
+        }
+    }
+</script>
+{/block}
+
+
+

@@ -1,0 +1,96 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/untie_bank_card.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+
+{/block}
+{block name="content"}
+<main>
+    <div class="bookcard_yes">
+        <div class="untie_bank_card">
+            <h3>请选择需要解绑的卡号</h3>
+            <ul>
+                {volist name='data' id='bank'}
+                    <li data-id="{$bank.id}">{$bank.bankname}储蓄卡尾号({$bank.bankaccount | substr=15,4})<span>已选</span></li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="bookcard_btn">当前还暂未选择解绑卡号</div>
+        <div class="bookcard_btn active_btn">已选1张，我要解绑</div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    var bankcard_info = "{$bankcard_info}";
+    if(bankcard_info==0){
+        window.location.href='/member/wallet/bookCard'
+    }
+    $('.untie_bank_card').find('li').off('click').on('click',function(){
+        // $('.untie_bank_card').find('li').each(function(){
+        //     $(this).removeClass('active')
+        //     $(this).find('span').hide();
+        // })
+        var hasActive = false;
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            $(this).find('span').hide();
+        }else{
+            $(this).addClass('active');
+            $(this).find('span').show();
+        }
+        $('.untie_bank_card').find('li').each(function(){
+            if($(this).hasClass('active')){
+                hasActive = true;
+                return false;
+            }
+        })
+        if(hasActive){
+            $('.active_btn').show();
+        }else{
+            $('.active_btn').hide();
+        }
+    })
+    $('.active_btn').off('click').on('click',function(e){
+        layer.confirm("解绑后将不再享受此卡服务", {
+            skin: 'demo-class',//skin属性可以将layer的标签提取出来，重新定义样式
+            title: false,/*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['我再想想', '确认解绑'], //按钮
+            // 按钮2的回调
+            btn2: function () {
+                var arr = [];
+                $('.untie_bank_card').find('li').each(function(){
+                    if($(this).hasClass('active')){
+                        arr.push($(this).attr('data-id'))
+                    }
+                })
+                unbindBankcard(arr.toString())
+            }
+        })
+    })
+    function unbindBankcard(idstr){
+        $.ajax({
+            type:"post",
+            url:"/member/wallet/untie_bank_card",
+            data: {
+                id:idstr
+            },
+            success: function(res){
+                if(res.status==1){
+                    window.location.reload();
+                    layer.msg(`<span style="color:#fff">${res.msg}</span>`);
+                }else{
+                    layer.msg(`<span style="color:#fff">解绑失败</span>`);
+                }
+                
+            }
+        })
+    }
+
+</script>
+{/block}

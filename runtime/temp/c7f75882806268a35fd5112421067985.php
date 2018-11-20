@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\project\pai\public/../application/pointpai/view/pointorder/orderlist.html";i:1541765257;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/header.html";i:1541491294;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\project\pai\public/../application/pointpai/view/pointorder/orderlist.html";i:1542589248;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/header.html";i:1541491294;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -645,7 +645,7 @@
                     if(pd.o_state == 2) {
                         fh = '<span class="my_publish_hint rt">等待发货</span>';
                         time = '<p class="rt">揭晓时间：' + msToDate(pd.o_publishtime * 1000).wasTime +'</p>';                            
-                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a href="tel:400-027-1888">联系客服</span></a></div>';
+                        bt = '<div class="my_publish_share rt" data-id="' + pd.o_id + '"><span><a class="phs" href="tel:400-027-1888">联系客服</span></a></div>';
                     }
                     if(pd.o_state == 3) {
                         fh = '<span class="my_publish_hint rt">等待收货</span>';
@@ -714,6 +714,8 @@
                 liDom.className = "my_publish_list";
                 liDom.innerHTML = str;
                 listDom.appendChild(liDom);
+
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
             }
         }
 
@@ -956,6 +958,14 @@
             $('#app').val(str);
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     //显示分享弹窗
     function share(obj) {

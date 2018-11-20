@@ -1,0 +1,57 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+	<div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group  from_add_authority">
+                    <label>商家分类列表</label>
+                </div>
+                <table class="table table-hover" style="margin-bottom:0">
+                    <thead>
+                    <tr>
+                        <th>app版本ID</th>
+                        <th>app版本号</th>
+                        <th>更新信息</th>
+                        <th>更新链接</th>
+                        <th>更新类型</th>
+                        <th>更新时间</th>
+                        <th>更新机型</th>
+                        <th>管理</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="clist" id="citem"}
+                    <tr>
+                        <td>{$citem.id}</td>
+                        <td>{$citem.app_version}</td>
+                        <td>{$citem.updatemsg}</td>
+                        <td>{$citem.downloadurl}</td>
+                        <td>{if $citem.updatetype == 0}不执行更新{elseif $citem.updatetype == 1}正常更新{elseif $citem.updatetype == 2}强制更新{/if}</td>
+                        <td>{$citem.updatetime|date="Y-m-d H:i",###}</td>
+                        <td>{if $citem.app_type == 1}安卓{elseif $citem.app_type == 2}苹果IOS{/if}</td>
+                        <td>
+                            <a href="{:url('Appedition/appadd',['id'=>$citem.id])}">
+                                编辑
+                            </a>
+                            <a href="{:url('Appedition/delete',['id'=>$citem.id])}" onclick="if(!confirm('确认要删除么?')) return false;" class="authoritylist_dele_btn">
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{/block}
+

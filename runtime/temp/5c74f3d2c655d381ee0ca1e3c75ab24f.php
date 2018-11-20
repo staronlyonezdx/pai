@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/share_list.html";i:1541561218;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/footer.html";i:1541986997;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/share_list.html";i:1542704315;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/footer.html";i:1541986997;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -212,10 +212,14 @@
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
                             <?php if(!(empty($yy_gg) || (($yy_gg instanceof \think\Collection || $yy_gg instanceof \think\Paginator ) && $yy_gg->isEmpty()))): if(is_array($yy_gg) || $yy_gg instanceof \think\Collection || $yy_gg instanceof \think\Paginator): $i = 0;$__LIST__ = is_array($yy_gg) ? array_slice($yy_gg,0,6, true) : $yy_gg->slice(0,6, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                            <div class="swiper-slide">
+                            <div class="swiper-slide clear">
                                 <a href="/popularity/popularitygoods/prize_list/">
                                     <div>
-                                        <img src="<?php echo $vo['a_img']; ?>" alt="" class="lf annunciate_img ">
+                                        <div class="yy_notice_img lf">
+                                            <!--<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="" class="lf annunciate_img ">-->
+                                            <img src="<?php echo $vo['a_img']; ?>" alt="" class="lf annunciate_img ">
+                                        </div>
+
                                         <div class="notice_info rt">
                                             <p class="annunciate_name"><?php echo $vo['a_name']; ?></p>
                                             <p class="annunciate_tip"><?php echo $vo['a_brief']; ?></p>
@@ -256,7 +260,7 @@
                     <img src="__STATIC__/image/share_list/icon_downchankan@2x.png" alt=""/>
                 </div> -->
             </div>
-        <div id="share_list_main clear">
+        <div id="share_list_main " class="clear">
             <?php if(!(empty($list['data2']['list']) || (($list['data2']['list'] instanceof \think\Collection || $list['data2']['list'] instanceof \think\Paginator ) && $list['data2']['list']->isEmpty()))): if(is_array($list['data2']['list']) || $list['data2']['list'] instanceof \think\Collection || $list['data2']['list'] instanceof \think\Paginator): $i = 0; $__LIST__ = $list['data2']['list'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/<?php echo $vo['pg_id']; ?>">
                         <div class="share_list_con lf">
@@ -792,6 +796,47 @@
 <script src="__STATIC__/js/share_list/share_list.js"></script>
 <script type="text/javascript" src="__JS__/liMarquee/jquery.liMarquee.js"></script>
 <script>
+    $(window).load(function () {
+        //banner对比图片的宽高
+        $('.annunciate_img').each(function(){
+            //获取图片父容器的宽度
+            var pat = $(this).parent().width();
+
+
+            //获取图片父容器的高度
+            var pah = $(this).parent().height();
+            var img = $(this);
+            var wid;// 真实的宽度
+            var hei;// 真实的高度
+            // 这里做下说明，$("<img/>")这里是创建一个临时的img标签，类似js创建一个new Image()对象！
+            $("<img/>").attr("src", $(img).attr("src")).load(function() {
+                /*
+                * 如果要获取图片的真实的宽度和高度有三点必须注意 1、需要创建一个image对象：如这里的$("<img/>")
+                * 2、指定图片的src路径 3、一定要在图片加载完成后执行如.load()函数里执行
+                */
+                wid = this.width;
+                hei = this.height;
+                // console.log(wid,hei);
+                if (wid > hei) {
+                    //图片宽度设置为100%
+                    img.css({"width":pat+"px","height":"auto"});
+
+                    //居中显示
+                    hei = hei/(wid/pat);
+                    var mtp = (img.parent().height()-hei)/2;
+                    img.css("margin-top",mtp+"px");
+                    // console.log(wid,hei);
+                }else if(wid <= hei){
+                    //图片宽度设置为100%
+                    img.css({"width":'auto',"height":'100%'});
+                    //居中显示
+                    wid = wid/(hei/pah);
+                    var mtp = (img.parent().width()-wid)/2;
+                    img.css("margin-left",mtp+"px");
+                }
+            });
+        })
+    })
 
    // 弹框出现，点击消失
     $('.popularity_person').on('click',function(){

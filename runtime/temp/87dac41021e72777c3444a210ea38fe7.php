@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:88:"D:\project\pai\public/../application/popularity/view/popularitygoods/commodity_info.html";i:1541765257;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:88:"D:\project\pai\public/../application/popularity/view/popularitygoods/commodity_info.html";i:1542589248;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -321,7 +321,7 @@
         <!-- 预上架 S -->
         <?php if(($data['pg_status']==2)): ?>
         <div class="details_bottom_lf lf clear">
-            <a href="tel:400-027-1888">
+            <a class="phs" href="tel:400-027-1888">
                 <div class="details_evaluate_kefu_view lf">
                     <div class="details_evaluate_kefu">
                         <img src="/static/image/details/kefu.png">
@@ -336,7 +336,7 @@
         <div class="bj_btn details_disabled" onclick="collection(<?php echo $data['pg_id']; ?>,1)">已标记，开团将提醒</div>
         <?php endif; else: ?>
         <div class="details_bottom_lf lf clear">
-            <a href="tel:400-027-1888">
+            <a class="phs" href="tel:400-027-1888">
                 <div class="details_evaluate_kefu_view lf">
                     <div class="details_evaluate_kefu">
                         <img src="/static/image/details/kefu.png">
@@ -499,8 +499,8 @@
 <!-- <div class="details-rqz"></div> -->
 <a href="/popularity/popularitygoods/my_attend/">
     <div class="details-rqz">
-            <img src="__STATIC__/image/pointgoods/icon_yuanhuan@2x.png" alt="">
-            <canvas id="c"></canvas>
+            <!-- <img src="__STATIC__/image/pointgoods/btn_daqizhi@2x.png" alt="" > -->
+            <canvas id="c" style="width:59px;height:59px;"></canvas>
     </div>
 </a>
 <input type="text" id="r" value="0">
@@ -723,8 +723,17 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
             $('#app').val(str);
+            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     //关闭app分享弹窗
     $(".details_fx_cancel").click(function () {

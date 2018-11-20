@@ -1,0 +1,53 @@
+{extend name="common/base" /}
+{block name="style"}
+	<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+	<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+{/block}
+{block name="script"}
+ 	<script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
+    <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
+{/block}
+{block name="content"}
+	<div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group  from_add_authority">
+                    <label>银行列表</label>
+                </div>
+                <table class="table table-hover" style="margin-bottom:0">
+                    <thead>
+                    <tr>
+                        <th>银行ID</th>
+                        <th>银行名称</th>
+                        <th>银行唯一编码</th>
+                        <th>对应颜色</th>
+                        <th>银行LOGO</th>
+                        <th>管理</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="clist" id="citem"}
+                    <tr>
+                        <td>{$citem.b_id}</td>
+                        <td>{$citem.b_bankname}</td>
+                        <td>{$citem.b_bankcode}</td>
+                        <td>{$citem.b_bankcolor}</td>
+                        <td><img style="height: 25px;width: 25px;" src="__CDN_PATH__{$citem.b_banklogo|default=''}"></td>
+                        <td>
+                            <a href="{:url('banklogo/addpage',['b_id'=>$citem.b_id])}">
+                                编辑
+                            </a>
+                            <a href="{:url('banklogo/delete',['b_id'=>$citem.b_id])}" onclick="if(!confirm('确认要删除么?')) return false;" class="authoritylist_dele_btn">
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{/block}
+

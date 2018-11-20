@@ -1,0 +1,27 @@
+<?php
+namespace app\activity\controller;
+
+use app\member\controller\IndexHome;
+
+class Index extends IndexHome
+{
+    /**
+     * 活动首页
+     * 刘勇豪
+     * /activity/index/index
+     */
+    public function Index(){
+
+        $this->assign('header_title','活动页');
+        return view();
+    }
+
+    /**
+     * 搜索页
+     * 刘勇豪
+     */
+    public function search(){
+        $this->assign('header_title','商品搜索');
+        return view();
+    }
+}

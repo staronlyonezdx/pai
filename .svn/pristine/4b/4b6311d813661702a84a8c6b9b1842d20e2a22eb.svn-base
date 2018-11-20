@@ -1,0 +1,452 @@
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
+    margin: 0;
+    padding: 0;
+    font-family: "微软雅黑";
+    /*font-size: 0.24rem;*/
+}
+
+body {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+html {
+    font-size: 100px;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+input, textarea {
+    border: 0;
+    padding: 0;
+}
+
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    height: auto;
+    width: auto;
+    /*line-height: 0;*/
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #CACACA;
+    font-size: 0.28rem;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color: #CACACA;
+    font-size: 0.28rem;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+    color: #CACACA;
+    font-size: 0.28rem;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: #CACACA;
+    font-size: 0.28rem;
+}
+
+select, input, textarea {
+    font-size: 0.28rem;
+    margin: 0;
+    /*line-height:0;*/
+    height: auto;
+}
+
+textarea {
+    resize: none;
+}
+
+input[type="text"], input[type="password"], textarea {
+    outline-style: none;
+    -webkit-appearance: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+
+body {
+    background: #f2f2f2;
+    /*padding-bottom: 1rem;*/
+}
+
+a:focus, a:hover {
+    color: #333333;
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.clear {
+    overflow: hidden;
+}
+
+.lf {
+    float: left;
+}
+
+.rt {
+    float: right;
+}
+.header_nav {
+    height: 0.88rem;
+    line-height: 0.88rem;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    border-bottom: 0.01rem solid #f2f2f2;
+}
+
+.header_view {
+    width: 6.9rem;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header_rt {
+    color: #000000;
+    font-size: 0.26rem;
+}
+
+.header_tit {
+    font-family: SourceHanSansCN-Medium;
+    font-weight: 600;
+    font-size: 0.36rem;
+    width: 100%;
+    text-align: center;
+    color: #000000;
+    position: relative;
+}
+
+.header_back {
+    position: absolute;
+    top: 0.15rem;
+    left: 0;
+    width: 0.56rem;
+    height: 0.56rem;
+    z-index: 2;
+}
+
+.header_back img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.header_backs {
+    width: 0.56rem;
+    height: 0.56rem;
+}
+
+.header_backs img {
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+main {
+    margin-top: 0.88rem;
+    width: 7.5rem;
+    overflow: hidden;
+}
+
+.login_tit {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    font-size: 0.48rem;
+    color: #000000;
+    font-family: SourceHanSansCN-Bold;
+    font-weight: 600;
+    padding-top: 0.59rem;
+    padding-bottom: 0.31rem;
+}
+
+.footer_tab {
+    /*height:0.98rem;*/
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-shadow: 9px 0px 16px rgba(0, 0, 0, 0.02);
+    z-index: 5;
+    /*padding-bottom: constant(safe-area-inset-bottom);*/
+    /*padding-bottom: env(safe-area-inset-bottom);*/
+}
+
+.footer_tab_list {
+    width: 1.475rem;
+    text-align: center;
+    margin-top: 0.09rem;
+    position: relative;
+}
+
+.footer_tab_list img {
+    width: 0.48rem;
+    height: 0.48rem;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.footer_tab_list p {
+    font-size: 0.2rem;
+    color: #333333;
+    font-family: SourceHanSansCN-Regular;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0.35rem;
+    line-height: 0.35rem;
+}
+
+.layui-layer-dialog .layui-layer-content {
+    text-align: center !important;
+    color: #787878 !important;
+    font-size: 0.26rem !important;
+}
+
+.layui-layer-btn {
+    padding: 0 !important;
+    border-top: 0.02rem solid #E2E2E2 !important;
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+
+    margin-bottom: 0.27rem !important;
+}
+
+.layui-layer-btn a {
+    font-size: 0.28rem !important;
+    border-color: transparent !important;
+    background-color: transparent !important;
+    color: #333333;
+    padding: 0 0.87rem !important;
+    margin: 0 !important;
+    margin-top: 0.27rem !important;
+
+}
+
+.layui-layer-btn .layui-layer-btn0 {
+    border-color: transparent !important;
+    background-color: transparent !important;
+    color: #AAAAAA !important;
+    border-right: 0.02rem solid #E2E2E2 !important;
+}
+
+.close {
+    color: #fff !important;
+    opacity: 1;
+}
+
+.area_btn_box {
+    height: 0.88rem !important;
+    background: #FFE500 !important;
+}
+
+.area_btn {
+    line-height: 0.88rem !important;
+    color: #000000 !important;
+    padding: 0rem 0.6rem !important;
+}
+
+.area_ctrl {
+    background: #fff !important;
+}
+
+.application_tab_li {
+    display: block;
+}
+
+.area_btn_box:before, .area_btn_box:after {
+    background: transparent;;
+}
+
+.head_search_view {
+    width: 7.5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    background: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-bottom: 0.01rem solid #f2f2f2;
+    z-index: 1;
+}
+
+.head_search {
+    width: 6.9rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    background: #eeeeee;
+    border-radius: 0.15rem;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+
+}
+
+.head_search img {
+    width: 0.42rem;
+    height: 0.42rem;
+    position: absolute;
+    top: 0.1rem;
+    left: 0.16rem;
+}
+
+.head_search input {
+    background: transparent;
+    width: 100%;
+    height: 0.6rem;
+    text-indent: 0.8rem;
+}
+
+.footer_tab_list_buy {
+    width: 1.875rem;
+}
+
+.mine_new {
+    left: 1.35rem;
+}
+
+.footer_tab {
+    width: 7.5rem;
+}
+
+.footer_pub {
+    width: 1.6rem;
+    height: 1.6rem;
+    position: absolute;
+    top: -0.6rem;
+    left: 50%;
+    margin-left: -0.78rem;
+}
+
+.footer_pub img {
+    width: 100%;
+    height: 100%;
+}
+
+/*.con{*/
+/*background: url("../../image/index/yatou.png") no-repeat center center;*/
+/*background-size:100% 100%;*/
+/*}*/
+/*@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {*/
+    /*.footer_tab, .details_bottom, .details_canpai_main, .order_index_btn, .delivery_con, .sex_btn, .withdraw_pop_list, .withdraw_pop_add {*/
+        /*padding-bottom: 0.34rem !important;*/
+    /*}*/
+
+    /*.conf_order_btn, .address_btn, .pub_submit, .use_help_fix, .recharge_btn, .bookcard_btn {*/
+        /*margin-bottom: 0.34rem;*/
+    /*}*/
+/*}*/
+
+/* 只要在样式里面加一句去掉css去掉iPhone、iPad的默认按钮样式就可以了！~ （不要写在class里，哦） */
+
+input[type="button"], input[type="submit"], input[type="reset"] {
+
+    -webkit-appearance: none;
+
+}
+
+textarea {
+    -webkit-appearance: none;
+}
+
+/* 如果还有圆角的问题， */
+
+.button {
+    border-radius: 0;
+}
+
+.footer_tab_list p.unread {
+    /*text-align: center;*/
+    width: 0.15rem;
+    height: 0.15rem;
+    /*line-height: 0.3rem;*/
+    /*color: #FFF;*/
+    background-color: red;
+    position: absolute;
+    border-radius: 50%;
+    right: 0.45rem;
+    top: 0;
+}
+
+/* 公告s */
+.details-act {
+	padding: 0 0.3rem 0 0.9rem;
+	height: 0.6rem;
+	background:#eb6266;
+	position: relative;
+	overflow: hidden;
+	font-size: 0.22rem;
+}
+.details-act span {
+	position: absolute;
+	display: block;
+	width: 0.8rem;
+	height: 0.6rem;
+	left: 0;
+	top: 0.15rem;
+	background: url(../../image/popularitygoods/gg.png) no-repeat #eb6266 top right;
+	background-size: 0.5rem;
+	z-index: 9;
+}
+.details-act div {
+	height: 100%;
+	line-height: 0.6rem;
+	background: #eb6266;
+}
+.details-act a {
+	color: #fff;
+	margin: 0 0.8rem;
+	font-size: 0.22rem;
+}
+.dowebok:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.dowebok p {
+	display: inline;
+	color: #fff;
+	font-size: 0.22rem;
+	margin: 0 0.8rem;
+	line-height: 0.6rem;
+}
+.details-act small {
+	position: absolute;
+	display: block;
+	width: 0.3rem;
+	height: 0.6rem;
+	right: 0;
+	z-index: 9;
+	background: #eb6266;
+}
+ /* 公告e */
+
+
+.fix-iphonex-bottom .navi[data-v-539b7842]{
+    padding-bottom: 34px;
+}
+

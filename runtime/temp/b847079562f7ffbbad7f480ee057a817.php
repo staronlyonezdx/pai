@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/shop/index.html";i:1541491284;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/shop/index.html";i:1542693723;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -72,7 +72,7 @@
         <div class="shop_index_tab_list shop_index_tab_bold lf" data="8">
             <span>综合</span>
         </div>
-        <div class="shop_index_tab_list lf" data="2">
+        <div class="shop_index_tab_list lf new_pro" data="2">
             <span>新品</span>
         </div>
         <div class="shop_index_tab_list shop_index_tab_filter lf">
@@ -341,7 +341,13 @@
             //隐藏回到顶部按钮
             mescroll.hideTopBtn();
         })
-
+        var path = window.location.pathname;
+        var thisPath = '/member/shop/index/store_id/'+ <?php echo $store_info['store_id']; ?>+'/from/xinpin'
+        if(path == thisPath){
+            $('.shop_index_tab_list ').removeClass('shop_index_tab_bold');
+            $('.new_pro').addClass('shop_index_tab_bold');
+            $('input[name="order"]').val($('.new_pro').attr("data"));
+        }
         //重置搜索数据
         function resets() {
             $('.index_search_pop').removeClass('index_pop_block');
@@ -490,5 +496,8 @@
             $('.shop_index_tab').removeClass('psoi');
         }
     });
+
+
+
 </script> 
 </html>

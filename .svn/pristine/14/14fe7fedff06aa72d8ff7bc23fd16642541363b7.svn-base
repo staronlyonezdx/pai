@@ -1,0 +1,20 @@
+<?php
+namespace app\activity\controller;
+
+use app\member\controller\IndexHome;
+
+class Index extends IndexHome
+{
+    /**
+     * 活动首页
+     * 刘勇豪
+     * /activity/index/index
+     */
+    public function Index(){
+        echo 123;
+
+        $this->assign('header_title','活动页');
+        return view();
+    }
+
+}

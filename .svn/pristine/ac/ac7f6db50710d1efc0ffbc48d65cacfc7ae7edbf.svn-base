@@ -1,0 +1,128 @@
+
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/refund_info.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/withdraw_success.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/tomoney/tomoneyresult.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <!-- 成功提交申请 -->
+    <!-- <div class="refund_main">
+        <div class="refund_view clear">
+            <div class="refund_img refund_two_img lf" style="margin-top: 0.26rem;">
+                <img src="__STATIC__/image/orderpai/icon_jindu2@2x.png">
+            </div>
+            <div class="refund_new lf">
+                <div class="refund_first">
+                    <p>成功提交申请</p>
+                    <span>2018.09.09 21：00</span>
+                </div>
+                <div class="success_list">
+                    <p>平台处理中</p>
+                    <span>约7个工作日内到账</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="wallet_success_btn" onclick="javascript:history.back();" >
+        取消申请
+    </div> -->
+    <!-- 平台处理中 -->
+    <!-- <div class="refund_main">
+            <div class="refund_view clear">
+                <div class="refund_img refund_two_img lf" style="margin-top: 0.26rem;">
+                    <img src="__STATIC__/image/orderpai/icon_jindu2@2x.png">
+                </div>
+                <div class="refund_new lf">
+                    <div class="refund_first">
+                        <p>平台处理中</p>
+                        <span>约7个工作日内到账</span>
+                    </div>
+                    <div class="success_list">
+                        <p>成功提交提现申请</p>
+                        <span>2018.09.09 12：00</span>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+        <a href="/">
+            <div class="wallet_success_btn">
+                先去逛逛呗
+            </div>
+        </a> -->
+        <!-- 提现失败 -->
+        <!-- <div class="tomoneyresult">
+            <div class="tomoneyresult_img">
+                <img src="__STATIC__/image/orderpai/icon_x@2x.png" alt="">
+            </div> 
+            <p>提现失败!</p>
+            <div class="clear" style="padding-left:0.55rem;margin-top: 0.78rem;">
+                <span class="lf" style="margin-top:0;color:#333333;">失败原因:</span><small class="lf" style="width:5.5rem;margin-left: 0.23rem;color:#333333;">经拍吖吖核实，由于您的收益来源通过非法手段，予以不通过处理。还请通过正常途径参与平台活动。</small>
+            </div>
+                <div class="tomoneyresult_btn">
+                    取消申请
+                </div>
+        </div> -->
+        <!-- 提现失败 -->
+        <div class="tomoneyresult">
+                <div class="tomoneyresult_img">
+                    <img src="__STATIC__/image/orderpai/icon_x@2x.png" alt="">
+                </div> 
+                <p>提现失败!</p>
+                <div class="clear" style="padding-left:0.55rem;margin-top: 0.78rem;">
+                    <span class="lf" style="margin-top:0;color:#333333;font-size: 0.26rem;">失败原因:</span><small class="lf" style="width:5.6rem;margin-left: 0.2rem;color:#333333;font-size: 0.26rem;">您的开户行填写错误，请重新填写下卡开户行。</small>
+                </div>
+                <div style="text-align: center;margin-top: 0.35rem;font-size: 0.32rem;color: #333333;font-weight: 600;">6225********5676</div>
+                <div style="padding-left: 0.5rem;margin-top: 0.47rem;" class="clear" >
+                    <span class="lf" style="margin-top: 0;color:#333333;font-size: 0.28rem;color:#333333;font-weight: 600;">开户行:</span>
+                    <input type="text" class="lf" style="vertical-align: middle;width:5.6rem;border-bottom:1px solid #f2f2f2;text-indent: 0.25rem;padding-bottom: 0.18rem;" placeholder="请输入正确的开户行">
+                </div>
+                <div style="padding-left: 0.5rem;">
+                    <p style="color:#aaaaaa;font-size: 0.24rem;text-align: left;font-weight: 400;">如何查询开户行？</p>
+                    <div class="clear" style="margin-top: 0.17rem;">
+                        <span class="lf" style="margin-top:0;color:#aaaaaa;font-size: 0.26rem;">方法一:</span><small class="lf" style="width:5.8rem;margin-left: 0.2rem;color:#aaaaaa;font-size: 0.24rem;">找到银行卡背后服务电话，拨打服务电话查询。 </small>
+                    </div>
+                    
+                    <div class="clear" style="margin-top: 0.21rem;">
+                        <span class="lf" style="margin-top:0;color:#aaaaaa;font-size: 0.26rem;">方法二: </span><small class="lf" style="width:5.8rem;margin-left: 0.2rem;color:#aaaaaa;font-size: 0.24rem;">打开银行网站（例如泰隆银行就打开泰隆银行网站）；<br>登录自己的网银账号密码；<br>找到我的账户 ——账务查询——账户开户信息查询。</small>
+                    </div>
+                </div>
+                <div class="clear" style="padding:0 0.3rem;margin-top: 0.64rem;">
+                    <div class="lf cancelbtn" style="width:3.24rem;border:0.02rem solid #000000;border-radius: 0.18rem;height:0.84rem;line-height: 0.84rem;text-align: center;font-weight: 600;font-size: 0.32rem;">
+                        取消申请
+                    </div>
+                    <div class="rt tomoneyresult_btn" style="width:3.28rem;margin-top: 0;font-size: 0.32rem;">
+                        重新提交
+                    </div>
+                </div>
+                <div class="clear" style="width:3.88rem;margin:0 auto;margin-top:0.42rem;">
+                    <img src="__STATIC__/image/tomoney/icon_kf@2x.png" alt="" style="width:0.36rem;height:0.36rem;vertical-align: middle;" class="lf">
+                    <span class="lf" style="margin-top: 0;">联系客服，咨询时间9:00～22:00</span>
+                </div>
+        </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(function(){
+        $(".cancelbtn").click(function(){
+            layer.confirm("取消申请后提现金额将立即返还到您的收益金额，如需提现可重新申请。", {
+                title: false, /*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['我在想想','确定取消'], 
+                btn2: function () {
+
+                }
+            })
+        })
+    })
+</script>
+{/block}
