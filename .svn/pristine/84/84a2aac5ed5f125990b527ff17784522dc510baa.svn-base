@@ -1,0 +1,21 @@
+{extend name="common/base" /}
+{block name="style"}
+    <style>
+        body{
+            background: #fff;
+        }
+    </style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div style="padding:0.42rem 0.3rem;">
+        {$content}
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

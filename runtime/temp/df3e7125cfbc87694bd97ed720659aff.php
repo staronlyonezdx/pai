@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1542182120;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -46,7 +46,7 @@
     <div class="header_view">
         <div class="header_tit">
             <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
-            <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.back();" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?>>
+            <div class="header_back" onClick="javascript:history.go(-1);">
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
             </div>
         </div>
@@ -115,11 +115,11 @@
             <?php if($info['is_fudai'] ==1 || $info['is_huodong'] ==1): ?>
                 <div class="conf_order_img conf_order_fudai lf">
                     <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt="" class="conf_order_img_fudai">
-                    <img src="__CDN_PATH__<?php echo (isset($info['gp_img']) && ($info['gp_img'] !== '')?$info['gp_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                    <img src="__CDN_PATH__<?php echo (isset($info['gp_s_img']) && ($info['gp_s_img'] !== '')?$info['gp_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
                 </div>
             <?php else: ?>
                 <div class="conf_order_img lf">
-                    <img src="__CDN_PATH__<?php echo (isset($info['gp_img']) && ($info['gp_img'] !== '')?$info['gp_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                    <img src="__CDN_PATH__<?php echo (isset($info['gp_s_img']) && ($info['gp_s_img'] !== '')?$info['gp_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
                 </div>
             <?php endif; ?>
             <div class="conf_order_text lf">

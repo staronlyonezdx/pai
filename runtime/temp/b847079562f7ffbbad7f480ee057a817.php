@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/shop/index.html";i:1542693723;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/shop/index.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -407,7 +407,7 @@
 
                 var str = '<div class="product_list_list lf">';
                 str += '<div class="product_list_pic">';
-                str += '<img src="' + pd.g_img + '">';
+                str += '<img src="' + pd.g_s_img + '">';
                 str += '<div class="product_list_number">' + pd.sum_gp_num + '人已参与</div>';
                 str += '</div>';
                 str += '<p class="product_list_tit_p">' + pd.g_name + '</p>';

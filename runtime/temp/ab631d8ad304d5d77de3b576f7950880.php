@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:66:"D:\project\pai\public/../application/member/view/myhome/index.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:66:"D:\project\pai\public/../application/member/view/myhome/index.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -67,7 +67,7 @@
                 <div class="clear">
                     <div class="mine_head_portrait lf">
                         <img src="__STATIC__/image/myhome/TIM20180731142117.jpg"
-                             data-original="__CDN_PATH__<?php echo isset($data['m_avatar']) ? $data['m_avatar'] :  ''; ?>">
+                             data-original="__CDN_PATH__<?php echo isset($data['m_s_avatar']) ? $data['m_s_avatar'] :  ''; ?>">
                     </div>
                     <p class="mine_name_text lf"><?php echo isset($data['m_name']) ? $data['m_name'] :  ''; ?></p>
                 </div>
@@ -161,7 +161,7 @@
             <?php if(is_array($data['goods']['list']) || $data['goods']['list'] instanceof \think\Collection || $data['goods']['list'] instanceof \think\Paginator): $i = 0; $__LIST__ = $data['goods']['list'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
             <a href="/member/goodsproduct/index/g_id/<?php echo $vo['g_id']; ?>">
                 <div class="myhome_shop_pub_img lf">
-                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['g_img']; ?>">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['g_s_img']; ?>">
                 </div>
             </a>
             <?php endforeach; endif; else: echo "" ;endif; ?>

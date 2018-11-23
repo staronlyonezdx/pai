@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/share_list.html";i:1542704315;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/footer.html";i:1541986997;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/share_list.html";i:1542704491;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/footer.html";i:1541986997;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -66,7 +66,7 @@
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/<?php echo $vo['pg_id']; ?>">
                         <div class="share_list_box clear">
                             <div class="share_list_pic lf">
-                                <img src="<?php echo $vo['pg_img']; ?>" alt="">
+                                <img src="<?php echo $vo['pg_s_img']; ?>" alt="">
                             </div>
                             <div class="share_list_text lf">
                                 <p class="share_list_biaoti"><?php echo $vo['pg_name']; ?></p>
@@ -265,7 +265,7 @@
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/<?php echo $vo['pg_id']; ?>">
                         <div class="share_list_con lf">
                             <div class="share_list_con_img">
-                                <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['pg_img']; ?>"/>
+                                <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['pg_s_img']; ?>"/>
                             </div>
                             <div class="share_list_con_text clear">
                                 <div class="share_list_bar lf">
@@ -301,7 +301,7 @@
                     </div>
                     <a href="/popularity/popularitygoods/commodity_info/pg_id/<?php echo $vo['pg_id']; ?>">
                         <div class="share_list_con_img">
-                            <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['pg_img']; ?>"/>                            
+                            <img alt="" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['pg_s_img']; ?>"/>                            
                         </div>
                         <p><?php echo $vo['pg_name']; ?></p>
                         <div class="share_list_price">
@@ -321,10 +321,10 @@
                         <li class="share_list_li clear">
                             <div class="share_list_name_img lf">
                                 
-                                <?php if($vo['m_avatar']==''): ?>
+                                <?php if($vo['m_s_avatar']==''): ?>
                                 <img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="">
                                 <?php else: ?>
-                                <img src="<?php echo $vo['m_avatar']; ?>" alt=""/>
+                                <img src="<?php echo $vo['m_s_avatar']; ?>" alt=""/>
                                 <?php endif; ?>
                             </div>
                             <?php if($vo['pm_state'] == 2): ?>

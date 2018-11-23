@@ -123,7 +123,7 @@
     </div>
     <div class="group_content">
         <div class="group_content_top">
-            <div class="top_item lf active total">
+            <div class="top_item lf active total" data="5">
                 <span>综合</span>
             </div>
             <div class="top_item lf sale_num">
@@ -132,8 +132,8 @@
                     <img src="__STATIC__/image/shop/icon_nav_defelt@2x.png" alt="">
                 </div>
                 <div class="shop_index_filter">
-                    <img src="__STATIC__/image/shop/icon_nav_on@2x.png" alt="">
-                    <img src="__STATIC__/image/shop/icon_nav_down@2x.png" alt="" class="shop_index_filter_img">
+                    <img src="__STATIC__/image/shop/icon_nav_on@2x.png" alt="" data="1">
+                    <img src="__STATIC__/image/shop/icon_nav_down@2x.png" alt="" class="shop_index_filter_img" data="2">
                 </div>
                 <!--<span class="arrow">-->
                 <!--<img src="__STATIC__/image/activity/icon_shang@2x (1).png" alt="" class="sale_num_tohigh">-->
@@ -147,8 +147,8 @@
                     <img src="__STATIC__/image/shop/icon_nav_defelt@2x.png" alt="">
                 </div>
                 <div class="shop_index_filter">
-                    <img src="__STATIC__/image/shop/icon_nav_on@2x.png" alt="">
-                    <img src="__STATIC__/image/shop/icon_nav_down@2x.png" alt="" class="shop_index_filter_img">
+                    <img src="__STATIC__/image/shop/icon_nav_on@2x.png" alt="" data="3">
+                    <img src="__STATIC__/image/shop/icon_nav_down@2x.png" alt="" class="shop_index_filter_img" data="4">
                 </div>
                 <!--<span class="arrow">-->
                 <!--<img src="__STATIC__/image/activity/icon_shang@2x (1).png" alt="" class="price_num_tohigh">-->
@@ -157,31 +157,43 @@
             </div>
             <div class="top_item lf filtrate">
                 <span>筛选</span>
-                <img src="__STATIC__/image/activity/icon_shaixuan@2x.png" alt="">
-                <img src="__STATIC__/image/activity/icon_shaixuan@2x (1).png" alt="" class="filtrate_img">
+                <img src="__STATIC__/image/activity/icon_shaixuan@2x.png" alt="" data="5">
+                <img src="__STATIC__/image/activity/icon_shaixuan@2x (1).png" alt="" class="filtrate_img" data="6">
                 <!--<img src="__STATIC__/image/activity/icon_shaixuan@2x.png" alt="">-->
             </div>
+            <input type="hidden" name="order" />
         </div>
-        <div class="search_condition">
-            <div style="padding-left: 0.3rem;">
+        <div class="search_condition" >
+            <div style="padding-left: 0.3rem;background: white;padding-bottom: 0.8rem">
                 <div class="condition_item">
                     <p class="condition_item_title">揭晓时间（可多选）</p>
                     <div class="condition_item_content search_time">
-                        <span>一天以内</span>
-                        <span>三天以内</span>
-                        <span>七天以内</span>
-                        <span>十五天天以内</span>
+                        <p><span class="search_big" style="display: none">1</span><span class="search_little" style="display: none">0</span>一天以内</p>
+                        <p><span class="search_big" style="display: none">3</span><span class="search_little" style="display: none">0</span>三天以内</p>
+                        <p><span class="search_big" style="display: none">7</span><span class="search_little" style="display: none">0</span>七天以内</p>
+                        <p><span class="search_big" style="display: none">15</span><span class="search_little" style="display: none">0</span>十五天以内</p>
+                        <!--<span>一天以内</span>-->
+                        <!--<span>三天以内</span>-->
+                        <!--<span>七天以内</span>-->
+                        <!--<span>十五天天以内</span>-->
                     </div>
+                    <input type="hidden" name="searchtimelow">
+                    <input type="hidden" name="searchtimehigh">
                 </div>
                 <div class="condition_item">
                     <p class="condition_item_title">商品价格（可多选）</p>
                     <div class="condition_item_content search_price">
-                        <span>¥10元以下</span>
-                        <span>¥10-¥50</span>
-                        <span>¥10-¥50</span>
-                        <span>¥200-¥500</span>
-                        <span>¥200-¥500</span>
-                        <span>¥1000以上</span>
+                        <p>¥<span class="search_big">10</span>元以下 <span class="search_little" style="display: none">0</span></p>
+                        <p>¥<span class="search_little">10</span>-¥<span class="search_big">50</span></p>
+                        <p>¥<span class="search_little">50</span>-¥<span class="search_big">200</span></p>
+                        <p>¥<span class="search_little">200</span>-¥<span class="search_big">500</span></p>
+                        <p>¥<span class="search_little">500</span>-¥<span class="search_big">1000</span></p>
+                        <p>¥<span class="search_little">1000</span>以上 <span class="search_big" style="display: none">1000000000000000000000</span></p>
+                        <!--<span>¥<span>10</span>-¥<span>50</span></span>-->
+                        <!--<span>¥10-¥50</span>-->
+                        <!--<span>¥200-¥500</span>-->
+                        <!--<span>¥200-¥500</span>-->
+                        <!--<span>¥1000以上</span>-->
                     </div>
                     <div class="input_in">
                         <input type="text" class="price_low" placeholder="最低价"><span
@@ -193,9 +205,12 @@
                 <div class="condition_item">
                     <p class="condition_item_title">成团人数（可多选）</p>
                     <div class="condition_item_content search_num">
-                        <span>10人以下</span>
-                        <span>30人-50人</span>
-                        <span>50人以上</span>
+                        <p><span class="search_big">10</span>人以下 <span class="search_little" style="display: none">0</span></p>
+                        <p><span class="search_little">10</span>人-<span class="search_big">50</span>人</p>
+                        <p><span class="search_little">50</span>人以上 <span class="search_big" style="display: none">100000000000000000000000000000</span></p>
+                        <!--<span>10人以下</span>-->
+                        <!--<span>30人-50人</span>-->
+                        <!--<span>50人以上</span>-->
 
                     </div>
                     <div class="input_in">
@@ -296,19 +311,37 @@
         <div class="search_top_item">
             <p class="search_top_title">历史搜索</p>
             <div class="search_item clear">
-                <div class="lf">iPhone X</div>
-                <div class="lf">Beats Beats Studio3</div>
-                <div class="lf">RGB背光键盘</div>
-                <div class="lf">刺绣条纹毛衣</div>
+                <a onClick="hclic(this)">
+                    <div class="lf">iPhone X</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">Beats Beats Studio3</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">RGB背光键盘</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">刺绣条纹毛衣</div>
+                </a>
+
+
             </div>
         </div>
         <div class="search_top_item">
             <p class="search_top_title">火热参团中</p>
             <div class="search_item claer">
-                <div class="lf">外星人 Gsync 游戏本</div>
-                <div class="lf">简约电视柜</div>
-                <div class="lf">GENANX印花连帽卫衣</div>
-                <div class="lf">三星人工智能黑色手机</div>
+                <a onClick="hclic(this)">
+                    <div class="lf">外星人 Gsync 游戏本</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">简约电视柜</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">GENANX印花连帽卫衣</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">三星人工智能黑色手机</div>
+                </a>
             </div>
         </div>
     </div>
@@ -351,14 +384,154 @@
             clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
             htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
             htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
-            // toTop: {
-            //     //配置回到顶部按钮
-            //     src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
-            //     //offset : 1000
-            // }
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
         }
     });
 
+    // 点击排序
+    $('.top_item ').click(function () {
+        $('.top_item ').removeClass('active');
+        $(this).addClass('active')
+        $(".shop_index_tab_default").show();
+        $(".shop_index_filter").css({"display": "none"});
+        $(this).find(".shop_index_tab_default").hide();
+        $(this).find(".shop_index_filter").css({"display": "inline-block"});
+        $(this).find('.shop_index_filter').find('img').toggleClass('shop_index_filter_img');
+        if($(this).index() == 0){
+            $('input[name="order"]').val($(this).attr('data'))
+        }
+        if($(this).index()== 1 || $(this).index() == 2){
+            $('input[name="order"]').val($(this).find('.shop_index_filter_img').attr("data"));
+        }
+        if($(this).index() == 3){
+            $('input[name="order"]').val('6')
+        }
+        // console.log($('input[name="order"]').val());
+    })
+    // 点击筛选
+    $('.filtrate').click(function () {
+        $('.top_item').removeClass('active')
+        $(this).addClass('active');
+        $('.search_condition').toggleClass('active_search_con');
+        $(this).find('img').toggleClass('filtrate_img');
+        $(".shop_index_tab_default").show();
+        $(".shop_index_filter").hide();
+        var windowTop = $('.group_content').offset().top;
+        window.scrollTo(0,windowTop)
+    })
+
+    //点击揭晓时间里面的每个p
+    $('.search_time p').click(function () {
+        // console.log($(this));
+        $('.search_time p').removeClass('active_in');
+        $(this).addClass('active_in')
+        $('input[name="searchtimelow"]').val($(this).find('.search_little').html());
+        $('input[name="searchtimehigh"]').val($(this).find('.search_big').html())
+        // console.log($('input[name="searchtimelow"]').val());
+        // console.log($('input[name="searchtimehigh"]').val());
+    })
+    // 点击商品价格里面的每个p
+    $('.search_price p').click(function () {
+        // console.log($(this));
+        $('.search_price p').removeClass('active_in')
+        $(this).addClass('active_in')
+        $('.price_low').val($(this).find('.search_little').html());
+        $('.price_high').val($(this).find('.search_big').html())
+        // console.log($('.price_low').val());
+        // console.log($('.price_high').val());
+    })
+    // 点击成团人数里面的每个p
+    $('.search_num p').click(function () {
+        // console.log($(this));
+        $('.search_num p').removeClass('active_in')
+        $(this).addClass('active_in')
+        $('.people_low').val($(this).find('.search_little').html());
+        $('.people_high').val($(this).find('.search_big').html())
+        // console.log($('.people_low').val());
+        // console.log($('.people_high').val());
+    })
+    // 点击重置
+    $('.reset').click(function () {
+        $('.condition_item_content p').removeClass('active_in');
+        $('input[name="searchtimelow"]').val('');
+        $('input[name="searchtimehigh"]').val('');
+        $('.price_low').val('');
+        $('.price_high').val('');
+        $('.people_low').val('');
+        $('.people_high').val('');
+    })
+    // 点击确定筛选
+    $('.affrim').click(function () {
+        var mm = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+
+        if($('.price_low').val() != '' && !mm.test($('.price_low').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最低价格式不正确</span>',{time:2000});
+            return false;
+        }
+        if($('.price_high').val() != '' && !mm.test($('.price_high').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最高价格式不正确</span>',{time:2000});
+            return false;
+        }
+        if($('.people_low').val() != '' && !mm.test($('.people_low').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最低成团人数格式不正确</span>',{time:2000});
+            return false;
+        }
+        if($('.people_high').val() != '' && !mm.test($('.people_high').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最高成团人数格式不正确</span>',{time:2000});
+            return false;
+        }
+        $('.search_condition').hide();
+    })
+    // 点击清除所有图片
+    $('.del_all').click(function () {
+        layer.confirm('<p style="font-size:0.32rem;font-weight: 600;color: #000000">确定删除所有历史记录</p>', {
+            title: '', /*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['取消', '确定'], //可以无限个按钮
+            btn2: function (index, layero) {
+
+            }
+        }, function (index, layero) {
+            //按钮【按钮一】的回调
+            layer.closeAll()
+        });
+    })
+
+    $('.close_top').click(function () {
+        $('.search_top').hide()
+    })
+
+    $('.tosearch').click(function () {
+        $('.search_top').show();
+        //隐藏回到顶部按钮
+        mescroll.hideTopBtn();
+    })
+    $('.goback1').click(function () {
+        window.history.back();
+    })
+
+    $('.search_btn').click(function () {
+        window.location.href = '/activity/index/search'
+    })
+
+   //点击banner
+    $('.group_banner').click(function(){
+        var windowTop = $('.group_content').offset().top;
+        // console.log(windowTop);
+        // $('.group_content').scrollTo(0)
+        window.scrollTo(0,windowTop)
+    })
+
+    function hclic(id){
+        var vo=$(id).children().html();
+        console.log(vo);
+        // window.location.href="/index/index/search_index/type/"+typ+"/keyword/"+vo;
+    }
     /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
     function getListData(page) {
         //联网加载数据
@@ -393,9 +566,9 @@
             str += '</div>';
             str += ' <span class="progress_num lf">700%</span>';
             str += '</div>'
-            str += '<div class="content_info_data">';
-            str += '<span class="info_price"><small>￥</small>1788.00</span>';
-            str += '<span class="join">90人参与</span>';
+            str += '<div class="content_info_data clear">';
+            str += '<span class="info_price lf"><small>￥</small>1788.00</span>';
+            str += '<span class="join rt">1000人参与</span>';
             str += '</div>';
             str += '</div>';
             str += ' </li>';
@@ -438,83 +611,6 @@
         }, 1000)
     }
 
-    // 点击排序
-    $('.top_item ').click(function () {
-        $('.top_item ').removeClass('active');
-        $(this).addClass('active')
-        $(".shop_index_tab_default").show();
-        $(".shop_index_filter").css({"display": "none"});
-        $(this).find(".shop_index_tab_default").hide();
-        $(this).find(".shop_index_filter").css({"display": "inline-block"});
-        $(this).find('.shop_index_filter').find('img').toggleClass('shop_index_filter_img');
-
-    })
-    // 点击筛选
-    $('.filtrate').click(function () {
-        $('.top_item').removeClass('active')
-        $(this).addClass('active');
-        $('.search_condition').toggleClass('active_search_con');
-        $(this).find('img').toggleClass('filtrate_img');
-        $(".shop_index_tab_default").show();
-        $(".shop_index_filter").hide();
-    })
-
-    //点击揭晓时间里面的每个span
-    $('.search_time span').click(function () {
-        // console.log($(this));
-        $('.search_time span').removeClass('active_in')
-        $(this).addClass('active_in')
-    })
-    // 点击商品价格里面的每个span
-    $('.search_price span').click(function () {
-        // console.log($(this));
-        $('.search_price span').removeClass('active_in')
-        $(this).addClass('active_in')
-    })
-    // 点击成团人数里面的每个span
-    $('.search_num span').click(function () {
-        // console.log($(this));
-        $('.search_num span').removeClass('active_in')
-        $(this).addClass('active_in')
-    })
-    // 点击重置
-    $('.reset').click(function () {
-        $('.condition_item_content span').removeClass('active_in')
-    })
-    // 点击确定筛选
-    $('.affrim').click(function () {
-        $('.search_condition').hide();
-    })
-    // 点击清除所有图片
-    $('.del_all').click(function () {
-        layer.confirm('<p style="font-size:0.32rem;font-weight: 600;color: #000000">确定删除所有历史记录</p>', {
-            title: '', /*标题*/
-            closeBtn: 0,
-            btnAlign: 'c',
-            btn: ['取消', '确定'], //可以无限个按钮
-            btn2: function (index, layero) {
-
-            }
-        }, function (index, layero) {
-            //按钮【按钮一】的回调
-            layer.closeAll()
-        });
-    })
-
-    $('.close_top').click(function () {
-        $('.search_top').hide()
-    })
-
-    $('.tosearch').click(function () {
-        $('.search_top').show()
-    })
-    $('.goback1').click(function () {
-        window.history.back();
-    })
-
-    $('.search_btn').click(function () {
-        window.location.href = '/activity/index/search'
-    })
 
 
     // 滚动时候逻辑
@@ -549,5 +645,6 @@
 
 
     });
+
 </script>
 {/block}

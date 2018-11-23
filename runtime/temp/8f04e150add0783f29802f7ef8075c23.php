@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542678708;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542935137;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -1013,7 +1013,7 @@
         bridge.callHandler('isApp', function (str) {
             $('#app').val(str);
             //ios app显示扫码位置
-            if($('#app').val() == '1.0') {
+            if(str == '1.0') {
                 $('.index_search').addClass('smjk');
                 $('.index_searsh_top').addClass('smapp');
                 $('.sm-icon').show();
@@ -1328,7 +1328,7 @@
             var str = '<div class="index_module_main clear">';
             str += '<div class="index_module_img_view lf">';
             str += '<div class="index_module_img">';
-            str += '<img src="' + pd.g_img + '" alt="">';
+            str += '<img src="' + pd.g_s_img + '" alt="">';
             str += '</div>';
             str += '<div class="index_module_pic">';
             str += img;

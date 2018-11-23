@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:71:"D:\project\pai\public/../application/member/view/classify/classify.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:71:"D:\project\pai\public/../application/member/view/classify/classify.html";i:1542867911;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -451,20 +451,31 @@
     var i = 0,
         j = 0,
         m = title.length;
-
     for (i = 0; i < m; i++) {
         html.push('<a class="mui-control-item" data-index="' + i + '" href="#content' + i + '">'+title[i]+'</a>');
     }
     controls.innerHTML = html.join('');
     var list = <?php echo $list; ?>;
     html = [];
-
+    console.log(list);
     for (i = 0; i < m; i++) {
         html.push('<div id="content' + i + '" class="mui-control-content classify_all_con"><a href="/member/classify/index/gc_id/'+list[i]['gc_id']+'"><div class="classify_content"><div class="classify_main classify_dis"><div class="classify_banner"><img src="'+list[i]['gc_banner_img']+'"></div><div class="classify_all"><span></span><p>'+list[i]['gc_name']+'</p></a><span></span></div><ul class="mui-table-view classify_all_con clear">');
-        var n = list[i]['son'].length
-        if(n !=0) {
-            for (j = 0; j < n; j++) {
-                html.push('<li class="mui-table-view-cell lf"><a href="/member/classify/index/gc_id/'+list[i]['son'][j]['gc_id']+'"><div class="classify_list "><div><img src="'+list[i]['son'][j]['gc_img']+'"></div><p>'+list[i]['son'][j]['gc_name']+'</p></div></a></li>');
+        // var n = list[i]['son'].length;
+        // console.log(list[i]['son']);
+        // console.log( typeof  list[i]['son']);
+        // console.log(n);
+        // if(n !=0) {
+        //     for (j = 0; j < n; j++) {
+        //         html.push('<li class="mui-table-view-cell lf"><a href="/member/classify/index/gc_id/'+list[i]['son'][j]['gc_id']+'"><div class="classify_list "><div><img src="'+list[i]['son'][j]['gc_img']+'"></div><p>'+list[i]['son'][j]['gc_name']+'</p></div></a></li>');
+        //     }
+        // }
+
+        var son = list[i]['son'];
+        if( son != []){
+            for(var val in son){
+                console.log(son[val]);
+                // html.push('<li class="mui-table-view-cell lf"><a href="/member/classify/index/gc_id/'+list[i]['son'][val]['gc_id']+'"><div class="classify_list "><div><img src="'+list[i]['son'][val]['gc_img']+'"></div><p>'+list[i]['son'][val]['gc_name']+'哈哈</p></div></a></li>');
+                html.push('<li class="mui-table-view-cell lf"><a href="/member/classify/index/gc_id/'+list[i]['son'][val]['gc_id']+'"><div class="classify_list "><div><img src="'+list[i]['son'][val]['gc_img']+'"></div><p>'+list[i]['son'][val]['gc_name']+'</p></div></a></li>');
             }
         }
 

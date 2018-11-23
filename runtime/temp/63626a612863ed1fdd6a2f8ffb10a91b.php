@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1542693190;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1542772250;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -384,7 +384,7 @@
             <p class="lf">快去成为第一个参团人吧</p>
             <?php else: if(is_array($member) || $member instanceof \think\Collection || $member instanceof \think\Paginator): $i = 0;$__LIST__ = is_array($member) ? array_slice($member,0,4, true) : $member->slice(0,4, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
                 <div class="details_imgs lf">
-                    <img alt="" src="<?php echo (isset($vo['m_avatar']) && ($vo['m_avatar'] !== '')?$vo['m_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>" class="details_errimg">
+                    <img alt="" src="<?php echo (isset($vo['m_s_avatar']) && ($vo['m_s_avatar'] !== '')?$vo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>" class="details_errimg">
                 </div>
             <?php endforeach; endif; else: echo "" ;endif; ?>
             <p class="lf">等共<span><?php echo $total_people; ?></span>人次已参与团购</p>
@@ -444,7 +444,7 @@
                 <?php elseif($vo['member_num'] < 2 AND $vo['member_num'] > 0): if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
                 <div class="details_ul_list">
                     <div class="details_schedule_name_pic lf">
-                        <img alt="" src="<?php echo (isset($voo['m_avatar']) && ($voo['m_avatar'] !== '')?$voo['m_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>" class="details_errimg">
+                        <img alt="" src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>" class="details_errimg">
                     </div>
                     <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
                     <?php if(!(empty($voo['o_addtime']) || (($voo['o_addtime'] instanceof \think\Collection || $voo['o_addtime'] instanceof \think\Paginator ) && $voo['o_addtime']->isEmpty()))): ?>
@@ -456,7 +456,7 @@
                     <?php if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
                     <div class="details_ul_list">
                         <div class="details_schedule_name_pic lf">
-                            <img alt="" src="<?php echo (isset($voo['m_avatar']) && ($voo['m_avatar'] !== '')?$voo['m_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>" class="details_errimg">
+                            <img alt="" src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>" class="details_errimg">
                         </div>
                         <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
                         <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
@@ -470,29 +470,30 @@
     <?php endforeach; endif; else: echo "" ;endif; endif; if($is_lord ==1): else: if(!(empty($comment['list']) || (($comment['list'] instanceof \think\Collection || $comment['list'] instanceof \think\Paginator ) && $comment['list']->isEmpty()))): ?>            
     <!--没有评价的时候隐藏该div开始-->
     <div class="goodsproduct_pingjia_view">
-        <a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">
+        <!--<a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">-->
             <div class="details_evaluate">
                 <div class="details_evaluate_tit clear">
                     <p class="lf">
                         已购评价<span>(<?php echo isset($comment['total_num']) ? $comment['total_num'] :  0; ?>)</span>
                     </p>
-                    
+                    <a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">
                         <div class="rt">
                             <span>
                                     查看全部
                             <img src="__STATIC__/image/details/right.png">
                             </span>
                         </div>
-                    
+                    </a>
+
                 </div>
             </div>
-        </a>
+        <!--</a>-->
         <?php if(is_array($comment['list']) || $comment['list'] instanceof \think\Collection || $comment['list'] instanceof \think\Paginator): $i = 0; $__LIST__ = $comment['list'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
         <div class="details_pingjia">
             <div class="details_evaluate_list clear">
                 <!--评价者头像 S-->
                 <div class="details_evaluate_head lf">
-                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo isset($vo['m_avatar']) ? $vo['m_avatar'] :  ''; ?>">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo isset($vo['m_s_avatar']) ? $vo['m_s_avatar'] :  ''; ?>">
                 </div>
                 <!--评价者头像 E-->
 
@@ -640,7 +641,7 @@
 
                     <div class="product_list_list lf">
                         <div class="product_list_pic">
-                            <img src="__CDN_PATH__<?php echo isset($vo['g_img']) ? $vo['g_img'] :  ''; ?>">
+                            <img src="__CDN_PATH__<?php echo isset($vo['g_s_img']) ? $vo['g_s_img'] :  ''; ?>">
 
                             <div class="product_list_number"><?php echo isset($vo['gp_num']) ? $vo['gp_num'] :  '0'; ?>人已参与</div>
                         </div>
@@ -667,11 +668,11 @@
                     <?php if($goods['is_fudai']==1 || $goods['is_huodong']==1): ?>
                         <div class="details_canpai_pic lf details_canpai_pic_fudai">
                             <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt="" class="details_shiyi_fudai">
-                            <img src="__CDN_PATH__<?php echo (isset($goods['gp_img']) && ($goods['gp_img'] !== '')?$goods['gp_img']:''); ?>">
+                            <img src="__CDN_PATH__<?php echo (isset($goods['gp_s_img']) && ($goods['gp_s_img'] !== '')?$goods['gp_s_img']:''); ?>">
                         </div>
                     <?php else: ?>
                         <div class="details_canpai_pic lf">
-                            <img src="__CDN_PATH__<?php echo (isset($goods['gp_img']) && ($goods['gp_img'] !== '')?$goods['gp_img']:''); ?>">
+                            <img src="__CDN_PATH__<?php echo (isset($goods['gp_s_img']) && ($goods['gp_s_img'] !== '')?$goods['gp_s_img']:''); ?>">
                         </div>
                     <?php endif; ?>
             <div class="details_canpai_text lf">
@@ -1349,7 +1350,7 @@ $(function () {
     })
     // 参团者列表
     //1.全部参团
-    $(".details_tit_view").click(function () {
+    $(".details_cantuan_all").click(function () {
         var this_gp_id = $("input[name=gp_id]").val();
         if (this_gp_id) {
             window.location.href = "/member/orderpai/pai_memlist/gp_id/" + this_gp_id + "/gdr_id/0";            

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/index/view/index/search_index.html";i:1542247673;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/index/view/index/search_index.html";i:1542858443;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -473,12 +473,12 @@
                     if (pd.sum_gp_num == null) {
                         pd.sum_gp_num = '0';
                     }
-                    if(pd.g_img==""){
-                        pd.g_img="/static/image/index/pic_home_taplace@2x.png"
+                    if(pd.g_s_img==""){
+                        pd.g_s_img="/static/image/index/pic_home_taplace@2x.png"
                     }
                     var str = '<a onClick="clic1('+pd.g_id+')"><div class="product_list_list lf">';
                     str += '<div class="product_list_pic">';
-                    str += '<img src="' + pd.g_img + '">';
+                    str += '<img src="' + pd.g_s_img + '">';
                     str += '<div class="product_list_number">' + pd.sum_gp_num + '人已参与</div>';
                     str += '</div>';
                     str += '<p class="product_list_tit_p">' + pd.g_name + '</p>';
@@ -511,12 +511,12 @@
                     str += '<div class="store-list-img">';
                     for (var j = 0; j < pd.goods.length; j++) {
                         
-                        if(pd.goods[j].g_img==""){
-                            pd.goods[j].g_img = '/static/image/index/pic_home_taplace@2x.png'
+                        if(pd.goods[j].g_s_img==""){
+                            pd.goods[j].g_s_img = '/static/image/index/pic_home_taplace@2x.png'
                         }
                         str += '<div class="store-img-item">';
                         str += '<a href="/member/goodsproduct/index/g_id/' + pd.goods[j].g_id + '">';
-                        str += '<img src="' + pd.goods[j].g_img + '">';
+                        str += '<img src="' + pd.goods[j].g_s_img + '">';
                         str += '<span>￥' + pd.goods[j].gp_market_price + '</span>';
                         str += '</a>';
                         str += '</div>';

@@ -606,7 +606,7 @@
         bridge.callHandler('isApp', function (str) {
             $('#app').val(str);
             //ios app显示扫码位置
-            if($('#app').val() == '1.0') {
+            if(str == '1.0') {
                 $('.index_search').addClass('smjk');
                 $('.index_searsh_top').addClass('smapp');
                 $('.sm-icon').show();

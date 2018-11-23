@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:74:"D:\project\pai\public/../application/member/view/orderpai/pai_memlist.html";i:1542695498;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542617310;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:74:"D:\project\pai\public/../application/member/view/orderpai/pai_memlist.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -43,7 +43,7 @@
     <div class="header_view">
         <div class="header_tit">
             <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
-            <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.go(-1);" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?>>
+            <div class="header_back" onClick="javascript:history.go(-1);">
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
             </div>
         </div>
@@ -321,10 +321,10 @@
                                         tabLoadEndArray[itemIndex] = true;
                                         break;
                                     }   
-                                    var m_avatarimg=data.data[i].m_avatar;
+                                    var m_avatarimg=data.data[i].m_s_avatar;
 
-                                    if(data.data[i].m_avatar==''||data.data[i].m_avatar==null){
-                                        data.data[i].m_avatar='/static/image/myhome/TIM20180731142117.jpg'
+                                    if(data.data[i].m_s_avatar==''||data.data[i].m_s_avatar==null){
+                                        data.data[i].m_s_avatar='/static/image/myhome/TIM20180731142117.jpg'
                                     }
 
                                     if(data.data[i].oa_state == 2){
@@ -340,7 +340,7 @@
                                         html += '<div class="details_carousel_img lf">';
                                     }
                                    
-                                    html += '<img src="' + data.data[i].m_avatar + '" class="details_error_img">';
+                                    html += '<img src="' + data.data[i].m_s_avatar + '" class="details_error_img">';
                                     html += '</div>';
                                     html += '<p class="details_name lf">' + data.data[i].m_name + '';
                                     html += '<span>' + msToDate(data.data[i].o_paytime * 1000).wasTime + '</span>';
@@ -384,8 +384,8 @@
                                                     tabLoadEnd = true;
                                                     break;
                                                 }
-                                                if(data.data[i].m_avatar==''||data.data[i].m_avatar==null){
-                                                    data.data[i].m_avatar='/static/image/myhome/TIM20180731142117.jpg'
+                                                if(data.data[i].m_s_avatar==''||data.data[i].m_s_avatar==null){
+                                                    data.data[i].m_s_avatar='/static/image/myhome/TIM20180731142117.jpg'
                                                 }
                                                 
                                                 if(data.data[i].oa_state == 2){
@@ -404,7 +404,7 @@
                                                 }
                                                 // html1 += '<div class="details_carousel_list clear">';
                                                
-                                                html1 += '<img src="' + data.data[i].m_avatar + '" class="details_error_img">';
+                                                html1 += '<img src="' + data.data[i].m_s_avatar + '" class="details_error_img">';
                                                 html1 += '</div>';
                                                 html1 += '<p class="details_name lf">' + data.data[i].m_name + '';
                                                 html1 += '<span>' + msToDate(data.data[i].o_paytime * 1000).wasTime + '</span>';

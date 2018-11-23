@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1542680587;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1542936714;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -50,7 +50,7 @@
             </div>
             <div class="index_search lf">
                 <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf" style="margin-left: 0.3rem;margin-top: 0.2rem">
-                <input type="text" placeholder="输入您想搜索的商品" autofocus>
+                <input type="text" placeholder="输入您想搜索的商品" autofocus name="keyword">
             </div>
             <span class="search_btn">搜索</span>
         </div>
@@ -278,9 +278,9 @@
                 str += '</div>';
                 str += ' <span class="progress_num lf">700%</span>';
                 str += '</div>'
-                str += '<div class="content_info_data">';
-                str += '<span class="info_price"><small>￥</small>1788.00</span>';
-                str += '<span class="join">90人参与</span>';
+                str += '<div class="content_info_data clear">';
+                str += '<span class="info_price lf"><small>￥</small>1788.00</span>';
+                str += '<span class="join rt">90人参与</span>';
                 str += '</div>';
                 str += '</div>';
                 str += ' </li>';
@@ -306,7 +306,7 @@
                 data: {
                     page: pageNum,
                     page_size: pageSize,
-                    // keyword:'aa'
+                    keyword:$('input[name="keyword"]').val()
                 },
                 dataType: 'json',
                 success: function (data) {
@@ -323,7 +323,8 @@
         }, 1000)
     }
 
-$('.goback').click(function () {
+    console.log($('input[name="keyword"]').val());
+    $('.goback').click(function () {
     window.history.back()
 })
 </script>

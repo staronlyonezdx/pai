@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\project\pai\public/../application/member/view/classify/index.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\project\pai\public/../application/member/view/classify/index.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -42,7 +42,7 @@
     <div class="header_view">
         <div class="header_tit">
             <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
-            <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.back();" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?>>
+            <div class="header_back" onClick="javascript:history.go(-1);">
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
             </div>
         </div>
@@ -106,10 +106,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -377,7 +377,7 @@
             
             var str = '<div class="product_list_list lf">';
             str += '<div class="product_list_pic">';
-            str += '<img src="' + pd.g_img + '">';
+            str += '<img src="' + pd.g_s_img + '">';
             str += '<div class="product_list_number">' + pd.gp_num + '人已参与</div>';
             str += '</div>';
             str += '<p class="product_list_tit_p">' + pd.g_name + '</p>';

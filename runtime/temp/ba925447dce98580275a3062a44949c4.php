@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/prize_list.html";i:1541491295;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/prize_list.html";i:1542770048;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -250,7 +250,7 @@ function getzf(num){
                         if (res.list.length > 0) {
                             for (var i = 0; i < res.list.length; i++) {
                                 var datas=getMyDate(res.list[i].a_addtime*1000);
-                                console.log(datas)
+                                // console.log(datas)
                                 if (res.new_num > 0) {
                                     res.new_num--;
                                 } else {
@@ -259,10 +259,13 @@ function getzf(num){
                                 }
                                 html += '<a href="/popularity/popularitygoods/prize_info/a_id/'+res.list[i].a_id+'">'
                                 html += '<div class="prize_list_item">';
-                                html += '<img src="'+res.list[i].a_img+'" alt="">';
-                                if(i == 1){
-                                     html += '<img src="__STATIC__/image/systemmsg/icon_zhiding@2x.png" alt="" class="zhiding">'
-                                }
+                                html += '<div class="yy_notice_img lf">'
+                                html += '<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="" class=" annunciate_img ">';
+                                // html += '<img src="'+res.list[i].a_img+'" alt="" class=" annunciate_img ">';
+                                html += '</div>'
+                                // if(i == 1){
+                                //      html += '<img src="__STATIC__/image/systemmsg/icon_zhiding@2x.png" alt="" class="zhiding">'
+                                // }
                                 html += '<div class="prize_list_info">';
                                 html += '<span class="prize_list_name">'+res.list[i].a_name+'</span>';
                                 html += '<span class="prize_list_detail">'+res.list[i].a_brief+'</span>';
@@ -272,6 +275,47 @@ function getzf(num){
                                 html += '</a>'
                             }
                             $('.prize_list_content').append(html);
+
+                            $('.annunciate_img').each(function(){
+                                // alert(11)
+                                //获取图片父容器的宽度
+                                var pat = $(this).parent().width();
+
+
+                                //获取图片父容器的高度
+                                var pah = $(this).parent().height();
+                                var img = $(this);
+                                var wid;// 真实的宽度
+                                var hei;// 真实的高度
+                                // 这里做下说明，$("<img/>")这里是创建一个临时的img标签，类似js创建一个new Image()对象！
+                                $("<img/>").attr("src", $(img).attr("src")).load(function() {
+                                    /*
+                                    * 如果要获取图片的真实的宽度和高度有三点必须注意 1、需要创建一个image对象：如这里的$("<img/>")
+                                    * 2、指定图片的src路径 3、一定要在图片加载完成后执行如.load()函数里执行
+                                    */
+                                    wid = this.width;
+                                    hei = this.height;
+                                    // console.log(wid,hei);
+                                    if (wid > hei) {
+                                        //图片宽度设置为100%
+                                        img.css({"width":pat+"px","height":"auto"});
+
+                                        //居中显示
+                                        hei = hei/(wid/pat);
+                                        var mtp = (img.parent().height()-hei)/2;
+                                        img.css("margin-top",mtp+"px");
+                                        // console.log(wid,hei);
+                                    }else if(wid <= hei){
+                                        //图片宽度设置为100%
+                                        img.css({"width":'auto',"height":'100%'});
+                                        //居中显示
+                                        wid = wid/(hei/pah);
+                                        var mtp = (img.parent().width()-wid)/2;
+                                        img.css("margin-left",mtp+"px");
+                                        // console.log(wid,hei);
+                                    }
+                                });
+                            })
                         } else {
                             tabLoadEnd = true;
                             if ($('.prize_list_item').length == 0) {
@@ -286,6 +330,9 @@ function getzf(num){
             }, 500);
         }
     });
+
+
+
 </script>
 
 

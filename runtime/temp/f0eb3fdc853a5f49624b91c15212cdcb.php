@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:66:"D:\project\pai\public/../application/member/view/wallet/index.html";i:1541491284;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:66:"D:\project\pai\public/../application/member/view/wallet/index.html";i:1542617310;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -114,11 +114,11 @@
                 </div>
                 
                 <div class="index_card_text">
-                    <!-- <a href="/member/wallet/taking_money"> -->
+                    <a href="/member/wallet/taking_money">
                         <p>提现中金额   ￥ <span><?php echo $money['m_frozen_money']; ?></span>
-                            <!-- <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt=""> -->
+                            <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="">
                         </p>
-                    <!-- </a> -->
+                    </a>
                 </div>
             
             </div>
@@ -149,20 +149,20 @@
 
 
                 <div class="is_promoters2">
-                    <div class="wallet_help_text rt help" style="margin-top: -0.5rem;margin-right: 0">
+                    <!-- <div class="wallet_help_text rt help" style="margin-top: -0.5rem;margin-right: 0">
                         <img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>
                         <span>帮助说明</span>
-                    </div>
+                    </div> -->
                     <div class="clear">
-                        <div class="lf" style="margin-top: 0.1rem">
+                        <!-- <div class="lf" style="margin-top: 0.1rem">
                             <p>￥<span><?php echo $money['m_frozen_income']; ?></span></p>
                             <p style="margin-top: 0.1rem">提现中金额</p>
                             <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="" class="more">
-                        </div>
+                        </div> -->
                         <a href="/member/wallet/profit_book">
-                            <div class="rt" style="margin-top: 0.1rem">
-                                <p>￥<span class="dongjiezijin"></span></p>
-                                <p style="margin-top: 0.1rem">推广冻结金额</p>
+                            <div style="margin-top: 0.1rem" class="clear">
+                                <!-- <p>￥<span class="dongjiezijin"></span></p> -->
+                                <p style="margin-top: 0.1rem;" class="lf">推广冻结金额&nbsp;&nbsp;&nbsp;￥<span class="dongjiezijin"></span></p>
                                 <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="" class="more">
                             </div>
                         </a>
@@ -170,17 +170,17 @@
                     </div>
                 </div>
 
-                <div class="index_card_text clear no_promoters">
-                    <!-- <a href="/member/wallet/taking_money">  -->
+                <!-- <div class="index_card_text clear no_promoters">
+                    <a href="/member/wallet/taking_money"> 
                         <p class="lf">提现中金额￥<span><?php echo $money['m_frozen_income']; ?></span>
-                            <!-- <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt=""> -->
+                            <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="">
                         </p>
-                    <!-- </a> -->
+                    </a>
                     <div class="wallet_help_text rt help">
                         <img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>
                         <span>帮助说明</span>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!--<div class="swiper-slide">4654654</div>-->

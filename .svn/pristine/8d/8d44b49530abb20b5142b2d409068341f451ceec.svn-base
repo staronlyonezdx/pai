@@ -1,0 +1,848 @@
+<?php
+/**
+ * 公共Service
+ *-------------------------------------------------------------------------------------------
+ * 版权所有 广州市素材火信息科技有限公司
+ * 创建日期 2017-07-12
+ * 版本 v.1.0.0
+ * 网站：www.sucaihuo.com
+ *--------------------------------------------------------------------------------------------
+ */
+
+namespace app\data\service;
+use app\data\service\sms\AliService;
+use think\Cache;
+use think\Db;
+use think\File;
+use think\Session as Session;
+use think\Request as Request;
+use think\Controller;
+use think\Image;
+use think\Cookie;
+class BaseService
+{
+    public $uadmin;//管理员信息
+    public $verify;//验证码
+    public $expire;//缓存时间
+    public $user;//缓存时间
+    public $admin_id;//登录管理员的id
+    public $admin_name;//登录管理员的账号
+    protected $key='zhishen'; //加密、解密秘钥
+    public $cdn_url="https://m.paiyy.com.cn";
+
+    public function __construct()
+    {
+        header("Content-Type: text/html;charset=utf-8");
+        $this->init();
+    }
+
+    /**
+     * 初始化数据
+     * 创建人 韦丽明
+     * 更新时间 2017-07-12 13:45:30
+     */
+    public function init()
+    {
+        //管理员信息
+        $this->uadmin = Session::get('ThinkUser');
+        //验证码
+        //$this->verify = Session::get('verify');
+        //缓存时间
+        $this->expire = Session::get('expire');
+    }
+
+    /**
+     * 判断管理员登录状态
+     * 创建人 韦丽明
+     * 更新时间 2017-09-07 15:26:33
+     */
+    public function checkAdminSession()
+    {
+        $nowtime = time();
+        if($this->uadmin==null)
+        {
+            return false;
+        }
+        else
+        {
+            if(($nowtime - $this->uadmin['Logintime']) > $this->expire)
+            {
+                $statis = new \app\data\service\statis\StatisService();
+                $where['Uid'] = Session::get('ThinkUser.ID');
+                $del = $statis->statisDel($where);
+                session(null);
+                return '登录超时';
+            }
+            else
+            {
+                $uid = $this->uadmin['ID'];
+                $user = new \app\data\service\user\UserService ;
+                $result = $user->userCount("ID = $uid") ;
+
+                if ($result != 1) {
+                    session(null);
+                    return '非法用户登录';
+                }else {
+                    $this->sessionPack('ThinkUser.Logintime',$nowtime);
+                    return intval($uid);
+                }
+            }
+        }
+    }
+
+    /**
+     * 判断管理员登录状态
+     * 创建人 刘勇豪
+     * 更新时间 2018-06-26 09:26:00
+     */
+    public function checkAdminCookie()
+    {
+        $admin_id = $this->cookieGets('admin_id');
+        $admin_name = $this->cookieGets('admin_name');
+        if(!$admin_id)
+        {
+            return false;
+        }
+        else
+        {
+            $this->admin_id = $admin_id;
+            $this->admin_name = $admin_name;
+            $admin = new \app\data\service\admin\AdminService ;
+            $result = $admin->adminCount("admin_id = $admin_id") ;
+
+            if ($result != 1) {
+                cookie(null);
+                return '非法用户登录';
+            }else {
+                $this->cookiePack('admin_id',$admin_id,3600*12);
+                return intval($admin_id);
+            }
+        }
+    }
+
+    /**
+     * 信息验证
+     * 创建人 韦丽明
+     * 时间 2017-09-06 21:15:11
+     */
+    public function checkInfo($type, $info)
+    {
+        $arr = array();
+        $arr = explode('|',$type);
+
+        $str = array();
+        $str = explode('|',$info);
+
+        foreach($arr as $key=>$v)
+        {
+            switch($v)
+            {
+                //用户名
+                case 'username';
+                    if (!preg_match('/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_-]{2,16}$/u',$str[$key]))
+                    {
+                        return '请输入合法的用户名';
+                    }
+                    break;
+                //密码
+                case 'password';
+                    if (strlen($str[$key])<6 || strlen($str[$key])>18)
+                    {
+                        return '请输入6位数以上的密码';
+                    }
+                    break;
+                //验证码
+                case 'code';
+                    if (!captcha_check($str[$key]))
+                    {
+                        return '请输入正确的验证码';
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 地理位置信息获取
+     * 创建人 韦丽明
+     * 时间 2017-09-06 21:33:05
+     */
+    public function area()
+    {
+        $area = array();
+        //位置获取
+        $Ip = new \Net\IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
+        $area = $Ip->getlocation();	// 获取某个IP地址所在的位
+        return $area;
+    }
+
+    /**
+     * 验证IP
+     * 创建人 韦丽明
+     * 时间 2017-09-06 21:47:12
+     */
+    public function checkIp($resip, $area)
+    {
+
+        if ($resip) {
+            if ($resip['Status'] == 1)
+            {
+                //保存日志
+                $this->loginlog(0,'未知','<div class="de2">被封锁IP尝试登录</div>',$area['country'].'.'.$area['area'],$area['ip']);
+                return '您的IP异常已被封禁，请等待管理员解除封禁！';
+            }
+            else
+            {
+                $endtime = strtotime($resip['EndTime']); //结束时间
+                if (($endtime - date('Y-m-d')) > 1)
+                {
+                    //保存日志
+                    $this->loginlog(0,'未知','<div class="de2">被封锁帐号尝试登录</div>',$area['country'].'.'.$area['area'],$area['ip']);
+                    return '您的IP异常已被封禁，请等待管理员解除封禁！';
+                }
+            }
+        }
+    }
+
+    /**
+     * 登录日志记录
+     * 创建人 韦丽明
+     * 时间 2017-09-06 21:47:12
+     */
+    public function loginlog($uid,$username,$description,$area,$cip)
+    {
+        //登录日志记录
+        $hlog['Uid'] = $uid;
+        $hlog['User'] = $username;
+        $hlog['Description'] = $description;
+        $hlog['Area'] = $area;
+        $hlog['Loginip'] = $cip;
+        $hlog['Dtime'] = date('Y-m-d H:i:s');
+        $log = new \app\data\service\index\LoginlogService();
+        $log->loginlogAdd($hlog);
+    }
+
+    /**
+     * 加密方式
+     * 创建人 韦丽明
+     * 时间 2017-09-06 22:12:05
+     */
+    public function HashPassword($password)
+    {
+        $password = sha1(md5($password));
+        return $password;
+    }
+
+    /**
+     * session封装更新
+     * 创建人 韦丽明
+     * 时间 2017-09-07 11:39:06
+     */
+    public function sessionPack($name, $data)
+    {
+        Session::set($name, $data);
+    }
+
+    /**
+     * session读取
+     * 创建人 韦丽明
+     * 时间 2017-09-07 11:47:15
+     */
+    public function sessionGets($name)
+    {
+        return Session::get($name);
+    }
+
+    /**
+     * cookie封装更新
+     * 创建人 刘勇豪
+     * 时间 2018-06-20 15:48:00
+     */
+    public function cookiePack($name, $data, $time = 3600)
+    {
+        Cookie::set($name, $data ,$time);
+    }
+
+    /**
+     * cookie读取
+     * 创建人 刘勇豪
+     * 时间 2018-06-20 15:48:00
+     */
+    public function cookieGets($name)
+    {
+        return Cookie::get($name);
+    }
+
+    /**
+     * 用户权限验证
+     * 创建人 韦丽明
+     * 时间 2017-09-10 20:28:01
+     */
+    public function userauthHtml($auth) {
+        //当前用户权限获取
+        $comp = explode(',',Session::get('ThinkUser.Competence'));
+        array_pop($comp);
+        if (!in_array($auth,$comp)) {
+            return false;
+        }
+    }
+
+    /**
+     * 上传图片
+     * 创建人 韦丽明
+     * 时间 2017-09-10 21:26:02
+     */
+    public function upload($name='', $file = "attach_file", $type=0, $w=350 ,$h=350)
+    {
+        // 获取表单上传文件 例如上传了001.jpg
+        $file = request()->file($file);
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads'. DS . $name);
+
+        if($info)
+        {
+            $info = '/uploads/'.$name.'/'.$info->getSaveName();
+            //以下此处为拍吖吖专用添加此缩略图
+                $image = Image::open(trim($info,'/'));
+                //原图片压缩
+                $image->thumb(800, 8000)->save(trim($info,'/'),'jpg','80');
+                //生成缩略图文件夹
+                $thumbUrl = 's_uploads/'.$name.'/'.date('Ymd');
+                if(!is_dir($thumbUrl)){
+                    mkdir($thumbUrl,0777,true);
+                    chmod($thumbUrl,0777);
+                }elseif(!is_writable($thumbUrl)){
+                    chmod($thumbUrl,0777);
+                }
+                //生成缩略图
+                $image->thumb($w, $h)->save(str_replace("uploads/","s_uploads/",trim($info,'/')),'jpg','80');
+            //以上此处为拍吖吖专用添加此缩略图
+
+            //生成缩略图
+            if ($type===2)
+            {
+                $thumb = $this->thumbImg($info, $name, $type, $w, $h);
+            }
+        }
+        else
+        {
+            // 上传失败获取错误信息 /uploads/goods/
+            //echo $file->getError();
+        }
+
+        if($type===2)
+        {
+            $pic = array('info'=>$info,'thumb'=>$thumb);
+            unset($thumb);
+            return $pic;
+        }
+        else
+        {
+            return $info;
+        }
+    }
+    /**
+     * 上传图片
+     * 创建人 韦丽明
+     * 时间 2017-09-10 21:26:02
+     */
+    public function uploads($name='', $file = "attach_file")
+    {
+        // 获取表单上传文件 例如上传了001.jpg
+        $files = request()->file($file);
+        $arr = array();
+        if(!$files){
+            return $arr;
+        }
+        foreach($files as $k => $file) {
+            // 移动到框架应用根目录/public/uploads/ 目录下
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads'. DS . $name);
+            if ($info) {
+                $imgName = '/uploads/' . $name . '/' . $info->getSaveName();
+                //以下此处为拍吖吖专用添加此缩略图
+                    $image = Image::open(trim($imgName,'/'));
+                    //原图片压缩
+                    $image->thumb(800, 8000)->save(trim($imgName,'/'),'jpg','80');
+                    //生成缩略图文件夹
+                    $thumbUrl = 's_uploads/'.$name.'/'.date('Ymd');
+                    if(!is_dir($thumbUrl)){
+                        mkdir($thumbUrl,0777,true);
+                        chmod($thumbUrl,0777);
+                    }elseif(!is_writable($thumbUrl)){
+                        chmod($thumbUrl,0777);
+                    }
+                    //生成缩略图
+                    $image->thumb(150, 150)->save(str_replace("uploads/","s_uploads/",trim($imgName,'/')),'jpg','80');
+                //以上此处为拍吖吖专用添加此缩略图
+
+                $arr[] = $imgName;
+
+            }
+        }
+        return $arr;
+    }
+
+
+    /**
+     * 图片压缩
+     * 创建人 韦丽明
+     * 时间 2017-09-10 21:27:55
+     */
+    public function thumbImg($img, $name, $type ,$w=375 ,$h=286, $goods='')
+    {
+
+        $img = './'.$img;
+        // 按照原图的比例生成一个最大为150*150的缩略图并保存为thumb.jpg
+        $riqi = date("Y-m-d",time());
+        $i = rand(0,1000000000);
+        $g_id = time() ;
+
+        if ($type==1)
+        {
+            $name = './uploads/thumb/'.$name.'/item'.$g_id.".jpg";
+        }
+        else if ($type==2)
+        {
+            $url = './uploads/thumb/'.$name;
+            @mkdir('./uploads/thumb/',777,true);
+            @mkdir($url,777,true);
+            @chmod($url, 0777);
+
+            $path = $url ;
+            if (!file_exists($path)){
+                define($path, __DIR__);
+                mkdir($path);
+            }
+
+            $path2 = $url.'/'.$riqi;
+            @mkdir($path2,777,true);
+            @chmod($path2, 0777);
+            if (!file_exists($path2)) {
+                mkdir($path2);
+            }
+            $name = $path2.'/'.$name.$g_id.$i.".jpg";
+        }
+
+        if (file_exists($img))
+        {
+            if (!file_exists($name))
+            {
+                $image = \think\Image::open($img);
+                //dump($name);die;
+                $image->thumb($w, $h,\think\Image::THUMB_CENTER)->save($name,'jpg');
+            }
+            $name = substr($name,1);
+            $pic = $name ;
+            return $pic;
+        }
+    }
+
+    /**
+     * 删除图片
+     * 创建人 韦丽明
+     * 时间 2017-09-10 21:27:55
+     */
+    public function unlikFile($imgUrl='', $type=0)
+    {
+        //判读图片是否存在
+        if(!$type)
+        {
+            $fileDel = ROOT_PATH.'public'.$imgUrl;
+        }
+        else
+        {
+            $fileDel = $imgUrl;
+        }
+
+        if(file_exists($fileDel))
+        {
+            unlink($fileDel);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * 删除原图片
+     * 创建人 韦丽明
+     * 时间 2017-09-11 21:19:04
+     */
+    public function DelImg($img)
+    {
+        $primary_file = '';
+        $primary_file = $img;
+        if(!empty($primary_file))
+        {
+            $imgUrl = $primary_file;
+            $unlink = $this->unlikFile($imgUrl);
+        }
+    }
+    /**
+     * 合并数组
+     * @param string $cache 缓存 默认值为空
+     * @param array $data 合并数组
+     * @param array $lable 默认数组
+     * @param array $arr 传参数组
+     * 创建人 韦丽明
+     * 时间 2017-09-06 22:28:13
+     */
+    public function mergeArray($arr=array())
+    {
+        $lable = array();
+        $data = array();
+        $lable['where'] = '' ;
+        $lable['cache'] = '' ;//查询不缓存
+        $lable['field'] = '*';
+        $lable['order'] ='';
+        $lable['page']  = 15 ;
+        //合并数组
+        $data = array_merge($lable, $arr);
+        return $data;
+    }
+
+
+    /**
+     * 解密数据
+     * @param $data 待加密数据
+     * @return string 加密后的数据
+     * 创建人 邓赛赛
+     */
+    function encrypt($data)
+    {
+        $key = $this->key;  //加密秘钥
+
+        $key = md5($key);
+        $x = 0;
+        $len = strlen($data);
+        $l = strlen($key);
+        $char = '';
+        $str = '';
+        for ($i = 0; $i < $len; $i++)
+        {
+            if ($x == $l){
+                $x = 0;
+            }
+            $char .= $key{$x};
+            $x++;
+        }
+        for ($i = 0; $i < $len; $i++){
+            $str .= chr(ord($data{$i}) + (ord($char{$i})) % 256);
+        }
+        return base64_encode($str);
+    }
+
+    /**
+     * 解密数据
+     * @param $encrypt 待解密数据
+     * @return string  解密后的值
+     *  创建人 邓赛赛
+     */
+    function decrypt($encrypt)
+    {
+        $key = $this->key;  //解密秘钥(同加密秘钥)
+
+        $key = md5($key);
+        $x = 0;
+        $data = base64_decode($encrypt);
+        $len = strlen($data);
+        $l = strlen($key);
+        $char = '';
+        $str = '';
+        for ($i = 0; $i < $len; $i++)
+        {
+            if ($x == $l)
+            {
+                $x = 0;
+            }
+            $char .= substr($key, $x, 1);
+            $x++;
+        }
+        for ($i = 0; $i < $len; $i++)
+        {
+            if (ord(substr($data, $i, 1)) < ord(substr($char, $i, 1)))
+            {
+                $str .= chr((ord(substr($data, $i, 1)) + 256) - ord(substr($char, $i, 1)));
+            }
+            else
+            {
+                $str .= chr(ord(substr($data, $i, 1)) - ord(substr($char, $i, 1)));
+            }
+        }
+        return $str;
+    }
+
+    /**
+     * 检验手机号码格式
+     * 邓赛赛
+     */
+    public function is_phone($phone){
+        if (!preg_match("/^1[3-9][0-9]{9}$/",trim($phone))) {
+            return ['status'=>0,'msg'=>'请输入正确的手机号格式'];
+        }
+    }
+
+    /**
+     * 检验密码格式
+     * 邓赛赛
+     */
+    public function is_pwd($pwd){
+        if(!preg_match('/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/',trim($pwd))){
+            return ['status'=>0,'msg'=>'请输入6-16位数字/字母组合密码'];
+        }
+    }
+    /**
+     * $data  地理信息
+     * 会员地址id转换为地理信息（如1->北京）
+     * 邓赛赛
+     */
+    public function id_tfm_address($data=[]){
+        if(!$data){
+            return false;
+        }
+        $address = '';
+        $region = Db::table("pai_region")->column('region_name','region_code');//替换使用(如:1,替换为北京
+        if(!empty($data['pid']) &&!empty($region[$data['pid']])) {
+            $address = $region[$data['pid']];
+        }
+        if(!empty($data['cid']) && !empty($region[$data['cid']])) {
+            $address = $address.','.$region[$data['cid']];
+        }
+        if(!empty($data['aid']) && !empty($region[$data['aid']])) {
+            $address = $address.','.$region[$data['aid']];
+        }
+        return $address;
+    }
+
+//    /**
+//     * $data  地理信息
+//     * 会员地址id转换为地理信息（如1->北京）
+//     * 邓赛赛
+//     */
+//    public function address_tfm_id($data=[]){
+//        if(!$data){
+//            return false;
+//        }
+//        $address = '';
+//        if (!empty($info['cid'])) {
+//            $info['pid'] = $info['pid'] . ',' . $info['cid'];
+//        }
+//        if (!empty($info['aid'])) {
+//            $info['pid'] = $info['pid'] . ',' . $info['aid'];
+//        }
+//        return $address;
+//    }
+    /**
+     * 计算折扣价格与参与人数
+     */
+    public function discount_calculation($money,$field='*',$g_id=''){
+        $num1 = 264;
+//        $num2 = 88;
+//        $num3 = 53;
+        $where = [
+            'gdt_state'=>0,
+            'gdt_discount'=>[">",0],
+        ];
+        //保存的折扣信息
+        $gdr = array();
+        if($g_id){
+            $gdr = Db::table('pai_goods_dt_record')->where('g_id',$g_id)->column('gdr_membernum','gdt_id');
+        }
+        //默认展示
+        $list = Db::table("pai_goods_discounttype")->where($where)->field($field)->select();
+        foreach($list as $k => $v){
+            $list[$k]['gdr_price'] = sprintf("%.2f",$money*$v['gdt_discount']);
+            $gdr_membernum = empty($gdr[$v['gdt_id']]) ? $num1/($v['gdt_discount']*10) : $gdr[$v['gdt_id']];
+            //判定是否勾选
+            $list[$k]['is_check'] = empty($gdr[$v['gdt_id']]) ? 0 : 1;
+            $list[$k]['gdt_id'] = $v['gdt_id'];
+            $list[$k]['gdr_membernum'] = ceil($gdr_membernum);
+        }
+        return $list;
+    }
+
+
+    /**
+     * @param $path
+     * @return mixed
+     * curl获取
+     */
+    public function http_curl($path){
+        //初始化
+        $curl = curl_init();
+        //不需要检验安全证书
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        //设置抓取的url
+        curl_setopt($curl, CURLOPT_URL, $path);
+        //设置头文件的信息作为数据流输出
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        //设置获取的信息以文件流的形式返回，而不是直接输出。
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        //执行命令
+        $data = curl_exec($curl);
+        //关闭URL请求
+        curl_close($curl);
+        //显示获得的数据
+        return json_decode($data,true);
+    }
+    /**
+     * 获取sccessToken
+     * 邓赛赛
+     */
+    public function getWxAccessToken(){
+        $sccess_token = Cache::get('sccess_token');
+        if(!$sccess_token){
+            $appId  =   config('share.appId');
+            $secret =   config('share.secret');
+            $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appId.'&secret='.$secret;
+            $res = $this->http_curl($url);
+            $sccess_token = empty($res['access_token']) ? '' : $res['access_token'] ;
+            Cache::set('sccess_token',$sccess_token,7200);
+        }
+        return $sccess_token;
+    }
+    /**
+     * @return mixed
+     * 获得jsapi_ticket票据
+     * 邓赛赛
+     */
+    public function getJsApiTicket(){
+        $jsapi_ticket = Cache::get('jsapi_ticket');
+        if(!$jsapi_ticket){
+            $access_token = $this->getWxAccessToken(); //此步骤获取success_token
+            $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$access_token.'&type=jsapi';
+            $res = $this->http_curl($url);
+            $jsapi_ticket = empty($res['ticket']) ? '' : $res['ticket'];
+            Cache::set('jsapi_ticket',$jsapi_ticket,7200);
+        }
+        return $jsapi_ticket;
+    }
+    /**
+     * 获取16位随机码
+     * 邓赛赛
+     */
+    public function getMonceStr(){
+        $array = array(
+            'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+            'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+            '1','2','3','4','5','6','7','8','9'
+        );
+        $tmpster = '';
+        $max = count($array);
+        for($i = 1; $i <= 16 ; $i ++){
+            $key = rand(0,$max-1);
+            $tmpster .= $array[$key];
+        }
+        return $tmpster;
+    }
+
+    /**
+     * 导出excel
+     * 邓赛赛
+     */
+    public  function exportExcel($data=array(),$title=array(),$filename='report'){
+        header("Content-type:application/octet-stream");
+        header("Accept-Ranges:bytes");
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=".$filename.".xlt");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        //导出xls 开始
+        if (!empty($title)){
+            foreach ($title as $k => $v) {
+                $title[$k]=iconv("UTF-8", "GBK//IGNORE",$v);
+            }
+            $title= implode("\t", $title);
+            echo "$title\n";
+        }
+        if (!empty($data)){
+            foreach($data as $key=>$val){
+                foreach ($val as $ck => $cv) {
+                    $data[$key][$ck]=iconv("UTF-8", "GBK//IGNORE", $cv);
+                }
+                $data[$key]=implode("\t", $data[$key]);
+            }
+            echo implode("\n",$data);die;
+        }
+    }
+
+    /**
+     * 注册根据手机号码插入地址
+     * 邓赛赛
+     */
+    public function add_mobile_city($m_id,$mobile=''){
+        $city_info = $this->mobile_city($mobile);
+        if(!$city_info['status']){
+            return ['status'=>0,'msg'=>$city_info['msg']];
+        }
+        $data = [
+            'm_id'=>$m_id,
+            'mobile'    =>$city_info['data']['mobile'],
+            'province'  =>$city_info['data']['province'],
+            'city'      =>$city_info['data']['city'],
+            'isp'       =>$city_info['data']['service_provider'],
+            'post_code' =>$city_info['data']['postcode'],
+            'city_code' =>$city_info['data']['city_code'],
+        ];
+        $count_city = Db::table('pai_member_area')->where('m_id',$m_id)->count();
+
+        if($count_city){
+            return ['status'=>0,'msg'=>'此用户地址信息不可重复插入'];
+        }
+        $res = Db::table('pai_member_area')->insert($data);
+        if($res){
+            return ['status'=>1,'msg'=>'ok'];
+        }else{
+            return ['status'=>0,'msg'=>'插入数据失败'];
+        }
+
+    }
+    /**
+     * 根据手机号前七位获取省市地址
+     * 邓赛赛
+     */
+    public function mobile_city($mobile){
+
+        if(empty($mobile)){
+            return ['status'=>0,'msg'=>'手机号码为空'];
+        }
+        //检测手机号,报错return
+        $res = $this->is_phone($mobile);
+        if($res){
+            return $res;
+        }
+        $phone = substr($mobile,0,7);
+        $where = [
+            'phone'=>$phone,
+        ];
+        $city_info = Db::table('mobile')->where($where)->find();
+        if($city_info){
+            $city_info['mobile'] = (string)$mobile;
+            return ['status'=>1,'msg'=>'ok','data'=>$city_info];
+        }else{
+            $ali = new AliService();
+            $data = $ali->get_address($mobile);
+            if(!empty($data['ret']) &&  $data['ret'] == 200){
+                $city_api_info= [
+                    'phone'     =>$phone,
+                    'province'  =>$data['data']['prov'],
+                    'city'      =>$data['data']['city'],
+                    'service_provider' =>$data['data']['types'],
+                    'city_code' =>$data['data']['city_code'],
+                    'postcode'  =>$data['data']['zip_code'],
+                    'mobile'    =>(string)$mobile,
+                ];
+                return ['status'=>1,'msg'=>'ok','data'=>$city_api_info];
+            }else{
+                return ['status'=>0,'msg'=>'未匹配到城市信息'];
+
+            }
+        }
+    }
+
+
+
+}

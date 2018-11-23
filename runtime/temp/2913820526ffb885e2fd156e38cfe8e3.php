@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/member/view/orderpai/index.html";i:1542081232;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/member/view/orderpai/index.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -105,7 +105,7 @@
         <div class="order_index_pic order_jiexiaozhong_pic">
             <div class="order_index_pic_top clear">
                 <div class="order_index_header lf">
-                    <img src="__CDN_PATH__<?php echo (isset($info['my_info']['m_avatar']) && ($info['my_info']['m_avatar'] !== '')?$info['my_info']['m_avatar']:'/static/image/index/pic_home_taplace@2x.png'); ?>" alt="">
+                    <img src="__CDN_PATH__<?php echo (isset($info['my_info']['m_s_avatar']) && ($info['my_info']['m_s_avatar'] !== '')?$info['my_info']['m_s_avatar']:'/static/image/index/pic_home_taplace@2x.png'); ?>" alt="">
                     <!-- <img src="__STATIC__/image/orderpai/icon_xingyun@2x.png" alt=""> -->
                 </div>
                 <p class="lf">
@@ -735,7 +735,7 @@
                     <?php endif; endif; if(!(empty($info['is_huodong']) || (($info['is_huodong'] instanceof \think\Collection || $info['is_huodong'] instanceof \think\Paginator ) && $info['is_huodong']->isEmpty()))): if($info['is_huodong'] == 1): ?>
                     <div class="ssy"></div>
                     <?php endif; endif; ?>
-                    <img src="__CDN_PATH__<?php echo (isset($info['gp_img']) && ($info['gp_img'] !== '')?$info['gp_img']:''); ?>">
+                    <img src="__CDN_PATH__<?php echo (isset($info['gp_s_img']) && ($info['gp_s_img'] !== '')?$info['gp_s_img']:''); ?>">
                 </div>
                 <div class="conf_order_text lf">                    
                         <?php if(!(empty($info['is_fudai']) || (($info['is_fudai'] instanceof \think\Collection || $info['is_fudai'] instanceof \think\Paginator ) && $info['is_fudai']->isEmpty()))): if($info['is_fudai'] == 1): ?>
@@ -891,7 +891,7 @@
         <!--恭喜团中开始-->
         <div class="order_index_btn clear phonex">
             <a href="javascript:void(0);" onclick="built(this)"><div class="order_index_shenqingtuikuan rt ">申请退款</div></a>
-            <a href="javascript:void(0);" onclick="built(this)"><div class="order_index_kefu rt ">联系客服</div></a>
+            <a class="phs" href="tel:400-027-1888"><div class="order_index_kefu rt ">联系客服</div></a>
         </div>
         <!--恭喜团中结束-->
         <?php break; case "3": ?>
@@ -934,7 +934,7 @@
         <?php break; case "12": ?>
         <!--恭喜团中开始-->
         <div class="order_index_btn clear phonex">
-            <a href="javascript:void(0);" onclick="built(this)"><div class="order_index_kefu rt ">联系客服</div></a>
+            <a class="phs" href="tel:400-027-1888"><div class="order_index_kefu rt ">联系客服</div></a>
         </div>
         <!--恭喜团中结束-->
         <?php break; case "13": ?>
@@ -955,7 +955,7 @@
         <?php break; case "15": ?>
         <!--交易已完成开始-->
         <div class="order_index_btn clear phonex">
-            <a href="javascript:void(0);" onclick="built(this)"><div class="order_index_kefu rt ">联系客服</div></a>
+            <a class="phs" href="tel:400-027-1888"><div class="order_index_kefu rt ">联系客服</div></a>
         </div>
         <!--交易已完成结束-->
         <?php break; endswitch; endif; ?>
@@ -1440,9 +1440,18 @@
     setupWebViewJavascriptBridge(function(bridge) {
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
+            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
             $('#app').val(str);
         })
     })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     title = "<?php echo $info['share_title']; ?>";
     link = "<?php echo $info['share_link']; ?>";

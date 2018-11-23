@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:88:"D:\project\pai\public/../application/popularity/view/popularitygoods/commodity_info.html";i:1542589248;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:88:"D:\project\pai\public/../application/popularity/view/popularitygoods/commodity_info.html";i:1542704491;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -274,7 +274,7 @@
                 <li>
                     <span>
                         <i class="icon<?php echo $key; ?>"></i>
-                        <img src="__STATIC__/image/myhome/TIM20180731142117.jpg"  data-original="<?php echo isset($vo['m_avatar']) ? $vo['m_avatar'] :  '/static/image/shop/pic_fans@2x.png'; ?>" />
+                        <img src="__STATIC__/image/myhome/TIM20180731142117.jpg"  data-original="<?php echo isset($vo['m_s_avatar']) ? $vo['m_s_avatar'] :  '/static/image/shop/pic_fans@2x.png'; ?>" />
                     </span>
                     <p><?php echo isset($vo['m_name']) ? $vo['m_name'] :  ''; ?></p>
                     <p><small><?php echo isset($vo['pm_popularity']) ? $vo['pm_popularity'] :  '0'; ?></small>人气</p>
@@ -1336,7 +1336,7 @@
             var str = '<div class="product_list_list lf">';
             str += '<div class="product_list_pic">';
             // str += '<img class="lazy" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="'+ pd.pg_img +'">';
-            str += '<img src="'+ pd.pg_img +'">';
+            str += '<img src="'+ pd.pg_s_img +'">';
             str += '<div class="product_list_number">'+ pd.num +'人已参与</div>';
             str += '</div>';
             str += '<p class="product_list_tit_p">'+ pd.pg_name +'</p>';

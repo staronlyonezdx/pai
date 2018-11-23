@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:70:"D:\project\pai\public/../application/index/view/index/price_range.html";i:1541491294;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:70:"D:\project\pai\public/../application/index/view/index/price_range.html";i:1542704491;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -360,7 +360,7 @@
                 var str = '<div class="index_module_main clear">';
                 str += '<div class="index_module_img_view lf">';
                 str += '<div class="index_module_img">';
-                str += '<img src="' + pd.g_img + '" alt="">';
+                str += '<img src="' + pd.g_s_img + '" alt="">';
                 str += '</div>';
                 str += '<div class="index_module_pic">';
                 str += img;

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/new_people.html";i:1542352725;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/new_people.html";i:1542878575;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -85,7 +85,7 @@
                 <div class="xc-icon"></div>
                 <?php endif; ?>
                 <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
-                     data-original="__CDN_PATH__<?php echo (isset($popgoods_info['pg_img']) && ($popgoods_info['pg_img'] !== '')?$popgoods_info['pg_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>"
+                     data-original="__CDN_PATH__<?php echo (isset($popgoods_info['pg_s_img']) && ($popgoods_info['pg_s_img'] !== '')?$popgoods_info['pg_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>"
                      class="new_people_hink" alt=""/>
                 <div class="new_people_label">
                     <!-- C位活动 -->
@@ -111,7 +111,7 @@
         <div class="new_people_list clear">
             <div class="new_people_header lf">
                 <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
-                     data-original="__CDN_PATH__<?php echo (isset($popgoods_info['m_avatar']) && ($popgoods_info['m_avatar'] !== '')?$popgoods_info['m_avatar']:'/static/image/index/pic_home_taplace@2x.png'); ?>"
+                     data-original="__CDN_PATH__<?php echo (isset($popgoods_info['m_s_avatar']) && ($popgoods_info['m_s_avatar'] !== '')?$popgoods_info['m_s_avatar']:'/static/image/index/pic_home_taplace@2x.png'); ?>"
                      alt=""/>
             </div>
             <div class="new_people_list_view lf">
@@ -146,7 +146,7 @@
             <div class="new_people_call_list clear">
                 <div class="new_call_header lf">
                     <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
-                         data-original="__CDN_PATH__<?php echo (isset($vo['m_avatar']) && ($vo['m_avatar'] !== '')?$vo['m_avatar']:'/static/image/index/pic_home_taplace@2x.png'); ?>"
+                         data-original="__CDN_PATH__<?php echo (isset($vo['m_s_avatar']) && ($vo['m_s_avatar'] !== '')?$vo['m_s_avatar']:'/static/image/index/pic_home_taplace@2x.png'); ?>"
                          alt=""/>
                 </div>
                 <p class="lf"><?php echo $vo['m_name']; ?></p>
@@ -285,7 +285,7 @@
                     <!--</div>-->
                 <!--</div>-->
 
-                    <div class="call_yes">
+                    <div class="call_yes" style="margin-top: -0.3rem;">
                         <img src="__STATIC__/image/new_people/icon_X@2x (1).png" alt="" class="click_cancle close">
                         <div class="call_info">
                             <img src="" alt="" class="img_icon call_info_img lf">
@@ -327,7 +327,7 @@
                     <!--人气在20-100之间，显示-->
                     <div class="call_queren">
                         <img src="__STATIC__/image/new_people/icon_Xs@2x.png" alt="" class="click_cancle"
-                             style="width:0.56rem;height:0.56rem;position: absolute;top:1.13rem;right:0.13rem;"/>
+                             style="width:0.56rem;height:0.56rem;position: absolute;top:2.6rem;right:0.13rem;"/>
                         <p class="call_queren_title">充值赠送打气值</p>
                         <p class="call_queren_num"> 当前打气值：<span class="call_num_new"></span></p>
                         <p class="call_queren_tip">充值可以快速恢复打气值最高到<span style="color: #FF6753">100</span><span
@@ -339,90 +339,146 @@
                     </div>
 
                     <!--当人气在20-100里面的时候，点击确认点赞显示-->
+                    <!--<div class="queren_call">-->
+                        <!--<div class="call_bg">-->
+                            <!--&lt;!&ndash;<img src="__STATIC__/image/new_people/pic_dianzan@2x.png" alt="" class="bg"/>&ndash;&gt;-->
+                            <!--<div class="bg_top">-->
+                                <!--<span class="zan_yes">已成功帮好友点赞！</span>-->
+                                <!--<img src="__STATIC__/image/new_people/icon_X@2x.png" alt="" class="click_cancle"/>-->
+                            <!--</div>-->
+                            <!--<div class="bg_middle">-->
+                                <!--<img src="" alt="" class="img_icon">-->
+                                <!--<div class="pers">-->
+                                    <!--<div class="bg_top clear">-->
+                                        <!--<span class="new_name"></span>-->
+                                        <!--<span class="call_num"></span>-->
+                                    <!--</div>-->
+                                    <!--<div class="bg_bottom clear">-->
+                                        <!--<span class="call_order"></span>-->
+                                        <!--<span class="new_t">已经为TA增长</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="bg_bottom">-->
+                                <!--<img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt=""/>-->
+                                <!--<a class="fight" href="/popularity/popularitygoods/share_list/">争夺人气王</a>-->
+
+                            <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<div class="my_call_no">-->
+                            <!--<p class="my_call"></p>-->
+                            <!--<div class="tips">-->
+                                <!--<img src="__STATIC__/image/new_people/icon_xiaotieshi@2x.png" alt=""-->
+                                     <!--style="margin-top: 0"/>-->
+                                <!--<p class="call_queren_num" style="font-size: 0.22rem;color:#000000"> 当前打气值：<span-->
+                                        <!--class="call_num_new" style="color:#FFA377;font-size: 0.28rem"></span></p>-->
+                                <!--<div class="tips_spans">-->
+                                    <!--<span>1、主动恢复（上限为100点，2者满足其一即可）：<br>-->
+                                        <!--①在拍吖吖<span style="color: #FFA377">普通商场</span>每参拍1元，人气值增加1点 <br>-->
+                                        <!--②每充值1元，人气值增加1点。-->
+                                    <!--</span><br>-->
+                                    <!--<span>2、自动恢复：若打气值不足50点，则会慢慢恢复，每2小时恢复5点，上限50点。</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="buttons">-->
+                                <!--<a href="/member/wallet/recharge/">去充值</a>-->
+                                <!--<a href="/popularity/popularitygoods/share_list/">去参团</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
                     <div class="queren_call">
-                        <div class="call_bg">
-                            <!--<img src="__STATIC__/image/new_people/pic_dianzan@2x.png" alt="" class="bg"/>-->
-                            <div class="bg_top">
-                                <span class="zan_yes">已成功帮好友点赞！</span>
-                                <img src="__STATIC__/image/new_people/icon_X@2x.png" alt="" class="click_cancle"/>
-                            </div>
-                            <div class="bg_middle">
-                                <img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt="" class="img_icon">
-                                <div class="pers">
-                                    <div class="bg_top clear">
-                                        <span class="new_name">11</span>
-                                        <span class="call_num">22</span>
-                                    </div>
-                                    <div class="bg_bottom clear">
-                                        <span class="call_order">33</span>
-                                        <span class="new_t">已经为TA增长</span>
-                                    </div>
+                        <img src="__STATIC__/image/new_people/icon_X@2x1.png" alt="" class="click_cancle"
+                             style="width:0.56rem;height:0.56rem;position: absolute;top:0.2rem;right:0.13rem;"/>
+                        <div class="call_info" style="margin-top: 0;position: absolute;top:0.99rem;">
+                            <img src="" alt="" class="img_icon call_info_img lf" style="width:0.6rem;height:0.6rem;margin-top: 0.33rem;margin-left:0.19rem">
+                            <div class="pers lf">
+                                <div class="bg_top clear">
+                                    <span class="new_name"></span>
+                                    <span class="call_num rt"></span>
+                                </div>
+                                <div class="bg_bottom clear">
+                                    <span class="call_order"></span>
+                                    <span class="new_t rt" style="margin-left: 1.5rem">已经为TA增长</span>
                                 </div>
                             </div>
-                            <div class="bg_bottom">
-                                <img src="__STATIC__/image/new_people/btn_zhengduo@2x.png" alt=""/>
-                                <a class="fight" href="/popularity/popularitygoods/share_list/">争夺人气王</a>
-
-                            </div>
-
                         </div>
-                        <div class="my_call_no">
-                            <p class="my_call"></p>
-                            <div class="tips">
-                                <img src="__STATIC__/image/new_people/icon_xiaotieshi@2x.png" alt=""
-                                     style="margin-top: 0"/>
-                                <p class="call_queren_num" style="font-size: 0.22rem;color:#000000"> 当前打气值：<span
-                                        class="call_num_new" style="color:#FFA377;font-size: 0.28rem"></span></p>
-                                <div class="tips_spans">
-                                    <span>1、主动恢复（上限为100点，2者满足其一即可）：<br>
-                                        ①在拍吖吖<span style="color: #FFA377">普通商场</span>每参拍1元，人气值增加1点 <br>
-                                        ②每充值1元，人气值增加1点。
-                                    </span><br>
-                                    <span>2、自动恢复：若打气值不足50点，则会慢慢恢复，每2小时恢复5点，上限50点。</span>
-                                </div>
+                        <a href="/popularity/popularitygoods/share_list/">
+                            <div class="quren_call_zhengduo">
+                                <img src="__STATIC__/image/new_people/bt_zhengduo@2x.png" alt="">
                             </div>
-                            <div class="buttons">
-                                <a href="/member/wallet/recharge/">去充值</a>
-                                <a href="/popularity/popularitygoods/share_list/">去参团</a>
-                            </div>
+                        </a>
+                        <div class="queren_call_tips">
+                            <p class="call_fail_num" style="padding-top: 0.7rem;margin-left: 0.3rem;font-size: 0.12rem"> 当前打气值：<span class="call_num_new" style="color:#FF6753"></span></p>
                         </div>
+                        <div class="call_fail_btns" style="margin-top: -1rem;margin-left: 0.75rem">
+                            <a href="javascript:;" class="call_queren_chong">去充值</a>
+                            <a href="javascript:;" class="call_fail_tuan">去参团</a>
+                        </div>
+
+
                     </div>
                 </div>
 
 
                 <!--人气值不足20显示显示弹框-->
+                <!--<div class="call_no">-->
+                    <!--<div class="value_under">-->
+                        <!--<div class="value_under_top">-->
+                            <!--<span>点赞失败！您的打气值过低！</span>-->
+                            <!--&lt;!&ndash;<span>您的人气值存量已不足</span>&ndash;&gt;-->
+                            <!--<img src="__STATIC__/image/new_people/icon_X@2x.png" alt="" class="click_cancle"/>-->
+                        <!--</div>-->
+                        <!--<div class="value_under_bottom">-->
+                            <!--<p>当前人气值：<span class="call_num_new">36.24</span></p>-->
+                            <!--<span class="date_info"></span>-->
+                            <!--<span class="date_call_full"></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="tips">-->
+                        <!--<img src="__STATIC__/image/new_people/icon_xiaotieshi@2x.png" alt=""/>-->
+                        <!--<div class="tips_spans">-->
+                                <!--<span>1、主动恢复（上限为100点）：<br>-->
+                                        <!--①在拍吖吖<span style="color: #FFA377">普通商场</span>每参拍1元，人气值增加1点 <br>-->
+                                        <!--②每充值1元，人气值增加1点。-->
+                                    <!--</span><br>-->
+                            <!--<span>2、自动恢复（上限为50点）：-->
+                                <!--若打气值不足50点，则会慢慢恢复，每2小时恢复5点。</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="buttons">-->
+                        <!--<a href="/member/wallet/recharge/">去充值</a>-->
+                        <!--<a href="/popularity/popularitygoods/share_list/">去参团</a>-->
+                    <!--</div>-->
+                    <!--<div class="line"></div>-->
+                    <!--<div class="contend">-->
+                        <!--<span>帮助太累？自己开个团</span><br>-->
+                        <!--<a href="/popularity/popularitygoods/share_list/" style="line-height: 0.48rem">争夺人气王</a>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="call_no">
-                    <div class="value_under">
-                        <div class="value_under_top">
-                            <span>点赞失败！您的打气值过低！</span>
-                            <!--<span>您的人气值存量已不足</span>-->
-                            <img src="__STATIC__/image/new_people/icon_X@2x.png" alt="" class="click_cancle"/>
+                    <img src="__STATIC__/image/new_people/icon_Xs@2x.png" alt="" class="click_cancle"
+                         style="width:0.56rem;height:0.56rem;position: absolute;top:1.74rem;right:0.13rem;"/>
+                    <p class="call_fail_title">打气值太低啦，点赞失败！</p>
+                    <p class="call_fail_num"> 当前打气值：<span class="call_num_new"></span></p>
+                    <div class="call_fail_detail clear">
+                        <div class="call_fail_cutdown lf">
+                            <span class="details_show details_hour"></span>
+                            <span class="details_mao">:</span>
+                            <span class="details_show details_minute"></span>
+                            <span class="details_mao">:</span>
+                            <span class="details_show details_second"></span>
                         </div>
-                        <div class="value_under_bottom">
-                            <p>当前人气值：<span class="call_num_new">36.24</span></p>
-                            <span class="date_info"></span>
-                            <span class="date_call_full"></span>
-                        </div>
+                        <p class="lf">后恢复<span></span>点打气值</p>
                     </div>
-                    <div class="tips">
-                        <img src="__STATIC__/image/new_people/icon_xiaotieshi@2x.png" alt=""/>
-                        <div class="tips_spans">
-                                <span>1、主动恢复（上限为100点）：<br>
-                                        ①在拍吖吖<span style="color: #FFA377">普通商场</span>每参拍1元，人气值增加1点 <br>
-                                        ②每充值1元，人气值增加1点。
-                                    </span><br>
-                            <span>2、自动恢复（上限为50点）：
-                                若打气值不足50点，则会慢慢恢复，每2小时恢复5点。</span>
-                        </div>
+                    <div class="call_fail_tips">
+                        <p>1.据说充值/参团可光速回满最高到<span style="color:#FF6753">100</span>点<span style="color:#FFAE00">（1点/元）</span>打气值。</p>
+                        <p>2.自动缓速恢复最高到<span style="color:#FF6753">50</span>点</p>
                     </div>
-                    <div class="buttons">
-                        <a href="/member/wallet/recharge/">去充值</a>
-                        <a href="/popularity/popularitygoods/share_list/">去参团</a>
-                    </div>
-                    <div class="line"></div>
-                    <div class="contend">
-                        <span>帮助太累？自己开个团</span><br>
-                        <a href="/popularity/popularitygoods/share_list/" style="line-height: 0.48rem">争夺人气王</a>
+                    <div class="call_fail_btns">
+                        <a href="javascript:;" class="call_queren_chong">前去充值</a>
+                        <a href="javascript:;" class="call_fail_tuan">前去参团</a>
                     </div>
                 </div>
             </div>

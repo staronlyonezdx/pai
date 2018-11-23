@@ -1,0 +1,139 @@
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    width: 100%;
+    height: 100%;
+    background: #2e3fa3;
+}
+.promoters{
+    width:100%;
+    height:22.76rem;
+    background: url("../../image/promoters/bg_hehuoren@2x.png") no-repeat center center;
+    background-size:100% 100%; 
+    overflow: hidden;
+}
+.promoters_content{
+    width: 6.9rem;
+    background:rgba(255,255,255,1);
+    border-radius:16px;
+    box-sizing: border-box;
+    padding: 0.3rem 0.6rem 0.5rem 0.6rem ;
+    box-shadow:0px 18px 54px 0px rgba(50,67,166,0.26);
+    position: absolute;
+    top:5.77rem;
+    left:0;
+    right: 0;
+    margin: auto;
+}
+.promoters_content p.join_title{
+    font-size:0.3rem;
+    font-weight:600;
+    color:rgba(51,51,51,1);
+    text-align: center;
+    margin-bottom: 0.36rem;
+}
+.promoters_content_tips p{
+    font-size:0.28rem;
+    font-weight:400;
+    color:rgba(102,102,102,1);
+    line-height:0.4rem;
+}
+.promoters_content p.join_zixun{
+    font-size:0.24rem;
+    font-weight:400;
+    color:rgba(170,170,170,1);
+    text-align: center;
+    margin-top: 0.85rem;
+    margin-bottom: 0.24rem;
+}
+.promoters_content_btns a{
+    width:6rem;
+    height:0.88rem;
+    display: block;
+    text-align: center;
+    line-height: 0.88rem;
+    background:linear-gradient(0deg,rgba(255,212,0,1) 0%,rgba(255,229,0,1) 100%);
+    border-radius:0.18rem;
+    color:rgba(51,51,51,1);
+    font-weight: bold;
+}
+.promoters_content_btns a:nth-child(2){
+    background:#FFBA00;
+    color:rgba(51,51,51,1);
+    margin-top: 0.36rem;
+}
+.promoters_alert{
+    width: 5rem;
+    height: 1rem;
+    display: block;
+}
+.promoters_quanyi,.promoters_why,.promoters_tui{
+    width:7.21rem;
+    margin:0 auto;
+}
+.promoters_quanyi{
+    height:6.78rem;
+    margin-top: 4.81rem;
+}
+.promoters_why{
+    height:3.51rem;
+    margin-top: 0.38rem;
+}
+.promoters_tui{
+    height:5.37rem;
+    margin-top: 0.39rem;
+    position: relative;
+}
+.promoters_tui a{
+    color:#3000FF;
+    font-size: 0.24rem;
+    font-weight: 400;
+    font-family:PingFangSC-Regular;
+    position:absolute;
+    left:0.45rem;
+    bottom:0.68rem;
+}
+.promoters_tui a span{
+    vertical-align: middle;
+}
+.promoters_tui a img{
+    width:0.44rem;
+    height:0.44rem;
+    vertical-align: middle;
+}
+.promoters_quanyi img,.promoters_why img,.promoters_tui img{
+    width:100%;
+    height:100%;
+}
+.promoters_bottom{
+    width:7.5rem;
+    height:0.98rem;
+    position: fixed;
+    bottom:0;
+    left: 0;
+}
+.promoters_bottom a{
+    width:3.75rem;
+    height:0.98rem;
+    display: block;
+    float: left;
+}
+.promoters_bottom div{
+    width:3.75rem;
+    height:0.98rem;
+    line-height: 0.98rem;
+    text-align: center;
+    font-size:0.32rem;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+}
+.promoters_bottom .promoters_call{
+    background: #fff;
+    color:#8191EE;
+}
+.promoters_bottom .promoters_shenqing{
+    background: #8191EE;
+    color:#fff;
+}

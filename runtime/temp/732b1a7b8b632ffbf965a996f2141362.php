@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_list.html";i:1542589248;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_list.html";i:1542704491;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -692,7 +692,7 @@
                 }
                 if(pd.pm_order_status==4){
                     str += '<div class="my_publish_img lf pmg">';
-                    str += '<img src="' + pd.pg_img + '">';
+                    str += '<img src="' + pd.pg_s_img + '">';
                     str += '</div>';
                 }
                 if(pd.pm_order_status==5){
@@ -709,7 +709,7 @@
                 if(pd.pg_type == 3) {
                     str +='<div class="xc-icon"></div>';
                 }
-                str +='<img src="'+pd.pg_img+'"/>'
+                str +='<img src="'+pd.pg_s_img+'"/>'
                 str +='</div>'
                 str += '<div class="my_publish_text lf pmgd">';
                 str += '<p>' + pd.pg_name + '</p>';

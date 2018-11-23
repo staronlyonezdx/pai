@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/core/index.html";i:1542174419;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/core/index.html";i:1542847768;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -73,21 +73,23 @@
                 <?php if(empty($info['m_avatar']) || (($info['m_avatar'] instanceof \think\Collection || $info['m_avatar'] instanceof \think\Paginator ) && $info['m_avatar']->isEmpty())): ?>
                 <img class="tx" src="__STATIC__/image/index/pic_home_taplace@2x.png">
                 <?php else: ?>
-                <img class="tx" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo $info['m_avatar']; ?>">
+                <img class="tx" src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo $info['m_s_avatar']; ?>">
                 <?php endif; ?>
                 <h3><?php echo $info['m_name']; ?></h3>
 
                 <?php if(empty($info['tj']['tj_m_mobile']) || (($info['tj']['tj_m_mobile'] instanceof \think\Collection || $info['tj']['tj_m_mobile'] instanceof \think\Paginator ) && $info['tj']['tj_m_mobile']->isEmpty())): ?>
-                <p>
-                    <span>未填写推荐人 去填写</span>
-                </p>
+                <a href="/member/modifydata/updatePhone">
+                    <p> 
+                        <span>未填写推荐人 去填写</span>
+                    </p>
+                </a>
                 <?php else: ?>
                 <p onclick="openTj()">
                     <span>推荐人</span>
                     <?php if(empty($info['tj']['tj_m_avatar']) || (($info['tj']['tj_m_avatar'] instanceof \think\Collection || $info['tj']['tj_m_avatar'] instanceof \think\Paginator ) && $info['tj']['tj_m_avatar']->isEmpty())): ?>
                     <img src="__STATIC__/image/index/pic_home_taplace@2x.png">
                     <?php else: ?>
-                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo isset($info['tj']['tj_m_avatar']) ? $info['tj']['tj_m_avatar'] :  ''; ?>">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo isset($info['tj']['tj_m_s_avatar']) ? $info['tj']['tj_m_s_avatar'] :  ''; ?>">
                     <?php endif; ?>
                     <?php echo isset($info['tj']['tj_name']) ? $info['tj']['tj_name'] :  ''; ?>
                 </p>
@@ -400,7 +402,7 @@
         <?php if(empty($info['tj']['tj_m_avatar']) || (($info['tj']['tj_m_avatar'] instanceof \think\Collection || $info['tj']['tj_m_avatar'] instanceof \think\Paginator ) && $info['tj']['tj_m_avatar']->isEmpty())): ?>
         <img src="__STATIC__/image/index/pic_home_taplace@2x.png">
         <?php else: ?>
-        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo isset($info['tj']['tj_m_avatar']) ? $info['tj']['tj_m_avatar'] :  ''; ?>">
+        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo isset($info['tj']['tj_m_s_avatar']) ? $info['tj']['tj_m_s_avatar'] :  ''; ?>">
         <?php endif; ?>
         <p><?php echo isset($info['tj']['tj_name2']) ? $info['tj']['tj_name2'] :  ''; ?></p>
         <div><small class="lf"><?php echo isset($info['tj']['tj_m_mobile']) ? $info['tj']['tj_m_mobile'] :  ''; ?></small><small class="rt"><?php echo isset($info['tj']['tj_ml_name']) ? $info['tj']['tj_ml_name'] :  ''; ?></small></div>

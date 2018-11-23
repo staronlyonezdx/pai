@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/promotion/view/index/double11.html";i:1541757146;s:68:"D:\project\pai\public/../application/promotion/view/common/base.html";i:1541677267;s:70:"D:\project\pai\public/../application/promotion/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/promotion/view/index/double11.html";i:1542013166;s:68:"D:\project\pai\public/../application/promotion/view/common/base.html";i:1542013166;s:70:"D:\project\pai\public/../application/promotion/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -382,11 +382,11 @@
     </body>
 
     <!--bugtags 开始-->
-    <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script>
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -662,18 +662,18 @@
         });
 
         // 点击或者活动的时候去请求最新的值
-        // function getNewData(g_id) {
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: ' http://www.pai.com/promotion/index/get_goods_info/',
-        //         data: {g_id: g_id},
-        //         dataType: 'json'
-        //     }, function (res) {
-        //         if (res.status == 8) {
-        //
-        //         }
-        //     })
-        // }
+        function getNewData(g_id) {
+            $.ajax({
+                type: 'POST',
+                url: ' http://www.pai.com/promotion/index/get_goods_info/',
+                data: {g_id: g_id},
+                dataType: 'json'
+            }, function (res) {
+                if (res.status == 8) {
+
+                }
+            })
+        }
 
         $('.selt').show();
     })
