@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:70:"D:\project\pai\public/../application/index/view/index/price_range.html";i:1542704491;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:70:"D:\project\pai\public/../application/index/view/index/price_range.html";i:1543573931;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1543280491;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -32,6 +32,12 @@
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
         <title>首页</title>
     </head>
     <body>
@@ -61,17 +67,127 @@
         <!--一折场-->
         <div id="mescroll0" class="swiper-slide mescroll">
             <ul id="dataList0" class="data-list">
+                <?php if(!(empty($list1['list']) || (($list1['list'] instanceof \think\Collection || $list1['list'] instanceof \think\Paginator ) && $list1['list']->isEmpty()))): if(is_array($list1["list"]) || $list1["list"] instanceof \think\Collection || $list1["list"] instanceof \think\Paginator): $i = 0; $__LIST__ = $list1["list"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                <a href="/member/goodsproduct/index/g_id/<?php echo $vo['g_id']; ?>">
+                    <div class="index_module_main clear">
+                        <div class="index_module_img_view lf">
+                            <div class="index_module_img">
+                                <img src="<?php echo $vo['g_s_img']; ?>" alt="">
+                            </div>
+                            <div class="index_module_pic"></div>
+                        </div>
+                        <div class="index_module_text lf">
+                            <p><?php echo $vo['g_name']; ?></p>
+                            <?php if($vo['gdr_price'] == $vo['gp_market_price']): if($vo['gdr_price'] == null): ?>                                
+                            <span>￥<i>0</i></span>
+                            <?php else: ?>
+                            <span>￥<i><?php echo $vo['gdr_price']; ?></i></span>
+                            <?php endif; else: ?>
+                            <span>￥<i>
+                            <?php if($vo['gdr_price'] == null): ?>
+                            0
+                            <?php else: ?>
+                            <?php echo $vo['gdr_price']; endif; ?>
+                            </i>&nbsp;&nbsp;<del>￥<?php echo $vo['gp_market_price']; ?></del></span>
+                            <?php endif; ?>                                
+                            <div class="index_module_progress_view clear">
+                                <div class="index_module_progress lf">
+                                    <div class="index_module_progressbar" style="width: <?php echo $vo['num']; ?>%"></div>
+                                </div>
+                                <div class="index_module_progress_hint lf"><?php echo $vo['num']; ?>%</div>
+                            </div>
+                            <div class="index_module_progress_bottom clear"><span class="lf"><?php echo $vo['gp_num']; ?>人已参与</span>
+                                <div class="index_module_progress_canyu rt">立即参团</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; endif; else: echo "" ;endif; endif; ?>
             </ul>
         </div>
 
         <!--三折场-->
         <div id="mescroll1" class="swiper-slide mescroll">
-            <ul id="dataList1" class="data-list"></ul>
+            <ul id="dataList1" class="data-list">
+                    <?php if(!(empty($list2['list']) || (($list2['list'] instanceof \think\Collection || $list2['list'] instanceof \think\Paginator ) && $list2['list']->isEmpty()))): if(is_array($list2["list"]) || $list2["list"] instanceof \think\Collection || $list2["list"] instanceof \think\Paginator): $i = 0; $__LIST__ = $list2["list"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <a href="/member/goodsproduct/index/g_id/<?php echo $vo['g_id']; ?>">
+                        <div class="index_module_main clear">
+                            <div class="index_module_img_view lf">
+                                <div class="index_module_img">
+                                    <img src="<?php echo $vo['g_s_img']; ?>" alt="">
+                                </div>
+                                <div class="index_module_pic"></div>
+                            </div>
+                            <div class="index_module_text lf">
+                                <p><?php echo $vo['g_name']; ?></p>
+                                <?php if($vo['gdr_price'] == $vo['gp_market_price']): if($vo['gdr_price'] == null): ?>                                
+                                <span>￥<i>0</i></span>
+                                <?php else: ?>
+                                <span>￥<i><?php echo $vo['gdr_price']; ?></i></span>
+                                <?php endif; else: ?>
+                                <span>￥<i>
+                                <?php if($vo['gdr_price'] == null): ?>
+                                0
+                                <?php else: ?>
+                                <?php echo $vo['gdr_price']; endif; ?>
+                                </i>&nbsp;&nbsp;<del>￥<?php echo $vo['gp_market_price']; ?></del></span>
+                                <?php endif; ?>                                
+                                <div class="index_module_progress_view clear">
+                                    <div class="index_module_progress lf">
+                                        <div class="index_module_progressbar" style="width: <?php echo $vo['num']; ?>%"></div>
+                                    </div>
+                                    <div class="index_module_progress_hint lf"><?php echo $vo['num']; ?>%</div>
+                                </div>
+                                <div class="index_module_progress_bottom clear"><span class="lf"><?php echo $vo['gp_num']; ?>人已参与</span>
+                                    <div class="index_module_progress_canyu rt">立即参团</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+            </ul>
         </div>
 
         <!--五折场-->
         <div id="mescroll2" class="swiper-slide mescroll">
-            <ul id="dataList2" class="data-list"></ul>
+            <ul id="dataList2" class="data-list">
+                <?php if(!(empty($list3['list']) || (($list3['list'] instanceof \think\Collection || $list3['list'] instanceof \think\Paginator ) && $list3['list']->isEmpty()))): if(is_array($list3["list"]) || $list3["list"] instanceof \think\Collection || $list3["list"] instanceof \think\Paginator): $i = 0; $__LIST__ = $list3["list"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                <a href="/member/goodsproduct/index/g_id/<?php echo $vo['g_id']; ?>">
+                    <div class="index_module_main clear">
+                        <div class="index_module_img_view lf">
+                            <div class="index_module_img">
+                                <img src="<?php echo $vo['g_s_img']; ?>" alt="">
+                            </div>
+                            <div class="index_module_pic"></div>
+                        </div>
+                        <div class="index_module_text lf">
+                            <p><?php echo $vo['g_name']; ?></p>
+                            <?php if($vo['gdr_price'] == $vo['gp_market_price']): if($vo['gdr_price'] == null): ?>                                
+                            <span>￥<i>0</i></span>
+                            <?php else: ?>
+                            <span>￥<i><?php echo $vo['gdr_price']; ?></i></span>
+                            <?php endif; else: ?>
+                            <span>￥<i>
+                            <?php if($vo['gdr_price'] == null): ?>
+                            0
+                            <?php else: ?>
+                            <?php echo $vo['gdr_price']; endif; ?>
+                            </i>&nbsp;&nbsp;<del>￥<?php echo $vo['gp_market_price']; ?></del></span>
+                            <?php endif; ?>                                
+                            <div class="index_module_progress_view clear">
+                                <div class="index_module_progress lf">
+                                    <div class="index_module_progressbar" style="width: <?php echo $vo['num']; ?>%"></div>
+                                </div>
+                                <div class="index_module_progress_hint lf"><?php echo $vo['num']; ?>%</div>
+                            </div>
+                            <div class="index_module_progress_bottom clear"><span class="lf"><?php echo $vo['gp_num']; ?>人已参与</span>
+                                <div class="index_module_progress_canyu rt">立即参团</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+            </ul>
         </div>
     </div>
 </div>
@@ -218,7 +334,7 @@
             var i = Number($(this).attr("i"));
             // $.cookie('zhekou_type', i, {expire: 10000, path: '/'})
             window.location.href='/index/index/price_range/type/'+ (+i+1);
-            swiper.slideTo(i);//以轮播的方式切换列表
+            //swiper.slideTo(i);//以轮播的方式切换列表
         })
 
         $(".tabHead span").each(function (n, dom) {
@@ -279,6 +395,7 @@
                         tip: "暂无产品~", //提示
                     },
                     page: {
+                        num: 1,
                         size: 6
                     },
                     loadFull: {
@@ -438,4 +555,10 @@
     // }
 </script>
 
+    <!-- 调用登陆的sdk -->
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

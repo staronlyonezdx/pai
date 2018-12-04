@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\project\pai\public/../application/member/view/core/continue_invitation.html";i:1541765256;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\project\pai\public/../application/member/view/core/continue_invitation.html";i:1543549408;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -35,6 +35,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -43,7 +50,7 @@
     <div class="header_view">
         <div class="header_tit">
             <span><?php echo isset($header_title) ? $header_title :  ''; ?></span>
-            <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.back();" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?>>
+            <div class="header_back" onClick="javascript:history.go(-1);">
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
             </div>
         </div>
@@ -86,7 +93,7 @@
                 </div>
                 <div class="continue_text">
                     <p>填写邀请人</p>
-                    <span>被邀请人自行下载拍吖吖App，在注册界面自行填写邀请人（必须是在平台注册过的用户）的手机号，并成功登陆即完成</span>
+                    <span>被邀请人自行下载拍吖吖App，在注册界面自行填写邀请人（必须是在平台注册过的用户）的手机号，且单次参团大于等于50即为成功邀请。</span>
                 </div>
                 <div class="continue_text">
                     <span>如有违法违规作弊行为将被取消奖励资格</span>
@@ -183,10 +190,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -417,4 +424,9 @@
     });
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

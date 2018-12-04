@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/member/view/register/it_to_rg.html";i:1541491284;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/member/view/register/it_to_rg.html";i:1543549781;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -35,6 +35,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -82,9 +89,9 @@
                 </div>
             </div>
             <div class="continue_fuli">
-                <a href="##">
-                    查看福利详情
-                </a>
+                <!-- <a href="/index/index/agreement/at_name/邀请新人活动规则"> -->
+                    <!-- 查看福利详情 -->
+                <!-- </a> -->
             </div>
             <div class="continue_guize">
                 <div class="continue_margin">
@@ -98,12 +105,12 @@
                     </div>
                     <div class="continue_text">
                         <p>填写邀请人</p>
-                        <span>被邀请人自行下载拍吖吖App，在注册界面自行 填写邀请人（必须是在平台注册过的用户）的手 机号，并成功登陆即完成</span>
+                        <span>被邀请人自行下载拍吖吖App，在注册界面自行填写邀请人（必须是在平台注册过的用户）的手机号，且单次参团大于等于50即为成功邀请。</span>
                     </div>
                     <div class="continue_text">
                         <span>如有违法违规作弊行为将被取消奖励资格</span>
                     </div>
-                    <a href="##">
+                    <a href="/index/index/agreement/at_name/邀请新人活动规则">
                         查看完整规则详情
                     </a>
                 </div>
@@ -157,10 +164,10 @@
 
     <!--bugtags 开始-->
     <!-- <script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script> -->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-        // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+        <!-- // new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -261,9 +268,9 @@ $(function(){
     var tel=$("#tel").html();
     $("#tel").html(tel.substring(0,3)+"****"+tel.substring(7,11));
     $("input[name='phone']").blur(function(){
-        var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
         var phone=$(this).val();
-        if (!myreg.test(phone)) {
+        if (phone.length!=11) {
             layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
                 time:2000
             });
@@ -291,9 +298,8 @@ $(function(){
     })
 })
     $('.continue_tijiao_btn').on('click',function(){
-        var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
         var m_mobile = $('.m_mobile').val();
-
         //验证码
         var verification = $('.verification').val();
         //密码
@@ -316,10 +322,9 @@ var InterValObj; //timer变量，控制时间
 var count = 60; //间隔函数，1秒执行
 var curCount;//当前剩余秒数
 $(".continue_it_code").click(function(){
-    var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+    // var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     var m_mobile = $('.m_mobile').val();
-    if (!myreg.test(m_mobile)) {
-
+    if (m_mobile.length!=11) {
             layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
                 time:2000
             });
@@ -331,34 +336,47 @@ $(".continue_it_code").click(function(){
         $.ajax({
             type:"POST",//用post方式传输
             dataType:"JSON",//数据格式：JSON
-            url:"/member/register/register_code",//目标地址
+            url:"/member/login/get_token ",//目标地址
             data:{
-                m_mobile:m_mobile
+                mobile:m_mobile
             },
             success:function(res){
-                console.log(res);
-                if(res.status == 1){
-                    $('.continue_it_code').attr("disabled","true");
-                    $(".continue_it_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
-                    $('.continue_it_code').text(curCount+"s后可重新发送");
-                    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
-                }else if(res.status == 2){
-                    layer.confirm(res.msg, {
-                        title:false,/*标题*/
-                        closeBtn: 0,
-                        btnAlign: 'c',
-                        btn: ['我知道啦','前去登录'],
-                        btn2:function(){
-                            location.href="/member/login/index";
+                // console.log(res)
+                $.ajax({
+                    type:"POST",//用post方式传输
+                    dataType:"JSON",//数据格式：JSON
+                    url:"/member/register/register_code",//目标地址
+                    data:{
+                        m_mobile:m_mobile,
+                        sms_checked_code:res.data
+                    },
+                    success:function(str){
+                        console.log(str);
+                        if(str.status == 1){
+                            $('.continue_it_code').attr("disabled","true");
+                            $(".continue_it_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+                            $('.continue_it_code').text(curCount+"s后可重新发送");
+                            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                        }else if(str.status == 2){
+                            layer.confirm(str.msg, {
+                                title:false,/*标题*/
+                                closeBtn: 0,
+                                btnAlign: 'c',
+                                btn: ['我知道啦','前去登录'],
+                                btn2:function(){
+                                    location.href="/member/login/index";
+                                }
+                            })
+                        }else{
+                            layer.msg("<span style='color:#fff'>"+str.msg+"</span>",{
+                                time:2000
+                            });
                         }
-                    })
-                }else{
-                        layer.msg("<span style='color:#fff'>"+res.msg+"</span>",{
-                            time:2000
-                        });
-                }
+                    }
+                })
             }
         })
+        
     }
 })
 //timer处理函数
@@ -376,4 +394,9 @@ function SetRemainTime(){
 }
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

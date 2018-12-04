@@ -1,0 +1,328 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/goodscategory.css">
+<style>
+    .top5{margin-top: 5px;}
+    .p_gname{
+        width:150px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .td_order_info p{margin-bottom: 1px;}
+    form .form-group{width: auto}
+    table td .suo_img{width:80px;height:auto;}
+    .jq_ren{
+        color:red;
+    }
+    .a_description{display: none;}
+</style>
+{/block}
+{block name="content"}
+<div class="container-fluid">
+<div class="panel panel-default">
+<div class="panel-body">
+
+        <label>活动列表</label>
+        <!--<a class="pull-right" href="{:url('orderpai/edit')}">添加分类</a>-->
+
+    <form class="form-inline" method="get">
+        <div class="form-group">
+            <label for="status">活动状态:</label>
+            <select class="form-control" id="status" name="status">
+                <option value="0">所有</option>
+                <option {notempty name="status"}{if condition="$status eq 1"}selected = "selected"{/if}{/notempty} value="1">进行中</option>
+                <option {notempty name="status"}{if condition="$status eq 2"}selected = "selected"{/if}{/notempty} value="2">已结束</option>
+                <option {notempty name="status"}{if condition="$status eq 3"}selected = "selected"{/if}{/notempty} value="3">未开始</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="a_name">活动名称:</label>
+            <input type="text" class="form-control" id="a_name" name="a_name" placeholder="活动名称" value="{$a_name|default=''}">
+        </div>
+        <div class="form-group">
+            <label for="a_code">活动编号:</label>
+            <input type="text" class="form-control" id="a_code" name="a_code" placeholder="活动编号" value="{$a_code|default=''}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="form-control btn btn-info">搜索 <span class="glyphicon glyphicon-search"></span></button>
+        </div>
+        <div class="form-group pull-right" >
+            <a type="button" href="/admin/activity/edit" class="form-control btn btn-info">添加活动 <span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+    </form>
+
+    <table class="table table-border table-bordered table-bg table-hover table-sort " style="width:100%">
+        <thead>
+        <tr class="text-c">
+            <th>活动id</th>
+            <th>活动编码</th>
+            <th width="150px">活动名称</th>
+            <th width="150px">活动logo</th>
+            <th>商品类型</th>
+            <th>活动时间</th>
+            <th>活动状态</th>
+            <th>内容管理</th>
+            <th >活动管理</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name='list' id='vo'}
+        <tr class="text-c va-m tr_{$vo.a_id}">
+            <div class="a_description">{$vo.a_description ?? ''}</div>
+            <td>{$vo.a_id}</td>
+            <td>
+                <p class="a_code" title="{$vo.a_code}">{$vo.a_code}</p>
+            </td>
+            <td>
+                <p class="a_name" title="{$vo.a_name}">{$vo.a_name|default=''}</p>
+            </td>
+            <td>
+                <p><img src="{$vo.a_logo|default='/static/image/index/pic_home_taplace@2x.png'}" height="80px" alt="" class="img_big suo_img" ></p>
+            </td>
+            <td>
+                <p>
+                    <span>
+                        {switch name="vo.a_product_type"}
+                            {case value="0"}默认{/case}
+                            {case value="1"}余额商品{/case}
+                            {case value="2"}花生商品{/case}
+                        {/switch}
+                    </span>
+                </p>
+            </td>
+            <td class="td_order_info">
+                <p>
+                    <span>开始时间：</span>
+                    <span>{$vo.a_start_time|date="Y-m-d H:i:s",###}</span>
+                </p>
+                <p>
+                    <span>结束时间：</span>
+                    <span>{$vo.a_end_time|date="Y-m-d H:i:s",###}</span>
+                </p>
+            </td>
+            <td>
+                <p>
+                    {if condition="$vo.a_state == 1"}开启{else/}未开启{/if}
+                </p>
+            </td>
+            <td a_id = "{$vo.a_id}" a_code="{$vo.a_code}" >
+                <a href="/admin/activity/goods_admin/a_id/{$vo.a_id}/ag_type/1" class="btn btn-xs btn-success top5">广告商品管理</a><br>
+                <a href="/admin/activity/goods_admin/a_id/{$vo.a_id}/ag_type/2" class="btn btn-xs btn-success activity_edit top5">推荐商品管理</a><br>
+                <a href="/admin/activity/goods_admin/a_id/{$vo.a_id}/ag_type/0" class="btn btn-xs btn-success activity_edit top5">活动商品管理</a>
+            </td>
+            <td a_id = "{$vo.a_id}" a_code="{$vo.a_code}" >
+                <button type="button" class="btn btn-xs btn-info activity_page">活动页</button><br>
+                {if condition="$vo.a_state gt 0"}
+                    <button type="button" class="btn btn-xs btn-danger activity_close top5">活动关闭</button><br>
+                {else/}
+                    <button type="button" class="btn btn-xs btn-success activity_open top5">活动开启</button><br>
+                {/if}
+                <a href="/admin/activity/edit/a_id/{$vo.a_id}" class="btn btn-xs btn-info activity_edit top5">活动编辑</a>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <div class="page_box pull-right" style="">
+        <span class="pagi_bar pull-right">共&nbsp;{$total}&nbsp;条</span>
+        {$page}
+    </div>
+</div>
+</div>
+<img alt="" style="display:none" id="displayImg" src="" />
+</div>
+<script type="text/javascript">
+
+    $(function(){
+        // 活动详情页
+        $(".activity_page").click(function(){
+            var a_code = $(this).parents("td").attr("a_code");
+            layer.open({
+                type: 2,
+                title: '活动详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/activity/index/index/a_code/'+a_code
+            });
+        });
+
+        //activity_close
+        $(".activity_close").click(function(){
+            var a_id = $(this).parents("td").attr("a_id");
+
+            layer.confirm('您确定要关闭此活动吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    type: 'post',
+                    url: '/admin/activity/activity_close',
+                    dataType: 'json',
+                    data:{a_id:a_id},
+                    success: function (data) {
+                        console.log(data);
+                        window.location.reload();
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        });
+
+        //activity_open
+        $(".activity_open").click(function(){
+            var a_id = $(this).parents("td").attr("a_id");
+            layer.confirm('您确定要开启此活动吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    type: 'post',
+                    url: '/admin/activity/activity_open',
+                    dataType: 'json',
+                    data:{a_id:a_id},
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+                window.location.reload();
+            }, function(){
+                layer.closeAll();
+            });
+        });
+
+        // 立即发货
+        $(".lijifahuo").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            var gs_id = $(this).parents("td").attr("gs_id");
+            if(gs_id == 1){
+                layer.open({
+                    type: 2,
+                    title: '物流信息页',
+                    shadeClose: true,
+                    shade: 0.5,
+                    area: ['380px', '90%'],
+                    content: '/member/Orderpai/new_logistics/o_id/'+o_id+'/is_layer/1'
+                });
+            }else{
+                //询问框
+                var gs_name = '';
+                if(gs_id == 3){
+                    gs_name = "大宗商品";
+                }else{
+                    gs_name = "虚拟商品";
+                }
+                layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.ajax({
+                        type: 'post',
+                        url: '/member/orderpai/send_out',
+                        dataType: 'json',
+                        data:{o_id:o_id},
+                        success: function (data) {
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                time:2000
+                            });
+                            if(data.status > 0){
+                                setTimeout(function () {
+                                    layer.closeAll();
+                                    window.location.reload();
+                                }, 1000)
+                            }
+                        }
+                    });
+                }, function(){
+                    layer.closeAll();
+                });
+            }
+        });
+
+        // 发货信息
+        $(".fahuoxinxi").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            layer.open({
+                type: 2,
+                title: '人气活动详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/orderpai/order_logistics/o_id/'+o_id+'/is_seller/1'
+            });
+        });
+
+        // 确认收货
+        $(".order_index_shouhuo").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            var admin_id = "{$admin_id|default=0}";
+            layer.confirm("是否确认买家已经收货？", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['取消', '确认'], //按钮
+                btn2: function (index) {
+                    //按钮2的回调
+                    $.ajax({
+                        type: 'POST',
+                        url: '/member/orderpai/confirm_order',
+                        data: {o_id: o_id, admin_id: admin_id},
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.status == 1) {
+                                layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                    time: 2000
+                                }, function () {
+                                    location.reload();
+                                });
+                            } else {
+                                layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                                    time: 2000
+                                });
+                                layer.close(index);
+                            }
+                        }
+                    });
+                }
+            })
+        });
+
+        // 图片放大
+        $(".img_big").click(function(){
+            var src = $(this).attr("src");
+            $("#displayImg").attr("src", src);
+            var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+            var width = $("#displayImg").width();
+            var rate = height / width;
+            var win_width = $(window).width();
+            var win_height = $(window).height();
+            if(width > win_width/2){
+                width = win_width/2;
+                height = width * rate;
+            }
+            if(height > win_height){
+                var h_rate = win_height / height;
+                height = win_height;
+                width = width * h_rate;
+            }
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                area: [width + 'px', height + 'px'], //宽高
+                content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+            });
+        });
+
+        // 功能建设中
+        $(".built").click(function(){
+            layer.msg("<span style='color:#fff'>功能开发中...</span>", {
+                time: 2000
+            });
+        });
+    })
+</script>
+{/block}
+

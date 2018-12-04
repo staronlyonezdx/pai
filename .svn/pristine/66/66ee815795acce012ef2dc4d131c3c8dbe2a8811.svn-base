@@ -1,0 +1,188 @@
+<?php
+namespace app\admin\controller;
+
+use app\data\service\goods\GoodsService;
+use app\data\service\goodsSpec\GoodsSpecService;
+use app\data\service\pointGoods\PointGoodsProductService;
+use app\data\service\pointGoods\PointGoodsService;
+use app\data\service\popularity\PopularityGoodsService;
+use app\data\service\popularity\PopularityService;
+use app\data\model\goods\GoodsModel;
+use app\data\service\system_msg\SystemMsgService;
+use think\Db;
+
+class Pointgoods extends AdminHome
+{
+
+    /**
+     * 积分商品列表
+     */
+     public function goodslist()
+	{
+        $goods =  new PointGoodsService();
+        $data = input('get.');
+        $data['g_state'] = input('param.g_state',2);
+        $where = [
+            'g.g_state'=>$data['g_state']
+        ];
+        $field = '*';
+        $list = $goods->get_join_list($where,'g.g_addtime desc',$field,10);
+        $page = $list->render();
+        $total = $list->total();
+        $lists = array();
+        foreach($list as $k => $v){
+            $address_id = [
+                'pid'=>$v['pid'],
+                'cid'=>$v['cid'],
+                'aid'=>$v['aid'],
+            ];
+            $v['shop_address'] = $goods->id_tfm_address($address_id);
+            $lists[$k] = $v;
+        }
+        $num = empty(input('get.page')) ? 1 : input('get.page');    //当前页
+
+         $goods_spec = new GoodsSpecService();
+         $spec = $goods_spec->goodsSpecList(['gs_state'=>0]);
+         $spec = array_column($spec,'gs_name','gs_id');
+        $this->assign([
+            'list'=>$lists,
+            'page'=>$page,
+            'total'=>$total,
+            'g_state'=>$data['g_state'],
+            'num'=>$num,
+            'spec'=>$spec,
+        ]);
+        return $this->fetch();
+
+	}
+
+
+    /**
+     * 商品详情
+     * 邓赛赛
+     */
+    public function goods_info(){
+        $g_id = input('param.g_id');
+        $goods = new PointGoodsService();
+        $where = [
+            'g.g_id'=>$g_id
+        ];
+        $info = $goods->get_goods_info($where,$field="g.*,gp.*,m.m_id,m.m_name");
+        $address_id = [
+            'pid'=>$info['pid'],
+            'cid'=>$info['cid'],
+            'aid'=>$info['aid'],
+        ];
+        $info['shop_address'] = $goods->id_tfm_address($address_id);
+        $goods_spec = new GoodsSpecService();               //商品分类
+        $spec = $goods_spec->goodsSpecList(['gs_state'=>0]);
+        $spec = array_column($spec,'gs_name','gs_id');
+//        dump();die;
+        $this->assign('goods_info',$info);
+        $this->assign('spec',$spec);
+        return view();
+    }
+
+    /**
+     * 审核商品
+     * 邓赛赛
+     */
+    public function set_state(){
+        $input = input('param.');
+        $where['g_id']      = $input['g_id'];
+        $data['g_state']    = $input['g_state'];
+        $data['g_limited']    = input('param.g_limited',0);
+        $data['is_heat']    = input('param.is_heat',0);
+        $data['g_limited']    = input('param.g_limited',1);
+        $data2['gp_gift_peanut']    = input('param.gp_gift_peanut/d',0);
+
+        if(!trim($data['g_limited'])){
+            unset($data['g_limited']);
+        }
+        $data['g_des']      = empty($input['g_des']) ? '' : $input['g_des'];
+        $data['g_audittime']= time();
+        //不通过时不传入是否推荐
+        if($data['g_state'] != 4){
+            $data['is_tj']      = $input['is_tj'];
+            $data['is_tj']      = $data['is_tj'] == 'undefined' ? 1 : $data['is_tj'];
+        }
+
+        $page = input('param.num',1);
+        $goods = new PointGoodsService();
+        $info = $goods->get_goods_info(['g.g_id'=>$where['g_id']],'g.g_id,g.g_img,g.g_name,g.g_mid,g.g_starttime,g.g_endtime,gp.gp_settlement_price');
+        if(!$info["g_starttime"]){
+            if((time()-$info['g_endtime']) <= 86400*3){
+                $this->error("开始时间和结束时间必须相隔三天",'/admin/goods/goodslist?page='.$page,'',2);
+            }
+            $data['g_starttime'] = time();
+        }
+        //修改积分商品信息
+        $res = $goods->get_save($where,$data);
+        //修改返回花生
+        $point_goods_product = new PointGoodsProductService();
+        $where2=[
+            'g_id'=>$info['g_id']
+        ];
+        $point_goods_product->goodsProductSave($where2, $data2);
+
+        $system = new SystemMsgService();
+        if($res){
+            if(!empty($data['g_state']) && $data['g_state'] == 6 ){
+                $goods = new GoodsService();
+                $goods->set_goods_redis(2);
+            }
+            //添加系统消息
+            $data2 = [
+                'sm_addtime'=>time(),
+                'sm_title'=>'积分发布结果',
+                'sm_brief'=>'积分商品审核通知',
+                'sm_content'=>'您发布的积分商品{'.$info['g_name'].'}审核通过',
+                'g_id'=>$info['g_id'],
+                'to_mid'=>$info['g_mid'],
+            ];
+            if($data['g_state'] == 4){
+                $data2['sm_content'] = '很遗憾！您发布的积分商品{'.$info['g_name'].'}审核未通过,理由：'.$data['g_des'];
+                $data2['is_success'] = 1;
+            }
+            $system->AddSystemMsg($data2);
+
+            $this->success("修改成功",'/admin/Pointgoods/goodslist?page='.$page,'',1);
+        }else{
+//            $data2 = [
+//                'sm_addtime'=>time(),
+//                'sm_title'=>'积分发布结果3',
+//                'sm_brief'=>'积分商品审核通知',
+//                'sm_content'=>'您发布的商品{'.$info['g_name'].'}审核未通过',
+//                'to_mid'=>$info['g_mid'],
+//                'g_id'=>$info['g_id'],
+//                'is_success'=>1
+//            ];
+//            $system->AddSystemMsg($data2);
+
+            $this->error("修改失败",'/admin/goods/goodslist?page='.$page,'',1);
+        }
+    }
+
+    /**
+     * 设置热拍
+     * 邓赛赛
+     */
+    public function set_heat(){
+        $data['is_heat'] = input('get.is_heat') ? input('get.is_heat') : 0;
+        $page = input('get.num',1);
+        $g_id = input('get.g_id');
+        $goods = new PointGoodsService();
+        $where = [
+            'g_id'=> $g_id,
+        ];
+        $res = $goods->get_save($where,$data);
+        if($res){
+            $this->success("修改成功",'/admin/Pointgoods/goodslist?page='.$page,'',1);
+        }else{
+            $this->error("修改失败",'/admin/Pointgoods/goodslist?page='.$page,'',1);
+        }
+    }
+
+
+
+}

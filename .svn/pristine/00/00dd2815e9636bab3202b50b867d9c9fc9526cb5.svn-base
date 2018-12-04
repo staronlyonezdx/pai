@@ -1,0 +1,76 @@
+.jifen{
+    width: 0.86rem;
+    height: 0.3rem;
+}
+.details_top_hint span{
+    float: left;
+    margin-right: 1.3rem;
+}
+.details_top_hint span:nth-child(3){
+    margin-right: 0;
+}
+.index_hsbanner{
+    width:7.5rem;
+    height:0.8rem;
+    background: url("../../image/pointgoods/pic_banner@2x.png") no-repeat center center;
+    overflow: hidden;
+    background-size: 100% 100%;
+    position: relative;
+}
+.index_hsbanner p{
+    color:#FFD200;
+    font-size: 0.28rem;
+    font-family:"PingFangSC-Semibold";
+    font-weight: 600;
+    position: absolute;
+    left:4.57rem;
+    top:0.38rem;
+}
+.qianggou{
+    width:7.5rem;
+    height:0.8rem;
+    text-align: center;
+    line-height: 0.8rem;
+    font-size:0.26rem;
+    font-weight:bold;
+    color:rgba(255,255,255,1);
+    background:linear-gradient(90deg,rgba(255,161,116,1),rgba(255,199,107,1));
+}
+.qianggou span{
+    opacity:0.84;
+}
+.details_pingjia_imgs{
+    width: 7.5rem;
+    height: 2rem;
+}
+.details_pingjia_imgs img{
+    width:1.5rem;
+    height:1.5rem;
+    float: left;
+    background-color: #0a70c2;
+    margin-right: 0.1rem;
+}
+.details_pingjia_imgs img:nth-child(1){
+    margin-left: 0.3rem;
+}
+.details_pingjia_imgs img:last-child(1){
+    margin-right: 0.3rem;
+}
+.details_text img.detail_text_img{
+    width: 7.5rem;
+    height: 10rem;
+    margin-left: -0.3rem;
+    margin-top: 0.4rem;
+    background-color: indianred;
+}
+.index_hstext{
+    color:#FF3939;
+    font-size: 0.22rem;
+    /* margin-top:0.34rem; */
+    margin-left: 0.3rem;
+    padding-bottom: 0.5rem;
+}
+.index_hstext span{
+    color:#FF3939;
+    font-size: 0.22rem;
+}

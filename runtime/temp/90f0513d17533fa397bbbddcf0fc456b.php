@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:74:"D:\project\pai\public/../application/member/view/orderpai/pai_memlist.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:74:"D:\project\pai\public/../application/member/view/orderpai/pai_memlist.html";i:1543385002;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -35,6 +35,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -53,7 +60,7 @@
     <div class="header_view">
         <div class="header_tit">
             <!--<p>开通钱包</p>-->
-            <div class="pai_memlist_select"style="position: relative;width: 33%;left: 2.3rem;">
+            <div class="pai_memlist_select"style="position: relative;width: 34%;left: 2.3rem;">
                 <span class="header_title">所有参团的</span>
                 <img src="__STATIC__/image/goods/icon_shang@2x.png" alt="">
                 <img src="__STATIC__/image/goods/icon_xia@2x.png" alt="" class="pai_select_pic">
@@ -333,7 +340,11 @@
                                         // if(data.data[i].o_is_fudai==1){
                                         //     html+='<img src="__STATIC__/image/orderpai/icon_zhongpai2@2x.png" class="details_bg_win">'
                                         // }else{
-                                            html+='<img src="__STATIC__/image/orderpai/icon_zhongpai3@2x.png" class="details_bg_win">'
+                                            if(data.data[i].o_play_type == 1) {
+                                                html+='<img src="__STATIC__/image/orderpai/icon_zhongpai3@2x.png" class="details_bg_win">'
+                                            }else if(data.data[i].o_play_type == 2) {
+                                                html+='<img src="__STATIC__/image/orderpai/jxzp.png" class="details_bg_win">'
+                                            }                                            
                                         // }
                                     }else{
                                         html += '<div class="details_carousel_list clear">';
@@ -355,7 +366,6 @@
                                     $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
                                 });
                             } else {
-                                
                                 if ($('.details_carousel').find(".list").eq(itemIndex).find('.details_carousel_list').length == 0) {
                                     $('.details_carousel').find(".no-cp").eq(itemIndex).show();
                                 }
@@ -395,7 +405,11 @@
                                                         // if(data.data[i].oa_state==1){
                                                         //     html1+='<img src="__STATIC__/image/orderpai/icon_zhongpai2@2x.png" class="details_bg_win">'
                                                         // }else{
-                                                            html1+='<img src="__STATIC__/image/orderpai/icon_zhongpai3@2x.png" class="details_bg_win">'
+                                                            if(data.data[i].o_play_type == 1) {
+                                                                html1+='<img src="__STATIC__/image/orderpai/icon_zhongpai3@2x.png" class="details_bg_win">'
+                                                            }else if(data.data[i].o_play_type == 2) {
+                                                                html1+='<img src="__STATIC__/image/orderpai/jxzp.png" class="details_bg_win">'
+                                                            }
                                                         // }
                                                    
                                                 }else{
@@ -490,4 +504,9 @@
    
    
 </script> 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

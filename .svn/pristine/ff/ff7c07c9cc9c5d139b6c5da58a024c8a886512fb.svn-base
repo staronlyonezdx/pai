@@ -1,0 +1,205 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/activity/search.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+{/block}
+{block name="content"}
+<mian style="margin-top: -0.88rem">
+    <div class="search_top">
+        <div class="search_top_hearder">
+            <div class="goback lf close_top">
+                <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+            </div>
+            <div class="index_search lf">
+                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
+                     style="margin-left: 0.3rem;margin-top: 0.18rem">
+                <input type="text" placeholder="输入您想搜索的商品" autofocus name="keyword">
+            </div>
+            <span class="search_btn">搜索</span>
+        </div>
+    </div>
+
+    <div id="mescroll" class="mescroll">
+        <!--展示上拉加载的数据列表-->
+        <ul id="dataList" class="data-list clear">
+            <!--<li class="content_item lf">-->
+            <!--<img src="" alt="" class="info_img">-->
+            <!--<div class="content_item_info">-->
+            <!--<p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>-->
+            <!--<div class="progress clear">-->
+            <!--<div class="progress_main lf">-->
+            <!--<span style="width: 70%"></span>-->
+            <!--</div>-->
+            <!--<span class="progress_num lf">700%</span>-->
+            <!--</div>-->
+            <!--<div class="content_info_data">-->
+            <!--<span class="info_price"><small>￥</small>1788.00</span>-->
+            <!--<span class="join">100人参与</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</mian>
+
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script>
+
+    // var path = window.location.pathname;
+    // // console.log(path);
+    //
+    // function getUrl(path, name) {
+    //     var pathArr = path.split('/');
+    //     // console.log(pathArr);
+    //     // console.log(pathArr.indexOf(name));
+    //     if (pathArr.indexOf(name) > 0) {
+    //         var index = pathArr.indexOf(name);
+    //     }
+    //     index = index + 1;
+    //     return pathArr[index];
+    // }
+
+    // var keyWord = getUrl(path, 'keyword');
+    // console.log(keyWord);
+    // $('input[name="keyword"]').val(getUrl(path, 'keyword'))
+    var code = "{$code}";
+    var keyWord = "{$keyword}";
+    console.log(keyWord);
+    // if(keyWord==""){
+    // }else{
+        $('input[name="keyword"]').val(keyWord);
+    // }
+    
+    //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+    var mescroll = new MeScroll("mescroll", {
+        //下拉刷新
+        down: {
+            isLock: true, //锁定下拉
+        },
+        //上拉加载的配置项
+        up: {
+            callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+            noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+            empty: {
+                icon: "/static/image/activity/icon_ss@2x@2x@2x.png", //图标,默认null
+                tip: "吖吖没有找到您想要的商品", //提示
+                btntext: "再去逛逛", //按钮,默认""
+                btnClick: function () {
+                    //点击按钮的回调,默认null
+                    window.location.href = "/index/index";
+                },
+            },
+            clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+            htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+            htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
+        }
+    });
+
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        getListDataFromNet(page.num, page.size, function (curPageData) {
+            //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+            mescroll.endSuccess(curPageData.length);
+
+            //设置列表数据
+            setListData(curPageData);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescroll.endErr();
+        });
+    }
+
+
+    $(".search_btn").click(function () {
+        //重置列表数据
+        mescroll.resetUpScroll();
+        //隐藏回到顶部按钮
+        mescroll.hideTopBtn();
+    })
+
+    /*设置列表数据*/
+    function setListData(curPageData) {
+        var listDom = document.getElementById("dataList");
+        for (var i = 0; i < curPageData.length; i++) {
+            var pd = curPageData[i];
+            var str = '<li class="content_item lf">';
+            str += ' <img src="' + pd.gp_img + '" alt="" class="info_img err_img">';
+            str += '<div class="content_item_info">';
+            str += ' <p class="content_info_name">' + pd.g_name + '</p>';
+            str += '<div class="progress clear">';
+            str += '<div class="progress_main lf">';
+            str += '<span style="width: ' + pd.proportion + '%"></span>';
+            str += '</div>';
+            str += ' <span class="progress_num lf">' + pd.proportion + '%</span>';
+            str += '</div>'
+            str += '<div class="content_info_data clear">';
+            str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
+            str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
+            str += '</div>';
+            str += '</div>';
+            str += ' </li>';
+            var liDom = document.createElement("a");
+            liDom.setAttribute("href", '/member/goodsproduct/index/g_id/' + pd.g_id);
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+       
+        }
+
+
+    }
+
+    /*联网加载列表数据
+    在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+    请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+    实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+    * */
+    function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/activity/index/get_activity_goods',
+                data: {
+                    page: pageNum,
+                    page_size: pageSize,
+                    code: code,
+                    keyword: $('input[name="keyword"]').val()
+                },
+                dataType: 'json',
+                success: function (data) {
+
+                    var listData = [];
+                    for (var i = 0; i < data.data.length; i++) {
+                        listData.push(data.data[i]);
+                    }
+                    //回调
+                    successCallback(listData, data.total_num);
+                    // var recommend = $('.recommend');
+                    // recommend.html('11')
+                    // // console.log(recommend);
+                    // $('.mescroll-upwarp').after(recommend)
+                    // $('.recommend').show()
+                },
+                error: errorCallback
+            });
+        }, 1000)
+    }
+
+    $('.goback').click(function () {
+        window.history.back()
+    })
+</script>
+{/block}

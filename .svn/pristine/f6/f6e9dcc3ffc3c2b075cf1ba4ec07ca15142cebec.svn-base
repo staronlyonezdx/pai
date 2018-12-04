@@ -1,0 +1,124 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/login/login.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/address/register.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="login-toggle">
+        <span class="active" i="0">密码登录</span>
+        <span i="1">验证码登录</span>
+    </div>
+
+    <div id="swiper" class="swiper-container">
+        <div id="swiperWrapper" class="swiper-wrapper">
+            <!--密码登录-->
+            <div class="swiper-slide">
+                <div class="login_list">
+                    <div class="login_inp">
+                        <span>+86</span>
+                        <div class="pd">
+                            <input type="number" id="phone" placeholder="请输入手机号" oninput="if(value.length>11)value=value.slice(0,11)">
+                        </div>
+                    </div>
+                </div>
+                <div class="login_list login_none">
+                    <div class="login_inp">
+                        <input type="password" id="pwd" placeholder="请输入密码" maxlength="16" oninput="if(value.length>16)value=value.slice(0,16)">
+                        <input type="text" id="pwd2" placeholder="请输入密码" maxlength="16" oninput="if(value.length>16)value=value.slice(0,16)">
+                        <div class="login_eye_icon">
+                            <img src="__STATIC__/image/login/icon_login_eye@2x.png">
+                        </div>
+                    </div>
+                </div>
+                <a href="/member/Register/amnesia_login">
+                    <div class="login_forget rt">忘记密码</div>
+                </a>
+                <div class="login_btn" id="login" disabled="disabled">
+                    登录
+                </div>
+                <a href="/member/Register/index">
+                    <div class="login_register">还没账号？立即注册</div>
+                </a>
+            </div>
+
+            <!--验证码登录-->
+            <div class="swiper-slide">
+                <div class="login_list">
+                    <div class="login_inp">
+                        <span>+86</span>
+                        <div class="pd">
+                            <input type="number" id="phone1" placeholder="请输入手机号" oninput="if(value.length>11)value=value.slice(0,11)">
+                        </div>
+                    </div>
+                </div>
+                <div class="register_list">
+                    <div class="register_inp">
+                        <input type="number" class="verification" placeholder="请输入验证码" oninput="if(value.length>4)value=value.slice(0,4)">
+                        <button class="register_code">发送验证码</button>
+                    </div>
+                </div>
+                <div class="login_btn" id="login1" disabled="disabled">
+                    登录
+                </div>
+                <a href="/member/Register/index">
+                    <div class="login_register">还没账号？立即注册</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="wx-login" onclick="wxLogin()">
+        <img src="/static/image/login/wx.png">
+        <p>微信登录</p>
+    </div>
+
+    <!-- 
+  <div class="copy">
+      公司名：浙江智胜电子商务有限公司 电话：0571-88260093<br>
+      地址：浙江省杭州市滨江区科技馆街1600号银泰国际2906
+  </div> -->
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<!--web im sdk 登录 示例代码-->
+<script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script>
+<script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script>
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script src="__JS__/login/login.js"></script>
+<script>
+    var accountMode = 0;
+     //当前用户身份
+     var loginInfo = {
+      'sdkAppID': sdkAppID, //用户所属应用id,必填
+      'identifier': "webim_test_userid", //当前用户ID,必须是否字符串类型，必填
+      // 'identifier': "user_b", //当前用户ID,必须是否字符串类型，必填
+      'accountType': accountType, //用户所属应用帐号类型，必填
+      'userSig': "eJxNjVtvgjAYhv8Lt1tmoa26JbsohABBNx2aYWLSVFrNF*SwtjgXs-8*Qli22*d5Dzdns8geRFE0XW25-WqV8*Qg537AIFVt4QhK9-BTHaDiVhnLO6M0yDEk2hYkF5ZjLf91jSz5oHrmEoQQniGPjlJdW9CKi6Mdpl1KqddHRntR2kBT98JDLnU9jNCftFCpoUIQwfhxOvv9g1OPl*E2SJjY6Y7sJ-MEX87mw4*yQq6uKbYQ55t1W61ssJ-EzWnpN2zBIGQ0FQeWv7xOz5eckK1f0jTwshC-R3dxxCIj3so5SbLMrnfPzvcPcWhcPg__",
+      //当前用户身份凭证，必须是字符串类型，必填
+      'identifierNick': null, //当前用户昵称，不用填写，登录接口会返回用户的昵称，如果没有设置，则返回用户的id
+      'headurl': 'img/me.jpg' //当前用户默认头像，选填，如果设置过头像，则可以通过拉取个人资料接口来得到头像信息
+    };
+
+    
+    //安卓app
+    if (getCookie("version") != null) {
+        $('.wx-login').show();
+    }
+
+    //微信登录
+    function wxLogin() {
+        window.android.doWeChatLogin();
+    }
+
+    //微信登录返回参数
+    function wxSuccess(str) {
+        window.location.href = "/index/Wxlogin/weixin_login/wx_unionid/"+str;
+    }
+</script>
+{/block}

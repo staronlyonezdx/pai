@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/member/view/myhome/visit_list.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/member/view/myhome/visit_list.html";i:1542767234;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -36,6 +36,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -234,7 +241,7 @@
                                         html += '<div class="hostiy-list-item pr">';
                                     }
                                     html += '<a href="/member/goodsproduct/index/g_id/'+ res.list[i].info[j].g_id +'">';
-                                    html += '<img src="'+ res.list[i].info[j].g_img +'">';
+                                    html += '<img src="'+ res.list[i].info[j].g_s_img +'">';
                                     html += '<div class="ostiy-list-mm">';
                                     html += '<p>'+ res.list[i].info[j].g_name +'</p>';
                                     html += '<span>￥<i>'+ res.list[i].info[j].gdr_price +'</i></span>';
@@ -407,4 +414,9 @@
         }
     }
 </script> 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

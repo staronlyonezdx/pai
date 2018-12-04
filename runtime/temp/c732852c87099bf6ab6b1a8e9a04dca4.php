@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:87:"D:\project\pai\public/../application/popularity/view/popularitygoods/champion_list.html";i:1541491295;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1541577092;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:87:"D:\project\pai\public/../application/popularity/view/popularitygoods/champion_list.html";i:1542704491;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -229,10 +229,10 @@
 
     <!--bugtags 开始-->
     <!--<script src="https://dn-bts.qbox.me/sdk/bugtags-1.0.3.js"></script>-->
-    <script>
-        // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本
-         //new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE');
-    </script>
+    <!-- <script> -->
+        <!-- // VERSION_NAME 替换为项目的版本，VERSION_CODE 替换为项目的子版本 -->
+         <!-- //new Bugtags('bbbe041d223432b3e8bf8a294674dfe5','VERSION_NAME','VERSION_CODE'); -->
+    <!-- </script> -->
     <!--bugtags 结束-->
 
     
@@ -484,30 +484,30 @@
             var listDom = document.getElementById("dataList" + dataIndex);
             for (var i = 0; i < pageData.length; i++) {
                 var pd = pageData[i];
-                var m_avatar = '';
-                var goods_avatar = '';
+                var m_s_avatar = '';
+                var goods_s_avatar = '';
 
-                if(!pd.m_avatar){
-                    m_avatar = '/static/image/myhome/TIM20180731142117.jpg'
+                if(!pd.m_s_avatar){
+                    m_s_avatar = '/static/image/myhome/TIM20180731142117.jpg'
                 }else{
-                    m_avatar = pd.m_avatar
+                    m_s_avatar = pd.m_s_avatar
                 }
                 
                 if(!pd.pg_img){
-                    goods_avatar = '/static/image/index/pic_home_taplace@2x.png'
+                    goods_s_avatar = '/static/image/index/pic_home_taplace@2x.png'
                 }else{
-                    goods_avatar = pd.pg_img
+                    goods_s_avatar = pd.pg_img
                 }
                 if(dataIndex == 0) {
                     var award_time = formatDate(pd.award_time * 1000);
                     var str = '<li>';
                     str += '<a href="/popularity/popularitygoods/commodity_info/pg_id/'+pd.pg_id+'">';
-                    str += '<img src="'+ m_avatar +'" class="user_img"/>';
+                    str += '<img src="'+ m_s_avatar +'" class="user_img"/>';
                     str += '<span class="user_name">'+ pd.m_name +'</span>';
                     str += '<span class="user_info">获得人气王称号 &nbsp;成功带走本品</span>';
                     str += '</a>';
                     str += '<a href="/popularity/popularitygoods/commodity_info/pg_id/'+pd.pg_id+'">';
-                    str += '<img src="'+ goods_avatar +'" class="pro_img"/>';
+                    str += '<img src="'+ goods_s_avatar +'" class="pro_img"/>';
                     str += '<div class="pro_info">';
                     str += '<span class="pro_name">'+ pd.pg_name +'</span>';
 
@@ -536,7 +536,7 @@
                     var str = '<li>';
                     str += '<a href="/popularity/popularitygoods/commodity_info/pg_id/'+pd.pg_id+'">';
                     str += '<div>';
-                    str += '<img src="'+ m_avatar +'" class="user_img"/>';
+                    str += '<img src="'+ m_s_avatar +'" class="user_img"/>';
                     str += '<span class="user_name">'+pd.m_name+'</span>&nbsp;&nbsp;';
                     str += '<span>参与了</span>';
                     str += '<span class="pro_name">'+pd.pg_name+'</span>';
@@ -546,7 +546,7 @@
                     str += '<span class="date_info">'+time+'</span>';
                     str += '</div>';
                     str += '</a>';
-                    str += '<img src="'+ goods_avatar +'" class="pro_img"/>';
+                    str += '<img src="'+ goods_s_avatar +'" class="pro_img"/>';
                     str += '</li>';
                     var liDom = document.createElement("div");
                     liDom.className = "sign-list";

@@ -1,0 +1,676 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/activity/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper/swiper-3.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+{/block}
+{block name="content"}
+<mian style="margin-top: -0.88rem">
+    <div class="group_header clear">
+        <div class="goback lf goback1">
+            <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+        </div>
+        <div class="index_search lf tosearch">
+
+                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf">
+
+            <p>大家都在搜 iPhoneX…</p>
+        </div>
+    </div>
+    <div class="group_banner">
+        <div class="swiper-container swiper-container1">
+            <div class='swiper-wrapper'>
+                {notempty name='$info.activity_banner'}
+                {volist name='$info.activity_banner' id='vo'}
+                <div class="swiper-slide">
+                    {if condition="$vo.ab_href != ''"}
+                    <a href="{$vo.ab_href ?? '#'}"><img src="{$vo.ab_img ?? ''}"></a>
+                    {else/}
+                    <img src="{$vo.ab_img ?? ''}">
+                    {/if}
+                </div>
+                {/volist}
+                {/notempty}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+    </div>
+    <div class="group_discount_pick">
+        <div class="group_discount clear">
+            {notempty name='$info.ads_goods'}
+            {volist name='$info.ads_goods' id='vo'}
+            <div class="group_discount_item lf">
+                <a href="/member/goodsproduct/index/g_id/{$vo.ag_gid}">
+                    <img src="{$vo.ag_banner}" alt="">
+                </a>
+            </div>
+            <!--<div class="group_discount_item lf">-->
+            <!--<img src="__STATIC__/image/activity/banner_2@2x.png" alt="">-->
+            <!--</div>-->
+            {/volist}
+            {/notempty}
+        </div>
+        <div class="group_pick">
+            <div class="group_pick_top">
+                <img src="__STATIC__/image/activity/icon_biaoti@2x.png" alt="">
+            </div>
+            <div class="group_pick_content">
+                <div class="swiper-container2 swiper-container">
+                    <div class="swiper-wrapper">
+                        {notempty name='$info.tj_goods'}
+                        {volist name='$info.tj_goods' id='vo'}
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/{$vo.g_id}">
+                                <div class="pick_item">
+                                    <div class="pick_item_top">
+                                        <img src="{$vo.gp_img}" alt="" class="err_img">
+                                        <span>仅剩{$vo.left_num}人</span>
+                                    </div>
+                                    <p class="pick_item_name">{$vo.g_name}</p>
+                                    <p class="pick_item_price">
+                                        <small>￥</small>
+                                        {$vo.gdr_price}
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+
+                        {/volist}
+                        {/notempty}
+                        <!--<div class="swiper-slide">-->
+                        <!--<div class="pick_item">-->
+                        <!--<div class="pick_item_top">-->
+                        <!--<img src="" alt="">-->
+                        <!--<span>仅剩2人</span>-->
+                        <!--</div>-->
+                        <!--<p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>-->
+                        <!--<p class="pick_item_price">-->
+                        <!--<small>￥</small>-->
+                        <!--188-->
+                        <!--</p>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="group_content">
+        <div class="group_content_top">
+            <div class="top_item lf active total" data="0">
+                <span>综合</span>
+            </div>
+            <div class="top_item lf sale_num">
+                <span>销量</span>
+                <div class="shop_index_tab_default">
+                    <img src="__STATIC__/image/shop/icon_nav_defelt@2x.png" alt="">
+                </div>
+                <div class="shop_index_filter">
+                    <img src="__STATIC__/image/shop/icon_nav_on@2x.png" alt="" data="1">
+                    <img src="__STATIC__/image/shop/icon_nav_down@2x.png" alt="" class="shop_index_filter_img" data="2">
+                </div>
+                <!--<span class="arrow">-->
+                <!--<img src="__STATIC__/image/activity/icon_shang@2x (1).png" alt="" class="sale_num_tohigh">-->
+                <!--<img src="__STATIC__/image/activity/icon_xia@2x (1).png" alt="" class="sale_num_tolow">-->
+                <!--</span>-->
+
+            </div>
+            <div class="top_item lf sale_price">
+                <span>价格</span>
+                <div class="shop_index_tab_default">
+                    <img src="__STATIC__/image/shop/icon_nav_defelt@2x.png" alt="">
+                </div>
+                <div class="shop_index_filter">
+                    <img src="__STATIC__/image/shop/icon_nav_on@2x.png" alt="" data="3">
+                    <img src="__STATIC__/image/shop/icon_nav_down@2x.png" alt="" class="shop_index_filter_img" data="4">
+                </div>
+                <!--<span class="arrow">-->
+                <!--<img src="__STATIC__/image/activity/icon_shang@2x (1).png" alt="" class="price_num_tohigh">-->
+                <!--<img src="__STATIC__/image/activity/icon_xia@2x (1).png" alt="" class="price_num_tolow">-->
+                <!--</span>-->
+            </div>
+            <div class="top_item lf filtrate">
+                <span>筛选</span>
+                <img src="__STATIC__/image/activity/icon_shaixuan@2x.png" alt="" data="5">
+                <img src="__STATIC__/image/activity/icon_shaixuan@2x (1).png" alt="" class="filtrate_img" data="6">
+                <!--<img src="__STATIC__/image/activity/icon_shaixuan@2x.png" alt="">-->
+            </div>
+            <input type="hidden" name="order" value="0"/>
+        </div>
+        <div class="search_condition">
+            <div style="padding-left: 0.3rem;background: white;padding-bottom: 0.8rem">
+                <div class="condition_item">
+                    <p class="condition_item_title">揭晓时间（可多选）</p>
+                    <div class="condition_item_content search_time">
+                        <p><span class="search_big" style="display: none">1</span><span class="search_little"
+                                                                                        style="display: none">0</span>一天以内
+                        </p>
+                        <p><span class="search_big" style="display: none">3</span><span class="search_little"
+                                                                                        style="display: none">0</span>三天以内
+                        </p>
+                        <p><span class="search_big" style="display: none">7</span><span class="search_little"
+                                                                                        style="display: none">0</span>七天以内
+                        </p>
+                        <p><span class="search_big" style="display: none">15</span><span class="search_little"
+                                                                                         style="display: none">0</span>十五天以内
+                        </p>
+                        <!--<span>一天以内</span>-->
+                        <!--<span>三天以内</span>-->
+                        <!--<span>七天以内</span>-->
+                        <!--<span>十五天天以内</span>-->
+                    </div>
+                    <input type="hidden" name="searchtimelow">
+                    <input type="hidden" name="searchtimehigh">
+                </div>
+                <div class="condition_item">
+                    <p class="condition_item_title">商品价格（可多选）</p>
+                    <div class="condition_item_content search_price">
+                        <p>¥<span class="search_big">10</span>元以下 <span class="search_little"
+                                                                        style="display: none">0</span></p>
+                        <p>¥<span class="search_little">10</span>-¥<span class="search_big">50</span></p>
+                        <p>¥<span class="search_little">50</span>-¥<span class="search_big">200</span></p>
+                        <p>¥<span class="search_little">200</span>-¥<span class="search_big">500</span></p>
+                        <p>¥<span class="search_little">500</span>-¥<span class="search_big">1000</span></p>
+                        <p>¥<span class="search_little">1000</span>以上 <span class="search_big" style="display: none">1000000000000000000000</span>
+                        </p>
+                        <!--<span>¥<span>10</span>-¥<span>50</span></span>-->
+                        <!--<span>¥10-¥50</span>-->
+                        <!--<span>¥200-¥500</span>-->
+                        <!--<span>¥200-¥500</span>-->
+                        <!--<span>¥1000以上</span>-->
+                    </div>
+                    <div class="input_in">
+                        <input type="text" class="price_low" placeholder="最低价"><span
+                            style="margin-left:0.3rem;margin-right: 0.3rem ">至</span> <input type="text"
+                                                                                             class="price_high"
+                                                                                             placeholder="最高价">
+                    </div>
+                </div>
+                <div class="condition_item">
+                    <p class="condition_item_title">成团人数（可多选）</p>
+                    <div class="condition_item_content search_num">
+                        <p><span class="search_big">10</span>人以下 <span class="search_little"
+                                                                       style="display: none">0</span></p>
+                        <p><span class="search_little">10</span>人-<span class="search_big">50</span>人</p>
+                        <p><span class="search_little">50</span>人以上 <span class="search_big" style="display: none">100000000000000000000000000000</span>
+                        </p>
+                        <!--<span>10人以下</span>-->
+                        <!--<span>30人-50人</span>-->
+                        <!--<span>50人以上</span>-->
+
+                    </div>
+                    <div class="input_in">
+                        <input type="text" class="people_low" placeholder="最低人数">至 <input type="text"
+                                                                                          class="people_high"
+                                                                                          placeholder="最高人数">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="btns">
+                <div class="reset lf">重置</div>
+                <div class="affrim lf">确定筛选</div>
+            </div>
+
+        </div>
+        <div id="mescroll" class="mescroll">
+            <!--展示上拉加载的数据列表-->
+            <ul id="dataList" class="data-list clear">
+                <!--<li class="content_item lf">-->
+                <!--<img src="" alt="" class="info_img">-->
+                <!--<div class="content_item_info">-->
+                <!--<p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>-->
+                <!--<div class="progress clear">-->
+                <!--<div class="progress_main lf">-->
+                <!--<span style="width: 70%"></span>-->
+                <!--</div>-->
+                <!--<span class="progress_num lf">700%</span>-->
+                <!--</div>-->
+                <!--<div class="content_info_data">-->
+                <!--<span class="info_price"><small>￥</small>1788.00</span>-->
+                <!--<span class="join">100人参与</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</li>-->
+            </ul>
+        </div>
+
+
+        <!--<div class="goods_list" style="display: none; background: #fff;">-->
+        <!--<div class="goods_list_img">-->
+        <!--<img src="__STATIC__/image/activity/icon_ss@2x@2x@2x.png" alt="" />-->
+        <!--</div>-->
+        <!--<p>吖吖没有找到您想要的商品</p>-->
+        <!--<a href="/index/index/index"><div class="goods_list_btn">再去逛逛</div></a>-->
+        <!--</div>-->
+
+        <!--<div class="details_produce">-->
+        <!--<div class="product_list_main goods_pro_main lst">-->
+        <!--<ul class="product_list_content clear">-->
+
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="recommend">
+            <div class="recomend_title">
+                <img src="__STATIC__/image/activity/icon_biaoti@2x (1).png" alt="">
+            </div>
+            <ul class="data-list">
+                <li class="content_item lf">
+                    <img src="" alt="" class="info_img">
+                    <div class="content_item_info">
+                        <p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>
+                        <div class="progress clear">
+                            <div class="progress_main lf">
+                                <span style="width: 70%"></span>
+                            </div>
+                            <span class="progress_num lf">700%</span>
+                        </div>
+                        <div class="content_info_data">
+                            <span class="info_price"><small>￥</small>1788.00</span>
+                            <span class="join">100人参与</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+</mian>
+
+<div class="search_top">
+    <div class="search_top_hearder">
+        <div class="goback lf close_top">
+            <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+        </div>
+        <div class="index_search lf">
+            <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
+                 style="margin-left: 0.3rem;margin-top: 0.18rem">
+            <input type="text" placeholder="输入您想搜索的商品" autofocus class="search_input">
+        </div>
+        <span class="search_btn">搜索</span>
+    </div>
+    <div class="del_all rt" style="display: none">
+        <img src="__STATIC__/image/activity/icon_del@2x.png" alt="">
+    </div>
+    <div class="search_top_content" style="display: none">
+        <div class="search_top_item">
+            <p class="search_top_title">历史搜索</p>
+            <div class="search_item clear">
+                <a onClick="hclic(this)">
+                    <div class="lf">iPhone X</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">Beats Beats Studio3</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">RGB背光键盘</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">刺绣条纹毛衣</div>
+                </a>
+
+
+            </div>
+        </div>
+        <div class="search_top_item">
+            <p class="search_top_title">火热参团中</p>
+            <div class="search_item claer">
+                <a onClick="hclic(this)">
+                    <div class="lf">外星人 Gsync 游戏本</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">简约电视柜</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">GENANX印花连帽卫衣</div>
+                </a>
+                <a onClick="hclic(this)">
+                    <div class="lf">三星人工智能黑色手机</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script>
+    var mySwiper = new Swiper('.swiper-container1', {
+        autoplay: 5000,//可选选项，自动滑动
+    })
+    var mySwiper2 = new Swiper('.swiper-container2', {
+        slidesPerView: 3.5,
+        spaceBetween: 10,
+    })
+
+    //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+    var mescroll = new MeScroll("body", {
+        //下拉刷新
+        down: {
+            isLock: true, //锁定下拉
+        },
+        //上拉加载的配置项
+        up: {
+            callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+            noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+            empty: {
+                icon: "/static/image/activity/icon_ss@2x@2x@2x.png", //图标,默认null
+                tip: "吖吖没有找到您想要的商品", //提示
+                btntext: "再去逛逛", //按钮,默认""
+                btnClick: function () {
+                    //点击按钮的回调,默认null
+                    window.location.href = "/index/index";
+                },
+            },
+            clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+            htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+            htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
+        }
+    });
+
+    // 点击排序
+    $('.top_item ').click(function () {
+        $('.top_item ').removeClass('active');
+        $(this).addClass('active')
+        $(".shop_index_tab_default").show();
+        $(".shop_index_filter").css({"display": "none"});
+        $(this).find(".shop_index_tab_default").hide();
+        $(this).find(".shop_index_filter").css({"display": "inline-block"});
+        $(this).find('.shop_index_filter').find('img').toggleClass('shop_index_filter_img');
+        if ($(this).index() == 0) {
+            $('input[name="order"]').val($(this).attr('data'))
+
+        }
+        if ($(this).index() == 1 || $(this).index() == 2) {
+            $('input[name="order"]').val($(this).find('.shop_index_filter_img').attr("data"));
+        }
+        if ($(this).index() == 3) {
+            $('input[name="order"]').val('7')
+        }
+        if ($(this).index() != 3) {
+            // $(".shop_index_tab_list").removeClass("shop_index_tab_bold");
+            //重置列表数据
+            mescroll.resetUpScroll();
+            //隐藏回到顶部按钮
+            mescroll.hideTopBtn();
+        }
+        // console.log($('input[name="order"]').val());
+    })
+    // 点击筛选
+    $('.filtrate').click(function () {
+        $('.top_item').removeClass('active')
+        $(this).addClass('active');
+        $('.search_condition').toggleClass('active_search_con');
+        $(this).find('img').toggleClass('filtrate_img');
+        $(".shop_index_tab_default").show();
+        $(".shop_index_filter").hide();
+        var windowTop = $('.group_content').offset().top;
+        window.scrollTo(0, windowTop)
+    })
+
+    //点击揭晓时间里面的每个p
+    $('.search_time p').click(function () {
+        // console.log($(this));
+        $('.search_time p').removeClass('active_in');
+        $(this).addClass('active_in')
+        $('input[name="searchtimelow"]').val($(this).find('.search_little').html());
+        $('input[name="searchtimehigh"]').val($(this).find('.search_big').html())
+        // console.log($('input[name="searchtimelow"]').val());
+        // console.log($('input[name="searchtimehigh"]').val());
+    })
+    // 点击商品价格里面的每个p
+    $('.search_price p').click(function () {
+        // console.log($(this));
+        $('.search_price p').removeClass('active_in')
+        $(this).addClass('active_in')
+        $('.price_low').val($(this).find('.search_little').html());
+        $('.price_high').val($(this).find('.search_big').html())
+        // console.log($('.price_low').val());
+        // console.log($('.price_high').val());
+    })
+    // 点击成团人数里面的每个p
+    $('.search_num p').click(function () {
+        // console.log($(this));
+        $('.search_num p').removeClass('active_in')
+        $(this).addClass('active_in')
+        $('.people_low').val($(this).find('.search_little').html());
+        $('.people_high').val($(this).find('.search_big').html())
+        // console.log($('.people_low').val());
+        // console.log($('.people_high').val());
+    })
+    // 点击重置
+    $('.reset').click(function () {
+        $('.condition_item_content p').removeClass('active_in');
+        $('input[name="searchtimelow"]').val('');
+        $('input[name="searchtimehigh"]').val('');
+        $('.price_low').val('');
+        $('.price_high').val('');
+        $('.people_low').val('');
+        $('.people_high').val('');
+    })
+    // 点击确定筛选
+    $('.affrim').click(function () {
+        var mm = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+
+        if ($('.price_low').val() != '' && !mm.test($('.price_low').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最低价格式不正确</span>', {time: 2000});
+            return false;
+        }
+        if ($('.price_high').val() != '' && !mm.test($('.price_high').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最高价格式不正确</span>', {time: 2000});
+            return false;
+        }
+        if ($('.people_low').val() != '' && !mm.test($('.people_low').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最低成团人数格式不正确</span>', {time: 2000});
+            return false;
+        }
+        if ($('.people_high').val() != '' && !mm.test($('.people_high').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最高成团人数格式不正确</span>', {time: 2000});
+            return false;
+        }
+        $('.search_condition').hide();
+    })
+    // 点击清除所有图片
+    $('.del_all').click(function () {
+        layer.confirm('<p style="font-size:0.32rem;font-weight: 600;color: #000000">确定删除所有历史记录</p>', {
+            title: '', /*标题*/
+            closeBtn: 0,
+            btnAlign: 'c',
+            btn: ['取消', '确定'], //可以无限个按钮
+            btn2: function (index, layero) {
+
+            }
+        }, function (index, layero) {
+            //按钮【按钮一】的回调
+            layer.closeAll()
+        });
+    })
+
+    $('.close_top').click(function () {
+        $('.search_top').hide()
+    })
+
+    $('.tosearch').click(function () {
+        $('.search_top').show();
+        //隐藏回到顶部按钮
+        mescroll.hideTopBtn();
+    })
+    $('.goback1').click(function () {
+        window.history.back();
+    })
+    var keyWord = '';
+    var code = 'act1542851201';
+    $('.search_btn').click(function () {
+        // console.log($('.search_input').val());
+        keyWord = $('.search_input').val();
+        window.location.href = '/activity/index/search/keyword/' + keyWord + '/code/' + code;
+        $('.search_input').val('')
+    })
+
+    //点击banner
+    // $('.group_banner').click(function () {
+    //     var windowTop = $('.group_content').offset().top;
+    //     // console.log(windowTop);
+    //     // $('.group_content').scrollTo(0)
+    //     window.scrollTo(0, windowTop)
+    // })
+
+    function hclic(id) {
+        var vo = $(id).children().html();
+        keyWord = vo;
+        // console.log(vo);
+        window.location.href = '/activity/index/search/keyword/' + keyWord + '/code/' + code;
+    }
+
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        getListDataFromNet(page.num, page.size, function (curPageData, total_num) {
+            //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+            //必传参数(当前页的数据个数, 总数据量)
+            mescroll.endBySize(curPageData.length, total_num);
+
+            //设置列表数据
+            setListData(curPageData);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescroll.endErr();
+        });
+    }
+
+    /*设置列表数据*/
+    function setListData(curPageData) {
+        var listDom = document.getElementById("dataList");
+        for (var i = 0; i < curPageData.length; i++) {
+            var pd = curPageData[i];
+            var str = '<li class="content_item lf">';
+            str += ' <img src="' + pd.gp_img + '" alt="" class="info_img err_img">';
+            str += '<div class="content_item_info">';
+            str += ' <p class="content_info_name">' + pd.g_name + '</p>';
+            str += '<div class="progress clear">';
+            str += '<div class="progress_main lf">';
+            str += '<span style="width: ' + pd.proportion + '%"></span>';
+            str += '</div>';
+            str += ' <span class="progress_num lf">' + pd.proportion + '%</span>';
+            str += '</div>'
+            str += '<div class="content_info_data clear">';
+            str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
+            str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
+            str += '</div>';
+            str += '</div>';
+            str += ' </li>';
+
+
+            var liDom = document.createElement("a");
+            liDom.setAttribute('href', '/member/goodsproduct/index/g_id/' + pd.g_id);
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+            $('.err_img').on('error', function () {
+                // alert(1)
+                $(this).attr('src', '__STATIC__/image/index/pic_home_taplace@2x.png')
+            })
+        }
+
+    }
+
+    /*联网加载列表数据
+     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+     实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+     * */
+    function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/activity/index/get_activity_goods',
+                data: {
+                    page: pageNum,
+                    page_size: pageSize,
+                    keyword: keyWord,
+                    code: code,
+                    order_type: $('input[name="order"]').val()
+                },
+                dataType: 'json',
+                success: function (data) {
+                    // console.log(data);
+                    // if (data.status == 8) {
+                    var listData = [];
+                    for (var i = 0; i < data.data.length; i++) {
+                        listData.push(data.data[i]);
+                    }
+                    //回调
+                    successCallback(listData, data.total_num);
+                    // var recommend = $('.recommend');
+                    // recommend.html('11')
+                    // // console.log(recommend);
+                    // $('.mescroll-upwarp').after(recommend)
+                    // $('.recommend').show()
+                    // }
+
+                },
+                error: errorCallback
+            });
+        }, 1000)
+    }
+
+
+    // 滚动时候逻辑
+    var windowTop = $('.group_content').offset().top - 40;
+    $(window).scroll(function () {
+        var scrolls = $(this).scrollTop();//获取当前可视区域距离页面顶端的距离
+        // console.log(scrolls);
+        if (scrolls >= windowTop) {
+            // windowTop=scrolls;
+            //当B>A时，表示页面在向下滑动
+            // console.log(11);
+
+            $('.group_content_top').css({
+                'position': 'fixed',
+                "top": "0.88rem",
+                "z-index": 5
+            })
+
+            $(".search_condition").css({"position": "fixed", "top": "1.76rem"});
+            $('.mescroll').css('margin-top', '0.98rem')
+        } else {
+            // console.log(22);
+            $('.group_content_top').css({
+                "position": "relative",
+                "top": "0",
+                "z-index": 0
+            })
+            $(".search_condition").css({"position": "absolute", "top": "0.88rem"});
+
+            $('.mescroll').css('margin-top', '0.1rem')
+        }
+
+
+    });
+    $('.err_img').on('error', function () {
+        // alert(1);
+        $(this).attr('src', '__STATIC__/image/index/pic_home_taplace@2x.png')
+    })
+
+
+
+
+</script>
+{/block}

@@ -1,0 +1,102 @@
+$(function () {
+    //获取验证码按钮
+    var InterValObj; //timer变量，控制时间
+	var count = 60; //间隔函数，1秒执行
+	var curCount;//当前剩余秒数
+    $('#sendcode').on('click',function () {
+      //验证手机号
+		var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+		var mobile = $('#mobile').val();
+			if (!myreg.test(mobile)) {
+				//弹框
+				layui.use("layer", function() {/*layui的规则*/
+					var layer = layui.layer;
+					layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
+						time:2000
+					});
+				})
+				return false;
+			}else{
+				curCount=count;
+				//设置button效果，开始计时
+				var mobile = $('#mobile').val();
+				$.ajax({
+					type:"POST",//用post方式传输
+					dataType:"JSON",//数据格式：JSON
+					url:"/member/login/get_token ",//目标地址
+					data:{
+						mobile:m_mobile
+					},
+					success:function(res){
+						$.ajax({
+							type:"POST",//用post方式传输
+							dataType:"JSON",//数据格式：JSON
+							url:"/index/mobilelogin/news_code",//目标地址
+							data:{
+								mobile:mobile,
+								sms_checked_code:res.data
+							},
+							success:function(str){
+								console.log(str);
+								if(str.status == 1){
+									$('#sendcode').attr("disabled","true");
+									$("#sendcode").css({background:"#F2F2F2",color:"#aaaaaa",border:"none",float:'right'});
+									$('#sendcode').text(curCount+"s后可重新发送");
+									InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+								}else{
+									//提示弹窗
+									layui.use("layer", function() {/*layui的规则*/
+										var layer = layui.layer;
+										layer.msg("<span style='color:#fff'>"+str.msg+"</span>",{
+											time:2000
+										});
+									})
+								}
+							}
+						})
+					}
+				})
+				
+			}
+    })
+    //验证码输入事件
+    $('.pass input').on('input',function () {
+        var phone = $('.phone input').val()
+        var pass = $('.pass input').val()
+        if (phone && pass) {
+            $('.btnone').addClass('btntwo')
+        }
+    })
+    //手机输入失焦事件
+    $('.phone input').on('blur',function () {
+        var phoneb = $('.phone input').val()
+        var passb = $('.pass input').val()
+        if (!phoneb || !passb) {
+            $('.btnone').removeClass('btntwo')
+            $('.btnone').unbind('click')
+        }
+    })
+    //验证码失焦事件
+    $('.pass input').on('blur',function () {
+        var phonec = $('.phone input').val()
+        var passc = $('.pass input').val()
+        if (!phonec || !passc) {
+            $('.btnone').removeClass('btntwo')
+            $('.btnone').unbind('click')
+        }
+    })
+
+    //timer处理函数
+	function SetRemainTime(){
+		if(curCount==0){
+			 window.clearInterval(InterValObj);//停止计时器
+			 $("#sendcode").css({background:"transparent",color:"#2B2B2B",border:"0.02rem solid #000000"});
+			 $("#sendcode").removeAttr("disabled");//启用按钮
+			 $("#sendcode").text("重新发送");
+		}else{
+			curCount--;
+			 $("#sendcode").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+             $("#sendcode").text(curCount+"s后可重新发送");
+		}
+	}
+}) 

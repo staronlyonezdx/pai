@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/orderpai/orderlist.html";i:1542589248;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/orderpai/orderlist.html";i:1543564717;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -40,6 +40,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -67,9 +74,12 @@
     <div class="nav-over"></div>
     <div class="nav-down"><span>吖吖订单</span></div>
     <div class="nav-cont">
-        <a class="active">吖吖订单</a>
-        <a href="/popularity/popularityorder/order_list">人气购订单</a>
-        <a href="/pointpai/Pointorder/orderlist">积分订单</a>
+        <small data="1">吖吖订单</small>
+        <small data="2">人气购订单</small>
+        <small data="3">积分订单</small>
+        <!-- <a class="active"></a>
+        <a href="/popularity/popularityorder/order_list"></a>
+        <a href="/pointpai/Pointorder/orderlist"></a> -->
     </div>
     <!-- 切换订单列表 E -->
 
@@ -385,6 +395,7 @@
         // console.log(keyword);
         // console.log(typ);
         window.location.href="/member/Orderpai/order_search/keyword/"+keyword;
+        $("input[name='keyword']").val('');
     })
     //切换订单列表
     $('.nav-down span').click(function(){
@@ -402,7 +413,16 @@
         $('.nav-down span').toggleClass('sel');
         $('.nav-over').toggle();
     });
-
+    $(".nav-cont small").click(function(){
+        if($(this).attr("data")==1){
+            window.location.replace("/member/orderpai/orderlist");
+        }else if($(this).attr("data")==2){
+            window.location.replace("/popularity/popularityorder/order_list");
+        }else if($(this).attr("data")==3){
+            window.location.replace("/pointpai/Pointorder/orderlist");
+        }
+        
+    })
     // 毫秒数转标准时间
     function msToDate (msec) {
         var datetime = new Date(msec);
@@ -491,7 +511,7 @@
         /*菜单点击事件*/
         $("#nav li").click(function () {
             var i = Number($(this).attr("i"));
-            window.location.href = '/member/orderpai/orderlist/i/'+ i;
+            window.location.replace('/member/orderpai/orderlist/i/'+ i);
             swiper.slideTo(i);//以轮播的方式切换列表
         })
 
@@ -698,15 +718,19 @@
                     str += '<div class="fd"></div>';
                 }
 
-                str += '<img src="' + pd.gp_img + '">';
+                str += '<img src="' + pd.g_s_img + '">';
                 str += '</div>';
                 str += '<div class="my_publish_text lf pmgd">';
-                if(pd.is_fudai == 1) {
-                    str += '<p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png">&nbsp;' + pd.g_name + '</p>';
-                }else if(pd.is_huodong == 1) {
-                    str += '<p><img src="__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png">&nbsp;' + pd.g_name + '</p>';
-                }else {
-                    str += '<p>' + pd.g_name + '</p>';
+                if(pd.play_type == 1) {    
+                    if(pd.is_fudai == 1) {
+                        str += '<p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png">&nbsp;' + pd.g_name + '</p>';
+                    }else if(pd.is_huodong == 1) {
+                        str += '<p><img src="__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png">&nbsp;' + pd.g_name + '</p>';
+                    }else {
+                        str += '<p>' + pd.g_name + '</p>';
+                    }
+                }else if(pd.play_type == 2) {    
+                    str += '<p><img src="__STATIC__/image/goodsproduct/icon_hsbq@2x.png">&nbsp;' + pd.g_name + '</p>';
                 }
                 str += '<div class="my_publish_price clear">';
                 str += '<span class="my_publish_new">' + pd.o_money;
@@ -742,7 +766,7 @@
                     $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
                 })
                 
-                if($('#app').val() != '') {
+                if($('#app').val() == '1.0') {
                     $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
                 }                
             }
@@ -977,7 +1001,9 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
             $('#app').val(str);
-            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            if(str == '1.0') {
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            }
         })
     })
 
@@ -992,11 +1018,7 @@
     var header_path = "<?php echo isset($header_path) ? $header_path :  ''; ?>";
     //返回按钮
     function backH5() {
-        if(header_path != '') {
-            window.location.href = header_path;
-        }else {
-            window.history.back();
-        }
+        window.history.go(-1);
     }
 
     //显示分享弹窗
@@ -1187,4 +1209,9 @@
         $('.details_fenxiang').hide();
     }
 </script> 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

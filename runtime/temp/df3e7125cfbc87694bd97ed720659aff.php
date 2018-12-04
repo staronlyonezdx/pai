@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1543307532;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -38,6 +38,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -56,6 +63,7 @@
         <header></header>
         
 <main >
+
     <?php if($gs_id < 2): ?>
     <!--地址栏-->
     <a href="/member/address/index/encrypt/<?php echo $encrypt; ?>">
@@ -90,8 +98,7 @@
             </div>
         </div>
     </a>
-    <?php endif; ?>
-
+    <?php endif; if($info['play_type']==1): ?>
     <!-- 加判断 -->
     
     <?php if($is_lord ==1): else: ?>
@@ -119,7 +126,7 @@
                 </div>
             <?php else: ?>
                 <div class="conf_order_img lf">
-                    <img src="__CDN_PATH__<?php echo (isset($info['gp_s_img']) && ($info['gp_s_img'] !== '')?$info['gp_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                    <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
                 </div>
             <?php endif; ?>
             <div class="conf_order_text lf">
@@ -205,8 +212,85 @@
                 提交订单
             </span>
         </div>
-    <?php endif; ?>
+    <?php endif; elseif($info['play_type']==2): ?>
+<div class="conf_content">
+    <div class="conf_con_tit">
+        <img src="__STATIC__/image/orderpai/dp@2x.png">
+        <span><?php echo (isset($info['stroe_name']) && ($info['stroe_name'] !== '')?$info['stroe_name']:''); ?></span>
+    </div>
+    <div class="conf_order_main clear">
+        <div class="conf_order_img lf">
+            <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+        </div>
+        <div class="conf_order_text lf">
+            <p><img src="__STATIC__/image/index/icon_hsbq@2x.png" alt="" style="width:0.92rem;height:0.3rem;margin-right: 0.1rem;"><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
+            <div class="conf_order_price clear">
+                <span class="conf_order_new">
+                    ￥<?php echo (isset($info['gdr_price']) && ($info['gdr_price'] !== '')?$info['gdr_price']:'0.00'); ?>
+                    <span><?php echo (isset($info['gp_market_price']) && ($info['gp_market_price'] !== '')?$info['gp_market_price']:'0.00'); ?></span>
+                </span>
 
+                <span class="conf_order_inventory rt">x
+                    <span class="mynum"><?php echo (isset($num) && ($num !== '')?$num:'0'); ?></span>
+                </span>
+              
+            </div>
+        </div>
+
+    </div>
+    <div class="conf_order_data">
+        <div class="clear">
+            截止日期
+            <!-- 加判断 -->
+            <?php if($is_lord ==1): else: ?>
+            <span class="conf_order_hint">目标满额立即揭晓</span>
+            <?php endif; ?>
+            
+            <span class="conf_order_time rt"><?php echo date('Y-m-d H:i',$info['g_endtime']); ?></span>
+        </div>
+    </div>
+
+
+    <div class="conf_order_data conf_order_num">
+            <div class="clear">
+                吖吖码份数
+                <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
+                <div class="conf_order_but rt clear">
+                    <div class="conf_order_prep lf">
+                        <img src="__STATIC__/image/orderpai/icon_-@2x.png">
+                    </div>
+                    <div class="conf_order_inp lf">
+                        <input type="number" name="num" min="1" max="<?php echo (isset($max_pai_num) && ($max_pai_num !== '')?$max_pai_num:0); ?>"
+                                value="<?php echo (isset($num) && ($num !== '')?$num:'0'); ?>" readonly>
+                    </div>
+                    <div class="conf_order_add lf">
+                        <img src="__STATIC__/image/orderpai/icon_+@2x.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+    <div class="conf_order_data">
+        <div class="clear">
+            配送方式
+            <span class="conf_order_hint"><?php echo (isset($info['g_express_way']) && ($info['g_express_way'] !== '')?$info['g_express_way']:'未选择'); ?></span>
+            <span class="conf_order_time rt">￥<?php echo (isset($info['g_express']) && ($info['g_express'] !== '')?$info['g_express']:'0.00'); ?></span>
+        </div>
+    </div>
+    <div class="conf_order_data">
+        <div class="clear">
+            总额
+            <span class="conf_order_time conf_price rt">￥ <?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0.00'); ?></span>
+        </div>
+    </div>
+</div>
+<div class="conf_order_btn ljzf_but phonex " >
+    <span class="conf_order_tuangou">
+        提交订单
+    </span>
+</div>
+<?php elseif($info['play_type']==3): endif; ?>
     <!--支付密码浮动层-->
     <div class="ftc_wzsf">
         <div class="srzfmm_box">
@@ -716,8 +800,14 @@
                 }
             }
         });
-    }
+    };
     get_max_pai_num_bygdrid();
+    console.log("<?php echo $info['play_type']; ?>");
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

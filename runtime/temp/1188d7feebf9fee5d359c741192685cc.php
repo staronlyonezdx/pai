@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:77:"D:\project\pai\public/../application/pointpai/view/pointgoods/goods_list.html";i:1542080629;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:77:"D:\project\pai\public/../application/pointpai/view/pointgoods/goods_list.html";i:1543886428;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1543280491;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -34,6 +34,13 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -64,7 +71,7 @@
         <a href="/member/sitelogin/to_sy/status/1">
             <div>
                 <?php if($tui_user['m_avatar'] != ''): ?>
-                <img src="<?php echo $tui_user['m_avatar']; ?>" class="pai_img">
+                <img src="<?php echo $tui_user['m_s_avatar']; ?>" class="pai_img">
                 <?php else: ?>
                 <img src="/static/image/myhome/TIM20180731142117.jpg" class="pai_img">
                 <?php endif; ?>
@@ -75,7 +82,7 @@
                 </div>
             </div>
         </a>
-        <a href="/member/sitelogin/to_sy">
+        <a href="/member/sitelogin/to_sy/status/2">
             <img src="__STATIC__/image/pointpai/icon_anniu@2x.png" alt="" class="anniu">
         </a>
     </div>
@@ -258,7 +265,8 @@
             }
             var str = '<div class="pointpai_item">';
             str += '<div class="pointpai_item_img">';
-            str += '<img src="'+pd.g_img+'" alt="">';
+            str += '<img src="__STATIC__/image/goodsproduct/icon_vipjb@2x.png" alt="" class="vip lf">';
+            str += '<img src="'+pd.g_s_img+'" alt="">';
             str += '<span>'+pd.gp_sum+'人参与</span>';
             str += '</div>';
             str += '<div class="pointpai_item_info">';
@@ -320,4 +328,9 @@ $('.no_login a').click(function(){
     });
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

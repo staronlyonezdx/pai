@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1542936714;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1543801252;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -49,55 +49,32 @@
                 <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
             </div>
             <div class="index_search lf">
-                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf" style="margin-left: 0.3rem;margin-top: 0.2rem">
+                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
+                     style="margin-left: 0.3rem;margin-top: 0.18rem">
                 <input type="text" placeholder="输入您想搜索的商品" autofocus name="keyword">
             </div>
             <span class="search_btn">搜索</span>
         </div>
-        <div class="del_all rt">
-            <img src="__STATIC__/image/activity/icon_del@2x.png" alt="">
-        </div>
-        <div class="search_top_content">
-            <div class="search_top_item">
-                <p class="search_top_title">历史搜索</p>
-                <div class="search_item clear">
-                    <div class="lf">iPhone X</div>
-                    <div class="lf">Beats Beats Studio3</div>
-                    <div class="lf">RGB背光键盘</div>
-                    <div class="lf">刺绣条纹毛衣</div>
-                </div>
-            </div>
-            <div class="search_top_item">
-                <p class="search_top_title">火热参团中</p>
-                <div class="search_item claer">
-                    <div class="lf">外星人 Gsync 游戏本</div>
-                    <div class="lf">简约电视柜</div>
-                    <div class="lf">GENANX印花连帽卫衣</div>
-                    <div class="lf">三星人工智能黑色手机</div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div id="mescroll" class="mescroll">
         <!--展示上拉加载的数据列表-->
         <ul id="dataList" class="data-list clear">
             <!--<li class="content_item lf">-->
-                <!--<img src="" alt="" class="info_img">-->
-                <!--<div class="content_item_info">-->
-                    <!--<p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>-->
-                    <!--<div class="progress clear">-->
-                        <!--<div class="progress_main lf">-->
-                            <!--<span style="width: 70%"></span>-->
-                        <!--</div>-->
-                        <!--<span class="progress_num lf">700%</span>-->
-                    <!--</div>-->
-                    <!--<div class="content_info_data">-->
-                        <!--<span class="info_price"><small>￥</small>1788.00</span>-->
-                        <!--<span class="join">100人参与</span>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<img src="" alt="" class="info_img">-->
+            <!--<div class="content_item_info">-->
+            <!--<p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>-->
+            <!--<div class="progress clear">-->
+            <!--<div class="progress_main lf">-->
+            <!--<span style="width: 70%"></span>-->
+            <!--</div>-->
+            <!--<span class="progress_num lf">700%</span>-->
+            <!--</div>-->
+            <!--<div class="content_info_data">-->
+            <!--<span class="info_price"><small>￥</small>1788.00</span>-->
+            <!--<span class="join">100人参与</span>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</li>-->
         </ul>
     </div>
@@ -210,6 +187,31 @@
 <script src="__JS__/mescroll/mescroll.min.js"></script>
 <script>
 
+    // var path = window.location.pathname;
+    // // console.log(path);
+    //
+    // function getUrl(path, name) {
+    //     var pathArr = path.split('/');
+    //     // console.log(pathArr);
+    //     // console.log(pathArr.indexOf(name));
+    //     if (pathArr.indexOf(name) > 0) {
+    //         var index = pathArr.indexOf(name);
+    //     }
+    //     index = index + 1;
+    //     return pathArr[index];
+    // }
+
+    // var keyWord = getUrl(path, 'keyword');
+    // console.log(keyWord);
+    // $('input[name="keyword"]').val(getUrl(path, 'keyword'))
+    var code = "<?php echo $code; ?>";
+    var keyWord = "<?php echo $keyword; ?>";
+    console.log(keyWord);
+    // if(keyWord==""){
+    // }else{
+        $('input[name="keyword"]').val(keyWord);
+    // }
+    
     //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
     var mescroll = new MeScroll("mescroll", {
         //下拉刷新
@@ -225,7 +227,7 @@
                 icon: "/static/image/activity/icon_ss@2x@2x@2x.png", //图标,默认null
                 tip: "吖吖没有找到您想要的商品", //提示
                 btntext: "再去逛逛", //按钮,默认""
-                btnClick: function(){
+                btnClick: function () {
                     //点击按钮的回调,默认null
                     window.location.href = "/index/index";
                 },
@@ -258,40 +260,43 @@
 
 
     $(".search_btn").click(function () {
-
         //重置列表数据
         mescroll.resetUpScroll();
         //隐藏回到顶部按钮
         mescroll.hideTopBtn();
-    })    /*设置列表数据*/
+    })
+
+    /*设置列表数据*/
     function setListData(curPageData) {
         var listDom = document.getElementById("dataList");
-            for (var i = 0; i < curPageData.length; i++) {
-                var pd = curPageData[i];
-                var str = '<li class="content_item lf">';
-                str += ' <img src="" alt="" class="info_img">';
-                str += '<div class="content_item_info">';
-                str += ' <p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>';
-                str += '<div class="progress clear">';
-                str += '<div class="progress_main lf">';
-                str += '<span style="width: 70%"></span>';
-                str += '</div>';
-                str += ' <span class="progress_num lf">700%</span>';
-                str += '</div>'
-                str += '<div class="content_info_data clear">';
-                str += '<span class="info_price lf"><small>￥</small>1788.00</span>';
-                str += '<span class="join rt">90人参与</span>';
-                str += '</div>';
-                str += '</div>';
-                str += ' </li>';
-                var liDom = document.createElement("a");
-                liDom.setAttribute("href", "/member/goodsproduct/index/g_id/" );
-                liDom.innerHTML = str;
-                listDom.appendChild(liDom);
-            }
+        for (var i = 0; i < curPageData.length; i++) {
+            var pd = curPageData[i];
+            var str = '<li class="content_item lf">';
+            str += ' <img src="' + pd.g_s_img + '" alt="" class="info_img err_img">';
+            str += '<div class="content_item_info">';
+            str += ' <p class="content_info_name">' + pd.g_name + '</p>';
+            str += '<div class="progress clear">';
+            str += '<div class="progress_main lf">';
+            str += '<span style="width: ' + pd.proportion + '%"></span>';
+            str += '</div>';
+            str += ' <span class="progress_num lf">' + pd.proportion + '%</span>';
+            str += '</div>'
+            str += '<div class="content_info_data clear">';
+            str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
+            str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
+            str += '</div>';
+            str += '</div>';
+            str += ' </li>';
+            var liDom = document.createElement("a");
+            liDom.setAttribute("href", '/member/goodsproduct/index/g_id/' + pd.g_id);
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+       
+        }
 
 
     }
+
     /*联网加载列表数据
     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
@@ -302,31 +307,36 @@
         setTimeout(function () {
             $.ajax({
                 type: 'post',
-                url: '/index/index/search_index',
+                url: '/activity/index/get_activity_goods',
                 data: {
                     page: pageNum,
                     page_size: pageSize,
-                    keyword:$('input[name="keyword"]').val()
+                    code: code,
+                    keyword: $('input[name="keyword"]').val()
                 },
                 dataType: 'json',
                 success: function (data) {
-                    var listData = [];
-                    for (var i = 0; i < data.list.length; i++) {
-                        listData.push(data.list[i]);
-                    }
 
+                    var listData = [];
+                    for (var i = 0; i < data.data.length; i++) {
+                        listData.push(data.data[i]);
+                    }
                     //回调
-                    successCallback(listData);
+                    successCallback(listData, data.total_num);
+                    // var recommend = $('.recommend');
+                    // recommend.html('11')
+                    // // console.log(recommend);
+                    // $('.mescroll-upwarp').after(recommend)
+                    // $('.recommend').show()
                 },
                 error: errorCallback
             });
         }, 1000)
     }
 
-    console.log($('input[name="keyword"]').val());
     $('.goback').click(function () {
-    window.history.back()
-})
+        window.history.back()
+    })
 </script>
 
 </html>

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:69:"D:\project\pai\public/../application/member/view/systemmsg/index.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:68:"D:\project\pai\public/../application/member/view/common/header1.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:69:"D:\project\pai\public/../application/member/view/systemmsg/index.html";i:1543817751;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:68:"D:\project\pai\public/../application/member/view/common/header1.html";i:1541491283;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -34,6 +34,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -54,7 +61,7 @@
     </div>
     <div class="sys_conten">
         <!-- 人工服务 -->
-        <a href="/member/systemmsg/index1">
+        <a href="/msg/index/onlinetalk">
             <div class="sys_artificial clear">
                 <div class="sys_img lf">
                     <img src="__STATIC__/image/systemmsg/icon_kefu@2x.png" alt="">
@@ -498,4 +505,9 @@
 </script>
 <script src="__JS__/systemmsg/index.js"></script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

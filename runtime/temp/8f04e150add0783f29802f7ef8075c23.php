@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1542935137;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1542013165;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1543546890;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1543280491;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -42,6 +42,12 @@
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
         <title>首页</title>
     </head>
     <body>
@@ -317,27 +323,29 @@
         </div>
         <!-- </a> -->
 
-
-         <a href="/activity/index/index">
-        <div class="picker lf" style="border-right: 0.01rem solid rgba(245,245,245,1);height:100%">
-            <img src="__STATIC__/image/index/icon_fudai@2x.png" alt="" class="picker_img">
-            <p class="title">参与必中 还有额外大奖</p>
-            <!--<p class="title">精品捡漏 下单即揭晓</p>-->
-            <ul class="seckill_bottom seckill_right_bottom clear">
-                <li class="seckill_item lf">
-                    <img src="__STATIC__/image/index/img5@2x.png" alt="">
-                    <p class="seckill_price">¥77.00</p>
-                    <p class="seckill_old_price">¥853.00</p>
-                </li>
-                <li class="seckill_item lf">
-                    <img src="__STATIC__/image/index/img4@2x.png" alt="">
-                    <p class="seckill_price">¥288.00</p>
-                    <p class="seckill_old_price">¥429.00</p>
-                </li>
-            </ul>
-        </div>
-         </a>
-
+        <?php if(!(empty($cztg) || (($cztg instanceof \think\Collection || $cztg instanceof \think\Paginator ) && $cztg->isEmpty()))): ?>
+             <a href="/activity/index/index/code/<?php echo $cztg['activity']['a_code']; ?>">
+                <div class="picker lf" style="border-right: 0.01rem solid rgba(245,245,245,1);height:100%">
+                    <img src="__STATIC__/image/index/icon_fudai@2x.png" alt="" class="picker_img">
+                    <p class="title">参与必中 还有额外大奖</p>
+                    <!--<p class="title">精品捡漏 下单即揭晓</p>-->
+                    <ul class="seckill_bottom seckill_right_bottom clear">
+                        <?php if(!(empty($cztg['goods_list']) || (($cztg['goods_list'] instanceof \think\Collection || $cztg['goods_list'] instanceof \think\Paginator ) && $cztg['goods_list']->isEmpty()))): if(is_array($cztg['goods_list']) || $cztg['goods_list'] instanceof \think\Collection || $cztg['goods_list'] instanceof \think\Paginator): $i = 0; $__LIST__ = $cztg['goods_list'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                        <li class="seckill_item lf">
+                            <img src="<?php echo $vo['g_s_img']; ?>" alt="">
+                            <p class="seckill_price">¥<?php echo $vo['min_price']; ?></p>
+                            <p class="seckill_old_price">¥<?php echo $vo['gp_market_price']; ?></p>
+                        </li>
+                        <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                        <!--<li class="seckill_item lf">-->
+                            <!--<img src="__STATIC__/image/index/img4@2x.png" alt="">-->
+                            <!--<p class="seckill_price">¥288.00</p>-->
+                            <!--<p class="seckill_old_price">¥429.00</p>-->
+                        <!--</li>-->
+                    </ul>
+                </div>
+             </a>
+        <?php endif; ?>
     </div>
 
     <!--以前的一折卡券以及积分-->
@@ -959,6 +967,7 @@
             var keyword = $("input[name='keyword']").val();
             var typ = $("input[name='type']").val();
             window.location.href = "/index/index/search_index/type/" + typ + "/keyword/" + keyword;
+            $("input[name='keyword']").val('')
         })
 
     //判断是否登录(1已登录，0未登录)
@@ -1502,7 +1511,14 @@
         }
 
     })
+ 
 </script>
 
 
+    <!-- 调用登陆的sdk -->
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

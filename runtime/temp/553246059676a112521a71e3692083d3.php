@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/pointpai/view/pointgoods/index.html";i:1542694680;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1542013165;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/pointpai/view/pointgoods/index.html";i:1543893259;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1543280491;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -43,6 +43,13 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -214,9 +221,12 @@
             <!-- 虚位以待 S -->
             <div class="details_xw"></div>
             <!-- 虚位以待 E -->
-            <div class="qianggou">
-                <span>积分商品火热来袭，快来抢购吧！！</span>
+            <div class="index_hsbanner">
+                <p><?php echo $goods_info['gp_gift_peanut']; ?>&nbsp;颗</p>
             </div>
+            <!-- <div class="qianggou">
+                <span>积分商品火热来袭，快来抢购吧！！</span>
+            </div> -->
         </div>
     </div>
     <!--参团-->
@@ -477,6 +487,7 @@
                     </div>
                 </div>
             </div>
+            <p class="index_hstext">未团中将返<span><?php echo $goods_info['gp_gift_peanut']; ?></span>颗花生</p>
 
             <a href="javascript:void(0);">
                 <input type="hidden" name="gs_id" value="<?php echo (isset($goods_info['g_typeid']) && ($goods_info['g_typeid'] !== '')?$goods_info['g_typeid']:'1'); ?>"/>
@@ -516,7 +527,7 @@
                 </div>
             </a>
         </div>
-        <button class="details_bottom_rt auction lf details_cd" onclick="pay()">立即参团</button>
+        <button class="details_bottom_rt auction lf details_cd" onclick="pay()">立即参与</button>
     </div>
     <!-- 底部浮动按钮 E -->
 </main>
@@ -779,7 +790,9 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp', function (str) {
             $('#app').val(str);
-            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            if(str == '1.0') {
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            }
         })
     })
 
@@ -831,7 +844,7 @@
                     window.location.href = "/member/login/index";
                 }
             })
-        } else {
+        } else {            
             $(".details_canpai").addClass("details_canpai_dis");
         }        
     }
@@ -874,7 +887,7 @@
                 type: 'POST',
                 data: {num: num, gp_id: gp_id, gs_id: gs_id},
                 success: function (data) {
-                    if (data.status == 1) {
+                    if (data.status == 8) {
     //                    if(getCookie("version") == null && $('#backH5').val() == '') {
                             window.location.href = '/pointpai/Pointorder/confirm_order/pcode/' + data.data;
 
@@ -971,6 +984,8 @@
         $('.details_data').addClass('detail_back');
         $('.details_bottom_rt').addClass('detail_back').attr('disabled','disabled').removeAttr('onclick');
     }
+
+
 
     //收藏
     function collection(id) {
@@ -1143,6 +1158,46 @@
     }else{
         $(".notpj").css({display:"block"});
     }
+
+    //判断是否是晟域会员
+    var tui = "<?php echo (isset($syumem_info['ml_tui_id']) && ($syumem_info['ml_tui_id'] !== '')?$syumem_info['ml_tui_id']:'0'); ?>";
+    if(tui == 0) {
+        $('.details_bottom_rt').addClass('detail_back').attr('onclick','tuis(0)');
+    }else if(tui == 4) {
+        $('.details_bottom_rt').addClass('detail_back').attr('onclick','tuis(4)');
+    }
+
+    function tuis(id) {
+        if(id==4) {
+            layer.confirm("<P>该商品为晟域VIP粉丝以上等级专享，您是晟域普通会员升级为VIP即可购买该商品。</P>", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['我知道了', '去升级'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    window.location.href = "/member/sitelogin/to_sy/status/1/sy/1";
+                }
+            })
+        }else if(id==0) {
+            layer.confirm("<P>该商品为晟域VIP粉丝以上等级专享，您还不是晟域会员去充值成为晟域会员并邀请两位粉丝升级为VIP即可立享优惠。</P>", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['我知道了', '去充值'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    window.location.href = "/member/sitelogin/to_sy/status/2";
+                }
+            })
+        }
+    }
+    
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

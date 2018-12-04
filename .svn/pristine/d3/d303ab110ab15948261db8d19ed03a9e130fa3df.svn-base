@@ -1,0 +1,343 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/dropload/dropload.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/details.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/current_reference.css"> {/block} {block name="header"}
+<!--{include file="common/header" /}-->
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <!--<p>开通钱包</p>-->
+            <div class="pai_memlist_select"style="position: relative;width: 34%;left: 2.3rem;">
+                <span class="header_title">所有参团的</span>
+                <img src="__STATIC__/image/goods/icon_shang@2x.png" alt="">
+                <img src="__STATIC__/image/goods/icon_xia@2x.png" alt="" class="pai_select_pic">
+            </div>
+            <div class="pai_memlist_all">
+                <span class="pai_memlist_all_text">只看本期</span>
+                <span class="">查看全部</span>
+            </div>
+            <div class="header_back" onClick="javascript :history.back(-1);">
+                <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+            </div>
+
+        </div>
+    </div>
+</div>
+{/block} {block name="content"}
+<main style="margin-top: 0.88rem;">
+    <div class="pai_memlist_select_view">
+        <div class="pai_memlist_select_line">
+            <div class="pai_memlist_select_list pai_memlist_all_list s0" gdr_id="0">
+                所有参团的
+            </div>
+        </div>
+        {notempty name="list"} {volist name="$list" id="vo"}
+        <div class="pai_memlist_select_line">
+            <div class="pai_memlist_select_list s{$vo.gdr_id|default=0}" gdr_id="{$vo.gdr_id|default=0}">
+                {$vo.gdt_name}
+            </div>
+        </div>
+        {/volist} {/notempty}
+    </div>
+    <div class="details_view">
+        <div class="details_schedule">
+            <div class="details_schedule_tit clear">
+                <p class="lf">
+                    已产生
+                    <span class="count_awardcode">0</span>人次吖吖码
+                </p>
+                <!--<p class="rt">-->
+                    <!--当前参团剩余名额-->
+                    <!--<span class="total_left_num">0</span>人次-->
+                <!--</p>-->
+            </div>
+        </div>
+        <div class="details_carousel" id="current">
+            <div class="drop-list" style="display: block;">
+                <div class="no-cp">本轮暂无参团</div>
+                <div class="list">
+
+                </div>
+                <div class="pai_memlist_tit">往轮参团者</div>
+                <div class="list1">
+
+                </div>
+            </div>
+
+            {notempty name="list"} {volist name="$list" id="vo"}
+            <div class="drop-list">
+                <div class="no-cp">本轮暂无参团</div>
+                <div class="list">
+
+                </div>
+                <div class="pai_memlist_tit">往轮参团者</div>
+                <div class="list1">
+
+                </div>
+            </div>
+            {/volist} {/notempty}
+        </div>
+    </div>
+    <!--接口测试按钮-->
+
+</main>
+{/block} {block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/dropload/dropload.js"></script>
+<script src="__JS__/Public.js"></script>
+<script>
+    $(".pai_memlist_all").click(function () {
+        $(this).children("span").toggleClass("pai_memlist_all_text");
+        if ($(this).find('span').eq(0).attr("class") == "pai_memlist_all_text") {
+            $('.pai_memlist_tit').show();
+            $('.list1').show();
+        } else {
+            $('.pai_memlist_tit').hide();
+            $('.list1').hide();
+        }
+    })
+
+    var gp_id = "{$gp_id}";//商品id
+    var gdr_id = "{$gdr_id}";//折id
+
+    if(gdr_id !=0) {
+        $('.pai_memlist_tit').hide();
+        $('.list1').hide();
+        $('.pai_memlist_all').find('span').eq(0).attr('class','');
+        $('.pai_memlist_all').find('span').eq(1).attr('class','pai_memlist_all_text');
+        $('.pai_memlist_select_list').removeClass('pai_memlist_all_list');
+        $('.s'+gdr_id).addClass('pai_memlist_all_list');
+        $('.header_title').text($('.s'+gdr_id).text());
+    }
+ 
+    $(function () {
+        $(".pai_memlist_select").click(function () {
+            $(this).children("img").toggleClass("pai_select_pic");
+            $(".pai_memlist_select_view").toggle();
+        })
+
+        var itemIndex = 0;
+        var tabLoadEndArray = [];
+
+        $('.drop-list').each(function (index) {
+            tabLoadEndArray.push(false);
+            window.sessionStorage.setItem('p' + index, 0);
+            window.sessionStorage.setItem('g' + index, 0);
+
+        });
+
+        var page;//当前参团页码
+        var page1;//往轮参团页码
+
+        var size = 20; //每页数量
+
+        var dropload = $('#current').dropload({
+            scrollArea: window,
+            domDown: {
+                domClass: 'dropload-down',
+                domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+                domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                domNoData: '<div class="dropload-noData">已无数据</div>'
+            },
+            loadDownFn: function (me) {
+                setTimeout(function () {
+                    if (tabLoadEndArray[itemIndex]) {
+                        me.resetload();
+                        me.lock();
+                        me.noData();
+                        me.resetload();
+                        return;
+                    }
+                    page = window.sessionStorage.getItem('p' + itemIndex);
+                    page++;
+                    window.sessionStorage.setItem('p' + itemIndex, page);
+
+                    // 折id
+                    var gdr_id = $(".pai_memlist_all_list").attr("gdr_id");// 0：所有 数字：当前折参数
+                    $.ajax("/member/Orderpai/get_pai_mem_list", {
+                        data: {},
+                        dataType: 'json',//服务器返回json格式数据
+                        type: 'POST',//HTTP请求类型
+                        data: { page: page, size: size, gdr_id: gdr_id, gp_id: gp_id, oa_status: 1 },
+                        success: function (data) {
+                            //获得服务器响应
+                            var html = '';
+                            var num = data.data.length;
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    
+                                    if (num > 0) {
+                                        num--;
+                                    } else {
+                                        tabLoadEndArray[itemIndex] = true;
+                                        break;
+                                    }   
+                                    var m_avatarimg=data.data[i].m_s_avatar;
+
+                                    if(data.data[i].m_s_avatar==''||data.data[i].m_s_avatar==null){
+                                        data.data[i].m_s_avatar='/static/image/myhome/TIM20180731142117.jpg'
+                                    }
+
+                                    if(data.data[i].oa_state == 2){
+                                        html += '<div class="details_carousel_list details_yew_win clear">';
+                                        html += '<div class="details_carousel_img lf">';
+                                        // if(data.data[i].o_is_fudai==1){
+                                        //     html+='<img src="__STATIC__/image/orderpai/icon_zhongpai2@2x.png" class="details_bg_win">'
+                                        // }else{
+                                            html+='<img src="__STATIC__/image/orderpai/icon_zhongpai3@2x.png" class="details_bg_win">'
+                                        // }
+                                    }else{
+                                        html += '<div class="details_carousel_list clear">';
+                                        html += '<div class="details_carousel_img lf">';
+                                    }
+                                   
+                                    html += '<img src="' + data.data[i].m_s_avatar + '" class="details_error_img">';
+                                    html += '</div>';
+                                    html += '<p class="details_name lf">' + data.data[i].m_name + '';
+                                    html += '<span>' + msToDate(data.data[i].o_paytime * 1000).wasTime + '</span>';
+                                    html += '</p>';
+                                    html += '<div class="details_carousel_rt rt">';
+                                    html += '<img src="' + data.data[i].gdt_img + '">';
+                                    html += '</div>';
+                                    html += '</div>';
+                                }
+                                $('.details_carousel').find(".list").eq(itemIndex).append(html);
+                                $('.details_error_img').on('error',function(){ 
+                                    $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+                                });
+                            } else {
+                                
+                                if ($('.details_carousel').find(".list").eq(itemIndex).find('.details_carousel_list').length == 0) {
+                                    $('.details_carousel').find(".no-cp").eq(itemIndex).show();
+                                }
+                                page1 = window.sessionStorage.getItem('g' + itemIndex);
+                                page1++;
+                                window.sessionStorage.setItem('g' + itemIndex, page1);
+                                $.ajax("/member/Orderpai/get_pai_mem_list", {
+                                    data: {},
+                                    dataType: 'json',//服务器返回json格式数据
+                                    type: 'POST',//HTTP请求类型
+                                    data: { page: page1, size: size, gdr_id: gdr_id, gp_id: gp_id, oa_status: 2 },
+                                    success: function (data) {
+
+                                        //获得服务器响应
+                                        var html1 = '';
+                                        var num = data.data.length;
+                                        if (data.data.length > 0) {
+                                            if($('.pai_memlist_all').find('span').eq(1).attr('class') == '') {
+                                                $('.details_carousel').find(".pai_memlist_tit").eq(itemIndex).show();
+                                                $('.details_carousel').find(".list1").eq(itemIndex).show(); 
+                                            }
+                                            for (var i = 0; i < data.data.length; i++) {
+                                                if (num > 0) {
+                                                    num--;
+                                                } else {
+                                                    tabLoadEnd = true;
+                                                    break;
+                                                }
+                                                if(data.data[i].m_s_avatar==''||data.data[i].m_s_avatar==null){
+                                                    data.data[i].m_s_avatar='/static/image/myhome/TIM20180731142117.jpg'
+                                                }
+                                                
+                                                if(data.data[i].oa_state == 2){
+                                                    html1 += '<div class="details_carousel_list details_yew_win clear">';
+                                                    html1 += '<div class="details_carousel_img lf">';
+
+                                                        // if(data.data[i].oa_state==1){
+                                                        //     html1+='<img src="__STATIC__/image/orderpai/icon_zhongpai2@2x.png" class="details_bg_win">'
+                                                        // }else{
+                                                            html1+='<img src="__STATIC__/image/orderpai/icon_zhongpai3@2x.png" class="details_bg_win">'
+                                                        // }
+                                                   
+                                                }else{
+                                                    html1 += '<div class="details_carousel_list clear">';
+                                                    html1 += '<div class="details_carousel_img lf">';
+                                                }
+                                                // html1 += '<div class="details_carousel_list clear">';
+                                               
+                                                html1 += '<img src="' + data.data[i].m_s_avatar + '" class="details_error_img">';
+                                                html1 += '</div>';
+                                                html1 += '<p class="details_name lf">' + data.data[i].m_name + '';
+                                                html1 += '<span>' + msToDate(data.data[i].o_paytime * 1000).wasTime + '</span>';
+                                                html1 += '</p>';
+                                                html1 += '<div class="details_carousel_rt rt">';
+                                                html1 += '<img src="' + data.data[i].gdt_img + '">';
+                                                html1 += '</div>';
+                                                html1 += '</div>';
+                                            }
+                                            html1 += '</div>';
+                                            $('.details_carousel').find(".list1").eq(itemIndex).append(html1);
+                                            $('.details_error_img').on('error',function(){ 
+                                                $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+                                            });
+                                        } else {
+
+                                            tabLoadEnd = true;
+                                            me.noData();
+                                        }
+                                    }
+                                });
+                            }
+
+                            me.resetload();
+                        }
+                    });
+                }, 500);
+            }
+        })
+        // 选择折扣类型
+        $(".pai_memlist_select_line").on("click", function () {
+
+            $(this).children().addClass("pai_memlist_all_list");
+            $(this).siblings().find(".pai_memlist_select_list").removeClass("pai_memlist_all_list");
+            var new_title = $(".pai_memlist_all_list").html();
+            $(".header_title").html(new_title);
+            $(".pai_memlist_select_view").toggle();
+            $(".pai_memlist_select img").toggleClass("pai_select_pic");
+
+            var $this = $(this);
+            itemIndex = $this.index();
+
+            $('.drop-list').eq(itemIndex).show().siblings('.drop-list').hide();
+            var gdr_id = $(".pai_memlist_all_list").attr("gdr_id");// 0：所有 数字：当前折参数
+            count_paier(gp_id, gdr_id);
+
+            if (!tabLoadEndArray[itemIndex]) {
+                dropload.unlock();
+                dropload.noData(false);
+            } else {
+                dropload.lock('down');
+                dropload.noData();
+            }
+            dropload.resetload();
+        })
+    })
+    /**
+    * 顶部参团统计统计
+    * gp_id:商品id
+    * gdr_id:选择的商品折扣id 0：全部折扣
+    * o_periods:选择商品的期数 0：全部期数
+    * */
+    function count_paier(gp_id, gdr_id) {
+        $.ajax({
+            type: 'POST',
+            url: "/member/orderpai/count_paier",
+            dataType: 'json',
+            data: { gdr_id: gdr_id, gp_id: gp_id },
+            success: function (data) {
+                if (data.status) {
+                    $(".count_awardcode").html(data.data.count_awardcode);
+                    $(".total_left_num").html(data.data.total_left_num);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function () {
+                alert('Ajax error!');
+            }
+        });
+    }
+    count_paier(gp_id, gdr_id);
+   
+   
+</script> {/block}

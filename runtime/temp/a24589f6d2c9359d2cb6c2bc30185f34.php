@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"D:\project\pai\public/../application/activity/view/index/index.html";i:1542936343;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"D:\project\pai\public/../application/activity/view/index/index.html";i:1543829647;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -43,25 +43,72 @@
         <header></header>
         
 <mian style="margin-top: -0.88rem">
+    <?php if($is_jiche == 1): ?>
+    <header>
+        <div class="header_nav">
+            <div class="header_view">
+                <div class="header_tit">
+                    <span>机车情怀</span>
+                    <div class="header_back" onclick="javascript:history.go(-1);">
+                        <img src="/static/icon/publish/icon_nav_back@2x.png" name="out" class="smts">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <?php else: ?>
     <div class="group_header clear">
         <div class="goback lf goback1">
             <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
         </div>
         <div class="index_search lf tosearch">
-            <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf">
+
+                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf">
+
             <p>大家都在搜 iPhoneX…</p>
         </div>
     </div>
-    <div class="group_banner"></div>
+    <?php endif; if(!(empty($info['activity_banner']) || (($info['activity_banner'] instanceof \think\Collection || $info['activity_banner'] instanceof \think\Paginator ) && $info['activity_banner']->isEmpty()))): ?>
+    <div class="group_banner">
+
+        <?php if(is_array($info['activity_banner']) || $info['activity_banner'] instanceof \think\Collection || $info['activity_banner'] instanceof \think\Paginator): $i = 0;$__LIST__ = is_array($info['activity_banner']) ? array_slice($info['activity_banner'],0,1, true) : $info['activity_banner']->slice(0,1, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+            <a href="<?php echo (isset($vo['ab_href']) && ($vo['ab_href'] !== '')?$vo['ab_href']:'#content'); ?>">
+                <img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>" alt="" style="width:100%;height:100%" class="err_img">
+            </a>
+        <?php endforeach; endif; else: echo "" ;endif; ?>
+        <!--<div class="swiper-container swiper-container1">-->
+            <!--<div class='swiper-wrapper'>-->
+                <!---->
+
+                <!--<div class="swiper-slide">-->
+                    <!--<?php if($vo['ab_href'] != ''): ?>-->
+                    <!--<a href="<?php echo isset($vo['ab_href']) ? $vo['ab_href'] :  '#'; ?>"><img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>"></a>-->
+                    <!--<?php else: ?>-->
+                    <!--<img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>">-->
+                    <!--<?php endif; ?>-->
+                <!--</div>-->
+              <!---->
+
+            <!--</div>-->
+            <!--<div class="swiper-pagination"></div>-->
+        <!--</div>-->
+
+    </div>
+    <?php endif; ?>
     <div class="group_discount_pick">
         <div class="group_discount clear">
+            <?php if(!(empty($info['ads_goods']) || (($info['ads_goods'] instanceof \think\Collection || $info['ads_goods'] instanceof \think\Paginator ) && $info['ads_goods']->isEmpty()))): if(is_array($info['ads_goods']) || $info['ads_goods'] instanceof \think\Collection || $info['ads_goods'] instanceof \think\Paginator): $i = 0; $__LIST__ = $info['ads_goods'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
             <div class="group_discount_item lf">
-                <img src="__STATIC__/image/activity/banner_1@2x.png" alt="">
+                <a href="/member/goodsproduct/index/g_id/<?php echo $vo['ag_gid']; ?>">
+                    <img src="<?php echo $vo['ag_banner']; ?>" alt="">
+                </a>
             </div>
-            <div class="group_discount_item lf">
-                <img src="__STATIC__/image/activity/banner_2@2x.png" alt="">
-            </div>
+            <!--<div class="group_discount_item lf">-->
+            <!--<img src="__STATIC__/image/activity/banner_2@2x.png" alt="">-->
+            <!--</div>-->
+            <?php endforeach; endif; else: echo "" ;endif; endif; ?>
         </div>
+        <?php if(!(empty($info['tj_goods']) || (($info['tj_goods'] instanceof \think\Collection || $info['tj_goods'] instanceof \think\Paginator ) && $info['tj_goods']->isEmpty()))): ?>
         <div class="group_pick">
             <div class="group_pick_top">
                 <img src="__STATIC__/image/activity/icon_biaoti@2x.png" alt="">
@@ -69,98 +116,51 @@
             <div class="group_pick_content">
                 <div class="swiper-container2 swiper-container">
                     <div class="swiper-wrapper">
+
+                        <?php if(is_array($info['tj_goods']) || $info['tj_goods'] instanceof \think\Collection || $info['tj_goods'] instanceof \think\Paginator): $i = 0; $__LIST__ = $info['tj_goods'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
                         <div class="swiper-slide">
-                            <div class="pick_item">
-                                <div class="pick_item_top">
-                                    <img src="" alt="">
-                                    <span>仅剩2人</span>
+                            <a href="/member/goodsproduct/index/g_id/<?php echo $vo['g_id']; ?>">
+                                <div class="pick_item">
+                                    <div class="pick_item_top">
+                                        <img src="<?php echo $vo['g_s_img']; ?>" alt="" class="err_img">
+                                        <span>仅剩<?php echo $vo['left_num']; ?>人</span>
+                                    </div>
+                                    <p class="pick_item_name"><?php echo $vo['g_name']; ?></p>
+                                    <p class="pick_item_price">
+                                        <small>￥</small>
+                                        <?php echo $vo['gdr_price']; ?>
+                                    </p>
                                 </div>
-                                <p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>
-                                <p class="pick_item_price">
-                                    <small>￥</small>
-                                    188
-                                </p>
-                            </div>
+                            </a>
+
 
                         </div>
-                        <div class="swiper-slide">
-                            <div class="pick_item">
-                                <div class="pick_item_top">
-                                    <img src="" alt="">
-                                    <span>仅剩2人</span>
-                                </div>
-                                <p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>
-                                <p class="pick_item_price">
-                                    <small>￥</small>
-                                    188
-                                </p>
-                            </div>
 
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="pick_item">
-                                <div class="pick_item_top">
-                                    <img src="" alt="">
-                                    <span>仅剩2人</span>
-                                </div>
-                                <p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>
-                                <p class="pick_item_price">
-                                    <small>￥</small>
-                                    188
-                                </p>
-                            </div>
+                        <?php endforeach; endif; else: echo "" ;endif; ?>
 
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="pick_item">
-                                <div class="pick_item_top">
-                                    <img src="" alt="">
-                                    <span>仅剩2人</span>
-                                </div>
-                                <p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>
-                                <p class="pick_item_price">
-                                    <small>￥</small>
-                                    188
-                                </p>
-                            </div>
+                        <!--<div class="swiper-slide">-->
+                        <!--<div class="pick_item">-->
+                        <!--<div class="pick_item_top">-->
+                        <!--<img src="" alt="">-->
+                        <!--<span>仅剩2人</span>-->
+                        <!--</div>-->
+                        <!--<p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>-->
+                        <!--<p class="pick_item_price">-->
+                        <!--<small>￥</small>-->
+                        <!--188-->
+                        <!--</p>-->
+                        <!--</div>-->
 
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="pick_item">
-                                <div class="pick_item_top">
-                                    <img src="" alt="">
-                                    <span>仅剩2人</span>
-                                </div>
-                                <p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>
-                                <p class="pick_item_price">
-                                    <small>￥</small>
-                                    188
-                                </p>
-                            </div>
-
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="pick_item">
-                                <div class="pick_item_top">
-                                    <img src="" alt="">
-                                    <span>仅剩2人</span>
-                                </div>
-                                <p class="pick_item_name">SONY 便携迷你音响 IPX5防水…</p>
-                                <p class="pick_item_price">
-                                    <small>￥</small>
-                                    188
-                                </p>
-                            </div>
-
-                        </div>
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
-    <div class="group_content">
+    <div class="group_content" id="content">
         <div class="group_content_top">
-            <div class="top_item lf active total" data="5">
+            <div class="top_item lf active total" data="0">
                 <span>综合</span>
             </div>
             <div class="top_item lf sale_num">
@@ -198,17 +198,25 @@
                 <img src="__STATIC__/image/activity/icon_shaixuan@2x (1).png" alt="" class="filtrate_img" data="6">
                 <!--<img src="__STATIC__/image/activity/icon_shaixuan@2x.png" alt="">-->
             </div>
-            <input type="hidden" name="order" />
+            <input type="hidden" name="order" value="0"/>
         </div>
-        <div class="search_condition" >
+        <div class="search_condition">
             <div style="padding-left: 0.3rem;background: white;padding-bottom: 0.8rem">
                 <div class="condition_item">
                     <p class="condition_item_title">揭晓时间（可多选）</p>
                     <div class="condition_item_content search_time">
-                        <p><span class="search_big" style="display: none">1</span><span class="search_little" style="display: none">0</span>一天以内</p>
-                        <p><span class="search_big" style="display: none">3</span><span class="search_little" style="display: none">0</span>三天以内</p>
-                        <p><span class="search_big" style="display: none">7</span><span class="search_little" style="display: none">0</span>七天以内</p>
-                        <p><span class="search_big" style="display: none">15</span><span class="search_little" style="display: none">0</span>十五天以内</p>
+                        <p><span class="search_big" style="display: none">1</span><span class="search_little"
+                                                                                        style="display: none">0</span>一天以内
+                        </p>
+                        <p><span class="search_big" style="display: none">3</span><span class="search_little"
+                                                                                        style="display: none">0</span>三天以内
+                        </p>
+                        <p><span class="search_big" style="display: none">7</span><span class="search_little"
+                                                                                        style="display: none">0</span>七天以内
+                        </p>
+                        <p><span class="search_big" style="display: none">15</span><span class="search_little"
+                                                                                         style="display: none">0</span>十五天以内
+                        </p>
                         <!--<span>一天以内</span>-->
                         <!--<span>三天以内</span>-->
                         <!--<span>七天以内</span>-->
@@ -220,12 +228,14 @@
                 <div class="condition_item">
                     <p class="condition_item_title">商品价格（可多选）</p>
                     <div class="condition_item_content search_price">
-                        <p>¥<span class="search_big">10</span>元以下 <span class="search_little" style="display: none">0</span></p>
+                        <p>¥<span class="search_big">10</span>元以下 <span class="search_little"
+                                                                        style="display: none">0</span></p>
                         <p>¥<span class="search_little">10</span>-¥<span class="search_big">50</span></p>
                         <p>¥<span class="search_little">50</span>-¥<span class="search_big">200</span></p>
                         <p>¥<span class="search_little">200</span>-¥<span class="search_big">500</span></p>
                         <p>¥<span class="search_little">500</span>-¥<span class="search_big">1000</span></p>
-                        <p>¥<span class="search_little">1000</span>以上 <span class="search_big" style="display: none">1000000000000000000000</span></p>
+                        <p>¥<span class="search_little">1000</span>以上 <span class="search_big" style="display: none">1000000000000000000000</span>
+                        </p>
                         <!--<span>¥<span>10</span>-¥<span>50</span></span>-->
                         <!--<span>¥10-¥50</span>-->
                         <!--<span>¥200-¥500</span>-->
@@ -242,9 +252,11 @@
                 <div class="condition_item">
                     <p class="condition_item_title">成团人数（可多选）</p>
                     <div class="condition_item_content search_num">
-                        <p><span class="search_big">10</span>人以下 <span class="search_little" style="display: none">0</span></p>
+                        <p><span class="search_big">10</span>人以下 <span class="search_little"
+                                                                       style="display: none">0</span></p>
                         <p><span class="search_little">10</span>人-<span class="search_big">50</span>人</p>
-                        <p><span class="search_little">50</span>人以上 <span class="search_big" style="display: none">100000000000000000000000000000</span></p>
+                        <p><span class="search_little">50</span>人以上 <span class="search_big" style="display: none">100000000000000000000000000000</span>
+                        </p>
                         <!--<span>10人以下</span>-->
                         <!--<span>30人-50人</span>-->
                         <!--<span>50人以上</span>-->
@@ -336,15 +348,15 @@
         </div>
         <div class="index_search lf">
             <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
-                 style="margin-left: 0.3rem;margin-top: 0.2rem">
-            <input type="text" placeholder="输入您想搜索的商品" autofocus>
+                 style="margin-left: 0.3rem;margin-top: 0.18rem">
+            <input type="text" placeholder="输入您想搜索的商品" autofocus class="search_input">
         </div>
         <span class="search_btn">搜索</span>
     </div>
-    <div class="del_all rt">
+    <div class="del_all rt" style="display: none">
         <img src="__STATIC__/image/activity/icon_del@2x.png" alt="">
     </div>
-    <div class="search_top_content">
+    <div class="search_top_content" style="display: none">
         <div class="search_top_item">
             <p class="search_top_title">历史搜索</p>
             <div class="search_item clear">
@@ -492,8 +504,12 @@
 <script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
 <script src="__JS__/mescroll/mescroll.min.js"></script>
 <script>
+    // var mySwiper = new Swiper('.swiper-container1', {
+    //     autoplay: 5000,//可选选项，自动滑动
+    //     pagination : '.swiper-pagination',
+    // })
     var mySwiper2 = new Swiper('.swiper-container2', {
-        slidesPerView: 'auto',
+        slidesPerView: 3.5,
         spaceBetween: 10,
     })
 
@@ -537,14 +553,22 @@
         $(this).find(".shop_index_tab_default").hide();
         $(this).find(".shop_index_filter").css({"display": "inline-block"});
         $(this).find('.shop_index_filter').find('img').toggleClass('shop_index_filter_img');
-        if($(this).index() == 0){
+        if ($(this).index() == 0) {
             $('input[name="order"]').val($(this).attr('data'))
+
         }
-        if($(this).index()== 1 || $(this).index() == 2){
+        if ($(this).index() == 1 || $(this).index() == 2) {
             $('input[name="order"]').val($(this).find('.shop_index_filter_img').attr("data"));
         }
-        if($(this).index() == 3){
-            $('input[name="order"]').val('6')
+        if ($(this).index() == 3) {
+            $('input[name="order"]').val('7')
+        }
+        if ($(this).index() != 3) {
+            // $(".shop_index_tab_list").removeClass("shop_index_tab_bold");
+            //重置列表数据
+            mescroll.resetUpScroll();
+            //隐藏回到顶部按钮
+            mescroll.hideTopBtn();
         }
         // console.log($('input[name="order"]').val());
     })
@@ -557,7 +581,7 @@
         $(".shop_index_tab_default").show();
         $(".shop_index_filter").hide();
         var windowTop = $('.group_content').offset().top;
-        window.scrollTo(0,windowTop)
+        window.scrollTo(0, windowTop)
     })
 
     //点击揭晓时间里面的每个p
@@ -604,20 +628,20 @@
     $('.affrim').click(function () {
         var mm = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
 
-        if($('.price_low').val() != '' && !mm.test($('.price_low').val())) {
-            layer.msg('<span style="color:#fff;">您输入的最低价格式不正确</span>',{time:2000});
+        if ($('.price_low').val() != '' && !mm.test($('.price_low').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最低价格式不正确</span>', {time: 2000});
             return false;
         }
-        if($('.price_high').val() != '' && !mm.test($('.price_high').val())) {
-            layer.msg('<span style="color:#fff;">您输入的最高价格式不正确</span>',{time:2000});
+        if ($('.price_high').val() != '' && !mm.test($('.price_high').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最高价格式不正确</span>', {time: 2000});
             return false;
         }
-        if($('.people_low').val() != '' && !mm.test($('.people_low').val())) {
-            layer.msg('<span style="color:#fff;">您输入的最低成团人数格式不正确</span>',{time:2000});
+        if ($('.people_low').val() != '' && !mm.test($('.people_low').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最低成团人数格式不正确</span>', {time: 2000});
             return false;
         }
-        if($('.people_high').val() != '' && !mm.test($('.people_high').val())) {
-            layer.msg('<span style="color:#fff;">您输入的最高成团人数格式不正确</span>',{time:2000});
+        if ($('.people_high').val() != '' && !mm.test($('.people_high').val())) {
+            layer.msg('<span style="color:#fff;">您输入的最高成团人数格式不正确</span>', {time: 2000});
             return false;
         }
         $('.search_condition').hide();
@@ -648,26 +672,32 @@
         mescroll.hideTopBtn();
     })
     $('.goback1').click(function () {
-        window.history.back();
+        window.history.go(-1);
     })
-
+    var keyWord = '';
+    var code = '<?php echo $code; ?>';
     $('.search_btn').click(function () {
-        window.location.href = '/activity/index/search'
+        // console.log($('.search_input').val());
+        keyWord = $('.search_input').val();
+        window.location.href = '/activity/index/search/code/' + code+'/keyword/' + keyWord ;
+        $('.search_input').val('')
     })
 
-   //点击banner
-    $('.group_banner').click(function(){
-        var windowTop = $('.group_content').offset().top;
-        // console.log(windowTop);
-        // $('.group_content').scrollTo(0)
-        window.scrollTo(0,windowTop)
-    })
+    //点击banner
+    // $('.group_banner').click(function () {
+    //     var windowTop = $('.group_content').offset().top;
+    //     // console.log(windowTop);
+    //     // $('.group_content').scrollTo(0)
+    //     window.scrollTo(0, windowTop)
+    // })
 
-    function hclic(id){
-        var vo=$(id).children().html();
-        console.log(vo);
-        // window.location.href="/index/index/search_index/type/"+typ+"/keyword/"+vo;
+    function hclic(id) {
+        var vo = $(id).children().html();
+        keyWord = vo;
+        // console.log(vo);
+        window.location.href = '/activity/index/search/keyword/' + keyWord + '/code/' + code;
     }
+
     /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
     function getListData(page) {
         //联网加载数据
@@ -689,28 +719,27 @@
         var listDom = document.getElementById("dataList");
         for (var i = 0; i < curPageData.length; i++) {
             var pd = curPageData[i];
-            if (pd.gp_sum == null) {
-                pd.gp_sum = 0;
-            }
             var str = '<li class="content_item lf">';
-            str += ' <img src="" alt="" class="info_img">';
+            // str += ' <img src="' + pd.gp_img + '" alt="" class="info_img err_img">';
+            str += ' <img src="' + pd.g_s_img + '" alt="" class="info_img err_img">';
             str += '<div class="content_item_info">';
-            str += ' <p class="content_info_name">iPhone XR 256G 深空灰色 双卡双待 全网通 限…</p>';
+            str += ' <p class="content_info_name">' + pd.g_name + '</p>';
             str += '<div class="progress clear">';
             str += '<div class="progress_main lf">';
-            str += '<span style="width: 70%"></span>';
+            str += '<span style="width: ' + pd.proportion + '%"></span>';
             str += '</div>';
-            str += ' <span class="progress_num lf">700%</span>';
+            str += ' <span class="progress_num lf">' + pd.proportion + '%</span>';
             str += '</div>'
             str += '<div class="content_info_data clear">';
-            str += '<span class="info_price lf"><small>￥</small>1788.00</span>';
-            str += '<span class="join rt">1000人参与</span>';
+            str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
+            str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
             str += '</div>';
             str += '</div>';
             str += ' </li>';
 
+
             var liDom = document.createElement("a");
-            liDom.setAttribute('href', '/member/goodsproduct/index/g_id/');
+            liDom.setAttribute('href', '/member/goodsproduct/index/g_id/' + pd.g_id);
             liDom.innerHTML = str;
             listDom.appendChild(liDom);
         }
@@ -727,26 +756,36 @@
         setTimeout(function () {
             $.ajax({
                 type: 'post',
-                url: '/pointpai/pointgoods/goods_list/page/' + pageNum + '/page_size/' + pageSize,
+                url: '/activity/index/get_activity_goods',
+                data: {
+                    page: pageNum,
+                    page_size: pageSize,
+                    keyword: keyWord,
+                    code: code,
+                    order_type: $('input[name="order"]').val()
+                },
                 dataType: 'json',
                 success: function (data) {
+                    // console.log(data);
+                    // if (data.status == 8) {
                     var listData = [];
-                    for (var i = 0; i < data.list.length; i++) {
-                        listData.push(data.list[i]);
+                    for (var i = 0; i < data.data.length; i++) {
+                        listData.push(data.data[i]);
                     }
                     //回调
                     successCallback(listData, data.total_num);
-                    var recommend = $('.recommend');
-                    recommend.html('11')
-                    // console.log(recommend);
-                    $('.mescroll-upwarp').after(recommend)
-                    $('.recommend').show()
+                    // var recommend = $('.recommend');
+                    // recommend.html('11')
+                    // // console.log(recommend);
+                    // $('.mescroll-upwarp').after(recommend)
+                    // $('.recommend').show()
+                    // }
+
                 },
                 error: errorCallback
             });
         }, 1000)
     }
-
 
 
     // 滚动时候逻辑
@@ -781,6 +820,7 @@
 
 
     });
+
 
 </script>
 

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:69:"D:\project\pai\public/../application/admin/view/adminindex/index.html";i:1541491286;s:64:"D:\project\pai\public/../application/admin/view/common/base.html";i:1541491286;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:69:"D:\project\pai\public/../application/admin/view/adminindex/index.html";i:1541491286;s:64:"D:\project\pai\public/../application/admin/view/common/base.html";i:1543283930;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -12,6 +12,7 @@
 	        <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/small-n-flat.css">
 	        <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/font-awesome.min.css">
             <link rel="stylesheet" type="text/css" href="__CSS__/pccommon/common.css">
+
         	
 <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
 <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
@@ -27,6 +28,7 @@
 	        <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/clearmin.min.js"></script>
 	        <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/home.js"></script>
             <script type="text/javascript" src="/static/h-ui.admin/lib/layer/2.4/layer.js"></script>
+
        		
 <script src="__STATIC__/lib/timepicker/js/jquery-ui-1.10.4.custom.min.js"></script>
 <script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
@@ -63,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <header id="cm-header" style="z-index: 9999;">
+        <header id="cm-header" style="z-index: 1000000002;">
             <nav class="cm-navbar cm-navbar-primary">
                 <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
                 <div class="cm-flex">

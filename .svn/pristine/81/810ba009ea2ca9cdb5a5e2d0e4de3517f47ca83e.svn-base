@@ -1,0 +1,314 @@
+$(function () {
+
+	// 判断是否为手机号
+	// $("#phone").blur(function() {
+	//        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+	//        var phon=$.trim($(this).val());
+	//        if (!myreg.test(phon)) {
+	//        	//弹框
+	// 		layui.use("layer", function() {/*layui的规则*/
+	// 			var layer = layui.layer;
+	// 	    	// layer.confirm('手机号输入有误', {
+	// 		    //     title:false,/*标题*/
+	// 		    //     closeBtn: 0,
+	// 		    //     btnAlign: 'c',
+	// 		    //     btn: ['取消','退出'] //按钮
+	// 	    	// })
+	// 	    	layer.msg('手机号输入错误',{
+	// 	    		time:2000
+	// 	    	});
+	// 	    })
+	//        } else {
+	//            console.log("正确")
+	//        }
+	// })
+
+	/*初始化轮播*/
+	var swiper = new Swiper('#swiper', {
+		initialSlide: 0,
+		onTransitionEnd: function (swiper) {
+			var i = swiper.activeIndex;//轮播切换完毕的事件
+			changePage(i);
+		}
+	});
+
+	/*菜单点击事件*/
+	$(".login-toggle span").click(function () {
+		var i = Number($(this).attr("i"));
+		swiper.slideTo(i);//以轮播的方式切换列表
+	})
+
+	/*切换列表*/
+	function changePage(i) {
+		$(".login-toggle span").each(function (n, dom) {
+			if (dom.getAttribute("i") == i) {
+				dom.classList.add("active");
+				curNavDom = dom;
+			} else {
+				dom.classList.remove("active");
+			}
+		});
+	}
+
+	//判断密码有值的时候按钮变为可点
+	$(".login_inp input").on("input propertychange",function () {
+		var $v1 = $("#pwd").val();
+		var $v2 = $("#pwd2").val();
+		if ($v1 != "" || $v2 != "") {
+			$(".login_btn").attr("disabled", false);
+			$(".login_btn").addClass("login_btn_yew");
+			$(".login_cancel_icon").css({ display: "block" });
+		} else {
+			$(".login_btn").attr("disabled", true);
+			$(".login_btn").removeClass("login_btn_yew");
+			$(".login_cancel_icon").css({ display: "none" });
+		}
+	})
+	
+	//判断验证码有值的时候按钮变为可点
+	$(".verification").keyup(function () {
+		var $v1 = $(this).val();
+		if ($v1 != '') {
+			$(".login_btn").attr("disabled", false);
+			$(".login_btn").addClass("login_btn_yew");
+			$(".login_cancel_icon").css({ display: "block" });
+		} else {
+			$(".login_btn").attr("disabled", true);
+			$(".login_btn").removeClass("login_btn_yew");
+			$(".login_cancel_icon").css({ display: "none" });
+		}
+	})
+
+	//点击叉号
+	$(".login_cancel_icon").click(function () {
+		$("#pwd").val("");
+		$("#pwd2").val("");
+		$("#pwd").focus();
+		$("#pwd2").focus();
+		$(this).css({ display: 'none' });
+	})
+	//密码的显示隐藏
+	$(".login_eye_icon img").click(function () {
+		var pwd = $("#pwd").val();
+		var $val2 = $("#pwd2").val();
+		var dp = $("#pwd2").css("display");
+        console.log(dp);
+        if (dp == "none") {
+            console.log(11);
+            $(this).attr("src", "/static/image/login/icon_login_hideeye@2x.png");
+            // $(this).attr("src", "/static/image/login/icon_login_eye@2x.png");
+			$("#pwd2").val(pwd);
+			$("#pwd").hide();
+			$("#pwd2").show();
+		} else {
+			$("#pwd").val($val2);
+			$("#pwd").show();
+			$("#pwd2").hide();
+			$(this).attr("src", "/static/image/login/icon_login_eye@2x.png");
+			// $(this).attr("src", "/static/image/login/icon_login_hideeye@2x.png");
+		}
+		// $("#pwd").ty
+	});
+	//点击登录
+	window.sessionStorage.setItem('login', 1);
+	$('#login').click(function () {
+		var num = window.sessionStorage.getItem('login');
+		if ($(this).attr("disabled")) {
+			// alert("1");
+			return false;
+		} else {
+			var phone = $('#phone').val();
+			var pwd = $("#pwd").val();
+			var $val2 = $("#pwd2").val();
+			var dp = $("#pwd2").css("display");
+			if (dp == "none") {
+				$("#pwd2").val(pwd);
+			} else {
+				$("#pwd").val($val2);
+			}
+			$val2 = $("#pwd2").val();
+			pwd = $("#pwd").val();
+			var index = layer.load(0, { shade: false });
+			$.post("/member/login/index", { phone: "" + phone + "", pwd: "" + pwd + "" }, function (res) {
+				if (res.status == 1) {
+					//提示弹窗
+					// layer.close(index);
+					webimLogin();
+					location.href = "/index/index/index";
+					if(sessionStorage.getItem('hb') == '1') {
+						sessionStorage.setItem('hb','2');
+					}
+					
+				} else if (res.status == 2) {
+					layer.close(index);
+					layer.confirm(res.msg, {
+						title: false,/*标题*/
+						closeBtn: 0,
+						btnAlign: 'c',
+						btn: ['知道啦', '前去注册'], //按钮
+						btn2: function () {//按钮2的回调
+							location.href = "/member/Register/index";
+						}
+					})
+				} else {
+					num++;
+					window.sessionStorage.setItem('login', num);
+					//提示弹窗
+					layer.close(index);
+					if (num > 5) {
+						layer.confirm(res.msg, {
+							title: false,/*标题*/
+							closeBtn: 0,
+							btnAlign: 'c',
+							btn: ['我再试试', '忘记密码'], //按钮
+							btn2: function () {//按钮2的回调
+								location.href = "/member/Register/amnesia_login";
+							}
+						})
+					} else {
+						//提示弹窗
+						layer.close(index);
+						layui.use("layer", function () {/*layui的规则*/
+							var layer = layui.layer;
+							layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+								// skin: 'demo-class',
+								time: 2000
+							});
+						})
+					}
+				}
+			})
+		}
+	})
+	// webimLogin();
+	//验证码登录
+	$('#login1').click(function () {
+		var num = window.sessionStorage.getItem('login');
+		if ($(this).attr("disabled")) {
+			// alert("1");
+			return false;
+		} else {
+			var m_mobile = $('#phone1').val();
+			var verification = $(".verification").val();			
+			var index = layer.load(0, { shade: false });
+			$.post("/member/register/code_register", { m_mobile: "" + m_mobile + "", verification: "" + verification + "" }, function (res) {
+				if (res.status == 1) {
+					//提示弹窗
+					// layer.close(index);
+					location.href = "/index/index/index";
+					if(sessionStorage.getItem('hb') == '1') {
+						sessionStorage.setItem('hb','2');
+					}
+				} else if (res.status == 2) {
+					layer.close(index);
+					layer.confirm(res.msg, {
+						title: false,/*标题*/
+						closeBtn: 0,
+						btnAlign: 'c',
+						btn: ['知道啦', '前去注册'], //按钮
+						btn2: function () {//按钮2的回调
+							location.href = "/member/register/index";
+						}
+					})
+				} else {
+					num++;
+					window.sessionStorage.setItem('login', num);
+					//提示弹窗
+					layer.close(index);
+					if (num > 5) {
+						layer.confirm(res.msg, {
+							title: false,/*标题*/
+							closeBtn: 0,
+							btnAlign: 'c',
+							btn: ['我再试试', '忘记密码'], //按钮
+							btn2: function () {//按钮2的回调
+								location.href = "/member/Register/amnesia_login";
+							}
+						})
+					} else {
+						//提示弹窗
+						layer.close(index);
+						layui.use("layer", function () {/*layui的规则*/
+							var layer = layui.layer;
+							layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+								// skin: 'demo-class',
+								time: 2000
+							});
+						})
+					}
+				}
+			})
+		}
+	})
+
+	var InterValObj; //timer变量，控制时间
+	var count = 60; //间隔函数，1秒执行
+	var curCount;//当前剩余秒数
+	$(".register_code").click(function(){
+		//验证手机号
+		// var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+		var m_mobile = $('#phone1').val();
+			if (m_mobile.length!=11) {
+				//弹框
+				layui.use("layer", function() {/*layui的规则*/
+					var layer = layui.layer;
+					layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
+						time:2000
+					});
+				})
+				return false;
+			}else{
+				curCount=count;
+				//设置button效果，开始计时
+		        var m_mobile = $('#phone1').val();
+				$.ajax({
+					type:"POST",//用post方式传输
+					dataType:"JSON",//数据格式：JSON
+					url:"/popularity/popularitygoods/register_code",//目标地址
+		            data:{
+		                phone:m_mobile
+		            },
+					success:function(res){
+						console.log(res);
+						if(res.status == 1){
+		                    $('.register_code').attr("disabled","true");
+		                    // $(".register_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+		                    $('.register_code').text(curCount+"s后可重新发送");
+		                    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+		                }else if(res.status == 2){
+		                	layer.confirm(res.msg, {
+			            		title:false,/*标题*/
+							    closeBtn: 0,
+						        btnAlign: 'c',
+						        btn: ['前去登录'], //按钮
+						        btn1:function(){//按钮2的回调
+						        	location.href="/member/login/index";
+						        }
+							})
+		                }else{
+	                		//提示弹窗
+			                layui.use("layer", function() {/*layui的规则*/
+								var layer = layui.layer;
+							    layer.msg("<span style='color:#fff'>"+res.msg+"</span>",{
+							    	time:2000
+							    });
+							})
+                		}
+					}
+				})
+			}
+	})
+	//timer处理函数
+	function SetRemainTime(){
+		if(curCount==0){
+			 window.clearInterval(InterValObj);//停止计时器
+			 $(".register_code").css({background:"transparent",color:"#2B2B2B",border:"0.02rem solid #000000"});
+			 $(".register_code").removeAttr("disabled");//启用按钮
+			 $(".register_code").text("重新发送");
+		}else{
+			curCount--;
+			$(".register_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+             $(".register_code").text(curCount+"s后可重新发送");
+		}
+	}
+})

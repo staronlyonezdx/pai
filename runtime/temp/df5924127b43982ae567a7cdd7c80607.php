@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:74:"D:\project\pai\public/../application/member/view/promoters/is_success.html";i:1541491284;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:74:"D:\project\pai\public/../application/member/view/promoters/is_success.html";i:1542935137;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -34,6 +34,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -133,7 +140,7 @@
             <p class="fail_reason">未通过理由：<?php echo $apply_info['error_explain']; ?></p>
             <p class="tip">温馨提示：您可以咨询客服修改完善个人信息后再次申请。</p>
             <div class="fail_btns">
-                <a href="tel:400-027-1888">咨询客服</a>
+                <a class="phs" href="tel:400-027-1888">咨询客服</a>
                 <a href="javascript:;" class="apply_again">重新申请</a>
             </div>
         </div>
@@ -433,9 +440,19 @@
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp', function (str) {
             $('#app').val(str);
+            if(str == '1.0') {
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            }
         })
     })
 
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
 
     // 点击立即邀请按钮
     var share_qr_image = "https://" + document.domain + "<?php echo isset($data['qr_code']) ? $data['qr_code'] :  ''; ?>";
@@ -555,4 +572,9 @@
     // })
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

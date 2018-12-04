@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\project\pai\public/../application/admin/view/promoters/index.html";i:1541491287;s:64:"D:\project\pai\public/../application/admin/view/common/base.html";i:1541491286;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\project\pai\public/../application/admin/view/promoters/index.html";i:1542767234;s:64:"D:\project\pai\public/../application/admin/view/common/base.html";i:1543283930;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -12,6 +12,7 @@
 	        <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/small-n-flat.css">
 	        <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/font-awesome.min.css">
             <link rel="stylesheet" type="text/css" href="__CSS__/pccommon/common.css">
+
         	
 <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
 <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
@@ -39,6 +40,7 @@
 	        <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/clearmin.min.js"></script>
 	        <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/home.js"></script>
             <script type="text/javascript" src="/static/h-ui.admin/lib/layer/2.4/layer.js"></script>
+
        		
         	<title>拍吖吖管理后台首页</title>
     </head>
@@ -69,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <header id="cm-header" style="z-index: 9999;">
+        <header id="cm-header" style="z-index: 1000000002;">
             <nav class="cm-navbar cm-navbar-primary">
                 <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
                 <div class="cm-flex">
@@ -217,6 +219,10 @@
                         <?php endforeach; endif; else: echo "" ;endif; endif; endforeach; endif; else: echo "" ;endif; endif; ?>
                 </tbody>
             </table>
+            <div class="page_box pull-right" style="">
+                <span class="pagi_bar pull-right">共&nbsp;<?php echo $total_num; ?>&nbsp;条</span>
+                <?php echo $show_page; ?>
+            </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="margin-top:30px;">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

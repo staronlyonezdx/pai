@@ -1,0 +1,175 @@
+
+.pointpai_dingdan{
+    width: 0.93rem;
+    height: 0.42rem;
+    display: block;
+   position:absolute;
+    top: 0.23rem;
+    right: 0.3rem;
+}
+.pointpai_dingdan img{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.pointpai_header{
+    width:7.5rem;
+    height:1.1rem;
+    background:rgba(255,255,255,1);
+    padding: 0.18rem 0.16rem 0 0.3rem;
+    box-sizing: border-box;
+    display: none;
+}
+.pointpai_header .pai_img{
+    width:0.72rem;
+    height:0.72rem;
+    border-radius: 50%;
+    background-color: #0a70c2;
+    float: left;
+}
+.pointpai_header .pai_info{
+    float: left;
+    margin-left: 0.2rem;
+}
+.pointpai_header .pai_info p:nth-child(1){
+    font-size:0.28rem;
+    font-weight:600;
+    color:rgba(21,21,21,1);
+    line-height:0.4rem;
+}
+.pointpai_header .pai_info p:nth-child(2){
+    font-size:0.22rem;
+    font-weight:300;
+    color:rgba(120,120,120,1);
+    line-height:0.4rem;
+}
+.pointpai_header .anniu{
+    float: right;
+    width: 1.87rem;
+    height: 0.87rem;
+}
+
+.pointpai_img{
+    width:7.5rem;
+    height:3rem;
+}
+.pointpai_img img{
+    width: 100%;
+    height: 100%;
+    background-color: #0C0C0C;
+}
+
+.jingpin{
+    width: 1.78rem;
+    height: 0.33rem;
+    display: block;
+    margin: 0.3rem auto;
+}
+
+.pointpai_wrap{
+
+}
+.pointpai_wrap .pointpai_content{
+
+}
+.pointpai_wrap .pointpai_content .pointpai_item{
+    width: 3.34rem;
+    height: 5.03rem;
+    padding: 0 0.2rem;
+    margin-top: 0.2rem;
+    float:left;
+}
+
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_img{
+    width:3.34rem;
+    height:3.34rem;
+    border-radius:0.08rem 0.08rem 0 0;
+    position: relative;
+
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_img img{
+    width: 100%;
+    height: 100%;
+    background: url(../../image/index/pic_home_taplace@2x.png) no-repeat center;
+    background-size: 100%;
+    object-fit: cover;
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_img span{
+    width:1.32rem;
+    height:0.3rem;
+    line-height: 0.3rem;
+    font-size:0.22rem;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    background:rgba(0,0,0,1);
+    text-align: center;
+    opacity:0.28;
+    border-radius:0.08rem 0rem 0 0.08rem;
+    position: absolute;
+    right: 0;
+    bottom: 0.01rem;
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_info{
+    width: 100%;
+    height: 1.69rem;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding-left: 0.18rem;
+    padding-right: 0.28rem;
+    padding-top: 0.2rem;
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_info p.pointpai_name{
+    font-size:0.26rem;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+    height: 0.65rem;
+    line-height: 0.35rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin: 0 0 0.1rem 0;
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_info p {
+    font-size:0.3rem;
+    font-weight:500;
+    color:rgba(255,98,43,1);
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_info p span{
+    font-size:0.24rem;
+    font-weight:400;
+    color:rgba(255,98,43,1);
+}
+
+
+.no_login{
+    width: 100%;
+    height: 0.9rem;
+    background-color: white;
+    padding-top: 0.23rem;
+    display: none;
+}
+.no_login a{
+    width: 2.6rem;
+    height: 0.64rem;
+    display: block;
+    border-radius:0.32rem;
+    margin: auto ;
+    background-color: #FFA13A;
+    text-align: center;
+    line-height: 0.64rem;
+    font-size:0.26rem;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+}
+.pointpai_wrap .pointpai_content .pointpai_item .pointpai_item_img img.vip{
+    width: 0.77rem;
+    height: 1.13rem;
+    background: none;
+    position: absolute;
+    left:-0.11rem;
+    top:-0.07rem;
+}

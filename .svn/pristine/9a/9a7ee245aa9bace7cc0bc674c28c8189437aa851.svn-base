@@ -1,0 +1,291 @@
+<?php
+namespace app\pointpai\controller;
+
+use app\data\service\webImages\WebImagesService;
+use app\data\service\webImagesType\WebImagesTypeService;
+use RedisCache\RedisCache;
+use think\Config;
+use think\Controller;
+use think\Cookie;
+use think\Db;
+use app\data\service\pointGoods\PointGoodsService;
+use app\data\service\store\StoreService;
+use app\data\service\config\ConfigService;
+use app\data\service\store\StoreCollectionService;
+use app\data\service\goods\GoodsService as GoodsService;
+use app\data\service\pointOrderPai\PointOrderPaiService;
+use app\data\service\pointReview\PointReviewService;
+use app\data\service\popularity\PopularityGoodsService;
+
+class Pointgoods extends IndexHome
+{
+
+    /*
+    * 商品情页
+    * 创建人 刘勇豪
+    * @return mixed
+    * /pointpai/Pointgoods/index/g_id/2
+    */
+    public function index()
+    {
+        $g_id = input('param.g_id/d', 0);
+        $m_id = $this->m_id;
+        $pointGoods = new PointGoodsService();
+
+        // 商品详情
+        $where = '';
+        $where['pg.g_id'] = $g_id;
+        $goods_info = $pointGoods->goods_info($where);
+        if(empty($goods_info)){
+            header('Location: /');
+        }
+
+        //dump($goods_info);
+
+        //店铺信息
+        $store = new StoreService();
+        $where = '';
+        $where['store_id'] = $goods_info['g_storeid'];
+        $store_info = $store ->storeInfo($where,'store_id,stroe_name,store_logo,s_score,e_score,g_score');        //店铺评分和物流评分
+
+        $store = new StoreService();
+        $where = '';
+        $where['g.g_state'] = 6;
+        $where['g.g_storeid'] = $goods_info['g_storeid'];
+        $store_info['totle_goods'] = $store->store_goods_count($where);   //全部商品数量
+
+        $config = new ConfigService();
+        $where = '';
+        $where['c_code'] = 'show_new';
+        $where['c_state'] = 0;
+        $c_value = $config->configInfo($where,'c_value');
+        $c_value = empty($c_value['c_value']) ? 7*86400 : $c_value['c_value']*86400;
+        $time = time()-$c_value;
+        $where = '';
+        $where['g.g_state'] = 6;
+        $where['g.g_starttime'] = ['>',$time];
+        $where['g.g_storeid'] = $goods_info['g_storeid'];
+        $store_info['new_goods'] = $store->store_goods_count($where);         //新品数量
+
+        $collection = new StoreCollectionService();
+        $where = '';
+        $where['store_id'] = $goods_info['g_storeid'];
+        $store_info['fans'] = $collection->get_count($where);                 //粉丝数
+        // dump($store_info);die;
+
+        // 参团进度
+        $pointOrderPai = new PointOrderPaiService();
+        $call_back = $pointOrderPai->pai_progress($goods_info['gp_id']);
+        $pai_progress = $call_back['data'];
+
+        //选取几条最新的评论
+
+        $where = '';
+        $where['po.gp_id'] = $goods_info['gp_id'];
+        $where['po.o_state'] = ['IN','2,3,4,5'];
+        $order = 'po.o_id asc';
+        $field='po.o_id,po.o_point,po.o_periods,po.o_addtime,prg.rg_content,pro.add_time as ro_add_time,prg.rg_id,po.gp_num,prg.gp_id,m.m_id,m.m_name,m.m_avatar,m.m_s_avatar,prg.goods_score';
+        $limit = "2";
+        $last_reviews = $pointOrderPai->get_limit_order_review($where,$field,$order,$limit);
+//        dump($last_reviews);die;
+
+        // 中奖人数
+        $where_count = '';
+        $where_count['gp_id'] = $goods_info['gp_id'];
+        $where_count['o_state'] = ['IN','2,3,4,5'];
+        $review_count = $pointOrderPai->pointOrderPaiCount($where_count);
+        //dump($review_count);die;
+
+        // 推荐商品
+        $goods = new GoodsService();
+        $where11=[
+          //  'gc_id'=>$goods_info['gc_id'],
+           // 'g_storeid'=>$goods_info['g_storeid'],
+            'g_state'=>6,
+            'g_id'=>['<>',$g_id],
+            'g_endtime'=>['>',time()],
+        ];
+
+        // 判断是否收藏
+        $is_collection = $pointGoods->is_collection($g_id,$m_id);
+
+        //详情二维码
+        $p_goods = new PopularityGoodsService();
+        $mid = 3;//积分
+        $from_type = 1;//
+        $path_3 = '/uploads/code/pointpai/shop/'.$mid.'code_'.$g_id.".jpg";
+        $goods_info['code']  = $p_goods->hebingImg('/uploads/logo/father.png',$goods_info['g_img'],$path_3,$goods_info['g_name'],$goods_info['gp_sale_price'],$mid,$g_id,$from_type);
+        $goods_info['url']   = PAI_URL."/pointpai/Pointgoods/index/g_id/".$goods_info['g_id'].'?share=1';
+
+        //获取推荐商品WU-------------start
+        $tj_list = $pointGoods->get_list($where11,$order='g_id desc',$field="g_id,g_name,g_img,gc_id");
+        //获取推荐商品WU-------------end
+
+        // 当前最多能团的件数
+        $back = $pointOrderPai->get_max_pai_num_bygpid($m_id, $goods_info['gp_id']);
+        $max_pai_num = 0;
+        if ($back['status']) {
+            $max_pai_num = $back['data']['left_max_pai_num'];
+        }
+
+        //分享参数
+        $this->assign('share_title','只要'.$goods_info['gp_sale_price'].'积分，你敢信？快跟我一起来抢购吧！');
+        $this->assign('share_desc',$goods_info['g_name']);
+        $this->assign('share_link','https://m.paiyy.com.cn/pointpai/Pointgoods/index/g_id/'.$g_id.'?share=1');
+        $this->assign('share_imgUrl','https://m.paiyy.com.cn'.$goods_info['g_img']);
+
+        $this->assign('header_title', "商品情页");
+        $this->assign('goods_info', $goods_info);
+        $this->assign('store_info', $store_info);
+        $this->assign('tj_list', $tj_list);
+        $this->assign('m_id', $m_id);
+        $this->assign('last_reviews', $last_reviews);
+        $this->assign('review_count', $review_count);
+        $this->assign('now_time', time());
+        $this->assign('pai_progress', $pai_progress);
+        $this->assign('is_collection', $is_collection);
+        $this->assign('max_pai_num', $max_pai_num);
+
+        return $this->fetch();
+    }
+
+    /**
+    * 生成请求链接
+    * 创建人 刘勇豪
+    */
+    public function rewriteUrl(){
+        $data['num'] = input('param.num');
+        $data['gp_id'] = input('param.gp_id');
+        $data['gs_id'] = input('param.gs_id');
+
+        // 判断能不能参团
+        $where['pgp.gp_id']=$data['gp_id'];
+        $pointGoods = new PointGoodsService();
+        $goods_info = $pointGoods->goods_info($where);
+        $g_starttime = $goods_info['g_starttime'];
+        $g_endtime = $goods_info['g_endtime'];
+        $now_time = time();
+
+        if( $now_time < $g_starttime){
+            return ['status'=>0,'msg'=>'活动还没开始哦~'];
+        }
+        if( $now_time > $g_endtime){
+            return ['status'=>0,'msg'=>'活动已经结束了哦~'];
+        }
+
+        // 判断是不是自己的商品
+        $m_id = 0;
+        if($this->m_id){
+            $m_id = $this->m_id;
+        }
+        $callback = $pointGoods->is_my_goods($data['gp_id'],$m_id);
+        if(!$callback['status']){
+            return ['status' => 0, 'msg' => $callback['msg']];
+        }
+
+        if(!$data['num']){
+            return ['status'=>0,'msg'=>'未选择商品！'];
+        }
+        // 判断剩余购买次数
+        $pointOrderPai = new PointOrderPaiService();
+        $call_back = $pointOrderPai->get_max_pai_num_bygpid($m_id,$data['gp_id']);
+        if(!$call_back['status']){
+            return ['status'=>0,'msg'=>$call_back['msg']];
+        }
+        $left_max_pai_num = $call_back['data']['left_max_pai_num'];
+        if(!$left_max_pai_num){
+            return ['status'=>0,'msg'=>'当前折扣参拍次数已用完！','data'=>$call_back['data']];
+        }
+
+        if(!$data['num'] || !$data['gp_id'] || !$data['gs_id']){
+            return ['status'=>0,'msg'=>'参数非法！'];
+        }
+
+        $json_data = json_encode($data);
+        $encrypt = $pointGoods->encrypt($json_data);
+        $encrypt = str_replace("/","liuyonghao",$encrypt);
+        return ['status'=>1,'msg'=>'success！','data'=>$encrypt];
+    }
+
+    /**
+     * 积分商城列表
+     * 邓赛赛
+     */
+    public function goods_list(){
+        $m_id = $this->m_id;
+        $is_login = $m_id ? 1 : 0;
+        $page = input('param.page',1);
+        $page_size = input('page_size',6);
+        if(request()->isAjax()){
+            $point_goods = new PointGoodsService();
+            $where = [
+                'pg.g_state'=>6,
+                'pg.g_endtime'=>['>',time()],
+                'gp.gp_stock'=>['>',0]
+            ];
+            $field = "pg.*,count(oa.gp_id) gp_sum,gp.gp_sale_price,pg.g_endtime";
+            $order = 'pg.is_heat desc,gp_sum desc';
+            //积分场第1页
+            if($page == 1){
+                $redis = RedisCache::getInstance();
+                $list = $redis->get('pointgoods');
+                //有缓存时
+                if($list){
+                    $list = json_decode($list,true);
+                    //此处商品是两页数据,为第一页有过期商品做准备
+                    foreach($list['list'] as $k => $v){
+                        if($v['g_endtime'] <= time()){
+                            //删除过期商品
+                            unset($list['list'][$k]);
+                        }
+                    }
+                }else{
+                    //第一页没缓存时查询第一页数据
+                    $list = $point_goods->point_goods_list($where,$field,$order,$page,$page_size);
+                    //第二页时,第一、二页数据合并,为缓存时间内第一页有过期商品过准备
+                    if(!empty($list['total_num']) && $list['total_num']>1){
+                        $list2 = $point_goods->point_goods_list($where,$field,$order,2,5);
+                        //合并第一、二页数据
+                        $list['list'] = array_merge($list['list'],$list2['list']);
+                    }
+                    $redis->set('pointgoods',json_encode($list),1200);
+                }
+                //去除过期商品后,取前 $page_size 条数据来做第一页商品
+                $list['list'] = array_slice($list['list'],0,$page_size);
+            }else{
+                $list = $point_goods->point_goods_list($where,$field,$order,$page,$page_size);
+            }
+            $list['page'] = $page;
+            return $list;
+        }
+
+        $web_img_type = new WebImagesTypeService();
+        $wit_id = $web_img_type->webImagesTypeInfo(['wit_code'=>'JFSC'],'wit_id');
+        $web_img = new WebImagesService();
+        $wi_img = $web_img->webImagesInfo(['wit_id'=>$wit_id['wit_id'],'wi_state'=>0],'*');
+
+        $where = [
+            'm_id'=>$m_id
+        ];
+        $tui_user['tui_diamond'] = Db::connect('db_syu')->name('member_content')->where($where)->value('tui_diamond');
+        $find = Db::table('pai_member')->where($where)->field('m_name,m_avatar,m_s_avatar')->find();
+        $tui_user['m_name'] = $find['m_name'];
+        $tui_user['m_avatar'] = $find['m_avatar'];
+        $tui_user['m_s_avatar'] = $find['m_s_avatar'];
+        $this->assign('header_title','积分商城');
+        $this->assign('is_login',$is_login);
+        $this->assign('wi_img',$wi_img);
+        $this->assign('tui_user',$tui_user);
+        return view();
+    }
+
+    /**
+     * 规则页面
+     * 刘勇豪
+     */
+    public function rule(){
+        return view();
+    }
+
+}
+

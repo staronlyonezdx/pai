@@ -1,0 +1,836 @@
+<?php
+namespace app\popularity\controller;
+use app\data\service\article\ArticleService;
+use app\data\service\articleType\ArticleTypeService;
+use app\data\service\member\MemberService;
+use app\data\service\popularity\PopularityCollectionService;
+use app\data\service\popularity\PopularityGoodsService;
+use app\data\service\popularity\PopularityMemberService;
+use app\data\service\popularity\PopularityService;
+use app\member\controller\IndexHome;
+use RedisCache\RedisCache;
+use think\Db;
+use think\Request;
+use app\data\service\system_msg\SystemMsgService as SystemMsgService;
+
+
+class Popularitygoods extends IndexHome
+{
+    public function __construct(Request $request = null){
+        parent::__construct($request);
+        $popularity = new PopularityService();
+        $popularity->pop_refresh($this->m_id);
+
+        //微信分享参数
+        $this->assign('share_title',"拍吖吖：只要1元，火爆宝贝等你来！");
+        $this->assign('share_desc','邀请好友，为你点赞，成为人气王，宝贝抱回家。');
+        $this->assign('share_link',PAI_URL.'/popularity/popularitygoods/share_list');
+        $this->assign('share_imgUrl',PAI_URL.'/uploads/logo/popularity.png');//此图片待设计
+    }
+
+    /**
+     * 分享活动详情（活动列表页）
+     */
+    public function share_list()
+    {
+        $redis = RedisCache::getInstance();
+        $page = input('param.page/d',1);
+        $page_size = input('param.page_size/d',9);
+        $m_id = $this->m_id;
+
+        $popularity_goods = new PopularityGoodsService();
+        //预上架处理(十二位置商品有空缺时)(20180930)
+        $popularity_goods->get_shangajia();
+
+        $p_goods = new PopularityGoodsService();
+        //ajax请求预上架商品
+        if(\request()->isAjax()){
+            //预上架商品
+            $where = [
+                'pg_state'=>1,
+                'pg_type'=>['<>',3],
+                'is_show'=>1,
+                'pg_status'=>2,
+                'end_time'=>['>',time()]
+            ];
+            $list['data3'] = $p_goods -> get_share_list($where,'pg_position asc,pg_sortnum desc',$page,$page_size,$m_id);
+            return $list['data3'];
+        }
+
+        //十二件商品缓存redis
+        $list = $redis->get('popularitygoods');
+        if($list){
+            $list = json_decode($list,true);
+        }else{
+            //精选推荐
+            $where1 = [
+                'pg_state'=>1,
+                'pg_type'=>['<>',3],
+                'is_show'=>1,
+                'pg_status'=>1,
+                'end_time'=>['>',time()],
+                'pg_position'=>['in',[1,2,3]]
+            ];
+            $list = array();
+            $list['data1'] = $popularity_goods->get_recommendation($where1,'pg_id,pg_name,pg_img,pg_s_img,pg_market_price,pg_price,pg_membernum,pg_position');
+            //活动商品
+            $where = [
+                'pg_state'=>1,
+                'pg_type'=>['<>',3],
+                'is_show'=>1,                   //首页展示 1展示 2不展示
+                //'is_recommendation'=>2,         //是否精选1精选 2非精选
+                'pg_status'=>1,                 //商品时航迹状态 1上架 2预上架 3下架
+                'end_time'=>['>',time()],
+                'pg_position'=>['in',[4,5,6,7,8,9,10,11,12]]
+            ];
+            $list['data2'] = $p_goods -> get_share_list($where,'pg_position asc',$page,9,$m_id);
+            //预上架商品
+            $where = [
+                'pg_state'=>1,
+                'pg_type'=>['<>',3],
+                'is_show'=>1,
+                'pg_status'=>2,
+                'end_time'=>['>',time()]
+            ];
+            $list['data3'] = $p_goods -> get_share_list($where,'pg_position asc,pg_sortnum desc',$page,$page_size,$m_id);
+            $redis->set('popularitygoods',json_encode($list),1200);
+        }
+
+        //用户是否登录
+        $list['is_login'] = $m_id ? 1 : 0;
+
+        //吖吖公告  永久缓存吖吖公告,有新公告时删除此redis
+        $yy_gg = $redis->get('yy_gg');
+        if($yy_gg){
+            $yy_gg = json_decode($yy_gg,true);
+        }else{
+            //人气王吖吖通告
+            $article_type = new ArticleTypeService();
+            $where2 = [
+                'at_id'=>32
+            ];
+            $at_id = $article_type->articleTypeValue($where2,'at_id');
+            $article = new ArticleService();
+            $where3 = [
+                'a_type'=>$at_id,
+                'a_state'=>0
+            ];
+            $yy_gg = $article->articleList($where3,'*','a_id desc');
+            $redis->set('yy_gg',json_encode($yy_gg));
+        }
+
+        //默认展示最新10条擂主信息
+        $popularity_member = $redis->lRange('popularity_member',0,9);
+        if($popularity_member){
+            //获取redis数据并赋值给$list['info']
+            foreach($popularity_member as &$v){
+                $v = json_decode($v,true);
+            }
+            $list['info'] = $popularity_member;
+        }else{
+            //无redis时查询十条最新数据
+            $p_member = new PopularityMemberService();
+            $where = [
+                'pm.pm_state'=>['in',[2,3]],
+            ];
+            $list['info'] = $p_member->join_member($where,'pm_id desc','m.m_name,m.m_avatar,m.m_s_avatar,pg_name,pm.pm_state',1,10);
+            //循环加入redis列
+            foreach($list['info'] as $k => $v){
+                $redis->rPush('popularity_member',json_encode($v));
+            }
+        }
+        $this->assign('list',$list);
+        $this->assign('yy_gg',$yy_gg);
+        $this->assign('header_title','分享活动详情');
+        return view();
+    }
+
+
+    /**
+     * 下载页
+     * 邓赛赛
+     */
+    public function download_app(){
+        $this->assign('header_title','下载页');
+        return view();
+    }
+    /**
+     * 分享活动详情(新人视角)
+     */
+    public function new_people()
+    {
+        $pm_id = input('param.pm_id',0);
+        $m_id = $this->m_id;
+        $m_id = $m_id?$m_id:0;
+        $popularity = new PopularityService();
+        $callback = $popularity -> invite_page($pm_id,$m_id);
+        if(!$callback['status']){
+            return $callback['msg'];
+        }
+        $info = $callback['data'];
+        $popgoods_info = $info['popgoods_info'];
+        $pm_sort = $info['pm_sort'];
+        $total_joinner_num = $info['total_joinner_num'];
+        $total_pm_num = $info['total_pm_num'];
+        $joinner_list = $info['joinner_list'];
+        $is_called = $info['is_called'];
+        $this->assign('share_link',PAI_URL.'/popularity/popularitygoods/new_people/pm_id/'.$pm_id.'?share=1');
+        $this->assign('share_title',"拍吖吖：助我成为¥".$popgoods_info['pg_price']."人气王，就只差你啦！");
+        $this->assign('share_desc',$popgoods_info['pg_name']);
+        $this->assign('share_imgUrl',PAI_URL.$popgoods_info['pg_img']);//此图片待设计
+
+        $this->assign('header_title','分享活动详情');
+        $this->assign('header_path',PAI_URL.'/popularity/popularitygoods/share_list');
+        $this->assign('popgoods_info',$popgoods_info);
+        $this->assign('pm_sort',$pm_sort);
+        $this->assign('total_joinner_num',$total_joinner_num);
+        $this->assign('total_pm_num',$total_pm_num);
+        $this->assign('joinner_list',$joinner_list);
+        $this->assign('pm_id',$pm_id);
+        $this->assign('m_id',$m_id);
+        $this->assign('is_called',$is_called);
+        return view();
+    }
+
+    /**
+     * 用户登录
+     * 刘勇豪
+     */
+    public function user_login(){
+        $phone = input('param.phone','');
+        $pwd = input('param.pwd','');
+        $pm_id = input('param.pm_id',0);
+        $popularity = new PopularityService();
+        $callback = $popularity -> user_login($phone,$pwd,$pm_id);
+        return $callback;
+    }
+
+    /**
+     * 注册验证码
+     * 刘勇豪
+     */
+    public function register_code(){
+        $phone = input('param.phone',0);
+        $sms_checked_code = input('post.sms_checked_code','');
+        $popularity = new PopularityService();
+        $callback = $popularity -> register_code($phone,$sms_checked_code,1);
+        return $callback;
+    }
+
+    public function new_login(){
+        $phone = input('param.phone','');
+        $code = input('param.code',0);
+        $pm_id = input('param.pm_id',0);
+        $popularity = new PopularityService();
+        $callback = $popularity -> new_login($pm_id,$phone,$code);
+        return $callback;
+    }
+
+    /**
+     * 用户注册
+     * 刘勇豪
+     */
+    public function user_register(){
+
+        $phone = input('param.phone','');
+        $code = input('param.code',0);
+        $pwd = input('param.pwd','');
+        $pm_id = input('param.pm_id',0);
+        $popularity = new PopularityService();
+        $callback = $popularity -> user_register($phone,$code,$pwd,$pm_id);
+        return $callback;
+    }
+
+    /**
+     * 商品详情
+     * 邓赛赛
+     */
+    public function commodity_info(){
+        $pg_id      = input('param.pg_id/d');
+        $page       = input('param.page/d');
+        $page_size  = input('param.page_size/d');
+
+        $page       = $page     ? $page      : 1;
+        $page_size  = $page_size? $page_size : 20;
+        $m_id = $this->m_id;
+        //获取商品信息
+        $p_goods = new PopularityGoodsService();
+        $is_goods = $p_goods->get_count(['pg_id'=>$pg_id]);
+        if(!$is_goods){
+            $this->error('未找到此商品','/popularity/popularitygoods/share_list','',1);
+        }
+
+        //详情信息
+        $data = $p_goods->get_commodity_info($pg_id,$m_id,$page,$page_size);
+        //是否登录
+        $where = [
+            'm_id'=>$m_id
+        ];
+        $mem = new MemberService();
+        $is_login = $mem->get_info($where,'m_id');
+        $data['is_login'] = $is_login ? 1 : 0;
+
+        //ajax请求更多活动推荐
+        if(request()->isAjax()){
+            return $data['more_activities'];
+        }
+        $this->assign('data',$data);
+        $this->assign('header_path',PAI_URL.'/popularity/popularitygoods/share_list');
+        //微信分享参数
+        $this->assign('share_title','只要¥'.$data['pg_price'].'，你敢信？争夺人气王，宝贝抱回家！');
+        $this->assign('share_desc',$data['pg_name']);
+        $this->assign('share_link',PAI_URL.'/popularity/popularitygoods/commodity_info/pg_id/'.$data['pg_id']);
+        $this->assign('share_imgUrl',PAI_URL.$data['pg_img']);
+        $this->assign('now_time',time());
+        $this->assign('m_id',$m_id);
+        return view();
+    }
+
+    /**
+     * 人气商品收藏
+     * 邓赛赛
+     */
+    public function popularity_collection(){
+        $m_id = $this->m_id;
+        $pg_id = input('param.pg_id');
+        //检测是否登录
+        $mem = new MemberService();
+        $is_login = $mem->get_info(['m_id'=>$m_id],'m_id');
+        if(!$is_login){
+            return ['status'=>0,'msg'=>'未登录'];
+        }
+        $p_collection = new PopularityCollectionService();
+        $res = $p_collection->get_collection($m_id,$pg_id);
+
+        //获取缓存列表
+        $redis = RedisCache::getInstance();
+        $list = $redis->get('popularitygoods');
+
+        $list = json_decode($list,true);
+        foreach($list['data3']['list'] as &$v){
+            //找到缓存数据的
+            if($v['pg_id'] == $pg_id){
+                //是否收藏
+                $is_collection = $res['status'] == 1 ? 1: 0;
+                $v['is_collection'] = $is_collection;
+                //人气商品修改后重新保存
+                $redis->set('popularitygoods',json_encode($list),1200);
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * 是否有人加入
+     * 邓赛赛
+     */
+    public function is_join(){
+
+        //默认展示最新10条擂主信息
+        $redis = RedisCache::getInstance();
+        $popularity_member = $redis->lRange('popularity_member',0,10);
+        if($popularity_member) {
+            //获取redis数据并赋值给$list['info']
+            foreach ($popularity_member as &$v) {
+                $v = json_decode($v, true);
+            }
+        }
+        return ['status'=>1,'msg'=>'ok','data'=>$popularity_member];
+//        $where = [
+//            'pm.pm_state'=>['in',[2,3]],
+//        ];
+//        $data = Db::table('pai_popularity_member')
+//            ->alias('pm')
+//            ->join('pai_member m','pm.m_id = m.m_id','right')
+//            ->join('pai_popularity_goods pg','pm.pg_id = pg.pg_id','left')
+//            ->where($where)
+//            ->field('pm.pm_id,m.m_name,m.m_avatar,m.m_s_avatar,pg_name,pm.pm_state')
+//            ->order('pm.pm_id desc')
+//            ->limit(0,10)
+//            ->select();
+//        return ['status'=>1,'msg'=>'ok','data'=>$data];
+    }
+    /**
+     * 我参与的
+     * 邓赛赛
+     */
+    public function my_attend(){
+        $page       = input('param.page');
+        $page_size  = input('param.page_size');
+        $status     = input('param.status') ? input('param.status') : 1;
+        $m_id = $this->m_id;
+        if(!$m_id){
+            $this->error('请先登录','/member/login/index','',1);
+        }
+        if(request()->isAjax()){
+            $p_goods = new PopularityGoodsService();
+            $data = $p_goods->get_attend($m_id,$status,$page,$page_size);
+            return $data;
+        }
+
+        // 获取我的现有人气值 可更新人气质时间(lyh)
+        $Popularity = new PopularityService();
+        $call_back = $Popularity -> get_mypop_info($m_id);
+        if(!$call_back['status']){
+            return $call_back['msg'];
+        }
+        $pop_info = $call_back['data'];
+
+        $this->assign('header_title','我参与的');
+        $this->assign('pop_info',$pop_info);
+        $this->assign('status',$status);
+        return view();
+    }
+    /**
+     * 人气排行榜
+     * 邓赛赛
+     */
+    public function ranking_list(){
+        $m_id = $this->m_id;
+        $pg_id      = input('param.pg_id');
+        $page       = input('param.page');
+        $page_size  = input('param.page_size');
+
+        $p_goods    = new PopularityGoodsService();
+        $is_goods   = $p_goods->get_count(['pg_id'=>$pg_id]);
+        if(!$is_goods){
+            $this->error('未找到此商品','/popularity/popularitygoods/share_list','',1);
+        }
+
+        //人气列表
+        $where = [
+            'pm.pm_periods'    =>$p_goods->get_max_periods($pg_id),
+            'pm.pm_state'       =>['>=',2],
+            'pm.pg_id'         =>$pg_id,
+        ];
+        $p_member = new PopularityMemberService();
+        $field = 'pm.pm_id,pm.pm_popularity,m.m_id,m.m_name,m.m_avatar,m.m_s_avatar,pm_paytime';
+        $data = $p_member->popularity_member_join_member($where,'pm.pm_popularity desc,pm.pm_paytime asc',$field,$page,$page_size);
+
+        //人气换算（k/W）
+        foreach($data as  $k => $v){
+            $data[$k]['pm_popularity'] = $p_goods->pm_popularity($v['pm_popularity']);
+        }
+        $list['list'] = $data;
+        $list['pg_id'] = $pg_id;
+        //总条数
+        $where2 = [
+            'pm_periods'    =>$p_goods->get_max_periods($pg_id),
+            'pm_state'       => 2,
+            'pg_id'         =>$pg_id,
+        ];
+        $total_num = $p_member->get_count($where2);
+        $list['total_num'] = $total_num;
+
+        if(request()->isAjax()){
+            return $list;
+        }
+        $self_pai = array();
+        $order_hang = 0;
+        //获取自己的排行
+        $where = [
+            'pm.pm_periods' =>$p_goods->get_max_periods($pg_id),
+            'm.m_id'        =>$m_id,
+            'pm.pm_state'   =>2,
+            'pm.pg_id'   =>$pg_id,
+        ];
+        $self_pai = Db::table("pai_popularity_member pm")->join('pai_member m','pm.m_id=m.m_id','left')->where($where)->field('pm.pm_id,m.m_id,m.m_name,m.m_avatar,pm.pm_popularity')->find();
+        if($self_pai){
+            $where = [
+                'pm_periods'    =>$p_goods->get_max_periods($pg_id),
+                'pm_state'      =>['>=',2],
+                'pg_id'         =>$pg_id,
+            ];
+            $order_hang = Db::table("pai_popularity_member")->where($where)->order('pm_popularity desc,pm_paytime')->column('m_id');
+            $self_pai['self_order'] = array_search($m_id,$order_hang);
+            $this->assign('self_pai',$self_pai);
+        }
+        $this->assign('list',$list);
+        $this->assign('header_title','全部排行榜');
+
+        //微信分享参数
+        $info = $p_goods->get_info(['pg_id'=>$pg_id],'pg_id,pg_name,pg_price,pg_img');
+        $this->assign('share_title','拍吖吖：'.$info['pg_name']);
+        $this->assign('share_desc','只要¥'.$info['pg_price'].'，你敢信？快跟我一起来抢购吧！（注：¥'.$info['pg_price'].'为商品最低销售价）');
+        $this->assign('share_link',PAI_URL.'/popularity/popularitygoods/commodity_info/pg_id/'.$info['pg_id']);
+        $this->assign('share_imgUrl',PAI_URL.$info['pg_img']);
+
+        return view();
+    }
+
+    /**
+     * 人气规则
+     * 邓赛赛
+     */
+    public function p_rule(){
+        $a_type = new ArticleTypeService();
+        $where = [
+            'at_name'   =>trim('人气王活动规则'),
+            'at_state'  =>0
+        ];
+        $at_id = $a_type->articleTypeValue($where,'at_id');
+
+        if(!$at_id){
+            $content = '';
+        }else{
+            $article = new ArticleService();
+            $content = $article->articleValue(['a_type'=>$at_id],'a_description');
+            $content = htmlspecialchars_decode($content);
+        }
+        $this->assign('content',$content);
+        $this->assign('header_title','人气购规则');
+        return view();
+    }
+    /**
+     * 活动规则
+     *
+     */
+    public function activity_rule(){
+        $this->assign('header_title','活动规则');
+        return view();
+    }
+    /**
+     * 我要出道
+     * 刘勇豪
+     * @return mixed
+     */
+    public function to_be_popmem(){
+        $m_id = $this->m_id;
+        $pg_id = input('param.pg_id/d',0);
+        $popularity = new PopularityService();
+        $callback = $popularity->to_be_popmem($pg_id,$m_id);
+        return $callback;
+    }
+
+    /**
+     * 出道支付
+     * 刘勇豪
+     * @return array
+     */
+    public function pay_popmem(){
+        $pm_id = input('param.pm_id/d',0);
+        $md5_pwd = input('param.pwd/s','');
+        $m_id = $this->m_id;
+
+        $popularity = new PopularityService();
+        $callback = $popularity->pay_popmem($pm_id,$m_id,$md5_pwd);
+
+        return $callback;
+    }
+
+    /**
+     * 为擂主打call
+     * 刘勇豪
+     */
+    public function make_calls(){
+        $pm_id = input('param.pm_id/d',0);
+        $pj_mid = $this->m_id;
+        $popularity = new PopularityService();
+        $callback = $popularity->make_calls($pm_id,$pj_mid);
+
+        return $callback;
+    }
+
+    /**
+     * 刘勇豪的测试
+     */
+    public function lyh(){
+
+        $m_id = $this->m_id;
+
+        $popularity = new PopularityService();
+
+
+        // 测试我要出道
+//        $m_id = 46;
+//        $pg_id = input('param.pg_id/d',16);
+//        $callback = $popularity->to_be_popmem($m_id, $pg_id);
+
+
+        // 测试出道支付
+        $pm_id = input('param.pm_id/d',2);
+        $md5_pwd = md5(123456);
+        $callback = $popularity->pay_popmem($pm_id,$m_id,$md5_pwd);
+        dump($callback);
+    }
+
+    /**
+     * 判断并产生人气王
+     * 刘勇豪
+     * @return array
+     */
+    public function select_num1(){
+        $pg_id = input('param.pg_id/d',0);
+        $periods = input('param.periods/d',0);
+        $popularity = new PopularityService();
+        $callback = $popularity->select_num1($pg_id,$periods);
+
+        return $callback;
+    }
+
+    /**
+     * 确认订单重写url
+     */
+    public function rewrite_url(){
+        $pg_id = input('param.pg_id/d',0);
+        $periods = input('param.periods/d',0);
+
+        $popularity = new PopularityService();
+        $callback = $popularity->rewrite_url($pg_id,$periods);
+        return $callback;
+    }
+
+    /**
+     * 擂主点赞列表 TODO...
+     * 刘勇豪
+     */
+    public function joinner_list(){
+        $pm_id = input('param.pm_id/d',0);
+        $page = input('param.page/d',1);
+        $size = input('param.size/d',5);
+
+        $popularity = new PopularityService();
+        $where['pm.pm_id'] = $pm_id;
+        $order='pm.pm_id desc';
+        $field='o.o_id,o.m_id,o.store_id,o.o_money,o.o_paystate,o.o_state,o.gp_id,o.gp_num,o.o_addtime,o.o_paytime,o.o_totalmoney,o.gdr_id,o.o_periods,o.o_isdelete,o.o_gp_settlement_price,o.gs_id,gp.gp_market_price,gp.g_id,
+gp.gp_img,g.g_name,g.g_endtime,s.stroe_name,s.store_logo,g.g_img';
+        $limit = (($page-1) * $size).','.$size;
+
+
+        $callback = $popularity->joinner_list($where,$order,$field,$limit);
+        return $callback;
+    }
+
+    /*
+     * 历史人气王列表
+     * 邓赛赛
+     */
+    public function champion_list(){
+        $this->assign('header_title','人气王列表');
+        return view();
+    }
+
+    public function get_champion_list(){
+        $m_id = $this->m_id;
+        $page = input('param.page/d',1);
+        $size = input('param.size/d',5);
+        $type = input('param.type/d',0);//0历史人气王 1参团列表
+
+        $where['pm.pm_paystate'] = ['gt',1];//已支付
+        if(!$type){
+            $where['pm.pm_state'] = 3;//出道成功
+        }
+
+        $popularity = new PopularityService();
+
+        $order='pm.add_time desc';
+        $field = 'm.m_id,m.m_name,m.m_avatar,m.m_s_avatar,pg.pg_id,pg.pg_img,pg.pg_s_img,pg.pg_name,pg.pg_periods,pg.pg_market_price,pg.pg_price,pg.end_time,pg.pg_sn,pm.add_time,pm.pm_paytime,pm.pm_id,pm.pm_state,pm.pm_paymoney,pm.pm_order_status';
+        $limit = (($page-1) * $size).','.$size;
+        $list = $popularity->get_champion_limit_list($where,$order,$field,$limit);
+        if(!empty($list)){
+            $award_time = time();
+            foreach($list as $k=>$v){
+                $call_back = $popularity->get_award_time($v['pg_id'],$v['pg_periods']);
+                if($call_back['status']){
+                    $award_time = $call_back['data'];
+                }
+                $list[$k]['award_time'] = $award_time;
+            }
+        }
+
+        // 统计总条数
+        $total_num = $popularity->get_champion_list_count($where);
+        if(empty($list)){
+            return ['status' => 0, 'msg' => '没有数据', 'data' => $list,'total_num'=>$total_num];
+        }
+        return ['status' => 1, 'msg' => 'success', 'data' => $list,'total_num'=>$total_num];
+    }
+    /**
+     * 中奖者信息列表
+     * 邓赛赛
+     */
+    public function prize_list(){
+        //人气王吖吖通告
+        $article_type = new ArticleTypeService();
+        $where2 = [
+            'at_name'=>'人气王吖吖通告'
+        ];
+        $at_id = $article_type->articleTypeValue($where2,'at_id');
+        $article = new ArticleService();
+        $where3 = [
+            'a_type'=>$at_id,
+            'a_state'=>0
+        ];
+        $page = input('param.page',1);
+        $page_size = input('param.page_size',6);
+        $list['list'] = $article->articleLimitList($where3,'a_id desc','*',$page,$page_size);
+
+        $total_num = $article->articleCount($where3);
+        $total_page = ceil($total_num/$page_size);
+        $list['page'] = $page;
+        $list['page_size'] = $page_size;
+        $new_num = count($list['list']);
+        $list['new_num'] = $new_num;
+        $list['total_num'] = $total_num;
+        $list['total_page'] = $total_page;
+        foreach($list['list'] as $k => $v){
+            $list['list'][$k]['a_description']=htmlspecialchars_decode($v['a_description']);
+        }
+        if(\request()->isAjax()){
+            return $list;
+        }
+        $this->assign('list',$list);
+        $this->assign('header_title','人气中奖名单');
+        return view();
+    }
+
+    /**
+     * 中奖详情
+     * 邓赛赛
+     */
+    public function prize_info(){
+        $a_id = input('param.a_id');
+        $article = new ArticleService();
+        $where = [
+            'a_id'=>$a_id,
+        ];
+        $content = $article->articleValue($where,'a_description');
+        $content = htmlspecialchars_decode($content);
+        $this->assign('content',$content);
+        $this->assign('header_title','中奖详情');
+        return view();
+    }
+
+    /**
+     * 线下商品详情
+     * 刘勇豪
+     */
+    public function line_goods(){
+        $pg_id      = input('param.pg_id/d');
+        $page       = input('param.page/d');
+        $page_size  = input('param.page_size/d');
+
+        $page       = $page     ? $page      : 1;
+        $page_size  = $page_size? $page_size : 20;
+        $m_id = $this->m_id;
+        //获取商品信息
+        $p_goods = new PopularityGoodsService();
+        $is_goods = $p_goods->get_count(['pg_id'=>$pg_id]);
+        if(!$is_goods){
+            $this->error('未找到此商品','/popularity/popularitygoods/share_list','',1);
+        }
+
+        //详情信息
+        $data = $p_goods->get_commodity_info($pg_id,$m_id,$page,$page_size);
+        //是否登录
+        $where = [
+            'm_id'=>$m_id
+        ];
+        $mem = new MemberService();
+        $is_login = $mem->get_info($where,'m_id');
+        $data['is_login'] = $is_login ? 1 : 0;
+
+        //ajax请求更多活动推荐
+        if(request()->isAjax()){
+            return $data['more_activities'];
+        }
+        $this->assign('data',$data);
+        $this->assign('header_path',PAI_URL.'/popularity/popularitygoods/share_list');
+        //微信分享参数
+        $this->assign('share_title','拍吖吖：让快乐充满你的拍子！');
+        $this->assign('share_desc','5折！3折！1折！还有1元价！尽在拍吖吖，快来抢购吧！');
+        $this->assign('share_link','https://m.paiyy.com.cn/');
+        $this->assign('share_imgUrl','https://m.paiyy.com.cn/uploads/logo/1.jpg');
+
+        //成为擂主微信分享参数
+        $this->assign('share_title2','只要¥'.$data['pg_price'].'，你敢信？争夺人气王，宝贝抱回家！');
+        $this->assign('share_desc2',$data['pg_name']);
+        $this->assign('share_link2',PAI_URL.'/popularity/popularitygoods/commodity_info/pg_id/'.$data['pg_id']);
+        $this->assign('share_imgUrl2',PAI_URL.$data['pg_img']);
+
+        $this->assign('now_time',time());
+        $this->assign('m_id',$m_id);
+        return view();
+
+    }
+
+    /**
+     * 线下商品获取人气王
+     * 刘勇豪
+     * @return array
+     */
+    public function auto_line_publish(){
+        $pg_id = input('param.pg_id/d');
+        $periods  = input('param.periods/d');
+
+        $popularity = new PopularityService();
+        $callback = $popularity->auto_line_publish($pg_id,$periods);
+        return $callback;
+    }
+
+    /**
+     * 统计用户人气王订单未填写地址的订单
+     * 刘勇豪
+     * @return array
+     */
+    public function count_noaddress_order(){
+        $m_id = $this->m_id;
+        $popularity = new PopularityService();
+        $callback = $popularity->count_noaddress_order($m_id);
+
+        //dump($callback);die;
+        return $callback;
+
+    }
+
+    /**
+     * 获取订单的地址可修改状态
+     * 刘勇豪
+     */
+    public function get_pm_address_status(){
+        $pm_id = input('param.pm_id/d',0);
+        $popularity = new PopularityService();
+        $callback = $popularity->get_pm_address_status($pm_id);
+
+        return $callback;
+    }
+
+    /**
+     * /popularity/popularitygoods/mid_encrept
+     */
+    public function mid_encrept(){
+        $m_id = input('param.m_id/d',1087);
+        $phone= input('param.phone/s','');
+        $popularity = new PopularityService();
+        $encrypt_mid = $popularity->encrypt('abcde'.$m_id);
+        $encrypt_phone = $popularity->encrypt($phone);
+
+        for ($x=0; $x<=50; $x++) {
+            $encrypt_mid = $popularity->encrypt('abcde'.($m_id +$x) );
+            echo ($m_id +$x).'加密后：'.$encrypt_mid;
+            echo "<br>";
+        }
+
+//        echo $m_id.'加密后：'.$encrypt_mid;
+//        echo "<br>";
+//        echo $phone.'加密后：'.$encrypt_phone;
+//        return $callback;
+    }
+
+    /**
+     * 人气商品现有人气统计接口
+     * 刘勇豪
+     * @return mixed
+     * /popularity/popularitygoods/get_mypop
+     */
+    public function get_mypop(){
+        $m_id = $this->m_id;
+        $popularity = new PopularityService();
+        $call_back = $popularity->get_mypop_info($m_id);
+
+        return $call_back;
+
+    }
+
+
+}

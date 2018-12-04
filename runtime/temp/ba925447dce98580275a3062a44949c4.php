@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/prize_list.html";i:1542770048;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/prize_list.html";i:1542870313;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -260,8 +260,8 @@ function getzf(num){
                                 html += '<a href="/popularity/popularitygoods/prize_info/a_id/'+res.list[i].a_id+'">'
                                 html += '<div class="prize_list_item">';
                                 html += '<div class="yy_notice_img lf">'
-                                html += '<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="" class=" annunciate_img ">';
-                                // html += '<img src="'+res.list[i].a_img+'" alt="" class=" annunciate_img ">';
+                                // html += '<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" alt="" class=" annunciate_img ">';
+                                html += '<img src="'+res.list[i].a_img+'" alt="" class=" annunciate_img ">';
                                 html += '</div>'
                                 // if(i == 1){
                                 //      html += '<img src="__STATIC__/image/systemmsg/icon_zhiding@2x.png" alt="" class="zhiding">'

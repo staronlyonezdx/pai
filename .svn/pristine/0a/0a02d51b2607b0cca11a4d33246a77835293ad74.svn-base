@@ -1,0 +1,252 @@
+{extend name="common/base" /}
+{block name="style"}
+<!--<link rel="stylesheet" type="text/css" href="__CSS__/address/register.css">-->
+<link rel="stylesheet" type="text/css" href="__CSS__/core/continue_invitation.css">
+{/block}
+{block name="content"}
+<main style="margin-top: 0;">
+    <div class="continue_bg">
+        <a href="/">
+            <div class="continue_shouye">
+                <img src="__STATIC__/image/share_list/icon_nav_backhome@2x.png" alt=""/>
+            </div>
+        </a>
+        <img src="__STATIC__/image/core/BG2@2x.png" alt="">
+        <div class="continue_view">
+            <a href="/member/core/rule/">
+                <div class="continue_huodong">
+                    <img src="__STATIC__/image/core/huodong@2x.png" alt="">
+                </div>
+            </a>
+            <div class="continue_data">
+                活动时间 7月1日 ~ 12月31
+            </div>
+            <div class="continue_liucheng2">
+                <div class="continue_inp_view">
+                    <div class="continue_phone">
+                        <img src="__STATIC__/image/core/icon_shouji@2x.png" alt="">
+                        <input type="number" name="phone" class='m_mobile' placeholder="请输入注册手机号" oninput="if(value.length>11)value=value.slice(0,11)">
+                    </div>
+                    <div class="continue_phone">
+                        <img src="__STATIC__/image/core/icon_yanzengma@2x.png" alt="">
+                        <input type="number" name="code" class="verification" placeholder="请输入验证码" oninput="if(value.length>6)value=value.slice(0,6)">
+                        <button class="continue_it_code register_code">获取验证码</button>
+                    </div>
+                    <div class="continue_phone">
+                        <img src="__STATIC__/image/core/icon_mima@2x.png" alt="">
+                        <input type="password" name="password" class='m_pwd'  placeholder="请输入密码"  maxlength="16" oninput="if(value.length>16)value=value.slice(0,16)">
+                    </div>
+                    <div class="continue_yaoqingren">
+                        <span id="tel">{$phone ?? ''}</span>邀请你加入拍吖吖
+                    </div>
+                    <div class="continue_tijiao_btn">
+                        提交注册信息
+                    </div>
+                </div>
+            </div>
+            <div class="continue_fuli">
+                <!-- <a href="/index/index/agreement/at_name/邀请新人活动规则"> -->
+                    <!-- 查看福利详情 -->
+                <!-- </a> -->
+            </div>
+            <div class="continue_guize">
+                <div class="continue_margin">
+                    <div class="continue_text">
+                        <p>邀请限定范围</p>
+                        <span>被邀请人必须是未在拍吖吖平台注册过的新用户</span>
+                    </div>
+                    <div class="continue_text">
+                        <p>二维码或链接</p>
+                        <span>被邀请人必须通过邀请人分享的二维码或链接注 册入驻拍吖吖才算成功</span>
+                    </div>
+                    <div class="continue_text">
+                        <p>填写邀请人</p>
+                        <span>被邀请人自行下载拍吖吖App，在注册界面自行 填写邀请人（必须是在平台注册过的用户）的手 机号，并成功登陆即完成</span>
+                    </div>
+                    <div class="continue_text">
+                        <span>如有违法违规作弊行为将被取消奖励资格</span>
+                    </div>
+                    <a href="/index/index/agreement/at_name/邀请新人活动规则">
+                        查看完整规则详情
+                    </a>
+                </div>
+            </div>
+            <div class="continue_pop">
+                <div class="continue_con">
+                    <div class="continue_con_top">
+                        <img src="__STATIC__/image/core/icon_yaoqingma@2x.png" alt="">
+                    </div>
+                    <div class="continue_con_code">
+                        <img src="__STATIC__/image/core/icon_member _gold_lage 拷贝@2x.png" alt="">
+                    </div>
+                    <div class="continue_con_btn clear">
+                        <div class="lf">保存二维码</div>
+                        <div class="rt">复制链接</div>
+                    </div>
+                    <div class="continue_con_list clear">
+                        <div class="continue_con_list_div lf">
+                            <div>
+                                <img src="__STATIC__/image/core/wx@2x.png" alt="">
+                            </div>
+                            <p>微信好友</p>
+                        </div>
+                        <div class="continue_con_list_div lf">
+                            <div>
+                                <img src="__STATIC__/image/core/pyq@2x.png" alt="">
+                            </div>
+                            <p>朋友圈</p>
+                        </div>
+                        <div class="continue_con_list_div lf">
+                            <div>
+                                <img src="__STATIC__/image/core/qq@2x.png" alt="">
+                            </div>
+                            <p>QQ好友</p>
+                        </div>
+                        <div class="continue_con_list_div lf">
+                            <div>
+                                <img src="__STATIC__/image/core/xl@2x.png" alt="">
+                            </div>
+                            <p>新浪微博</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<!--<script src="__JS__/set/register.js"></script>-->
+<script>
+$(function(){
+    //将手机号中间4位数隐藏
+    var tel=$("#tel").html();
+    $("#tel").html(tel.substring(0,3)+"****"+tel.substring(7,11));
+    $("input[name='phone']").blur(function(){
+        // var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        var phone=$(this).val();
+        if (phone.length!=11) {
+            layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
+                time:2000
+            });
+            return false;
+        }
+    })
+    $("input[name='code']").blur(function(){
+        var code=$(this).val();
+        if(code==""){
+            layer.msg("<span style='color:#fff'>验证码不能为空</span>",{
+                time:2000
+            });
+            return false;
+        }
+    })
+    $("input[name='password']").blur(function(){
+        var m_mima=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+        var password=$(this).val();
+        if (!m_mima.test(password)) {
+            layer.msg("<span style='color:#fff'>请输入6-16位数字/字母的组合</span>",{
+                time:2000
+            });
+            return false;
+        }
+    })
+})
+    $('.continue_tijiao_btn').on('click',function(){
+        // var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        var m_mobile = $('.m_mobile').val();
+        //验证码
+        var verification = $('.verification').val();
+        //密码
+        var m_pwd=$(".m_pwd").val();
+        var tj_mobile = "{$phone}";
+        $.post("/member/register/it_to_rg",{m_mobile:m_mobile,verification:verification,m_pwd:m_pwd,tj_mobile:tj_mobile},function(res){
+            if(res.status == 1){
+                location.href='/member/register/tj_success'
+            }else{
+                layer.msg("<span style='color:#fff'>"+res.msg+"</span>",{
+                    time:2000
+                });
+            }
+        })
+    })
+
+
+
+var InterValObj; //timer变量，控制时间
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数
+$(".continue_it_code").click(function(){
+    // var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+    var m_mobile = $('.m_mobile').val();
+    if (m_mobile.length!=11) {
+            layer.msg("<span style='color:#fff'>手机号输入有误</span>",{
+                time:2000
+            });
+        return false;
+    }else{
+        curCount=count;
+        //设置button效果，开始计时
+        var m_mobile = $('.m_mobile').val();
+        $.ajax({
+            type:"POST",//用post方式传输
+            dataType:"JSON",//数据格式：JSON
+            url:"/member/login/get_token ",//目标地址
+            data:{
+                mobile:m_mobile
+            },
+            success:function(res){
+                // console.log(res)
+                $.ajax({
+                    type:"POST",//用post方式传输
+                    dataType:"JSON",//数据格式：JSON
+                    url:"/member/register/register_code",//目标地址
+                    data:{
+                        m_mobile:m_mobile,
+                        sms_checked_code:res.data
+                    },
+                    success:function(str){
+                        console.log(str);
+                        if(str.status == 1){
+                            $('.continue_it_code').attr("disabled","true");
+                            $(".continue_it_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+                            $('.continue_it_code').text(curCount+"s后可重新发送");
+                            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                        }else if(str.status == 2){
+                            layer.confirm(str.msg, {
+                                title:false,/*标题*/
+                                closeBtn: 0,
+                                btnAlign: 'c',
+                                btn: ['我知道啦','前去登录'],
+                                btn2:function(){
+                                    location.href="/member/login/index";
+                                }
+                            })
+                        }else{
+                            layer.msg("<span style='color:#fff'>"+str.msg+"</span>",{
+                                time:2000
+                            });
+                        }
+                    }
+                })
+            }
+        })
+        
+    }
+})
+//timer处理函数
+function SetRemainTime(){
+    if(curCount==0){
+//        window.clearInterval(InterValObj);//停止计时器
+        $(".continue_it_code").css({background:"transparent",color:"#2B2B2B"});
+        $(".continue_it_code").removeAttr("disabled");//启用按钮
+        $(".continue_it_code").text("重新发送");
+    }else{
+        curCount--;
+        $(".continue_it_code").css({background:"#F2F2F2",color:"#aaaaaa",border:"none"});
+        $(".continue_it_code").text(curCount+"s后可重新发送");
+    }
+}
+</script>
+{/block}

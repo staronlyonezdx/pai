@@ -1,0 +1,285 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/all_participants.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    {if condition="$awardinfo.o_play_type == 1"}
+    <!-- 余额支付不中退款 S -->
+    <div class="all_participants_header">
+        <div class="all_participants_tab clear">
+            <div class="all_participants all_participants_border lf">
+                <span>
+                    <span class="title">所有参与者</span>
+                    <img src="__STATIC__/image/orderpai/icon_xia@2x.png" class="all_participants_inline">
+                    <img src="__STATIC__/image/orderpai/icon_shang@2x.png">
+                </span>
+            </div>
+            <div class="all_participants lf">
+                <a href="/member/orderpai/pai_rule">
+                    <span>揭晓规则<img src="__STATIC__/image/orderpai/icon__@2x.png"></span>
+                </a>
+            </div>
+        </div>
+        <div class="all_participants_postion ">
+            <div class="all_participants_screen">
+                <div class="all_participants_list all_participants_black" select_type="0">所有参与者</div>
+                <div class="all_participants_list" select_type="1">只看我的</div>
+                {if condition="$goods.is_fudai == 1"}
+                <div class="all_participants_list" select_type="2">只看大福袋</div>
+                {else/}
+                <div class="all_participants_list" select_type="2">只看抽中者</div>
+                {/if}
+            </div>
+            <div class="all_participants_zhezhao"></div>
+        </div>
+    </div>
+    {notempty name="awardinfo"}
+    <div class="paier_detail">
+        <div class="paier_detail_bg">
+            <div class="paier_con">
+                <div class="paier_view">
+                    <img src="{$awardinfo.m_s_avatar|default='__STATIC__/image/myhome/TIM20180731142117.jpg'}" class="tuanzhong">
+                </div>
+                {if condition="$goods.is_fudai == 1"}
+                    <div class="paier_view_img">
+                        <img src="__STATIC__/image/orderpai/dfd2.png" alt="">
+                    </div>
+                {else/}
+                    <div class="paier_view_img">
+                        <img src="__STATIC__/image/orderpai/icon_zhongpai@2x.png" alt="">
+                    </div>
+                {/if}
+            </div>
+        </div>
+        <!-- <img src="__STATIC__/image/orderpai/bg_zhuangshi@2x.png" alt="" class=""> -->
+        <p class="paier_detail_name">{$awardinfo.m_name|default=''}</p>
+        <p class="paier_detail_yaya">吖吖码：{$awardinfo.oa_code|default=''}</p>
+    </div>
+    {/notempty}
+    <!-- 余额支付不中退款 E -->
+    {elseif condition="$awardinfo.o_play_type == 2" /}
+    <!-- 余额支付不中不退款 S -->
+    <div class="all_participants_header">
+        <div class="all_participants_tab clear">
+            <div class="all_participants all_participants_border lf">
+                <span>
+                    <span class="title">所有参与者</span>
+                    <img src="__STATIC__/image/orderpai/icon_xia@2x.png" class="all_participants_inline">
+                    <img src="__STATIC__/image/orderpai/icon_shang@2x.png">
+                </span>
+            </div>
+            <div class="all_participants lf">
+                <a href="/member/orderpai/pai_rule">
+                    <span>揭晓规则<img src="__STATIC__/image/orderpai/icon__@2x.png"></span>
+                </a>
+            </div>
+        </div>
+        <div class="all_participants_postion ">
+            <div class="all_participants_screen">
+                <div class="all_participants_list all_participants_black" select_type="0">所有参与者</div>
+                <div class="all_participants_list" select_type="1">只看我的</div>                
+                <div class="all_participants_list" select_type="2">只看抽中者</div>
+            </div>
+            <div class="all_participants_zhezhao"></div>
+        </div>
+    </div>
+    {notempty name="awardinfo"}
+    <div class="paier_detail">
+        <div class="paier_detail_bg">
+            <div class="paier_con">
+                <div class="paier_view">
+                    <img src="{$awardinfo.m_s_avatar|default='__STATIC__/image/myhome/TIM20180731142117.jpg'}" class="tuanzhong">
+                </div>                
+                <div class="paier_view_img">
+                    <img src="__STATIC__/image/orderpai/jxzp.png" alt="">
+                </div>
+            </div>
+        </div>
+        <!-- <img src="__STATIC__/image/orderpai/bg_zhuangshi@2x.png" alt="" class=""> -->
+        <p class="paier_detail_name">{$awardinfo.m_name|default=''}</p>
+        <p class="paier_detail_yaya">吖吖码：{$awardinfo.oa_code|default=''}</p>
+    </div>
+    {/notempty}
+    <!-- 余额支付不中不退款 E -->
+    {elseif condition="$awardinfo.o_play_type == 3" /}
+    <!-- 花生支付不中不退 S -->
+
+    <!-- 花生支付不中不退 E -->
+    {/if}
+    <div class="all_participants_main content-view">
+        <div class="lists-view" id="dataList"></div>
+    </div>
+    <input type="hidden" name="gdr_id" value="{$gdr_id|default=0}"/>
+    <input type="hidden" name="o_periods" value="{$o_periods|default=0}"/>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/Public.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script>
+    $(function () {
+        // 折id
+        var gdr_id = $("input[name=gdr_id]").val();
+        // 期数
+        var o_periods = $("input[name=o_periods]").val();
+        // 参与者类型
+        var type = 0;
+
+        //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+        var mescroll = new MeScroll("body", {
+            //下拉刷新
+            down: {
+                isLock: true, //锁定下拉
+            },
+            //上拉加载的配置项
+            up: {
+                callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+                noMoreSize: 0, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+                empty: {
+                    icon: "/static/image/goodscollection/shoucang@2x.png", //图标,默认null
+                    tip: "暂无相关数据~", //提示
+                },
+                clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+                htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+                htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+                toTop: { //配置回到顶部按钮
+                    src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                    //html: null, //html标签内容,默认null; 如果同时设置了src,则优先取src
+                    //offset : 1000
+                }
+            }
+        });
+        
+        //点击显示隐藏所有参与类型
+        $(".all_participants_border").click(function () {
+            $(".all_participants_border").find("img").toggleClass("all_participants_inline");
+            $(".all_participants_postion").toggleClass("all_participants_block");             
+        })
+        
+        //隐藏下拉参与类型
+        $('.all_participants_zhezhao').click(function(){
+            $(".all_participants_border").find("img").toggleClass("all_participants_inline");
+            $(".all_participants_postion").toggleClass("all_participants_block");
+        })
+
+        //点击选择参与类型
+        $(".all_participants_list").click(function () {
+            $(".all_participants_list").removeClass("all_participants_black");
+            $(this).addClass("all_participants_black");
+            $(".all_participants_postion").removeClass("all_participants_block");
+
+            type = $(this).attr("select_type");
+            var this_title = $(".all_participants_black").html();
+            $(".title").html(this_title);
+
+            //重置列表数据
+            mescroll.resetUpScroll();
+            //隐藏回到顶部按钮
+            mescroll.hideTopBtn();
+        })
+
+        /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+        function getListData(page) {
+            //联网加载数据
+            getListDataFromNet(page.num, page.size, function (curPageData,total_num) {
+                //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                mescroll.endBySize(curPageData.length, total_num); //必传参数(当前页的数据个数, 总数据量) 
+
+                //设置列表数据
+                setListData(curPageData);
+            }, function () {
+                //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                mescroll.endErr();
+            });
+        }
+
+        /*设置列表数据*/
+        function setListData(curPageData) {
+            var listDom = document.getElementById("dataList");
+            for (var i = 0; i < curPageData.length; i++) {
+                var pd = curPageData[i];
+
+                if(pd.m_s_avatar == '' || pd.m_s_avatar == null) {
+                    pd.m_s_avatar = '__STATIC__/image/myhome/TIM20180731142117.jpg';
+                }
+                if(pd.o_state == 2 || pd.o_state == 3 || pd.o_state == 4 || pd.o_state == 5) {
+                    var str = '<div class="all_participants_main_list clear fdbg">';
+                }else {
+                    var str = '<div class="all_participants_main_list clear">';
+                }
+                str += '<div class="all_participants_main_picview lf">';
+                str += '<div class="all_participants_main_pic">';
+                str += '<img src="' + pd.m_s_avatar + '">';
+                str += '</div>';
+                if(pd.o_state == 2 || pd.o_state == 3 || pd.o_state == 4 || pd.o_state == 5) {
+                    str += '<div class="all_participants_zhongpai">';
+                    if(pd.o_is_fudai == 1) {
+                        str += '<img src="/static/image/orderpai/dfd2.png" />';
+                    }else if(pd.o_play_type == 2) {
+                        str += '<img src="/static/image/orderpai/jxzp.png" />';
+                    }else {
+                        str += '<img src="/static/image/orderpai/icon_zhongpai@2x.png" />';
+                    }                    
+                    str += '</div>';
+                }
+                str += '</div>';
+                str += '<div class="all_participants_text lf clear">';
+                str += '<p>' + pd.m_name + '<span>' + msToDate(pd.o_paytime * 1000).wasTime + '</span></p>';
+                str += '<div>拥有' + pd.gp_num + '份吖吖码<img src="/static/image/orderpai/icom_jump@2x.png" class="rt"></div>';
+                str += '</div>';
+                str += '</div>';
+
+                var liDom = document.createElement("a");
+                liDom.setAttribute("href", "/member/orderpai/paier_info/o_id/" + pd.o_id + "");
+                liDom.innerHTML = str;
+                listDom.appendChild(liDom);
+                $('img').on('error',function(){
+                    $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+                });
+            }
+        }
+
+        /*联网加载列表数据
+         在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+         请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+         实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+         * */
+        function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+            //延时一秒,模拟联网
+            setTimeout(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/member/Orderpai/get_paier_list',
+                    data: {
+                        gdr_id: gdr_id,
+                        o_periods: o_periods,
+                        type: type,
+                        page: pageNum,
+                        size: pageSize
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var listData = [];
+                        for (var i = 0; i < data.data.length; i++) {
+                            listData.push(data.data[i]);
+                        }
+
+                        //回调
+                        successCallback(listData,data.total_num);
+                    },
+                    error: errorCallback
+                });
+            }, 1000)
+        }
+    });
+    $('img').on('error',function(){
+        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
+    })
+</script>
+{/block}

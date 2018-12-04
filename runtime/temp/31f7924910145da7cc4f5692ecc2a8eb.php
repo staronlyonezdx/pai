@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\project\pai\public/../application/admin/view/goods/goodslist.html";i:1541583031;s:64:"D:\project\pai\public/../application/admin/view/common/base.html";i:1541491286;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\project\pai\public/../application/admin/view/goods/goodslist.html";i:1543549811;s:64:"D:\project\pai\public/../application/admin/view/common/base.html";i:1543283930;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -12,6 +12,7 @@
 	        <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/small-n-flat.css">
 	        <link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/font-awesome.min.css">
             <link rel="stylesheet" type="text/css" href="__CSS__/pccommon/common.css">
+
         	
 <style>
     .select_box{
@@ -49,6 +50,7 @@
 	        <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/clearmin.min.js"></script>
 	        <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/home.js"></script>
             <script type="text/javascript" src="/static/h-ui.admin/lib/layer/2.4/layer.js"></script>
+
        		
 <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/summernote.min.js"></script>
 <script src="__ADMIN_LIB_CLEARMINMASTER_JS__/demo/notepad.js"></script>
@@ -82,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <header id="cm-header" style="z-index: 9999;">
+        <header id="cm-header" style="z-index: 1000000002;">
             <nav class="cm-navbar cm-navbar-primary">
                 <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
                 <div class="cm-flex">
@@ -376,12 +378,12 @@
         $("#g_id").val(g_id)
         $("#g_name").val(name)
         $('#exampleModalLabel').html('设为热拍');
-        $('.chge2').show()
-        $('.chge1').hide()
+        $('.chge2').show();
+        $('.chge1').hide();
 //        var html = ' <label for="g_des" class="control-label ">排序:</label>' +
 //                    ' <input type="text" class="is_heat" name="is_heat" >';
 //        $('.chge').html(html);
-        $('#form').attr('action','/admin/goods/set_heat');
+        $('#form').attr('action','/admin/goods/set_heat/num/'+ <?php echo $num; ?>);
     }
 
     //查看商品详情

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\project\pai\public/../application/member/view/promoters/index.html";i:1542589248;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\project\pai\public/../application/member/view/promoters/index.html";i:1542935137;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -34,6 +34,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -53,7 +60,23 @@
         
 <main>
     <div class="promoters">
-        <div class="promoters_content">
+        <div class="promoters_quanyi">
+            <img src="__STATIC__/image/promoters/pg_quanyi@2x.png" alt="">
+        </div>
+        <div class="promoters_why">
+            <img src="__STATIC__/image/promoters/pg_tuiguang@2x.png" alt="">
+        </div>
+        <div class="promoters_tui">
+                <img src="__STATIC__/image/promoters/pg_chengwei@2x.png" alt="">
+                <a href="/member/promoters/assessment_standard">
+                    <span>查看考核指标</span><img src="__STATIC__/image/promoters/icon_jump11@2x.png" alt="">
+                </a>
+        </div>
+        <div class="promoters_bottom clear">
+            <a class="phs" href="tel:400-027-1888"><div class="promoters_call lf">咨询客服</div></a>
+            <div class="promoters_shenqing lf apply">一键申请</div>
+        </div>
+        <!-- <div class="promoters_content">
             <p class="join_title">加入我们</p>
             <div class="promoters_content_tips">
                 <p>加入拍吖吖成为吖吖推广员，</p>
@@ -66,7 +89,7 @@
                 <a class="phs" href="tel:400-027-1888">咨询客服</a>
                 <a href="javascript:;" class="apply">我已了解，一键申请</a>
             </div>
-        </div>
+        </div> -->
     </div>
 </main>
 
@@ -181,7 +204,7 @@
                 layer.confirm('', {
                     title:false,
                     closeBtn:false,
-                    content:'<span class="promoters_alert">您是否已经通过客服详细了解推广员制度，确认申请？</span>',
+                    content:'<span class="promoters_alert">您是否已经详细了解推广员制度，确认申请？</span>',
                     btn: ['取消', '立即申请'] //可以无限个按钮
                     ,btn2: function(index, layero){
                         $.ajax({
@@ -237,7 +260,9 @@
     setupWebViewJavascriptBridge(function(bridge) {
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
-            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            if(str == '1.0') {
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            }
         })
     })
 
@@ -250,4 +275,9 @@
     }
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

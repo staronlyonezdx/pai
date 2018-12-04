@@ -1,0 +1,688 @@
+<?php
+namespace app\index\controller;
+use app\data\service\article\ArticleService;
+use app\data\service\articleType\ArticleTypeService;
+use app\data\service\BaseService;
+use app\data\service\config\ConfigService;
+use app\data\service\goods\GoodsService;
+use app\data\service\goodsCategory\GoodsCategoryService;
+use app\data\service\member\MemberService;
+use app\data\service\search\SearchHotService;
+use app\data\service\search\SearchService;
+use app\data\service\store\StoreService;
+use app\data\service\webImagesType\WebImagesTypeService;
+use app\data\service\activity\ActivityService;
+use app\member\controller\IndexHome;
+use RedisCache\RedisCache;
+use think\Controller;
+use think\Cookie;
+use think\Db;
+
+class Index extends IndexHome
+{
+    /*
+     * 首页
+     * 邓赛赛
+     */
+    public function index()
+    {
+        $m_id = $this->m_id;
+        $redis = RedisCache::getInstance(1);
+        $imgs = $redis->get('imgs');
+
+        if($imgs){
+            $imgs = json_decode($imgs,true);
+        }else{
+            $wit = new WebImagesTypeService();
+            $where = [
+                'wi.wi_type'=>1,
+                'wi.wi_state'=>0,
+                'wit.wit_code'=>['in',['hd','sydh','syad']],
+            ];
+
+            //分类图片(轮播图/广告/导航)
+            $type_img = $wit->get_web_img($where,$order='wi.wi_sort asc',$field='wit.wit_name,wit.wit_code,wi.wi_name,wi.wi_imgurl,wi.wi_href');
+            $imgs = array();
+            foreach($type_img as $k => $v){
+                $imgs[$v['wit_code']][] =  $v;
+            }
+            $redis->set('imgs',json_encode($imgs));
+        }
+        //搜索自己的历史
+        $is_reward = 2;
+        $searchs = array();
+        if($m_id){
+            $where = [
+                'm_id'=>$m_id
+            ];
+            $search = new SearchService();
+            $self = $search->get_limit($where,'ps_addtime desc','ps_keyword',1,20);
+            $searchs['self'] = array_column($self,'ps_keyword');
+            $member = new MemberService();
+            $reward = $member->check_app_reward($m_id);
+            if($reward['status'] == 2){
+                $is_reward = 2;
+            }else{
+                $is_reward = 1;
+            }
+        }
+        $search_hot = new SearchHotService();
+        $hot = $search_hot->get_list([],'psh_sort asc','psh_keyword','');
+        $searchs['hot'] = array_column($hot,'psh_keyword');
+        $is_login = empty($m_id) ? 0 : 1;
+
+        // 超值购数据(lyh)
+        $redis = RedisCache::getInstance(1);
+        $cztg = $redis->get('cztg');
+        if($cztg){
+            $cztg = json_decode($cztg,true);
+        }else{
+            $activity = new ActivityService();
+            $where = '';
+            $where['a_name'] = ['like',"%超值团购%"];;
+            $call_back = $activity->get_cztg_goods($where);
+            $cztg = $call_back['data'];
+        }
+
+
+        $this->assign([
+            'imgs'          =>$imgs,
+//            'heat'          =>$heat,
+            'searchs'       =>$searchs,
+            'is_reward'     =>$is_reward,
+            'is_login'     =>$is_login,
+            'cztg'     =>$cztg,
+        ]);
+        return $this->fetch();
+    }
+
+    /**
+     * 领取奖励（h5模拟app领取）
+     * 邓赛赛
+     */
+    public function app_reward(){
+        $m_id = $this->m_id;
+        $config = new ConfigService();
+        $where = [
+            'c_code'=>'FIRST_MONEY'
+        ];
+        $max_money = $config->configGetValue($where,'c_value');
+        if(empty($max_money)){
+            $max_money = 10;
+        }
+        $member = new MemberService();
+        $check_reward = $member->check_app_reward($m_id);
+        if($check_reward['status'] != 1){
+            return  ['status'=>3,'msg'   =>'不可领取金额'];
+        }
+        //领取奖励
+        $res = $member->first__register_reward($m_id,$max_money);
+        return $res;
+    }
+
+    /**
+     * 公告展示
+     * 邓赛赛
+     */
+    public function notice(){
+        if(request()->isAjax()){
+            $redis = RedisCache::getInstance(1);
+            $sy_gg_list = $redis->get('sy_gg_list');
+            if($sy_gg_list){
+                $list = json_decode($sy_gg_list,true);
+            }else{
+                $a_type = new ArticleTypeService();
+                $where = [
+                    'at_name'=>'公告'
+                ];
+                $at_id = $a_type->articleTypeValue($where,'at_id');
+                if(!$at_id){  return ['status'=>0,'msg'=>'未找到公告分类','data'=>'']; }
+                $article = new ArticleService();
+                $where2 = [
+                    'a_type'=>$at_id,
+                    'a_state'=>0
+                ];
+                $list = $article->articleColumn($where2, 'a_name');
+                foreach($list as $k => $v){
+                    $list[$k] = htmlspecialchars_decode($v);
+                }
+                $list = array_reverse($list);
+                $redis->set('sy_gg_list',json_encode($list),300);
+            }
+            return ['status'=>1,'msg'=>'ok','data'=>$list];
+        }else{
+            return ['status'=>0,'msg'=>'非法操作','data'=>''];
+        }
+    }
+    /**
+     * 精选热拍
+     * 邓赛赛
+     */
+    public function goods_hot(){
+        $page       = input('param.page',1);
+        $page_size  = input('param.page_size',10);
+        $goods = new GoodsService();
+        //热拍
+        if(request()->isAjax()){
+            $redis = RedisCache::getInstance();
+            if($page == 1){
+                $heat = $redis->get('first_heat');
+                if($heat){
+                    $heat = json_decode($heat,true);
+                }else{
+                    $heat = $goods->get_heat_list('g.is_heat desc',$page,$page_size);
+                    $redis->set('first_heat',json_encode($heat),1200);
+                }
+            }else{
+                $heat = $goods->get_heat_list('g.is_heat desc',$page,$page_size);
+            }
+            return $heat;
+        }
+    }
+
+    /**
+     * 场次页面（一折、三折、五折）
+     *邓赛赛
+     */
+    public function price_range(){
+        $type = input('param.type',1);
+        $list1 = $this->ajax_top_two_list(1);
+        $list2 = $this->ajax_top_two_list(2);
+        $list3 = $this->ajax_top_two_list(3);
+        $this->assign('list1',$list1);
+        $this->assign('list2',$list2);
+        $this->assign('list3',$list3);
+        $this->assign('type',$type);
+        return view();
+    }
+
+    /**
+     * ajax请求场次信息
+     * 邓赛赛
+     */
+    public function ajax_top_two_list($state){
+        $page = input('param.page',1);
+        $page_size = input('param.page_size',6);
+//        $state = input('param.state',1);
+        $goods = new GoodsService();
+        if($page == 1){
+            $redis = RedisCache::getInstance();
+            $list = $redis->get('price_range_'.$state);
+            //有缓存时
+            if($list){
+                $list = json_decode($list,true);
+                //此处商品是两页数据,为第一页有过期商品做准备
+                foreach($list['list'] as $k => $v){
+                    if($v['g_endtime'] <= time()){
+                        //删除过期商品
+                        unset($list['list'][$k]);
+                    }
+                }
+            }else{
+                //第一页没缓存时查询第一页数据
+                $list = $goods->top_two_list($page,$page_size,$state);
+                //第二页时,第一、二页数据合并,为缓存时间内第一页有过期商品过准备
+                if(!empty($list['total_page']) && $list['total_page']>1){
+                    $list2 = $goods->top_two_list(2,$page_size,$state);
+                    //合并第一、二页数据
+                    $list['list'] = array_merge($list['list'],$list2['list']);
+                }
+                $redis->set('price_range_'.$state,json_encode($list),1200);
+            }
+            //去除过期商品后,取前 $page_size 条数据来做第一页商品
+            $list['list'] = array_slice($list['list'],0,$page_size);
+        }else{
+            $list = $goods->top_two_list($page,$page_size,$state);
+        }
+        return $list;
+    }
+    /**
+     * ajax请求卡卷信息
+     * 邓赛赛
+     */
+    public function coiling(){
+        if(request()->isAjax()){
+            $page = input('param.page',1);
+            $page_size = input('param.page_size',10);
+            $goods = new GoodsService();
+            $goods_category = new GoodsCategoryService();
+            $where3=[
+                'parent_id'=>12,
+                'state'=>0
+            ];
+            //卡卷信息展示
+            $ids = $goods_category->goodsCategoryColumn($where3,'gc_id');
+            $ids = $ids ? $ids : [];
+            $gc_ids = trim(12 . ','.implode(',',$ids),',');
+            $where2['g.g_state'] = 6;
+            $where2['p.gp_stock'] = ['>',0];
+            $where2['g.gc_id'] = ['in', $gc_ids];
+            $where2['g.g_endtime'] = ['>', time()];
+
+            $field='g.g_id,g.g_name,g.g_img,g.g_s_img,g.g_endtime,g.gc_id,p.gp_id,p.gp_market_price,dtr.gdr_id,min(dtr.gdr_price) min_price,max(dtr.gdr_price) max_price';
+            if($page == 1){
+                $redis = RedisCache::getInstance();
+                $gc_list = $redis->get('coiling');
+                //有缓存时
+                if($gc_list){
+                    $gc_list = json_decode($gc_list,true);
+                    //此处商品是两页数据,为第一页有过期商品做准备
+                    foreach($gc_list['list'] as $k => $v){
+                        if($v['g_endtime'] <= time()){
+                            //删除过期商品
+                            unset($gc_list['list'][$k]);
+                        }
+                    }
+                }else{
+                    //第一页没缓存时查询第一页数据
+                    $gc_list = $goods->goods_category_list($where2,$field,'g.g_endtime asc',$page_size,$page);
+                    //第二页时,第一、二页数据合并,为缓存时间内第一页有过期商品过准备
+                    if(!empty($gc_list['totle_page']) && $gc_list['totle_page']>1){
+                        $gc_list2 = $goods->goods_category_list($where2,$field,'g.g_endtime asc',$page_size,$page);
+                        //合并第一、二页数据
+                        $gc_list['list'] = array_merge($gc_list['list'],$gc_list2['list']);
+                    }
+                    $redis->set('coiling',json_encode($gc_list),1200);
+                }
+                //去除过期商品后,取前 $page_size 条数据来做第一页商品
+                $gc_list['list'] = array_slice($gc_list['list'],0,$page_size);
+            }else{
+                $gc_list = $goods->goods_category_list($where2,$field,'g.g_endtime asc',$page_size,$page);
+            }
+            return $gc_list;
+        }
+        $where4 = [
+            'wit_code'=>'kq',
+            'wi_state'=>0,
+        ];
+        $wb_img = Db::table('pai_web_images_type wit')->join('pai_web_images wi','wit.wit_id = wi.wit_id')->where($where4)->field('wi_imgurl,wi_href')->find();
+        $this->assign('wi_imgurl',$wb_img);
+        $this->assign('header_title','卡劵区');
+        return view();
+    }
+
+    /**
+     * 清除自己的搜索记录
+     * 邓赛赛
+     */
+    public function del_search(){
+        $m_id = $this->m_id;
+        if($m_id){
+            $search = new SearchService();
+            $res = $search->get_del(['m_id'=>$m_id]);
+            return $res;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 首页搜索页面
+     * 邓赛赛
+     */
+    public function search_index(){
+        $m_id = $this->m_id;
+        $keyword = input('param.keyword');
+        $type = input('param.type');    //搜索类型 1商品  2商家
+        $type = $type != 2 ? 1 : 2;
+        $page = input('param.page') ? input('param.page') : 1 ;
+        $page_size = input('param.page_size') ? input('param.page_size') :  6 ;
+
+        //请求时保存搜索内容
+        if(trim($keyword) && $m_id){
+            $search = new SearchService();
+            $where2 = [
+                'ps_keyword'=>$keyword,
+                'ps_type'=>$type,
+                'm_id'=>$m_id
+            ];
+            //第一次是插入
+            $ps_id = $search->get_value($where2,'ps_id');
+            if(!$ps_id){
+                $data = [
+                    'm_id'=>$m_id,
+                    'ps_addtime'=>time(),
+                    'ps_keyword'=>$keyword,
+                    'ps_type'=>$type
+                ];
+                $search->get_add($data);
+            }
+        }
+//        die;
+        $list = array();
+        switch($type){
+            case 1:
+                $min_price = input('param.min_price',0);      //where条件筛选
+                $max_price = input('param.max_price');      //where条件筛选
+                $activity = input('param.activity');      //where条件筛选(为真时只看有参拍的)
+                $order = input('param.order');      //排序条件（综合、价格、人数）
+                if($order){
+                    switch($order){
+                        case 3:     //人数正序
+                            $order = 'sum_gp_num asc';
+                            break;
+                        case 4:     //人数倒叙
+                            $order = 'sum_gp_num desc';
+                            break;
+                        case 5:     //价格正序
+                            $order = 'gp.gp_market_price asc';
+                            break;
+                        case 6:     //价格倒叙
+                            $order = 'gp.gp_market_price desc';
+                            break;
+                        default:    //综合排序
+                            $order = 'g.is_heat asc,g.g_id desc';
+                            break;
+                    }
+                }else{
+                    $order = 'g.is_heat asc,g.g_id desc';
+                }
+                if($max_price){
+                    $where['gp.gp_market_price'] = ['BETWEEN',[$min_price,$max_price]];
+                }
+                if($activity){
+                    $where['op.gp_num'] = ['>',0];
+                }
+                $where['g.g_name'] = ['like','%'.$keyword.'%'];
+                $where['g.g_state'] = 6;
+                $where['g.g_endtime'] = ['>',time()];
+                $field='g.g_id,gp.gp_id,g.g_name,g.g_img,g.g_s_img,g.g_img,g.g_express,gp.gp_market_price,sum(op.gp_num) sum_gp_num,min(dtr.gdr_price) min_gdr_price,max(dtr.gdr_price) max_gdr_price';
+                $goods = new GoodsService();
+                $list = $goods->search_goods($where,$order,$field,$page,$page_size);
+                if(request()->isAjax()){
+                    return $list;
+                }
+                break;
+            case 2:
+                $where = [
+                    'stroe_name'=>['like','%'.$keyword.'%'],
+                    'store_state'=>0,
+                ];
+                $store = new StoreService();
+                $order = 'add_time desc';
+                $field='store_id,stroe_name,store_logo,m_id';
+                $list = $store->search_store($where,$order,$field,$page,$page_size);
+                if(request()->isAjax()){
+                    return $list;
+                }
+                break;
+        }
+        $this->assign('list',$list);
+        $this->assign('type',$type);
+        $this->assign('keyword',$keyword);
+        return $this->fetch();
+    }
+
+    /**
+     * 查询协议
+     * 邓赛赛
+     */
+    public function agreement(){
+            $at_name = input('param.at_name/s');
+            $a_type = new ArticleTypeService();
+            $where = [
+                'at_name'   =>trim($at_name),
+                'at_state'  =>0
+            ];
+            $at_id = $a_type->articleTypeValue($where,'at_id');
+
+        $article = new ArticleService();
+        $a_brief = $article->articleValue(['a_type'=>$at_id],'a_brief');
+        if(!$at_id){
+            $content = '';
+        }else{
+            $content = $article->articleValue(['a_type'=>$at_id],'a_description');
+            $content = htmlspecialchars_decode($content);
+        }
+        $this->assign('content',$content);
+        $this->assign('header_title',$a_brief);
+            return view();
+    }
+
+
+//    /**
+//     * ajax联想操作
+//     * 邓赛赛
+//     */
+//    public function association(){
+//        $name = input('param.name');
+//        $type = input('param.type');
+//        $page = input('param.page') ? input('param.page') : 1 ;
+//        $page_size = input('param.page_size') ? input('param.page_size') :  6 ;
+//
+//        $type = empty($type) ? 1 : 2;   //搜索类型 1商品  2商家
+//        $where = [
+//            'ps_keyword' => ['like','%'.$name.'%'],
+//            'ps_type' => $type,
+//        ];
+//        $search = new SearchService();
+//        $list = $search->get_group_list($where, 'ps_keyword,count(ps_keyword) num', 'num desc', $page,$page_size, 'ps_keyword');
+//        dump($list);die;
+//        switch($type){
+//            case 1:
+//                $where['g_name'] = ['like','%'.$name.'%'];
+//                $where['g_state'] = 6;
+//                $goods = new GoodsService();
+//                $list = $goods->get_limit_list($where,'g_id desc','g_name',1,15);
+//                $list = array_column($list,'g_name');
+//                break;
+//            case 2:
+//                $where = [
+//                    'stroe_name'=>['like','%'.$name.'%'],
+//                    'store_state'=>0,
+//                ];
+//                $store = new StoreService();
+//                $order = 'add_time desc';
+//                $field='stroe_name';
+//                $list = $store->get_limit_list($where,$order,$field,$page,$page_size);
+//                $list = array_column($list,'stroe_name');
+//                break;
+//        }
+//        dump($list);die;
+//        return $list;
+//
+//    }
+    /**
+     * 加密手机号
+     * 邓赛赛
+     */
+    public function en_code(){
+        $p_code = input('post.p_code');
+        $m_code = input('post.m_code');
+        $base = new BaseService();
+        //加密手机号码
+        if($p_code){
+            $phone = $base->encrypt($p_code);
+        }
+        //加密m_id
+        if($m_code){
+            $m_id = $base->encrypt('abcde'.$m_code);
+        }
+        $data = [
+            'p_code' =>empty($phone) ? '' : $phone,
+            'm_code'   =>empty($m_id)  ? '' : $m_id,
+        ];
+        return json_encode($data);
+    }
+
+    /**
+     * 解密手机号
+     * 邓赛赛
+     */
+    public function de_code(){
+        $p_code = input('post.p_code');
+        $m_code = input('post.m_code');
+        $base = new BaseService();
+        //加密手机号码
+        if($p_code){
+            $phone = $base->decrypt($p_code);
+        }
+        //加密m_id
+        if($m_code){
+            $data = $base->decrypt($m_code);
+            $m_id = str_replace('abcde','',$data);//删除多余字符(加盐字符串)
+        }
+        $data = [
+            'p_code' =>empty($phone) ? '' : $phone,
+            'm_code'   =>empty($m_id)  ? '' : $m_id,
+        ];
+        return json_encode($data);
+    }
+    /**
+     * 首页导航页面
+     * 邓赛赛
+     */
+    public function navigation_commodity(){
+        return view();
+    }
+    /**
+     * 吖吖首页公告
+     * 邓赛赛
+     */
+    public function yy_notice(){
+        $this->assign('header_title','吖吖公告');
+        return view();
+    }
+    /**
+     * 公告详情
+     * 邓赛赛
+     */
+    public function notice_info(){
+        $this->assign('header_title','公告详情');
+        return view();
+    }
+
+    /**
+     * 所有团中信息
+     *
+     */
+    public function all_winners(){
+        $this->assign('header_title','所有团中信息');
+        return view();
+    }
+
+    /**
+     * 搜索所有的团中信息
+     *
+     */
+    public function search_winners(){
+        return view();
+    }
+
+    /**
+     * 团中者详情
+     *
+     */
+    public function winners_information(){
+        $this->assign('header_title','团中者详情');
+        return view();
+    }
+    /**
+     * 所有团中者
+     *
+     */
+    public function all_regiments_people(){
+        $this->assign('header_title','所有团中者');
+        return view();
+    }
+    /**
+     * 幸运特刊
+     *
+     */
+    public function lucky_special_issue(){
+        $this->assign('header_title','幸运特刊');
+        return view();
+    }
+
+
+    /**
+     * 首页导航商品数据
+     * 邓赛赛
+     */
+    public function navigation_goods(){
+        $gc_id = input('param.gc_id/d ',1);
+        $goods_category = new GoodsCategoryService();
+        $where = [
+            'gc_id'=>$gc_id,
+            'state'=>0,
+        ];
+        $header_title = $goods_category->getValue($where,'gc_name');
+        if(!$header_title){
+            $this->error('非法请求','/','',1);
+        }
+        //ajax数据
+        if(request()->isAjax()){
+            $page = input('param.page',1);
+            $page_size = input('param.page_size',10);
+            $goods = new GoodsService();
+            $goods_category = new GoodsCategoryService();
+            $where3=[
+                'parent_id'=>$gc_id,
+                'state'=>0
+            ];
+            //卡卷信息展示
+            $ids = $goods_category->goodsCategoryColumn($where3,'gc_id');
+            $ids = $ids ? $ids : [];
+            $gc_ids = trim($gc_id . ','.implode(',',$ids),',');
+            $where2['g.g_state'] = 6;
+            $where2['p.gp_stock'] = ['>',0];
+            $where2['g.gc_id'] = ['in', $gc_ids];
+            $where2['g.g_endtime'] = ['>', time()];
+            $field = 'g.g_id,g.g_name,g.g_img,g.g_s_img,g.g_endtime,g.gc_id,p.gp_id,p.gp_market_price,dtr.gdr_id,min(dtr.gdr_price) min_price,max(dtr.gdr_price) max_price';
+            if($page == 1){
+                $redis = RedisCache::getInstance();
+                $gc_list = $redis->get('navigation_goods_'.$gc_id);
+                //有缓存时
+                if($gc_list){
+                    $gc_list = json_decode($gc_list,true);
+                    //此处商品是两页数据,为第一页有过期商品做准备
+                    foreach($gc_list['list'] as $k => $v){
+                        if($v['g_endtime'] <= time()){
+                            //删除过期商品
+                            unset($gc_list['list'][$k]);
+                        }
+                    }
+                }else{
+                    //第一页没缓存时查询第一页数据
+                    $gc_list = $goods->goods_category_list($where2,$field,'g.g_endtime asc',$page_size,$page);
+                    //第二页时,第一、二页数据合并,为缓存时间内第一页有过期商品过准备
+                    if(!empty($gc_list['totle_page']) && $gc_list['totle_page']>1){
+                        $gc_list2 = $goods->goods_category_list($where2,$field,'g.g_endtime asc',$page_size,$page);
+                        //合并第一、二页数据
+                        $gc_list['list'] = array_merge($gc_list['list'],$gc_list2['list']);
+                    }
+                    $redis->set('navigation_goods_'.$gc_id,json_encode($gc_list),1200);
+                }
+                //去除过期商品后,取前 $page_size 条数据来做第一页商品
+                $gc_list['list'] = array_slice($gc_list['list'],0,$page_size);
+            }else{
+                $gc_list = $goods->goods_category_list($where2,$field,'g.g_endtime asc',$page_size,$page);
+            }
+            return $gc_list;
+        }
+        //banner图
+        $where4 = [
+            'wit_code'=>$gc_id.'-1',
+            'wi_state'=>0,
+        ];
+        $wb_img[0] = Db::table('pai_web_images_type wit')->join('pai_web_images wi','wit.wit_id = wi.wit_id')->where($where4)->field('wi_imgurl,wi_href')->find();
+        $wb_img[0]['wi_imgurl'] = empty($wb_img[0]['wi_imgurl'])    ? '' : $wb_img[0]['wi_imgurl'];
+        $wb_img[0]['wi_href']   = empty($wb_img[0]['wi_href'])      ? '' : $wb_img[0]['wi_href'];
+        //精选图片
+        $where5 = [
+            'wit_code'=>$gc_id.'-2',
+            'wi_state'=>0,
+        ];
+        $wb_img[1] = Db::table('pai_web_images_type wit')->join('pai_web_images wi','wit.wit_id = wi.wit_id')->where($where5)->field('wi_imgurl,wi_href')->find();
+        $wb_img[1]['wi_imgurl'] = empty($wb_img[1]['wi_imgurl'])    ? '' : $wb_img[1]['wi_imgurl'];
+        $wb_img[1]['wi_href']   = empty($wb_img[1]['wi_href'])      ? '' : $wb_img[1]['wi_href'];
+
+        $this->assign('header_title',$header_title);
+        $this->assign('gc_id',$gc_id);
+        $this->assign('wb_img',$wb_img);
+        return view();
+    }
+
+
+
+}

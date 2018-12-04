@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:66:"D:\project\pai\public/../application/member/view/wallet/index.html";i:1542617310;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1542013165;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:66:"D:\project\pai\public/../application/member/view/wallet/index.html";i:1543542687;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -35,6 +35,13 @@
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
         <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <title></title>
     </head>
     <body>
@@ -160,13 +167,16 @@
                             <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="" class="more">
                         </div> -->
                         <a href="/member/wallet/profit_book">
-                            <div style="margin-top: 0.1rem" class="clear">
+                            <div style="margin-top: 0.1rem" class="clear lf">
                                 <!-- <p>￥<span class="dongjiezijin"></span></p> -->
                                 <p style="margin-top: 0.1rem;" class="lf">推广冻结金额&nbsp;&nbsp;&nbsp;￥<span class="dongjiezijin"></span></p>
                                 <img src="__STATIC__/image/wallet/icon_jump2@2x.png" alt="" class="more">
                             </div>
                         </a>
-
+                        <div class="wallet_help_text  income rt" style="margin-right: 0rem;margin-top: 0.1rem">
+                            <img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>
+                            <span>收益来源</span>
+                        </div>
                     </div>
                 </div>
 
@@ -181,6 +191,12 @@
                         <span>帮助说明</span>
                     </div>
                 </div> -->
+                <div class="no_promoters">
+                    <div class="wallet_help_text  income" style="margin-left: 0.71rem">
+                        <img src="__STATIC__/image/wallet/icon_shuoming@2x.png" alt=""/>
+                        <span>收益来源</span>
+                    </div>
+                </div>
             </div>
 
             <!--<div class="swiper-slide">4654654</div>-->
@@ -511,18 +527,18 @@
 
         })
     })
-    $(".wallet_help_text").click(function(){
-        $(".layui-layer-dialog .layui-layer-content").css({paddingTop:0});
-        layer.confirm("",{
-            title:['邀请收益说明','color:#666666;font-size:0.24rem;border-bottom:0.01rem solid #eee!important;margin-left:0.2rem;margin-right:0.2rem;'],/*标题*/
-//        title:true,/*标题*/
-            closeBtn:1,
-            btnAlign: 'c',
-            closeBtn: 0,
-            btn:'我知道啦~',
-            content:'<p style="text-align: left;color:#333333;font-size: 0.26rem;">1.收益可以转入余额在吖吖商城中使用哦！</p><p style="text-align: left;color:#333333;font-size: 0.26rem;">2.收益可以通过绑定银行卡直接提现哦！</p><p style="text-align: left;color:#333333;font-size: 0.26rem;">3.邀请所得收益也可以提现到个人银行卡，支付宝以及微信账户。</p> ',
-        });
-    })
+//     $(".wallet_help_text").click(function(){
+//         $(".layui-layer-dialog .layui-layer-content").css({paddingTop:0});
+//         layer.confirm("",{
+//             title:['邀请收益说明','color:#666666;font-size:0.24rem;border-bottom:0.01rem solid #eee!important;margin-left:0.2rem;margin-right:0.2rem;'],/*标题*/
+// //        title:true,/*标题*/
+//             closeBtn:1,
+//             btnAlign: 'c',
+//             closeBtn: 0,
+//             btn:'我知道啦~',
+//             content:'<p style="text-align: left;color:#333333;font-size: 0.26rem;">1.收益可以转入余额在吖吖商城中使用哦！</p><p style="text-align: left;color:#333333;font-size: 0.26rem;">2.收益可以通过绑定银行卡直接提现哦！</p><p style="text-align: left;color:#333333;font-size: 0.26rem;">3.邀请所得收益也可以提现到个人银行卡，支付宝以及微信账户。</p> ',
+//         });
+//     })
     $(".wallet_hint img").click(function(){
         $(this).parent(".wallet_hint").remove();
     })
@@ -545,6 +561,23 @@
         $('.dongjiezijin').html(money_dongjie)
 
     }
+
+    // 点击收益来源弹框出现
+    $(".wallet_help_text").click(function(){
+        $(".layui-layer-dialog .layui-layer-content").css({paddingTop:0});
+        layer.confirm("",{
+            title:['收益来源','color:#666666;font-size:0.24rem;border-bottom:0.01rem solid #eee!important;margin-left:0.2rem;margin-right:0.2rem;'],/*标题*/
+//        title:true,/*标题*/
+            closeBtn:1,
+            btnAlign: 'c',
+            closeBtn: 0,
+            btn:'我知道啦~',
+            content:'<p style="text-align: left;color:#333333;font-size: 0.26rem;"><span style="font-weight:600">推荐费：</span>每成功邀请一位新用户（被邀请人单次参团\n' +
+            '消费大于等于50即为邀请成功）立返推荐费。</p><p style="text-align: left;color:#333333;font-size: 0.26rem;"><span style="font-weight:600">观望奖：</span>享所属有效会员账户（被邀请人单次参团消\n' +
+            '费大于等于50即为邀请成功）沉淀资金得观望奖。</p><p style="text-align: center;color:#AAAAAA;font-size: 0.24rem;">具体数值以会员中心为准！</p> ',
+        });
+    })
+
     var header_path = "<?php echo isset($header_path) ? $header_path :  ''; ?>";
     //返回按钮
     function backH5() {        
@@ -556,4 +589,9 @@
     }
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>
