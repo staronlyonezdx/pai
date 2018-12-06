@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:88:"D:\project\pai\public/../application/popularity/view/popularitygoods/commodity_info.html";i:1543549811;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:88:"D:\project\pai\public/../application/popularity/view/popularitygoods/commodity_info.html";i:1543977360;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -56,30 +56,30 @@
         <header></header>
         
 <main style="margin-top: 0; background: #efeff4">
-        <div class="details_tab_list details_display">
-                <div class="details_tab clear">
-                    <div class="details_tab_back lf back-btn">
-                        <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
-                    </div>
-                    <div class="details_tab_btn lf clear">
-                        <div class="details_list_btn  lf">
-                            <span class="details_list_bottom">商品</span>
-                        </div>
-                        <div class="details_list_btn lf">
-                            <span>参团</span>
-                        </div>
-                        <div class="details_list_btn lf">
-                            <span>详情</span>
-                        </div>
-                        <div class="details_list_btn lf">
-                            <span>推荐</span>
-                        </div>
-                    </div>
-                    <div class="details_top_rt rt" onclick="share(1)">
-                        <img src="__STATIC__/image/goodsproduct/icon_nav_fenxiang2@2x.png" alt="图片加载失败">
-                    </div>
+    <div class="details_tab_list details_display">
+        <div class="details_tab clear">
+            <div class="details_tab_back lf back-btn">
+                <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
+            </div>
+            <div class="details_tab_btn lf clear">
+                <div class="details_list_btn  lf">
+                    <span class="details_list_bottom">商品</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>参团</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>详情</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>推荐</span>
                 </div>
             </div>
+            <div class="details_top_rt rt" onclick="share(1)">
+                <img src="__STATIC__/image/goodsproduct/icon_nav_fenxiang2@2x.png" alt="图片加载失败">
+            </div>
+        </div>
+    </div>
     <div class="details_header_top">
         <!-- 返回按钮 S -->
         <div class="details_back lf details_fanhui back-btn">
@@ -97,12 +97,12 @@
         <!-- 轮播banner S -->
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <?php if(empty($data['imgs']) || (($data['imgs'] instanceof \think\Collection || $data['imgs'] instanceof \think\Paginator ) && $data['imgs']->isEmpty())): ?>            
+                <?php if(empty($data['imgs']) || (($data['imgs'] instanceof \think\Collection || $data['imgs'] instanceof \think\Paginator ) && $data['imgs']->isEmpty())): ?>
                 <div class="swiper-slide">
                     <div class="details_pic">
                         <img class="details_img click_big" src="/static/image/index/pic_home_taplace@2x.png">
                     </div>
-                </div>            
+                </div>
                 <?php else: if(is_array($data['imgs']) || $data['imgs'] instanceof \think\Collection || $data['imgs'] instanceof \think\Paginator): $i = 0; $__LIST__ = $data['imgs'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
                 <div class="swiper-slide" >
                     <div class="details_pic">
@@ -138,7 +138,7 @@
                 <img src="__STATIC__/image/details/icon_nav_X@2x.png">
             </div>
         </div>
-        <!-- 公告 S -->        
+        <!-- 公告 S -->
         <div class="details-act">
             <span></span>
             <small></small>
@@ -186,7 +186,7 @@
                     <span class="details_fenhao">:</span>
                     <span class="details_show details_second"></span>
                 </div>
-                <?php endif; ?>                
+                <?php endif; ?>
             </div>
             <!-- 倒计时 E -->
         </div>
@@ -209,17 +209,17 @@
                 <span><?php echo $data['pg_second_name']; ?></span>
 
                 <?php if(($data['pg_spec']== 1)): elseif(($data['pg_spec'] == 2)): ?>
-                    <!--虚拟商品 S-->
-                    <div class="details_xuni">
-                        <p><span>虚拟商品</span>该商品为线下指定地点领取</p>
-                    </div>
-                    <!--虚拟商品 E -->
+                <!--虚拟商品 S-->
+                <div class="details_xuni">
+                    <p><span>虚拟商品</span>该商品为线下指定地点领取</p>
+                </div>
+                <!--虚拟商品 E -->
                 <?php elseif(($data['pg_spec'] == 3)): ?>
-                    <!--大宗商品 S-->
-                    <div class="details_dazong">
-                        <p><span>大宗商品</span>该商品为线下指定地点领取</p>
-                    </div>
-                    <!--大宗商品 E -->
+                <!--大宗商品 S-->
+                <div class="details_dazong">
+                    <p><span>大宗商品</span>该商品为线下指定地点领取</p>
+                </div>
+                <!--大宗商品 E -->
                 <?php endif; if(($data['pg_type']== 1)): ?>
                 <!--现场揭晓 S-->
                 <!-- <small class="details_xianchang">
@@ -227,11 +227,11 @@
                 </small> -->
                 <!--现场揭晓 E -->
                 <?php elseif(($data['pg_spec'] == 2)): ?>
-                    <!--现场揭晓 S-->
-                    <small class="details_xianchang">
-                        该商品将在发布会现场揭晓并领取！
-                    </small>
-                    <!--现场揭晓 E -->
+                <!--现场揭晓 S-->
+                <small class="details_xianchang">
+                    该商品将在发布会现场揭晓并领取！
+                </small>
+                <!--现场揭晓 E -->
                 <?php endif; ?>
             </div>
 
@@ -258,7 +258,7 @@
         <!-- 参加人数 S -->
         <div class="details_num">
             <p><span><?php echo isset($data['new_num']) ? $data['new_num'] :  0; ?></span>/<?php echo isset($data['pg_membernum']) ? $data['pg_membernum'] :  0; ?>人 <small>已抢占<i><?php echo $data['percentage']; ?></i></small></p>
-            <div class=""><span style="width:<?php echo round($data['new_num']/$data['pg_membernum']*100,2); ?>%"></span></div>            
+            <div class=""><span style="width:<?php echo round($data['new_num']/$data['pg_membernum']*100,2); ?>%"></span></div>
             <?php if($data['is_enough'] == 1): ?>
             <h3 class="enough"></h3>
             <?php endif; ?>
@@ -292,23 +292,23 @@
         </div>
         <?php endif; ?>
     </div>
-        <!-- 前十排名 E -->
-        <!-- 产品图文详情 S -->
-            <div class="detail_line_view">
-                <div class="details">
-                    <div class="details_tit">
-                        <p>商品详情</p>
-                    </div>
-                    <div class="details_text">
-                        <div class="shop-num" style="margin:0 0 0.5rem 0;">商品编号：<?php echo $data['pg_sn']; ?></div>
-                        <?php echo htmlspecialchars_decode((isset($data['pg_des']) && ($data['pg_des'] !== '')?$data['pg_des']:'')); ?> 
-                    </div>
-                    <!--<div class="details_main">-->
-                        <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $data['pg_img']; ?>">-->
-                    <!--</div>-->
-                </div>
+    <!-- 前十排名 E -->
+    <!-- 产品图文详情 S -->
+    <div class="detail_line_view">
+        <div class="details">
+            <div class="details_tit">
+                <p>商品详情</p>
             </div>
-            <!-- 产品图文详情 E -->
+            <div class="details_text">
+                <div class="shop-num" style="margin:0 0 0.5rem 0;">商品编号：<?php echo $data['pg_sn']; ?></div>
+                <?php echo htmlspecialchars_decode((isset($data['pg_des']) && ($data['pg_des'] !== '')?$data['pg_des']:'')); ?>
+            </div>
+            <!--<div class="details_main">-->
+            <!--<img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $data['pg_img']; ?>">-->
+            <!--</div>-->
+        </div>
+    </div>
+    <!-- 产品图文详情 E -->
 
     <!-- 更多活动拍品 S -->
     <div class="detail_line_view">
@@ -367,7 +367,7 @@
         <a class="details_bottom_rt auction lf share-yq" onclick="share(2)">邀请好友</a>
         <a class="details_bottom_rt auction lf details_cd" onclick="pay()">我要参团</a>
         <?php endif; ?>
-        
+
         <!--<button class="details_bottom_rt auction lf details_cd" onclick="confirm_order()">我要参团</button>-->
     </div>
     <!-- 底部浮动按钮 E -->
@@ -487,7 +487,7 @@
         <div class="show_info">
             <p class="p1">恭喜！该商品人气王已诞生</p>
             <div class="person_info">
-                <img src="__STATIC__/image/admit/icon_ya1@2x.png" alt="">
+                <img src="" alt="">
                 <div class="person_info_right">
                     <p>非常厉害的人...</p>
                     <span>获得了该商品</span>
@@ -506,8 +506,8 @@
 <!-- <div class="details-rqz"></div> -->
 <a href="/popularity/popularitygoods/my_attend/">
     <div class="details-rqz">
-            <!-- <img src="__STATIC__/image/pointgoods/btn_daqizhi@2x.png" alt="" > -->
-            <canvas id="c" style="width:59px;height:59px;"></canvas>
+        <!-- <img src="__STATIC__/image/pointgoods/btn_daqizhi@2x.png" alt="" > -->
+        <canvas id="c" style="width:59px;height:59px;"></canvas>
     </div>
 </a>
 <input type="text" id="r" value="0">
@@ -633,8 +633,8 @@
 <script>
     console.log(<?php echo $data['is_enough']; ?>)
     //banner图片报错给默认图
-    $('.details_img').on('error',function(){ 
-        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+    $('.details_img').on('error',function(){
+        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
     });
 
     //轮播图点击放大
@@ -653,7 +653,7 @@
             $('.big_banner').css('display','none');
         })
     })
-     
+
     //banner对比图片的宽高
     $('.details_img').each(function(){
         //获取图片父容器的宽度
@@ -677,7 +677,7 @@
             if (wid > hei) {
                 //图片宽度设置为100%
                 img.css({"width":pat+"px","height":"auto"});
-                
+
                 //居中显示
                 hei = hei/(wid/pat);
                 var mtp = (img.parent().height()-hei)/2;
@@ -686,11 +686,11 @@
         });
     })
 
-     // 初始化
-//  var vConsole = new VConsole();
-//   console.log('VConsole is cool');
+    // 初始化
+    //  var vConsole = new VConsole();
+    //   console.log('VConsole is cool');
 
-// location.reload(); 
+    // location.reload();
 
     //进度条显示
     $('.details_num').show();
@@ -750,14 +750,14 @@
     })
 
     // 获取地址栏是否带分享参数
-    function getQueryString(name) { 
-        var reg = new RegExp("(^|&|/)" + name + "=([^&]*)(&|$)", "i"); 
-        var r = window.location.search.substr(1).match(reg); 
-        if (r != null) return unescape(r[2]); return null; 
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&|/)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
     }
 
     //url带分享参数返回首页，否则返回上一页
-    $('.back-btn').click(function(){        
+    $('.back-btn').click(function(){
         if(getQueryString("share") != null) {
             window.location.href = "/popularity/popularitygoods/share_list/";
         }else {
@@ -818,8 +818,8 @@
             is_share_to_firend_circle = false;
         }else {
             is_share_to_firend_circle = true;
-        }                
-        
+        }
+
         var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": '+is_share_to_firend_circle+'}';
 
         if($('#app').val() != '') {
@@ -837,7 +837,7 @@
                     }
                 }
             }
-        }       
+        }
         $('.details_fenxiang').hide();
     }
 
@@ -846,7 +846,7 @@
             var link = "<?php echo $data['popularity_url']; ?>";
         }else {
             var link = $('#challenger_url').val();
-        }    
+        }
 
         var data = '{"copy_url": "'+ link +'"}';
         if($('#app').val() != '') {
@@ -882,10 +882,10 @@
             $('.share-link').attr('data-clipboard-text',$('#challenger_url').val());
         }
 
-        $('.details_fenxiang').attr('data',id);        
+        $('.details_fenxiang').attr('data',id);
         var share_qr_image = "https://"+ document.domain +imgs;
 
-        var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": "1","share_qr_image": "'+ share_qr_image +'","type": "1"}';        
+        var data = '{"share_title": "'+ title +'","share_content": "'+ desc +'","share_url": "'+ link +'","share_image": "'+ imgUrl +'","is_share_to_firend_circle": "1","share_qr_image": "'+ share_qr_image +'","type": "1"}';
         if($('#app').val() != '') {
             if($('#app').val() == '1.0') {
                 /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
@@ -897,7 +897,7 @@
                 $('.details_fenxiang').show();
                 $(".pay-success").hide();
             }
-            
+
         }else {
             // 非微信浏览器端安卓分享
             if(hideFlag){
@@ -921,7 +921,7 @@
             } else{
                 $('.share-pop').show();
                 $('.share-cont').show();
-                $('.share-tip').hide();                
+                $('.share-tip').hide();
                 if(id == 2) {
                     $('.pay-success').hide();
                 }
@@ -1017,77 +1017,77 @@
             login();
         } else {
             $.ajax({
-                type: 'post',
-                url: '/popularity/popularitygoods/to_be_popmem',
-                data: {pg_id:<?php echo $data['pg_id']; ?>},
+                    type: 'post',
+                    url: '/popularity/popularitygoods/to_be_popmem',
+                    data: {pg_id:<?php echo $data['pg_id']; ?>},
                 success:function(res) {
-                    console.log(res);
+                console.log(res);
 //                如果有支付密码
-                    if(res.status==1){
-                        $(".ftc_wzsf").show();
-                        $('#pm_id').val(res.data.pm_id);
-                    }else if(res.status==2){
-                        //如果没有支付密码
-                        window.location.href=res.data;
-                    }else{
-                        // 失败提示
-                        layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
-                            time: 2000
-                        });
-                    }
+                if(res.status==1){
+                    $(".ftc_wzsf").show();
+                    $('#pm_id').val(res.data.pm_id);
+                }else if(res.status==2){
+                    //如果没有支付密码
+                    window.location.href=res.data;
+                }else{
+                    // 失败提示
+                    layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                        time: 2000
+                    });
                 }
-            })
+            }
+        })
         }
     }
 
-        boxInput.init(function () {
-            var pawval = boxInput.getBoxInputValue();
-            setTimeout(function () {
-                md5_pwd = hex_md5(pawval);
-                // 支付请求
-                var pm_id = $("#pm_id").val();
-                $.ajax({
-                    url: "/popularity/popularitygoods/pay_popmem",
-                    dataType: 'json',
-                    type: 'POST',
-                    data: { pm_id: pm_id, pwd: md5_pwd },
+    boxInput.init(function () {
+        var pawval = boxInput.getBoxInputValue();
+        setTimeout(function () {
+            md5_pwd = hex_md5(pawval);
+            // 支付请求
+            var pm_id = $("#pm_id").val();
+            $.ajax({
+                url: "/popularity/popularitygoods/pay_popmem",
+                dataType: 'json',
+                type: 'POST',
+                data: { pm_id: pm_id, pwd: md5_pwd },
 //                        data: {pwd: md5_pwd },
-                    success: function (data) {
-                        $(".mm_box li").removeClass("mmdd");
-                        $(".mm_box li").attr("data", "");
-                        i = 0;
-                        if (data.status == 8) {
-                            if(data.data.m_avatar == '') {
-                                data.data.m_avatar = '/static/image/shop/pic_fans@2x.png';
-                            }
-                            var rqz = data.data.pm_popularity;
-                            if(rqz >= 1000 && rqz <= 9999) {
-                                rqz = rqz/1000+'k';
-                            }else if(rqz >= 10000) {
-                                rqz = rqz/10000+'w';
-                            }
-
-                            $('.ftc_wzsf').hide();
-                            $('.pay-success').show();
-                            $('.share-yq').show();
-                            $('.details_cd').hide();
-                            $('.pay-success-cont').find('img').attr('src',data.data.m_avatar);
-                            $('.pay-success-cont').find('p').text(data.data.m_name);
-                            $('.pay-success-cont').find('.rqz').text(data.data.pm_popularity);
-                            $('.pay-success-cont').find('.pm').text(data.data.pm_sort);
-                            $('#challenger_code').val(data.data.code_img);
-                            $('#challenger_url').val(data.data.challenger_url);
-                        }else {
-                            layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
-                                time: 2000
-                            });
-                            $(".realInput").val('');
-                            boxInput.setValue();
+                success: function (data) {
+                    $(".mm_box li").removeClass("mmdd");
+                    $(".mm_box li").attr("data", "");
+                    i = 0;
+                    if (data.status == 8) {
+                        if(data.data.m_avatar == '') {
+                            data.data.m_avatar = '/static/image/shop/pic_fans@2x.png';
                         }
+                        var rqz = data.data.pm_popularity;
+                        if(rqz >= 1000 && rqz <= 9999) {
+                            rqz = rqz/1000+'k';
+                        }else if(rqz >= 10000) {
+                            rqz = rqz/10000+'w';
+                        }
+
+                        $('.ftc_wzsf').hide();
+                        $('.pay-success').show();
+                        $('.share-yq').show();
+                        $('.details_cd').hide();
+                        $('.pay-success-cont').find('img').attr('src',data.data.m_avatar);
+                        $('.pay-success-cont').find('p').text(data.data.m_name);
+                        $('.pay-success-cont').find('.rqz').text(data.data.pm_popularity);
+                        $('.pay-success-cont').find('.pm').text(data.data.pm_sort);
+                        $('#challenger_code').val(data.data.code_img);
+                        $('#challenger_url').val(data.data.challenger_url);
+                    }else {
+                        layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                            time: 2000
+                        });
+                        $(".realInput").val('');
+                        boxInput.setValue();
                     }
-                });
-            }, 200)
-        });
+                }
+            });
+        }, 200)
+    });
 
     //当前时间
     // var nowTime = parseInt(new Date().getTime());
@@ -1098,9 +1098,9 @@
     function timer(intDiff, idName) {
         timerInterval = setInterval(function (e) {
             var day = 0,
-            hour = 0,
-            minute = 0,
-            second = 0;
+                hour = 0,
+                minute = 0,
+                second = 0;
             /*时间默认值*/
             if (intDiff > 0) {
                 day = Math.floor(intDiff / 1000 / 60 / 60 / 24);
@@ -1120,12 +1120,12 @@
             }
             if (minute <= 9) minute = '0' + minute;
             if (second <= 9) second = '0' + second;
-            
+
             $(idName + ' .details_day').html(' <span>' + day + '</span>天');
             $(idName + ' .details_hour').html('<span>' + hour + '</span>');
             $(idName + ' .details_minute').html('<span>' + minute + '</span>');
             $(idName + ' .details_second').html('<span>' + second + '</span>');
-            intDiff -= 1000;    
+            intDiff -= 1000;
             //判断time做人气王诞生弹窗，time>10  不做请求    time<=10 开始请求
             var showTime = Math.ceil(intDiff/1000)
             // console.log(showTime) 
@@ -1133,7 +1133,7 @@
                 if(showTime<=5){
                     getStatus(showTime);
                 }
-            }  
+            }
         }, 1000);
     }
     var end_time = <?php echo $data['end_time']; ?> * 1000 - nowTime;
@@ -1150,12 +1150,12 @@
                 periods:"<?php echo $data['pg_periods']; ?>"
             },
             error:function(error){
-            //    console.log(error)
+                //    console.log(error)
             },
             success:function(res) {
                 if(res.status==0){
                     clearInterval(timerInterval);
-                    
+
                 }else if(res.status==1){
 
                 }else if(res.status==8){
@@ -1166,25 +1166,33 @@
                         $('.popularity_birth').css('visibility','visible');
                         $('.p2').find('i').html(res.data.short_pop);
                         if(res.data.m_avatar){
-                            $('.person_info').find('img').attr('src',res.data.m_avatar)
+                            $('.person_info').find('img').attr('src',res.data.m_avatar);
+                            $('.details_xw').show().empty().append('<img src="'+ res.data.m_avatar +'" /><p><span>'+ res.data.m_name +'</span>成为人气王成功获得本商品</p>');
+                        }else{
+                            $('.person_info').find('img').attr('src','__STATIC__/image/myhome/TIM20180731142117.jpg');
+                            $('.details_xw').show().empty().append('<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" /><p><span>'+ res.data.m_name +'</span>成为人气王成功获得本商品</p>');
                         }
                         $('.person_info').find('.person_info_right').find('p').html(res.data.m_name);
                         // $('.details_xw').find('img').attr('src',res.data.m_avatar);
                         // $('.details_xw').find('span').attr('src',res.data.m_name);
-                        $('.details_xw').show().empty().append('<img src="'+ res.data.m_avatar +'" /><p><span>'+ res.data.m_name +'</span>成为人气王成功获得本商品</p>');
+
                         $('.details_lf').css('display','block');
                         // $('.over_span').css('display','block');
                     }else{
-                         var timerout = setTimeout(function(){
+                        var timerout = setTimeout(function(){
                             $('.popularity_birth').css('visibility','visible');
                             // console.log($('.person_info .p2'))
                             $('.p2').find('i').html(res.data.short_pop);
                             if(res.data.m_avatar){
-                                $('.person_info').find('img').attr('src',res.data.m_avatar)
-                            }                            
+                                $('.person_info').find('img').attr('src',res.data.m_avatar);
+                                $('.details_xw').show().empty().append('<img src="'+ res.data.m_avatar +'" /><p><span>'+ res.data.m_name +'</span>成为人气王成功获得本商品</p>');
+                            }else{
+                                $('.person_info').find('img').attr('src','__STATIC__/image/myhome/TIM20180731142117.jpg');
+                                $('.details_xw').show().empty().append('<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" /><p><span>'+ res.data.m_name +'</span>成为人气王成功获得本商品</p>');
+                            }
                             $('.person_info').find('.person_info_right').find('p').html(res.data.m_name);
                             clearTimeout(timerout);
-                            clearInterval(timerInterval);                            
+                            clearInterval(timerInterval);
                         },showTime*1000);
                     }
                 } else if(res.status==10){
@@ -1195,7 +1203,7 @@
                     //$('.details_xw').show().empty().append('<div class="red">本次商品未成团，没有产生人气王！</div>');
                     // $('.details_lf').css('display','block');
                     // $('.over_span').css('display','block');
-                }                
+                }
             }
         })
     }
@@ -1213,8 +1221,8 @@
             $('.details_rq_tit small').hide();
         }else {
             $('.details_xw').show().empty().append('<div class="red">本次商品未成团，没有产生人气王！</div>');
-        }        
-    }else {        
+        }
+    }else {
         $('.details_data').find('.details_lf').show();
         $('.details_data').find('.details_rt').show();
         $('.details_data').find('.details_ing').hide();
@@ -1233,18 +1241,18 @@
             login();
         } else {
             $.post("/popularity/popularitygoods/popularity_collection", {pg_id: id}, function (res) {
-                if(res.status== 1){                    
+                if(res.status== 1){
                     if(stu == 2) {
                         $(".details_shoucang img").attr("src","/static/image/popularity/sc1.png");
                         $('.scbj').text('已标记');
                     }else {
                         $('.bj_btn').text('已标记，开团将提醒').addClass('details_disabled');
-                    }                    
-                }else{                    
+                    }
+                }else{
                     if(stu == 2) {
                         $(".details_shoucang img").attr("src","/static/image/popularity/sc0.png");
                         $('.scbj').text('标记');
-                    }else {                        
+                    }else {
                         $('.bj_btn').text('标记商品，开团提醒我').removeClass('details_disabled');
                     }
                 }
@@ -1262,7 +1270,7 @@
     $('.pay-success-cont h3 span').click(function(){
         $('.pay-success').hide();
     })
-    
+
     var state = <?php echo (isset($data['popmem_info']['pm_state']) && ($data['popmem_info']['pm_state'] !== '')?$data['popmem_info']['pm_state']:'0'); ?>;
 
     //判断显示底部按钮
@@ -1274,8 +1282,9 @@
     //人气王
     var m_name = "<?php echo (isset($data['suc']['m_name']) && ($data['suc']['m_name'] !== '')?$data['suc']['m_name']: ''); ?>";
     var m_avatar = "<?php echo (isset($data['suc']['m_avatar']) && ($data['suc']['m_avatar'] !== '')?$data['suc']['m_avatar']: ''); ?>";
+    console.log(m_avatar);
     if(m_name != '') {
-        $('.details_xw').show().empty().append('<img src="/static/image/index/pic_home_taplace@2x.png" data-original="'+ m_avatar +'" /><p><span>'+ m_name +'</span>成为人气王成功获得本商品</p>');
+        $('.details_xw').show().empty().append('<img src="__STATIC__/image/myhome/TIM20180731142117.jpg" data-original="'+ m_avatar +'" /><p><span>'+ m_name +'</span>成为人气王成功获得本商品</p>');
         // $('.details_num').hide();
         $('.details_bottom_rt').css("color","rgba(255,255,255,0.5)");
         $('.details_bottom_rt').attr("disabled","disabled")
@@ -1283,8 +1292,8 @@
     //现场发布会结束
     if(<?php echo $data['pg_state']; ?> == 4 || <?php echo $data['pg_state']; ?> == 8) {
         // $('.details_ing').show().text('发布会已结束！！！');
-        $('.details_rt').empty().append('<div class="yjs">已结束</div>').show();       
-        $(".enough").hide(); 
+        $('.details_rt').empty().append('<div class="yjs">已结束</div>').show();
+        $(".enough").hide();
         $('.details_data').addClass('detail_back');
     }
 
@@ -1335,7 +1344,7 @@
         var listDom = document.getElementById("dataList");
         for (var i = 0; i < curPageData.length; i++) {
             var pd = curPageData[i];
-            
+
             if (pd.num == '') {
                 pd.num = '0';
             }
@@ -1359,8 +1368,8 @@
             liDom.setAttribute('href','/popularity/popularitygoods/commodity_info/pg_id/'+pd.pg_id);
             liDom.innerHTML = str;
             listDom.appendChild(liDom);
-            $('.product_list_pic img').on('error',function(){ 
-                $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+            $('.product_list_pic img').on('error',function(){
+                $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
             });
             // $("img.lazy").lazyload({effect: "fadeIn"});
         }
@@ -1416,8 +1425,8 @@
         })
     }
 
-     // 滚动页面
-     var flag = true;
+    // 滚动页面
+    var flag = true;
     $(window).scroll(function () {
         if (flag) {
             $(".detail_line_view").each(function (i) {
@@ -1458,14 +1467,14 @@
         success:function(res) {
             if(res.data.length > 0) {
                 for(i=0;i<res.data.length;i++) {
-                    $('.dowebok').append('<a>'+res.data[i]+'</a>');                    
+                    $('.dowebok').append('<a>'+res.data[i]+'</a>');
                 }
                 $('.dowebok').liMarquee({
                     runshort: false
-                });                
+                });
             }else {
                 $('.details-act').hide();
-            }         
+            }
         }
     })
 
@@ -1480,9 +1489,9 @@
                 }
                 $(".details-rqz").css('z-index','100');
                 $('#r').val(res.data.popularity);
-            }     
+            }
         }
-    })    
+    })
 </script>
 
     <!-- <script>

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/member/view/orderpai/index.html";i:1543312462;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/member/view/orderpai/index.html";i:1543996231;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -793,9 +793,11 @@
                         <span class="conf_order_inventory rt">
                             数量x<span><?php echo (isset($info['gp_num']) && ($info['gp_num'] !== '')?$info['gp_num']:0); ?></span>
                         </span>
+                        <?php if($info['o_play_type'] == 1): ?>
                         <span class="conf_order_zhekou rt">
                             <img src="<?php echo $info['gdt_detail']['gdt_img']; ?>" alt="">
-                        </span>
+                        </span>                   
+                        <?php endif; ?>                        
                     </div>
                 </div>
             </a>
@@ -929,7 +931,9 @@
         <?php break; case "2": ?>
         <!--恭喜团中开始-->
         <div class="order_index_btn clear phonex">
-            <a href="javascript:void(0);" onclick="built(this)"><div class="order_index_shenqingtuikuan rt ">申请退款</div></a>
+            <?php if($info['o_play_type'] == 1): ?>
+            <!-- <a href="javascript:void(0);" onclick="built(this)"><div class="order_index_shenqingtuikuan rt ">申请退款</div></a>                 -->
+            <?php endif; ?>
             <a class="phs" href="tel:400-027-1888"><div class="order_index_kefu rt ">联系客服</div></a>
         </div>
         <!--恭喜团中结束-->
@@ -938,7 +942,7 @@
         <div class="order_index_btn clear phonex">
             <a href="javascript:void(0);"><div class="order_index_shouhuo rt ">确认收货</div></a>
             <?php if($info['gs_id'] == 1): ?>
-            <a href="javascript:void(0);"><div class="order_index_wuliu rt ">发货信息<?php echo $info['gs_id']; ?></div></a>            
+            <a href="javascript:void(0);"><div class="order_index_wuliu rt ">发货信息</div></a>            
             <?php endif; ?>
         </div>
         <!--订单已发货结束-->
@@ -981,7 +985,7 @@
         <div class="order_index_btn clear phonex">
             <a href="javascript:void(0);"><div class="order_index_shouhuo rt ">确认收货</div></a>
             <?php if($info['gs_id'] == 1): ?>
-            <a href="javascript:void(0);"><div class="order_index_wuliu rt ">发货信息<?php echo $info['gs_id']; ?></div></a>
+            <a href="javascript:void(0);"><div class="order_index_wuliu rt ">发货信息</div></a>
             <?php endif; ?>
         </div>
         <!--订单已发货结束-->

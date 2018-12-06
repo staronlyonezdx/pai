@@ -1,0 +1,50 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/msg.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="tui-tab">
+                <a class="active">推送通知</a><a href="/admin/systemmsg/noticemsg">站内消息</a>
+            </div>
+            <a href="/admin/systemmsg/addtuisongmsg" class="add-link">新增</a>
+			<table class="table table-hover" style="margin-bottom:0">
+				<thead>
+				<tr>
+					<th>序号</th>
+					<th>标题</th>
+					<th>打开类型</th>
+					<th>打开URL</th>
+					<th>推送类型</th>
+                    <th>推送状态</th>
+                    <th>推送时间</th>
+                    <th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{volist name="pm_list" id="citem"}
+				<tr>
+					<th>{$citem.pm_id}</th>
+					<td>{$citem.pm_title}</td>
+					<td>{if $citem.pm_open_type == 0}app首页{elseif $citem.pm_open_type == 1}跳转链接{/if}</td>
+					<td>{$citem.pm_url}</td>
+					<td>{if $citem.pm_push_type == 0}立即推送{elseif $citem.pm_push_type == 1}定时推送{/if}</td>
+                    <td>{if $citem.pm_status == 0}未推送{elseif $citem.pm_status == 1}已推送{elseif $citem.pm_status == 2}已撤销{/if}</td>
+                    <td>{$citem.pm_push_time|date="Y-m-d H:i:s",###}</td>
+                    <td><a href="{:url('Systemmsg/addtuisongmsg',['pm_id'=>$citem.pm_id])}">编辑</a>&nbsp;&nbsp;{if $citem.pm_status != 2}<a onclick="if(!confirm('确认要撤销么?')) return false;"  href="{:url('Systemmsg/revoke_tuisongmsg',['pm_id'=>$citem.pm_id])}">撤销</a>&nbsp;&nbsp;{/if}{if $citem.pm_push_type == 0 && $citem.pm_status == 0}<a onclick="if(!confirm('确认要发送么?')) return false;"  href="{:url('Systemmsg/revoke_tuisongmsg',['pm_id'=>$citem.pm_id])}">发送</a>{/if}</td>
+                </tr>
+				{/volist}
+				</tbody>
+			</table>
+			<div>
+				{$page}
+				<span class="pagi_bar">共&nbsp;{$total}&nbsp;条</span>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

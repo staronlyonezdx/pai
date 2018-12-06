@@ -1,0 +1,755 @@
+{extend name="common/base" /}
+{block name="style"}
+<style>
+    .table {
+        width: 100% !important;
+    }
+    .pagination li>a,.pagination li>span{font-size:12px;padding: 5px 10px;}
+    .pagi_bar{display: inline-block;padding-left: 0;margin: 20px 0;border-radius: 4px;font-size:12px;padding: 5px 10px;}
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+        z-index: 2;
+        color: #333;
+        cursor: default;
+        background-color: #ccc;
+        border-color: #ccc;
+    }
+    .pagination>li>a, .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #333 !important;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    .my_pgname{
+        width:150px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .my_second_name{
+        width:120px;
+        overflow:hidden;/*超出长度的文字隐藏*/
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/
+        white-space:nowrap;/*强制不换行*/
+    }
+    .select_body  .upimg{width:20px;height:20px;display: none;}
+    .select_body .select_pic{display: inline-block;}
+    .list_body{display: none;}
+    .body_active{background: #ccc;}
+    .container-fluid {
+        height: 100%;
+        overflow: auto;
+    }
+    .review{cursor: pointer;color:#369;}
+    .now_public{padding: 3px 5px;height:auto;}
+    td .img_big{height:40px;width:auto !important;}
+    .top5{margin-top: 5px;}
+    .bottom5{margin-bottom: 5px;}
+    .btn-primary {
+        float: none;
+        margin-right: 0;
+    }
+    form{margin-bottom: 5px;}
+    form .form-group{width: auto}
+    .td_order_info p{margin-bottom: 2px;}
+    .order_time{
+        display:flex;
+        margin:20px 0px;
+    }
+    .order_time form{
+        margin-right:20px;
+    }
+</style>
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="menu"}
+{include file="common/menu" /}
+{/block}
+
+{block name='content'}
+<section class="Hui-article-box">
+<div class="container-fluid" >
+    <div class="panel panel-default" >
+        <div class="panel-body">
+            <div class="form-group  from_add_authority" >
+                <label>吖吖订单列表</label>
+            </div>
+            <form class="form-inline" method="get">
+                <div class="form-group">
+                    <label for="status">商品分类:</label>
+                    <select class="form-control" id="gtype" name="gtype">
+                        <option value="0">所有</option>
+                        <option {if condition="$gtype == 1"}selected{/if} value="1">普通拍品</option>
+                        <option {if condition="$gtype == 2"}selected{/if} value="2">福袋商品</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">订单状态:</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="0">所有</option>
+                        <option {if condition="$status == 1"}selected{/if} value="1">参拍中</option>
+                        <option {if condition="$status == 2"}selected{/if} value="2">待发货</option>
+                        <option {if condition="$status == 3"}selected{/if} value="3">已发货</option>
+                        <option {if condition="$status == 4"}selected{/if} value="4">已签收</option>
+                        <option {if condition="$status == 5"}selected{/if} value="5">交易完成</option>
+                        <option {if condition="$status == 6"}selected{/if} value="6">未中拍</option>
+                        <option {if condition="$status == 7"}selected{/if} value="7">流拍</option>
+                        <option {if condition="$status == 8"}selected{/if} value="8">待付款</option>
+                        <option {if condition="$status == 9"}selected{/if} value="9">已付款</option>
+                        <option {if condition="$status == 10"}selected{/if} value="10">退款中</option>
+                        <option {if condition="$status == 11"}selected{/if} value="11">退款完成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="g_name">宝贝名称:</label>
+                    <input type="text" class="form-control" id="g_name" name="g_name" placeholder="宝贝名称" value="{$g_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="m_name">买家昵称:</label>
+                    <input type="text" class="form-control" id="m_name" name="m_name" placeholder="买家昵称" value="{$m_name|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="o_sn">订单编号:</label>
+                    <input type="text" class="form-control" id="o_sn" name="o_sn" placeholder="订单编号"  value="{$o_sn|default=''}">
+                </div>
+                <div class="form-group">
+                    <label for="m_mobile">手机号:</label>
+                    <input type="text" class="form-control" id="m_mobile" name="m_mobile" placeholder="手机号码"  value="{$m_mobile|default=''}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control btn btn-info">搜索 <span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </form>
+
+            <div class="order_time">
+                <form class="form-inline" action="/business/paiorder/order_list" method="get" onsubmit="return checkForm()">
+                    <div class="form-group">
+                        <label for="status">待发货中奖时间:</label>
+                        <input type="text" name="start_time" id="countTimestart" onfocus="selecttime(1)" size="17" value='{notempty name="$start_time"}{$start_time}{/notempty}' class="form-control Wdate start_time" readonly placeholder="最小时间"> -
+                        <input type="text" name="end_time" id="countTimeend" onfocus="selecttime(2)" size="17" value='{notempty name="$end_time"}{$end_time}{/notempty}' class="form-control Wdate end_time" readonly placeholder="最大时间">
+                        <input type="hidden" name="status"  value="2">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="form-control btn btn-info time_select">搜索</button>
+                    </div>
+                </form>
+                <span><a class="current_condition">导出当前时间的待发货表</a></span>
+
+            </div>
+            <div class="margin-top">
+                <label for="status">订单状态:</label>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status == 0'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(0)">全部</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==1'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(1)">参拍中</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==2'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(2)">待发货</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==3'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(3)">已发货</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==4'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(4)">已签收</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==5'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(5)">交易完成</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==6'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(6)">未中拍</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==7'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(7)">流拍</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==8'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(8)">待付款</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==9'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(9)">已付款</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==10'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(10)">退款中</button>
+                <button class=" btn {empty name='$status' } btn-info {else /} {if condition='$status==11'}btn-success {else /} } btn-info {/if}{/empty} size-S" onclick="o_state(11)">退款完成</button>
+            </div>
+
+            <table class="table table-border table-bordered table-bg table-hover table-sort " style="width:100%">
+                <thead>
+                <tr class="text-c">
+                    {if condition='$status == 2'}
+                    <!--<th width="150px">id</th>-->
+                    <th width="150px">中奖公布时间</th>
+                        <th>编号</th>
+                        <th>商品名称</th>
+                        <th>奖品类型</th>
+                        <th>商品图片</th>
+                        <th width="150px">收货人</th>
+                        <th>地址</th>
+                        <th>联系电话</th>
+                        <th>快递公司</th>
+                        <th>快递单号</th>
+                        <th>卖家姓名</th>
+                        <th>卖家联系电话</th>
+                        <th>立即发货</th>
+                    {else}
+                    <!--<th>订单编号</th>-->
+                    <th width="150px">商品信息</th>
+                        <th width="150px">店铺信息</th>
+                        <th>拍品信息</th>
+                        <th>状态</th>
+                        <th>购买信息</th>
+                        <th>中奖者</th>
+                        <th>订单日期</th>
+                        {in name="$status" value="3,4,5"}
+                            <th>发货信息</th>
+                        {/in}
+                    {/if}
+                    <th width="100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {if condition='$status == 2'}
+                    {volist name='list' id='vo'}
+                    <tr class="text-c va-m tr_{$vo.o_id}">
+                        <!--<td>{$vo.gp_id}&#45;&#45;{$vo.o_id}</td>-->
+                        <td>
+                            <p class="o_publishtime" title="{$vo.o_publishtime}">{$vo.o_publishtime|date='Y-m-d H:i:s',###}</p>
+                        </td>
+                        <td>
+                            <p class="o_sn" title="{$vo.gp_sn}">商品编号:{$vo.gp_sn}</p><br/>
+                            <p class="o_sn" title="{$vo.o_sn}">订单编号:{$vo.o_sn}</p>
+                        </td>
+                        <td class="td_order_info">
+                            <p class="" title="{$vo.g_name}">{$vo.g_name}</p>
+                        </td>
+
+                        <td class="td_order_info">
+                            <p class="" title="{$vo.leixing}">
+                                {$vo.leixing}
+                            </p>
+                        </td>
+                        <td class="td_order_info">
+                            <p><img src="{$vo.gp_img}" alt="" class="img_big suo_img" width="80" height="80"></p>
+                        </td>
+                        <td>
+                            <p class="m_name_{$vo.o_id}" title="{$vo.o_receiver}">{$vo.o_receiver}</p>
+                        </td>
+                        <td>
+                            <p class="o_address_{$vo.o_id}" title="{$vo.o_address}">{$vo.o_address}</p>
+                        </td>
+                        <td>
+                            <p class="m_mobile_{$vo.o_id}" title="{$vo.m_mobile}">{$vo.o_mobile}</p>
+                        </td>
+                        <td>
+                               <span class="select-box">
+                                  <select class="select_{$vo.o_id}" size="1" name="demo1">
+                                    <option value="1">中通快递</option>
+                                    <option value="2">顺丰快递</option>
+                                    <option value="3">申通快递</option>
+                                    <option value="4">韵达快递</option>
+                                    <option value="5">圆通快递</option>
+                                    <option value="6">天天快递</option>
+                                    <option value="7">龙邦快递</option>
+                                    <option value="8">其他</option>
+                                  </select>
+                                </span>
+                        </td>
+                        <td class="td_order_info">
+                            <input type="text" class="input-text express_num_{$vo.o_id}"  placeholder="快递单号">
+                        </td>
+                        <td class="td_order_info">
+                            <input type="text" class="input-text seller_name_{$vo.o_id}"  placeholder="卖家姓名">
+                        </td>
+                        <td class="td_order_info">
+                            <input type="text" class="input-text seller_mobile_{$vo.o_id}"  placeholder="联系电话">
+                        </td>
+                        <td class="td_order_info">
+                            <button type="button" class="btn size-MINI btn-info " onclick="ostate_2('{$vo.o_id}','{$vo.gs_id}')">立即发货</button>
+                        </td>
+
+                        <td o_id="{$vo.o_id|default=0}" g_id="{$vo.g_id|default=0}" gs_id="{$vo.gs_id}">
+                            <button type="button" class="btn size-MINI btn-info goods_info">商品详情</button>
+                            <button type="button" class="btn size-MINI btn-info order_info top5" onclick="">订单详情</button>
+                            {switch name="vo.o_state"}
+                            {case value="2"}<button type="button" class="btn size-MINI label-primary top5 lijifahuo">立即发货</button>{/case}
+                            {case value="3"}<button type="button" class="btn size-MINI label-success top5 fahuoxinxi">发货信息</button>{/case}
+                            {/switch}
+                        </td>
+                    </tr>
+                    {/volist}
+                {else/}
+                    {volist name='list' id='vo'}
+                    <tr class="text-c va-m tr_{$vo.o_id}">
+                        <!--<td>{$vo.o_id}</td>-->
+                        <td>
+                            <p>商品编号：{$vo.gp_sn}</p>
+                            <p class="p_gname" title="{$vo.g_name}">商品名称{$vo.g_name}</p>
+                            <p>奖品类型:{$vo.leixing}</p>
+                            <p><img src="{$vo.gp_img}" alt="" class="img_big suo_img" width="80" height="80"></p>
+                        </td>
+                        <td>
+                            <p class="stroe_name" title="{$vo.stroe_name}">{$vo.stroe_name|default=''}</p>
+                            <p><img src="{$vo.store_logo|default='/static/image/index/pic_home_taplace@2x.png'}" alt="" class="img_big suo_img" ></p>
+                        </td>
+                        <td>
+                            <p>
+                                <span>拍品价格：</span><br>
+                                <span>￥{$vo.min_price}-{$vo.max_price}</span>
+                            </p>
+                            <p>
+                                <span>商品属性：</span><br>
+                                    <span>
+                                        {switch name="vo.gs_id"}
+                                        {case value="1"}（普通商品）{/case}
+                                        {case value="2"}（虚拟商品）{/case}
+                                        {case value="3"}（大宗商品）{/case}
+                                        {/switch}
+                                    </span>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <span>支付状态：</span><br>
+                                    <span>
+                                        {switch name="vo.o_paystate"}
+                                        {case value="1"}待付款{/case}
+                                        {case value="2"}已付款{/case}
+                                        {case value="3"}退款中{/case}
+                                        {case value="4"}退款完成{/case}
+                                        {/switch}
+                                    </span>
+                            </p>
+                            <p>
+                                <span>订单状态：</span><br>
+                                    <span>
+                                        {switch name="vo.o_state"}
+                                        {case value="1"}参拍中{/case}
+                                        {case value="2"}等待发货{/case}
+                                        {case value="3"}等待签收{/case}
+                                        {case value="4"}等待评价{/case}
+                                        {case value="5"}交易完成{/case}
+                                        {case value="10"}未中拍{/case}
+                                        {case value="11"}流拍{/case}
+                                        {/switch}
+                                    </span>
+                            </p>
+                        </td>
+                        <td class="td_order_info">
+
+                            <p>
+                                <span>订单编号：</span>
+                                <span>{$vo.o_sn}</span>
+                            </p>
+                            <p>
+                                <span>买家昵称：</span>
+                                <span>{$vo.m_name}</span>
+                            </p>
+                            <p>
+                                <span>下单手机号：</span>
+                                <span>{$vo.m_mobile}</span>
+                            </p>
+                            <p>
+                                <span>收货手机号：</span>
+                                <span>{$vo.o_mobile}</span>
+                            </p>
+                            <p>
+                                <span>参拍期数：</span>
+                                <span>{$vo.o_periods}</span>
+                            </p>
+                            <p>
+                                <span>参拍价：</span>
+                                <span>￥{$vo.o_money}</span>
+                            </p>
+                            <p>
+                                <span>购买数量：</span>
+                                <span>{$vo.gp_num}</span>
+                            </p>
+                            <p>
+                                <span>邮费：</span>
+                                <span>￥{$vo.o_deliverfee}</span>
+                            </p>
+                            <p>
+                                <span>订单总费用：</span>
+                                <span>￥{$vo.o_totalmoney}</span>
+                            </p>
+                        </td>
+                        <td>
+                            {empty name="vo.award_m_name"}
+                            <p>无</p>
+                            {else/}
+                            <p><img src="{$vo.award_m_avatar|default='/static/image/index/pic_home_taplace@2x.png'}" class="img_big" width="50px" alt=""/></p>
+                            <p>{$vo.award_m_name|default=''}</p>
+                            {/empty}
+
+                        </td>
+                        <td>
+                            {notempty name='vo.o_addtime'}
+                            <p>
+                                <span>下单时间：</span><br>
+                                <span>{$vo.o_addtime|date="Y-m-d H:i:s",###}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_paytime'}
+                            <p>
+                                <span>付款时间：</span><br>
+                                <span>{$vo.o_paytime|date="Y-m-d H:i:s",###}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_publishtime'}
+                            <p>
+                                <span>中奖公布时间：</span><br>
+                                <span>{$vo.o_publishtime|date="Y-m-d H:i:s",###}</span>
+                            </p>
+                            {/notempty}
+                        </td>
+                        {in name="$status" value="3,4,5"}
+                        <td>
+                            {notempty name='vo.o_receiver'}
+                            <p>
+                                <span>收货人姓名：</span>
+                                <span>{$vo.o_receiver}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_mobile'}
+                            <p>
+                                <span>收货人电话：</span>
+                                <span>{$vo.o_mobile}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_address'}
+                            <p>
+                                <span>收货人地址：</span><br/>
+                                <span>{$vo.o_address}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_express_way'}
+                            <p>
+                                <span>物流名称：</span>
+                                <span>{$vo.o_express_way}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_express_num'}
+                            <p>
+                                <span>快递单号：</span>
+                                <span>{$vo.o_express_num}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_seller_name'}
+                            <p>
+                                <span>发货人姓名：</span>
+                                <span>{$vo.o_seller_name}</span>
+                            </p>
+                            {/notempty}
+                            {notempty name='vo.o_seller_mobile'}
+                            <p>
+                                <span>发货人联系电话：</span>
+                                <span>{$vo.o_seller_mobile}</span>
+                            </p>
+                            {/notempty}
+                        </td>
+                        {/in}
+                        <td o_id="{$vo.o_id|default=0}" g_id="{$vo.g_id|default=0}" gs_id="{$vo.gs_id}">
+                            <button type="button" class="btn btn-sm btn-info goods_info">商品详情</button>
+                            <button type="button" class="btn btn-sm btn-info order_info top5" onclick="">订单详情</button>
+                            {if condition="$vo.o_state eq 2 or $vo.o_state eq 12"}
+                            <button type="button" class="btn btn-sm btn-primary top5 lijifahuo" onclick="">立即发货</button>
+                            {elseif condition="($vo.o_state gt 2 and $vo.o_state lt 6) or ($vo.o_state gt 12 and $vo.o_state lt 16)"}
+                            {/if}
+                        </td>
+                    </tr>
+                    {/volist}
+                {/if}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="page_box pull-right" style="">
+                <span class="pagi_bar pull-right">共&nbsp;{$total}&nbsp;条</span>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+<img alt="" style="display:none" id="displayImg" src="" />
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/h-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+    <script type="text/javascript" src="/static/js/Public.js"></script>
+<script type="text/javascript">
+    //点击发货
+    function ostate_2(o_id,gs_id){
+        if(gs_id == 1) {
+            var express_corid = $('.select_' + o_id).val();
+            var express_way = $('.select_' + o_id).find("option:selected").text();
+            var express_num = $('.express_num_' + o_id).val();
+            var seller_name = $('.seller_name_' + o_id).val();
+            var seller_mobile = $('.seller_mobile_' + o_id).val();
+            //数据验证
+            if (!o_id) {
+                layer.msg("<span style='color:#fff'>参数错误</span>", {
+                    time: 2000
+                });
+                return false;
+            }
+            if (!express_corid || !express_way) {
+                layer.msg("<span style='color:#fff'>请选择快递公司</span>", {
+                    time: 2000
+                });
+                return false;
+            }
+            if (seller_name == "") {
+                layer.msg("<span style='color:#fff'>卖家姓名不能为空</span>", {
+                    time: 2000
+                });
+                return false;
+            }
+            var tel_reg = /^1[3-9][0-9]{9}$|^0\d{2,3}-?\d{7,8}$/;
+            if (seller_mobile == "") {
+                layer.msg("<span style='color:#fff'>联系电话不能为空</span>", {
+                    time: 2000
+                });
+                return false;
+            }
+            $.ajax({
+                url: "/member/orderpai/new_logistics_post",
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    o_id: o_id,
+                    express_corid: express_corid,
+                    express_way: express_way,
+                    express_num: express_num,
+                    seller_name: seller_name,
+                    seller_mobile: seller_mobile
+                },
+                success: function (data) {
+                    if (!data.status) {
+                        layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                            time: 2000
+                        });
+                    } else {
+                        layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                            time: 2000
+                        });
+                        $('.tr_' + o_id).remove();
+                    }
+                }
+            });
+        }else{
+            //询问框
+            var gs_name = '';
+            if(gs_id == 3){
+                gs_name = "大宗商品";
+            }else{
+                gs_name = "虚拟商品";
+            }
+            layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    type: 'post',
+                    url: '/member/orderpai/send_out',
+                    dataType: 'json',
+                    data:{o_id:o_id},
+                    success: function (data) {
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        if(data.status > 0){
+                            setTimeout(function () {
+                                layer.closeAll();
+                                window.location.reload();
+                            }, 1000)
+                        }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
+            });
+        }
+    }
+
+    //导出当前添加的excel
+    //协议
+    var ht = window.location.protocol;
+    //域名
+    var url = window.location.host;
+    //完整的域名
+    var totao_url = window.location.href;
+    var info = totao_url.replace(ht + '//' + url + '/business/paiorder/order_list'  ,'');
+    var new_url =  '/business/paiorder/order_list/excel/1' + info;
+    $('.current_condition').attr('href',  new_url);
+    //检测中奖时间
+    function checkForm(){
+        var start_time = $('#countTimestart').val();
+        var end_time = $('#countTimeend').val();
+
+        if(!start_time || !end_time){
+            layer.msg("<span style='color:#fff'>中奖时间为一个时间段</span>",{
+                time:2000
+            });
+            return false;
+        }else{
+            if(start_time >= end_time){
+                layer.msg("<span style='color:#fff'>开始时间要小于结束时间哦</span>",{
+                    time:2000
+                });
+                return false;
+            }
+        }
+    }
+    $(function(){
+        // 商品详情
+        $(".goods_info").click(function(){
+            var g_id = $(this).parents("td").attr("g_id");
+            layer.open({
+                type: 2,
+                title: '商品详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/goodsproduct/index/g_id/'+g_id
+            });
+        });
+
+        // 订单详情
+        $(".order_info").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            layer.open({
+                type: 2,
+                title: '订单详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/orderpai/sell_goods_info/o_id/'+o_id
+            });
+        });
+
+        // 立即发货
+        $(".lijifahuo").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            var gs_id = $(this).parents("td").attr("gs_id");
+            if(gs_id == 1){
+                layer.open({
+                    type: 2,
+                    title: '物流信息页',
+                    shadeClose: true,
+                    shade: 0.5,
+                    area: ['380px', '90%'],
+                    content: '/member/Orderpai/new_logistics/o_id/'+o_id+'/is_layer/1'
+                });
+            }else{
+                //询问框
+                var gs_name = '';
+                if(gs_id == 3){
+                    gs_name = "大宗商品";
+                }else{
+                    gs_name = "虚拟商品";
+                }
+                layer.confirm('此商品为'+gs_name+",不需要填写快递信息，确认要发货吗？", {
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.ajax({
+                        type: 'post',
+                        url: '/member/orderpai/send_out',
+                        dataType: 'json',
+                        data:{o_id:o_id},
+                        success: function (data) {
+                            layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                                time:2000
+                            });
+                            if(data.status > 0){
+                                setTimeout(function () {
+                                    layer.closeAll();
+                                    window.location.reload();
+                                }, 1000)
+                            }
+                        }
+                    });
+                }, function(){
+                    layer.closeAll();
+                });
+            }
+        });
+
+        // 发货信息
+        $(".fahuoxinxi").click(function(){
+            var o_id = $(this).parents("td").attr("o_id");
+            layer.open({
+                type: 2,
+                title: '人气活动详情页',
+                shadeClose: true,
+                shade: 0.5,
+                area: ['380px', '90%'],
+                content: '/member/orderpai/order_logistics/o_id/'+o_id+'/is_seller/1'
+            });
+        });
+
+        // 图片放大
+        $(".img_big").click(function(){
+            var src = $(this).attr("src");
+            $("#displayImg").attr("src", src);
+            var height = $("#displayImg").height();//拿的图片原来宽高，建议自定义宽高
+            var width = $("#displayImg").width();
+            var rate = height / width;
+            var win_width = $(window).width();
+            var win_height = $(window).height();
+            if(width > win_width/2){
+                width = win_width/2;
+                height = width * rate;
+            }
+            if(height > win_height){
+                var h_rate = win_height / height;
+                height = win_height;
+                width = width * h_rate;
+            }
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                area: [width + 'px', height + 'px'], //宽高
+                content: "<img alt=" + name + " title=" + name + " src=" + src + " width=" + width + " height=" + height + " />"
+            });
+        })
+    })
+    //    //时间控件
+    function selecttime(flag){
+        if(flag==1){
+            var endTime = $("#countTimeend").val();
+            if(endTime != ""){
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }else{
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }
+        }else{
+            var startTime = $("#countTimestart").val();
+
+            var t = new Date();//当前时间
+            var t_s = t.getTime();//转化为时间戳毫秒数
+            t.setTime(t_s + 1000 * 60 * 10);//设置新时间比旧时间多十分钟;
+
+            //标准日期转标准时间
+            var t3 = new Date(startTime);
+            //标准时间转毫秒数
+            var result = t3.getTime();
+            t3.setTime(result + 1000 * 60 * 60 * 24 *60);//设置新时间比旧时间多60天;
+
+            if(startTime != ""){
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:startTime,maxDate:msToDate(t3).wasTime})
+            }else{
+                WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})
+            }
+        }
+    }
+    //订单状态
+    function o_state(num){
+        var start_time = $('.start_time').val();
+        var end_time = $('.end_time').val();
+        if(start_time && end_time){
+            location.href='/business/paiorder/order_list/status/' + num + '/start_time/' + start_time + '/end_time/' + end_time;
+        }else{
+            location.href='/business/paiorder/order_list/status/' + num ;
+
+        }
+    }
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
+{/block}

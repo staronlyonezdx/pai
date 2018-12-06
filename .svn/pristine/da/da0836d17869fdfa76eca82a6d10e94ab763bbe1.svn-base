@@ -1,0 +1,92 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/datareport_member.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/timepicker/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/msg.css">
+{/block}
+{block name="script"}
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+{/block}
+{block name="content"}
+
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>添加推送通知</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>*标题：</label>
+                    <input type="text" class="form-control" placeholder="输入1-10个字符">
+                </div>
+                <div class="form-group">
+                    <label>内容：</label>
+                    <textarea rows="5" placeholder="输入0-100个字符"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>后续操作：</label>
+                    <input type="radio" name="hx" checked value="0">无操作&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="hx" value="1">跳转URL
+                </div>
+                <div class="form-group hx">
+                    <label></label>
+                    <input type="text" class="form-control bj" placeholder="编辑打开内容">
+                    <input type="text" class="form-control url" placeholder="输入URL">
+                </div>
+                <div class="form-group">
+                    <label>推送时间：</label>
+                    <input type="radio" name="ts" value="0" checked>立即推送&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="ts" value="1">定时推送
+                </div>
+                <div class="form-group ts">
+                    <label></label>
+                    <input name="act_start_time" id="startdate" type="text" class="text-box" value="" placeholder="开始时间" title="开始时间" readonly="readonly" style="cursor:pointer;"/>
+                </div>
+                <div class="form-group">
+                    <label>备注：</label>
+                    <textarea rows="5" placeholder="输入0-100个字符"></textarea>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <label></label>
+                <input type="submit" class="btn btn-primary" value="保存信息"/>
+                <input type="button" class="btn btn-default cancel" value="取消操作"/>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    //初始化时间插件
+    $("input[name='act_start_time']").datetimepicker();
+
+    //后续操作选择
+    $("input[name='hx']").on('change',function(){
+        if($(this).val() == 0) {
+            $('.hx').hide();
+        }else if($(this).val() == 1) {
+            $('.hx').show();
+        }        
+    })
+
+    //推送时间选择
+    $("input[name='ts']").on('change',function(){
+        if($(this).val() == 0) {
+            $('.ts').hide();
+        }else if($(this).val() == 1) {
+            $('.ts').show();
+        }        
+    })
+
+    //取消操作
+    $('.cancel').on("click",function(){
+        window.history.go(-1);
+    })
+</script>
+{/block}
+

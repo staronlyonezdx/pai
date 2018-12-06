@@ -1,0 +1,64 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/msg.css">
+{/block}
+{block name="content"}
+<div class="container-fluid">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="tui-tab">
+                <a class="active">推送通知</a><a href="/admin/systemmsg/noticemsg">站内消息</a>
+            </div>
+            <a href="/admin/systemmsg/addtuisongmsg" class="add-link">新增</a>
+			<table class="table table-hover" style="margin-bottom:0">
+				<thead>
+				<tr>
+					<th>序号</th>
+					<th>标题</th>
+					<th>打开类型</th>
+					<th>打开URL</th>
+					<th>推送类型</th>
+                    <th>推送状态</th>
+                    <th>推送时间</th>
+                    <th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<th>1</th>
+					<td>推送标题</td>
+					<td>app首页</td>
+					<td>---</td>
+					<td>定时推送</td>
+                    <td>待推送</td>
+                    <td>2018-09-10 08:50</td>
+                    <td><a href="/admin/systemmsg/addtuisongmsg/id/1">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a>撤销</a></td>
+                </tr>
+                <tr>
+					<th>1</th>
+					<td>推送标题</td>
+					<td>app首页</td>
+					<td>---</td>
+					<td>定时推送</td>
+                    <td>待推送</td>
+                    <td>2018-09-10 08:50</td>
+                    <td><a href="/admin/systemmsg/addtuisongmsg/id/1">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a>撤销</a></td>
+                </tr>
+                <tr>
+					<th>1</th>
+					<td>推送标题</td>
+					<td>app首页</td>
+					<td>---</td>
+					<td>定时推送</td>
+                    <td>待推送</td>
+                    <td>2018-09-10 08:50</td>
+                    <td><a href="/admin/systemmsg/addtuisongmsg/id/1">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a>撤销</a></td>
+				</tr>
+				</tbody>
+			</table>			
+		</div>
+	</div>
+</div>
+{/block}

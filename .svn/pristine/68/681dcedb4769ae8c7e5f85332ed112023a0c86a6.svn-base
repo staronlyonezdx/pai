@@ -1,0 +1,113 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__ADMIN_LIB_CLEARMINMASTER_CSS__/summernote.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/add_admin.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/datareport_member.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/timepicker/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/msg.css">
+{/block}
+{block name="script"}
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-addon.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script src="__STATIC__/lib/timepicker/js/jquery.ui.datepicker-zh-CN.js"></script>
+{/block}
+{block name="content"}
+<form method="post" action="{:url('Systemmsg/addtuisongmsg')}" id="add_store_category_form" enctype="multipart/form-data">
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group from_add_authority">
+                    <label>添加推送通知</label>
+                </div>
+                <div class="form-group from_add_margin">
+                    <label>*标题：</label>
+                    <input type="text" name="pm_title" {notempty name="$pm_list['pm_title']"} value="{$pm_list.pm_title}" {/notempty} class="form-control" placeholder="输入1-10个字符">
+                </div>
+                <div class="form-group">
+                    <label>内容：</label>
+                    <textarea rows="5" name="pm_content" {notempty name="$pm_list['pm_content']"} value="{$pm_list.pm_content}" {/notempty} placeholder="输入0-100个字符"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>后续操作：</label>
+                    {notempty name="$pm_list['pm_open_type']"}
+                    <input type="radio" name="hx" value="0" {if condition="$pm_list['pm_open_type'] == 0"} checked {/if}>无操作&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="hx" value="1" {if condition="$pm_list['pm_open_type'] == 1"} checked {/if}>跳转URL
+                    {else/}
+                    <input type="radio" name="hx" value="0" checked >无操作&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="hx" value="1">跳转URL
+                    {/notempty}
+                </div>
+                <div class="form-group hx">
+                    <label></label>
+                    <input type="text" class="form-control bj" placeholder="编辑打开内容">
+                    <input type="text" name="pm_url" {notempty name="$pm_list['pm_url']"} value="{$pm_list.pm_url}" {/notempty} class="form-control url" placeholder="输入URL">
+                </div>
+                <div class="form-group">
+                    <label>推送时间：</label>
+                    {notempty name="$pm_list['pm_push_type']"}
+                    <input type="radio" name="ts" value="0" {if condition="$pm_list['pm_push_type'] == 0"} checked {/if}>立即推送&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="ts" value="1" {if condition="$pm_list['pm_push_type'] == 1"} checked {/if}>定时推送
+                    {else/}
+                    <input type="radio" name="ts" value="0" checked >立即推送&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="ts" value="1">定时推送
+                    {/notempty}
+                </div>
+                <div class="form-group ts">
+                    <label></label>
+                    <input name="pm_push_time" id="startdate" type="text" class="text-box" {notempty name="$pm_list['pm_push_time']"} value="{$pm_list.pm_push_time|default=0|date='Y-m-d H:i',###}" {/notempty} placeholder="开始时间" title="开始时间" readonly="readonly" style="cursor:pointer;"/>
+                </div>
+                <div class="form-group">
+                    <label>备注：</label>
+                    <textarea rows="5" placeholder="输入0-100个字符"></textarea>
+                </div>
+            </div>
+            <div class="form-group text-right" style="margin-top:20px">
+                <label></label>
+                <input type="hidden" {notempty name="$pm_list.pm_id"} value="{$pm_list.pm_id}"  {/notempty} name="pm_id"/>
+                <input type="submit" class="btn btn-primary" value="保存信息"/>
+                <input type="button" class="btn btn-default cancel" value="取消操作"/>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    //初始化时间插件
+    $("input[name='pm_push_time']").datetimepicker();
+
+    //后续操作选择
+    $("input[name='hx']").on('change',function(){
+        if($(this).val() == 0) {
+            $('.hx').hide();
+        }else if($(this).val() == 1) {
+            $('.hx').show();
+        }        
+    })
+    if($("input[name='hx']:checked").val() == 0) {
+        $('.hx').hide();
+    }else if($("input[name='hx']:checked").val() == 1) {
+        $('.hx').show();
+    }
+
+    //推送时间选择
+    $("input[name='ts']").on('change',function(){
+        if($(this).val() == 0) {
+            $('.ts').hide();
+        }else if($(this).val() == 1) {
+            $('.ts').show();
+        }        
+    })
+    if($("input[name='ts']:checked").val() == 0) {
+        $('.ts').hide();
+    }else if($("input[name='ts']:checked").val() == 1) {
+        $('.ts').show();
+    }
+
+    //取消操作
+    $('.cancel').on("click",function(){
+        window.history.go(-1);
+    })
+</script>
+{/block}
+

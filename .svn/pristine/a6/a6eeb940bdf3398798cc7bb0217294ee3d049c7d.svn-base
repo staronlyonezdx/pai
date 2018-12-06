@@ -1,0 +1,71 @@
+.tui-tab {
+    height: 40px;
+    border-bottom: 1px solid #ddd;
+    line-height: 40px;
+}
+.tui-tab a {
+    padding: 5px 15px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #aaa;
+}
+.tui-tab .active {
+    color: #333;
+    border-top: 1px solid #333;
+    border-right: 1px solid #333;
+    border-left: 1px solid #333;
+    border-radius: 2px;
+}
+.add-link {
+    width: 90px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;    
+    background: #999;
+    border-radius: 4px;
+    margin: 20px;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+}
+.add-link:hover {
+    color: black;
+    text-decoration: none;
+}
+.table a {
+    cursor: pointer;
+}
+.form-group label {
+    width: 100px;
+    float: left;
+    height: 34px;
+    line-height: 34px;
+}
+.form-group .form-control, .form-group textarea {
+    float: left;
+    width: 250px;
+}
+.form-group textarea {
+    padding: 6px 12px;
+}
+.form-group input[type="radio"] {
+    margin: 9px 0 0 0;
+}
+.bj {
+    width: 110px !important;
+}
+.url {
+    width: 180px !important;
+    margin: 0 0 0 10px;
+}
+.text-box {
+    padding: 6px 12px;
+}
+.hx, .ts {
+    display: none;
+}
+.from_add_authority {
+    font-size: 16px;
+}

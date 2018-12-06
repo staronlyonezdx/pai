@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"D:\project\pai\public/../application/activity/view/index/index.html";i:1543829647;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"D:\project\pai\public/../application/activity/view/index/index.html";i:1544077952;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -56,6 +56,47 @@
             </div>
         </div>
     </header>
+    <?php elseif($is_peanut ==1): ?>
+    <div class="peanut_header">
+        <div class="group_header">
+            <div class="goback lf goback1">
+                <img src="__STATIC__/image/activity/icon_back@2x (1).png" alt="">
+            </div>
+            <div class="index_search lf tosearch" style="background: rgba(255,241,186,1);">
+
+                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf">
+
+                <p>大家都在搜 iMac Pro…</p>
+            </div>
+            <div class="share_top lf">
+                <img src="__STATIC__/image/activity/icon_fenxiang@2x.png" alt="">
+            </div>
+        </div>
+        <div class="peanut_data clear">
+            <img src="" alt="" class="peanut_my_img lf">
+            <a href="/member/myhome/peanut">
+                <div class="peanut_my_info lf">
+                    <span class="peanut_my_name">DuckKING</span>
+                    <img src="__STATIC__/image/activity/icon_jump@2x.png" alt="">
+                    <span class="peanut_my_num">
+                    <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                    200.00
+                </span>
+                </div>
+            </a>
+
+            <a href="/member/myhome/recharge_peanut">
+                <div class="peanut_recharge rt">花生充值</div>
+            </a>
+
+        </div>
+        <a href="/activity/index/peanut_rule">
+            <div class="peanut_rule">
+                <img src="__STATIC__/image/activity/icon_bar@2x.png" alt="">
+            </div>
+        </a>
+
+    </div>
     <?php else: ?>
     <div class="group_header clear">
         <div class="goback lf goback1">
@@ -63,38 +104,194 @@
         </div>
         <div class="index_search lf tosearch">
 
-                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf">
+            <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf">
 
             <p>大家都在搜 iPhoneX…</p>
         </div>
     </div>
-    <?php endif; if(!(empty($info['activity_banner']) || (($info['activity_banner'] instanceof \think\Collection || $info['activity_banner'] instanceof \think\Paginator ) && $info['activity_banner']->isEmpty()))): ?>
+    <?php endif; if($is_jiche == 1): elseif($is_peanut ==1): ?>
+    <div class="my_peanut">
+        <!--如果没有别人买-->
+        <img src="__STATIC__/image/activity/icon_biaoti@2x (2).png" alt="" class="no_peanut">
+        <!--如果有人买花生-->
+        <div class="peanut_join">
+            <div class="peanut_join_title">
+                <span>我的花生连</span>
+                <span>查看所有奖励</span>
+                <img src="__STATIC__/image/activity/icon_jump@2x.png" alt="">
+            </div>
+            <div class="peanut_join_wrap">
+                <div class="swiper-container3 swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/">
+                                <div class="peanut_item">
+                                    <div class="peanut_item_top">
+                                        <img src="" alt="" class="err_img">
+                                        <span class="peanut_help">助TA成团
+                                        <img src="__STATIC__/image/activity/icon_jump@2x.png" alt=""></span>
+                                    </div>
+                                    <div class="peanut_item_other">
+                                        <img src="" alt="" class="item_other_img">
+                                        <span>TA将赠您</span>
+                                    </div>
+                                    <p class="peanut_item_price">
+                                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                                        10
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/">
+                                <div class="peanut_item">
+                                    <div class="peanut_item_top">
+                                        <img src="" alt="" class="err_img">
+                                        <span class="peanut_success">花生已到账</span>
+                                    </div>
+                                    <div class="peanut_item_other">
+                                        <img src="" alt="" class="item_other_img">
+                                        <span>TA已赠您</span>
+                                    </div>
+                                    <p class="peanut_item_price">
+                                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                                        10
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/">
+                                <div class="peanut_item">
+                                    <div class="peanut_item_top">
+                                        <img src="" alt="" class="err_img">
+                                        <span class="peanut_success">花生已到账</span>
+                                    </div>
+                                    <div class="peanut_item_other">
+                                        <img src="" alt="" class="item_other_img">
+                                        <span>TA已赠您</span>
+                                    </div>
+                                    <p class="peanut_item_price">
+                                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                                        10
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/">
+                                <div class="peanut_item">
+                                    <div class="peanut_item_top">
+                                        <img src="" alt="" class="err_img">
+                                        <span class="peanut_success">花生已到账</span>
+                                    </div>
+                                    <div class="peanut_item_other">
+                                        <img src="" alt="" class="item_other_img">
+                                        <span>TA已赠您</span>
+                                    </div>
+                                    <p class="peanut_item_price">
+                                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                                        10
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/">
+                                <div class="peanut_item">
+                                    <div class="peanut_item_top">
+                                        <img src="" alt="" class="err_img">
+                                        <span class="peanut_success">花生已到账</span>
+                                    </div>
+                                    <div class="peanut_item_other">
+                                        <img src="" alt="" class="item_other_img">
+                                        <span>TA已赠您</span>
+                                    </div>
+                                    <p class="peanut_item_price">
+                                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                                        10
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/member/goodsproduct/index/g_id/">
+                                <div class="peanut_item">
+                                    <div class="peanut_item_top">
+                                        <img src="" alt="" class="err_img">
+                                        <span class="peanut_success">花生已到账</span>
+                                    </div>
+                                    <div class="peanut_item_other">
+                                        <img src="" alt="" class="item_other_img">
+                                        <span>TA已赠您</span>
+                                    </div>
+                                    <p class="peanut_item_price">
+                                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                                        10
+                                    </p>
+                                </div>
+                            </a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--提示好友数-->
+        <div class="peanut_friend">
+            <span>我的花生连</span>
+            <div class="my_parent_wrap clear">
+                <div class="my_parent lf">
+                    <img src="" alt="" class="par_img">
+                    <img src="" alt="" class="par_img">
+                    <img src="" alt="" class="par_img">
+                    <span>共24名好友</span>
+                </div>
+                <div class="inv_btn rt">邀TA们参团</div>
+            </div>
+        </div>
+    </div>
+    <?php else: if(!(empty($info['activity_banner']) || (($info['activity_banner'] instanceof \think\Collection || $info['activity_banner'] instanceof \think\Paginator ) && $info['activity_banner']->isEmpty()))): ?>
     <div class="group_banner">
 
         <?php if(is_array($info['activity_banner']) || $info['activity_banner'] instanceof \think\Collection || $info['activity_banner'] instanceof \think\Paginator): $i = 0;$__LIST__ = is_array($info['activity_banner']) ? array_slice($info['activity_banner'],0,1, true) : $info['activity_banner']->slice(0,1, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-            <a href="<?php echo (isset($vo['ab_href']) && ($vo['ab_href'] !== '')?$vo['ab_href']:'#content'); ?>">
-                <img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>" alt="" style="width:100%;height:100%" class="err_img">
-            </a>
+        <a href="<?php echo (isset($vo['ab_href']) && ($vo['ab_href'] !== '')?$vo['ab_href']:'#content'); ?>">
+            <img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>" alt="" style="width:100%;height:100%" class="err_img">
+        </a>
         <?php endforeach; endif; else: echo "" ;endif; ?>
         <!--<div class="swiper-container swiper-container1">-->
-            <!--<div class='swiper-wrapper'>-->
-                <!---->
+        <!--<div class='swiper-wrapper'>-->
+        <!---->
 
-                <!--<div class="swiper-slide">-->
-                    <!--<?php if($vo['ab_href'] != ''): ?>-->
-                    <!--<a href="<?php echo isset($vo['ab_href']) ? $vo['ab_href'] :  '#'; ?>"><img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>"></a>-->
-                    <!--<?php else: ?>-->
-                    <!--<img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>">-->
-                    <!--<?php endif; ?>-->
-                <!--</div>-->
-              <!---->
+        <!--<div class="swiper-slide">-->
+        <!--<?php if($vo['ab_href'] != ''): ?>-->
+        <!--<a href="<?php echo isset($vo['ab_href']) ? $vo['ab_href'] :  '#'; ?>"><img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>"></a>-->
+        <!--<?php else: ?>-->
+        <!--<img src="<?php echo isset($vo['ab_img']) ? $vo['ab_img'] :  ''; ?>">-->
+        <!--<?php endif; ?>-->
+        <!--</div>-->
+        <!---->
 
-            <!--</div>-->
-            <!--<div class="swiper-pagination"></div>-->
+        <!--</div>-->
+        <!--<div class="swiper-pagination"></div>-->
         <!--</div>-->
 
     </div>
-    <?php endif; ?>
+    <?php endif; endif; ?>
+
+
     <div class="group_discount_pick">
         <div class="group_discount clear">
             <?php if(!(empty($info['ads_goods']) || (($info['ads_goods'] instanceof \think\Collection || $info['ads_goods'] instanceof \think\Paginator ) && $info['ads_goods']->isEmpty()))): if(is_array($info['ads_goods']) || $info['ads_goods'] instanceof \think\Collection || $info['ads_goods'] instanceof \think\Paginator): $i = 0; $__LIST__ = $info['ads_goods'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
@@ -217,14 +414,36 @@
                         <p><span class="search_big" style="display: none">15</span><span class="search_little"
                                                                                          style="display: none">0</span>十五天以内
                         </p>
-                        <!--<span>一天以内</span>-->
-                        <!--<span>三天以内</span>-->
-                        <!--<span>七天以内</span>-->
-                        <!--<span>十五天天以内</span>-->
                     </div>
                     <input type="hidden" name="searchtimelow">
                     <input type="hidden" name="searchtimehigh">
                 </div>
+                <?php if($is_peanut ==1): ?>
+                <div class="condition_item">
+                    <p class="condition_item_title">商品价格（可多选）</p>
+                    <div class="condition_item_content search_price">
+                        <p><span class="search_big">10</span>花生以下 <span class="search_little"
+                                                                        style="display: none">0</span></p>
+                        <p><span class="search_little">10</span>-<span class="search_big">50</span>花生</p>
+                        <p><span class="search_little">50</span>-<span class="search_big">200</span>花生</p>
+                        <p><span class="search_little">200</span>-<span class="search_big">500</span>花生</p>
+                        <p><span class="search_little">500</span>-<span class="search_big">1000</span>花生</p>
+                        <p><span class="search_little">1000</span>花生以上 <span class="search_big" style="display: none">1000000000000000000000</span>
+                        </p>
+                        <!--<span>¥<span>10</span>-¥<span>50</span></span>-->
+                        <!--<span>¥10-¥50</span>-->
+                        <!--<span>¥200-¥500</span>-->
+                        <!--<span>¥200-¥500</span>-->
+                        <!--<span>¥1000以上</span>-->
+                    </div>
+                    <div class="input_in">
+                        <input type="text" class="price_low" placeholder="最低价"><span
+                            style="margin-left:0.3rem;margin-right: 0.3rem ">至</span> <input type="text"
+                                                                                             class="price_high"
+                                                                                             placeholder="最高价">
+                    </div>
+                </div>
+                <?php else: ?>
                 <div class="condition_item">
                     <p class="condition_item_title">商品价格（可多选）</p>
                     <div class="condition_item_content search_price">
@@ -249,6 +468,7 @@
                                                                                              placeholder="最高价">
                     </div>
                 </div>
+                <?php endif; ?>
                 <div class="condition_item">
                     <p class="condition_item_title">成团人数（可多选）</p>
                     <div class="condition_item_content search_num">
@@ -273,7 +493,11 @@
 
             <div class="btns">
                 <div class="reset lf">重置</div>
+                <?php if($is_peanut==1): ?>
+                <div class="affrim lf" style="background: #FDD42F;color: black">确定筛选</div>
+                <?php else: ?>
                 <div class="affrim lf">确定筛选</div>
+                <?php endif; ?>
             </div>
 
         </div>
@@ -339,65 +563,213 @@
                 </li>
             </ul>
         </div>
+    </div>
+
+
+    <?php if($is_peanut ==1): ?>
+    <!--花生第一次进去遮罩-->
+    <div class="is_first_peanut">
+        <div class="i_know"></div>
+    </div>
+    <?php endif; if($is_peanut ==1): ?>
+    <!--获得花生遮罩-->
+    <div class="gain_peanut">
+        <div class="gain_info">
+            <div class="gain_num">
+                <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">
+                5179.00
+            </div>
+            <!--<div class="gain_con">恭喜！该笔花生已到至您花生余额</div>-->
+            <div class="gain_con">恭喜！有3笔花生已到账
+                <img src="__STATIC__/image/activity/icon_jump@2x (1).png" alt="">
+            </div>
+            <div class="gain_info_data clear">
+                <img src="" alt="" class="gain_info_pd_img lf">
+                <div class="lf" style="width:46%;">
+                    <p class="gain_info_name">Beats Beats Studio3 Wireless 3代 头戴式蓝牙无线降噪耳机 魅影灰</p>
+                    <img src="" alt="" class="gain_info_other_img">
+                    <span class="gain_span">TA已赠您</span>
+                </div>
+
+            </div>
+            <p class="gain_tip">
+                邀请的好友在花生堂首次成功团中后系统将自动赠与您好友团中商品的等额花生数
+            </p>
+        </div>
+        <div class="close_gain">
+            <img src="__STATIC__/image/activity/icon_x@2x.png" alt="">
+        </div>
+    </div>
+    <?php endif; ?>
+
+
+    <!--分享弹框-->
+    <div class="continue_pop">
+        <div class="continue_con">
+            <div class="continue_con_top">
+                <img src="__STATIC__/image/core/icon_yaoqingma@2x.png" alt="">
+            </div>
+            <div class="continue_con_code">
+                <img src="" alt="">
+            </div>
+            <div class="bc-btn">长按保存二维码到本地</div>
+            <div data-clipboard-text="" class="copy-btn">复制链接</div>
+            <!-- <div class="continue_con_btn clear">
+                <div>长按保存二维码到本地</div>
+                <div class="rt">复制链接</div>
+            </div> -->
+            <!-- <div class="continue_con_list clear">
+                <div class="continue_con_list_div lf">
+                    <div>
+                        <img src="__STATIC__/image/core/wx@2x.png" alt="">
+                    </div>
+                    <p>微信好友</p>
+                </div>
+                <div class="continue_con_list_div lf">
+                    <div>
+                        <img src="__STATIC__/image/core/pyq@2x.png" alt="">
+                    </div>
+                    <p>朋友圈</p>
+                </div>
+                <div class="continue_con_list_div lf">
+                    <div>
+                        <img src="__STATIC__/image/core/qq@2x.png" alt="">
+                    </div>
+                    <p>QQ好友</p>
+                </div>
+                <div class="continue_con_list_div lf">
+                    <div>
+                        <img src="__STATIC__/image/core/xl@2x.png" alt="">
+                    </div>
+                    <p>新浪微博</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
 </mian>
+<?php if($is_peanut ==1): ?>
+<!--花生堂底部按钮-->
+<div class="peanut_share phonex">
+    <div class="register peanut_share_item lf">
+        <img src="__STATIC__/image/activity/icon_erweima@2x.png" alt="">
+        邀请好友注册
+    </div>
 
+        <div class="peanut_inv peanut_share_item lf">
+            邀请好友花生团
+        </div>
+
+</div>
+<?php endif; ?>
+
+
+<!--搜索头部-->
 <div class="search_top">
-    <div class="search_top_hearder">
-        <div class="goback lf close_top">
-            <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+    <?php if($is_peanut==1): ?>
+    <div class="search_top_hearder" style="background: #FDD42F">
+        <?php else: ?>
+        <div class="search_top_hearder">
+            <?php endif; ?>
+            <div class="goback lf close_top">
+                <?php if($is_peanut==1): ?>
+                <img src="__STATIC__/image/activity/icon_back@2x (1).png" alt="">
+                <?php else: ?>
+                <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+                <?php endif; ?>
+            </div>
+            <div class="index_search lf">
+                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
+                     style="margin-left: 0.3rem;margin-top: 0.18rem">
+                <input type="text" placeholder="输入您想搜索的商品" autofocus class="search_input">
+            </div>
+            <?php if($is_peanut==1): ?>
+            <span class="search_btn" style="color:#000000;font-weight: 600">搜索</span>
+            <?php else: ?>
+            <span class="search_btn">搜索</span>
+            <?php endif; ?>
         </div>
-        <div class="index_search lf">
-            <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
-                 style="margin-left: 0.3rem;margin-top: 0.18rem">
-            <input type="text" placeholder="输入您想搜索的商品" autofocus class="search_input">
+
+        <div class="del_all rt" style="display: none">
+            <img src="__STATIC__/image/activity/icon_del@2x.png" alt="">
         </div>
-        <span class="search_btn">搜索</span>
-    </div>
-    <div class="del_all rt" style="display: none">
-        <img src="__STATIC__/image/activity/icon_del@2x.png" alt="">
-    </div>
-    <div class="search_top_content" style="display: none">
-        <div class="search_top_item">
-            <p class="search_top_title">历史搜索</p>
-            <div class="search_item clear">
-                <a onClick="hclic(this)">
-                    <div class="lf">iPhone X</div>
-                </a>
-                <a onClick="hclic(this)">
-                    <div class="lf">Beats Beats Studio3</div>
-                </a>
-                <a onClick="hclic(this)">
-                    <div class="lf">RGB背光键盘</div>
-                </a>
-                <a onClick="hclic(this)">
-                    <div class="lf">刺绣条纹毛衣</div>
-                </a>
+        <div class="search_top_content" style="display: none">
+            <div class="search_top_item">
+                <p class="search_top_title">历史搜索</p>
+                <div class="search_item clear">
+                    <a onClick="hclic(this)">
+                        <div class="lf">iPhone X</div>
+                    </a>
+                    <a onClick="hclic(this)">
+                        <div class="lf">Beats Beats Studio3</div>
+                    </a>
+                    <a onClick="hclic(this)">
+                        <div class="lf">RGB背光键盘</div>
+                    </a>
+                    <a onClick="hclic(this)">
+                        <div class="lf">刺绣条纹毛衣</div>
+                    </a>
 
 
+                </div>
+            </div>
+            <div class="search_top_item">
+                <p class="search_top_title">火热参团中</p>
+                <div class="search_item claer">
+                    <a onClick="hclic(this)">
+                        <div class="lf">外星人 Gsync 游戏本</div>
+                    </a>
+                    <a onClick="hclic(this)">
+                        <div class="lf">简约电视柜</div>
+                    </a>
+                    <a onClick="hclic(this)">
+                        <div class="lf">GENANX印花连帽卫衣</div>
+                    </a>
+                    <a onClick="hclic(this)">
+                        <div class="lf">三星人工智能黑色手机</div>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="search_top_item">
-            <p class="search_top_title">火热参团中</p>
-            <div class="search_item claer">
-                <a onClick="hclic(this)">
-                    <div class="lf">外星人 Gsync 游戏本</div>
-                </a>
-                <a onClick="hclic(this)">
-                    <div class="lf">简约电视柜</div>
-                </a>
-                <a onClick="hclic(this)">
-                    <div class="lf">GENANX印花连帽卫衣</div>
-                </a>
-                <a onClick="hclic(this)">
-                    <div class="lf">三星人工智能黑色手机</div>
-                </a>
-            </div>
-        </div>
-    </div>
 
+    </div>
 </div>
 
 
+
+<div class="details_fenxiang">
+    <div class="details_fxcon">
+        <div class="details_fxtit">
+            邀请好友
+        </div>
+        <div class="details_fxlist clear">
+            <div class="details_fx_img lf" onclick="app(0)">
+                <img src="__STATIC__/image/details/wx.png">
+                微信好友
+            </div>
+            <div class="details_fx_img lf" onclick="app(1)">
+                <img src="__STATIC__/image/details/pyq.png">
+                朋友圈
+            </div>
+            <!-- <div class="details_fx_img lf">
+                <img src="__STATIC__/image/details/iconqq@2x.png">
+                QQ好友
+            </div>
+            <div class="details_fx_img lf">
+                <img src="__STATIC__/image/details/icon微博@2x.png">
+                新浪微博
+            </div> -->
+            <div class="details_fx_img lf" onclick="copyUrl()">
+                <img src="__STATIC__/image/details/link.png">
+                复制链接
+            </div>
+        </div>
+        <div class="details_fx_cancel">
+            取消
+        </div>
+    </div>
+</div>
+<input type="hidden" id="app" />
 
         <footer></footer>
     </body>
@@ -503,13 +875,41 @@
 </script>
 <script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
 <script src="__JS__/mescroll/mescroll.min.js"></script>
+<script src="__STATIC__/js/clipboard.min.js"></script>
 <script>
     // var mySwiper = new Swiper('.swiper-container1', {
     //     autoplay: 5000,//可选选项，自动滑动
     //     pagination : '.swiper-pagination',
     // })
+
+    //iosapp
+    /*这段代码是固定的，必须要放到js中*/
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+
+    /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+    setupWebViewJavascriptBridge(function(bridge) {
+        /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+        bridge.callHandler('isApp',function(str) {
+            $('#app').val(str);
+        })
+    })
+    var isPeanut = "<?php echo $is_peanut; ?>";
+
     var mySwiper2 = new Swiper('.swiper-container2', {
         slidesPerView: 3.5,
+        spaceBetween: 10,
+    })
+    var mySwiper3 = new Swiper('.swiper-container3', {
+        slidesPerView: 3,
         spaceBetween: 10,
     })
 
@@ -586,31 +986,56 @@
 
     //点击揭晓时间里面的每个p
     $('.search_time p').click(function () {
+
         // console.log($(this));
-        $('.search_time p').removeClass('active_in');
-        $(this).addClass('active_in')
-        $('input[name="searchtimelow"]').val($(this).find('.search_little').html());
-        $('input[name="searchtimehigh"]').val($(this).find('.search_big').html())
+        if (isPeanut == 1) {
+            $('.search_time p').removeClass('peanut_in');
+            $(this).addClass('peanut_in')
+            $('input[name="searchtimelow"]').val($(this).find('.search_little').html());
+            $('input[name="searchtimehigh"]').val($(this).find('.search_big').html())
+        } else {
+            $('.search_time p').removeClass('active_in');
+            $(this).addClass('active_in')
+            $('input[name="searchtimelow"]').val($(this).find('.search_little').html());
+            $('input[name="searchtimehigh"]').val($(this).find('.search_big').html())
+        }
+
         // console.log($('input[name="searchtimelow"]').val());
         // console.log($('input[name="searchtimehigh"]').val());
     })
     // 点击商品价格里面的每个p
     $('.search_price p').click(function () {
         // console.log($(this));
-        $('.search_price p').removeClass('active_in')
-        $(this).addClass('active_in')
-        $('.price_low').val($(this).find('.search_little').html());
-        $('.price_high').val($(this).find('.search_big').html())
+        if (isPeanut == 1) {
+            $('.search_price p').removeClass('peanut_in')
+            $(this).addClass('peanut_in')
+            $('.price_low').val($(this).find('.search_little').html());
+            $('.price_high').val($(this).find('.search_big').html())
+        } else {
+            $('.search_price p').removeClass('active_in')
+            $(this).addClass('active_in')
+            $('.price_low').val($(this).find('.search_little').html());
+            $('.price_high').val($(this).find('.search_big').html())
+        }
+
         // console.log($('.price_low').val());
         // console.log($('.price_high').val());
     })
     // 点击成团人数里面的每个p
     $('.search_num p').click(function () {
         // console.log($(this));
-        $('.search_num p').removeClass('active_in')
-        $(this).addClass('active_in')
-        $('.people_low').val($(this).find('.search_little').html());
-        $('.people_high').val($(this).find('.search_big').html())
+        if (isPeanut == 1) {
+            $('.search_num p').removeClass('peanut_in')
+            $(this).addClass('peanut_in')
+            $('.people_low').val($(this).find('.search_little').html());
+            $('.people_high').val($(this).find('.search_big').html())
+        } else {
+            $('.search_num p').removeClass('active_in')
+            $(this).addClass('active_in')
+            $('.people_low').val($(this).find('.search_little').html());
+            $('.people_high').val($(this).find('.search_big').html())
+        }
+
         // console.log($('.people_low').val());
         // console.log($('.people_high').val());
     })
@@ -660,6 +1085,10 @@
             //按钮【按钮一】的回调
             layer.closeAll()
         });
+        if (isPeanut == 1) {
+            // console.log($('.layui-layer-btn a.layui-layer-btn1'));
+            $('.layui-layer-btn a.layui-layer-btn1').addClass('is_peanut_clear')
+        }
     })
 
     $('.close_top').click(function () {
@@ -679,7 +1108,7 @@
     $('.search_btn').click(function () {
         // console.log($('.search_input').val());
         keyWord = $('.search_input').val();
-        window.location.href = '/activity/index/search/code/' + code+'/keyword/' + keyWord ;
+        window.location.href = '/activity/index/search/code/' + code + '/keyword/' + keyWord;
         $('.search_input').val('')
     })
 
@@ -708,6 +1137,10 @@
 
             //设置列表数据
             setListData(curPageData);
+            if (isPeanut == 1) {
+                // console.log($('.empty-btn'));
+                $('.empty-btn').addClass('is_peanut')
+            }
         }, function () {
             //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
             mescroll.endErr();
@@ -721,19 +1154,42 @@
             var pd = curPageData[i];
             var str = '<li class="content_item lf">';
             // str += ' <img src="' + pd.gp_img + '" alt="" class="info_img err_img">';
+            str += '<div style="position: relative;width:3.34rem;height:3.34rem">'
             str += ' <img src="' + pd.g_s_img + '" alt="" class="info_img err_img">';
+            if(isPeanut == 1){
+                str += "<span class='is_peanut_sheng'>仅剩27人</span>"
+
+            }
+            str += '</div>'
             str += '<div class="content_item_info">';
-            str += ' <p class="content_info_name">' + pd.g_name + '</p>';
+            str += ' <p class="content_info_name">'
+            if (isPeanut == 1) {
+                str += '<img src="__STATIC__/image/activity/icon_danren@2x.png">'
+            }
+            str += pd.g_name;
+            str += '</p>';
             str += '<div class="progress clear">';
-            str += '<div class="progress_main lf">';
-            str += '<span style="width: ' + pd.proportion + '%"></span>';
-            str += '</div>';
+            if (isPeanut == 1) {
+                str += '<div class="progress_main lf" style="background: #FFF4D1">';
+                str += '<span style="width: ' + pd.proportion + '%;background: #FFC60A"></span>';
+                str += '</div>';
+            } else {
+                str += '<div class="progress_main lf">';
+                str += '<span style="width: ' + pd.proportion + '%"></span>';
+                str += '</div>';
+            }
+
             str += ' <span class="progress_num lf">' + pd.proportion + '%</span>';
             str += '</div>'
-            str += '<div class="content_info_data clear">';
-            str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
-            str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
-            str += '</div>';
+            if (isPeanut == 1) {
+                str += '<p class="peanut_item_data"><img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">1788.00</p>'
+            } else {
+                str += '<div class="content_info_data clear">';
+                str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
+                str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
+                str += '</div>';
+
+            }
             str += '</div>';
             str += ' </li>';
 
@@ -742,6 +1198,9 @@
             liDom.setAttribute('href', '/member/goodsproduct/index/g_id/' + pd.g_id);
             liDom.innerHTML = str;
             listDom.appendChild(liDom);
+            if(isPeanut == 1){
+                $('.content_item_info').css('margin-top','0.8rem')
+            }
         }
 
     }
@@ -761,7 +1220,8 @@
                     page: pageNum,
                     page_size: pageSize,
                     keyword: keyWord,
-                    code: code,
+                    code: 'act1543473374',
+                    // code: code,
                     order_type: $('input[name="order"]').val()
                 },
                 dataType: 'json',
@@ -821,7 +1281,134 @@
 
     });
 
+    $(window).scroll(function () {
+        var scro = $(window).scrollTop();
+        if (scro > 10) {
+            $('.peanut_header .group_header').css('background', '#FDD42F')
+        } else {
+            $('.peanut_header .group_header').css('background', 'transparent')
+        }
+    })
 
+    if (isPeanut == 1) {
+        $('.group_content').css('margin-bottom', '1rem')
+        $('.is_first_peanut').css('height', $('.group_content').offset().top)
+    }
+    // 点击我知道啦
+    $('.i_know').click(function () {
+        $('.is_first_peanut').hide();
+    })
+    $('.close_gain').click(function(){
+        $('.gain_peanut').hide()
+    })
+
+    //关闭app分享弹窗
+    $(".details_fx_cancel").click(function () {
+        $(".details_fenxiang").hide();
+    })
+    var share_qr_image = "https://"+ document.domain + "";
+    // 点击邀请好友注册
+    $('.register').click(function(){
+        var data = '';
+        if($('#app').val() != '') {
+            if($('#app').val() == '1.0') {
+                /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+                setupWebViewJavascriptBridge(function(bridge) {
+                    /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                    bridge.callHandler('getShareParams',data);
+                })
+            }else {
+                $(".details_fenxiang").show();
+            }
+
+        }else {
+            // 非微信浏览器端安卓分享
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        if(getCookie("version") == null) {
+                            $('.details_fenxiang').show();
+                        }else {
+                            window.android.getShareParams(data);
+                        }
+                    }
+                }else {
+                    $(".continue_pop").css({display:"block"});
+                }
+            }else {
+                $(".continue_pop").css({display:"block"});
+            }
+        }
+    })
+
+    $(".continue_pop").click(function(){
+        $(".continue_pop").css({display:"none"});
+    })
+
+    $(".continue_con").click(function(e){
+        e.stopPropagation();
+    })
+    function app(id) {
+        var is_share_to_firend_circle = '';
+        if(id == 0) {
+            is_share_to_firend_circle = false;
+        }else {
+            is_share_to_firend_circle = true;
+        }
+
+        var data = '';
+        if($('#app').val() != '') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                bridge.callHandler('getShareParams',data);
+            })
+        }else {
+            // 非微信浏览器端安卓分享
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        window.android.getShareParams(data);
+                    }
+                }
+            }
+        }
+        $('.details_fenxiang').hide();
+    }
+
+    function copyUrl() {
+        var data = '';
+        if($('#app').val() != '') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                bridge.callHandler('getCopyUrl',data);
+            })
+        }else {
+            // 非微信浏览器端安卓复制链接
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        window.android.getCopyUrl(data);
+                    }
+                }
+            }
+        }
+        $('.details_fenxiang').hide();
+    }
+
+    //复制功能
+    var btns = document.querySelectorAll('.copy-btn');
+    var clipboard = new ClipboardJS(btns);
+
+    clipboard.on('success', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+
+    clipboard.on('error', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+    // console.log($('.group_content').offset().top);
 </script>
 
 </html>

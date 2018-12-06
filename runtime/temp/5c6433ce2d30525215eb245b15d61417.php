@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1543801252;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1544075010;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -44,17 +44,71 @@
         
 <mian style="margin-top: -0.88rem">
     <div class="search_top">
-        <div class="search_top_hearder">
-            <div class="goback lf close_top">
-                <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+        <?php if($is_peanut==1): ?>
+        <div class="search_top_hearder" style="background: #FDD42F">
+            <?php else: ?>
+            <div class="search_top_hearder">
+                <?php endif; ?>
+                <div class="goback lf close_top">
+                    <?php if($is_peanut==1): ?>
+                    <img src="__STATIC__/image/activity/icon_back@2x (1).png" alt="">
+                    <?php else: ?>
+                    <img src="__STATIC__/image/activity/icon_back@2x.png" alt="">
+                    <?php endif; ?>
+                </div>
+                <div class="index_search lf">
+                    <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
+                         style="margin-left: 0.3rem;margin-top: 0.18rem">
+                    <input type="text" placeholder="输入您想搜索的商品" autofocus class="search_input">
+                </div>
+                <?php if($is_peanut==1): ?>
+                <span class="search_btn" style="color:#000000;font-weight: 600">搜索</span>
+                <?php else: ?>
+                <span class="search_btn">搜索</span>
+                <?php endif; ?>
             </div>
-            <div class="index_search lf">
-                <img src="__STATIC__/image/activity/icon_sousuo@2x.png" alt="" class="lf"
-                     style="margin-left: 0.3rem;margin-top: 0.18rem">
-                <input type="text" placeholder="输入您想搜索的商品" autofocus name="keyword">
+
+            <div class="del_all rt" style="display: none">
+                <img src="__STATIC__/image/activity/icon_del@2x.png" alt="">
             </div>
-            <span class="search_btn">搜索</span>
-        </div>
+            <div class="search_top_content" style="display: none">
+                <div class="search_top_item">
+                    <p class="search_top_title">历史搜索</p>
+                    <div class="search_item clear">
+                        <a onClick="hclic(this)">
+                            <div class="lf">iPhone X</div>
+                        </a>
+                        <a onClick="hclic(this)">
+                            <div class="lf">Beats Beats Studio3</div>
+                        </a>
+                        <a onClick="hclic(this)">
+                            <div class="lf">RGB背光键盘</div>
+                        </a>
+                        <a onClick="hclic(this)">
+                            <div class="lf">刺绣条纹毛衣</div>
+                        </a>
+
+
+                    </div>
+                </div>
+                <div class="search_top_item">
+                    <p class="search_top_title">火热参团中</p>
+                    <div class="search_item claer">
+                        <a onClick="hclic(this)">
+                            <div class="lf">外星人 Gsync 游戏本</div>
+                        </a>
+                        <a onClick="hclic(this)">
+                            <div class="lf">简约电视柜</div>
+                        </a>
+                        <a onClick="hclic(this)">
+                            <div class="lf">GENANX印花连帽卫衣</div>
+                        </a>
+                        <a onClick="hclic(this)">
+                            <div class="lf">三星人工智能黑色手机</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
     </div>
 
     <div id="mescroll" class="mescroll">
@@ -186,7 +240,7 @@
 <script src="__JS__/swiper/swiper-3.3.1.min.js"></script>
 <script src="__JS__/mescroll/mescroll.min.js"></script>
 <script>
-
+var isPeanut = "<?php echo $is_peanut; ?>"
     // var path = window.location.pathname;
     // // console.log(path);
     //
@@ -252,6 +306,10 @@
 
             //设置列表数据
             setListData(curPageData);
+            if(isPeanut == 1){
+                console.log($('.empty-btn'));
+                $('.empty-btn').addClass('is_peanut')
+            }
         }, function () {
             //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
             mescroll.endErr();
@@ -272,26 +330,51 @@
         for (var i = 0; i < curPageData.length; i++) {
             var pd = curPageData[i];
             var str = '<li class="content_item lf">';
+            str += '<div style="position: relative;width:3.34rem;height:3.34rem">'
             str += ' <img src="' + pd.g_s_img + '" alt="" class="info_img err_img">';
+            if(isPeanut == 1){
+                str += "<span class='is_peanut_sheng'>仅剩27人</span>"
+
+            }
+            str += '</div>'
             str += '<div class="content_item_info">';
-            str += ' <p class="content_info_name">' + pd.g_name + '</p>';
+            str += ' <p class="content_info_name">'
+            if(isPeanut == 1){
+                str+='<img src="__STATIC__/image/activity/icon_danren@2x.png">'
+            }
+            str += pd.g_name;
+            str += '</p>';
             str += '<div class="progress clear">';
-            str += '<div class="progress_main lf">';
-            str += '<span style="width: ' + pd.proportion + '%"></span>';
-            str += '</div>';
+            if (isPeanut == 1) {
+                str += '<div class="progress_main lf" style="background: #FFF4D1">';
+                str += '<span style="width: ' + pd.proportion + '%;background: #FFC60A"></span>';
+                str += '</div>';
+            } else {
+                str += '<div class="progress_main lf">';
+                str += '<span style="width: ' + pd.proportion + '%"></span>';
+                str += '</div>';
+            }
+
             str += ' <span class="progress_num lf">' + pd.proportion + '%</span>';
             str += '</div>'
-            str += '<div class="content_info_data clear">';
-            str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
-            str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
-            str += '</div>';
+            if (isPeanut == 1) {
+                str += '<p class="peanut_item_data"><img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="">1788.00</p>'
+            } else {
+                str += '<div class="content_info_data clear">';
+                str += '<span class="info_price lf"><small>￥</small>' + pd.gdr_price + '</span>';
+                str += '<span class="join rt">' + pd.pai_num + '人参与</span>';
+                str += '</div>';
+
+            }
             str += '</div>';
             str += ' </li>';
             var liDom = document.createElement("a");
             liDom.setAttribute("href", '/member/goodsproduct/index/g_id/' + pd.g_id);
             liDom.innerHTML = str;
             listDom.appendChild(liDom);
-       
+            if(isPeanut == 1){
+                $('.content_item_info').css('margin-top','0.8rem')
+            }
         }
 
 
@@ -311,7 +394,8 @@
                 data: {
                     page: pageNum,
                     page_size: pageSize,
-                    code: code,
+                    code: 'act1543473374',
+                    // code: code,
                     keyword: $('input[name="keyword"]').val()
                 },
                 dataType: 'json',
