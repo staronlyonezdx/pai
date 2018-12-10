@@ -1,0 +1,99 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/rule.css">
+{/block}
+{block name="header"}
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>商品规则</span>
+            <div class="header_back"  {empty name='header_path'} onClick="javascript:history.back(-1);" {else/} onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+            <img src="__STATIC__/image/goodsproduct/icon_nav_back2@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
+</div>
+{/block}
+{block name="content"}
+<main>
+    <div class="rule_top clear">
+        <div class="rule_top_text lf">
+            <p>吖吖商城规则</p>
+            <span>吖吖商城团购流程规则</span>
+        </div>
+        <div class="rule_top_img">
+            <img src="__STATIC__/image/goodsproduct/dengpao@2x.png" alt=""/>
+        </div>
+    </div>
+    <div class="rule_main">
+        <div class="rule_list">
+            <div class="rule_bg_img">
+                <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+            </div>
+            <p>吖吖参团流程</p>
+        </div>
+        <div class="rule_main_img">
+            <!-- 加判断S -->
+            {if condition="$is_lord ==1"}
+            <img src="__STATIC__/image/goodsproduct/Icon_guize@2x.png" alt=""/>
+            {else/}
+            <img src="__STATIC__/image/goodsproduct/guize@2x.png" alt=""/>
+            {/if}
+            <!-- 加判断E -->
+        </div>
+        <!-- 加判断S -->
+        <!-- 加判断S -->
+         {if condition="$is_lord ==1"}
+
+         {else/}
+        <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>什么是吖吖码?</p>
+            </div>
+            <div class="rule_mian_text">
+                 <span>亲爱的您在购买商品后，可由购买的份数获得一定的吖吖码当在商品满额揭晓时，系统将从该轮商品中对应的所有吖吖码里抽取一名幸运儿获得商品</span>
+                <!--<a href="/member/orderpai/pai_rule/">查看详细揭晓规则</a>-->
+                <a href="/index/index/agreement/at_name/详细揭晓规则">查看详细揭晓规则</a>
+            </div>
+        </div>
+        <!-- <div>
+            <div class="rule_list">
+                <div class="rule_bg_img">
+                    <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
+                </div>
+                <p>退款注意事项</p>
+            </div>
+            <div class="rule_mian_text">
+                <span>未团中时，拍吖吖将扣除退款金额中的5%作为花生存于您的账户中～ <a href="/index/index/agreement/at_name/全额返活动规则">想要全额返？三七全额返活动了解一下！</a></span>
+                <a href="/member/modifydata/often_problem/at_id/13">查看退款规则详情</a>
+                  <br> -->
+                   <!-- <a href="/index/index/agreement/at_name/退款规则详情" class="inlinea">查看退款规则详情</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                   <a href="" class="inlinea">什么是花生?</a> -->
+
+            <!-- </div>
+        </div> -->
+        {/if}
+        <!-- 加判断E -->
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+    $(window).scroll(function () {
+        var scrol = $(window).scrollTop();
+        if (scrol > 1) {
+            $(".header_nav").css({background:"#fff"});
+            $(".header_tit span").css({color:"#000000"});
+            $(".header_tit img").attr("src","__STATIC__/image/admit/icon_nav_back@2x.png");
+        } else {
+            $(".header_nav").css({background:"transparent"});
+            $(".header_tit span").css({color:"#fff"});
+            $(".header_tit img").attr("src","__STATIC__/image/goodsproduct/icon_nav_back2@2x.png");
+        }
+    })
+</script>
+{/block}

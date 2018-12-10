@@ -1,0 +1,230 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/activity/peanut_company.css">
+{/block}
+{block name="header"} 
+{include file="common/header" /} 
+{/block}
+{block name="content"}
+<main>
+    <div class="peanut_company" id="dataList">
+        <div class="peanut_company_con">
+            <div class="peanut_company_top clear">
+                <p class="peanut_company_tit lf">2018.12.04 11:35 <span>正在拼团商品是嗯么</span></p>
+                <a href="##">
+                    <div class="peanut_company_btn rt">
+                        <span>助TA成团</span>
+                        <img src="__STATIC__/image/activity/icon_jump@2x.png" alt="">
+                    </div>
+                </a>
+            </div>
+            <a href="##">
+                <div class="peanut_company_main clear">
+                    <div class="peanut_company_img lf">
+                        <img src="__STATIC__/image/activity/banner_2@2x.png" alt="">
+                    </div>
+                    <div class="peanut_company_text lf">
+                        <div class="peanut_company_text_top clear">
+                            <p>UNRAVEL PROJECT 亮面拼接不规则下摆羽绒服亮面拼接不规则下摆羽绒服</p>
+                            <span>x2</span>
+                        </div>
+                        <div class="peanut_company_text_bottom">
+                            <img src="__STATIC__/image/activity/banner_2@2x.png" alt="" class="peanut_company_pic">
+                            <p>TA将赠您</p>
+                            <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="" class="peanut_company_huasheng">
+                            <span>2164.86</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="peanut_company_con">
+            <div class="peanut_company_top clear">
+                <p class="peanut_company_tit lf">2018.12.04 11:35 <span>成团</span></p>
+                <small class="rt">花生已到账</small>
+                <!-- <div class="peanut_company_btn rt">
+                    <span>助TA成团</span>
+                    <img src="__STATIC__/image/activity/icon_jump@2x.png" alt="">
+                </div> -->
+            </div>
+            <div class="peanut_company_main clear">
+                <div class="peanut_company_img lf">
+                    <img src="__STATIC__/image/activity/banner_2@2x.png" alt="">
+                </div>
+                <div class="peanut_company_text lf">
+                    <div class="peanut_company_text_top clear">
+                        <p>UNRAVEL PROJECT 亮面拼接不规则下摆羽绒服亮面拼接不规则下摆羽绒服</p>
+                        <span>x2</span>
+                    </div>
+                    <div class="peanut_company_text_bottom">
+                        <img src="__STATIC__/image/activity/banner_2@2x.png" alt="" class="peanut_company_pic">
+                        <p>TA已赠您</p>
+                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="" class="peanut_company_huasheng">
+                        <span>2164.86</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+        <div class="peanut_company_con">
+            <div class="peanut_company_top clear">
+                <p class="peanut_company_tit lf">2018.12.04 11:35 <span>正在拼团商品是嗯么</span></p>
+                <!-- <div class="peanut_company_btn rt">
+                    <span>助TA成团</span>
+                    <img src="__STATIC__/image/activity/icon_jump@2x.png" alt="">
+                </div> -->
+                <small class="rt">花生已到账</small>
+            </div>
+            <div class="peanut_company_main clear">
+                <div class="peanut_company_img lf">
+                    <img src="__STATIC__/image/activity/banner_2@2x.png" alt="">
+                </div>
+                <div class="peanut_company_text lf">
+                    <div class="peanut_company_text_top clear">
+                        <p>UNRAVEL PROJECT 亮面拼接不规则下摆羽绒服亮面拼接不规则下摆羽绒服</p>
+                        <span>x2</span>
+                    </div>
+                    <div class="peanut_company_text_bottom">
+                        <img src="__STATIC__/image/activity/banner_2@2x.png" alt="" class="peanut_company_pic">
+                        <p>TA已赠您</p>
+                        <img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="" class="peanut_company_huasheng">
+                        <span>2164.86</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</main>
+{/block}
+{block name="script"} 
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script>
+    
+    //下拉加载数据
+    //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+    var mescroll = new MeScroll("body", {
+        //下拉刷新
+        down: {
+            isLock: true, //锁定下拉
+        },
+        //上拉加载的配置项
+        up: {
+            callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+            noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+            empty: {
+                icon: "/static/image/goodscollection/shoucang@2x.png", //图标,默认null
+                tip: "暂无产品~", //提示
+            },
+            clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+            htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+            htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
+        }
+    });
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        getListDataFromNet(page.num, page.size, function (curPageData, totle_num) {
+            //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+            //必传参数(当前页的数据个数, 总数据量)
+            mescroll.endBySize(curPageData.length, totle_num);
+
+            //设置列表数据
+            setListData(curPageData);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescroll.endErr();
+        });
+    }
+    /*设置列表数据*/
+    function setListData(curPageData) {
+        var listDom = document.getElementById("dataList");
+        for (var i = 0; i < curPageData.length; i++) {
+            var pd = curPageData[i];
+            var str = '<div class="peanut_company_con">'
+                str+='<div class="peanut_company_top clear">'
+                str+='<p class="peanut_company_tit lf">2018.12.04 11:35 <span>正在拼团商品是嗯么</span></p>'
+                //加判断
+                // str+='<small class="rt">花生已到账</small>'
+                //加判断
+                str+='<a href="">'
+                str+='<div class="peanut_company_btn rt">'
+                str+='<span>助TA成团</span>'
+                str+='<img src="__STATIC__/image/activity/icon_jump@2x.png" alt="">'
+                str+='</div>'
+                str+='</a>'
+
+                str+='</div>'
+                str+='<a href="##">'
+                str+='<div class="peanut_company_main clear">'
+                str+='<div class="peanut_company_img lf">'
+                str+='<img src="__STATIC__/image/activity/banner_2@2x.png" alt="">'
+                str+='</div>'
+                str+='<div class="peanut_company_text lf">'
+                str+='<div class="peanut_company_text_top clear">'
+                str+='<p>UNRAVEL PROJECT 亮面拼接不规则下摆羽绒服亮面拼接不规则下摆羽绒服</p>'
+                str+='<span>x2</span>'
+                str+='</div>'
+                str+='<div class="peanut_company_text_bottom">'
+                str+='<img src="__STATIC__/image/activity/banner_2@2x.png" alt="" class="peanut_company_pic">'
+                //加判断
+                str+='<p>TA将赠您</p>'
+                //加判断
+                str+='<p>TA已赠您</p>'
+
+                str+='<img src="__STATIC__/image/activity/icon_huasheng@2x.png" alt="" class="peanut_company_huasheng">'
+                str+='<span>2164.86</span>'
+                str+=' </div>'
+                str+=' </div>'
+                str+=' </div>'
+                str+='</a>'
+                str+=' </div>'
+            var liDom = document.createElement("div");
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+        }
+        $('.peanut_company_tit span').each(function() {
+        var words = $(this).text().length;
+        if(words > 4){
+            $(this).text($(this).text().slice(0,4)+"...");
+        }
+    });
+    }
+
+    /*联网加载列表数据
+     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+     实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+     * */
+    function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/index/index/goods_hot/page/' + pageNum + '/page_size/' + pageSize,
+                dataType: 'json',
+                success: function (data) {
+                    var listData = [];
+                    for (var i = 0; i < data.list.length; i++) {
+                        listData.push(data.list[i]);
+                    }
+                    //回调
+                    successCallback(listData, data.totle_num);
+                },
+                error: errorCallback
+            });
+        }, 1000)
+    }
+</script>
+{/block}

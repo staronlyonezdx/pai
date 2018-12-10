@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/share_list.html";i:1543371540;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/footer.html";i:1541986997;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularitygoods/share_list.html";i:1543371540;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/footer.html";i:1544402806;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -575,7 +575,7 @@
 
             <a href="/popularity/popularitygoods/share_list">
                 <div class="footer_tab_list footer_pub lf">
-                    <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                    <img src="__STATIC__/image/myhome/icon_fabu@2x(1).png">
                 </div>
             </a>
 
@@ -646,7 +646,7 @@
 
             <a href="/popularity/popularitygoods/share_list">
                 <div class="footer_tab_list footer_pub lf">
-                    <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                    <img src="__STATIC__/image/myhome/icon_fabu@2x(1).png">
                 </div>
             </a>
 

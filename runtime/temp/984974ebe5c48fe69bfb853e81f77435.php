@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\project\pai\public/../application/member/view/promoters/index.html";i:1542935137;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\project\pai\public/../application/member/view/promoters/index.html";i:1542935137;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -33,7 +33,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->

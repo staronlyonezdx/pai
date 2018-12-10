@@ -1,0 +1,189 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/pointpai/pointpai.css">
+{/block}
+{block name="header"}
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>{$header_title ?? ''}</span>
+            <div class="header_back"  {empty name='header_path'} onClick="javascript:history.back(-1);" {else/} onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smts">
+        </div>
+        <a class="isds" href="/pointpai/Pointorder/orderlist/i/0">
+            <div class="pointpai_dingdan">
+                <img src="__STATIC__/image/pointpai/icon_dingdan@2x.png" alt="" >
+            </div>
+        </a>
+    </div>
+</div>
+</div>
+{/block}
+{block name="content"}
+<main>
+
+    <!--头部开始-->
+    <!--登录显示-->
+    
+    <div class="pointpai_header">
+        <a href="/member/sitelogin/to_sy/status/1">
+            <div>
+                {if condition="$tui_user.m_avatar != ''"}
+                <img src="{$tui_user.m_s_avatar}" class="pai_img">
+                {else /}
+                <img src="/static/image/myhome/TIM20180731142117.jpg" class="pai_img">
+                {/if}
+                <div class="pai_info">
+                    <p>{$tui_user.m_name ?? ''}</p>
+                    <p><img src="__STATIC__/image/pointpai/icon_jifen@2x.png" alt="" style="width:0.42rem;height:0.42rem"> {$tui_user.tui_diamond ?? ''}</p>
+                    <!--<p>当前积分 {$tui_user.tui_diamond ?? ''}</p>-->
+                </div>
+            </div>
+        </a>
+        <a href="/member/sitelogin/to_sy/status/2">
+            <img src="__STATIC__/image/pointpai/icon_anniu@2x.png" alt="" class="anniu">
+        </a>
+    </div>
+
+    <!--未登录显示-->
+    <div class="no_login">
+        <a href="javascript:;">登录/注册</a>
+    </div>
+    <div class="pointpai_img">
+        {if condition="$wi_img.wi_href == ''" /}
+        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original='{$wi_img.wi_imgurl}' />
+        {else/}
+        <a href="{$wi_img.wi_href}">
+            <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original='{$wi_img.wi_imgurl}' />
+        </a>
+        {/if}
+    </div>
+    <img src="__STATIC__/image/pointpai/icon_jingpin@2x.png" alt="" class="jingpin">
+    <div class="pointpai_wrap">
+        <div class="pointpai_content clear" id="dataList"></div>
+    </div>
+
+</main>
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script>
+    //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+    var mescroll = new MeScroll("body", {
+        //下拉刷新
+        down: {
+            isLock: true, //锁定下拉
+        },
+        //上拉加载的配置项
+        up: {
+            callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+            noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+            empty: {
+                icon: "/static/image/goodscollection/shoucang@2x.png", //图标,默认null
+                tip: "暂无产品~", //提示
+            },
+            clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+            htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+            htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
+        }
+    });
+
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        getListDataFromNet(page.num, page.size, function (curPageData,total_num) {
+            //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+            //必传参数(当前页的数据个数, 总数据量)
+            mescroll.endBySize(curPageData.length, total_num);
+
+            //设置列表数据
+            setListData(curPageData);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescroll.endErr();
+        });
+    }
+
+    /*设置列表数据*/
+    function setListData(curPageData) {
+        var listDom = document.getElementById("dataList");
+        for (var i = 0; i <curPageData.length; i++) {
+            var pd = curPageData[i];
+            if(pd.gp_sum == null) {
+                pd.gp_sum = 0;
+            }
+            var str = '<div class="pointpai_item">';
+            str += '<div class="pointpai_item_img">';
+            // str += '<img src="__STATIC__/image/goodsproduct/icon_vipjb@2x.png" alt="" class="vip lf">';
+            // str += '<img src="__STATIC__/image/goodsproduct/icon_vipjb1@2x.png" alt="" class="vip lf">';
+            str += '<img src="'+pd.g_s_img+'" alt="">';
+            str += '<span>'+pd.gp_sum+'人参与</span>';
+            str += '</div>';
+            str += '<div class="pointpai_item_info">';
+            str += '<p class="pointpai_name">'+pd.g_name+'</p>';                     
+            str += '<p>'+pd.gp_sale_price+'<span>积分</span></p>';
+            str += '</div>';
+            str += '</div>';
+
+            var liDom = document.createElement("a");
+            liDom.setAttribute('href','/pointpai/Pointgoods/index/g_id/'+pd.g_id);
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+        }
+    }
+
+    /*联网加载列表数据
+     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+     实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+     * */
+    function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/pointpai/pointgoods/goods_list/page/' + pageNum + '/page_size/' + pageSize,
+                dataType: 'json',
+                success: function (data) {
+                    var listData = [];
+                    for (var i = 0; i < data.list.length; i++) {
+                        listData.push(data.list[i]);
+                    }
+                    //回调
+                    successCallback(listData,data.total_num);
+                },
+                error: errorCallback
+            });
+        }, 1000)
+    }
+
+    // 判断是否登录
+    var is_login = "{$is_login}";
+    console.log(is_login);
+    if(is_login == 1) {
+        $('.pointpai_header').show();
+        $('.no_login').hide();
+        $('.isds').show();
+    }else{
+        $('.no_login').show();
+        $('.pointpai_header').hide();
+        $('.isds').hide();
+    }
+$('.no_login a').click(function(){
+    window.location.href = '/member/login/index.html'
+})
+    //处理无图时添加默认图
+    $('img').on('error',function(){ 
+        $(this).attr('src','/static/image/index/pic_home_taplace@2x.png'); 
+    });
+</script>
+{/block}

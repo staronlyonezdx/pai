@@ -1,0 +1,532 @@
+---------------------------------------------------------------
+[ 2018-12-08T00:47:01+08:00 ] 127.0.0.1 127.0.0.1 GET /
+[ info ] paiyy.com/ [运行时间：0.834199s][吞吐率：1.20req/s] [内存消耗：3,327.73kb] [文件加载：72]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => '',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 0,
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\project\pai\application\index\controller\Index.php ]
+[ info ] [ VIEW ] D:\project\pai\public/../application/index/view/index/index.html [ array (
+  0 => 'm_type',
+  1 => 'controller',
+  2 => 'is_read',
+  3 => 'is_lord',
+  4 => 'appId',
+  5 => 'timestamp',
+  6 => 'noncestr',
+  7 => 'signature',
+  8 => 'imgs',
+  9 => 'searchs',
+  10 => 'is_reward',
+  11 => 'is_login',
+  12 => 'cztg',
+  13 => 'last_paimems',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.017266s ] mysql:dbname=pai;host=10.0.1.46;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_member_login_log` [ RunTime:0.052401s ]
+[ sql ] [ SQL ] INSERT INTO `pai_member_login_log` (`ll_ip` , `m_id` , `ll_channel` , `ll_time`) VALUES ('127.0.0.1' , 18870 , '' , 1544201221) [ RunTime:0.027865s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_search` [ RunTime:0.021035s ]
+[ sql ] [ SQL ] SELECT `ps_keyword` FROM `pai_search` WHERE  `m_id` = 18870 ORDER BY ps_addtime desc LIMIT 0,20 [ RunTime:0.007889s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_member` [ RunTime:0.026348s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `pai_member` WHERE  `m_id` = 18870 LIMIT 1 [ RunTime:0.005857s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_money_log` [ RunTime:0.020192s ]
+[ sql ] [ SQL ] SELECT * FROM `pai_money_log` WHERE  `m_id` = 18870  AND `ml_reason_id` = 5 LIMIT 1 [ RunTime:0.009420s ]
+[ sql ] [ SQL ] SELECT `uuid` FROM `pai_member` WHERE  `m_id` = 18870 LIMIT 1 [ RunTime:0.004857s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `pai_money_log` WHERE  `m_id` = 18870  AND `ml_reason_id` = 5  AND `ml_type` = 'add' LIMIT 1 [ RunTime:0.007978s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_search_hot` [ RunTime:0.019247s ]
+[ sql ] [ SQL ] SELECT `psh_keyword` FROM `pai_search_hot` ORDER BY psh_sort asc [ RunTime:0.006695s ]
+---------------------------------------------------------------
+[ 2018-12-08T00:47:01+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181025/4ab45eb1b2c23dca1730ca5d21ac657f.png
+[ info ] paiyy.com/uploads/wi_img/20181025/4ab45eb1b2c23dca1730ca5d21ac657f.png [运行时间：0.024321s][吞吐率：41.12req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181025',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:02+08:00 ] 127.0.0.1 127.0.0.1 GET /
+[ info ] paiyy.com/ [运行时间：0.536546s][吞吐率：1.86req/s] [内存消耗：3,346.86kb] [文件加载：72]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => '',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 0,
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\project\pai\application\index\controller\Index.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] D:\project\pai\public/../application/index/view/index/index.html [ array (
+  0 => 'm_type',
+  1 => 'controller',
+  2 => 'is_read',
+  3 => 'is_lord',
+  4 => 'appId',
+  5 => 'timestamp',
+  6 => 'noncestr',
+  7 => 'signature',
+  8 => 'imgs',
+  9 => 'searchs',
+  10 => 'is_reward',
+  11 => 'is_login',
+  12 => 'cztg',
+  13 => 'last_paimems',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.016008s ] mysql:dbname=pai;host=10.0.1.46;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_search` [ RunTime:0.020402s ]
+[ sql ] [ SQL ] SELECT `ps_keyword` FROM `pai_search` WHERE  `m_id` = 18870 ORDER BY ps_addtime desc LIMIT 0,20 [ RunTime:0.006617s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_member` [ RunTime:0.021753s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `pai_member` WHERE  `m_id` = 18870 LIMIT 1 [ RunTime:0.006848s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_money_log` [ RunTime:0.018715s ]
+[ sql ] [ SQL ] SELECT * FROM `pai_money_log` WHERE  `m_id` = 18870  AND `ml_reason_id` = 5 LIMIT 1 [ RunTime:0.009764s ]
+[ sql ] [ SQL ] SELECT `uuid` FROM `pai_member` WHERE  `m_id` = 18870 LIMIT 1 [ RunTime:0.007104s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `pai_money_log` WHERE  `m_id` = 18870  AND `ml_reason_id` = 5  AND `ml_type` = 'add' LIMIT 1 [ RunTime:0.009136s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_search_hot` [ RunTime:0.022516s ]
+[ sql ] [ SQL ] SELECT `psh_keyword` FROM `pai_search_hot` ORDER BY psh_sort asc [ RunTime:0.006502s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_activity_goods` [ RunTime:0.013384s ]
+[ sql ] [ SQL ] SELECT `gp`.`gp_id` FROM `pai_activity_goods` `ag` LEFT JOIN `pai_goods_product` `gp` ON `gp`.`g_id`=`ag`.`ag_gid` WHERE  `a_id` = 9 [ RunTime:0.006535s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_order_pai` [ RunTime:0.016673s ]
+[ sql ] [ SQL ] SELECT `m`.`m_name`,`m`.`m_avatar`,`m`.`m_s_avatar` FROM `pai_order_pai` `o` LEFT JOIN `pai_member` `m` ON `m`.`m_id`=`o`.`m_id` WHERE  `o`.`gp_id` IN (803,883,884,885,886,888,889,891,893)  AND `o`.`o_paystate` > 1 ORDER BY o.o_paytime desc LIMIT 10 [ RunTime:0.007678s ]
+---------------------------------------------------------------
+[ 2018-12-08T00:47:03+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181025/26f747d0169e65a5d21ba3a8c26b0734.png
+[ info ] paiyy.com/uploads/wi_img/20181025/26f747d0169e65a5d21ba3a8c26b0734.png [运行时间：0.025494s][吞吐率：39.22req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181025',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:03+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/812146b4d8bf665905361dc1939beb21.png
+[ info ] paiyy.com/uploads/wi_img/20181024/812146b4d8bf665905361dc1939beb21.png [运行时间：0.024079s][吞吐率：41.53req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:03+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/47dcbae3e249680181da45f5d68f9bab.png
+[ info ] paiyy.com/uploads/wi_img/20181024/47dcbae3e249680181da45f5d68f9bab.png [运行时间：0.025229s][吞吐率：39.64req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:03+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/4a2f76651cd610bcb36560b84f43105d.png
+[ info ] paiyy.com/uploads/wi_img/20181024/4a2f76651cd610bcb36560b84f43105d.png [运行时间：0.025887s][吞吐率：38.63req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:04+08:00 ] 127.0.0.1 127.0.0.1 POST /index/index/notice
+[ info ] paiyy.com/index/index/notice [运行时间：0.774523s][吞吐率：1.29req/s] [内存消耗：3,101.85kb] [文件加载：68]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'index',
+    2 => 'notice',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://paiyy.com',
+  'accept' => '*/*',
+  'content-length' => '0',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 0,
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ RUN ] app\index\controller\Index->notice[ D:\project\pai\application\index\controller\Index.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.016170s ] mysql:dbname=pai;host=10.0.1.46;port=3306;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_article_type` [ RunTime:0.022903s ]
+[ sql ] [ SQL ] SELECT `at_id` FROM `pai_article_type` WHERE  `at_name` = '公告' LIMIT 1 [ RunTime:0.005421s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `pai_article` [ RunTime:0.018687s ]
+[ sql ] [ SQL ] SELECT `a_name` FROM `pai_article` WHERE  `a_type` = 1  AND `a_state` = 0 [ RunTime:0.006466s ]
+---------------------------------------------------------------
+[ 2018-12-08T00:47:04+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/c2767aab0cb2c1dcfe7e7a0ea2cf6dbf.png
+[ info ] paiyy.com/uploads/wi_img/20181024/c2767aab0cb2c1dcfe7e7a0ea2cf6dbf.png [运行时间：0.029639s][吞吐率：33.74req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:04+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/b5cb26ccbd60d7d4e7a582c8982c7e31.png
+[ info ] paiyy.com/uploads/wi_img/20181024/b5cb26ccbd60d7d4e7a582c8982c7e31.png [运行时间：0.024099s][吞吐率：41.50req/s] [内存消耗：1,223.67kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:04+08:00 ] 127.0.0.1 127.0.0.1 POST /index/index/goods_hot/page/1/page_size/10
+[ info ] paiyy.com/index/index/goods_hot/page/1/page_size/10 [运行时间：0.272103s][吞吐率：3.68req/s] [内存消耗：2,553.87kb] [文件加载：59]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'index',
+    2 => 'goods_hot',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://paiyy.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '0',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+  'page' => '1',
+  'page_size' => '10',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 0,
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ RUN ] app\index\controller\Index->goods_hot[ D:\project\pai\application\index\controller\Index.php ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:04+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/shop/20181114/1542177684781754360.jpg
+[ info ] paiyy.com/uploads/shop/20181114/1542177684781754360.jpg [运行时间：0.028457s][吞吐率：35.14req/s] [内存消耗：1,223.66kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'shop',
+    2 => '20181114',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:06+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/b83ad1d855656f952c31e30189309448.png
+[ info ] paiyy.com/uploads/wi_img/20181024/b83ad1d855656f952c31e30189309448.png [运行时间：0.079080s][吞吐率：12.65req/s] [内存消耗：1,223.70kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:06+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/8f8056720cedcbbbb66d401822f86289.png
+[ info ] paiyy.com/uploads/wi_img/20181024/8f8056720cedcbbbb66d401822f86289.png [运行时间：0.090752s][吞吐率：11.02req/s] [内存消耗：1,223.70kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:06+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181024/c37b3ca3716e0a9728f558114fd3fa4e.png
+[ info ] paiyy.com/uploads/wi_img/20181024/c37b3ca3716e0a9728f558114fd3fa4e.png [运行时间：0.055749s][吞吐率：17.94req/s] [内存消耗：1,223.70kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181024',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-12-08T00:47:06+08:00 ] 127.0.0.1 127.0.0.1 GET /uploads/wi_img/20181025/49b28536cec5cea905786f2aeaa70302.png
+[ info ] paiyy.com/uploads/wi_img/20181025/49b28536cec5cea905786f2aeaa70302.png [运行时间：0.049493s][吞吐率：20.20req/s] [内存消耗：1,223.70kb] [文件加载：41]
+[ info ] [ LANG ] D:\project\pai\thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'uploads',
+    1 => 'wi_img',
+    2 => '20181025',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=b691aqsjii9v27skj9vq030ko3; m_id=lcWVxphhmm1qZQ%3D%3D; phone=ZZtplWlllGljaW8%3D',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://paiyy.com/',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+  'connection' => 'close',
+  'host' => 'paiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File

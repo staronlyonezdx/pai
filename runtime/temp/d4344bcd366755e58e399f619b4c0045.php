@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:87:"D:\project\pai\public/../application/popularity/view/popularitygoods/activity_rule.html";i:1541491295;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:87:"D:\project\pai\public/../application/popularity/view/popularitygoods/activity_rule.html";i:1544154864;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -61,8 +61,8 @@
 <main>
     <div class="rule_top clear">
         <div class="rule_top_text lf">
-            <p>拍吖吖人气购规则</p>
-            <span>拍吖吖人气购商品参购流程规则</span>
+            <p>吖吖人气购规则</p>
+            <span>吖吖人气购商品参购流程规则</span>
 
         </div>
         <div class="rule_top_img">

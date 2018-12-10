@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/member/view/goodsproduct/rule.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:71:"D:\project\pai\public/../application/member/view/goodsproduct/rule.html";i:1544166564;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -33,7 +33,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -61,14 +61,8 @@
 <main>
     <div class="rule_top clear">
         <div class="rule_top_text lf">
-            <?php if($is_lord ==1): ?>
             <p>吖吖商城规则</p>
             <span>吖吖商城团购流程规则</span>
-            <?php else: ?>
-            <p>拍吖吖规则</p>
-            <span>拍吖吖团购流程规则</span>
-            <?php endif; ?>
-            
         </div>
         <div class="rule_top_img">
             <img src="__STATIC__/image/goodsproduct/dengpao@2x.png" alt=""/>
@@ -93,7 +87,7 @@
         <!-- 加判断S -->
         <!-- 加判断S -->
          <?php if($is_lord ==1): else: ?>
-        <div>
+        <div class="what_isyaya">
             <div class="rule_list">
                 <div class="rule_bg_img">
                     <img src="__STATIC__/image/goodsproduct/tuoyuan1818@2x.png" alt=""/>
@@ -240,6 +234,19 @@
             $(".header_nav").css({background:"transparent"});
             $(".header_tit span").css({color:"#fff"});
             $(".header_tit img").attr("src","__STATIC__/image/goodsproduct/icon_nav_back2@2x.png");
+        }
+    })
+    $.ajax({
+        type:'post',
+        url:'/api/Audit/audit_period',
+        dataType:'json',
+        success:function(data){
+            console.log(data);
+           var res=  $.parseJSON(data);
+            console.log(res);
+             if(res.data.status == 0){
+                 $('.what_isyaya').hide()
+             }
         }
     })
 </script>

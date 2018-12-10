@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1543546205;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:72:"D:\project\pai\public/../application/member/view/goodsproduct/index.html";i:1544430191;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -36,7 +36,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -56,15 +56,15 @@
         <div class="details_tab_list details_display">
             <div class="details_tab clear">
                 <?php if(!(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty()))): ?>
-                <a href="<?php echo $header_path; ?>">
-                    <div class="details_tab_back lf">
+                    <a href="<?php echo $header_path; ?>">
+                        <div class="details_tab_back lf">
+                            <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
+                        </div>
+                    </a>
+                <?php else: ?>
+                    <div class="details_tab_back lf back-btn">
                         <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
                     </div>
-                </a>
-                <?php else: ?>
-                <div class="details_tab_back lf back-btn">
-                    <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
-                </div>
                 <?php endif; ?>
                 <div class="details_tab_btn lf clear">
                     <div class="details_list_btn  lf">
@@ -87,15 +87,15 @@
         </div>
         <div class="details_header_top">
             <?php if(!(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty()))): ?>
-            <a href="<?php echo $header_path; ?>">
-                <div class="details_tab_back lf">
-                    <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png" alt="图片加载失败">
-                </div>
-            </a>
+                <a href="<?php echo $header_path; ?>">
+                    <div class="details_tab_back lf">
+                        <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png" alt="图片加载失败">
+                    </div>
+                </a>
             <?php else: ?>
-            <div class="details_back lf details_fanhui back-btn">
-                <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png">
-            </div>
+                <div class="details_back lf details_fanhui back-btn">
+                    <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png">
+                </div>
             <?php endif; ?>
             <div class="details_back lf details_cancelchan details_cancelcha">
                 <img src="__STATIC__/image/details/icon_nav_X@2x.png">
@@ -107,38 +107,37 @@
         <div class="swiper-container swiper-banner">
             <div class="swiper-wrapper">
                 <?php if(empty($goods['img']) || (($goods['img'] instanceof \think\Collection || $goods['img'] instanceof \think\Paginator ) && $goods['img']->isEmpty())): ?>
-                <div class="swiper-slide">
-                    <div class="details_pic">
-                        <img class="details_img click_big" src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                    <div class="swiper-slide">
+                        <div class="details_pic">
+                            <img class="details_img click_big" src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                        </div>
                     </div>
-                </div>
                 <?php else: if(is_array($goods['img']) || $goods['img'] instanceof \think\Collection || $goods['img'] instanceof \think\Paginator): $i = 0; $__LIST__ = $goods['img'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                <div class="swiper-slide">
-                    <div class="details_pic">
-                        <img class="details_img click_big" src="<?php echo $vo['gi_name']; ?>" i="<?php echo $key; ?>">
-                    </div>
-                </div>
-                <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                        <div class="swiper-slide">
+                            <div class="details_pic">
+                                <img class="details_img click_big" src="<?php echo $vo['gi_name']; ?>" i="<?php echo $key; ?>">
+                            </div>
+                        </div>
+                    <?php endforeach; endif; else: echo "" ;endif; endif; ?>
             </div>
             <div class="swiper-pagination"></div>
         </div>
-
         <div class="big_banner">
             <div class="big_swiper-container swiper-banner">
                 <div class="swiper-wrapper">
                     <?php if(empty($goods['img']) || (($goods['img'] instanceof \think\Collection || $goods['img'] instanceof \think\Paginator ) && $goods['img']->isEmpty())): ?>
-                    <div class="swiper-slide">
-                        <div class="details_pic">
-                            <img class="details_img" src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                        <div class="swiper-slide">
+                            <div class="details_pic">
+                                <img class="details_img" src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                            </div>
                         </div>
-                    </div>
                     <?php else: if(is_array($goods['img']) || $goods['img'] instanceof \think\Collection || $goods['img'] instanceof \think\Paginator): $i = 0; $__LIST__ = $goods['img'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                    <div class="swiper-slide">
-                        <div class="details_pic">
-                            <img class="details_img" src="<?php echo $vo['gi_name']; ?>">
-                        </div>
-                    </div>
-                    <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                            <div class="swiper-slide">
+                                <div class="details_pic">
+                                    <img class="details_img" src="<?php echo $vo['gi_name']; ?>">
+                                </div>
+                            </div>
+                        <?php endforeach; endif; else: echo "" ;endif; endif; ?>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -150,367 +149,494 @@
         <!-- 商品状态 g_state  2审核中  4审核未通过  8 9 0 已结束 6 出售中-->
         <!--倒计时大部分 play_type 1:以前的所有  2:超值团购 3:花生-->
         <?php if(($goods['play_type'] == 1)): if(($goods['g_state'] == 2)): ?>
-            <!--<div>审核中</div>-->
-            <div class="details_status_shenhezhong">
-                该商品正在审核中
-            </div>
-            <div class="details_data clear">
-                <div class="details_lf lf">
-                    <p class="details_lf_top">市场价
-                        <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
-                        <!-- 加判断 -->
-
-                        <?php if($is_lord ==1): else: ?>
-                        <span class="details_hint">满额揭晓</span>
-                        <?php endif; ?>
-                    </p>
-
-                    <p class="details_new">
-                        <span>￥</span>
-                        <?php if($goods['min'] == $goods['max']): ?>
-                        <?php echo $goods['min']; else: ?>
-                        <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                    </p>
+                <!--<div>审核中</div>-->
+                <div class="details_status_shenhezhong">
+                    该商品正在审核中
                 </div>
-            </div>
-            <?php elseif(($goods['g_state'] == 4)): ?>
-            <!--<div>审核未通过</div>-->
-            <div class="details_status_weitongguo">
-                <?php echo $goods['g_des']; ?>
-            </div>
-            <div class="details_data clear">
-                <div class="details_lf lf">
-                    <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
-                        <?php if($is_lord ==1): else: ?>
-                        <span class="details_hint">满额揭晓</span>
-                        <?php endif; ?>
-                    </p>
-
-                    <p class="details_new"><span>￥</span>
-                        <?php if($goods['min'] == $goods['max']): ?>
-                        <?php echo $goods['min']; else: ?>
-                        <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                    </p>
-                </div>
-            </div>
-            <?php elseif((($goods['g_state'] == 8) || ($goods['g_state'] == 9) || ($goods['gp_stock'] == 0))): ?>
-            <!--<div>已结束</div>-->
-            <!-- <div class="details_status_shenhezhong">
-                已结束
-            </div> -->
-            <div class="details_data detail_back clear">
-                <div class="details_lf lf">
-                    <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span> <?php if($is_lord ==1): else: ?>
-                        <span class="details_hint">满额揭晓</span>
-                        <?php endif; ?></p>
-
-                    <p class="details_new"><span>￥</span>
-                        <?php if($goods['min'] == $goods['max']): ?>
-                        <?php echo $goods['min']; else: ?>
-                        <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                    </p>
-                </div>
-                <div class="details_rt rt">
-                    <span class="yjs">已结束</span>
-                </div>
-            </div>
-            <?php elseif(($goods['g_state'] == 6)): ?>
-            <!--出售中-->
-            <div class="details_status_yitongguo">
-                <div class="details_status_yitongguo_time" id="date1">
-                    商品已通过审核
-                    <span class="details_status_yitongguo_show details_day">
-                                </span>
-                    <span class="details_status_yitongguo_show details_hour">
-                                </span>
-                    时
-                    <span class="details_status_yitongguo_show details_minute">
-                                </span>
-                    分
-                    <span class="details_status_yitongguo_show details_second">
-                                </span>
-                    秒
-                    后开始
-                </div>
-            </div>
-            <!-- gp_state:1,已上架 2,预上架，3.已结束 -->
-            <?php if($goods['is_fudai']==1): ?>
-            <div class="details_data <?php if(($goods['g_endtime'] - $time<0)): ?> detail_back <?php else: ?> details_data_fudai <?php endif; ?> clear">
-                <?php else: ?>
-                <div class="details_data <?php if(($goods['g_endtime'] - $time<0)): ?> detail_back <?php endif; ?> clear">
-                    <?php endif; ?>
+                <div class="details_data clear">
                     <div class="details_lf lf">
-                        <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                            <!-- 加判断 -->
+
                             <?php if($is_lord ==1): else: ?>
                             <span class="details_hint">满额揭晓</span>
                             <?php endif; ?>
                         </p>
-                        <p class="details_new"><span>￥</span>
+                        <p class="details_new">
+                            <span>￥</span>
                             <?php if($goods['min'] == $goods['max']): ?>
                             <?php echo $goods['min']; else: ?>
                             <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
                         </p>
                     </div>
+                </div>
+            <?php elseif(($goods['g_state'] == 4)): ?>
+                <!--<div>审核未通过</div>-->
+                <div class="details_status_weitongguo">
+                    <?php echo $goods['g_des']; ?>
+                </div>
+                <div class="details_data clear">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                            <?php if($is_lord ==1): else: ?>
+                                <span class="details_hint">满额揭晓</span>
+                            <?php endif; ?>
+                        </p>
+                        <p class="details_new"><span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                </div>
+            <?php elseif((($goods['g_state'] == 8) || ($goods['g_state'] == 9) || ($goods['gp_stock'] == 0))): ?>
+                <!--<div>已结束</div>-->
+                <!-- <div class="details_status_shenhezhong">
+                    已结束
+                </div> -->
+                <div class="details_data detail_back clear">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span> 
+                            <?php if($is_lord ==1): else: ?>
+                                <span class="details_hint">满额揭晓</span>
+                            <?php endif; ?>
+                        </p>
+                        <p class="details_new"><span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
                     <div class="details_rt rt">
-                        <?php if($goods['is_fudai']==1): if($goods['gp_state']==1): ?>
-                        <p class="details_hint_text">距离结束时间还剩</p>
-                        <div class="details_time" id="first">
-                                <span class="details_show_fudai details_day">
-                                </span>
-                            <span class="details_fenhao">:</span>
-                            <span class="details_show_fudai details_hour">
-                                </span>
-                            <span class="details_fenhao">:</span>
-                            <span class="details_show_fudai details_minute">
-                                </span>
-                            <span class="details_fenhao">:</span>
-                            <span class="details_show_fudai details_second">
-                                </span>
-                        </div>
-                        <?php elseif($goods['gp_state']==2): ?>
-                        <p class="details_hint_text">即将开始</p>
-                        <span style="color:#fff;font-size: 0.24rem;margin-top: 0.1rem;display: block;">第<?php echo $goods['sort']-1; ?>袋结束后立即开始</span>
-                        <?php else: ?>
                         <span class="yjs">已结束</span>
-                        <?php endif; else: if($goods['g_endtime'] - $time<0): ?>
-                        <span class="yjs">已结束</span>
-                        <?php else: ?>
-                        <p class="details_hint_text">距离结束时间还剩</p>
-                        <div class="details_time" id="first">
-                                <span class="details_show details_day">
-                                </span>
-                            <span class="details_fenhao">:</span>
-                            <span class="details_show details_hour">
-                                </span>
-                            <span class="details_fenhao">:</span>
-                            <span class="details_show details_minute">
-                                </span>
-                            <span class="details_fenhao">:</span>
-                            <span class="details_show details_second">
-                                </span>
-                        </div>
-                        <?php endif; endif; ?>
                     </div>
                 </div>
-            </div>
+            <?php elseif(($goods['g_state'] == 6)): ?>
+                <!--出售中-->
+                <div class="details_status_yitongguo">
+                    <div class="details_status_yitongguo_time" id="date1">
+                        商品已通过审核
+                        <span class="details_status_yitongguo_show details_day"></span>
+                        <span class="details_status_yitongguo_show details_hour"></span>
+                        时
+                        <span class="details_status_yitongguo_show details_minute"></span>
+                        分
+                        <span class="details_status_yitongguo_show details_second"></span>
+                        秒
+                        后开始
+                    </div>
+                </div>
+                <!-- gp_state:1,已上架 2,预上架，3.已结束 -->
+                <?php if($goods['is_fudai']==1): ?>
+                    <div class="details_data <?php if(($goods['g_endtime'] - $time<0)): ?> detail_back <?php else: ?> details_data_fudai <?php endif; ?> clear">
+                <?php else: ?>
+                    <div class="details_data <?php if(($goods['g_endtime'] - $time<0)): ?> detail_back <?php endif; ?> clear">
+                <?php endif; ?>
+                        <div class="details_lf lf">
+                            <p class="details_lf_top">市场价
+                                <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                                <?php if($is_lord ==1): else: ?>
+                                    <span class="details_hint">满额揭晓</span>
+                                <?php endif; ?>
+                            </p>
+                            <p class="details_new"><span>￥</span>
+                                <?php if($goods['min'] == $goods['max']): ?>
+                                    <?php echo $goods['min']; else: ?>
+                                    <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                            </p>
+                        </div>
+                        <div class="details_rt rt">
+                            <?php if($goods['is_fudai']==1): if($goods['gp_state']==1): ?>
+                                    <p class="details_hint_text">距离结束时间还剩</p>
+                                    <div class="details_time" id="first">
+                                        <span class="details_show_fudai details_day"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show_fudai details_hour"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show_fudai details_minute"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show_fudai details_second"></span>
+                                    </div>
+                                <?php elseif($goods['gp_state']==2): ?>
+                                    <p class="details_hint_text">即将开始</p>
+                                    <span style="color:#fff;font-size: 0.24rem;margin-top: 0.1rem;display: block;">第<?php echo $goods['sort']-1; ?>袋结束后立即开始</span>
+                                <?php else: ?>
+                                    <span class="yjs">已结束</span>
+                                <?php endif; else: if($goods['g_endtime'] - $time<0): ?>
+                                    <span class="yjs">已结束</span>
+                                <?php else: ?>
+                                    <p class="details_hint_text">距离结束时间还剩</p>
+                                    <div class="details_time" id="first">
+                                        <span class="details_show details_day"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show details_hour"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show details_minute"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show details_second"></span>
+                                    </div>
+                                <?php endif; endif; ?>
+                        </div>
+                    </div>
             <?php endif; elseif(($goods['play_type'] == 2)): if(($goods['g_state'] == 2)): ?><!--状态-->
-        <!--<div>审核中</div>-->
-        <div class="details_status_shenhezhong">
-            该商品正在审核中
-        </div>
-        <div class="details_data clear"
-             style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">
-            <div class="details_lf lf">
-                <p class="details_lf_top">市场价
-                    <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
-                </p>
-
-                <p class="details_new">
-                    <span>￥</span>
-                    <?php if($goods['min'] == $goods['max']): ?>
-                    <?php echo $goods['min']; else: ?>
-                    <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                </p>
-            </div>
-        </div>
-        <?php elseif(($goods['g_state'] == 4)): ?>
-        <!--<div>审核未通过</div>-->
-        <div class="details_status_weitongguo">
-            <!--<?php echo $goods['g_des']; ?>-->
-            <!--审核未通过-->
-        </div>
-        <div class="details_data clear"
-             style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">
-            <div class="details_lf lf">
-                <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
-                </p>
-
-                <p class="details_new"><span>￥</span>
-                    <?php if($goods['min'] == $goods['max']): ?>
-                    <?php echo $goods['min']; else: ?>
-                    <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                </p>
-            </div>
-        </div>
-        <?php elseif((($goods['g_state'] == 8) || ($goods['g_state'] == 9) || ($goods['gp_stock'] == 0 || ($goods['g_endtime'] < $time)))): ?>
-        <!--<div>已结束</div>-->
-        <!-- <div class="details_status_shenhezhong">
-            已结束
-        </div> -->
-        <div class="details_data detail_back clear"
-             style="background-image:linear-gradient(90deg, #2B2B2B 0%, #555555 100%), linear-gradient(#2B2B2B, #2B2B2B); ">
-            <div class="details_lf lf">
-                <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span> </p>
-
-                <p class="details_new"><span>￥</span>
-                    <?php if($goods['min'] == $goods['max']): ?>
-                    <?php echo $goods['min']; else: ?>
-                    <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                </p>
-            </div>
-            <div class="details_rt rt">
-                <span class="yjs">已结束</span>
-            </div>
-        </div>
-        <?php elseif(($goods['g_state'] == 6)): ?>
-            <!--出售中-->
-            <div class="details_status_yitongguo">
-                <div class="details_status_yitongguo_time" id="date1">
-                    商品已通过审核
-                    <span class="details_status_yitongguo_show details_day">
-                                </span>
-                    <span class="details_status_yitongguo_show details_hour">
-                                </span>
-                    时
-                    <span class="details_status_yitongguo_show details_minute">
-                                </span>
-                    分
-                    <span class="details_status_yitongguo_show details_second">
-                                </span>
-                    秒
-                    后开始
+                <!--<div>审核中</div>-->
+                <div class="details_status_shenhezhong">
+                    该商品正在审核中
                 </div>
-            </div>
-
-            <div class="details_data clear"
-                 style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">
-                <div class="details_lf lf">
-                    <p class="details_lf_top">市场价<span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
-                    </p>
-                    <p class="details_new"><span>￥</span>
-                        <?php if($goods['min'] == $goods['max']): ?>
-                        <?php echo $goods['min']; else: ?>
-                        <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
-                    </p>
-                </div>
-                <div class="details_rt rt">
-
-                    <p class="details_hint_text">距离结束时间还剩</p>
-                    <div class="details_time" id="first" >
-                                <span class="details_show_fudai details_day" style="color: #FF235F">
-                                </span>
-                        <span class="details_fenhao">:</span>
-                        <span class="details_show_fudai details_hour" style="color: #FF235F">
-                                </span>
-                        <span class="details_fenhao">:</span>
-                        <span class="details_show_fudai details_minute" style="color: #FF235F">
-                                </span>
-                        <span class="details_fenhao">:</span>
-                        <span class="details_show_fudai details_second" style="color: #FF235F">
-                                </span>
+                <div class="details_data clear"
+                    style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
                     </div>
-
                 </div>
-            </div>
-        <?php endif; elseif(($goods['play_type'] == 3)): endif; ?>
-
-
+            <?php elseif(($goods['g_state'] == 4)): ?>
+                <!--<div>审核未通过</div>-->
+                <div class="details_status_weitongguo">
+                    <!--<?php echo $goods['g_des']; ?>-->
+                    <!--审核未通过-->
+                </div>
+                <div class="details_data clear" style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                </div>
+            <?php elseif((($goods['g_state'] == 8) || ($goods['g_state'] == 9) || ($goods['gp_stock'] == 0 || ($goods['g_endtime'] < $time)))): ?>
+                <!--<div>已结束</div>-->
+                <!-- <div class="details_status_shenhezhong">
+                    已结束
+                </div> -->
+                <div class="details_data detail_back clear"
+                    style="background-image:linear-gradient(90deg, #2B2B2B 0%, #555555 100%), linear-gradient(#2B2B2B, #2B2B2B); ">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span> 
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                    <div class="details_rt rt">
+                        <span class="yjs">已结束</span>
+                    </div>
+                </div>
+            <?php elseif(($goods['g_state'] == 6)): ?>
+                <!--出售中-->
+                <div class="details_status_yitongguo">
+                    <div class="details_status_yitongguo_time" id="date1">
+                        商品已通过审核
+                        <span class="details_status_yitongguo_show details_day"></span>
+                        <span class="details_status_yitongguo_show details_hour"></span>
+                        时
+                        <span class="details_status_yitongguo_show details_minute"></span>
+                        分
+                        <span class="details_status_yitongguo_show details_second"></span>
+                        秒
+                        后开始
+                    </div>
+                </div>
+                <div class="details_data clear" style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                    <div class="details_rt rt">
+                        <p class="details_hint_text">距离结束时间还剩</p>
+                        <div class="details_time" id="first" >
+                            <span class="details_show_fudai details_day" style="color: #FF235F"></span>
+                            <span class="details_fenhao">:</span>
+                            <span class="details_show_fudai details_hour" style="color: #FF235F"></span>
+                            <span class="details_fenhao">:</span>
+                            <span class="details_show_fudai details_minute" style="color: #FF235F"></span>
+                            <span class="details_fenhao">:</span>
+                            <span class="details_show_fudai details_second" style="color: #FF235F"></span>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; elseif(($goods['play_type'] == 3)): if(($goods['g_state'] == 2)): ?>
+                <!--<div>审核中</div>-->
+                <div class="details_status_shenhezhong">
+                    该商品正在审核中
+                </div>
+                <div class="details_data clear">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                            <!-- 加判断 -->
+                            <?php if($is_lord ==1): else: ?>
+                                <span class="details_hint">满额揭晓</span>
+                            <?php endif; ?>
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                </div>
+            <?php elseif(($goods['g_state'] == 4)): ?>
+                <!--<div>审核未通过</div>-->
+                <div class="details_status_weitongguo">
+                    <?php echo $goods['g_des']; ?>
+                </div>
+                <div class="details_data clear">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                            <?php if($is_lord ==1): else: ?>
+                                <span class="details_hint">满额揭晓</span>
+                            <?php endif; ?>
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                </div>
+            <?php elseif((($goods['g_state'] == 8) || ($goods['g_state'] == 9) || ($goods['gp_stock'] == 0))): ?>
+                <!--<div>已结束</div>-->
+                <!-- <div class="details_status_shenhezhong">
+                    已结束
+                </div> -->
+                <div class="details_data detail_back clear">
+                    <div class="details_lf lf">
+                        <p class="details_lf_top">市场价
+                            <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                            <?php if($is_lord ==1): else: ?>
+                                <span class="details_hint">满额揭晓</span>
+                            <?php endif; ?>
+                        </p>
+                        <p class="details_new">
+                            <span>￥</span>
+                            <?php if($goods['min'] == $goods['max']): ?>
+                                <?php echo $goods['min']; else: ?>
+                                <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                        </p>
+                    </div>
+                    <div class="details_rt rt">
+                        <span class="yjs">已结束</span>
+                    </div>
+                </div>
+            <?php elseif(($goods['g_state'] == 6)): ?>
+                <!--出售中-->
+                <div class="details_status_yitongguo">
+                    <div class="details_status_yitongguo_time" id="date1">
+                        商品已通过审核
+                        <span class="details_status_yitongguo_show details_day"></span>
+                        <span class="details_status_yitongguo_show details_hour"></span>
+                        时
+                        <span class="details_status_yitongguo_show details_minute"></span>
+                        分
+                        <span class="details_status_yitongguo_show details_second"></span>
+                        秒后开始
+                    </div>
+                </div>
+                <!-- gp_state:1,已上架 2,预上架，3.已结束 -->
+                <?php if($goods['is_fudai']==1): ?>
+                    <div class="details_data <?php if(($goods['g_endtime'] - $time<0)): ?> detail_back <?php else: ?> details_data_fudai <?php endif; ?> clear">
+                <?php else: ?>
+                    <div class="details_data details_data_huasheng <?php if(($goods['g_endtime'] - $time<0)): ?> detail_back <?php endif; ?> clear">
+                <?php endif; ?>
+                        <div class="details_lf lf details_huasheng">
+                            <p class="details_lf_top">市场价
+                                <span class="details_old">￥<?php echo $goods['gp_market_price']; ?></span>
+                                <?php if($is_lord ==1): else: ?>
+                                    <span class="details_hint">满额揭晓</span>
+                                <?php endif; ?>
+                            </p>
+                            <p class="details_new">
+                                <?php if($goods['min'] == $goods['max']): ?>
+                                    <?php echo $goods['min']; else: ?>
+                                    <?php echo $goods['min']; ?>~<?php echo $goods['max']; endif; ?>
+                                <span>花生</span> 
+                            </p>
+                        </div>
+                        <div class="details_rt rt details_huasheng_text">
+                            <?php if($goods['is_fudai']==1): if($goods['gp_state']==1): ?>
+                                    <p class="details_hint_text">距离结束时间还剩</p>
+                                    <div class="details_time" id="first">
+                                        <span class="details_show_fudai details_day"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show_fudai details_hour"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show_fudai details_minute"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show_fudai details_second"></span>
+                                    </div>
+                                <?php elseif($goods['gp_state']==2): ?>
+                                    <p class="details_hint_text">即将开始</p>
+                                    <span style="color:#fff;font-size: 0.24rem;margin-top: 0.1rem;display: block;">第<?php echo $goods['sort']-1; ?>袋结束后立即开始</span>
+                                <?php else: ?>
+                                    <span class="yjs">已结束</span>
+                                <?php endif; else: if($goods['g_endtime'] - $time<0): ?>
+                                    <span class="yjs">已结束</span>
+                                <?php else: ?>
+                                    <p class="details_hint_text">距离结束时间还剩</p>
+                                    <div class="details_time" id="first">
+                                        <span class="details_show details_day"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show details_hour"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show details_minute"></span>
+                                        <span class="details_fenhao">:</span>
+                                        <span class="details_show details_second"></span>
+                                    </div>
+                                <?php endif; endif; ?>
+                        </div>
+                    </div>
+            <?php endif; endif; ?>
             <!--福袋规则判断-->
-            <?php if(($goods['play_type'] == 1)): if($goods['is_fudai']==1): ?>
-            <a href="/member/goodsproduct/fudai_rule">
-                <div class="details_rule details_fudai clear">
-                    <span class="lf">拍吖吖超值福袋规则 了解一下~</span>
-                    <span class="rt">
-                        查看规则
-                        <img src="__STATIC__/image/details/icon_jump@2x.png">
-                    </span>
-                </div>
-            </a>
+        <?php if(($goods['play_type'] == 1)): if($goods['is_fudai']==1): ?>
+                <a href="/member/goodsproduct/fudai_rule">
+                    <div class="details_rule details_fudai clear">
+                        <span class="lf">吖吖超值福袋规则 了解一下~</span>
+                        <span class="rt">
+                            查看规则
+                            <img src="__STATIC__/image/details/icon_jump@2x.png">
+                        </span>
+                    </div>
+                </a>
             <?php else: ?>
-            <a href="/member/goodsproduct/rule">
-                <div class="details_rule clear">
-                    <?php if($is_lord ==1): ?>
-                    <span class="lf">吖吖活动规则 了解一下~</span>
-                    <?php else: ?>
-                    <span class="lf">拍吖吖活动规则 了解一下~</span>
-                    <?php endif; ?>
-                    <span class="rt">
-                        查看规则
-                        <img src="__STATIC__/image/details/icon_jump@2x.png">
-                    </span>
-                </div>
-            </a>
+                <a href="/member/goodsproduct/rule">
+                    <div class="details_rule clear">
+                        <?php if($is_lord ==1): ?>
+                        <span class="lf">吖吖活动规则 了解一下~</span>
+                        <?php else: ?>
+                        <span class="lf">吖吖活动规则 了解一下~</span>
+                        <?php endif; ?>
+                        <span class="rt">
+                            查看规则
+                            <img src="__STATIC__/image/details/icon_jump@2x.png">
+                        </span>
+                    </div>
+                </a>
             <?php endif; elseif(($goods['play_type'] == 2)): ?>
             <a href="/member/goodsproduct/chaozhi_rule">
                 <div class="details_rule details_fudai clear">
-                    <span class="lf">拍吖吖超值团购规则 了解一下~</span>
+                    <span class="lf">吖吖超值团购规则 了解一下~</span>
                     <span class="rt">
                         查看规则
                         <img src="__STATIC__/image/details/icon_jump@2x.png">
                     </span>
                 </div>
             </a>
-            <?php elseif(($goods['play_type'] == 3)): endif; ?>
+        <?php elseif(($goods['play_type'] == 3)): ?>
+            <a href="/activity/index/peanut_rule">
+                <div class="details_rule details_huashengcolor clear">
+                    <span class="lf">拍吖吖花生堂规则 了解一下~</span>
+                    <span class="rt">
+                        查看规则
+                        <img src="__STATIC__/image/details/icon_jump2@2x.png">
+                    </span>
+                </div>
+            </a>
+        <?php endif; ?>
 
-            <!--商品判断-->
-            <?php if(($goods['play_type'] == 1)): ?>
+        <!--商品判断-->
+        <?php if(($goods['play_type'] == 1)): ?>
             <div class="details_top clear">
                 <a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">
                     <div class="yg-num">
                         <?php if(($goods['g_state'] == 6) OR ($goods['g_state'] == 8) OR ($goods['g_state'] == 9)): ?>
-                        <?php echo isset($nransaction_num) ? $nransaction_num :  0; else: ?>
-                        0
+                            <?php echo isset($nransaction_num) ? $nransaction_num :  0; else: ?>
+                            0
                         <?php endif; ?>
                         <br>
                         <?php if($goods['is_fudai']==1): ?>
-                        <span>大福袋</span>
+                            <span>大福袋</span>
                         <?php elseif($goods['is_huodong']==1): ?>
-                        <span>购中者</span>
+                            <span>购中者</span>
                         <?php else: ?>
-                        <span>已购者</span>
+                            <span>已购者</span>
                         <?php endif; ?>
                     </div>
                 </a>
                 <?php if($goods['is_fudai']==1): ?>
-                <div class="details_top_lf clear">
-                    <p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png" alt=""
-                            style="margin-right:0.1rem;width:0.8rem;height:0.3rem;margin-top:0.08rem;float: left;"><?php echo $goods['g_name']; ?>
-                    </p>
-                    <span><?php echo $goods['g_secondname']; ?></span>
-                </div>
+                    <div class="details_top_lf clear">
+                        <p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png" alt=""
+                                style="margin-right:0.1rem;width:0.8rem;height:0.3rem;margin-top:0.08rem;float: left;"><?php echo $goods['g_name']; ?>
+                        </p>
+                        <span><?php echo $goods['g_secondname']; ?></span>
+                    </div>
                 <?php elseif($goods['is_huodong']==1): ?>
+                    <div class="details_top_lf clear">
+                        <p><img src="__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png" alt=""
+                                style="margin-right:0.1rem;width:0.8rem;height:0.3rem;margin-top:0.08rem;float: left;"><?php echo $goods['g_name']; ?>
+                        </p>
+                        <span><?php echo $goods['g_secondname']; ?></span>
+                    </div>
+                <?php elseif($goods['gp_condition']==1): ?>
                 <div class="details_top_lf clear">
-                    <p><img src="__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png" alt=""
-                            style="margin-right:0.1rem;width:0.8rem;height:0.3rem;margin-top:0.08rem;float: left;"><?php echo $goods['g_name']; ?>
+                    <p><img src="__STATIC__/image/goodsproduct/icon_xrsd@2x.png" alt=""
+                            style="margin-right:0.1rem;width:0.92rem;height:0.3rem;margin-top:0.08rem;float: left;"><?php echo $goods['g_name']; ?>
                     </p>
                     <span><?php echo $goods['g_secondname']; ?></span>
                 </div>
                 <?php else: ?>
-                <div class="details_top_lf">
-                    <p><?php echo $goods['g_name']; ?></p>
-                    <span><?php echo $goods['g_secondname']; ?></span>
-                </div>
+                    <div class="details_top_lf">
+                        <p><?php echo $goods['g_name']; ?></p>
+                        <span><?php echo $goods['g_secondname']; ?></span>
+                    </div>
                 <?php endif; if(($goods['g_typeid'] == 1 or $goods['g_typeid'] == 0)): elseif(($goods['g_typeid'] == 2)): ?>
-                <div class="details_xuni">
-                    <!-- <p><span>虚拟商品</span>具体领取方式将在线发送给您</p> -->
-                    <p><img src="__STATIC__/image/goodsproduct/icon_xuni@2x.png" alt="">具体领取方式将在线发送给您</p>
-                </div>
+                    <div class="details_xuni">
+                        <!-- <p><span>虚拟商品</span>具体领取方式将在线发送给您</p> -->
+                        <p><img src="__STATIC__/image/goodsproduct/icon_xuni@2x.png" alt="">具体领取方式将在线发送给您</p>
+                    </div>
                 <?php elseif(($goods['g_typeid'] == 3)): ?>
-                <div class="details_dazong">
-                    <p><img src="__STATIC__/image/goodsproduct/icon_xianzia@2x.png" alt="">该商品为线下指定地点领取</p>
-                </div>
+                    <div class="details_dazong">
+                        <p><img src="__STATIC__/image/goodsproduct/icon_xianzia@2x.png" alt="">该商品为线下指定地点领取</p>
+                    </div>
                 <?php endif; ?>
                 <div class="details_top_hint clear">
                     <p class="lf">快递:<span><?php echo isset($goods['g_express']) ? $goods['g_express'] :  '免邮费'; ?></span></p>
                     <p class="lf details_center" style="text-align: center;">库存
                         <span>
-                    <?php if(($goods['g_state'] == 6) OR ($goods['g_state'] == 8) OR ($goods['g_state'] == 9)): ?>
-                        <?php echo isset($goods['gp_stock']) ? $goods['gp_stock'] :  0; else: ?>
-                        0
-                    <?php endif; ?>
-                </span>件
+                            <?php if(($goods['g_state'] == 6) OR ($goods['g_state'] == 8) OR ($goods['g_state'] == 9)): ?>
+                                <?php echo isset($goods['gp_stock']) ? $goods['gp_stock'] :  0; else: ?>
+                                0
+                            <?php endif; ?>
+                        </span>件
                     </p>
-
                     <p><?php echo isset($goods['address']) ? $goods['address'] :  ''; ?></p>
                 </div>
             </div>
-            <?php elseif(($goods['play_type'] == 2)): ?>
+        <?php elseif(($goods['play_type'] == 2)): ?>
             <div class="details_top clear">
                 <a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">
                     <div class="yg-num">
                         <?php if(($goods['g_state'] == 6) OR ($goods['g_state'] == 8) OR ($goods['g_state'] == 9)): ?>
-                        <?php echo isset($nransaction_num) ? $nransaction_num :  0; else: ?>
-                        0
+                            <?php echo isset($nransaction_num) ? $nransaction_num :  0; else: ?>
+                            0
                         <?php endif; ?>
                         <br>
                         <span>已购者</span>
@@ -524,14 +650,14 @@
                 </div>
 
                 <?php if(($goods['g_typeid'] == 1 or $goods['g_typeid'] == 0)): elseif(($goods['g_typeid'] == 2)): ?>
-                <div class="details_xuni">
-                    <!-- <p><span>虚拟商品</span>具体领取方式将在线发送给您</p> -->
-                    <p><img src="__STATIC__/image/goodsproduct/icon_xuni@2x.png" alt="">具体领取方式将在线发送给您</p>
-                </div>
+                    <div class="details_xuni">
+                        <!-- <p><span>虚拟商品</span>具体领取方式将在线发送给您</p> -->
+                        <p><img src="__STATIC__/image/goodsproduct/icon_xuni@2x.png" alt="">具体领取方式将在线发送给您</p>
+                    </div>
                 <?php elseif(($goods['g_typeid'] == 3)): ?>
-                <div class="details_dazong">
-                    <p><img src="__STATIC__/image/goodsproduct/icon_xianzia@2x.png" alt="">该商品为线下指定地点领取</p>
-                </div>
+                    <div class="details_dazong">
+                        <p><img src="__STATIC__/image/goodsproduct/icon_xianzia@2x.png" alt="">该商品为线下指定地点领取</p>
+                    </div>
                 <?php endif; ?>
                 <div class="details_top_hint clear">
                     <p class="lf">快递:<span><?php echo isset($goods['g_express']) ? $goods['g_express'] :  '免邮费'; ?></span></p>
@@ -543,28 +669,72 @@
                             <?php endif; ?>
                         </span>件
                     </p>
-
                     <p><?php echo isset($goods['address']) ? $goods['address'] :  ''; ?></p>
                 </div>
             </div>
-            <?php elseif(($goods['play_type'] == 3)): endif; ?>
+        <?php elseif(($goods['play_type'] == 3)): ?>
+            <div class="details_top clear">
+                <a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">
+                    <div class="yg-num">
+                        <?php if(($goods['g_state'] == 6) OR ($goods['g_state'] == 8) OR ($goods['g_state'] == 9)): ?>
+                            <?php echo isset($nransaction_num) ? $nransaction_num :  0; else: ?>
+                            0
+                        <?php endif; ?>
+                        <br>
+                        <span>已购者</span>
+                    </div>
+                </a>
+                <div class="details_top_lf clear">
+                    <p>
+                        <img src="__STATIC__/image/goodsproduct/icon_hsbq2@2x.png" alt="" style="margin-right:0.1rem;width:0.62rem;height:0.3rem;margin-top:0.08rem;float: left;"><?php echo $goods['g_name']; ?>
+                    </p>
+                    <span><?php echo $goods['g_secondname']; ?></span>
+                </div>
 
-
+                <?php if(($goods['g_typeid'] == 1 or $goods['g_typeid'] == 0)): elseif(($goods['g_typeid'] == 2)): ?>
+                    <div class="details_xuni">
+                        <!-- <p><span>虚拟商品</span>具体领取方式将在线发送给您</p> -->
+                        <p><img src="__STATIC__/image/goodsproduct/icon_xuni@2x.png" alt="">具体领取方式将在线发送给您</p>
+                    </div>
+                <?php elseif(($goods['g_typeid'] == 3)): ?>
+                    <div class="details_dazong">
+                        <p><img src="__STATIC__/image/goodsproduct/icon_xianzia@2x.png" alt="">该商品为线下指定地点领取</p>
+                    </div>
+                <?php endif; ?>
+                <div class="details_top_hint clear">
+                    <p class="lf">快递:<span><?php echo isset($goods['g_express']) ? $goods['g_express'] :  '免邮费'; ?></span></p>
+                    <p class="lf details_center" style="text-align: center;">库存
+                        <span>
+                            <?php if(($goods['g_state'] == 6) OR ($goods['g_state'] == 8) OR ($goods['g_state'] == 9)): ?>
+                                <?php echo isset($goods['gp_stock']) ? $goods['gp_stock'] :  0; else: ?>
+                                0
+                            <?php endif; ?>
+                        </span>件
+                    </p>
+                    <p><?php echo isset($goods['address']) ? $goods['address'] :  ''; ?></p>
+                </div>
+            </div>
+        <?php endif; ?>
         </div>
         <!-- 商品 E -->
-
-            <!--参团上面的图片-->
-            <?php if(($goods['play_type'] == 1)): if($goods['is_fudai']==1): ?>
-            <div style="width:7.5rem;height:0.6rem;overflow: hidden;">
-                <img src="__STATIC__/image/goodsproduct/pic_bnert@2x.png" alt="" style="width:100%;height:100%;">
-            </div>
+        <!--参团上面的图片-->
+        <?php if(($goods['play_type'] == 1)): if($goods['is_fudai']==1): ?>
+                <div style="width:7.5rem;height:0.6rem;overflow: hidden;">
+                    <img src="__STATIC__/image/goodsproduct/pic_bnert@2x.png" alt="" style="width:100%;height:100%;">
+                </div>
+             <?php elseif($goods['gp_condition']==1): ?>
+                        <div style="width:7.5rem;height:0.6rem;overflow: hidden;">
+                            <img src="__STATIC__/image/goodsproduct/pic_banner_xrsd@2x.png" alt="" style="width:100%;height:100%;">
+                        </div>
             <?php else: endif; elseif(($goods['play_type'] == 2)): ?>
             <div style="width:7.5rem;height:0.8rem;overflow: hidden;">
                 <img src="__STATIC__/image/goodsproduct/pic_banner@2x.png" alt="" style="width:100%;height:100%;">
             </div>
-            <?php elseif(($goods['play_type'] == 3)): endif; ?>
-
-
+        <?php elseif(($goods['play_type'] == 3)): if(($is_one_tuan==1)): ?>
+                <div style="width:7.5rem;height:0.88rem;overflow: hidden;">
+                    <img src="__STATIC__/image/goodsproduct/pci_yirentuan@2x.png" alt="" style="width:100%;height:100%;">
+                </div>
+            <?php else: endif; endif; ?>
         <!-- 参团 -->
         <div class="details_tab_line">
             <?php if(in_array(($goods['g_state']), explode(',',"6,8,9"))): ?>
@@ -592,131 +762,154 @@
             <?php if(is_array($gdr_list) || $gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator): $i = 0; $__LIST__ = $gdr_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
             <!--参团进度-->
                 <?php if(($goods['play_type'] == 1)): ?>
-                <div class="details_schedule_stirp clear">
-                    <div class="details_carousel">
-                        <div class="details_schedule_top clear">
-                            <div class="details_schedule_img lf">
-                                <img class="gdt_img1" src="__CDN_PATH__<?php echo isset($vo['gdt_img']) ? $vo['gdt_img'] :  ''; ?>">
-                            </div>
-                            <div class="details_schedule_center lf">
-                                <p class="lf">已参与<span class="details_schedule_yew"><?php echo isset($vo['gp_num']) ? $vo['gp_num'] :  0; ?></span>人次</p>
-
-                                <p class="rt">剩余<span class="details_schedule_yew"><?php if(empty($vo['gp_num']) || (($vo['gp_num'] instanceof \think\Collection || $vo['gp_num'] instanceof \think\Paginator ) && $vo['gp_num']->isEmpty())): ?><?php echo $vo['gdr_membernum']; else: ?><?php echo $vo['gdr_membernum'] - $vo['gp_num']; endif; ?></span>人次
-                                </p>
-
-                                <div class="details_schedule_gray lf">
-                                    <div class="details_schedule_red"></div>
+                    <div class="details_schedule_stirp clear">
+                        <div class="details_carousel">
+                            <div class="details_schedule_top clear">
+                                <div class="details_schedule_img lf">
+                                    <img class="gdt_img1" src="__CDN_PATH__<?php echo isset($vo['gdt_img']) ? $vo['gdt_img'] :  ''; ?>">
                                 </div>
-                                <span class="details_schedule_per a b<?php echo $key; ?>"><?php echo $vo['proportion']; ?>%</span>
-                            </div>
-                            <?php if($goods['is_fudai']==1): if($goods['gp_state']==1 && $goods['g_starttime'] <= $time && $goods['g_endtime'] > $time): ?>
-                            <div class="details_schedule_right_btn rt" gdr_id="<?php echo $vo['gdr_id']; ?>">
-                                参团
-                            </div>
-                            <?php else: ?>
-                            <div class="details_schedule_right_btn rt" style="background:#E2E2E2 ;color:#aaaaaa;"
-                                 gdr_id="<?php echo $vo['gdr_id']; ?>" disabled="disabled">
-                                参团
-                            </div>
-                            <?php endif; else: if(($goods['g_endtime'] - $time<0) || ($goods['g_starttime']> $time)): ?>
-                            <div class="details_schedule_right_btn rt" style="background:#E2E2E2 ;color:#aaaaaa;"
-                                 gdr_id="<?php echo $vo['gdr_id']; ?>" disabled="disabled">
-                                参团
-                            </div>
-                            <?php else: if(($goods['gp_stock']>0)): ?>
-                            <div class="details_schedule_right_btn rt" gdr_id="<?php echo $vo['gdr_id']; ?>">
-                                参团
-                            </div>
-                            <?php else: ?>
-                            <div class="details_schedule_right_btn rt" style="background:#E2E2E2 ;color:#aaaaaa;"
-                                 gdr_id="<?php echo $vo['gdr_id']; ?>" disabled="disabled">
-                                参团
-                            </div>
-                            <?php endif; endif; endif; ?>
-                        </div>
-                        <div class="details_schedule_bottom clear">
-                            <?php if($vo['member_num'] < 1): ?>
-                            <p class="goodsp_span">快去成为第一个参团的人吧~</p>
-                            <?php elseif($vo['member_num'] < 2 AND $vo['member_num'] > 0): if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
-                            <div class="details_ul_list">
-                                <div class="details_schedule_name_pic lf">
-                                    <img alt=""
-                                         src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
-                                         class="details_errimg">
+                                <div class="details_schedule_center lf">
+                                    <p class="lf">已参与<span class="details_schedule_yew"><?php echo isset($vo['gp_num']) ? $vo['gp_num'] :  0; ?></span>人次</p>
+
+                                    <p class="rt">剩余<span class="details_schedule_yew"><?php if(empty($vo['gp_num']) || (($vo['gp_num'] instanceof \think\Collection || $vo['gp_num'] instanceof \think\Paginator ) && $vo['gp_num']->isEmpty())): ?><?php echo $vo['gdr_membernum']; else: ?><?php echo $vo['gdr_membernum'] - $vo['gp_num']; endif; ?></span>人次
+                                    </p>
+
+                                    <div class="details_schedule_gray lf">
+                                        <div class="details_schedule_red"></div>
+                                    </div>
+                                    <span class="details_schedule_per a b<?php echo $key; ?>"><?php echo $vo['proportion']; ?>%</span>
                                 </div>
-                                <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
-                                <?php if(!(empty($voo['o_addtime']) || (($voo['o_addtime'] instanceof \think\Collection || $voo['o_addtime'] instanceof \think\Paginator ) && $voo['o_addtime']->isEmpty()))): ?>
-                                <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
-                                <?php endif; ?>
+                                <?php if($goods['is_fudai']==1): if($goods['gp_state']==1 && $goods['g_starttime'] <= $time && $goods['g_endtime'] > $time): ?>
+                                <div class="details_schedule_right_btn rt" gdr_id="<?php echo $vo['gdr_id']; ?>">
+                                    参团
+                                </div>
+                                <?php else: ?>
+                                <div class="details_schedule_right_btn rt" style="background:#E2E2E2 ;color:#aaaaaa;"
+                                    gdr_id="<?php echo $vo['gdr_id']; ?>" disabled="disabled">
+                                    参团
+                                </div>
+                                <?php endif; else: if(($goods['g_endtime'] - $time<0) || ($goods['g_starttime']> $time)): ?>
+                                <div class="details_schedule_right_btn rt" style="background:#E2E2E2 ;color:#aaaaaa;"
+                                    gdr_id="<?php echo $vo['gdr_id']; ?>" disabled="disabled">
+                                    参团
+                                </div>
+                                <?php else: if(($goods['gp_stock']>0)): ?>
+                                <div class="details_schedule_right_btn rt" gdr_id="<?php echo $vo['gdr_id']; ?>">
+                                    参团
+                                </div>
+                                <?php else: ?>
+                                <div class="details_schedule_right_btn rt" style="background:#E2E2E2 ;color:#aaaaaa;"
+                                    gdr_id="<?php echo $vo['gdr_id']; ?>" disabled="disabled">
+                                    参团
+                                </div>
+                                <?php endif; endif; endif; ?>
                             </div>
-                            <?php endforeach; endif; else: echo "" ;endif; else: ?>
-                            <div class="details_ul">
-                                <?php if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
+                            <div class="details_schedule_bottom clear">
+                                <?php if($vo['member_num'] < 1): ?>
+                                <p class="goodsp_span">快去成为第一个参团的人吧~</p>
+                                <?php elseif($vo['member_num'] < 2 AND $vo['member_num'] > 0): if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
                                 <div class="details_ul_list">
                                     <div class="details_schedule_name_pic lf">
                                         <img alt=""
-                                             src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
-                                             class="details_errimg">
+                                            src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
+                                            class="details_errimg">
                                     </div>
                                     <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
+                                    <?php if(!(empty($voo['o_addtime']) || (($voo['o_addtime'] instanceof \think\Collection || $voo['o_addtime'] instanceof \think\Paginator ) && $voo['o_addtime']->isEmpty()))): ?>
                                     <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
+                                    <?php endif; ?>
                                 </div>
-                                <?php endforeach; endif; else: echo "" ;endif; ?>
+                                <?php endforeach; endif; else: echo "" ;endif; else: ?>
+                                <div class="details_ul">
+                                    <?php if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
+                                    <div class="details_ul_list">
+                                        <div class="details_schedule_name_pic lf">
+                                            <img alt=""
+                                                src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
+                                                class="details_errimg">
+                                        </div>
+                                        <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
+                                        <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
+                                    </div>
+                                    <?php endforeach; endif; else: echo "" ;endif; ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
-                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
                 <?php elseif(($goods['play_type'] == 2)): ?>
-                <div class="details_schedule_stirp clear">
-                    <div class="details_carousel">
-                        <div class="details_schedule_top clear">
-                            <div class="details_schedule_center lf" style="width:6.6rem">
-                                <p class="lf">已参与<span class="details_schedule_yew"><?php echo isset($vo['gp_num']) ? $vo['gp_num'] :  0; ?></span>人次</p>
+                    <div class="details_schedule_stirp clear">
+                        <div class="details_carousel">
+                            <div class="details_schedule_top clear">
+                                <div class="details_schedule_center lf" style="width:6.6rem">
+                                    <p class="lf">已参与<span class="details_schedule_yew"><?php echo isset($vo['gp_num']) ? $vo['gp_num'] :  0; ?></span>人次</p>
 
-                                <p class="rt">剩余<span class="details_schedule_yew"><?php if(empty($vo['gp_num']) || (($vo['gp_num'] instanceof \think\Collection || $vo['gp_num'] instanceof \think\Paginator ) && $vo['gp_num']->isEmpty())): ?><?php echo $vo['gdr_membernum']; else: ?><?php echo $vo['gdr_membernum'] - $vo['gp_num']; endif; ?></span>人次
-                                </p>
+                                    <p class="rt">剩余<span class="details_schedule_yew"><?php if(empty($vo['gp_num']) || (($vo['gp_num'] instanceof \think\Collection || $vo['gp_num'] instanceof \think\Paginator ) && $vo['gp_num']->isEmpty())): ?><?php echo $vo['gdr_membernum']; else: ?><?php echo $vo['gdr_membernum'] - $vo['gp_num']; endif; ?></span>人次
+                                    </p>
 
-                                <div class="details_schedule_gray lf" style="width:6.6rem;background-color: #FFC7C7">
-                                    <div class="details_schedule_red" style="background-color:#FF2B2C ;background-image: none"></div>
+                                    <div class="details_schedule_gray lf" style="width:6.6rem;background-color: #FFC7C7">
+                                        <div class="details_schedule_red" style="background-color:#FF2B2C ;background-image: none"></div>
+                                    </div>
+                                    <span class="details_schedule_per a b<?php echo $key; ?>" style="display: none"><?php echo $vo['proportion']; ?>%</span>
                                 </div>
-                                <span class="details_schedule_per a b<?php echo $key; ?>" style="display: none"><?php echo $vo['proportion']; ?>%</span>
                             </div>
-                        </div>
-                        <div class="details_schedule_bottom clear">
-                            <?php if($vo['member_num'] < 1): ?>
-                            <p class="goodsp_span">快去成为第一个参团的人吧~</p>
-                            <?php elseif($vo['member_num'] < 2 AND $vo['member_num'] > 0): if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
-                            <div class="details_ul_list">
-                                <div class="details_schedule_name_pic lf">
-                                    <img alt=""
-                                         src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
-                                         class="details_errimg">
-                                </div>
-                                <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
-                                <?php if(!(empty($voo['o_addtime']) || (($voo['o_addtime'] instanceof \think\Collection || $voo['o_addtime'] instanceof \think\Paginator ) && $voo['o_addtime']->isEmpty()))): ?>
-                                <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
-                                <?php endif; ?>
-                            </div>
-                            <?php endforeach; endif; else: echo "" ;endif; else: ?>
-                            <div class="details_ul">
-                                <?php if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
+                            <div class="details_schedule_bottom clear">
+                                <?php if($vo['member_num'] < 1): ?>
+                                <p class="goodsp_span">快去成为第一个参团的人吧~</p>
+                                <?php elseif($vo['member_num'] < 2 AND $vo['member_num'] > 0): if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
                                 <div class="details_ul_list">
                                     <div class="details_schedule_name_pic lf">
                                         <img alt=""
-                                             src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
-                                             class="details_errimg">
+                                            src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
+                                            class="details_errimg">
                                     </div>
                                     <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
+                                    <?php if(!(empty($voo['o_addtime']) || (($voo['o_addtime'] instanceof \think\Collection || $voo['o_addtime'] instanceof \think\Paginator ) && $voo['o_addtime']->isEmpty()))): ?>
                                     <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
+                                    <?php endif; ?>
                                 </div>
-                                <?php endforeach; endif; else: echo "" ;endif; ?>
+                                <?php endforeach; endif; else: echo "" ;endif; else: ?>
+                                <div class="details_ul">
+                                    <?php if(is_array($vo['member']) || $vo['member'] instanceof \think\Collection || $vo['member'] instanceof \think\Paginator): $key = 0; $__LIST__ = $vo['member'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$voo): $mod = ($key % 2 );++$key;?>
+                                    <div class="details_ul_list">
+                                        <div class="details_schedule_name_pic lf">
+                                            <img alt=""
+                                                src="<?php echo (isset($voo['m_s_avatar']) && ($voo['m_s_avatar'] !== '')?$voo['m_s_avatar']:'__STATIC__/image/myhome/TIM20180731142117.jpg'); ?>"
+                                                class="details_errimg">
+                                        </div>
+                                        <p class="lf"><?php echo isset($voo['s_name']) ? $voo['s_name'] :  ''; ?> <span>已参团</span></p>
+                                        <span class="rt"><?php echo date('Y-m-d H:i',$voo['o_addtime']); ?></span>
+                                    </div>
+                                    <?php endforeach; endif; else: echo "" ;endif; ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
-                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
-                <?php elseif(($goods['play_type'] == 3)): endif; endforeach; endif; else: echo "" ;endif; endif; if($is_lord ==1): else: if(!(empty($comment['list']) || (($comment['list'] instanceof \think\Collection || $comment['list'] instanceof \think\Paginator ) && $comment['list']->isEmpty()))): ?>
+                <?php elseif(($goods['play_type'] == 3)): ?>
+                    <div class="details_schedule_stirp clear">
+                        <div class="details_carousel detail_huasheng_carousel">
+                            <div class="details_schedule_top clear">
+                                <div class="details_schedule_center lf" style="width:6.6rem">
+                                    <p class="lf">已参与<span class="details_schedule_yew"><?php echo isset($vo['gp_num']) ? $vo['gp_num'] :  0; ?></span>人次</p>
+                                    <p class="rt">剩余
+                                        <span class="details_schedule_yew">
+                                            <?php if(empty($vo['gp_num']) || (($vo['gp_num'] instanceof \think\Collection || $vo['gp_num'] instanceof \think\Paginator ) && $vo['gp_num']->isEmpty())): ?>
+                                                <?php echo $vo['gdr_membernum']; else: ?>
+                                                <?php echo $vo['gdr_membernum'] - $vo['gp_num']; endif; ?>
+                                        </span>
+                                        人次
+                                    </p>
+                                    <div class="details_schedule_gray lf" style="width:6.6rem;background-color: #FFF8D7;height:0.24rem;border-radius: 0.12rem;">
+                                        <div class="details_schedule_red" style="background-color:#FFD714 ;background-image: none;border-radius: 0.12rem;height:100%;"></div>
+                                    </div>
+                                    <span class="details_schedule_per a b<?php echo $key; ?>" style="display: none"><?php echo $vo['proportion']; ?>%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php endif; endforeach; endif; else: echo "" ;endif; endif; if($is_lord ==1): else: if(!(empty($comment['list']) || (($comment['list'] instanceof \think\Collection || $comment['list'] instanceof \think\Paginator ) && $comment['list']->isEmpty()))): ?>
             <!--没有评价的时候隐藏该div开始-->
             <div class="goodsproduct_pingjia_view">
                 <!--<a href="/member/goodsproduct/comment_list/gp_id/<?php echo $goods['gp_id']; ?>">-->
@@ -918,21 +1111,23 @@
             <div class="details_canpai_main">
                 <div class="details_canpai_top clear">
                     <?php if($goods['is_fudai']==1 || $goods['is_huodong']==1): ?>
-                    <div class="details_canpai_pic lf details_canpai_pic_fudai">
-                        <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt=""
-                             class="details_shiyi_fudai">
-                        <img src="__CDN_PATH__<?php echo (isset($goods['g_s_img']) && ($goods['g_s_img'] !== '')?$goods['g_s_img']:''); ?>">
-                    </div>
+                        <div class="details_canpai_pic lf details_canpai_pic_fudai">
+                            <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt=""
+                                class="details_shiyi_fudai">
+                            <img src="__CDN_PATH__<?php echo (isset($goods['g_s_img']) && ($goods['g_s_img'] !== '')?$goods['g_s_img']:''); ?>">
+                        </div>
                     <?php else: ?>
-                    <div class="details_canpai_pic lf">
-                        <img src="__CDN_PATH__<?php echo (isset($goods['g_s_img']) && ($goods['g_s_img'] !== '')?$goods['g_s_img']:''); ?>">
-                    </div>
+                        <div class="details_canpai_pic lf">
+                            <img src="__CDN_PATH__<?php echo (isset($goods['g_s_img']) && ($goods['g_s_img'] !== '')?$goods['g_s_img']:''); ?>">
+                        </div>
                     <?php endif; ?>
                     <div class="details_canpai_text lf">
                         <p class="details_canpai_tit">
 
                             <!--福袋规则判断-->
-                            <?php if(($goods['play_type'] == 1)): elseif(($goods['play_type'] == 2)): ?>
+                            <?php if(($goods['play_type'] == 1)): if($goods['gp_condition'] == 1): ?>
+                                <img src="__STATIC__/image/goodsproduct/icon_xrsd@2x.png" alt="" style="width:0.92rem;height:0.3rem">
+                                <?php endif; elseif(($goods['play_type'] == 2)): ?>
                             <img src="__STATIC__/image/goodsproduct/icon_hsbq@2x.png" alt="" style="width:0.92rem;height:0.3rem">
                             <?php elseif(($goods['play_type'] == 3)): endif; ?>
                             
@@ -947,30 +1142,43 @@
                         <img src="__STATIC__/image/details/652@2x.png">
                     </div>
                 </div>
-                <!--选择价格-->
-                <div class="details_canpai_quantity details_evaluate_padding clear">
-                    <div class="details_canpainum  clear">
-                        <p>选择价格</p>
-                        <?php if(!(empty($gdr_list) || (($gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator ) && $gdr_list->isEmpty()))): if(is_array($gdr_list) || $gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator): $i = 0; $__LIST__ = $gdr_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gdr_vo): $mod = ($i % 2 );++$i;?>
-                        <div class="details_discount lf" gdr_id="<?php echo $gdr_vo['gdr_id']; ?>" gdr_price="<?php echo $gdr_vo['gdr_price']; ?>"
-                             left_num="<?php echo (isset($gdr_vo['left_num']) && ($gdr_vo['left_num'] !== '')?$gdr_vo['left_num']:0); ?>"><?php echo $gdr_vo['gdt_name']; ?>
+                <!-- {if condition="($goods.play_type == 1)"} -->
+                <?php if(($goods['play_type'] == 3)): ?>
+                    <div class="details_canpai_quantity details_evaluate_padding clear" style="display: none;">
+                        <div class="details_canpainum  clear">
+                            <p>选择价格</p>
+                            <?php if(!(empty($gdr_list) || (($gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator ) && $gdr_list->isEmpty()))): if(is_array($gdr_list) || $gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator): $i = 0; $__LIST__ = $gdr_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gdr_vo): $mod = ($i % 2 );++$i;?>
+                                    <div class="details_discount lf" gdr_id="<?php echo $gdr_vo['gdr_id']; ?>" gdr_price="<?php echo $gdr_vo['gdr_price']; ?>"
+                                        left_num="<?php echo (isset($gdr_vo['left_num']) && ($gdr_vo['left_num'] !== '')?$gdr_vo['left_num']:0); ?>"><?php echo $gdr_vo['gdt_name']; ?>
+                                    </div>
+                                <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                            <input type="hidden" name="gdr_id" value="<?php echo (isset($gdr_list[0]['gdr_id']) && ($gdr_list[0]['gdr_id'] !== '')?$gdr_list[0]['gdr_id']:''); ?>"/>
                         </div>
-                        <?php endforeach; endif; else: echo "" ;endif; endif; ?>
-                        <input type="hidden" name="gdr_id" value="<?php echo (isset($gdr_list[0]['gdr_id']) && ($gdr_list[0]['gdr_id'] !== '')?$gdr_list[0]['gdr_id']:''); ?>"/>
-
-
+                        <p class="details_pitch_text">当前折扣剩余<span class="left_num"><?php echo $goods['gp_stock']; ?></span>份</p>
                     </div>
-                    <p class="details_pitch_text">当前折扣剩余<span class="left_num"><?php echo $goods['gp_stock']; ?></span>份</p>
-                </div>
-                <!--选择价格 end-->
+                <?php else: ?>
+                    <!--选择价格-->
+                    <div class="details_canpai_quantity details_evaluate_padding clear">
+                        <div class="details_canpainum  clear">
+                            <p>选择价格</p>
+                            <?php if(!(empty($gdr_list) || (($gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator ) && $gdr_list->isEmpty()))): if(is_array($gdr_list) || $gdr_list instanceof \think\Collection || $gdr_list instanceof \think\Paginator): $i = 0; $__LIST__ = $gdr_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$gdr_vo): $mod = ($i % 2 );++$i;?>
+                                    <div class="details_discount lf" gdr_id="<?php echo $gdr_vo['gdr_id']; ?>" gdr_price="<?php echo $gdr_vo['gdr_price']; ?>"
+                                        left_num="<?php echo (isset($gdr_vo['left_num']) && ($gdr_vo['left_num'] !== '')?$gdr_vo['left_num']:0); ?>"><?php echo $gdr_vo['gdt_name']; ?>
+                                    </div>
+                                <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                            <input type="hidden" name="gdr_id" value="<?php echo (isset($gdr_list[0]['gdr_id']) && ($gdr_list[0]['gdr_id'] !== '')?$gdr_list[0]['gdr_id']:''); ?>"/>
+                        </div>
+                        <p class="details_pitch_text">当前折扣剩余<span class="left_num"><?php echo $goods['gp_stock']; ?></span>份</p>
+                    </div>
+                <?php endif; ?>
+               
                 <div class="details_canpai_quantity clear">
                     <div class="details_canpainum lf">
-                        <!-- 加判断 -->
-                        <?php if($is_lord ==1): else: ?>
-                        <p>份数(每份对应一个吖吖码)</p>
+                        <?php if(($goods['play_type'] == 3)): ?>
+                            <p>份数</p>
+                        <?php else: ?>
+                            <p>份数(每份对应一个吖吖码)</p>
                         <?php endif; ?>
-
-
                         <span>该商品此折扣价单个用户仅限<span id="gdr_membernum">0</span>份</span>
                     </div>
                     <div class="details_canpai_but rt clear">
@@ -990,24 +1198,24 @@
                     <input type="hidden" name="gs_id" value="<?php echo (isset($goods['g_typeid']) && ($goods['g_typeid'] !== '')?$goods['g_typeid']:1); ?>"/>
                     <input type="hidden" name="gp_id" value="<?php echo $goods['gp_id']; ?>"/>
                     <input type="hidden" name="m_id" value="<?php echo (isset($m_id) && ($m_id !== '')?$m_id:0); ?>"/>
-
-
-
-
                     <!--福袋规则判断-->
                     <?php if(($goods['play_type'] == 1)): if($goods['is_fudai']==1): ?>
-                    <div class="details_canpai_sure details_canpai_fudai">
-                        确定参团
-                    </div>
-                    <?php else: ?>
-                    <div class="details_canpai_sure">
-                        确定参团
-                    </div>
-                    <?php endif; elseif(($goods['play_type'] == 2)): ?>
-                    <div class="details_canpai_sure" style="background-image: linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1))">
-                        确定参团
-                    </div>
-                    <?php elseif(($goods['play_type'] == 3)): endif; ?>
+                        <div class="details_canpai_sure details_canpai_fudai">
+                            确定参团
+                        </div>
+                        <?php else: ?>
+                        <div class="details_canpai_sure">
+                            确定参团
+                        </div>
+                        <?php endif; elseif(($goods['play_type'] == 2)): ?>
+                        <div class="details_canpai_sure" style="background-image: linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1))">
+                            确定参团
+                        </div>
+                    <?php elseif(($goods['play_type'] == 3)): ?>
+                        <div class="details_canpai_sure" style="background: #FFD714;color:#333333">
+                            确定参团
+                        </div>
+                    <?php endif; ?>
 
                 </a>
             </div>
@@ -1087,22 +1295,28 @@
     <!--立即参与按钮-->
     <!--福袋规则判断-->
     <?php if(($goods['play_type'] == 1)): if($goods['is_fudai']==1): if($goods['gp_state']==1 && $goods['g_starttime'] <= $time && $goods['g_endtime'] > $time): ?>
-            <button class="details_bottom_rt auction lf details_bottom_rt_fudai">立即参与</button>
+                <button class="details_bottom_rt auction lf details_bottom_rt_fudai">立即参与</button>
             <?php else: ?>
-            <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>
+                <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>
             <?php endif; else: if(($goods['g_endtime'] - $time<0) || ($goods['g_starttime']> $time)): ?>
-            <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>
+                <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>
             <?php else: if(($goods['gp_stock']>0)): ?>
                 <button class="details_bottom_rt auction lf">立即参与</button>
                 <?php else: ?>
                 <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即参与</button>
                 <?php endif; endif; endif; elseif(($goods['play_type'] == 2)): if(($goods['g_endtime'] - $time<0) || ($goods['g_starttime']> $time)): ?>
-        <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即购买</button>
+            <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即购买</button>
         <?php else: if(($goods['gp_stock']>0)): ?>
-        <button class="details_bottom_rt auction lf" style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">立即购买</button>
-        <?php else: ?>
-        <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即购买</button>
-        <?php endif; endif; elseif(($goods['play_type'] == 3)): endif; ?>
+                <button class="details_bottom_rt auction lf" style="background-image:linear-gradient(90deg,rgba(241,57,65,1),rgba(252,68,107,1)); ">立即购买</button>
+            <?php else: ?>
+                <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即购买</button>
+            <?php endif; endif; elseif(($goods['play_type'] == 3)): if(($goods['g_endtime'] - $time<0) || ($goods['g_starttime']> $time)): ?>
+            <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即购买</button>
+        <?php else: if(($goods['gp_stock']>0)): ?>
+                <button class="details_bottom_rt auction lf" style="background:#FFD714;color:#333333; ">立即购买</button>
+            <?php else: ?>
+                <button class="details_bottom_rt auction lf details_bottom_rt_bg" disabled="disabled">立即购买</button>
+            <?php endif; endif; endif; ?>
 
 
 
@@ -1826,9 +2040,9 @@
     $(".details_errimg").on("error", function () {
         $(this).attr("src", "/static/image/index/pic_home_taplace@2x.png")
     })
-    var type = "<?php echo $goods['play_type']; ?>"
-var states = "<?php echo $goods['g_state']; ?>"
-console.log(type, states);
+    // var type = "<?php echo $goods['play_type']; ?>"
+    // var states = "<?php echo $goods['g_state']; ?>"
+    // console.log(type, states);
 </script>
 
     <!-- <script>

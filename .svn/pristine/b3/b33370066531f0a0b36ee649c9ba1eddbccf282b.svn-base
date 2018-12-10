@@ -1,0 +1,706 @@
+<?php
+/**
+ * 拍吖吖活动Service
+ *-------------------------------------------------------------------------------------------
+ * 版权所有 杭州市拍吖吖科技有限公司
+ * 创建日期 2018-11-19
+ * 版本 v.1.0.0
+ * 网站：www.pai.com
+ *--------------------------------------------------------------------------------------------
+ */
+
+namespace app\data\service\Activity;
+
+use app\data\model\activity\ActivityModel;
+use app\data\service\member\MemberService as MemberService;
+use app\data\service\config\ConfigService as ConfigService;
+use app\data\service\orderPai\OrderPaiService;
+use RedisCache\RedisCache;
+use app\data\service\BaseService as BaseService;
+use think\Cookie;
+use think\Db;
+
+
+class ActivityService extends BaseService
+{
+    protected $cache = 'activity';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->activity = new ActivityModel();
+        $this->cache = 'activity';
+    }
+
+    /**
+     * 查询拍吖吖活动列表
+     * 创建人 刘勇豪
+     * 时间 2018-07-04 10:51:00
+     */
+    public function activityList($where = '', $field = '*', $order = 'a_id asc')
+    {
+        $list = $this->activity->getList($where, $order, $field, $this->cache);
+        return $list;
+    }
+
+    /**
+     * 获取拍吖吖活动信息
+     * 创建人 刘勇豪
+     * 时间 2018-07-04 10:51:00
+     */
+    public function activityInfo($where = '', $field = '*')
+    {
+        $info = $this->activity->getInfo($where, $field, $this->cache);
+
+        if(!empty($info)){
+            $a_id = $info['a_id'];
+
+            $banners = Db("activity_banner")->where(['a_id'=>$a_id])->select();
+            $info['banners'] = $banners;
+        }
+        return $info;
+    }
+
+    /**
+     * 条件统计拍吖吖活动数量
+     * 创建人 刘勇豪
+     * 时间 2018-07-04 10:51:00
+     */
+    public function activityCount($where = '')
+    {
+        $Count = $this->activity->getCount($where);
+        return $Count;
+    }
+
+    /**
+     * 拍吖吖活动分页查询
+     * 创建人 刘勇豪
+     * 时间 2018-07-04 10:51:00
+     */
+    public function getActivityPaginate($where = '', $field = '*', $order = "a.a_id asc", $page = 10)
+    {
+        $list = Db($this->cache)->alias('a')
+            ->field($field)
+            ->where($where)
+            ->order($order)
+            ->paginate($page,false,['query'=>request()->param()]);
+        return $list;
+    }
+
+    /**
+     * 拍吖吖活动商品分页查询
+     * 刘勇豪
+     * @param string $where
+     * @param string $field
+     * @param string $order
+     * @param int $page
+     * @return \think\Paginator
+     */
+    public function getActivitygoodsPaginate($where = '', $field = '*', $order = "ag.sort asc", $page = 10)
+    {
+        $list = Db("activity")->alias('a')
+            ->field($field)
+            ->join('pai_activity_goods ag', 'ag.a_id = a.a_id', 'left')
+            ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+            ->join('pai_store s', 's.store_id = g.g_storeid', 'left')
+            ->where($where)
+            ->order($order)
+            ->paginate($page,false,['query'=>request()->param()]);
+        return $list;
+    }
+
+    /**
+     * 商品列表
+     * 刘勇豪
+     * @param string $where
+     * @param string $field
+     * @param string $order
+     * @param int $page
+     * @return \think\Paginator
+     */
+    public function getGoodsPaginate($where = '', $field = '*', $order = "g.g_id desc", $page = 10)
+    {
+        $list = Db("goods")->alias('g')
+            ->field($field)
+            ->join('pai_goods_product gp', 'gp.g_id = g.g_id', 'left')
+            ->join('pai_store s', 's.store_id = g.g_storeid', 'left')
+            ->where($where)
+            ->order($order)
+            ->paginate($page,false,['query'=>request()->param()]);
+        return $list;
+    }
+
+    /**
+     * 提交数据的检查
+     * @param $data
+     * @return array
+     */
+    public function check_data($data){
+        if(empty($data)){
+            return ['status'=>0,"msg"=>"empty ！","data"=>""];
+        }
+
+        if(!isset($data['a_name']) || empty($data['a_name'])){
+            return ['status'=>0,"msg"=>"empty data！","data"=>""];
+        }
+
+        if(!isset($data['a_start_time']) || empty($data['a_start_time'])){
+            return ['status'=>0,"msg"=>"请设置开始时间！","data"=>""];
+        }
+
+        if(!isset($data['a_end_time']) || empty($data['a_end_time'])){
+            return ['status'=>0,"msg"=>"请设置结束时间！","data"=>""];
+        }
+
+        if($data['a_end_time'] <= $data['a_start_time']){
+            return ['status'=>0,"msg"=>"活动结束时间必须大于开始时间！","data"=>""];
+        }
+
+        return ['status'=>8,"msg"=>"test and pass ！","data"=>""];
+
+
+    }
+
+    /**
+     * 活动添加或编辑
+     * 刘勇豪
+     */
+    public function activity_edit($data='',$admin_id=0){
+        $check = $this->check_data($data);
+        if(!$check['status']){
+            return $check;
+        }
+        $ab_imgs = $data['ab_img'];
+        unset($data['ab_img']);
+
+
+        // 上传logo图
+        if($data['a_logo'] && strlen($data['a_logo']) > 100){
+            $a_logo = $this->activity->ba64_img([$data['a_logo']],'logo');
+            if(!$a_logo){
+                return ['status'=>0,"msg"=>"logo保存失败 ！","data"=>""];
+            }
+            $data['a_logo'] = $a_logo[0];
+        }
+
+        // 时间转时间戳
+        $data['a_start_time'] = strtotime($data['a_start_time']);
+        $data['a_end_time'] = strtotime($data['a_end_time']);
+
+
+
+        // 管理员id
+        $data['admin_id'] = $admin_id;
+
+        if( isset($data['a_id']) && $data['a_id']){
+            // 修改
+            $a_id = $data['a_id'];
+            $res = Db("activity")->where(['a_id'=>$a_id])->update($data);
+        }else{
+            // 新增
+
+            // 生成a_code
+            $data['a_code'] = "act".time();
+
+            $a_id = Db("activity")->insertGetId($data);
+            if(!$a_id){
+                return ['status'=>0,"msg"=>"活动添加失败 ！","data"=>""];
+            }
+        }
+
+        //上传banner图
+        if(!empty($ab_imgs) && is_array($ab_imgs)){
+            foreach($ab_imgs as $val){
+                $data_imgs = [];
+                $data_imgs['a_id'] = $a_id;
+                $data_imgs['ab_href'] = $val['href_data'];//
+                $data_imgs['ab_state'] = 1;//默认
+                if(strlen($val['img_data']) > 100){
+                    $banners = $this->activity->ba64_img([$val['img_data']],'activity');
+                    $data_imgs['ab_img'] =$banners[0];//返回的图片
+                    $add = Db::table("pai_activity_banner")->insert($data_imgs);
+                    if(!$add){
+                        return ['status'=>0,"msg"=>"有图片上传失败 ！","data"=>""];
+                    }
+                }elseif($val['ab_id']){
+                    $data_imgs['ab_img'] = $val['img_data'];
+                    Db::table("pai_activity_banner")->where(['ab_id'=>$val['ab_id']])->update($data_imgs);
+                }
+            }
+        }
+
+        return ['status'=>8,"msg"=>"保存成功 ！","data"=>""];
+
+    }
+
+    /**
+     * 活动关闭
+     * 刘勇豪
+     * @param int $a_id
+     * @return array
+     */
+    public function activity_close($a_id=0){
+        $res = Db("activity")->where(['a_id'=>$a_id])->update(['a_state'=>0]);
+        if(!$res){
+            return ['status'=>0,"msg"=>"failed ！","data"=>""];
+        }
+
+        return ['status'=>8,"msg"=>"success ！","data"=>""];
+    }
+
+    /**
+     * 活动开启
+     * 刘勇豪
+     * @param int $a_id
+     * @return array
+     */
+    public function activity_open($a_id=0){
+        $res = Db("activity")->where(['a_id'=>$a_id])->update(['a_state'=>1]);
+        if(!$res){
+            return ['status'=>0,"msg"=>"failed ！","data"=>""];
+        }
+
+        return ['status'=>8,"msg"=>"success ！","data"=>""];
+    }
+
+    /**
+     * 删除活动banner
+     * 刘勇豪
+     */
+    public function delete_banner($ab_id){
+        $delete_banner = Db("activity_banner")->where(['ab_id'=>$ab_id])->find();
+        if(empty($delete_banner)){
+            return ['status'=>0,"msg"=>"数据库找不到此文件 ！","data"=>""];
+        }
+        $res = Db("activity_banner")->where(['ab_id'=>$ab_id])->delete();
+        if(file_exists($delete_banner['ab_img'])){
+            unlink($delete_banner['ab_img']);
+        }
+        return ['status'=>8,"msg"=>"success ！","data"=>""];
+    }
+
+    /**
+     * 活动添加商品
+     * 刘勇豪
+     * @param int $a_id
+     * @param int $ag_type
+     * @param string $g_ids
+     * @param int $admin_id
+     * @return array
+     */
+    public function add_goods($a_id=0,$ag_type=0,$g_ids='',$admin_id=0){
+
+        if(!$a_id || !$g_ids){
+            return ['status'=>0,"msg"=>"参数错误 ！","data"=>""];
+        }
+
+        $g_ids = trim($g_ids,",");
+        $arr_ids = explode(",", $g_ids);
+        if(empty($arr_ids)){
+            return ['status'=>0,"msg"=>"请选择商品 ！","data"=>""];
+        }else{
+            $data = '';
+            foreach($arr_ids as $k=>$v){
+                $data[$k]['a_id'] = $a_id;
+                $data[$k]['ag_gid'] = $v;
+                $data[$k]['ag_state'] = 8;
+                $data[$k]['ag_adminid'] = $admin_id;
+                $data[$k]['ag_add_time'] = time();
+                $data[$k]['ag_update_time'] = time();
+                $data[$k]['ag_type'] = $ag_type;
+            }
+            $res = Db("activity_goods")->insertAll($data);
+            if(!$res){
+                return ['status'=>0,"msg"=>"数据库繁忙，添加失败 ！","data"=>""];
+            }
+        }
+
+        return ['status'=>8,"msg"=>"添加成功 ！","data"=>$res];
+
+    }
+
+    /**
+     * 活动添加商品
+     * 刘勇豪
+     * @param int $a_id
+     * @param int $g_id
+     * @return array
+     */
+    public function del_goods($a_id=0,$g_id=0){
+
+        if(!$a_id || !$g_id){
+            return ['status'=>0,"msg"=>"参数错误 ！","data"=>""];
+        }
+
+        $where = '';
+        $where['a_id'] = $a_id;
+        $where['ag_gid'] = $g_id;
+        $res = Db("activity_goods")->where($where)->delete();
+        if(!$res){
+            return ['status'=>0,"msg"=>"数据库繁忙，操作失败 ！","data"=>""];
+        }
+
+        return ['status'=>8,"msg"=>"删除成功 ！","data"=>$res];
+
+    }
+
+    /**
+     * 查询拍吖吖活动列表
+     * 创建人 刘勇豪
+     * 时间 2018-07-04 10:51:00
+     */
+    public function activity_goods_list($where = '', $field = '*', $order = 'ag_id asc')
+    {
+        $list = Db("activity_goods")->field($field)->where($where)->select();
+        return $list;
+    }
+
+    /**
+     * 商品参拍价最小值
+     * 刘勇豪
+     * @param int $g_id
+     * @return int|mixed
+     */
+    public function min_goods_price($g_id=0){
+        $gdr_price = Db("goods_dt_record")->where(['g_id'=>$g_id])->min("gdr_price");
+        $gdr_price = $gdr_price?$gdr_price:0;
+        return $gdr_price;
+    }
+    /**
+     * 商品参拍价最大值
+     * 刘勇豪
+     * @param int $g_id
+     * @return int|mixed
+     */
+    public function max_goods_price($g_id=0){
+        $gdr_price = Db("goods_dt_record")->where(['g_id'=>$g_id])->max("gdr_price");
+        $gdr_price = $gdr_price?$gdr_price:0;
+        return $gdr_price;
+    }
+
+    /**
+     * 修改广告商品的banner
+     * 刘勇豪
+     * @param int $ag_id
+     * @param string $ag_banner
+     * @return array
+     */
+    public function update_ads_banner($ag_id=0,$ag_banner=''){
+        if(!$ag_id || !$ag_banner || strlen($ag_banner) < 100){
+            return ['status'=>0,"msg"=>"参数错误 ！","data"=>""];
+        }
+
+        // 活动商品详情
+        $activity_goods = Db("activity_goods")->where(['ag_id'=>$ag_id])->find();
+        if(empty($activity_goods)){
+            return ['status'=>0,"msg"=>"活动商品不存在 ！","data"=>$activity_goods];
+        }
+
+        // 上传图片
+        $up_banner = $this->activity->ba64_img([$ag_banner],'activity');
+        if(!$up_banner){
+            return ['status'=>0,"msg"=>"ag_banner上传失败 ！","data"=>""];
+        }
+        $data = '';
+        $data['ag_banner'] = $up_banner[0];
+        $res = Db("activity_goods")->where(['ag_id'=>$ag_id])->update($data);
+        if(!$res){
+            return ['status'=>0,"msg"=>"数据库繁忙，图片保存失败 ！","data"=>""];
+        }
+
+        // 删除源文件
+        if($ag_banner && file_exists($activity_goods['ag_banner'])){
+            unlink($activity_goods['ag_banner']);
+        }
+
+        return ['status'=>8,"msg"=>"图片更新成功 ！","data"=>$res];
+
+    }
+
+    /**
+     * 活动页详情
+     * 刘勇豪
+     * @param string $code
+     * @return array
+     */
+    public function page_info($code=''){
+        if(!$code){
+            return ['status'=>0,"msg"=>"参数错误 ！","data"=>''];
+        }
+
+        $info = Db("activity")->alias("ac")->where(['a_code'=>$code])->find();
+        if(empty($info)){
+            return ['status'=>0,"msg"=>"活动不存在 ！","data"=>''];
+        }
+
+        $a_id = $info['a_id'];
+        $a_state = $info['a_state'];
+        $a_product_type = $info['a_product_type'];
+        $a_start_time = $info['a_start_time'];
+        $a_end_time = $info['a_end_time'];
+
+        if($a_state != 1){
+            return ['status'=>0,"msg"=>"活动关闭，页面暂停展示 ！","data"=>''];
+        }
+
+        // 轮播banner
+        $activity_banner = Db("activity_banner")->alias("ab")
+            ->where(['ab.a_id'=>$a_id])
+            ->select();
+        $info['activity_banner'] = $activity_banner;
+
+        // 广告商品列表
+        $ads_goods = Db("activity_goods")->alias("ag")
+            ->field("ag.ag_gid,ag.ag_sort,ag.ag_banner")
+            ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+            ->where(['ag.a_id'=>$a_id,'ag.ag_type'=>1,'ag.ag_banner'=>['neq',''],'g.g_state'=>6,'gp.gp_stock'=>['gt',0]])
+            ->order("ag.ag_sort asc")
+            ->limit(2)
+            ->select();
+        $info['ads_goods'] = $ads_goods;
+
+        // 推荐商品列表
+        $tj_goods = Db("activity_goods")->alias("ag")
+            ->field("g.g_id,gp.gp_id,gp.gp_img,g.g_name,g.g_img,g.g_s_img")
+            ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+            ->where(['ag.a_id'=>$a_id,'ag.ag_type'=>2,'g.g_state'=>6,'gp.gp_stock'=>['gt',0]])
+            ->order("ag.ag_sort asc")
+            ->select();
+        if(!empty($tj_goods)){
+            $orderPai = new OrderPaiService();
+            foreach($tj_goods as $k=>$v){
+                $gdr_info = Db("goods_dt_record")->where(['g_id'=>$v['g_id']])->find();
+                if(empty($gdr_info)){
+                    return ['status'=>0,"msg"=>"商品折扣不存在 ！","data"=>''];
+                }
+
+                $gdr_id = $gdr_info['gdr_id'];
+                $gdr_membernum = $gdr_info['gdr_membernum'];
+                $tj_goods[$k]['gdr_id'] = $gdr_id;
+                $tj_goods[$k]['gdr_price'] = $gdr_info['gdr_price'];
+                $call_create = $orderPai->createPeriods($gdr_id);
+                if(!$call_create['status']){
+                    return $call_create['msg'];
+                }
+                $maxPeriods = $call_create['data'];//当前第几期在团
+                $where_award['gdr_id'] = $gdr_id;
+                $where_award['o_periods'] = $maxPeriods;
+                $pai_num = $orderPai->countPaiNum($where_award);// 已团数量
+                $left_num = $gdr_membernum - $pai_num;
+                $tj_goods[$k]['left_num'] = $left_num;
+                $tj_goods[$k]['pai_periods'] = $maxPeriods;
+                $tj_goods[$k]['gp_num'] = $pai_num;
+                $tj_goods[$k]['left_num'] = $left_num;
+                //参团率
+                $proportion = $pai_num/$gdr_membernum*100;
+                if($proportion < 99){
+                    $tj_goods[$k]['proportion'] = ceil($proportion);
+                }else{
+                    $tj_goods[$k]['proportion'] = floor($proportion);
+                }
+
+            }
+        }
+        $info['tj_goods'] = $tj_goods;
+
+        return ['status'=>8,"msg"=>"success ！","data"=>$info];
+    }
+
+    /**
+     * 活动活动商品
+     * 刘勇豪
+     * @param string $where
+     * @param string $order
+     * @param string $field
+     * @param string $limit
+     * @param string $cache
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function get_activity_goods($where = '', $order = 'ag.ag_sort asc', $field = '*', $limit = "0,5", $cache = 'activity_goods'){
+
+        // 1.找到活动的id
+        if(!isset($where['a.a_code'])){
+            return ['status'=>0,"msg"=>"缺少关键参数：a.a_code ！","data"=>''];
+        }
+        $active = Db("activity")->where(['a_code'=>$where['a.a_code']])->find();
+        if(empty($active)){
+            return ['status'=>0,"msg"=>"活动不存在：a.a_code ！","data"=>''];
+        }
+        $a_id = $active['a_id'];//活动id
+
+        // 1.查出所有的需要的折扣gdr_id
+        $gdr_id_list = Db("activity_goods")->alias("ag")
+            ->field("gdr.gdr_id")
+            ->join('pai_goods_dt_record gdr', 'gdr.g_id = ag.ag_gid', 'left')
+            ->where(['ag.a_id'=>$a_id])
+            ->group("ag.ag_gid")
+            ->select();
+        if(empty($gdr_id_list)){
+            return ['status'=>0,"msg"=>"empty data !","data"=>''];
+        }
+        $arr_gdr_ids = array_filter(array_column($gdr_id_list, 'gdr_id'));
+
+        $list = Db("activity")->alias('a')
+            ->field($field)
+            ->join('pai_activity_goods ag', 'ag.a_id = a.a_id', 'left')
+            ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_dt_record gdr', 'gdr.g_id = ag.ag_gid', 'left')
+            ->where($where)
+            ->where(['gdr.gdr_id'=>['in',$arr_gdr_ids]])
+            ->order($order)
+            ->limit($limit)
+            ->select();
+
+        $total_num = Db("activity")->alias('a')
+            ->join('pai_activity_goods ag', 'ag.a_id = a.a_id', 'left')
+            ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_dt_record gdr', 'gdr.g_id = ag.ag_gid', 'left')
+            ->where($where)
+            ->where(['gdr.gdr_id'=>['in',$arr_gdr_ids]])
+            ->count();
+        return ['status'=>8,"msg"=>"success !","data"=>$list,'total_num'=>$total_num];
+    }
+
+    /**
+     * 首页获取超值购活动商品
+     * 刘勇豪
+     * @param string $where
+     * @return array
+     */
+    public function get_cztg_goods($where=''){
+        $activity = Db("activity")->field("a_id,a_name,a_logo,a_product_type,a_start_time,a_end_time,a_state,a_code")->where($where)->find();
+        if(empty($activity)){
+            return ['status'=>0,"msg"=>"no activity !","data"=>''];
+        }
+        $a_id = $activity['a_id'];
+
+        $goods_list = Db("activity_goods")->alias("ag")
+            ->field("g.g_id,g_s_img,gp.gp_market_price")
+            ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+            ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+            ->where(['a_id'=>$a_id,'ag_type'=>2])
+            ->order("ag.ag_sort asc")
+            ->limit(6)
+            ->select();
+        $count = count($goods_list);
+        if($count < 6){
+            $goods_list2 = Db("activity_goods")->alias("ag")
+                ->field("g.g_id,g_s_img,gp.gp_market_price")
+                ->join('pai_goods g', 'g.g_id = ag.ag_gid', 'left')
+                ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+                ->where(['a_id'=>$a_id,'ag_type'=>['lt',2]])
+                ->order("ag.ag_sort asc")
+                ->limit(6-$count)
+                ->select();
+            if(!empty($goods_list2)){
+                $goods_list = array_merge($goods_list,$goods_list2);
+            }
+        }
+        if(!empty($goods_list)){
+            foreach($goods_list as $k=>$v){
+                $min_price = $this->min_goods_price($v['g_id']);
+                $goods_list[$k]['min_price'] = $min_price;
+            }
+        }
+        $data['activity'] = $activity;
+        $data['goods_list'] = $goods_list;
+        if(!empty($data['activity']) && $data['goods_list']){
+            $redis = RedisCache::getInstance(1);
+            $redis->set('cztg',json_encode($data),1200);
+        }
+
+        return ['status'=>8,"msg"=>"ok !","data"=>$data];
+
+    }
+
+    /**
+     * 活动商品设置排序
+     * 刘勇豪
+     * @param int $ag_id
+     * @param int $ag_sort
+     * @return array
+     */
+    public function update_ag_sort($ag_id=0,$ag_sort=0){
+        if(!$ag_id){
+            return ['status'=>0,"msg"=>"参数错误 !","data"=>''];
+        }
+
+        $res = Db("activity_goods")->where(['ag_id'=>$ag_id])->update(['ag_sort'=>$ag_sort]);
+
+        $redis = RedisCache::getInstance();
+        $redis->del('cztg');
+
+        return ['status'=>8,"msg"=>"排序修改成功 !","data"=>$res];
+
+    }
+
+    /**
+     * 获取最新10个活动商品的参团人
+     * 刘勇豪
+     * @param int $a_id
+     * @return array|false|\PDOStatement|string|\think\Collection
+     */
+    public function get_last_pai_mem($a_id=0){
+        if(!$a_id){
+            return ['status'=>0,"msg"=>"参数错误 !","data"=>''];
+        }
+
+        $redis = RedisCache::getInstance(1);
+        $last_paimems = $redis->get('last_paimems'.$a_id);
+        if($last_paimems){
+            $last_paimems = json_decode($last_paimems,true);
+            return ['status'=>8,"msg"=>"ok !","data"=>$last_paimems,'type'=>'redis'];
+        }else{
+            //获取活动商品id
+            $row = Db("activity_goods")->alias("ag")
+                ->field("gp.gp_id")
+                ->join('pai_goods_product gp', 'gp.g_id = ag.ag_gid', 'left')
+                ->where(['a_id'=>$a_id])
+                ->select();
+
+            $gpids = '0';
+            if(!empty($row)){
+                $gpids = array_column($row, 'gp_id');
+            }
+
+            $where = '';
+            $where['o.gp_id'] = ['in',$gpids];
+            $where['o.o_paystate'] = ['gt',1];
+            $last_paimems = Db("order_pai")->alias("o")
+                ->field('m.m_name,m.m_avatar,m.m_s_avatar')
+                ->join('pai_member m', 'm.m_id = o.m_id', 'left')
+                ->where($where)
+                ->order("o.o_paytime desc")
+                ->limit(10)
+                ->select();
+
+            if(!empty($last_paimems)){
+                foreach($last_paimems as $k=>$v){
+                    $s_name = '';
+                    if(mb_strlen($v['m_name'],'utf-8') == 1 ){
+                        $s_name = $v['m_name']."**";
+                    }elseif(mb_strlen($v['m_name'],'utf-8') > 1){
+                        $str_first = mb_substr($v['m_name'],0,1,"utf-8");
+                        $str_last = mb_substr($v['m_name'],-1,1,"utf-8");
+                        $s_name = $str_first."**".$str_last;
+                    }
+                    $last_paimems[$k]['s_name'] = $s_name;
+                }
+            }
+
+            $redis = RedisCache::getInstance(1);
+            $redis->set('last_paimems'.$a_id,json_encode($last_paimems),10);
+
+            return ['status'=>8,"msg"=>"ok !","data"=>$last_paimems,'type'=>'mysql'];
+        }
+
+
+
+
+    }
+}

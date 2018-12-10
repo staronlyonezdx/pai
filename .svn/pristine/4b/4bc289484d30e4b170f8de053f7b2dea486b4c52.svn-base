@@ -1,0 +1,63 @@
+.recharge_transition{
+    width:7.5rem;
+    margin-top: 0.15rem;
+}
+.recharge_transition_card,.recharge_transition_card_huasheng{
+    width:7.5rem;
+    height:2.92rem;
+    overflow: hidden;
+}
+.recharge_transition_card{
+    background: url(../../image/wallet/banr2@2x.png) no-repeat center center;
+    background-size: 100% 100%;
+}
+.recharge_transition_card_huasheng{
+    background: url(../../image/wallet/banr1@2x.png) no-repeat center center;
+    background-size: 100% 100%;
+}
+.recharge_transition_card .recharge_transition_yuer{
+    margin-top: 0.78rem;
+    margin-left:0.78rem;
+    font-size: 0.24rem;
+    font-family:PingFang SC;
+    font-weight:600;
+}
+.recharge_transition_card p{
+    margin-top: 0.12rem;
+    margin-left:0.78rem;
+    font-size: 0.24rem;
+    font-family:SF Pro Text;
+    font-weight:600;
+}
+.recharge_transition_card p span{
+    font-size:0.48rem;
+}
+.recharge_transition_yuerbtn{
+    width:2rem;
+    height:0.8rem;
+    background: #fff;
+    border-radius:0.4rem;
+    box-shadow:0 0.06rem 0.12rem rgba(0,0,0,0.06);
+    text-align: center;
+    line-height: 0.8rem;
+    color:#000000;
+    font-family:FZZhengHeiS-M-GB;
+    font-weight:600;
+    margin-top: 0.88rem;
+    margin-right: 0.7rem;
+}
+.recharge_transition_kefu{
+    color:#679DF4;
+    display: block;
+    font-size: 0.26rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    position: fixed;
+    bottom:1.62rem;
+    left: 2.46rem;;
+}
+a:link { color:#679DF4; }/* 超链接的样式 */
+a:visited { color:#679DF4;}
+a:visited:hover { color:#679DF4;}
+a:hover { color:#679DF4;}
+a:active { color:#679DF4;}

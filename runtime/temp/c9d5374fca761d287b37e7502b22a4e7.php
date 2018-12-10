@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_info.html";i:1542589248;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1542013165;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_info.html";i:1543971449;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -38,6 +38,13 @@
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
+        <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
+        <!--web im sdk 登录 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
+        <!-- <script src="__JS__/login/loginsdk.js"></script> -->
+        <!--web im sdk 登出 示例代码-->
+        <!-- <script src="__JS__/imsdk/js/logout/logout.js" type="text/javascript"></script> -->
+        
         <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <title></title>
     </head>
@@ -90,7 +97,7 @@
         <div class="order_index_pic order_jiexiaozhong_pic">
             <div class="order_index_pic_top clear">
                 <div class="order_index_header lf">
-                    <img  src="<?php echo (isset($info['my_info']['m_avatar']) && ($info['my_info']['m_avatar'] !== '')?$info['my_info']['m_avatar']:'/static/image/index/moren.jpg'); ?>" alt="">
+                    <img  src="<?php echo (isset($info['my_info']['m_s_avatar']) && ($info['my_info']['m_s_avatar'] !== '')?$info['my_info']['m_s_avatar']:'/static/image/index/moren.jpg'); ?>" alt="">
                 </div>
                 <p class="lf">
                     <span><?php echo $info['my_info']['screte_name']; ?></span>
@@ -101,14 +108,14 @@
             <div class="order_index_bototm clear">
                 <?php if(empty($info['last_joinner']) || (($info['last_joinner'] instanceof \think\Collection || $info['last_joinner'] instanceof \think\Paginator ) && $info['last_joinner']->isEmpty())): ?>
                     <div class="order_index_icon lf">
-                        <img src="<?php echo (isset($info['last_joinner']['m_avatar']) && ($info['last_joinner']['m_avatar'] !== '')?$info['last_joinner']['m_avatar']:'/static/image/index/moren.jpg'); ?>"alt="">
+                        <img src="<?php echo (isset($info['last_joinner']['m_s_avatar']) && ($info['last_joinner']['m_s_avatar'] !== '')?$info['last_joinner']['m_s_avatar']:'/static/image/index/moren.jpg'); ?>"alt="">
                     </div>
                     <p class="lf">
                         还没有人为您点赞哦~
                     </p>
                 <?php else: ?>
                     <div class="order_index_icon lf">
-                        <img src="<?php echo (isset($info['last_joinner']['m_avatar']) && ($info['last_joinner']['m_avatar'] !== '')?$info['last_joinner']['m_avatar']:'/static/image/index/moren.jpg'); ?>"alt="">
+                        <img src="<?php echo (isset($info['last_joinner']['m_s_avatar']) && ($info['last_joinner']['m_s_avatar'] !== '')?$info['last_joinner']['m_s_avatar']:'/static/image/index/moren.jpg'); ?>"alt="">
                     </div>
                     <p class="lf" id="order_name">
                         <?php echo (isset($info['last_joinner']['m_name']) && ($info['last_joinner']['m_name'] !== '')?$info['last_joinner']['m_name']:''); ?>
@@ -454,7 +461,7 @@
         <div class="conf_order_main clear">
             <a href="<?php if($info['pg_type'] == 3): ?>/popularity/popularitygoods/line_goods/pg_id/<?php echo $info['pg_id']; else: ?>/popularity/popularitygoods/commodity_info/pg_id/<?php echo $info['pg_id']; endif; ?>">
                 <div class="conf_order_img lf">
-                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo (isset($info['pg_img']) && ($info['pg_img'] !== '')?$info['pg_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__CDN_PATH__<?php echo (isset($info['pg_s_img']) && ($info['pg_s_img'] !== '')?$info['pg_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
                 </div>
                 <div class="conf_order_text lf">
                     <p><?php echo $info['pg_name']; ?></p>
@@ -516,8 +523,8 @@
             <div class="order_index_list clear">
                 <p class="lf">
                     订单编号
-                    <span><?php echo $info['pm_id']; ?></span>
-                    <textarea id="new_select"><?php echo $info['pm_id']; ?></textarea>
+                    <span><?php echo $info['pm_sn']; ?></span>
+                    <textarea id="new_select"><?php echo $info['pm_sn']; ?></textarea>
                 </p>
                 <!-- <div class="order_index_copy lf">
                 复制
@@ -1229,7 +1236,9 @@
     setupWebViewJavascriptBridge(function(bridge) {
         /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
         bridge.callHandler('isApp',function(str) {
-            $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            if(str == '1.0') {
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            }
             $('#app').val(str);
         })
     })
@@ -1420,4 +1429,9 @@
     }
 </script>
 
+    <!-- <script>
+        $(function(){
+            webimLogin();
+        })
+    </script>  -->
 </html>

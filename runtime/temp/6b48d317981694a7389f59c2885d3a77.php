@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:66:"D:\project\pai\public/../application/index/view/syuclub/index.html";i:1541491294;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1543280491;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:66:"D:\project\pai\public/../application/index/view/syuclub/index.html";i:1544192640;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1544154864;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -16,7 +16,7 @@
         <link rel="stylesheet" type="text/css" href="__STATIC__/lib/layui/css/layui.css">
         <link rel="stylesheet" type="text/css" href="__CSS__/common/popups.css">
         
-<link rel="stylesheet" type="text/css" href="__STATIC__/css/syuclub/syuclub.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/syuclub/index.css">
 
         <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
         <script src="__JS__/common/rem.js"></script>
@@ -24,7 +24,7 @@
         <script src="__JS__/common/lazyload.js"></script>
         <script src="__JS__/common/site.js"></script>
         <script src="__JS__/common/larea.js"></script>
-        <script src="__JS__/common/bootstrap.min.js"></script>
+        <!-- <script src="__JS__/common/bootstrap.min.js"></script> -->
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.js"></script>
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>
@@ -38,18 +38,46 @@
         <title>首页</title>
     </head>
     <body>
-        <header></header>
-        
+        <header>
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>登录晟域会员</span>
+            <div class="header_back" <?php if(empty($header_path) || (($header_path instanceof \think\Collection || $header_path instanceof \think\Paginator ) && $header_path->isEmpty())): ?> onClick="javascript:history.back();" <?php else: ?> onClick="javascript:window.location.href='<?php echo $header_path; ?>'" <?php endif; ?> >
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
 
+</header>
+        
 <main>
     <div class="main">
-        <img src="__STATIC__/image/syuclub/bg_julebu@2x.png" alt="" class="big_img">
-        <div class="goback">
-            <img src="__STATIC__/image/syuclub/icon_nav_back@2x.png" alt="" >
+        <div class="syuclub_view">
+            <div class="syuclub_phone">
+                <input type="number" placeholder="输入手机号" name="phone">
+            </div>
+            <div class="syuclub_pass clear">
+                <input type="password" id="pwd" placeholder="密码" class="lf" name="password">
+                <div class="syuclub_open rt">
+                    <img src="__STATIC__/image/syuclub/icon_eye2@2x.png" alt="" class="show">
+                    <img src="__STATIC__/image/syuclub/icon_eye1@2x.png" alt="">
+                </div>
+            </div>
+            <p class="syuclub_text">必须为晟域用户才可登陆</p>
+            <div class="syuclub_btn">
+                <img src="__STATIC__/image/syuclub/icon_anniu@2x.png" alt="">
+            </div>
         </div>
-        <img src="__STATIC__/image/syuclub/pic_shengyu.png" alt="" class="shengyu">
-        <p class="tip">"长按"关注晟域俱乐部，超多福利享不停</p>
-        <a href="/member/sitelogin/to_sy/status/1" class="goshengyu">前往晟域俱乐部</a>
+    </div>
+    <div class="no_sy">
+<div class="no_sy_alert">
+    <div class="alert_content">您当前还不是晟域用户呦</div>
+    <div class="close_alert">
+    我知道了
+    </div>
+
+</div>
     </div>
 </main>
 
@@ -65,6 +93,7 @@
     <!--bugtags 结束-->
 
     
+
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="__STATIC__/js/iphoneXfooter.js"></script>
 <script>
@@ -157,14 +186,80 @@
 
 </script>
 <script>
-    $(function(){
-        $('.goback').click(function(){
-            window.history.back();
-        })
 
 
-    })
+    var isSy = "<?php echo $is_user; ?>";
+    console.log(isSy);
+    if(isSy == 1){
+    // alert(11)
+        $('.no_sy').show();
+    }
+
+$('.close_alert').click(function(){
+    $('.no_sy').hide();
+})
+
+   $(".syuclub_open img").click(function(){
+       $(this).toggleClass("show");
+       $(this).siblings("img").toggleClass("show");
+       if($("input[name='password']").attr("type")=="password"){
+            $("input[name='password']").attr("type","text");
+       }else{
+            $("input[name='password']").attr("type","password");
+       }
+   });
+
+   $(".syuclub_btn").click(function(){
+       var phone=$("input[name='phone']").val();
+       var password=$("input[name='password']").val();
+       // console.log(phone, password);
+       if(phone == ''){
+           layer.msg("<span style='color:#fff'>输入手机号不能为空</span>", {
+               time: 2000
+           });
+           return false;
+       }
+       if(password == '' ){
+           layer.msg("<span style='color:#fff'>输入密码不能为空</span>", {
+               time: 2000
+           });
+           return false;
+       }
+       $.ajax({
+            type: 'post',
+            url:"/index/syuclub/index",
+            data: {m_mobile:phone,m_pwd:password},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if(data.status==1){
+                    window.location.href = data.data;
+                }else if(data.status == 0){
+                    layer.msg("<span style='color:#fff'>"+ data.msg +"</span>", {
+                        time: 2000
+                    });
+                }else if(data.status == 2){
+                    layer.confirm("您当前还不是晟域用户呦", {
+                        title: false,/*标题*/
+                        closeBtn:0,
+                        btnAlign: 'c',
+                        btn: '返回拍吖吖',
+                        btn1: function () {
+                            location.href = "/";
+                        }
+                    })
+                }
+            }
+       })  
+   });
+
+
+
+
+
 </script>
+
+
 
     <!-- 调用登陆的sdk -->
     <!-- <script>

@@ -1,0 +1,1045 @@
+{extend name="common/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/productlist/product_list.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/popularity/details.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/stroe/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/orderpai/zhifu.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/order_info/index.css">
+<link rel="stylesheet" href="__CSS__/liMarquee/liMarquee.css">
+<link rel="stylesheet" href="__CSS__/pointgoods/pointgoods.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/goodsproduct/details.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/baguetteBox/baguetteBox.css">
+{/block} {block name="content"}
+<main style="margin-top: 0;margin-bottom: 50px;">
+    <div class="details_tab_list details_display">
+        <div class="details_tab clear">
+            {notempty name='header_path'}
+            <a href="{$header_path}">
+                <div class="details_tab_back lf">
+                    <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
+                </div>
+            </a>
+            {else }
+            <div class="details_tab_back lf back-btn">
+                <img src="__STATIC__/image/goods/icon_nav_back@2x.png" alt="图片加载失败">
+            </div>
+            {/notempty}
+            <div class="details_tab_btn lf clear">
+                <div class="details_list_btn  lf">
+                    <span class="details_list_bottom">商品</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>参团</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>详情</span>
+                </div>
+                <div class="details_list_btn lf">
+                    <span>推荐</span>
+                </div>
+            </div>
+            <div class="details_top_rt rt">
+                <img src="__STATIC__/image/goodsproduct/icon_nav_fenxiang2@2x.png" alt="图片加载失败">
+            </div>
+        </div>
+    </div>
+
+    <div class="details_header_top">
+        {notempty name='header_path'}
+        <a href="{$header_path}">
+            <div class="details_tab_back lf">
+                <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png" alt="图片加载失败">
+            </div>
+        </a>
+        {else }
+        <div class="details_back lf details_fanhui back-btn">
+            <img src="__STATIC__/image/goodsproduct/icon_nav_back@2x.png">
+        </div>
+        {/notempty}
+        <div class="details_back lf details_cancelchan details_cancelcha">
+            <img src="__STATIC__/image/details/icon_nav_X@2x.png">
+        </div>
+        <div class="details_top_rt rt">
+            <img src="__STATIC__/image/goodsproduct/icon_nav_fenxiang@2x.png">
+        </div>
+    </div>
+
+    <!--商品-->
+    <div class="details_tab_line">
+        <div class="detail_line_view">
+            <!-- 轮播banner S -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {empty name="goods_info.banner_list"}
+                        <div class="swiper-slide">
+                            <div class="details_pic">
+                                <img class="details_img click_big" src="/static/image/index/pic_home_taplace@2x.png">
+                            </div>
+                        </div>
+                    {else/}
+                        {volist name='goods_info.banner_list' id='vo'}
+                            <div class="swiper-slide" >
+                                <div class="details_pic">
+                                    <img class="details_img click_big" src="{$vo.gi_name}" i="{$key}">
+                                </div>
+                            </div>
+                        {/volist}
+                    {/empty}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>            
+            <!-- 轮播banner E -->
+
+            <div class="big_banner">
+                <div class="big_swiper-container swiper-banner">
+                    <div class="swiper-wrapper">
+                        {empty name="goods_info.banner_list"}
+                        <div class="swiper-slide">
+                            <div class="details_pic">
+                                <img class="details_img" src="__STATIC__/image/index/pic_home_taplace@2x.png">
+                            </div>
+                        </div>
+                        {else/}
+                        {volist name='goods_info.banner_list' id='vo'}
+                        <div class="swiper-slide">
+                            <div class="details_pic">
+                                <img class="details_img" src="{$vo.gi_name}">
+                            </div>
+                        </div>
+                        {/volist}
+                        {/empty}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="details_back rt details_cancelchan" style="margin-left: 90%">
+                    <img src="__STATIC__/image/details/icon_nav_X@2x.png">
+                </div>
+            </div>
+
+            <!-- 价格及倒计时 S-->
+            <div class="details_data clear">
+                <div class="details_ing"></div>
+                <!-- 价格 S-->
+                <div class="details_lf lf" style="display: block">
+                    <p class="details_lf_top">市场价
+                        <span class="details_old">￥{$goods_info.gp_market_price|default=0}</span>
+                        <span class="details_hint">满额揭晓</span>
+                    </p>
+                    <p class="details_new">{$goods_info.gp_sale_price|default=0}
+                        <small>积分</small>
+                    </p>
+                </div>
+                <!-- 价格 E-->
+
+                <!-- 倒计时 S -->
+                <div class="details_rt rt" style="display: block">
+                    <p class="details_hint_text">距离商品结束时间还剩</p>
+                    <div class="details_time" id="first">
+                        <span class="details_show details_day"></span>
+                        <span class="details_fenhao">:</span>
+                        <span class="details_show details_hour"></span>
+                        <span class="details_fenhao">:</span>
+                        <span class="details_show details_minute"></span>
+                        <span class="details_fenhao">:</span>
+                        <span class="details_show details_second"></span>
+                    </div>
+                </div>
+                <!-- 倒计时 E -->
+            </div>
+            <!-- 规则 S -->
+            <div class="index_hsbanner">
+                未团中将获<span>{$goods_info.gp_gift_peanut}花生</span>/份
+            </div>
+            <a href="/pointpai/Pointgoods/rule/">
+                <div class="details_rule clear">
+                    <span class="lf">吖吖积分规则 了解一下~</span>
+                    <span class="rt">
+                    查看规则
+                    <img src="__STATIC__/image/details/icon_jump@2x.png">
+                </span>
+                </div>
+            </a>
+            <!-- 规则 E -->
+            <!-- 产品名称 S -->
+
+            <div class="details_top clear">
+                <a href="/pointpai/review/gp_review_list/gp_id/{$goods_info.gp_id}">
+                <div class="yg-num">                    
+                    {$review_count ?? 0}
+                    <br><span>已购者</span>
+                </div>
+                </a>
+                <div class="details_top_lf lf">                    
+                    <p><img src="__STATIC__/image/pointgoods/icon_renqigou@2x.png" alt="" class="jifen">&nbsp;&nbsp;{$goods_info.g_name|default=''}</p>
+                    <span>{$goods_info.g_secondname|default=''}</span>
+                    <div class="details_top_hint">
+                        <span>快递：免运费</span>
+                        <span>库存：{$goods_info.gp_stock|default=0}</span>
+                        <span>{$goods_info.p_name|default=''} {$goods_info.c_name|default=''}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 虚位以待 S -->
+            <div class="details_xw"></div>
+            <!-- 虚位以待 E -->
+            
+            <!-- <div class="qianggou">
+                <span>积分商品火热来袭，快来抢购吧！！</span>
+            </div> -->
+        </div>
+    </div>
+    <!--参团-->
+    <div class="details_tab_line">
+        <div class="details_tit_view">
+            <div class="details_tit_top clear">
+                {empty name="pai_progress.last_4_avatars"}
+                    <p class="lf">快去成为第一个参团人吧</p>
+                {else/}
+                    <div class="details_schedule_name_pic lf">
+                    {volist name="$pai_progress.last_4_avatars" id="vo"}
+                        <img src="/static/image/index/pic_home_taplace@2x.png" data-original="{$vo.m_avatar}">
+                    {/volist}
+                    </div>
+                {/empty}
+                <p class="lf">等共<span>{$pai_progress.total_painum|default=0}</span>人次已参与团购</p>
+            </div>
+        </div>
+        <div class="details_schedule_stirp clear">
+            <div class="details_carousel jfgs">
+                <div class="details_schedule_top clear">
+                    <div class="details_schedule_center lf jfg">
+                        <p class="lf jfgp">已参与<span class="details_schedule_yew">{$pai_progress.count_painum|default=0}</span>人次</p>
+
+                        <p class="rt jfgp">剩余<span class="details_schedule_yew">{$pai_progress.left_pai_num|default=0}</span>人次
+                        </p>
+
+                        <div class="details_schedule_gray lf jfgcen">
+                            <div class="details_schedule_red jfgcet">
+                                {if condition="$pai_progress.pai_rate != 0"}
+                                <span>{$pai_progress.pai_rate|default=0}%</span>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {notempty name="last_reviews"}
+        <!--没有评价的时候隐藏该div开始-->
+        <div class="goodsproduct_pingjia_view">
+            <div class="details_evaluate">
+                <div class="details_evaluate_tit clear">
+                    <p class="lf">
+                        已购评价<span>({$review_count|default=0})</span>
+                    </p>
+                    <a href="/pointpai/review/gp_review_list/gp_id/{$goods_info.gp_id}">
+                        <div class="rt">
+                              <span>
+                                      查看全部
+                                <img src="__STATIC__/image/details/right.png">
+                              </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            {volist name="$last_reviews" id="vo"}
+            <div class="details_pingjia">
+                <div class="details_evaluate_list clear">
+                    <!--评价者头像 S-->
+                    <div class="details_evaluate_head lf">
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original='{$vo.m_avatar}'>
+                    </div>
+                    <!--评价者头像 E-->
+
+                    <div class="details_evaluate_rt lf">
+                        <div class="details_pingjianame">
+                            <small class="details_pinjia_tuomin">{$vo.s_name|default='吖吖'}</small>
+                            <small class="details_pinjia_tuomintt">第{$vo.o_periods|default=''}轮购中人</small>
+                            <!--<div class="details_evaluate_star rt">-->
+                            <!--<img src="__STATIC__/image/review/icon_huang@2x.png" alt="">-->
+                            <!--</div>-->
+                            <!--评价星星S-->
+                            <div class="details_evaluate_star rt">
+                                {if condition="$vo.goods_score eq 5"}
+                                <img src="__STATIC__/image/review/icon_huang@2x.png" alt="">
+                                {elseif condition="$vo.goods_score eq 4"}
+                                <img src="__STATIC__/image/review/star4.png" alt="">
+                                {elseif condition="$vo.goods_score eq 3"}
+                                <img src="__STATIC__/image/review/star3.png" alt="">
+                                {elseif condition="$vo.goods_score eq 2"}
+                                <img src="__STATIC__/image/review/star2.png" alt="">
+                                {elseif condition="$vo.goods_score eq 1"}
+                                <img src="__STATIC__/image/review/star1.png" alt="">
+                                {/if}
+                            </div>
+                            <!--评价星星E-->
+                        </div>
+                        <!--评价内容S-->
+                        <div class="details_pingjia_view clear">
+                            <p class="details_pingjiatext">
+                                {if condition="$vo.rg_content == ''"}
+                                <span>暂无评价</span>
+                                {else/}
+                                {$vo.rg_content}
+                                {/if}
+                            </p>
+                            <!--评价内容E-->
+                            <small>{$vo.o_addtime|default=0|date='Y-m-d',###}&nbsp;&nbsp;&nbsp;&nbsp;共{$vo.pai_num|default='0'}份吖吖码</small>
+                            {notempty name="$vo.img_list"}
+                            <img src="{$vo['img_list'][0]['img_url']}">
+                            {/notempty}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {/volist}
+            <!--没有评价的时候隐藏该div结束-->
+        </div>
+        {/notempty}
+
+        <!--进入店铺-->
+
+            <div class="details_shopname">
+                <a href="/member/shop/index/store_id/{$store_info.store_id|default=0}">
+                    <div class="details_shopname_top clear">
+                    <div class="details_shopname_head lf">
+                        <img width="50" height="50" src="{$store_info.store_logo ?? '__STATIC__/image/details/icon_V@2x.png'}">
+                    </div>
+                    <p class="lf">
+                        {$store_info.stroe_name|default=''}
+                        <!--<img src="{$store_info.store_logo ?? '__STATIC__/image/details/icon_V@2x.png'}">-->
+                    </p>
+
+                    <div class="details_shopname_into rt">
+                        进入店铺
+                    </div>
+                </div>
+                </a>
+                <div class="details_shopname_data clear">
+                    <a href="/member/shop/index/store_id/{$store_info.store_id|default=0}">
+                         <div class="lf">
+                        <p>{$store_info.totle_goods|default=0}</p>
+                        <span>全部商品</span>
+                    </div>
+                    </a>
+                    <a href="/member/shop/index/store_id/{$store_info.store_id|default=0}/from/xinpin">
+                        <div class="lf">
+                        <p>{$store_info.new_goods|default=0}</p>
+                        <span>最新上架</span>
+                    </div>
+                    </a>
+                    <a href="/member/shop/index/store_id/{$store_info.store_id|default=0}">
+                        <div class="lf">
+                        <p>{$store_info.fans|default=0}</p>
+                        <span>粉丝数量</span>
+                    </div>
+                    </a>
+                    <a href="/member/shop/index/store_id/{$store_info.store_id|default=0}">
+                        <div class="details_shopname_border lf">
+                    <span>
+                      商品描述
+                      <span>{$store_info.g_score|default='5.0'}</span>
+                    </span>
+                        <span>
+                      卖家服务
+                      <span>{$store_info.s_score|default='5.0'}</span>
+                    </span>
+                        <span>
+                      物流服务
+                      <span>{$store_info.e_score|default='5.0'}</span>
+                    </span>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- 商品详情 -->
+    <div class="details_tab_line">
+        <div class="details">
+            <div class="details_tit">
+                <p>商品详情</p>
+            </div>
+
+            <div class="details_text">
+                {$goods_info.g_description|default=''}
+            </div>
+
+        </div>
+    </div>
+    <!-- 推荐商品s -->
+    <div class="details_tab_line" >
+        <div class="details" style="display: none;">
+            <div class="details_tit  details_tit_line">
+                <p>推荐商品</p>
+            </div>
+        </div>
+        <div class="details_produce" style="display: none;">
+            <div class="product_list_main goods_pro_main">
+                <div class="product_list_content clear">
+                    {notempty name='tj_list'}
+                    {volist name='tj_list' id='vo'}
+                    <a href="/pointpai/Pointgoods/index/g_id/{$vo.g_id}">
+                        <div class="product_list_list lf">
+                            <div class="product_list_pic">
+                                <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
+                                     data-original="__CDN_PATH__{$vo.g_img ?? ''}">
+
+                                <div class="product_list_number">{$vo.gp_num ?? '0'}人已参与</div>
+                            </div>
+                            <p class="product_list_tit_p">{$vo.g_name ?? ''}</p>
+
+                            <p class="product_list_price clear">
+                                ￥
+                                <span class="product_list_red ">{$vo.gdr_price ?? '0'} </span>
+                            </p>
+                            <span class="product_list_oldprice">￥{$vo.gp_market_price ?? '0'}</span>
+                        </div>
+                    </a>
+                    {/volist}
+                    {/notempty}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 推荐商品e -->
+
+    <!--点击立即参团弹框-->
+    <div class="details_canpai">
+        <div class="details_canpai_over"></div>
+        <div class="details_canpai_main">
+            <div class="details_canpai_top clear">
+                <div class="details_canpai_pic lf">
+                    <img src="{$goods_info.g_img}">
+                </div>
+                <div class="details_canpai_text lf">
+                    <p class="details_canpai_tit">{$goods_info.g_secondname|default=''}</p>
+
+                    <p class="details_canpai_price">
+                        <span class="details_canpai_new">{$goods_info.gp_sale_price|default='0.00'}</span>积分
+                        <span class="details_canpai_old">￥{$goods_info.gp_market_price|default='0.00'}</span>
+                    </p>
+                </div>
+                <div class="details_canpai_cancel rt">
+                    <img src="__STATIC__/image/details/652@2x.png">
+                </div>
+            </div>
+            <!--选择价格-->
+            <div class="details_canpai_quantity details_evaluate_padding clear">
+                <p class="details_pitch_text">当前库存剩余<span class="left_num">{$goods_info.gp_stock|default='0'}</span>份</p>
+            </div>
+            <!--选择价格 end-->
+            <div class="details_canpai_quantity clear">
+                <div class="details_canpainum lf">
+                    <p>份数(每份对应一个吖吖码)</p>
+                    <span>该商品单个用户每期最多拍<span id="gdr_membernum">{$goods_info.g_limited|default='0'}</span>份</span>
+                </div>
+                <div class="details_canpai_but rt clear">
+                    <div class="details_prep lf">
+                        <img src="__STATIC__/image/details/icon_-@2x.png">
+                    </div>
+                    <div class="details_inp lf">
+                        <input type="number" name="num" value="1" min="1" max="{$max_pai_num}" readonly>
+                    </div>
+                    <div class="details_add lf">
+                        <img src="__STATIC__/image/details/icon_+@2x.png">
+                    </div>
+                </div>
+            </div>
+            <p class="index_hstext">未团中将返<span>{$goods_info.gp_gift_peanut}</span>颗花生</p>
+
+            <a href="javascript:void(0);">
+                <input type="hidden" name="gs_id" value="{$goods_info.g_typeid|default='1'}"/>
+                <input type="hidden" name="gp_id" value="{$goods_info.gp_id|default='0'}"/>
+                <!-- 判断是否登录 -->
+                <input type="hidden" name="m_id" value="{$m_id|default=0}"/>
+                <div class="details_canpai_sure">
+                    确定参团
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- 底部浮动按钮 S -->
+    <div class="details_bottom clear phonex">
+        <div class="details_bottom_lf lf clear">
+            <a class="phs" href="tel:400-027-1888">
+                <div class="details_evaluate_kefu_view lf">
+                    <div class="details_evaluate_kefu">
+                        <img src="/static/image/details/kefu.png">
+                    </div>
+                    <p class="details_bottom_border">客服</p>
+                </div>
+            </a>
+
+            <div class="details_lines lf"></div>
+            <a onclick="collection({$goods_info.g_id ?? ''})">
+                <div class="details_evaluate_kefu_view lf">
+                    <div class="details_evaluate_kefu details_shoucang">
+                        {if condition="$is_collection gt 0"}
+                        <img src="__STATIC__/image/goodsproduct/yishoucang1@2x.png">
+                        {else /}
+                        <img src="__STATIC__/image/details/shoucang.png">
+                        {/if}
+                    </div>
+                    <p class="details_bottom_border">收藏</p>
+                </div>
+            </a>
+        </div>
+        <button class="details_bottom_rt auction lf details_cd" onclick="pay()">立即参与</button>
+    </div>
+    <!-- 底部浮动按钮 E -->
+</main>
+
+<!-- 安卓，ios分享效果 -->
+<div class="details_fenxiang">
+    <div class="details_fxcon">
+        <div class="details_fxtit">
+            将商品分享至
+        </div>
+        <div class="details_fxlist clear">
+            <div class="details_fx_img lf" onclick="share(0)">
+                <img src="__STATIC__/image/details/wx.png">
+                微信好友
+            </div>
+            <div class="details_fx_img lf" onclick="share(1)">
+                <img src="__STATIC__/image/details/pyq.png">
+                朋友圈
+            </div>
+            <!-- <div class="details_fx_img lf">
+                <img src="__STATIC__/image/details/iconqq@2x.png">
+                QQ好友
+            </div>
+            <div class="details_fx_img lf">
+                <img src="__STATIC__/image/details/icon微博@2x.png">
+                新浪微博
+            </div> -->
+            <div class="details_fx_img lf" onclick="copyUrl()">
+                <img src="__STATIC__/image/details/link.png">
+                复制链接
+            </div>
+        </div>
+        <div class="details_fx_cancel">
+            取消
+        </div>
+    </div>
+</div>
+
+<!-- 分享弹窗 S -->
+<div class="share-pop">
+    <div class="share-over"></div>
+    <div class="share-tip"></div>
+    <div class="share-cont">
+        <img class="share-tit" src="__STATIC__/image/popularity/share-tit.png"/>
+        <img class="share-code" src="{$goods_info.code}"/>
+        <p>长按保存二维码到本地</p>
+        <div data-clipboard-text="{$goods_info.url}" class="share-link">直接分享</div>
+        <div class="share-link-wx">直接分享</div>
+    </div>
+</div>
+<!-- 分享弹窗 E -->
+
+<!-- 支付密码浮动层 S -->
+<div class="ftc_wzsf">
+    <div class="srzfmm_box">
+        <div class="qsrzfmm_bt clear_wl">
+            <span class="">请输入支付密码</span>
+            <img src="__STATIC__/image/orderpai/icon_nav_X@2x.png" class="tx close fr conf_order_colse">
+        </div>
+        <div class="zfmmxx_shop conf_order_paypassword_main clear">
+            <p class="conf_order_hints">
+                <span class="conf_order_fuhao">￥</span>
+                <span class="all_money">100</span>
+                <input type="hidden" id="pm_id"/>
+            </p>
+        </div>
+        <div class="inputBoxContainer" id="inputBoxContainer">
+            <input type="tel" class="realInput" autofocus="autofocus"/>
+            <div class="bogusInput">
+                <input type="password" maxlength="6" disabled class="active99"/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+                <input type="password" maxlength="6" disabled/>
+            </div>
+        </div>
+        <div class="conf_order_paypassword_hint clear">
+            <div class="conf_order_balance lf">当前余额
+                <span> ￥ 200</span>
+                <p class="lack_msg">余额不足请立即充值</p>
+            </div>
+            <a href="/member/wallet/recharge/r_jump_type/4/r_jump_id/">
+                <div class="conf_order_pay rt">充值</div>
+            </a>
+        </div>
+        <a href="/member/Register/amnesia_payment">
+            <p class="conf_forget">忘记密码</p>
+        </a>
+    </div>
+    <div class="hbbj"></div>
+</div>
+<!-- 支付密码浮动层 E -->
+
+<!-- 支付成功弹窗 S -->
+<div class="pay-success">
+    <div class="pay-success-over"></div>
+    <div class="pay-success-cont">
+        <h3>支付成功 <span></span></h3>
+        <img/>
+        <p></p>
+        <div><span class="lf">人气值：<small class="rqz"></small></span><span class="rt">排名：<small
+                class="pm"></small></span></div>
+        <small>快去邀请小伙伴为你点赞吧！</small>
+        <a onclick="share(2)">邀请好友</a>
+    </div>
+</div>
+<!-- 支付成功弹窗 E -->
+
+<input type="hidden" id="app"/>
+<!-- 安卓，ios分享效果 E -->
+{/block} {block name="script"} {include file="common/js_sdk" /}
+<script type="text/javascript" src="__JS__/goodsproduct/swiper.min.js"></script>
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script type="text/javascript" src="__JS__/md5.js"></script>
+<script type="text/javascript" src="__JS__/order_info/payment.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script type="text/javascript" src="__JS__/goodsproduct/details.js"></script>
+<script type="text/javascript" src="__JS__/liMarquee/jquery.liMarquee.js"></script>
+<script src="__JS__/baguetteBox/baguetteBox.js"></script>
+<script src="__JS__/baguetteBox/highlight.min.js"></script>
+<script>
+    // location.reload();
+
+    // banner轮播效果
+    var swiper = new Swiper('.swiper-container', {
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'fraction'
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        }
+    });
+    //iosapp
+    /*这段代码是固定的，必须要放到js中*/
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) {
+            return callback(WebViewJavascriptBridge);
+        }
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback);
+        }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function () {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
+    }
+
+    /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+    setupWebViewJavascriptBridge(function (bridge) {
+        /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+        bridge.callHandler('isApp', function (str) {
+            $('#app').val(str);
+            if(str == '1.0') {
+                $('.phs').removeAttr('href').attr('onclick','call(4000271888)');
+            }
+        })
+    })
+
+    function call(tel) {
+        var data = '{"tel": "'+ tel +'"}'
+        setupWebViewJavascriptBridge(function(bridge) {
+            /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+            bridge.callHandler('call_tel',data);
+        })
+    }
+
+    //关闭app分享弹窗
+    $(".details_fx_cancel").click(function () {
+        $(".details_fenxiang").hide();
+    })
+
+    // 获取地址栏是否带分享参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&|/)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    //url带分享参数返回首页，否则返回上一页
+    $('.back-btn').click(function () {
+        if (getQueryString("share") != null) {
+            window.location.href = "/index/index/";
+        } else {
+            window.history.go(-1);
+        }
+    })
+
+    // 点击分享页面消失
+    $('.share-over').click(function () {
+        $('.share-pop').hide();
+    });
+
+    function pay() {
+        var m_id = $("input[name=m_id]").val();
+        if (m_id == 0 || m_id == '') {
+            layer.confirm("您还没有登录，请登录！", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['知道啦', '前去登录'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    window.location.href = "/member/login/index";
+                }
+            })
+        } else {            
+            $(".details_canpai").addClass("details_canpai_dis");
+        }        
+    }
+
+    //隐藏确定参团弹窗
+    $('.details_canpai_cancel').click(function () {
+        $(".details_canpai").removeClass("details_canpai_dis");
+    });
+    $('.details_canpai_over').click(function(){
+        $(".details_canpai").removeClass("details_canpai_dis");
+    })
+
+    $(".details_tit_top").click(function () {
+        // var this_gp_id = $("input[name=gp_id]").val();
+        // if (this_gp_id) {
+        window.location.href = "/pointpai/Pointorder/pai_mem_list/gp_id/{$goods_info.gp_id}";
+
+        // }
+    });
+
+    // 参团请求
+    function can_tuan(num,gp_id,gs_id) {
+        var m_id = $("input[name=m_id]").val();
+        if (m_id == 0 || m_id == '') {
+            layer.confirm("您还没有登录，请登录！", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['知道啦', '前去登录'], //按钮
+                // 按钮2的回调
+                btn2: function () {                    
+                    window.location.href = "/member/login/index";
+                }
+            })
+        }else {
+            // 请求
+            $.ajax({
+                url: "{:url('Pointgoods/rewriteUrl')}",
+                dataType: 'json',
+                type: 'POST',
+                data: {num: num, gp_id: gp_id, gs_id: gs_id},
+                success: function (data) {
+                    if (data.status == 8) {
+    //                    if(getCookie("version") == null && $('#backH5').val() == '') {
+                            window.location.href = '/pointpai/Pointorder/confirm_order/pcode/' + data.data;
+
+    //                    }
+    //                    if($("input[name=m_id]").val() == 0 || $("input[name=m_id]").val() == '') {
+    //                        if(getCookie("version") != null)  {
+    //                            window.android.h5NeedLogin();
+    //                        }else if($('#backH5').val() != '') {
+    //                            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+    //                            setupWebViewJavascriptBridge(function(bridge) {
+    //                                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+    //                                bridge.callHandler('h5NeedLogin');
+    //                            })
+    //                        }
+    //                    }
+                    } else {
+                        layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                            time: 2000
+                        });
+                    }
+                }
+            });
+        }        
+    }
+
+    // 确定参团
+    $('.details_canpai_sure').click(function () {
+        //数量
+        var num = $('input[name=num]').val();
+        var gp_id = $('input[name=gp_id]').val();
+        var gs_id = $("input[name=gs_id]").val();
+        // 请求
+        can_tuan(num,gp_id,gs_id);
+    });
+
+    // 参团
+    $('.details_schedule_right_btn ').click(function () {
+        //数量
+        var num = 1;
+        var gp_id = $('input[name=gp_id]').val();
+        var gs_id = $("input[name=gs_id]").val();
+        // 请求
+        can_tuan(num,gp_id,gs_id);
+    });
+
+    //当前时间
+    var nowTime = "{$now_time}";
+    nowTime=nowTime*1000;
+    var timerInterval = null;
+    //倒计时
+    function timer(intDiff, idName) {
+        timerInterval = setInterval(function (e) {
+            var day = 0,
+            hour = 0,
+            minute = 0,
+            second = 0;
+            /*时间默认值*/
+            if (intDiff > 0) {
+                day = Math.floor(intDiff / 1000 / 60 / 60 / 24);
+                hour = Math.floor(intDiff / 1000 / 60 / 60 - (day * 24));
+                minute = Math.floor((intDiff / 1000 / 60) - (day * 24 * 60) - (hour * 60));
+                second = Math.floor((intDiff / 1000) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60));
+                if (day == 0 && hour == 0 && minute == 0 && second == 1) {
+                    clearInterval(timerInterval);
+                    $('.details_rt').empty().append('<span class="yjs">已结束</span>');
+                    $('.details_data').addClass('detail_back');
+                    $('.details_bottom_rt').addClass('detail_back').attr('disabled','disabled').removeAttr('onclick');
+                }
+            }
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+            
+            $(idName + ' .details_day').html(' <span>' + day + '</span>天');
+            $(idName + ' .details_hour').html('<span>' + hour + '</span>');
+            $(idName + ' .details_minute').html('<span>' + minute + '</span>');
+            $(idName + ' .details_second').html('<span>' + second + '</span>');
+            intDiff -= 1000;    
+            //判断time做人气王诞生弹窗，time>10  不做请求    time<=10 开始请求
+            //var showTime = Math.ceil(intDiff/1000)
+            // console.log(showTime) 
+            // if(sessionStorage.getItem('clears') != 2) {
+            //     if(showTime<=5){
+            //         getStatus(showTime);
+            //     }
+            // }  
+        }, 1000);
+    }
+    var end_time = {$goods_info.g_endtime} * 1000 - nowTime;
+    timer(end_time, '#first');
+
+    //商品结束状态
+    if(end_time<=0) {
+        $('.details_rt').empty().append('<span class="yjs">已结束</span>');
+        $('.details_data').addClass('detail_back');
+        $('.details_bottom_rt').addClass('detail_back').attr('disabled','disabled').removeAttr('onclick');
+    }
+
+
+
+    //收藏
+    function collection(id) {
+        var m_id = "{$m_id}";
+        if (!m_id) {
+            layer.confirm("您还没有登录，请登录！", {
+                title: false, /*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['知道啦', '前去登录'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    window.location.href = "/member/login/index";
+                }
+            })
+        } else {
+            $.post("/pointpai/goodscollection/add_collection", {g_id: id}, function (res) {
+                if (res.msg == "收藏成功") {
+                    $(".details_shoucang img").attr("src", "/static/image/goodsproduct/yishoucang1@2x.png");
+                } else {
+                    $(".details_shoucang img").attr("src", "__STATIC__/image/details/shoucang.png");
+                }
+                layer.msg("<span style='color:#fff'>" + res.msg + "</span>", {
+                    time: 2000
+                });
+
+//            location.reload();
+            });
+        }
+
+    }
+
+    var share_qr_image = "https://"+document.domain+"{$goods_info.code}";
+    //显示分享弹窗    
+    $('.details_top_rt').click(function(){
+        var data = '{"share_title": "'+ title +'","share_content": "' + desc + '","share_url": "' + link + '","share_image": "' + imgUrl + '","is_share_to_firend_circle": "1","share_qr_image":"'+ share_qr_image +'","type": "1"}';
+
+        if($('#app').val() != '') {
+            if($('#app').val() == '1.0') {
+                /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+                setupWebViewJavascriptBridge(function(bridge) {
+                    /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                    bridge.callHandler('getShareParams',data);
+                })
+            }else {
+                $(".details_fenxiang").show();
+            }
+            
+        }else {
+            // 微信浏览器端安卓分享
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        if(getCookie("version") == null) {
+                            $('.details_fenxiang').show();
+                        }else {
+                            window.android.getShareParams(data);
+                        }
+                    }
+                }else {
+                    $('.share-pop').show();
+                    $('.share-cont').show();
+                    $('.share-tip').hide();
+                }
+            } else{
+            // 非微信浏览器端安卓分享
+                $('.share-pop').show();
+                $('.share-cont').show();
+                $('.share-tip').hide();
+            }       
+        }         
+    }) 
+
+    //隐藏分享弹窗
+    $('.share-over').click(function(){
+        $('.share-pop').hide();
+    });
+
+    //复制功能
+    var btns = document.querySelectorAll('.share-link');
+    var clipboard = new ClipboardJS(btns);
+
+    clipboard.on('success', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+
+    clipboard.on('error', function(e) {
+        layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
+    });
+
+    //微信分享提示
+    $('.share-link-wx').click(function(){
+        $('.share-cont').hide();
+        $('.share-tip').show();
+    });
+
+    // 判断是否在微信内
+    if(isWeiXin()){
+        $('.share-link-wx').show();
+        $('.share-link').hide();
+    }else{
+        $('.share-link').show();
+        $('.share-link-wx').hide();
+    }
+
+    function share(id) {
+        var is_share_to_firend_circle = '';
+        if(id == 0) {
+            is_share_to_firend_circle = false;
+        }else {
+            is_share_to_firend_circle = true;
+        }
+
+        var data = '{"share_title": "'+ title +'","share_content": "' + desc + '","share_url": "' + link + '","share_image": "' + imgUrl +
+            '","is_share_to_firend_circle": '+is_share_to_firend_circle+'}';
+
+        if($('#app').val() != '') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                bridge.callHandler('getShareParams',data);
+            })
+        }else {
+            // 非微信浏览器端安卓分享
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        window.android.getShareParams(data);
+                    }
+                }
+            }
+        }       
+        $('.details_fenxiang').hide();
+    }
+    
+    function copyUrl() {
+        var data = '{"copy_url": "{$share_link}"}';
+        if($('#app').val() != '') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+                bridge.callHandler('getCopyUrl',data);
+            })
+        }else {
+            // 非微信浏览器端安卓复制链接
+            if(hideFlag){
+                if (typeof(window.android) != "undefined") {
+                    if(androidIos() == 'android') {
+                        window.android.getCopyUrl(data);
+                    }
+                }
+            }
+        }
+        $('.details_fenxiang').hide();
+    }
+    $(".details_fx_cancel").click(function () {
+        $(".details_fenxiang").hide();
+    })
+
+    //评价图片报错填充默认图
+    // $('.gallery img').on('error',function(){
+    //     $(this).attr('src','/static/image/index/pic_home_taplace@2x.png');
+    // });
+    //评价图片放大
+    // baguetteBox.run('.gallery');
+    $('.jfgcet').css("width","{$pai_progress.pai_rate|default=0}%")
+    console.log("{$review_count}");
+    if({$review_count}==0){
+        $(".notpj").css({display:"none"});
+    }else{
+        $(".notpj").css({display:"block"});
+    }
+
+    //判断是否是晟域会员
+    var tui = "{$syumem_info.ml_tui_id|default='0'}";
+    if(tui == 0) {
+        $('.details_bottom_rt').addClass('detail_back').attr('onclick','tuis(0)');
+    }
+
+    function tuis(id) {
+        if(id==0) {
+            layer.confirm("<P>该商品为晟域VIP粉丝以上等级专享，您还不是晟域会员去充值成为晟域会员并邀请两位粉丝升级为VIP即可立享优惠。</P>", {
+                title: false,/*标题*/
+                closeBtn: 0,
+                btnAlign: 'c',
+                btn: ['我知道了', '去充值'], //按钮
+                // 按钮2的回调
+                btn2: function () {
+                    window.location.href = "/member/sitelogin/to_sy/status/2";
+                }
+            })
+        }
+    }
+    
+</script>
+{/block}

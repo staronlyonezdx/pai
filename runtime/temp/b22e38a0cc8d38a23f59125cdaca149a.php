@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:70:"D:\project\pai\public/../application/index/view/index/price_range.html";i:1543573931;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1543280491;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:70:"D:\project\pai\public/../application/index/view/index/price_range.html";i:1544163631;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1544154864;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -27,7 +27,7 @@
         <script src="__JS__/common/lazyload.js"></script>
         <script src="__JS__/common/site.js"></script>
         <script src="__JS__/common/larea.js"></script>
-        <script src="__JS__/common/bootstrap.min.js"></script>
+        <!-- <script src="__JS__/common/bootstrap.min.js"></script> -->
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.js"></script>
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>
@@ -435,7 +435,7 @@
                 //  mescrollArr[dataIndex].endSuccess(pageData.length,totle_num);
 
                 //设置列表数据
-                setListData(pageData, dataIndex);
+                setListData(pageData, dataIndex); 
             }, function () {
                 //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
                 mescrollArr[dataIndex].endErr();
@@ -450,18 +450,18 @@
             for (var i = 0; i < pageData.length; i++) {
                 var pd = pageData[i];
                 var num;
-                if (pd.gp_num == 0) {
-                    num = 0;
-                } else {
-                    num = pd.gp_num / pd.gdr_membernum * 100;
-                    if (num >= 100) {
-                        num = 100;
-                    } else if (num >= 99 && num < 100) {
-                        num = 99;
-                    } else {
-                        num = Math.ceil(num);
-                    }
-                }
+                // if (pd.gp_num == 0) {
+                //     num = 0;
+                // } else {
+                //     num = pd.gp_num / pd.gdr_membernum * 100;
+                //     if (num >= 100) {
+                //         num = 100;
+                //     } else if (num >= 99 && num < 100) {
+                //         num = 99;
+                //     } else {
+                //         num = Math.ceil(num);
+                //     }
+                // }
 
                 var img = '';
                 // if (pd.gp_market_price >= 0 && pd.gp_market_price <= 1000) {
@@ -494,9 +494,9 @@
                 str += '&nbsp;&nbsp;<del>￥' + pd.gp_market_price + '</del></span>';
                 str += '<div class="index_module_progress_view clear">';
                 str += '<div class="index_module_progress lf">';
-                str += '<div class="index_module_progressbar" style="width: ' + num + '%"></div>';
+                str += '<div class="index_module_progressbar" style="width: ' + pd.num + '%"></div>';
                 str += '</div>';
-                str += '<div class="index_module_progress_hint lf">' + num + '%</div>';
+                str += '<div class="index_module_progress_hint lf">' + pd.num + '%</div>';
                 str += '</div>';
                 str += '<div class="index_module_progress_bottom clear">';
                 str += '<span class="lf">' + pd.gp_num + '人已参与</span>';

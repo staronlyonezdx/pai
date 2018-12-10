@@ -1,0 +1,782 @@
+{extend name="index/base" /} {block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/index/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/search_index.css">
+<link rel="stylesheet" href="__CSS__/liMarquee/liMarquee.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/index/new_index.css">
+<style>
+        .mescroll-upwarp {
+            padding: 0.5rem 0 1.6rem 0;
+        }
+        .layui-layer-msg {
+            width: 3.8rem;
+        }
+    </style>
+{/block} 
+{block name="content"}
+<main>
+    <div class="index-top">
+        <!-- app 扫码 S -->
+        <div class="smicon"></div>
+        <!-- app 扫码 E -->
+        <!-- 搜索框 S -->
+        <div class="index-so">
+            <div class="index_search">搜索想要的宝贝</div>
+            <div class="index-so-hot">热搜：<span onClick="hclic(this)"><small>iphonex</small></span></div>
+        </div>
+        <!-- 搜索框 E -->
+
+        <!-- 消息图标 S -->
+        <a class="index-msg"></a>
+        <!-- 消息图标 E -->
+    </div>
+
+    <!-- banner S -->
+    <div class="index-banner">
+        <div class="swiper-container swiper-container1">
+            <div class='swiper-wrapper'>
+                {notempty name='imgs.sydh'} 
+                {volist name='imgs.hd' id='vo'}
+                <div class="swiper-slide">
+                    {if condition="$vo.wi_href != ''"}
+                    <a href="{$vo.wi_href ?? '#'}"><img src="{$vo.wi_imgurl ?? ''}"></a>
+                    {else/}
+                    <img src="{$vo.wi_imgurl ?? ''}">
+                    {/if}
+                </div>
+                {/volist} 
+                {/notempty}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- banner E -->
+    <div class="index_con_nav">
+        <div class="swiper-container swiper-container3">
+            <div class="swiper-wrapper">
+                {notempty name='$imgs.sydh'}
+                    {volist name='$imgs.sydh' id='vo'}
+                        <div class="swiper-slide">
+                            <a href="{$vo.wi_href}">
+                                <div class="index_con_nav_view">
+                                    <div>
+                                        <img src="{$vo.wi_imgurl}" alt="">
+                                    </div>
+                                    <p>{$vo.wi_name}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {/volist}
+                {/notempty}
+            </div>
+        </div>      
+    </div>
+  
+
+    <div class="index-cont">
+        <!-- 公告 S -->
+        <!-- <div class="index-notice">
+            <div class="index-notice-title">
+                <img class="dts" src="/static/image/index/gg.png" />
+                <div>
+                    <img src="/static/image/index/g1.png" />
+                    <img src="/static/image/index/g2.png" />
+                </div>
+            </div>
+            <div class="index-notice-cont">
+                <div>
+                    <ul class="gdb">
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="gdb">
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                    </ul>
+                </div>    
+            </div>
+        </div> -->
+        <div class="details-act">
+            <!-- <span>吖吖<b>公告</b></span> -->
+            <span></span>
+            <small></small>
+            <div class="dowebok"></div>
+        </div>
+        <!-- 公告 E -->
+
+        <!-- 超值团购 S -->
+        <div class="index-buy">
+            <div class="index-buy-tit">
+                <img class="icons" src="/static/image/index/cz.png" />
+                <div class="index-buy-gd">
+                    <ul class="gdb">
+                            {notempty name='$last_paimems'}
+                                {volist name='$last_paimems' id='vo'}
+                                    <li class="lis"><img src="{$vo.m_s_avatar|default='__STATIC__/image/index/pic_home_taplace@2x.png'}" /><p>{$vo.s_name}刚刚参了团</p></li>
+                                {/volist}
+                            {/notempty}
+                        <!-- <li class="lis"><img src="/static/image/index/pic_home_taplace@2x.png" /><p>小**七刚刚参了团</p></li> -->
+                        <!-- <li class="lis"><img src="/static/image/index/pic_home_taplace@2x.png" /><p>小**七刚刚参了团</p></li> -->
+                        <!-- <li class="lis"><img src="/static/image/index/pic_home_taplace@2x.png" /><p>小**七刚刚参了团</p></li> -->
+                    </ul>
+                </div>
+                <a href="/activity/index/index/code/{$cztg.activity.a_code ?? 0}" class="index-buy-link">进入会场</a>
+            </div>
+        </div>
+        <div class="swiper-container swiper-container2">
+            <div class="swiper-wrapper">
+                {notempty name='cztg.goods_list'}
+                    {volist name='cztg.goods_list' id='vo'}
+                        <div class="swiper-slide">
+                            <div>
+                                <a href="/member/goodsproduct/index/g_id/{$vo.g_id ?? 0}">
+                                    <img src="{$cztg.activity.a_logo}|default='__STATIC__/image/index/pic_home_taplace@2x.png'">
+                                    <p>仅剩{$vo.left_num ?? 0}人</p>
+                                </a>
+                            </div>
+                            <small>￥<span>{$vo.min_price ?? 0}</span></small>
+                            <del>￥{$vo.gp_market_price ?? 0}</del>
+                        </div>
+                    {/volist}
+                {/notempty}
+                <!-- <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div> -->
+            </div>
+        </div>        
+        <!-- 超值团购 E -->
+    </div>
+
+    <!-- 活动模块 S -->
+    <div class="index-act">
+        <div class="index-act-list">
+            <!-- <div class="index-act-item1">
+                <a href="#"><img src="/static/image/index/hd1.png"></a>
+            </div> -->
+            <div class="index-act-item2">
+                <a href="/popularity/popularitygoods/share_list"><img src="/static/image/index/hd3.png"></a>
+            </div>
+        </div>    
+        <div class="index-act-list">    
+            <!-- <div class="index-act-item2">
+                <a href="#"><img src="/static/image/index/hd3.png"></a>
+            </div>
+            <div class="index-act-item2">
+                <a href="#"><img src="/static/image/index/hd4.png"></a>
+            </div> -->
+            <div class="index-act-item2">
+                <a href="/index/index/price_range/type/1"><img src="/static/image/index/hd5.png"></a>
+            </div>
+        </div>
+    </div>    
+    <!-- 活动模块 E -->
+
+    <!-- 精品推荐 S -->
+    <div class="index-pro">
+        <h3><img src="/static/image/index/pro.png"></h3>
+        <div class="index-pro-list">
+            <div class="dataList" id="dataList">
+
+            </div>
+            <!-- <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div>
+            <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div>
+            <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div>
+            <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- 精品推荐 E -->
+
+    <!-- 抖动红包 S -->
+    <img class="red dd" src="__STATIC__/image/index/icon_hongbao@2x.png" alt="">
+    <!-- 抖动红包 E -->
+
+    <!-- 领取红包弹窗 S -->
+    <div class="new_pop">
+        <div class="new_pop_con">
+            <img src="__STATIC__/image/index/icon_x@2x.png" alt=""/>
+            <p>恭喜！获得新人红包</p>
+            <a>￥
+                <small>10</small>
+            </a>
+            <div class="new_pop_btn" id="new_pop_btn">立即下载并领取红包</div>
+        </div>
+    </div>
+    <!-- 领取红包弹窗 E -->
+
+    <!-- 搜索弹窗 S -->
+    <div class="index_search_pop">        
+        <div class="index_search_pop_top clear">
+            <div class="index_pop_text lf">
+                <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
+            </div>
+            <div class="index_search_pop_view clear lf">
+                <div class="index_search_lfimg" class="lf">
+                    <img src="__STATIC__/image/index/searchbar_icon_search1@2x.png">
+                </div>
+                <input type="text" name="keyword" class="index_pop_inp lf">
+
+                <div class="index_search_cancel rt">
+                    <img src="__STATIC__/image/index/icon_qingchu1@2x.png" alt="">
+                </div>
+            </div>
+            <a class="index_pop_sousuo rt"> 搜索</a>
+        </div>
+        <!--tab切换-->
+        <div class="index_pop_class clear">
+            <div class="index_pop_tab index_pop_bold lf">
+                <img src="__STATIC__/image/index/icon_bur@2x.png" alt="">
+                <span>商品</span>
+            </div>
+            <div class="index_pop_tab  lf">
+                <img src="__STATIC__/image/index/icon_bur@2x.png" alt="">
+                <span>店铺</span>
+            </div>
+        </div>
+        {notempty name='$searchs.self'}
+        <!--历史搜索-->
+        <div class="index_pop_history_view history">
+            <div class="index_pop_history clear">
+                <p class="lf">历史搜索</p>
+                <div class="rt del_search">清除</div>
+            </div>
+            <div class="index_pop_history_main clear">
+                {volist name='searchs.self' id='vo'}
+                <a onClick="hclic(this)">
+                    <div class="lf">{$vo}</div>
+                </a>
+                {/volist}
+            </div>
+        </div>
+        {/notempty}
+        {notempty name='$searchs.hot'}
+        <!--热门搜索-->
+        <div class="index_pop_history_view">
+            <div class="index_pop_history clear">
+                <p class="lf">热门搜索</p>
+            </div>
+            <div class="index_pop_history_main clear">
+                {volist name='searchs.hot' id='vo'}
+                <a onClick="hclic(this)">
+                    <div class="lf">{$vo}</div>
+                </a>
+                {/volist}
+            </div>
+        </div>
+        {/notempty}
+        <!--搜索出的列表-->
+        <div class="index_pop_search_main">
+            <ul class="index_pop_search_ul">
+            </ul>
+        </div>
+    </div>
+    <!-- 搜索弹窗 E -->
+
+    <input type="hidden" id="app">
+</main>
+{/block}
+{block name="footer"}
+{include file="common/footer" /}
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+<script src="__JS__/index/swiper.min.js"></script>
+<script src="__JS__/mescroll/mescroll.min.js"></script>
+<script type="text/javascript" src="__JS__/liMarquee/jquery.liMarquee.js"></script>
+<script src="__JS__/cookie/jquery.cookie.js"></script>
+<script src="__JS__/index/index.js"></script>
+<script>
+    //安卓app显示扫码位置
+    if(getCookie("versionScan") != null) {
+        $('.index-top').addClass('sm-app');
+        $('.smicon').show();
+    }
+
+    function hclic(id){
+        var vo=$(id).children().html();
+        var typ = $("input[name='type']").val();
+        window.location.href="/index/index/search_index/type/"+typ+"/keyword/"+vo;
+    }
+    //点击搜索
+    $(".index_pop_sousuo").click(function () {
+        var keyword = $("input[name='keyword']").val();
+        var typ = $("input[name='type']").val();
+        window.location.href = "/index/index/search_index/type/" + typ + "/keyword/" + keyword;
+    })
+//获取公告内容
+$.ajax({
+        type: 'post',
+        url: '/index/index/notice',
+        success: function (res) {
+            console.log(res)
+            if (res.data.length > 0) {
+                for (i = 0; i < res.data.length; i++) {
+                    $('.dowebok').append('<a>' + res.data[i] + '</a>');
+                }
+                $('.dowebok').liMarquee({
+                    runshort: false
+                });
+            } else {
+                $('.details-act').hide();
+            }
+        }
+    })
+    //判断是否登录(1已登录，0未登录)
+    var isLogin = "{$is_login}";
+    //判断是否领取了红包（1可领取，2已领取）
+    var is_res = "{$is_reward}";
+    if (isLogin == 0) {
+        $('.red').show();
+    }
+    if (isLogin == 1 && is_res == 1) {
+        $('.red').show();
+    }
+
+    if (isLogin == 1 && is_res == 2) {
+        if (sessionStorage.getItem('hb') == 2) {
+            layui.use("layer", function () {
+                /*layui的规则*/
+                var layer = layui.layer;
+                layer.msg("<span style='color:#fff'>此手机已领取过红包了</span>", {
+                    // skin: 'demo-class',
+                    time: 2000
+                }, function () {
+                    sessionStorage.removeItem('hb');
+                });
+            })
+        }
+    }
+
+    //iosapp
+    /*这段代码是固定的，必须要放到js中*/
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) {
+            return callback(WebViewJavascriptBridge);
+        }
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback);
+        }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function () {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
+    }
+
+    /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+    setupWebViewJavascriptBridge(function (bridge) {
+        /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/
+        bridge.callHandler('isApp', function (str) {
+            $('#app').val(str);
+            //ios app显示扫码位置
+            if(str == '1.0') {
+                $('.index-top').addClass('sm-app');
+                $('.smicon').show();
+            }            
+            
+            //ios app领取红包
+            $(".new_pop_btn").html("立即领取红包");
+            if (sessionStorage.getItem('close') == null) {
+                if (isLogin == 0) {
+                    $('.new_pop').show();
+                }
+                if (isLogin == 1 && is_res == 1) {
+                    $('.new_pop').show();
+                }
+            }
+        })
+    })
+
+    //ios app点击扫码按钮    
+    $('.sm-icon').click(function(){
+        if(getCookie("versionScan") != null) {
+            //安卓点击扫码按钮
+            $('.sm-icon').click(function(){
+                window.android.doScanQrImage();
+            })
+        }else if($('#app').val() == '1.0') {
+            /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
+            setupWebViewJavascriptBridge(function(bridge) {
+                /*JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用*/ 
+                bridge.callHandler('doScanQrImage');
+            })
+        }
+    })
+    
+    //点击隐藏红包
+    $(".new_pop_con img").click(function () {
+        $(".new_pop").hide();
+        sessionStorage.setItem('close', '1');
+    })
+
+    if (hideFlag) {
+        if (typeof(window.android) !== 'undefined') {
+            if (androidIos() == 'android') {
+                $(".new_pop_btn").html("立即领取红包");
+                if (sessionStorage.getItem('close') == null) {
+                    if (isLogin == 0) {
+                        $('.new_pop').show();
+                    }
+                    if (isLogin == 1 && is_res == 1) {
+                        $('.new_pop').show();
+                    }
+                }
+            }
+        }
+    }
+
+    //点击领取红包
+    $('.new_pop_btn').click(function () {
+        //h5
+        if ($(".new_pop_btn").text() == "立即下载并领取红包") {
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                //安卓手机
+                window.location.href = "/member/register/az_guide"
+            } else if (u.indexOf('iPhone') > -1) {
+                //苹果手机
+                window.location.href = "/member/register/ios_guide"
+            } else if (u.indexOf('Windows Phone') > -1) {
+                //winphone手机
+            }
+        } else {
+            //移动端直接领取
+            getData();
+        }
+    })
+
+    //点击显示红包弹窗
+    $('.red').on('click', function () {
+        if (isLogin == 1) {
+            $(".new_pop").show();
+        } else {
+            window.location.href = "/member/login/index";
+        }
+    })
+
+    //给后端发送数据领取红包
+    function getData() {
+        if (isLogin == 1) {
+            var money = $(".new_pop_con a small").html();
+            $.ajax({
+                url: "/index/index/app_reward",
+                dataType: "json",
+                type: "POST",
+                data: {money: money},
+                success: function (data) {
+                    if (data.status == 1) {
+                        $(".new_pop").hide();
+                        $(".red").hide();
+                    }
+                    layer.msg("<span style='color:#fff'>" + data.msg + "</span>", {
+                        time: 2000
+                    });
+                }
+            })
+        } else {
+            window.location.href = "/member/login/index";
+            sessionStorage.setItem('hb', '1');
+        }
+    }
+
+    //banner图轮播
+    var mySwiper = new Swiper('.swiper-container1', {
+        direction: 'horizontal',//滚动方向
+        loop: true,//循环
+        pagination: {
+            el: '.swiper-pagination'
+        },
+        paginationClickable: true,//分页器
+        autoplay: {
+            disableOnInteraction: false
+        },
+        disableOnInteraction: false//用户操作swiper之后，是否禁止autoplay。默认为 true：停止。false是播放
+    })
+
+    //滚动公告
+    // var lenlen = $(".gdb").length;
+    function notice() {
+        $(".gdb").each(function (i) {
+            setTimeout(function () {
+                $(".gdb").eq(i).stop(true, true).animate({ marginTop: "-0.43rem" }, 1000, function () {
+                    $(".gdb").css({ marginTop: "0rem" });
+                    $(".gdb").eq(i).find(".lis:last").after($(".gdb").eq(i).find(".lis:first"));
+                })
+            }, 2000 * i)
+        })
+    }
+    // notice();
+    var time1=setInterval(notice, 2000);
+    setInterval(function(){
+        $.ajax("/activity/index/get_last_pai_mem/a_id/{$cztg.activity.a_id ?? 0}",{
+            dataType:"json",
+            type:"post",
+            success:function(data){
+                if(data.status==0){
+                   
+                }else{
+                    var lis="";
+                    $(".gdb li").last().siblings().remove();
+                    // console.log(data.data);
+                    for(var i=0;i<data.data.length;i++){
+                        if(data.data[i].m_s_avatar==""){
+                            data.data[i].m_s_avatar="__STATIC__/image/index/pic_home_taplace@2x.png"
+                        }
+                        lis+='<li class="lis">'
+                        lis+='<img src="'+data.data[i].m_s_avatar+'"/>'
+                        lis+='<p>'+data.data[i].s_name+'刚刚参了团</p>'
+                        lis+='</li>'
+                    }
+                    $(".gdb").append(lis);
+                }
+                $(".lis img").error(function(){
+                    $(this).attr("src","__STATIC__/image/index/pic_home_taplace@2x.png")
+                })
+            }
+        })
+    },20000)
+
+    $(".lis img").error(function(){
+        $(this).attr("src","__STATIC__/image/index/pic_home_taplace@2x.png")
+    })
+    //超值团购滑动效果
+    var swiper = new Swiper('.swiper-container2', {
+        slidesPerView: 3.2,
+        spaceBetween: 10
+    });
+    //活动模块滑动效果
+    var swiper = new Swiper('.swiper-container3', {
+        slidesPerView: 5,
+        spaceBetween: 10
+    });
+
+     //精选拍品的下拉加载数据
+    //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
+    var mescroll = new MeScroll("body", {
+        //下拉刷新
+        down: {
+            isLock: true, //锁定下拉
+        },
+        //上拉加载的配置项
+        up: {
+            callback: getListData, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+            isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+            noMoreSize: 1, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+            empty: {
+                icon: "/static/image/goodscollection/shoucang@2x.png", //图标,默认null
+                tip: "暂无产品~", //提示
+            },
+            clearEmptyId: "dataList", //相当于同时设置了clearId和empty.warpId; 简化写法;默认null
+            htmlLoading: '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', //上拉加载中的布局
+            htmlNodata: '<p class="upwarp-nodata">我是有底线的~</p>', //无数据的布局
+            toTop: {
+                //配置回到顶部按钮
+                src: "/static/image/application/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                //offset : 1000
+            }
+        }
+    });
+
+    /*联网加载列表数据  page = {num:1, size:10}; num:当前页 从1开始, size:每页数据条数 */
+    function getListData(page) {
+        //联网加载数据
+        getListDataFromNet(page.num, page.size, function (curPageData, totle_num) {
+            //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+            //必传参数(当前页的数据个数, 总数据量)
+            mescroll.endBySize(curPageData.length, totle_num);
+
+            //设置列表数据
+            setListData(curPageData);
+        }, function () {
+            //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            mescroll.endErr();
+        });
+    }
+    
+    /*设置列表数据*/
+    function setListData(curPageData) {
+        var listDom = document.getElementById("dataList");
+        for (var i = 0; i < curPageData.length; i++) {
+            var pd = curPageData[i];
+            var num;
+            // if (pd.max_num == 0) {
+            //     num = 0;
+            // } else {
+            //     num = pd.max_num / pd.gdr_membernum * 100;
+            //     if (num >= 100) {
+            //         num = 100;
+            //     } else if (num >= 99 && num < 100) {
+            //         num = 99;
+            //     } else {
+            //         num = Math.ceil(num);
+            //     }
+            // }
+            var img = '';
+            // if (pd.gp_market_price >= 0 && pd.gp_market_price <= 1000) {
+            //     img = '<img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">'
+            // }
+            // if (pd.gp_market_price >= 1001 && pd.gp_market_price <= 10000) {
+            //     img = '<img src="__STATIC__/image/index/icoc_home_thousand@2x.png" alt="">'
+            // }
+            // if (pd.gp_market_price >= 10001) {
+            //     img = '<img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">'
+            // }
+            var str='<div class="index-pro-item">'
+                str+='<div class="index-pro-item-img">'
+                str+='<img src="' + pd.g_s_img + '">'
+                str+='</div>'
+                str+='<div class="index-pro-item-name">' + pd.g_name + '</div>'
+                str+='<div class="index-pro-item-price">￥<span>' + pd.gdr_price + '</span>&nbsp;<del>￥' + pd.gp_market_price + '</del></div>'
+                str+='<div class="index-pro-item-num">'
+                // str+='<img src="/static/image/index/pic_home_taplace@2x.png">'
+                // str+='<img src="/static/image/index/pic_home_taplace@2x.png">'
+                str+='<p>等' + pd.total_num + '人参团</p>'
+                str+='</div>'
+                str+='</div>'
+            var liDom = document.createElement("a");
+            liDom.setAttribute("href", '/member/goodsproduct/index/g_id/' + pd.g_id);
+            liDom.innerHTML = str;
+            listDom.appendChild(liDom);
+            
+        }
+        $(".index-pro-item-img img").error(function(){
+            $(this).attr("src","__STATIC__/image/index/pic_home_taplace@2x.png")
+        })
+    }
+
+    /*联网加载列表数据
+     在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
+     请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
+     实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+     * */
+    function getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
+        //延时一秒,模拟联网
+        setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/index/index/goods_hot/page/' + pageNum + '/page_size/' + pageSize,
+                dataType: 'json',
+                success: function (data) {
+                    var listData = [];
+                    for (var i = 0; i < data.list.length; i++) {
+                        listData.push(data.list[i]);
+                    }
+                    //回调
+                    successCallback(listData, data.totle_num);
+                },
+                error: errorCallback
+            });
+        }, 1000)
+    }
+</script>
+{/block}
+

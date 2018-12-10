@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"D:\project\pai\public/../application/activity/view/index/index.html";i:1544077952;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"D:\project\pai\public/../application/activity/view/index/index.html";i:1544406560;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -909,7 +909,7 @@
         spaceBetween: 10,
     })
     var mySwiper3 = new Swiper('.swiper-container3', {
-        slidesPerView: 3,
+        slidesPerView: 3.3,
         spaceBetween: 10,
     })
 
@@ -1291,7 +1291,7 @@
     })
 
     if (isPeanut == 1) {
-        $('.group_content').css('margin-bottom', '1rem')
+        // $('.group_content').css('margin-bottom', '1rem')
         $('.is_first_peanut').css('height', $('.group_content').offset().top)
     }
     // 点击我知道啦

@@ -1,0 +1,126 @@
+
+{extend name="index/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/syuclub/index.css">
+{/block}
+{block name="header"}
+<div class="header_nav">
+    <div class="header_view">
+        <div class="header_tit">
+            <span>登录晟域会员</span>
+            <div class="header_back" {empty name='header_path'} onClick="javascript:history.back();" {else/} onClick="javascript:window.location.href='{$header_path}'" {/empty} >
+            <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" name='out' class="smt">
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="content"}
+<main>
+    <div class="main">
+        <div class="syuclub_view">
+            <div class="syuclub_phone">
+                <input type="number" placeholder="输入手机号" name="phone">
+            </div>
+            <div class="syuclub_pass clear">
+                <input type="password" id="pwd" placeholder="密码" class="lf" name="password">
+                <div class="syuclub_open rt">
+                    <img src="__STATIC__/image/syuclub/icon_eye2@2x.png" alt="" class="show">
+                    <img src="__STATIC__/image/syuclub/icon_eye1@2x.png" alt="">
+                </div>
+            </div>
+            <p class="syuclub_text">必须为晟域用户才可登陆</p>
+            <div class="syuclub_btn">
+                <img src="__STATIC__/image/syuclub/icon_anniu@2x.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="no_sy">
+<div class="no_sy_alert">
+    <div class="alert_content">您当前还不是晟域用户呦</div>
+    <div class="close_alert">
+    我知道了
+    </div>
+
+</div>
+    </div>
+</main>
+{/block}
+
+{block name="script"}
+
+{include file="common/js_sdk" /}
+<script>
+
+
+    var isSy = "{$is_user}";
+    console.log(isSy);
+    if(isSy == 1){
+    // alert(11)
+        $('.no_sy').show();
+    }
+
+$('.close_alert').click(function(){
+    $('.no_sy').hide();
+})
+
+   $(".syuclub_open img").click(function(){
+       $(this).toggleClass("show");
+       $(this).siblings("img").toggleClass("show");
+       if($("input[name='password']").attr("type")=="password"){
+            $("input[name='password']").attr("type","text");
+       }else{
+            $("input[name='password']").attr("type","password");
+       }
+   });
+
+   $(".syuclub_btn").click(function(){
+       var phone=$("input[name='phone']").val();
+       var password=$("input[name='password']").val();
+       // console.log(phone, password);
+       if(phone == ''){
+           layer.msg("<span style='color:#fff'>输入手机号不能为空</span>", {
+               time: 2000
+           });
+       }
+       if(password == '' ){
+           layer.msg("<span style='color:#fff'>输入密码不能为空</span>", {
+               time: 2000
+           });
+       }
+       $.ajax({
+            type: 'post',
+            url:"/index/syuclub/index",
+            data: {m_mobile:phone,m_pwd:password},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if(data.status==1){
+                    window.location.href = data.data;
+                }else if(data.status == 0){
+                    layer.msg("<span style='color:#fff'>"+ data.msg +"</span>", {
+                        time: 2000
+                    });
+                }else if(data.status == 2){
+                    layer.confirm("您当前还不是晟域用户呦", {
+                        title: false,/*标题*/
+                        closeBtn:0,
+                        btnAlign: 'c',
+                        btn: '返回拍吖吖',
+                        btn1: function () {
+                            location.href = "/";
+                        }
+                    })
+                }
+            }
+       })  
+   });
+
+
+
+
+
+</script>
+
+
+{/block}

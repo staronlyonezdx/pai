@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\project\pai\public/../application/member/view/myhome/recharge_peanut.html";i:1541491283;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:76:"D:\project\pai\public/../application/member/view/myhome/recharge_peanut.html";i:1544431988;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -36,7 +36,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -68,7 +68,7 @@
         </div>
         <div class="recharge_con">
             <span>购买花生数:</span>
-            <input type="number" value="5" name="r_money"/>
+            <input type="number" value="5.00" name="r_money"/>
         </div>
         <div class="recharge_con_tab">
             <ul class="clear">
@@ -98,7 +98,7 @@
             </div>
             <a href="/member/wallet/recharge/">
                 <div class="recharge_chongzhi_btn rt">
-                 充值
+                    充值
                 </div>
             </a>
         </div>
@@ -143,17 +143,17 @@
         </div>
         <input type="hidden" name="paytype" value="0"/>
         <!--<div class="recharge_list clear">-->
-            <!--<div class="recharge_inp lf">-->
-                <!--<input type="checkbox"/>-->
-                <!--<img src="__STATIC__/image/myhome/icon_weixuanze@2x.png" alt=""/>-->
-            <!--</div>-->
-            <!--<div class="recharge_payimg lf">-->
-                <!--<img src="__STATIC__/image/myhome/zhaoshang@2x.png" alt=""/>-->
-            <!--</div>-->
-            <!--<div class="recharge_text lf">-->
-                <!--<p>银行卡支付</p>-->
-                <!--<span>由拍吖吖钱包提供支付服务 </span>-->
-            <!--</div>-->
+        <!--<div class="recharge_inp lf">-->
+        <!--<input type="checkbox"/>-->
+        <!--<img src="__STATIC__/image/myhome/icon_weixuanze@2x.png" alt=""/>-->
+        <!--</div>-->
+        <!--<div class="recharge_payimg lf">-->
+        <!--<img src="__STATIC__/image/myhome/zhaoshang@2x.png" alt=""/>-->
+        <!--</div>-->
+        <!--<div class="recharge_text lf">-->
+        <!--<p>银行卡支付</p>-->
+        <!--<span>由拍吖吖钱包提供支付服务 </span>-->
+        <!--</div>-->
         <!--</div>-->
     </div>
     <!-- <div class="recharge_agreen clear">
@@ -351,10 +351,8 @@
         })
     })
 
-var  r_money=$("input[name='r_money']").val();
-if(<?php echo $m_money; ?><r_money){
-    $(".recharge_bg").show();
-    $(".recharge_bg").click(function(){
+    /*余额不足的弹框的封装*/
+    function huasheng_money(){
         layer.confirm("余额不足", {
             title:false,/*标题*/
             closeBtn: 0,
@@ -362,58 +360,50 @@ if(<?php echo $m_money; ?><r_money){
             btn: ['去充值','其他充值方式'],
             btn1:function(){
                 location.href="https://m.paiyy.com.cn/member/wallet/recharge";
-            },
-            btn2:function(){
-                location.href="https://m.paiyy.com.cn/member/myhome/recharge_peanut";
             }
         })
+    }
+    //点击事件
+    $(".recharge_bg").click(function(){
+        huasheng_money();
         return false;
     })
-}else{
-    $(".recharge_bg").hide();
-}
-
-$(".recharge_con_tab li").click(function(){
-    var lival=parseInt($(this).html());
-//    console.log(lival);
-    $("input[name='r_money']").val(lival);
-    var lival2=$("input[name='r_money']").val();
-    var preval2=parseFloat(lival2).toFixed(2);
-    $(".recharge_price span").html(preval2);
-})
+    /*进入页面时判断input框的里数值是否大于账户余额*/
+    var r_money=$("input[name='r_money']").val();
+    if(r_money><?php echo $m_money; ?>){
+        $(".recharge_bg").show();
+    }else{
+        $(".recharge_bg").hide();
+    }
+    /*点击花生的颗数*/
+    $(".recharge_con_tab li").click(function(){
+        var lival=parseFloat($(this).html()).toFixed(2);
+        $("input[name='r_money']").val(lival);
+        var r_money=$("input[name='r_money']").val();
+        $(".recharge_price span").html(r_money);
+        if(r_money><?php echo $m_money; ?>){
+            $(".recharge_bg").show();
+        }else{
+            $(".recharge_bg").hide();
+        }
+    })
     //实时去判断input的值
     $("input[name='r_money']").on("input propertychange",function(){
         var  r_money=$("input[name='r_money']").val();
         var preval=parseFloat($(this).val()).toFixed(2);
         $(".recharge_price span").html(preval);
         if($(this).val()==""){
-            $(".recharge_price span").html(0);
+            $(".recharge_price span").html(0.00);
         }
         clearNoNum(this);
-//        判断余额是否充足
-            if(<?php echo $m_money; ?><r_money){
-                $(".recharge_list").eq(0).find('.recharge_inp').children("img").attr("src","__STATIC__/image/myhome/icon_weixuanze@2x.png");
-                $('input[name="paytype"]').val(0);
-                $(".recharge_bg").show();
-                $(".recharge_bg").click(function(){
-                    layer.confirm("余额不足", {
-                        title:false,/*标题*/
-                        closeBtn: 0,
-                        btnAlign: 'c',
-                        btn: ['去充值','其他充值方式'],
-                        btn1:function(){
-                            location.href="https://m.paiyy.com.cn/member/wallet/recharge";
-                        },
-                        btn2:function(){
-                            location.href="https://m.paiyy.com.cn/member/myhome/recharge_peanut";
-                        }
-                    })
-                    return false;
-                })
-            }
-            else{
-                $(".recharge_bg").hide();
-            }
+//      判断余额是否充足
+        if(r_money><?php echo $m_money; ?>){
+            $(".recharge_list").eq(0).find('.recharge_inp').children("img").attr("src","__STATIC__/image/myhome/icon_weixuanze@2x.png");
+            $('input[name="paytype"]').val(0);
+            $(".recharge_bg").show();
+        }else{
+            $(".recharge_bg").hide();
+        }
     })
     //input只能输入小数点后两位
     function clearNoNum(obj){
@@ -429,7 +419,6 @@ $(".recharge_con_tab li").click(function(){
     $(document).ready(function () {
         var ua = navigator.userAgent.toLowerCase();
         if (ua.match(/MicroMessenger/i) == "micromessenger") {
-
             $(".recharge_list").css({display: "none"});
             $(".widthdraw_gongzhonghao").css({display: "block"});
             $(".recharge_yuer").css({display: "block"});
@@ -439,7 +428,7 @@ $(".recharge_con_tab li").click(function(){
             $(".recharge_yuer").css({display: "block"});
         }
     })
-//    选择支付方式
+    //    选择支付方式
     $(".recharge_inp").click(function(){
         $(".recharge_inp").children("img").attr("src","__STATIC__/image/myhome/icon_weixuanze@2x.png");
         $(this).children("img").attr("src","__STATIC__/image/myhome/icon_yixuanze@2x.png");
@@ -455,12 +444,12 @@ $(".recharge_con_tab li").click(function(){
             $(this).parents(".recharge_paylist").find("input").val("4");
         }
     });
-//    //如果余额为0.则标题变灰色
-//    var htm=$(".recharge_list_price").html();
-//    var val=parseFloat(htm);
-//    if(val==0){
-//        $(".recharge_list_price").parents().siblings("p").css({color:"#aaaaaa"});
-//    }
+    //    //如果余额为0.则标题变灰色
+    //    var htm=$(".recharge_list_price").html();
+    //    var val=parseFloat(htm);
+    //    if(val==0){
+    //        $(".recharge_list_price").parents().siblings("p").css({color:"#aaaaaa"});
+    //    }
     //点击协议
     $(".recharge_agreen_img").on("click",function(){
         $(this).children("img").toggleClass("recharge_agreen_disp");
@@ -500,26 +489,11 @@ $(".recharge_con_tab li").click(function(){
             });
             return false;
         }
-
+        $("input[name='r_money']").val('5.00');
         if($(".recharge_paylist").find("input").val()==5){
             //判断余额是否充足
             if(<?php echo $m_money; ?><r_money){
                 $(".recharge_bg").show();
-                $(".recharge_bg").click(function(){
-                    layer.confirm("余额不足", {
-                        title:false,/*标题*/
-                        closeBtn: 0,
-                        btnAlign: 'c',
-                        btn: ['去充值','其他充值方式'],
-                        btn1:function(){
-                            location.href="https://m.paiyy.com.cn/member/wallet/recharge";
-                        },
-                        btn2:function(){
-                            location.href="https://m.paiyy.com.cn/member/myhome/recharge_peanut";
-                        }
-                    })
-                    return false;
-                })
             }else{
                 $(".recharge_bg").hide();
                 $.ajax("/index/yuepay/is_has_paypwd",{
@@ -551,9 +525,6 @@ $(".recharge_con_tab li").click(function(){
                                 btn: ['去设置','其他支付'],
                                 btn1:function(){
                                     location.href="";
-                                },
-                                btn2:function(){
-                                    location.href="https://m.paiyy.com.cn/member/myhome/recharge_peanut";
                                 }
                             })
                         }
@@ -561,13 +532,11 @@ $(".recharge_con_tab li").click(function(){
                 })
             }
         }else{
-         /*判断为其他支付时*/
+            /*判断为其他支付时*/
             var r_money=$("input[name='r_money']").val();
             var r_type=$(".recharge_paylist").find("input").val();
             var ra_type=$(".recharge_paylist").find("input").attr('data');
-            
             var data = '{"member_id": "'+<?php echo $m_id; ?>+'","r_money": "'+r_money+'","r_type": "'+ra_type+'","r_for": "2"}';
-            
             if($('#app').val() != '') {
                 /*与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS*/
                 setupWebViewJavascriptBridge(function(bridge) {
@@ -583,23 +552,23 @@ $(".recharge_con_tab li").click(function(){
                         }
                     } else {
                         $.ajax("/index/notify/addpayorder",{
-                        dataType: 'json',//服务器返回json格式数据
-                        type: 'POST',//HTTP请求类型
-                        data: { r_money: r_money, r_type: r_type,r_for:2,r_jump_id:0,r_jump_type:3},
-                        success:function(data){
-                            if(data.status==1){
-                                if ($(".recharge_paylist").find("input").val() == 1) {
-                                    window.location.href ="https://m.paiyy.com.cn/index/notify/wx_jsapi_pay/r_id/"+data.r_id;
-                                } else if ($(".recharge_paylist").find("input").val()== 2) {
-                                    window.location.href ="https://m.paiyy.com.cn/index/wxh5pay/wx_h5_pay/r_id/"+data.r_id;
-                                } else if ($(".recharge_paylist").find("input").val()== 3) {
-                                    window.location.href ="https://m.paiyy.com.cn/index/aliwappay/ali_wap_pay/r_id/"+data.r_id
-                                } else if ($(".recharge_paylist").find("input").val() == 4) {
+                            dataType: 'json',//服务器返回json格式数据
+                            type: 'POST',//HTTP请求类型
+                            data: { r_money: r_money, r_type: r_type,r_for:2,r_jump_id:0,r_jump_type:3},
+                            success:function(data){
+                                if(data.status==1){
+                                    if ($(".recharge_paylist").find("input").val() == 1) {
+                                        window.location.href ="https://m.paiyy.com.cn/index/notify/wx_jsapi_pay/r_id/"+data.r_id;
+                                    } else if ($(".recharge_paylist").find("input").val()== 2) {
+                                        window.location.href ="https://m.paiyy.com.cn/index/wxh5pay/wx_h5_pay/r_id/"+data.r_id;
+                                    } else if ($(".recharge_paylist").find("input").val()== 3) {
+                                        window.location.href ="https://m.paiyy.com.cn/index/aliwappay/ali_wap_pay/r_id/"+data.r_id
+                                    } else if ($(".recharge_paylist").find("input").val() == 4) {
+                                    }
                                 }
-                            }
 
-                        }
-                    })
+                            }
+                        })
                     }
                 }else {
                     $.ajax("/index/notify/addpayorder",{
@@ -620,7 +589,7 @@ $(".recharge_con_tab li").click(function(){
 
                         }
                     })
-                }                
+                }
             }
         }
     })
@@ -661,102 +630,105 @@ $(".recharge_con_tab li").click(function(){
     })
 
 
-//关闭浮动
-$(".close").click(function () {
-    $(".ftc_wzsf").hide();
-    $(".mm_box li").removeClass("mmdd");
-    $(".mm_box li").attr("data", "");
-    i = 0;
-    // is_setorder();
-});
-// //数字显示隐藏
-// $(".xiaq_tb").click(function () {
+    //关闭浮动
+    $(".close").click(function () {
+        $(".ftc_wzsf").hide();
+        $(".mm_box li").removeClass("mmdd");
+        $(".mm_box li").attr("data", "");
+        i = 0;
+        // is_setorder();
+    });
+    // //数字显示隐藏
+    // $(".xiaq_tb").click(function () {
 
-//     $(".numb_box").slideUp(500);
-// });
-// $(".mm_box").click(function () {
-//     $(".numb_box").slideDown(500);
-// });
-// //点击数字
-// var i = 0;
-// $(".nub_ggg li .zf_num").click(function () {
-// //    var txt = $(this).text();
-//     if (i < 6) {
-// //        $(".mm_box li").eq(i).html(txt);
-// //        setTimeout(function () {
-// //            $(".mm_box li").eq(i - 1).html("");
-// //            $(".mm_box li").eq(i - 1).addClass("mmdd");
-// //        }, 100);
-//         $(".mm_box li").eq(i).addClass("mmdd");
-//         $(".mm_box li").eq(i).attr("data", $(this).text());
-//         i++
-//         if (i == 6) {
-//             setTimeout(function () {
-//                 var paypwd  = "";
-//                 $(".mm_box li").each(function () {
-//                     paypwd  += $(this).attr("data");
-//                 });
-//                 var r_money=$("input[name='r_money']").val();
-//                 var r_type=$(".recharge_paylist").find("input").val();
-//                 var r_id = $('#r_id').val();
-//                 $.ajax("/index/yuepay/checkpaypwd",{
-//                     dataType: 'json',//服务器返回json格式数据
-//                     type: 'POST',//HTTP请求类型
-//                     data: {r_money: r_money, r_type: r_type,r_for:2,paypwd:paypwd},
-//                     success:function(data){
-//                           if(data.status == 1) {
-//                               location.href="<?php echo PAI_URL; ?>"+"/index/yuepay/ypay/r_id/"+r_id
-//                           }else {
-//                               layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
-//                                   time:2000
-//                               });
-//                           }
-//                     }
-//                 })
+    //     $(".numb_box").slideUp(500);
+    // });
+    // $(".mm_box").click(function () {
+    //     $(".numb_box").slideDown(500);
+    // });
+    // //点击数字
+    // var i = 0;
+    // $(".nub_ggg li .zf_num").click(function () {
+    // //    var txt = $(this).text();
+    //     if (i < 6) {
+    // //        $(".mm_box li").eq(i).html(txt);
+    // //        setTimeout(function () {
+    // //            $(".mm_box li").eq(i - 1).html("");
+    // //            $(".mm_box li").eq(i - 1).addClass("mmdd");
+    // //        }, 100);
+    //         $(".mm_box li").eq(i).addClass("mmdd");
+    //         $(".mm_box li").eq(i).attr("data", $(this).text());
+    //         i++
+    //         if (i == 6) {
+    //             setTimeout(function () {
+    //                 var paypwd  = "";
+    //                 $(".mm_box li").each(function () {
+    //                     paypwd  += $(this).attr("data");
+    //                 });
+    //                 var r_money=$("input[name='r_money']").val();
+    //                 var r_type=$(".recharge_paylist").find("input").val();
+    //                 var r_id = $('#r_id').val();
+    //                 $.ajax("/index/yuepay/checkpaypwd",{
+    //                     dataType: 'json',//服务器返回json格式数据
+    //                     type: 'POST',//HTTP请求类型
+    //                     data: {r_money: r_money, r_type: r_type,r_for:2,paypwd:paypwd},
+    //                     success:function(data){
+    //                           if(data.status == 1) {
+    //                               location.href="<?php echo PAI_URL; ?>"+"/index/yuepay/ypay/r_id/"+r_id
+    //                           }else {
+    //                               layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+    //                                   time:2000
+    //                               });
+    //                           }
+    //                     }
+    //                 })
 
 
-//             },200)
+    //             },200)
 
-//         }
-//     }
-// });
-// $(".nub_ggg li .zf_del").click(function () {
-//     if (i > 0) {
-//         i--
-//         $(".mm_box li").eq(i).removeClass("mmdd");
-//         $(".mm_box li").eq(i).attr("data", "");
-//     }
-// });
-// $(".nub_ggg li .zf_empty").click(function () {
-//     $(".mm_box li").removeClass("mmdd");
-//     $(".mm_box li").attr("data", "");
-//     i = 0;
-// });
-boxInput.init(function () {
-    var pawval = boxInput.getBoxInputValue();
-    setTimeout(function () {
-        var paypwd  = pawval;
-        var r_money=$("input[name='r_money']").val();
-        var r_type=$(".recharge_paylist").find("input").val();
-        var r_id = $('#r_id').val();
-        $.ajax("/index/yuepay/checkpaypwd",{
-            dataType: 'json',//服务器返回json格式数据
-            type: 'POST',//HTTP请求类型
-            data: {r_money: r_money, r_type: r_type,r_for:2,paypwd:paypwd},
-            success:function(data){
-                if(data.status == 1) {
-                    location.href="<?php echo PAI_URL; ?>"+"/index/yuepay/ypay/r_id/"+r_id
-                }else {
-                    layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
-                        time:2000
-                    });
-                    $(".realInput").val('')
-                    boxInput.setValue();
+    //         }
+    //     }
+    // });
+    // $(".nub_ggg li .zf_del").click(function () {
+    //     if (i > 0) {
+    //         i--
+    //         $(".mm_box li").eq(i).removeClass("mmdd");
+    //         $(".mm_box li").eq(i).attr("data", "");
+    //     }
+    // });
+    // $(".nub_ggg li .zf_empty").click(function () {
+    //     $(".mm_box li").removeClass("mmdd");
+    //     $(".mm_box li").attr("data", "");
+    //     i = 0;
+    // });
+    boxInput.init(function () {
+        var pawval = boxInput.getBoxInputValue();
+        setTimeout(function () {
+            var paypwd  = pawval;
+            var r_money=$("input[name='r_money']").val();
+            var r_type=$(".recharge_paylist").find("input").val();
+            var r_id = $('#r_id').val();
+            $.ajax("/index/yuepay/checkpaypwd",{
+                dataType: 'json',//服务器返回json格式数据
+                type: 'POST',//HTTP请求类型
+                data: {r_money: r_money, r_type: r_type,r_for:2,paypwd:paypwd},
+                success:function(data){
+                    if(data.status == 1) {
+                        location.href="<?php echo PAI_URL; ?>"+"/index/yuepay/ypay/r_id/"+r_id
+                    }else {
+                        layer.msg("<span style='color:#fff'>"+data.msg+"</span>",{
+                            time:2000
+                        });
+                        $(".realInput").val('')
+                        boxInput.setValue();
+                    }
                 }
-            }
-        })
-    },200)
-});
+            })
+        },200)
+    });
+$('.recharge_chongzhi_btn ').click(function(){
+    $("input[name='r_money']").val('5.00');
+})
 </script>
 
     <!-- <script>

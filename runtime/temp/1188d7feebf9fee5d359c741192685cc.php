@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:77:"D:\project\pai\public/../application/pointpai/view/pointgoods/goods_list.html";i:1543915599;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1543280491;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:77:"D:\project\pai\public/../application/pointpai/view/pointgoods/goods_list.html";i:1544163631;s:67:"D:\project\pai\public/../application/pointpai/view/common/base.html";i:1543280491;s:69:"D:\project\pai\public/../application/pointpai/view/common/js_sdk.html";i:1541491294;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -266,7 +266,7 @@
             var str = '<div class="pointpai_item">';
             str += '<div class="pointpai_item_img">';
             // str += '<img src="__STATIC__/image/goodsproduct/icon_vipjb@2x.png" alt="" class="vip lf">';
-            str += '<img src="__STATIC__/image/goodsproduct/icon_vipjb1@2x.png" alt="" class="vip lf">';
+            // str += '<img src="__STATIC__/image/goodsproduct/icon_vipjb1@2x.png" alt="" class="vip lf">';
             str += '<img src="'+pd.g_s_img+'" alt="">';
             str += '<span>'+pd.gp_sum+'人参与</span>';
             str += '</div>';

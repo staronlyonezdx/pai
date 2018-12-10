@@ -1,0 +1,206 @@
+<?php
+namespace app\activity\controller;
+
+use app\member\controller\IndexHome;
+use app\data\service\activity\ActivityService;
+use app\data\service\orderPai\OrderPaiService;
+use RedisCache\RedisCache;
+
+class Index extends IndexHome
+{
+    /**
+     * 活动首页
+     * 刘勇豪
+     * /activity/index/index
+     */
+    public function Index(){
+        $code = input('param.code/s', '');
+        $m_id = $this->m_id;
+        $m_id = $m_id?$m_id:0;
+
+        $redis = RedisCache::getInstance();
+        $info = $redis->get($code);
+        if($info){
+            $info = json_decode($info,true);
+        }else{
+            $activity = new ActivityService();
+            $call_back = $activity->page_info($code);
+            if(!$call_back['status']){
+                $this->error($call_back['msg'], url('/Index/Index/index'), 2);
+            }
+            $info = $call_back['data'];
+            $redis->set($code,json_encode($info),300);
+        }
+
+        $is_jiche = 0;
+        $is_peanut = 0;
+        if(!empty($info)){
+            $a_name = $info['a_name'];
+            if(strpos($a_name,'机车') !== false){
+                $is_jiche = 1;
+            }
+            if(strpos($a_name,'花生') !== false){
+                $is_peanut = 1;
+            }
+        }
+        $this->assign('header_title','活动页');
+        $this->assign('code',$code);
+        $this->assign('info',$info);
+        $this->assign('is_jiche',$is_jiche);
+        $this->assign('is_peanut',$is_peanut);
+        $this->assign('m_id',$m_id);
+        return view();
+    }
+
+    /**
+     * 活动首页
+     * 刘勇豪
+     * http://www.pai.com/activity/index/get_activity_goods/code/act1542851201
+     */
+    public function get_activity_goods(){
+        $code = input('param.code/s', '');
+        $page = input('param.page/d',1);
+        $size = input('param.size/d',10);
+        $order_type = input('param.order_type/d',0);//排序方式
+        $keyword = input('param.keyword/s','');//订单搜索关键字
+
+        $activity = new ActivityService();
+
+        $where = '';
+        $where['a.a_code'] = $code;// 必填
+        $where['g.g_state'] = 6;
+        $where['gp.gp_stock'] = ['gt',0];
+        if($keyword){
+            $where['g.g_name'] = ['like','%'.$keyword.'%'];
+        }else{
+            $where['ag.ag_type'] = 0;
+        }
+
+        // 排序
+        switch ($order_type)
+        {
+            case 1:
+                // 销量正序
+                $order = 'gp.gp_salenum asc';
+                break;
+            case 2:
+                // 销量倒序
+                $order = 'gp.gp_salenum desc';
+                break;
+            case 3:
+                // 价格正序
+                $order = 'gdr.gdr_price asc';
+                break;
+            case 4:
+                // 价格倒序
+                $order = 'gdr.gdr_price desc';
+                break;
+            default:
+                $order = 'ag.ag_sort asc';
+                break;
+        }
+
+        $field = 'a.a_id,gp.g_id,gp.gp_id,gp.gp_img,g.g_img,g.g_s_img,gp.gp_salenum,g.g_name,gdr.gdr_id,gdr.gdr_price,gdr.gdr_membernum,ag.ag_type';
+        $limit = (($page-1) * $size).','.$size;
+
+        $call_back = $activity->get_activity_goods($where, $order, $field, $limit);
+        if(!$call_back['status']){
+            return $call_back;
+        }
+        $list = $call_back['data'];
+        $total_num = $call_back['total_num'];
+        //dump($list);die;
+        if(!empty($list)){
+            $orderPai = new OrderPaiService();
+            foreach($list as $kk=>$vv){
+                $gdr_id = $vv['gdr_id'];
+                $gdr_membernum = $vv['gdr_membernum'];
+                $call_create = $orderPai->createPeriods($gdr_id);
+                if(!$call_create['status']){
+                    return $call_create;
+                }
+                $maxPeriods = $call_create['data'];//当前第几期在团
+                $where_award['gdr_id'] = $gdr_id;
+                $where_award['o_periods'] = $maxPeriods;
+                $pai_num = $orderPai->countPaiNum($where_award);// 已团数量
+                $left_num = $gdr_membernum - $pai_num;
+                $list[$kk]['pai_num'] = $pai_num;
+                $list[$kk]['left_num'] = $left_num;
+                $list[$kk]['pai_periods'] = $maxPeriods;
+                $list[$kk]['gp_num'] = $pai_num;
+                $list[$kk]['left_num'] = $left_num;
+                //参团率
+                $proportion = $pai_num/$gdr_membernum*100;
+                if($proportion < 99){
+                    $list[$kk]['proportion'] = ceil($proportion);
+                }else{
+                    $list[$kk]['proportion'] = floor($proportion);
+                }
+            }
+        }
+
+        if(empty($list)){
+            return ['status'=>0,"msg"=>"empty ！","data"=>$list,'total_num'=>$total_num];
+        }
+        return ['status'=>8,"msg"=>"success ！","data"=>$list,'total_num'=>$total_num];
+    }
+
+    /**
+     * 搜索页
+     * 刘勇豪
+     */
+    public function search(){
+        $code = input('param.code/s', '');
+        $keyword = input('param.keyword/s','');// 订单搜索关键字
+
+        $activity = new ActivityService();
+        $activity_info = $activity->activityInfo(['a_code'=>$code]);
+
+
+        $is_jiche = 0;
+        $is_peanut = 0;
+        if(!empty($activity_info)){
+            $a_name = $activity_info['a_name'];
+            if(strpos($a_name,'机车') !== false){
+                $is_jiche = 1;
+            }
+            if(strpos($a_name,'花生') !== false){
+                $is_peanut = 1;
+            }
+        }
+
+        $this->assign('header_title','商品搜索');
+        $this->assign('code',$code);
+        $this->assign('keyword',$keyword);
+        $this->assign('is_jiche',$is_jiche);
+        $this->assign('is_peanut',$is_peanut);
+        return view();
+    }
+
+    /**
+     * 我的花生连
+     * 刘勇豪
+     * @return \think\response\View
+     * http://www.pai.com/activity/index/peanut_company/code/XXX
+     */
+    public function peanut_company(){
+        $code = input('param.code/s', '');
+
+        $this->assign('header_title','我的花生连');
+        $this->assign('code',$code);
+        return view();
+    }
+
+    /**
+     * 花生团规则
+     * 刘勇豪
+     * @return \think\response\View
+     * http://www.pai.com/activity/index/peanut_rule
+     */
+    public function peanut_rule(){
+
+        $this->assign('header_title','花生团规则');
+        return view();
+    }
+
+}

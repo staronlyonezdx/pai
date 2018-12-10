@@ -1,0 +1,64 @@
+<?php
+namespace app\index\controller;
+use app\data\service\member\MemberService;
+use app\member\controller\IndexHome;
+use RedisCache\RedisCache;
+use think\Db;
+
+class Syuclub extends IndexHome
+{
+    public function index(){
+        $is_user = input('param.is_user','');
+        if(request()->isAjax()){
+            $phone = $m_mobile   = trim(input('post.m_mobile',''));
+            $m_pwd      = trim(input('post.m_pwd',''));
+            $member = new MemberService();
+            //判断是否为手机号
+            $is_phone = $member->is_phone($m_mobile);
+            if($is_phone){
+                return $is_phone;
+            }
+            //判断是否为正确的密码格式
+            $is_pwd = $member->is_pwd($m_pwd);
+            if($is_pwd){
+                return $is_pwd;
+            }
+            $where = [
+                'm_mobile'  =>  $member->encrypt($m_mobile),
+                'm_pwd'     =>  md5($m_pwd),
+            ];
+            $m_id = $member->get_value($where,'m_id');
+            if(!$m_id){
+                return ['status'=>0,'msg'=>'账号或密码错误'];
+            }
+
+            //是否为晟域用户
+            $where = [
+                'm_id'=>$m_id
+            ];
+            $ml_tui_id = Db::connect('db_syu')->name('member_content')->where($where)->value('ml_tui_id');
+            if(!$ml_tui_id){
+                return ['status'=>2,'msg'=>'您当前还不是晟域用户呦'];
+            }
+            $redis = RedisCache::getInstance();
+            $redis_key = md5($member->encrypt('site'.$m_id));
+            $param = [
+                'm_id'=>$m_id,
+                'm_mobile'=>$phone,
+            ];
+            $param = json_encode($param);
+            $is_ok = $redis->set($redis_key,$param,60);
+            if($is_ok){
+                $url = 'http://m.syu666.com/member/login/check_site/fh/1/site_str/'.$redis_key.'/status/1';
+                return ['status'=>1,'msg'=>'ok','data'=>$url];
+            }else{
+                return ['status'=>0,'msg'=>'保存数据错误'];
+            }
+        }
+
+        $this->assign('is_user',$is_user);
+        $this->assign('header_title','登录晟域会员');
+        return $this->fetch();
+    }
+
+}

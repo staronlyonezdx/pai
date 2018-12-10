@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:63:"D:\project\pai\public/../application/member/view/core/rule.html";i:1544067952;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:63:"D:\project\pai\public/../application/member/view/core/rule.html";i:1544145547;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -18,6 +18,14 @@
         <link rel="stylesheet" type="text/css" href="__CSS__/common/popups.css">
         
 <link rel="stylesheet" type="text/css" href="__CSS__/rule/peanut_explain.css">
+<style>
+    .content {
+        padding: 0.3rem;
+    }
+    .content img{
+        width:100%;
+    }
+</style>
 
         <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
         <script src="__JS__/common/rem.js"></script>
@@ -59,9 +67,12 @@
         <header></header>
         
             <main >
-                <div style="padding:0.3rem">
-                    科技时代百度空间上班
+                <div class="content">
+                    <?php echo $content; ?>
                 </div>
+                <!--<div style="padding:0.3rem">-->
+                    <!--科技时代百度空间上班-->
+                <!--</div>-->
 
                 <!--<div class="peanut_explain">-->
                     <!--<h1>活动规则</h1>-->

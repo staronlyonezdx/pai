@@ -1,0 +1,522 @@
+.talk_header {
+    width: 7.5rem;
+    height: 0.88rem;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.goback {
+    width: 0.22rem;
+    height: 0.36rem;
+    padding-top: 0.24rem;
+    margin-left: 0.48rem;
+}
+
+.servicer {
+    margin-left: 2.08rem;
+}
+
+.servicer_name {
+    font-size: 0.34rem;
+    font-family: SF Pro Text;
+    font-weight: bold;
+    line-height: 0.88rem;
+    color: rgba(0, 0, 0, 1);
+    opacity: 1;
+}
+
+.official {
+    display: inline-block;
+    text-align: center;
+    background-color: #FFE452;
+    border-radius: 0.06rem;
+    font-size: 0.2rem;
+    font-family: SF Pro Text;
+    font-weight: 800;
+    line-height: 0.24rem;
+    color: rgba(0, 0, 0, 1);
+    opacity: 1;
+    padding: 0.1rem;
+}
+
+.in_content {
+    text-align: center;
+    line-height: 0.56rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.in_content span, .talk_time span {
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 0.12rem;
+    display: inline-block;
+    font-size: 0.24rem;
+    font-family: SF Pro Text;
+    font-weight: 400;
+    line-height: 0.28rem;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    padding: 0.1rem 0.24rem 0.12rem;
+}
+
+.talk_time {
+    text-align: center;
+    line-height: 0.56rem;
+    /*margin-bottom: 0.4rem;*/
+}
+
+.service_talk_content {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    margin-top: 0.3rem;
+}
+
+.service_info {
+
+}
+
+.service_img {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    /*margin-left: 0.3rem;*/
+    /*background-color: red;*/
+}
+
+.service_img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.service_talk {
+    margin-left: 0.3rem;
+    position: relative;
+}
+
+.service_talk span.biaoshi {
+    font-size: 0.22rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    position: absolute;
+    bottom: 0;
+    color: rgba(51, 51, 51, 1);
+    background: transparent;
+    right: -0.8rem;
+}
+
+.service_talk img {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.1rem;
+    /*background-color: red;*/
+}
+
+.talk_msg {
+    width: 4.5rem;
+    font-size: 0.3rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    line-height: 0.5rem;
+    color: rgba(0, 0, 0, 1);
+    background-color: white;
+    display: inline-block;
+    border-radius: 0.1rem;
+    padding: 0.18rem 0.24rem 0.2rem;
+}
+
+.talk_help {
+    width: 3.4rem;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 0.1rem;
+    padding-left: 0.3rem;
+    margin-top: 0.28rem;
+}
+
+.help_title {
+    height: 0.8rem;
+    font-size: 0.24rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    line-height: 0.8rem;
+    color: rgba(51, 51, 51, 1);
+    opacity: 1;
+
+}
+
+.help_item {
+    width: 2.96rem;
+    height: 0.8rem;
+    border-top: solid 0.01rem rgba(245, 245, 245, 1);
+    font-size: 0.26rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    line-height: 0.8rem;
+    color: rgba(87, 168, 237, 1);
+}
+
+.help_item img {
+    width: 0.1rem;
+    height: 0.16rem;
+    margin-top: 0.32rem;
+}
+
+.client_talk_content {
+    padding-right: 0.3rem;
+    /*padding-left: 0.3rem;*/
+    margin-top: 0.3rem;
+    /*position: relative;*/
+}
+
+.client_img {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+}
+
+.client_img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.client_talk {
+    margin-right: 0.3rem;
+    position: relative;
+}
+
+.client_talk span {
+    background: rgba(255, 228, 82, 1);
+}
+
+.client_talk span.biaoshi {
+    font-size: 0.22rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    background: transparent;
+}
+
+.client_talk img {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.1rem;
+    /*background-color: red;*/
+}
+.send_img_ing,.send_img_fail{
+    width: 2.6rem;
+    height: 2.6rem;
+    background:rgba(0,0,0,0.6);
+    border-radius:0.1rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.send_img_ing img,.send_img_fail img{
+    width: 0.56rem;
+    height: 0.56rem;
+    margin-left:1.02rem ;
+    margin-top: 1.02rem;
+}
+.send_img_ing p,.send_img_fail p{
+    font-size:0.24rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    line-height:0.34rem;
+    color:rgba(255,255,255,1);
+    margin-left: 1.06rem;
+    margin-top: 0.1rem;
+}
+.client_talk img.send_ing,.client_talk img.send_fail{
+    width: 0.36rem;
+    height: 0.36rem;
+}
+.outline_content {
+    padding-bottom: 2rem;
+}
+
+.talk_bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.talk_question {
+    width: 100%;
+    height: 0.8rem;
+    background-color: white;
+    padding-left: 0.3rem;
+
+}
+
+.my_ques {
+    font-size: 0.22rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    line-height: 0.8rem;
+    color: rgba(51, 51, 51, 1);
+    opacity: 1;
+}
+
+.swiper-container2 {
+    width: 90%;
+}
+
+.swiper-container2 .swiper-slide {
+    width: 1.56rem !important;
+    height: 0.56rem;
+    margin-top: 0.16rem;
+    background: #FAFAFA;
+    border-radius: 0.28rem;
+    text-align: center;
+    line-height: 0.56rem;
+    font-size: 0.24rem;
+    font-family: SF Pro Text;
+    font-weight: 400;
+    color: rgba(136, 136, 136, 1);
+}
+
+.talk_input {
+    width: 100%;
+    height: 1.2rem;
+    background-color: white;
+}
+
+.voice_img_icon {
+    width: 0.56rem;
+    height: 0.56rem;
+    margin-left: 0.24rem;
+    margin-top: 0.32rem;
+}
+
+.voice_img_icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.talk_input_wrap {
+    width: 5.42rem;
+    height: 0.84rem;
+    background: #FAFAFA;
+    border-radius: 0.42rem;
+    margin-top: 0.18rem;
+    margin-left: 0.24rem;
+    margin-right: 0.24rem;
+}
+
+.talk_input_wrap input {
+    background: #FAFAFA;
+    height: 100%;
+    width: 72%;
+    margin-left: 0.4rem;
+    /*border-radius:0.42rem;*/
+}
+
+.emojy_icon {
+    width: 0.52rem;
+    height: 0.52rem;
+    margin-top: 0.16rem;
+    margin-right: 0.22rem;
+}
+
+.show_file {
+    width: 0.56rem;
+    height: 0.56rem;
+    margin-top: 0.32rem;
+    margin-left: 0.24rem;
+}
+
+.show_file img {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.show_file img.active {
+    display: block;
+}
+
+.send_msg {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 0.3rem;
+    color: rgba(253, 219, 36, 1);
+    margin-top: 0.4rem;
+}
+
+.file_wrap {
+    width: 100%;
+    /*height: 2rem;*/
+    background: white;
+    padding-left: 0.2rem;
+    display: none;
+}
+
+.file_wrap.wrap_active {
+    display: block;
+}
+
+.wrap_item {
+    width: 0.96rem;
+    text-align: center;
+    margin: 0.4rem 0.4rem 0.18rem;
+}
+
+.wrap_item img {
+    width: 0.96rem;
+    height: 0.96rem;
+}
+
+.wrap_item span {
+    font-size: 0.24rem;
+    font-family: SF Pro Text;
+    font-weight: 500;
+    line-height: 0.28rem;
+    color: rgba(102, 102, 102, 1);
+}
+
+.order_wrap {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.24);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.order {
+    margin-top: 6.36rem;
+    background-color: white;
+}
+
+.order_title {
+
+}
+
+.order_title p {
+    font-size: 0.26rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 36px;
+    color: rgba(170, 170, 170, 1);
+    margin-left: 0.5rem;
+}
+
+.order_title p.active {
+    color: rgba(0, 0, 0, 1);
+}
+
+.order_title p.active::after {
+    content: '';
+    display: block;
+    width: 0.44rem;
+    height: 0.12rem;
+    background-color: #FFE452;
+    margin-left: 0.3rem;
+}
+
+.order_close {
+    width: 0.23rem;
+    height: 0.23rem;
+    margin-right: 0.46rem;
+    margin-top: 0.32rem;
+}
+
+.order_list {
+    width: 100%;
+    background: rgba(245, 245, 245, 1);
+    /*padding-top:0.3rem;*/
+}
+
+.list_item {
+    width: 6.9rem;
+    height: 3.8rem;
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    box-sizing: border-box;
+    border-radius: 0.18rem;
+    margin: 0.3rem auto 0;
+    padding-left: 0.24rem;
+    padding-right: 0.24rem;
+}
+
+.list_item_top {
+    border-bottom: solid 0.01rem #FAFAFA;
+}
+
+.list_item_order {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.8rem;
+    color: rgba(102, 102, 102, 1);
+}
+
+.list_item_date {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.8rem;
+    color: rgba(102, 102, 102, 1);
+}
+
+.list_item_bottom {
+    margin-top: 0.26rem;
+    padding-bottom: 0.24rem;
+    border-bottom: solid 0.01rem #FAFAFA;
+}
+
+.list_item_img {
+    width: 1.4rem;
+    height: 1.4rem;
+    background-color: #0C0C0C;
+}
+
+.list_item_info {
+    width: 74%;
+}
+
+.list_item_name {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.4rem;
+    color: rgba(0, 0, 0, 1);
+}
+
+.list_item_price {
+    font-size: 0.3rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.42rem;
+    color: rgba(242, 51, 51, 1);
+    margin-top: 0.16rem;
+}
+.order_progress{
+
+}
+.progress_span{
+    width: 1.52rem;
+    height: 0.62rem;
+    display: inline-block;
+    background:rgba(227,227,227,0.24);
+    border-radius:0.32rem;
+    margin-top: 0.2rem;
+    line-height: 0.62rem;
+    text-align: center;
+    font-size:0.26rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(153,153,153,1);
+}

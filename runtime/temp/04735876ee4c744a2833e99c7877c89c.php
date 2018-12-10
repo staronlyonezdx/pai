@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\project\pai\public/../application/member/view/core/continue_invitation.html";i:1543549408;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:78:"D:\project\pai\public/../application/member/view/core/continue_invitation.html";i:1544167111;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -34,7 +34,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -98,7 +98,7 @@
                 <div class="continue_text">
                     <span>如有违法违规作弊行为将被取消奖励资格</span>
                 </div>
-                <a href="/index/index/agreement/at_name/邀请新人活动规则">
+                <a href="/index/index/agreement/at_name/邀请新人活动规则" class="to_rule">
                     查看完整规则详情
                 </a>
             </div>
@@ -289,6 +289,23 @@
 </script>
 <script src="__STATIC__/js/clipboard.min.js"></script>
 <script>
+    $(function(){
+        $.ajax({
+            type:'post',
+            url:'/api/Audit/audit_period',
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                var res=  $.parseJSON(data);
+                console.log(res);
+                if(res.data.status == 0){
+                    $('.continue_huodong').hide();
+                    $('.to_rule').hide();
+                }
+            }
+        })
+    })
+
     //iosapp
     /*这段代码是固定的，必须要放到js中*/
     function setupWebViewJavascriptBridge(callback) {
@@ -422,6 +439,8 @@
     clipboard.on('error', function(e) {
         layer.msg('<span style="color:#fff">链接复制成功，快去分享吧！</span>',{time:2000});
     });
+
+
 </script>
 
     <!-- <script>

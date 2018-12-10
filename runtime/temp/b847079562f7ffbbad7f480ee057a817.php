@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/shop/index.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/shop/index.html";i:1544060270;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -251,6 +251,9 @@
 <script src="__JS__/Public.js"></script>
 <script src="__JS__/mescroll/mescroll.min.js"></script>
 <script>
+    //区分积分和普通商品数据（1、积分 2、普通商品）
+    var tpy = "<?php echo $type; ?>";
+
     //调用方法
     $('.shop_back').click(function(){   
         var data3=window.sessionStorage.getItem("data");  
@@ -418,12 +421,22 @@
                 str += '<div class="product_list_number">' + pd.sum_gp_num + '人已参与</div>';
                 str += '</div>';
                 str += '<p class="product_list_tit_p">' + pd.g_name + '</p>';
-                str += '<p class="product_list_price clear">￥<span class="product_list_red">' + pd.min_price + '-' + pd.max_price + '</span></p>';
-                str += '<span class="product_list_oldprice">' + pd.gp_market_price + '</span>';
+                if(tpy == 1) {
+                    str += '<p class="product_list_price clear">' + pd.min_price + '积分</span></p>';
+                }else {
+                    str += '<p class="product_list_price clear">￥<span class="product_list_red">' + pd.min_price + '-' + pd.max_price + '</span></p>';
+                    str += '<span class="product_list_oldprice">' + pd.gp_market_price + '</span>';
+                }               
+                
                 str += '</div>';
 
-                var liDom = document.createElement("a");
-                liDom.setAttribute("href", "/member/goodsproduct/index/g_id/" + pd.g_id + "");
+                var liDom = document.createElement("a");                
+                if(tpy == 1) {
+                    liDom.setAttribute("href", "/pointpai/Pointgoods/index/g_id/" + pd.g_id + "");
+                }else {
+                    liDom.setAttribute("href", "/member/goodsproduct/index/g_id/" + pd.g_id + "");
+                }  
+                
                 liDom.innerHTML = str;
                 listDom.appendChild(liDom);
             }

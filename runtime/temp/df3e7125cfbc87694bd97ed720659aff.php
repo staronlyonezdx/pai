@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1543307532;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\project\pai\public/../application/member/view/orderpai/confirm.html";i:1544177288;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/header.html";i:1542767234;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -37,7 +37,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -62,111 +62,252 @@
 </header>
         <header></header>
         
-<main >
-
+<main>
     <?php if($gs_id < 2): ?>
-    <!--地址栏-->
-    <a href="/member/address/index/encrypt/<?php echo $encrypt; ?>">
-        <div class="conf_order">
-            <div class="conf_list clear">
-                <div class="conf_img lf">
-                    <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/orderpai/icon_nav_dingwei@2x.png">
-                </div>
-                <?php if(empty($default_address) || (($default_address instanceof \think\Collection || $default_address instanceof \think\Paginator ) && $default_address->isEmpty())): ?>
-                <a href="/member/address/edit/encrypt/<?php echo $encrypt; ?>">添加收货地址</a>
-                <?php else: ?>
-                <div class="conf_name lf">
-                    <p class="conf_tit clear">
-                        <?php echo (isset($default_address['name']) && ($default_address['name'] !== '')?$default_address['name']:''); if($default_address['is_default'] == 1): ?>
-                        <span class="conf_default">默认</span>
-                        <?php endif; ?>
-                        <span class="rt"><?php echo (isset($default_address['secrecy_tel']) && ($default_address['secrecy_tel'] !== '')?$default_address['secrecy_tel']:''); ?></span>
-                    </p>
+        <!--地址栏-->
+        <a href="/member/address/index/encrypt/<?php echo $encrypt; ?>">
+            <div class="conf_order">
+                <div class="conf_list clear">
+                    <div class="conf_img lf">
+                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="__STATIC__/image/orderpai/icon_nav_dingwei@2x.png">
+                    </div>
+                    <?php if(empty($default_address) || (($default_address instanceof \think\Collection || $default_address instanceof \think\Paginator ) && $default_address->isEmpty())): ?>
+                    <a href="/member/address/edit/encrypt/<?php echo $encrypt; ?>">添加收货地址</a>
+                    <?php else: ?>
+                    <div class="conf_name lf">
+                        <p class="conf_tit clear">
+                            <?php echo (isset($default_address['name']) && ($default_address['name'] !== '')?$default_address['name']:''); if($default_address['is_default'] == 1): ?>
+                            <span class="conf_default">默认</span>
+                            <?php endif; ?>
+                            <span class="rt"><?php echo (isset($default_address['secrecy_tel']) && ($default_address['secrecy_tel'] !== '')?$default_address['secrecy_tel']:''); ?></span>
+                        </p>
 
-                    <p class="conf_site">
-                        <?php echo $default_address['province']; ?><?php echo $default_address['city']; ?><?php echo $default_address['district']; ?><?php echo $default_address['address']; ?>
-                        <span class="rt">
-                            <img src="__STATIC__/image/orderpai/icon_jump@2x.png">
-                        </span>
-                    </p>
-                    <input type="hidden" name="address_id" value="<?php echo $default_address['address_id']; ?>"/>
+                        <p class="conf_site">
+                            <?php echo $default_address['province']; ?><?php echo $default_address['city']; ?><?php echo $default_address['district']; ?><?php echo $default_address['address']; ?>
+                            <span class="rt">
+                                <img src="__STATIC__/image/orderpai/icon_jump@2x.png">
+                            </span>
+                        </p>
+                        <input type="hidden" name="address_id" value="<?php echo $default_address['address_id']; ?>"/>
+                    </div>
+                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
+                <div class="conf_seal">
+                    <img src="__STATIC__/image/orderpai/icon_ft@2x.png">
+                </div>
             </div>
-            <div class="conf_seal">
-                <img src="__STATIC__/image/orderpai/icon_ft@2x.png">
-            </div>
-        </div>
-    </a>
+        </a>
     <?php endif; if($info['play_type']==1): ?>
-    <!-- 加判断 -->
-    
-    <?php if($is_lord ==1): else: ?>
-    
-    <a href="/member/orderpai/pai_rule">
-        <div class="details_rule clear">
-            <span class="lf">拍吖吖揭晓规则 了解一下~</span>
-            <span class="rt">
-                查看规则
-                <img src="/static/image/details/icon_jump@2x.png">
-            </span>
-        </div>
-    </a>
-    <?php endif; ?>
-    <div class="conf_content">
-        <div class="conf_con_tit">
-            <img src="__STATIC__/image/orderpai/dp@2x.png">
-            <span><?php echo (isset($info['stroe_name']) && ($info['stroe_name'] !== '')?$info['stroe_name']:''); ?></span>
-        </div>
-        <div class="conf_order_main clear">
-            <?php if($info['is_fudai'] ==1 || $info['is_huodong'] ==1): ?>
-                <div class="conf_order_img conf_order_fudai lf">
-                    <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt="" class="conf_order_img_fudai">
-                    <img src="__CDN_PATH__<?php echo (isset($info['gp_s_img']) && ($info['gp_s_img'] !== '')?$info['gp_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
-                </div>
-            <?php else: ?>
-                <div class="conf_order_img lf">
-                    <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
-                </div>
-            <?php endif; ?>
-            <div class="conf_order_text lf">
-                <?php if($info['is_fudai'] ==1): ?>
-                    <p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png" alt="" style="width:0.8rem;height:0.3rem;"><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
-                <?php elseif($info['is_huodong'] ==1): ?>
-                    <p style="background:url(__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png) no-repeat left 0.035rem;background-size: 0.8rem; text-indent: 0.9rem;"><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
+        <a href="/member/orderpai/pai_rule">
+            <div class="details_rule clear">
+                <span class="lf">拍吖吖揭晓规则 了解一下~</span>
+                <span class="rt">
+                    查看规则
+                    <img src="/static/image/details/icon_jump@2x.png">
+                </span>
+            </div>
+        </a>
+        <div class="conf_content">
+            <div class="conf_con_tit">
+                <img src="__STATIC__/image/orderpai/dp@2x.png">
+                <span><?php echo (isset($info['stroe_name']) && ($info['stroe_name'] !== '')?$info['stroe_name']:''); ?></span>
+            </div>
+            <div class="conf_order_main clear">
+                <?php if($info['is_fudai'] ==1 || $info['is_huodong'] ==1): ?>
+                    <div class="conf_order_img conf_order_fudai lf">
+                        <img src="__STATIC__/image/goodsproduct/icon_11.11biasohi@2x.png" alt="" class="conf_order_img_fudai">
+                        <img src="__CDN_PATH__<?php echo (isset($info['gp_s_img']) && ($info['gp_s_img'] !== '')?$info['gp_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                    </div>
                 <?php else: ?>
-                    <p><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
+                    <div class="conf_order_img lf">
+                        <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                    </div>
                 <?php endif; ?>
-                <div class="conf_order_price clear">
-                    <span class="conf_order_new">
-                        ￥<?php echo (isset($info['gdr_price']) && ($info['gdr_price'] !== '')?$info['gdr_price']:'0.00'); ?>
-                        <span><?php echo (isset($info['gp_market_price']) && ($info['gp_market_price'] !== '')?$info['gp_market_price']:'0.00'); ?></span>
-                    </span>
-
-                    <span class="conf_order_inventory rt">x
-                        <span class="mynum"><?php echo (isset($num) && ($num !== '')?$num:'0'); ?></span>
-                    </span>
-                    <div class="conf_order_zhekou rt">
-                        <img src="__CDN_PATH__<?php echo (isset($info['gdt_img']) && ($info['gdt_img'] !== '')?$info['gdt_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>" alt="">
+                <div class="conf_order_text lf">
+                    <?php if($info['is_fudai'] ==1): ?>
+                        <p><img src="__STATIC__/image/goodsproduct/icon_chaozhigou@2x.png" alt="" style="width:0.8rem;height:0.3rem;"><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
+                    <?php elseif($info['is_huodong'] ==1): ?>
+                        <p style="background:url(__STATIC__/image/goodsproduct/Icon_11biaoshi@2x.png) no-repeat left 0.035rem;background-size: 0.8rem; text-indent: 0.9rem;"><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
+                    <?php else: ?>
+                        <p><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
+                    <?php endif; ?>
+                    <div class="conf_order_price clear">
+                        <span class="conf_order_new">
+                            ￥<?php echo (isset($info['gdr_price']) && ($info['gdr_price'] !== '')?$info['gdr_price']:'0.00'); ?>
+                            <span><?php echo (isset($info['gp_market_price']) && ($info['gp_market_price'] !== '')?$info['gp_market_price']:'0.00'); ?></span>
+                        </span>
+                        <span class="conf_order_inventory rt">x
+                            <span class="mynum"><?php echo (isset($num) && ($num !== '')?$num:'0'); ?></span>
+                        </span>
+                        <div class="conf_order_zhekou rt">
+                            <img src="__CDN_PATH__<?php echo (isset($info['gdt_img']) && ($info['gdt_img'] !== '')?$info['gdt_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class="conf_order_data">
-            <div class="clear">
-                截止日期
-                <!-- 加判断 -->
-                <?php if($is_lord ==1): else: ?>
-                <span class="conf_order_hint">目标满额立即揭晓</span>
-                <?php endif; ?>
-                
-                <span class="conf_order_time rt"><?php echo date('Y-m-d H:i',$info['g_endtime']); ?></span>
+            <div class="conf_order_data">
+                <div class="clear">
+                    截止日期
+                    <!-- 加判断 -->
+                    <?php if($is_lord ==1): else: ?>
+                        <span class="conf_order_hint">目标满额立即揭晓</span>
+                    <?php endif; ?>
+                    <span class="conf_order_time rt"><?php echo date('Y-m-d H:i',$info['g_endtime']); ?></span>
+                </div>
+            </div>
+            <div class="conf_order_data conf_order_num">
+                <div class="clear">
+                    吖吖码份数
+                    <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
+                    <div class="conf_order_but rt clear">
+                        <div class="conf_order_prep lf">
+                            <img src="__STATIC__/image/orderpai/icon_-@2x.png">
+                        </div>
+                        <div class="conf_order_inp lf">
+                            <input type="number" name="num" min="1" max="<?php echo (isset($max_pai_num) && ($max_pai_num !== '')?$max_pai_num:0); ?>" value="<?php echo (isset($num) && ($num !== '')?$num:'0'); ?>" readonly>
+                        </div>
+                        <div class="conf_order_add lf">
+                            <img src="__STATIC__/image/orderpai/icon_+@2x.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    配送方式
+                    <span class="conf_order_hint"><?php echo (isset($info['g_express_way']) && ($info['g_express_way'] !== '')?$info['g_express_way']:'未选择'); ?></span>
+                    <span class="conf_order_time rt">￥<?php echo (isset($info['g_express']) && ($info['g_express'] !== '')?$info['g_express']:'0.00'); ?></span>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    总额
+                    <span class="conf_order_time conf_price rt">￥ <?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0.00'); ?></span>
+                </div>
             </div>
         </div>
-
-
-        <div class="conf_order_data conf_order_num">
+        <?php if($info['is_fudai'] ==1): ?>
+            <div class="conf_order_btn ljzf_but phonex conf_order_btn_fudai" >
+                <span >
+                    提交订单
+                </span>
+            </div>
+        <?php else: ?>
+            <div class="conf_order_btn ljzf_but phonex " >
+                <span>
+                    提交订单
+                </span>
+            </div>
+        <?php endif; elseif($info['play_type']==2): ?>
+        <div class="conf_content">
+            <div class="conf_con_tit">
+                <img src="__STATIC__/image/orderpai/dp@2x.png">
+                <span><?php echo (isset($info['stroe_name']) && ($info['stroe_name'] !== '')?$info['stroe_name']:''); ?></span>
+            </div>
+            <div class="conf_order_main clear">
+                <div class="conf_order_img lf">
+                    <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                </div>
+                <div class="conf_order_text lf">
+                    <p>
+                        <img src="__STATIC__/image/index/icon_hsbq@2x.png" alt="" style="width:0.92rem;height:0.3rem;margin-right: 0.1rem;">
+                        <?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?>
+                    </p>
+                    <div class="conf_order_price clear">
+                        <span class="conf_order_new">
+                            ￥<?php echo (isset($info['gdr_price']) && ($info['gdr_price'] !== '')?$info['gdr_price']:'0.00'); ?>
+                            <span><?php echo (isset($info['gp_market_price']) && ($info['gp_market_price'] !== '')?$info['gp_market_price']:'0.00'); ?></span>
+                        </span>
+                        <span class="conf_order_inventory rt">x
+                            <span class="mynum"><?php echo (isset($num) && ($num !== '')?$num:'0'); ?></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    截止日期
+                    <!-- 加判断 -->
+                    <?php if($is_lord ==1): else: ?>
+                        <span class="conf_order_hint">目标满额立即揭晓</span>
+                    <?php endif; ?>
+                    <span class="conf_order_time rt"><?php echo date('Y-m-d H:i',$info['g_endtime']); ?></span>
+                </div>
+            </div>
+            <div class="conf_order_data conf_order_num">
+                <div class="clear">
+                    吖吖码份数
+                    <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
+                    <div class="conf_order_but rt clear">
+                        <div class="conf_order_prep lf">
+                            <img src="__STATIC__/image/orderpai/icon_-@2x.png">
+                        </div>
+                        <div class="conf_order_inp lf">
+                            <input type="number" name="num" min="1" max="<?php echo (isset($max_pai_num) && ($max_pai_num !== '')?$max_pai_num:0); ?>" value="<?php echo (isset($num) && ($num !== '')?$num:'0'); ?>" readonly>
+                        </div>
+                        <div class="conf_order_add lf">
+                            <img src="__STATIC__/image/orderpai/icon_+@2x.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    配送方式
+                    <span class="conf_order_hint"><?php echo (isset($info['g_express_way']) && ($info['g_express_way'] !== '')?$info['g_express_way']:'未选择'); ?></span>
+                    <span class="conf_order_time rt">￥<?php echo (isset($info['g_express']) && ($info['g_express'] !== '')?$info['g_express']:'0.00'); ?></span>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    总额
+                    <span class="conf_order_time conf_price rt">￥ <?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0.00'); ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="conf_order_btn ljzf_but phonex " >
+            <span class="conf_order_tuangou">
+                提交订单
+            </span>
+        </div>
+    <?php elseif($info['play_type']==3): ?>
+        <div class="conf_content">
+            <div class="conf_con_tit">
+                <img src="__STATIC__/image/orderpai/dp@2x.png">
+                <span><?php echo (isset($info['stroe_name']) && ($info['stroe_name'] !== '')?$info['stroe_name']:''); ?></span>
+            </div>
+            <div class="conf_order_main clear">
+                <div class="conf_order_img lf">
+                    <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
+                </div>
+                <div class="conf_order_text lf">
+                    <p>
+                        <img src="__STATIC__/image/goodsproduct/icon_hsbq2@2x.png" alt="" style="width:0.62rem;height:0.3rem;margin-right: 0.1rem;">
+                        <?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?>
+                    </p>
+                    <div class="conf_order_price clear">
+                        <span class="conf_order_new">
+                            <img src="__STATIC__/image/goodsproduct/icon_huasheng@2x.png" alt="" class="conf_huasheng_ico">
+                            <?php echo (isset($info['gdr_price']) && ($info['gdr_price'] !== '')?$info['gdr_price']:'0.00'); ?>
+                            <span><?php echo (isset($info['gp_market_price']) && ($info['gp_market_price'] !== '')?$info['gp_market_price']:'0.00'); ?></span>
+                        </span>
+                        <span class="conf_order_inventory rt">x
+                            <span class="mynum"><?php echo (isset($num) && ($num !== '')?$num:'0'); ?></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    截止日期
+                    <!-- 加判断 -->
+                    <?php if($is_lord ==1): else: ?>
+                    <span class="conf_order_hint">目标满额立即揭晓</span>
+                    <?php endif; ?>
+                    <span class="conf_order_time rt"><?php echo date('Y-m-d H:i',$info['g_endtime']); ?></span>
+                </div>
+            </div>
+            <div class="conf_order_data conf_order_num">
                 <div class="clear">
                     吖吖码份数
                     <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
@@ -176,7 +317,7 @@
                         </div>
                         <div class="conf_order_inp lf">
                             <input type="number" name="num" min="1" max="<?php echo (isset($max_pai_num) && ($max_pai_num !== '')?$max_pai_num:0); ?>"
-                                   value="<?php echo (isset($num) && ($num !== '')?$num:'0'); ?>" readonly>
+                                    value="<?php echo (isset($num) && ($num !== '')?$num:'0'); ?>" readonly>
                         </div>
                         <div class="conf_order_add lf">
                             <img src="__STATIC__/image/orderpai/icon_+@2x.png">
@@ -184,129 +325,55 @@
                     </div>
                 </div>
             </div>
-
-        
-        <div class="conf_order_data">
-            <div class="clear">
-                配送方式
-                <span class="conf_order_hint"><?php echo (isset($info['g_express_way']) && ($info['g_express_way'] !== '')?$info['g_express_way']:'未选择'); ?></span>
-                <span class="conf_order_time rt">￥<?php echo (isset($info['g_express']) && ($info['g_express'] !== '')?$info['g_express']:'0.00'); ?></span>
+            <div class="conf_order_data">
+                <div class="clear">
+                    配送方式
+                    <span class="conf_order_hint"><?php echo (isset($info['g_express_way']) && ($info['g_express_way'] !== '')?$info['g_express_way']:'未选择'); ?></span>
+                    <span class="conf_order_time rt">￥<?php echo (isset($info['g_express']) && ($info['g_express'] !== '')?$info['g_express']:'0.00'); ?></span>
+                </div>
             </div>
-        </div>
-        <div class="conf_order_data">
-            <div class="clear">
-                总额
-                <span class="conf_order_time conf_price rt">￥ <?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0.00'); ?></span>
-            </div>
-        </div>
-    </div>
-    <?php if($info['is_fudai'] ==1): ?>
-        <div class="conf_order_btn ljzf_but phonex conf_order_btn_fudai" >
-            <span >
-                提交订单
-            </span>
-        </div>
-    <?php else: ?>
-        <div class="conf_order_btn ljzf_but phonex " >
-            <span>
-                提交订单
-            </span>
-        </div>
-    <?php endif; elseif($info['play_type']==2): ?>
-<div class="conf_content">
-    <div class="conf_con_tit">
-        <img src="__STATIC__/image/orderpai/dp@2x.png">
-        <span><?php echo (isset($info['stroe_name']) && ($info['stroe_name'] !== '')?$info['stroe_name']:''); ?></span>
-    </div>
-    <div class="conf_order_main clear">
-        <div class="conf_order_img lf">
-            <img src="__CDN_PATH__<?php echo (isset($info['g_s_img']) && ($info['g_s_img'] !== '')?$info['g_s_img']:'/static/image/index/pic_home_taplace@2x.png'); ?>">
-        </div>
-        <div class="conf_order_text lf">
-            <p><img src="__STATIC__/image/index/icon_hsbq@2x.png" alt="" style="width:0.92rem;height:0.3rem;margin-right: 0.1rem;"><?php echo (isset($info['g_name']) && ($info['g_name'] !== '')?$info['g_name']:''); ?></p>
-            <div class="conf_order_price clear">
-                <span class="conf_order_new">
-                    ￥<?php echo (isset($info['gdr_price']) && ($info['gdr_price'] !== '')?$info['gdr_price']:'0.00'); ?>
-                    <span><?php echo (isset($info['gp_market_price']) && ($info['gp_market_price'] !== '')?$info['gp_market_price']:'0.00'); ?></span>
-                </span>
-
-                <span class="conf_order_inventory rt">x
-                    <span class="mynum"><?php echo (isset($num) && ($num !== '')?$num:'0'); ?></span>
-                </span>
-              
-            </div>
-        </div>
-
-    </div>
-    <div class="conf_order_data">
-        <div class="clear">
-            截止日期
-            <!-- 加判断 -->
-            <?php if($is_lord ==1): else: ?>
-            <span class="conf_order_hint">目标满额立即揭晓</span>
-            <?php endif; ?>
-            
-            <span class="conf_order_time rt"><?php echo date('Y-m-d H:i',$info['g_endtime']); ?></span>
-        </div>
-    </div>
-
-
-    <div class="conf_order_data conf_order_num">
-            <div class="clear">
-                吖吖码份数
-                <!--<span class="conf_order_hint">每份对应一个幸运码</span>-->
-                <div class="conf_order_but rt clear">
-                    <div class="conf_order_prep lf">
-                        <img src="__STATIC__/image/orderpai/icon_-@2x.png">
-                    </div>
-                    <div class="conf_order_inp lf">
-                        <input type="number" name="num" min="1" max="<?php echo (isset($max_pai_num) && ($max_pai_num !== '')?$max_pai_num:0); ?>"
-                                value="<?php echo (isset($num) && ($num !== '')?$num:'0'); ?>" readonly>
-                    </div>
-                    <div class="conf_order_add lf">
-                        <img src="__STATIC__/image/orderpai/icon_+@2x.png">
-                    </div>
+            <div class="conf_order_data">
+                <div class="clear">
+                    总额
+                    
+                    <span class="conf_order_time conf_price rt conf_order_huasheng">
+                        <img src="__STATIC__/image/goodsproduct/icon_huasheng@2x.png" alt="" class="conf_huasheng_ico">
+                        <?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0.00'); ?>
+                    </span>
                 </div>
             </div>
         </div>
-
-    
-    <div class="conf_order_data">
-        <div class="clear">
-            配送方式
-            <span class="conf_order_hint"><?php echo (isset($info['g_express_way']) && ($info['g_express_way'] !== '')?$info['g_express_way']:'未选择'); ?></span>
-            <span class="conf_order_time rt">￥<?php echo (isset($info['g_express']) && ($info['g_express'] !== '')?$info['g_express']:'0.00'); ?></span>
+        <div class="conf_order_btn ljzf_but phonex conf_huasheng_btn" >
+            <span class="conf_order_tuangou">
+                提交订单
+            </span>
         </div>
-    </div>
-    <div class="conf_order_data">
-        <div class="clear">
-            总额
-            <span class="conf_order_time conf_price rt">￥ <?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0.00'); ?></span>
-        </div>
-    </div>
-</div>
-<div class="conf_order_btn ljzf_but phonex " >
-    <span class="conf_order_tuangou">
-        提交订单
-    </span>
-</div>
-<?php elseif($info['play_type']==3): endif; ?>
+    <?php endif; ?>
     <!--支付密码浮动层-->
     <div class="ftc_wzsf">
         <div class="srzfmm_box">
             <div class="qsrzfmm_bt clear_wl">
-
                 <span class="">请输入支付密码</span>
                 <img src="__STATIC__/image/orderpai/icon_x@2x.png" class="tx close fr conf_order_colse">
             </div>
             <div class="zfmmxx_shop conf_order_paypassword_main clear">
                 <!--<span class="conf_order_pay_text lf">需支付￥</span>-->
-                <p class="conf_order_hints">
-                    <span class="conf_order_pay_text">需支付</span>
-                    <span class="conf_order_fuhao">￥</span>
-                    <span class="all_money"><?php echo $all_money; ?></span>
-                    <!--<?php echo $all_money; ?>-->
-                </p>
+                <?php if($info['play_type']==3): ?>
+                    <p class="conf_order_hints">
+                        <span class="conf_order_pay_text">需支付</span>
+                        <span class="all_money"><?php echo $all_money; ?></span>
+                        <span>花生</span>
+                        <!--<?php echo $all_money; ?>-->
+                    </p>
+                <?php else: ?>
+                    <p class="conf_order_hints">
+                        <span class="conf_order_pay_text">需支付</span>
+                        <span class="conf_order_fuhao">￥</span>
+                        <span class="all_money"><?php echo $all_money; ?></span>
+                        <!--<?php echo $all_money; ?>-->
+                    </p>
+                <?php endif; ?>
+                
             </div>
             <!-- <ul class="mm_box">
                 <li></li>
@@ -316,7 +383,6 @@
                 <li></li>
                 <li></li>
             </ul> -->
-
             <div class="inputBoxContainer" id="inputBoxContainer">
                 <input type="tel" class="realInput" autofocus="autofocus"/>
                 <div class="bogusInput">
@@ -328,12 +394,20 @@
                     <input type="password" maxlength="6" disabled />
                 </div>
             </div>
+           
             <div class="conf_order_paypassword_hint clear">
-                <div class="conf_order_balance lf">当前余额
-                    <span> ￥ <?php echo (isset($mem_info['m_money']) && ($mem_info['m_money'] !== '')?$mem_info['m_money']:'0.00'); ?></span>
-
-                    <p class="lack_msg" style="display: none;">余额不足请立即充值</p>
-                </div>
+                <?php if($info['play_type']==3): ?>
+                    <div class="conf_order_balance lf">当前花生
+                        <span> ￥ <?php echo (isset($mem_info['m_money']) && ($mem_info['m_money'] !== '')?$mem_info['m_money']:'0.00'); ?></span>
+                        <p class="lack_msg" style="display: none;">花生不足请立即充值</p>
+                    </div>
+                <?php else: ?>
+                    <div class="conf_order_balance lf">当前余额
+                        <span> ￥ <?php echo (isset($mem_info['m_money']) && ($mem_info['m_money'] !== '')?$mem_info['m_money']:'0.00'); ?></span>
+                        <p class="lack_msg" style="display: none;">余额不足请立即充值</p>
+                    </div>
+                <?php endif; ?>
+               
                 <div class="conf_order_pay rt">充值</div>
             </div>
             <input type="hidden" name="o_id" value="0"/>
@@ -482,6 +556,8 @@
             var gdr_id = $('input[name=gdr_id]').val();
             var o_id = $('input[name=o_id]').val();
             var gs_id = $('input[name=gs_id]').val();
+            console.log(num);
+            // console.log(num)
             $.ajax({
                 url: "/member/Orderpai/creat_order",
                 dataType: 'json',
@@ -705,8 +781,12 @@
                 pwd = hex_md5(pawval);
 
                 // 判断余额
-                var $pay_money = parseFloat("<?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0'); ?>");
+                // var $pay_money = parseFloat("<?php echo (isset($all_money) && ($all_money !== '')?$all_money:'0'); ?>");
+                var $pay_money = parseFloat($(".all_money").html());
                 var $my_money = parseFloat("<?php echo (isset($mem_info['m_money']) && ($mem_info['m_money'] !== '')?$mem_info['m_money']:'0'); ?>");
+                console.log($pay_money);
+                console.log($my_money);
+
                 if ($pay_money > $my_money) {
                     // 失败提示
                     layer.msg("<span style='color:#fff'>余额不足，请充值</span>", {
@@ -714,6 +794,7 @@
                     });
                     return false;
                 }
+                // return false;
                 // 支付请求
                 var o_id = $("input[name=o_id]").val();
                 o_id = Number(o_id);
@@ -751,7 +832,7 @@
             }, 200);
         });
     });
-
+    var huasheng="<?php echo $info['play_type']; ?>";
     // 计算金额
     function settle() {
         var num = $('input[name=num]').val();
@@ -759,8 +840,13 @@
         var express_money = parseFloat("<?php echo $info['g_express'] ?>");
         var total_money = (price * 100 * num / 100 + express_money).toFixed(2);
         var my_money = parseFloat("<?php echo $mem_info['m_money'] ?>");
-
-        $(".conf_price").html('￥ ' + total_money);
+        if(huasheng==3){
+            var huasheng_ico=$('<img src="__STATIC__/image/goodsproduct/icon_huasheng@2x.png" alt="" class="conf_huasheng_ico">');
+            $(".conf_price").html(huasheng_ico);
+            $(".conf_price img").after(total_money);
+        }else{
+            $(".conf_price").html('￥ ' + total_money);
+        }
         $('.all_money').html(total_money);
 
         if (total_money > my_money) {

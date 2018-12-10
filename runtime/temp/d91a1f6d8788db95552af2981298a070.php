@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\project\pai\public/../application/index/view/index/agreement.html";i:1543573931;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1543280491;s:66:"D:\project\pai\public/../application/index/view/common/header.html";i:1541491293;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\project\pai\public/../application/index/view/index/agreement.html";i:1543573931;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1544154864;s:66:"D:\project\pai\public/../application/index/view/common/header.html";i:1541491293;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -34,7 +34,7 @@
         <script src="__JS__/common/lazyload.js"></script>
         <script src="__JS__/common/site.js"></script>
         <script src="__JS__/common/larea.js"></script>
-        <script src="__JS__/common/bootstrap.min.js"></script>
+        <!-- <script src="__JS__/common/bootstrap.min.js"></script> -->
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.js"></script>
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>

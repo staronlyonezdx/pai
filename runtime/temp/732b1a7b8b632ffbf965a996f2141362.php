@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_list.html";i:1542935137;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:84:"D:\project\pai\public/../application/popularity/view/popularityorder/order_list.html";i:1543564718;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -74,9 +74,12 @@
     <div class="nav-over"></div>
     <div class="nav-down"><span>人气购订单</span></div>
     <div class="nav-cont">
-        <a href="/member/orderpai/orderlist">吖吖订单</a>
+            <small data="1">吖吖订单</small>
+            <small data="2">人气购订单</small>
+            <small data="3">积分订单</small>
+        <!-- <a href="/member/orderpai/orderlist">吖吖订单</a>
         <a class="active">人气购订单</a>
-        <a href="/pointpai/Pointorder/orderlist">积分订单</a>
+        <a href="/pointpai/Pointorder/orderlist">积分订单</a> -->
     </div>
     <!-- 切换订单列表 E -->
 
@@ -373,11 +376,9 @@
     var header_path = "<?php echo isset($header_path) ? $header_path :  ''; ?>";
     //返回按钮
     function backH5() {
-        if(header_path != '') {
-            window.location.href = header_path;
-        }else {
-            window.history.back();
-        }
+      
+            window.history.go(-1);
+       
     }
    
     //点击搜索
@@ -404,7 +405,17 @@
         $('.nav-down span').toggleClass('sel');
         $('.nav-over').toggle();
     });
-
+    
+    $(".nav-cont small").click(function(){
+        if($(this).attr("data")==1){
+            window.location.replace("/member/orderpai/orderlist");
+        }else if($(this).attr("data")==2){
+            window.location.replace("/popularity/popularityorder/order_list");
+        }else if($(this).attr("data")==3){
+            window.location.replace("/pointpai/Pointorder/orderlist");
+        }
+        
+    })
     // 毫秒数转标准时间
     function msToDate (msec) {
         var datetime = new Date(msec);
@@ -493,7 +504,7 @@
         /*菜单点击事件*/
         $("#nav li").click(function () {
             var i = Number($(this).attr("i"));
-            window.location.href = '/popularity/popularityorder/order_list/i/' + i;
+            window.location.replace('/popularity/popularityorder/order_list/i/' + i);
             swiper.slideTo(i);//以轮播的方式切换列表
         })
 

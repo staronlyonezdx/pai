@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/core/index.html";i:1542847768;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:64:"D:\project\pai\public/../application/member/view/core/index.html";i:1544168109;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -47,7 +47,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -177,37 +177,37 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide" data='0' name="普通会员">
                     <img src="__STATIC__/image/core/pic_member_copperr_selected @2x.png"
-                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;">
+                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="common">
                 </div>
                 <div class="swiper-slide" data='1' name="白银会员">
                     <img src="__STATIC__/image/core/pic_member_silver_selected@2x.png"
-                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;">
+                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="baiyin">
                 </div>
                 <div class="swiper-slide" data='2' name="黄金会员">
                     <img src="__STATIC__/image/core/pic_member_gold_selecteds@2x.png"
-                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;">
+                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="huangjin">
                 </div>
                 <div class="swiper-slide" data='3' name="黑金会员">
                     <img src="__STATIC__/image/core/pic_member_black_selected@2x.png"
-                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;">
+                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="heijin">
                 </div>
                 <!--判断是否为吖吖会员，然后显示选项卡-->
                 <div class="swiper-slide" data='4' name="吖吖推广员" style="position: relative">
                     <!--审核失败-->
                     <div class="fail_promoters">
                         <img src="__STATIC__/image/core/pic_member_tgy_selected@2x.png"
-                             style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;">
+                             style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="promoters_fail">
                         <img src="__STATIC__/image/core/pic_zhezhao@2x.png"
                              style="width:4.60rem;height:2.86rem;display:block;margin:0 auto;position: absolute;top:0.68rem;left:0;right:0">
                     </div>
 
                     <!--审核成功-->
                     <img src="__STATIC__/image/core/pic_member_tgy_selected @2x.png"
-                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="is_promoters">
+                         style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="is_promoters yayatuiguang">
                     <!--不是吖吖推广员-->
                     <div class="no-promoters">
                         <img src="__STATIC__/image/core/pic_member_tgy_selected2@2x.png"
-                             style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;">
+                             style="width:5.74rem;height:4.19rem;display:block;margin:0 auto;" class="yayatuiguang">
                         <a class="yaoqing" href="/member/promoters/index">立即申请 <img
                                 src="__STATIC__/image/core/icon_jump@2x.png"
                                 style="width:0.34rem;height:0.34rem;margin-left: -0.1rem"></a>
@@ -522,6 +522,29 @@
 <script src="__JS__/common/swiper.min.js"></script>
 <script src="__STATIC__/js/clipboard.min.js"></script>
 <script>
+    $.ajax({
+        type:'post',
+        url:'/api/Audit/audit_period',
+        dataType:'json',
+        success:function(data){
+            console.log(data);
+            var res=  $.parseJSON(data);
+            console.log(res);
+            if(res.data.status == 0){
+                $('.common').attr('src','__STATIC__/image/core/k1.png')
+                $('.baiyin').attr('src','__STATIC__/image/core/k2.png')
+                $('.huangjin').attr('src','__STATIC__/image/core/k3.png')
+                $('.heijin').attr('src','__STATIC__/image/core/k4.png')
+                $('.yayatuiguang').attr('src','__STATIC__/image/core/k5.png')
+                $('.promoters_fail').attr('src','__STATIC__/image/core/k6.png')
+            }
+        }
+    })
+
+
+
+
+
     //打开推荐人弹窗
     function openTj(){
         $('.open-tj').show();

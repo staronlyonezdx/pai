@@ -1,0 +1,1270 @@
+body {
+    background-color: #FAFAFA;
+}
+
+.group_header, .search_top_hearder {
+    width: 100%;
+    height: 0.88rem;
+    background: linear-gradient(270deg, rgba(241, 57, 65, 1) 0%, rgba(252, 68, 107, 1) 100%);
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+}
+
+.goback {
+    width: 0.22rem;
+    height: 0.36rem;
+    margin-top: 0.24rem;
+    margin-left: 0.48rem;
+    margin-right: 0.36rem;
+}
+
+.goback img {
+    width: 100%;
+    height: 100%;
+}
+
+.index_search {
+    width: 5.4rem;
+    height: 0.6rem;
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    border-radius: 0.3rem;
+    margin-top: 0.14rem;
+}
+
+.index_search img {
+    width: 0.24rem;
+    height: 0.24rem;
+    margin-left: 1.28rem;
+    margin-top: 0.18rem;
+    margin-right: 0.16rem;
+}
+
+.index_search p {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    line-height: 0.34rem;
+    color: rgba(102, 102, 102, 1);
+    margin-top: 0.14rem;
+}
+
+.group_banner {
+    width: 100%;
+    height: 2.14rem;
+    /*background: url("../../image/activity/top_img@2x.png") center center;*/
+    /*background-size: 100%;*/
+    margin-top: 0.88rem;
+}
+
+.group_banner .swiper-container {
+    width: 100%;
+    height: 2.14rem;
+}
+
+.group_banner .swiper-container .swiper-wrapper {
+    width: 100% !important;
+    height: 2.14rem !important;
+}
+
+.group_banner .swiper-container .swiper-wrapper .swiper-slide {
+    width: 100% !important;
+    height: 2.14rem !important;
+}
+
+.group_banner .swiper-container .swiper-wrapper .swiper-slide img {
+    width: 100% !important;
+    height: 2.14rem !important;
+}
+
+.group_discount_pick {
+    background: rgba(252, 66, 73, 1);
+    /*padding-bottom: 0.2rem;*/
+    overflow: hidden;
+}
+
+.group_discount {
+    /*padding-top: 0.1rem;*/
+}
+
+.group_discount_item {
+    width: 3.6rem;
+    height: 2rem;
+    margin-top: 0.1rem;
+}
+
+.group_discount_item:nth-child(1) {
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+}
+
+.group_discount_item img {
+    width: 100%;
+    height: 100%;
+}
+
+.group_pick {
+    margin-top: 0.24rem;
+    margin-bottom: 0.2rem;
+}
+
+.group_pick_top {
+    width: 2.91rem;
+    height: 0.81rem;
+    margin-left: 2.26rem;
+}
+
+.group_pick_top img {
+    width: 100%;
+    height: 100%;
+}
+
+.group_pick_content {
+    width: 7.5rem;
+    height: 3.4rem;
+    background: rgba(255, 227, 183, 1);
+    border-radius: 0.12rem;
+    margin-left: 0.1rem;
+}
+
+.swiper-slide {
+    width: 1.8rem !important;
+}
+
+.pick_item {
+    width: 1.8rem;
+    padding-top: 0.3rem;
+    padding-left: 0.3rem;
+    padding-right: 0.6rem;
+}
+
+.pick_item_top {
+    position: relative;
+    margin-left: 0.05rem;
+}
+
+.pick_item_top img {
+    width: 1.6rem;
+    height: 1.6rem;
+    background: white;
+    border-radius: 0.06rem;
+}
+
+.pick_item_top span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 0 0.06rem 0.06rem;
+    width: 1.6rem;
+    height: 0.4rem;
+    background: rgba(0, 0, 0, 0.48);
+    text-align: center;
+    font-size: 0.22rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    line-height: 0.4rem;
+    color: rgba(255, 255, 255, 1);
+}
+
+.pick_item_name {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    line-height: 0.32rem;
+    color: rgba(0, 0, 0, 1);
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*text-align: center;*/
+    margin-top: 0.12rem;
+}
+
+.pick_item_price {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 0.4rem;
+    color: rgba(255, 43, 43, 1);
+}
+
+.pick_item_price small {
+    font-size: 0.2rem;
+}
+
+.group_content {
+    position: relative;
+    background-color: rgba(250, 250, 250, 1);
+}
+
+.group_content_top {
+    width: 100%;
+    height: 0.88rem;
+    background-color: white;
+    display: none;
+}
+
+.top_item {
+    width: 25%;
+    text-align: center;
+    line-height: 0.88rem;
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: rgba(195, 195, 195, 1);
+    opacity: 1;
+}
+
+.shop_index_tab_default {
+    width: 0.18rem;
+    height: 0.23rem;
+    /*display:none;*/
+    display: inline-block;
+}
+
+.shop_index_filter {
+    width: 0.18rem;
+    height: 0.23rem;
+    /*display: inline-block;*/
+    display: none;
+}
+
+.shop_index_filter img {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.shop_index_filter .shop_index_filter_img {
+    display: block;
+}
+
+.arrow {
+    position: relative;
+}
+
+.arrow img {
+    width: 0.11rem;
+    height: 0.11rem;
+}
+
+.arrow img:nth-child(1) {
+    position: absolute;
+    top: 0.1rem;
+}
+
+.arrow img:nth-child(2) {
+
+}
+
+.top_item img {
+    width: 0.2rem;
+    height: 0.18rem;
+}
+
+.active {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+}
+
+.mescroll {
+    margin-top: 0.1rem;
+}
+
+.content_item {
+    width: 3.34rem;
+    background-color: white;
+    margin-top: 0.2rem;
+    margin-left: 0.3rem;
+    /*margin-right: 0.2rem;*/
+    padding-bottom: 0.2rem;
+    border-radius: 0.16rem;
+}
+
+/*.content_item:nth-child(2n){*/
+/*margin-left:0 ;*/
+/*margin-right:0 ;*/
+/*}*/
+.info_img {
+    width: 3.34rem;
+    height: 3.34rem;
+    /*background: red;*/
+    border-radius: 0.16rem 0.16rem 0 0;
+}
+
+.content_item_info {
+    padding-left: 0.24rem;
+    margin-top: 0.24rem;
+    /*height:1.5rem;*/
+}
+
+.content_info_name {
+    width: 2.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.26rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+    opacity: 1;
+}
+
+.progress {
+    margin-top: 0.06rem;
+}
+
+.progress_main {
+    width: 2.2rem;
+    height: 0.16rem;
+    background: rgba(255, 230, 230, 1);
+    opacity: 1;
+    border-radius: 0.08rem;
+    margin-top: 0.1rem;
+}
+
+.progress_main span {
+    height: 100%;
+    display: block;
+    border-radius: 0.08rem;
+    background: rgba(255, 43, 43, 1);
+}
+
+.progress_num {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.34rem;
+    color: rgba(0, 0, 0, 1);
+    opacity: 1;
+    margin-left: 0.1rem;
+}
+
+.content_info_data {
+    margin-top: 0.16rem;
+}
+
+.info_price {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 0.4rem;
+    color: rgba(255, 43, 43, 1);
+    opacity: 1;
+}
+
+.info_price small {
+    font-size: 0.2rem;
+}
+
+.join {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    line-height: 0.4rem;
+    color: rgba(170, 170, 170, 1);
+    opacity: 1;
+    margin-right: 0.1rem;
+}
+
+.search_condition {
+    width: 100%;
+    position: absolute;
+    top: 0.88rem;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.42);
+    z-index: 2;
+    display: none;
+    height: 100%;
+}
+
+.condition_item {
+
+}
+
+.condition_item_title {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    line-height: 0.48rem;
+    color: rgba(119, 119, 119, 1);
+    opacity: 1;
+
+}
+
+.condition_item_content p {
+    width: 2.1rem;
+    height: 0.8rem;
+    display: inline-block;
+    background: rgba(250, 250, 250, 1);
+    border-radius: 0.06rem;
+    text-align: center;
+    line-height: 0.8rem;
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    margin-top: 0.2rem;
+    margin-right: 0.2rem;
+}
+
+.input_in {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    opacity: 1;
+    margin-top: 0.2rem;
+}
+
+.input_in input {
+    width: 2.9rem;
+    height: 0.8rem;
+    background: rgba(250, 250, 250, 1);
+    border-radius: 0.06rem;
+    text-align: center;
+    line-height: 0.8rem;
+
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color: rgba(216, 216, 216, 1);
+}
+
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: rgba(216, 216, 216, 1);
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: rgba(216, 216, 216, 1);
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: rgba(216, 216, 216, 1);
+}
+
+.btns {
+    width: 100%;
+    /*margin-top: 0.8rem;*/
+}
+
+.reset, .affrim {
+    width: 50%;
+    height: 0.88rem;
+    text-align: center;
+    line-height: 0.88rem;
+}
+
+.reset {
+    background: rgba(242, 242, 242, 1);
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(187, 187, 187, 1);
+}
+
+.affrim {
+    background: rgba(252, 66, 73, 1);
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+}
+
+.condition_item_content p.active_in {
+    background: rgba(255, 239, 239, 1);
+}
+.condition_item_content p.peanut_in {
+    background: rgba(253,212,47,1);
+}
+
+/*.mescroll-empty .empty-btn {*/
+/*background-color: rgba(241, 57, 67, 1) !important;*/
+/*color: rgba(255, 255, 255, 1) !important;*/
+/*font-size: 0.26rem !important;*/
+/*border: 0 !important;*/
+/*width: 1.04rem !important;*/
+/*font-weight: bold;*/
+/*}*/
+
+.recommend {
+    display: none;
+}
+
+.recomend_title {
+    width: 1.93rem;
+    height: 0.64rem;
+    margin-left: 2.78rem;
+    margin-top: 0.1rem;
+}
+
+.recomend_title img {
+    width: 100%;
+    height: 100%;
+}
+
+.goods_list_img {
+    width: 2.8rem;
+    height: 2.8rem;
+}
+
+.goods_list_img img {
+    width: 100%;
+    height: 100%;
+    margin-left: 2.36rem;
+}
+
+.goods_list p {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    line-height: 0.4rem;
+    color: rgba(170, 170, 170, 1);
+    opacity: 1;
+    margin-left: 2.08rem;
+}
+
+.goods_list_btn {
+    width: 1.6rem;
+    height: 0.68rem;
+    background: rgba(241, 57, 67, 1);
+    opacity: 1;
+    border-radius: 0.12rem;
+    font-size: 0.26rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 0.68rem;
+    margin-left: 2.96rem;
+    text-align: center;
+}
+
+.goods_list {
+    background-color: white;
+    padding-bottom: 0.3rem;
+
+}
+
+.search_top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+}
+
+.index_search input {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    width: 4.4rem;
+    /*margin-left: 0.12rem;*/
+    margin-top: 0.15rem;
+    border: none;
+    /*line-height: 0.6rem;*/
+    background: white;
+    color: #333333;
+    /*caret-color: red;*/
+    font-size: 0.24rem;
+}
+
+.search_btn {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.88rem;
+    color: rgba(255, 255, 255, 1);
+    opacity: 1;
+    margin-left: 0.2rem;
+}
+
+.search_top_content {
+    padding-left: 0.4rem;
+    margin-top: 0.88rem;
+}
+
+.search_top_item {
+
+}
+
+.search_top_title {
+    font-size: 0.28rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 0.8rem;
+    color: rgba(51, 51, 51, 1);
+    opacity: 1;
+}
+
+.search_item {
+
+}
+
+.search_item div {
+    padding: 0rem 0.23rem;
+    background: #f5f5f5;
+    border-radius: 0.5rem;
+    margin-right: 0.16rem;
+    margin-bottom: 0.32rem;
+    font-size: 0.24rem;
+    color: #666666;
+    height: 0.48rem;
+    line-height: 0.48rem;
+}
+
+.del_all {
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-top: 1rem;
+    margin-right: 0.4rem;
+}
+
+.del_all img {
+    width: 100%;
+    height: 100%;
+}
+
+.layui-layer-btn1 {
+    color: #F13944 !important;
+}
+.is_peanut_clear{
+    color:#FDD42F !important;
+}
+.empty-btn {
+    width: 1.6rem;
+    height: 0.68rem !important;
+    background: rgba(241, 57, 67, 1) !important;
+    opacity: 1;
+    border-radius: 0.12rem !important;
+    padding: 0 !important;
+    border: none !important;
+    text-align: center;
+    line-height: 0.68rem;
+    font-size: 0.26rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+.filtrate_img {
+    display: none;
+}
+
+.active_search_con {
+    display: block;
+}
+
+.peanut_header {
+    width: 100%;
+    height: 3.5rem;
+    background-image: url("../../image/activity/top_img1@2x.png");
+    background-position: center;
+}
+
+.peanut_header .group_header {
+    background: transparent;
+}
+
+.share_top {
+    width: 0.36rem;
+    height: 0.36rem;
+    margin-top: 0.24rem;
+    margin-left: 0.32rem;
+}
+
+.share_top img {
+    width: 100%;
+    height: 100%;
+}
+
+.peanut_data {
+    width: 100%;
+    padding-top: 1.32rem;
+}
+
+.peanut_my_img {
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+}
+
+.peanut_my_info {
+    margin-left: 0.28rem;
+}
+
+.peanut_my_name {
+    font-size: 0.32rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 0.44rem;
+    color: rgba(0, 0, 0, 1);
+}
+
+.peanut_my_info > img {
+    width: 0.13rem;
+    height: 0.21rem;
+}
+
+.peanut_my_num {
+    display: block;
+    background: rgba(43, 43, 43, 1);
+    border-radius: 0.28rem;
+    font-size: 0.26rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    line-height: 0.52rem;
+    color: rgba(255, 198, 10, 1);
+    padding-left: 0.14rem;
+    padding-right: 0.14rem;
+    margin-top: 0.12rem;
+}
+
+.peanut_my_num > img {
+    width: 0.26rem;
+    height: 0.38rem;
+}
+
+.peanut_recharge {
+    width: 1.6rem;
+    height: 0.68rem;
+    text-align: center;
+    line-height: 0.68rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 240, 201, 1) 100%);
+    box-shadow: 0 0.08rem 0.12rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.34rem;
+    font-size: 0.26rem;
+    font-family: PingFang SC;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+    margin-right: 0.4rem;
+}
+
+.peanut_rule {
+
+}
+
+.peanut_rule > img {
+    width: 7.1rem;
+    height: 2rem;
+    margin-left: 0.2rem;
+}
+
+.my_peanut {
+    margin-top: 1.2rem;
+padding-bottom: 0.2rem;
+}
+
+.no_peanut {
+    width: 5.59rem;
+    height: 1.95rem;
+    /*margin-left: 0.28rem;*/
+}
+
+.peanut_join_title {
+    padding-left: 0.28rem;
+    padding-right: 0.28rem;
+}
+
+.peanut_join_title span:nth-child(1) {
+    font-size: 0.32rem;
+    font-family: FZZhengHeiS-M-GB;
+    font-weight: 600;
+    line-height: 0.38rem;
+    color: rgba(0, 0, 0, 1);
+    -webkit-text-stroke: 0.6000000238418579 rgba(0, 0, 0, 1);
+    text-stroke: 0.6000000238418579 rgba(0, 0, 0, 1);
+}
+
+.peanut_join_title span:nth-child(2) {
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.34rem;
+    color: rgba(0, 0, 0, 1);
+    margin-left: 3.2rem;
+    margin-right: 0.12rem;
+}
+
+.peanut_join_title img {
+    width: 0.13rem;
+    height: 0.21rem;
+}
+.peanut_join_wrap{
+    margin-left: 0.3rem;
+    margin-top: 0.2rem;
+}
+.peanut_friend{
+
+}
+.peanut_friend>span{
+    font-size:0.32rem;
+    font-family:FZZhengHeiS-M-GB;
+    font-weight:600;
+    line-height:0.38rem;
+    color:rgba(0,0,0,1);
+    margin-left: 0.3rem;
+    -webkit-text-stroke:0.6000000238418579 rgba(0,0,0,1);
+    text-stroke:0.6000000238418579 rgba(0,0,0,1);
+}
+.my_parent_wrap{
+margin-top: 0.32rem;
+}
+.my_parent{
+margin-left: 0.7rem;
+}
+.my_parent>img{
+    width: 0.68rem;
+    height: 0.68rem;
+    background:rgba(0,0,0,0);
+    border:0.04rem solid rgba(255,255,255,1);
+    border-radius:50%;
+}
+.my_parent>img:nth-child(2){
+    margin-left:-0.5rem ;
+    background: black;
+}
+.my_parent>img:nth-child(3){
+    margin-left:-0.5rem ;
+    background: red;
+}
+.my_parent>span{
+    font-size:0.24rem;
+    font-family:PingFang SC;
+    font-weight:500;
+
+    color:rgba(170,170,170,1);
+}
+.inv_btn{
+    margin-right: 0.78rem;
+    width:2.2rem;
+    height:0.88rem;
+    background:linear-gradient(180deg,rgba(255,77,60,1) 0%,rgba(255,108,33,1) 100%);
+    box-shadow:0 0.12rem 0.16rem rgba(255,98,35,0.28);
+    opacity:1;
+    border-radius:0.44rem;
+    text-align: center;
+    font-size:0.28rem
+    font-family:PingFang SC;
+    font-weight:600;
+    line-height:0.88rem;
+    color:rgba(255,255,255,1);
+}
+.peanut_item {
+
+}
+
+.peanut_item_top {
+    width: 2rem;
+    height: 2rem;
+    background: white;
+    border-radius: 0.12rem;
+    position: relative;
+    text-align: center;
+}
+
+.peanut_item_top img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.12rem;
+}
+
+.peanut_success {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.52rem;
+    text-align: center;
+    line-height: 0.52rem;
+    background: rgba(0, 0, 0, 0.54);
+    font-size: 0.22rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 0 0 0.12rem 0.12rem;
+}
+
+.peanut_item_other {
+    margin-top: 0.05rem;
+}
+
+.item_other_img {
+    width: 0.44rem;
+    height: 0.44rem;
+    background: white;
+    border-radius: 50%;
+    margin-left: 0.05rem;
+}
+
+.peanut_item_other span{
+    font-size: 0.24rem;
+    font-family: PingFang SC;
+    font-weight: 500;
+    line-height: 0.34rem;
+    color: rgba(0, 0, 0, 1);
+    margin-top: 0.05rem;
+}
+.peanut_item_price{
+    font-size:0.26rem;
+    font-family:PingFang SC;
+    font-weight:600;
+    line-height:0.36rem;
+    color:rgba(255,198,10,1);
+    margin-top: 0.1rem;
+}
+.peanut_item_price img{
+    width: 0.36rem;
+    height: 0.38rem;
+    margin-left: 0.05rem;
+}
+.peanut_help{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size:0.22rem;
+    width: 100%;
+    font-family:PingFang SC;
+    font-weight:600;
+    line-height:0.52rem;
+    color:rgba(0,0,0,1);
+    background:rgba(255,198,10,0.85);
+    border-radius:0 0 0.12rem 0.12rem;
+}
+.peanut_help>img{
+    width: 0.09rem;
+    height: 0.15rem;
+}
+.swiper-container3 .swiper-slide{
+    width: 2rem !important;
+}
+.peanut_item_data{
+    font-size:0.3rem;
+    font-family:PingFang SC;
+    font-weight:600;
+    line-height:0.42rem;
+    color:rgba(255,198,10,1);
+    margin-top: 0.2rem;
+}
+.peanut_item_data>img{
+    width: 0.36rem;
+    height: 0.38rem;
+}
+.content_info_name>img{
+    width: 0.84rem;
+    height: 0.36rem;
+}
+.is_peanut{
+    background: #FDD42F !important;
+    color: black !important;
+}
+.peanut_share{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1rem;
+    z-index: 3;
+}
+.peanut_share_item{
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    line-height: 1rem;
+}
+.peanut_share_item.register{
+    background:linear-gradient(180deg,rgba(255,224,47,1) 0%,rgba(255,203,28,1) 100%);
+    font-size:0.3rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(0,0,0,1);
+}
+.peanut_share_item.register>img{
+    width: 0.32rem;
+    height: 0.32rem;
+    margin-top: -0.1rem;
+}
+.peanut_share_item.peanut_inv{
+    background:linear-gradient(360deg,rgba(255,59,43,1) 0%,rgba(255,110,33,1) 100%);
+    font-size:0.3rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+}
+.is_first_peanut{
+    width: 100%;
+    background: url("../../image/activity/icon_yindao@2x.png") center center;
+    background-size: 100% 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    display: none;
+}
+.i_know{
+    width: 2.44rem;
+    height: 1.18rem;
+    background: url("../../image/activity/icon_ok@2x.png") center center;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 4.14rem;
+    left: 2.6rem;
+}
+.gain_peanut{
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:6;
+    display: none;
+}
+.gain_info{
+    width: 6rem;
+    height: 7rem;
+    position: absolute;
+    top: 3.26rem;
+    left: 0.76rem;
+    background: url("../../image/activity/img_tanchaung@2x.png") center center;
+    background-size: 100% 100%;
+}
+.close_gain{
+    width: 0.8rem;
+    height: 0.8rem;
+    position: absolute;
+    top: 10.46rem;
+    left: 3.36rem;
+}
+.close_gain img{
+    width: 100%;
+    height: 100%;
+}
+.gain_num{
+    font-size0.44rem;
+    font-family:PingFang SC;
+    font-weight:600;
+    line-height:0.6rem;
+    color:rgba(255,210,60,1);
+    margin-top: 2.04rem;
+    margin-left: 1.94rem;
+}
+.gain_num>img{
+    width: 0.26rem;
+    height: 0.38rem;
+}
+.gain_con{
+    font-size:0.24rem;
+    font-family:PingFang SC;
+    font-weight:400;
+    line-height:0.34rem;
+    color:rgba(255,255,255,1);
+    margin-left: 1.4rem;
+    margin-top: 0.1rem;
+}
+.gain_con>img{
+    width: 0.13rem;
+    height: 0.21rem;
+}
+.gain_info_data{
+margin-top: 0.44rem;
+}
+.gain_info_pd_img{
+    width: 1.2rem;
+    height: 1.2rem;
+    background: white;
+    margin-left: 0.94rem;
+    margin-right: 0.2rem;
+    border-radius:0.12rem;
+}
+.gain_info_name{
+    font-size:0.24rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    line-height:0.3rem;
+    color:rgba(255,255,255,1);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.gain_info_other_img{
+    width: 0.46rem;
+    height: 0.46rem;
+    background: black;
+    border-radius: 50%;
+    /*margin-top: 0.3rem;*/
+}
+.gain_span{
+    font-size:0.22rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    line-height:0.3rem;
+    color:rgba(255,255,255,1);
+    margin-top: 0.4rem;
+    display: inline-block;
+}
+.gain_tip{
+    width:70%;
+    font-size:0.24rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    line-height:0.34rem;
+    color:rgba(255,230,93,1);
+    margin-left: 0.94rem;
+    margin-top: 0.4rem;
+}
+
+.continue_pop{
+    width:7.5rem;
+    position:fixed;
+    top:0;
+    left: 0;
+    bottom:0;
+    right:0;
+    background: rgba(0,0,0,0.4);
+    z-index:100;
+    display: none;
+}
+.continue_con{
+    width:5.4rem;
+    /*height:7.4rem;*/
+    padding-bottom: 0.48rem;
+    background: #fff;
+    margin:0 auto;
+    margin-top: 2.53rem;
+    overflow: hidden;
+}
+.continue_con_top{
+    width:3.46rem;
+    height:0.28rem;
+    margin:0 auto;
+    margin-top: 0.48rem;
+}
+.continue_con_top img{
+    width:100%;
+    height:100%;
+}
+.continue_con_code{
+    width:2.8rem;
+    height:2.8rem;
+    overflow: hidden;
+    margin:0 auto;
+    margin-top: 0.47rem;
+}
+.continue_con_code img{
+    width:100%;
+    height:100%;
+}
+.continue_con_btn{
+    width:3.4rem;
+    margin:0 auto;
+    margin-top:0.47rem;
+
+}
+.continue_con_btn div{
+    border:0.02rem solid #000000;
+    border-radius: 0.09rem;
+    padding:0.1rem;
+    text-align: center;
+    color: #000000;
+    font-size: 0.24rem;
+    font-weight: 600;
+    margin: 0 auto;
+}
+.bc-btn {
+    padding:0.1rem;
+    text-align: center;
+    color: #aaa;
+    font-size: 0.24rem;
+    margin: 0.2rem auto 0 auto;
+}
+.copy-btn {
+    width: 1.88rem;
+    height: 0.42rem;
+    border-radius: 0.1rem;
+    display: block;
+    border: 1px solid #000;
+    margin: 0.3rem auto 0 auto;
+    text-align: center;
+    line-height: 0.42rem;
+    font-size: 0.28rem;
+}
+.details_fenxiang{
+    width:7.5rem;
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom:0;
+    right:0;
+    background: rgba(0,0,0,0.2);
+    z-index: 20;
+    display: none;
+}
+.details_fxcon{
+    width:7.5rem;
+    background: #fff;
+    position: fixed;
+    bottom:0;
+    left: 0;
+    z-index: 3;
+}
+.details_fxtit{
+    text-align: center;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    color:#666666;
+    font-size: 0.22rem;
+}
+.details_fxlist{
+    width:7.5rem;
+    background: #F2F2F2;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    /*padding-left: 0.3rem;*/
+    padding-right: 0.3rem;
+}
+.details_fx_img{
+    width:1.44rem;
+    text-align: center;
+    color:#999999;
+    font-size: 0.22rem;
+    padding-left: 0.8rem;
+
+}
+.details_fx_img img{
+    display: inline-block;
+    margin-bottom: 0.24rem;
+    width:100%;
+    height:100%;
+}
+.details_fx_cancel{
+    height:0.88rem;
+    background: #fff;
+    color:#7E7E7E;
+    font-size: 0.3rem;
+    line-height: 0.88rem;
+    text-align: center;
+}
+.is_peanut_sheng{
+    width: 100%;
+    height: 0.6rem;
+    display: inline-block;
+    background:rgba(0,0,0,0.54);
+    text-align: center;
+    line-height: 0.6rem;
+    font-size:0.24rem;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    position: relative;
+    bottom: 0;
+    left: 0;
+}

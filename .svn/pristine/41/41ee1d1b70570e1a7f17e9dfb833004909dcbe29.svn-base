@@ -1,0 +1,70 @@
+
+{extend name="index/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/syuclub/index.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="main">
+        <div class="syuclub_view">
+            <div class="syuclub_phone">
+                <input type="number" placeholder="输入手机号" oninput="if(value.length>11)value=value.slice(0,11)" name="phone">
+            </div>
+            <div class="syuclub_pass clear">
+                <input type="password" id="pwd" placeholder="密码" class="lf" name="password">
+                <div class="syuclub_open rt">
+                    <img src="__STATIC__/image/syuclub/icon_eye2@2x.png" alt="" class="show">
+                    <img src="__STATIC__/image/syuclub/icon_eye1@2x.png" alt="">
+                </div>
+            </div>
+            <p class="syuclub_text">必须为晟域用户才可登陆</p>
+            <div class="syuclub_btn">
+                <img src="__STATIC__/image/syuclub/icon_anniu@2x.png" alt="">
+            </div>
+        </div>
+    </div>
+</main>
+{/block}
+
+{block name="script"}
+{include file="common/js_sdk" /}
+<script>
+   $(".syuclub_open img").click(function(){
+       $(this).toggleClass("show");
+       $(this).siblings("img").toggleClass("show");
+       if($("input[name='password']").attr("type")=="password"){
+            $("input[name='password']").attr("type","text");
+       }else{
+            $("input[name='password']").attr("type","password");
+       }
+   })
+   $(".syuclub_btn").click(function(){
+       var phone=$("input[name='phone']");
+       var password=$("input[name='password']");
+       $.ajax({
+            type: 'post',
+            url:"",
+            data: {phone:phone,password:password},
+            dataType: 'json',
+            success: function (data) {
+                if(data.status==1){
+                    location.href = "/";
+                }else{
+                    layer.confirm("您当前还不是晟域用户呦", {
+                        title: false,/*标题*/
+                        closeBtn:0,
+                        btnAlign: 'c',
+                        btn: '返回拍吖吖',
+                        btn1: function () {
+                            location.href = "/";
+                        }
+                    })
+                }
+            }
+       })  
+   })
+</script>
+{/block}

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:80:"D:\project\pai\public/../application/popularity/view/popularitygoods/p_rule.html";i:1541491295;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:80:"D:\project\pai\public/../application/popularity/view/popularitygoods/p_rule.html";i:1544154864;s:69:"D:\project\pai\public/../application/popularity/view/common/base.html";i:1543280491;s:71:"D:\project\pai\public/../application/popularity/view/common/header.html";i:1541491295;s:71:"D:\project\pai\public/../application/popularity/view/common/js_sdk.html";i:1541491295;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -68,7 +68,7 @@
             如有违法违规作弊行为将被取消参与资格！
         </small>
         <small>
-            人气购活动最终解释权归拍吖吖平台。
+            人气购活动最终解释权归吖吖商城平台。
         </small>
     </div>
 </main>
@@ -178,18 +178,18 @@
 
 </script>
 <script>
-    $(window).scroll(function () {
-        var scrol = $(window).scrollTop();
-        if (scrol > 1) {
-            $(".header_nav").css({background:"#fff"});
-            $(".header_tit span").css({color:"#000000"});
-            $(".header_tit img").attr("src","__STATIC__/image/admit/icon_nav_back@2x.png");
-        } else {
-            $(".header_nav").css({background:"transparent"});
-            $(".header_tit span").css({color:"#fff"});
-            $(".header_tit img").attr("src","__STATIC__/image/goodsproduct/icon_nav_back2@2x.png");
-        }
-    })
+    // $(window).scroll(function () {
+    //     var scrol = $(window).scrollTop();
+    //     if (scrol > 1) {
+    //         $(".header_nav").css({background:"#fff"});
+    //         $(".header_tit span").css({color:"#000000"});
+    //         $(".header_tit img").attr("src","__STATIC__/image/admit/icon_nav_back@2x.png");
+    //     } else {
+    //         $(".header_nav").css({background:"#fff"});
+    //         $(".header_tit span").css({color:"#000000"});
+    //         $(".header_tit img").attr("src","__STATIC__/image/goodsproduct/icon_nav_back2@2x.png");
+    //     }
+    // })
 </script>
 
     <!-- <script>

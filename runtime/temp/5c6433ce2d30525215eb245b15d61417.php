@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1544075010;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:68:"D:\project\pai\public/../application/activity/view/index/search.html";i:1544145896;s:67:"D:\project\pai\public/../application/activity/view/common/base.html";i:1541491285;s:69:"D:\project\pai\public/../application/activity/view/common/js_sdk.html";i:1541491285;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -390,7 +390,7 @@ var isPeanut = "<?php echo $is_peanut; ?>"
         setTimeout(function () {
             $.ajax({
                 type: 'post',
-                url: '/activity/index/get_activity_goods',
+                url: '/activity/index/get_search_goods',
                 data: {
                     page: pageNum,
                     page_size: pageSize,

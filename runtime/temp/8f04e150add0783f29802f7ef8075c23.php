@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1543546890;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1543280491;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1541986556;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\project\pai\public/../application/index/view/index/index.html";i:1544423812;s:63:"D:\project\pai\public/../application/index/view/index/base.html";i:1544154864;s:66:"D:\project\pai\public/../application/index/view/common/footer.html";i:1544402806;s:66:"D:\project\pai\public/../application/index/view/common/js_sdk.html";i:1541491293;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -18,18 +18,17 @@
         
 <link rel="stylesheet" type="text/css" href="__CSS__/index/swiper.min.css">
 <link rel="stylesheet" type="text/css" href="__CSS__/mescroll/mescroll.min.css">
-<link rel="prerender" href="https://css-tricks.com">
 <link rel="stylesheet" type="text/css" href="__CSS__/wallet/search_index.css">
-<link rel="stylesheet" type="text/css" href="__CSS__/index/index.css">
 <link rel="stylesheet" href="__CSS__/liMarquee/liMarquee.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/index/new_index.css">
 <style>
-    .mescroll-upwarp {
-        padding: 0.5rem 0 1.6rem 0;
-    }
-    .layui-layer-msg {
-        width: 3.8rem;
-    }
-</style>
+        .mescroll-upwarp {
+            padding: 0.5rem 0 1.6rem 0;
+        }
+        .layui-layer-msg {
+            width: 3.8rem;
+        }
+    </style>
 
         <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
         <script src="__JS__/common/rem.js"></script>
@@ -37,7 +36,7 @@
         <script src="__JS__/common/lazyload.js"></script>
         <script src="__JS__/common/site.js"></script>
         <script src="__JS__/common/larea.js"></script>
-        <script src="__JS__/common/bootstrap.min.js"></script>
+        <!-- <script src="__JS__/common/bootstrap.min.js"></script> -->
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/fileinput.js"></script>
         <script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>
         <script src="__STATIC__/lib/layui/layui.js"></script>
@@ -53,10 +52,26 @@
     <body>
         <header></header>
         
-
 <main>
-    <div class="index_banner">
-        <div class="swiper-container" style="height:2.1rem;">
+    <div class="index-top">
+        <!-- app 扫码 S -->
+        <div class="smicon"></div>
+        <!-- app 扫码 E -->
+        <!-- 搜索框 S -->
+        <div class="index-so">
+            <div class="index_search">搜索想要的宝贝</div>
+            <!-- <div class="index-so-hot">热搜：<span onClick="hclic(this)"><small>iphonex</small></span></div> -->
+        </div>
+        <!-- 搜索框 E -->
+
+        <!-- 消息图标 S -->
+        <!-- <a class="index-msg"></a> -->
+        <!-- 消息图标 E -->
+    </div>
+
+    <!-- banner S -->
+    <div class="index-banner">
+        <div class="swiper-container swiper-container1">
             <div class='swiper-wrapper'>
                 <?php if(!(empty($imgs['sydh']) || (($imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator ) && $imgs['sydh']->isEmpty()))): if(is_array($imgs['hd']) || $imgs['hd'] instanceof \think\Collection || $imgs['hd'] instanceof \think\Paginator): $i = 0; $__LIST__ = $imgs['hd'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
                 <div class="swiper-slide">
@@ -70,386 +85,263 @@
             </div>
             <div class="swiper-pagination"></div>
         </div>
-        <div class="index_searsh_top" style="background:linear-gradient(90deg,rgba(255,231,68,1),rgba(255,172,28,1));">
-            <div class="sm-icon"></div>
-            <div class="index_search">
-                <img src="__STATIC__/image/index/searchbar_icon_search@2x.png" style="width:0.36rem;height:0.36rem">
-                <p style='margin-left:0.8rem;font-size:0.26rem;'>搜索您想要的商品或店铺</p>
+    </div>
+    <!-- banner E -->
+    <div class="index_con_nav">
+        <div class="swiper-container swiper-container3">
+            <div class="swiper-wrapper index_items">
+                <?php if(!(empty($imgs['sydh']) || (($imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator ) && $imgs['sydh']->isEmpty()))): if(is_array($imgs['sydh']) || $imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator): $i = 0; $__LIST__ = $imgs['sydh'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                        <div class="swiper-slide">
+                            <a href="<?php echo $vo['wi_href']; ?>">
+                                <div class="index_con_nav_view">
+                                    <div>
+                                        <img src="<?php echo $vo['wi_imgurl']; ?>" alt="">
+                                    </div>
+                                    <p><?php echo $vo['wi_name']; ?></p>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endforeach; endif; else: echo "" ;endif; endif; ?>
             </div>
-        </div>
-
+        </div>      
     </div>
-    <!--双十一入口-->
-    <!--<a href="/promotion/index/double11">-->
-        <!--<div class="double11" style="margin-top: -0.01rem">-->
-            <!--<img src="__STATIC__/image/index/icon_shuang11@2x.png" alt="">-->
-        <!--</div>-->
-    <!--</a>-->
-     <!-- 公告 S -->
-<div class="details-act" style="margin-top: -0.01rem">
-        <span></span>
-        <small></small>
-        <div class="dowebok"></div>
-    </div>
-    <!-- 公告 E -->
+  
 
-
-    <!--各个模块入口-->
-    <ul class="index_items">
-        <?php if(!(empty($imgs['sydh']) || (($imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator ) && $imgs['sydh']->isEmpty()))): if(is_array($imgs['sydh']) || $imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator): $i = 0; $__LIST__ = $imgs['sydh'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-        <a href="<?php echo $vo['wi_href']; ?>">
-            <li class="index_item lf">
+    <div class="index-cont">
+        <!-- 公告 S -->
+        <!-- <div class="index-notice">
+            <div class="index-notice-title">
+                <img class="dts" src="/static/image/index/gg.png" />
                 <div>
-                    <img src="<?php echo $vo['wi_imgurl']; ?>" alt="">
-                    <p><?php echo $vo['wi_name']; ?></p>
+                    <img src="/static/image/index/g1.png" />
+                    <img src="/static/image/index/g2.png" />
                 </div>
-            </li>
-        </a>
-
-        <?php endforeach; endif; else: echo "" ;endif; endif; ?>
-
-        <!--<a href="/member/core/index">-->
-            <!--<li class="index_item lf">-->
-                <!--<div>-->
-                    <!--<img src="__STATIC__/image/index/icon_yyhy@2x.png" alt="">-->
-                    <!--<p>吖吖会员</p>-->
-                <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<li class="index_item lf">-->
-            <!--<div>-->
-                <!--<img src="__STATIC__/image/index/icon_syhy@2x.png" alt="">-->
-                <!--<p>晟域会员</p>-->
-            <!--</div>-->
-        <!--</li>-->
-        <!--<a href="/member/wallet/recharge">-->
-            <!--<li class="index_item lf">-->
-                    <!--<div>-->
-                <!--<img src="__STATIC__/image/index/icon_qbcz@2x.png" alt="">-->
-                <!--<p>钱包充值</p>-->
-                <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<a href="/popularity/popularitygoods/share_list">-->
-            <!--<li class="index_item lf" >-->
-                    <!--<div>-->
-                <!--<img src="__STATIC__/image/index/icon_rqw@2x.png" alt="">-->
-                <!--<p>人气王</p>-->
-                <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<a href="/member/core/continue_invitation">-->
-            <!--<li class="index_item lf">-->
-                    <!--<div>-->
-                <!--&lt;!&ndash; <img src="__STATIC__/image/index/icon_lhb@2x.png" alt="" class="lhb"> &ndash;&gt;-->
-                <!--<img src="__STATIC__/image/index/icon_yqhy@2x.png" alt="" >-->
-                <!--<p>邀请好友</p>-->
-                    <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<a href="/pointpai/pointgoods/goods_list/">-->
-            <!--<li class="index_item lf">-->
-                    <!--<div>-->
-                <!--<img src="__STATIC__/image/index/icon_jfsc@2x.png" alt="">-->
-                <!--<p>积分商城</p>-->
-                <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<a href="/index/index/price_range/type/1">-->
-            <!--<li class="index_item lf">-->
-                    <!--<div>-->
-                <!--<img src="__STATIC__/image/index/icon_yzzq@2x.png" alt="">-->
-                <!--<p>一折专区</p>-->
-                    <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<li class="index_item lf index_ershou">-->
-                <!--<div>-->
-            <!--<img src="__STATIC__/image/index/icon_eszq@2x.png" alt="">-->
-            <!--<p>二手专区</p>-->
-            <!--</div>-->
-        <!--</li>-->
-        <!--<a href=" /index/index/coiling">-->
-            <!--<li class="index_item lf">-->
-                    <!--<div>-->
-                <!--<img src="__STATIC__/image/index/icon_kqzx@2x.png" alt="">-->
-                <!--<p>卡券中心</p>-->
-                <!--</div>-->
-            <!--</li>-->
-        <!--</a>-->
-        <!--<li class="index_item lf">-->
-            <!--<div>-->
-            <!--<img src="__STATIC__/image/index/icon_qefx@2x.png" alt="">-->
-            <!--<p>全额返现</p>-->
-            <!--</div>-->
-        <!--</li>-->
-    </ul>
-    <!-- 公告 S -->
-    <!-- <div class="details-act">
-        <img src="__STATIC__/image/index/icon_icon@2x.png" alt="" class="lf">
-        <img src="__STATIC__/image/index/x@2x.png" alt="" class="ge lf">
-        <div class="details_act_imgs lf">
-            <img src="__STATIC__/image/index/icon_zhognjiang@2x.png" alt="" class="lf">
-            <img src="__STATIC__/image/index/icon_zhognjiang@2x (2).png" alt="" class="lf">
-        </div>
-        <div class="lf details_ps">
-            <p>拍吖吖目前处于公测阶段，如有问题可询问客服...</p>
-            <p>第7期人气王已经公布啦！到底是谁这幸运吖～</p>
-        </div>
-
-    </div> -->
-    <!-- 公告 E -->
-    <!-- <div class="details-act">
-            <img src="__STATIC__/image/index/icon_icon@2x.png" alt="" class="lf">
-            <img src="__STATIC__/image/index/x@2x.png" alt="" class="ge lf"> -->
-            <!-- <div class="details_act_imgs lf">
-                <img src="__STATIC__/image/index/icon_zhognjiang@2x.png" alt="" class="lf">
-                <img src="__STATIC__/image/index/icon_zhognjiang@2x (2).png" alt="" class="lf">
-            </div> -->
-            <!-- <div class="lf details_ps">
-                <p>拍吖吖目前处于公测阶段，如有问题可询问客服...</p>
             </div>
-
-        </div> -->
-    <!--秒杀折扣捡漏-->
-    <!--<div class="seckill_picker clear">-->
-        <!--&lt;!&ndash; <a href="/activity/seckill/sec_kill_list"> &ndash;&gt;-->
-            <!--<div class="seckill lf">-->
-                <!--<div class="seckill_top clear">-->
-                    <!--<div class="seckill_logo lf">-->
-                        <!--<img src="__STATIC__/image/index/icon_miaosha@2x.png" alt="">-->
-                        <!--<img src="__STATIC__/image/index/icon_miaoshachang@2x.png" alt="" class="lf">-->
-                        <!--<img src="__STATIC__/image/index/icon_jijiangshangxian@2x.png" alt="" class="lf">-->
-                    <!--</div>-->
-                    <!--<div class="seckill_cutdown rt">-->
-                        <!--<div class="cutdown clear rt" id="first" >-->
-                            <!--<span class="cutdown_num details_hour">00</span>-->
-                            <!--<span class="cutdown_mao">:</span>-->
-                            <!--<span class="cutdown_num details_minute">00</span>-->
-                            <!--<span class="cutdown_mao">:</span>-->
-                            <!--<span class="cutdown_num details_second">00</span>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<p>距离本场结束</p>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>超值商品敬请期待</p>&ndash;&gt;-->
-
-                    <!--</div>-->
-                    <!--<img src="__STATIC__/image/index/icon_wenzi@2x.png" alt="" class="qidai rt">-->
-                <!--</div>-->
-                <!--<ul class="seckill_bottom clear">-->
-                    <!--<li class="seckill_item lf">-->
-                        <!--<img src="__STATIC__/image/index/img1@2x.png" alt="">-->
-                        <!--<p class="seckill_price">¥27.00</p>-->
-                        <!--<p class="seckill_old_price">¥12377.00</p>-->
-                    <!--</li>-->
-                    <!--<li class="seckill_item lf">-->
-                        <!--<img src="__STATIC__/image/index/img2@2x.png" alt="">-->
-                        <!--<p class="seckill_price">¥87.00</p>-->
-                        <!--<p class="seckill_old_price">¥15100.00</p>-->
-                    <!--</li>-->
-                    <!--<li class="seckill_item lf">-->
-                        <!--<img src="__STATIC__/image/index/img3@2x.png" alt="">-->
-                        <!--<p class="seckill_price">¥99.00</p>-->
-                        <!--<p class="seckill_old_price">¥21800.00</p>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--&lt;!&ndash; </a> &ndash;&gt;-->
-
-
-        <!--&lt;!&ndash; <a href="/activity/pickout/pickout_list"> &ndash;&gt;-->
-            <!--<div class="picker rt">-->
-                <!--<img src="__STATIC__/image/index/icon_jianlo1@2x.png" alt="" class="picker_img">-->
-                <!--<p class="title">精品捡漏 即将上线</p>-->
-                <!--&lt;!&ndash;<p class="title">精品捡漏 下单即揭晓</p>&ndash;&gt;-->
-                <!--<ul class="seckill_bottom seckill_right_bottom clear">-->
-                    <!--<li class="seckill_item lf">-->
-                        <!--<img src="__STATIC__/image/index/img5@2x.png" alt="">-->
-                        <!--<p class="seckill_price">¥77.00</p>-->
-                        <!--<p class="seckill_old_price">¥853.00</p>-->
-                    <!--</li>-->
-                    <!--<li class="seckill_item lf">-->
-                        <!--<img src="__STATIC__/image/index/img4@2x.png" alt="">-->
-                        <!--<p class="seckill_price">¥288.00</p>-->
-                        <!--<p class="seckill_old_price">¥429.00</p>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--&lt;!&ndash; </a> &ndash;&gt;-->
-
-    <!--</div>-->
-
-
-
-    <div class="seckill_picker clear">
-        <!-- <a href="/activity/seckill/sec_kill_list"> -->
-        <div class="seckill rt">
-            <div class="seckill_top clear">
-                <div class="seckill_logo lf">
-                    <img src="__STATIC__/image/index/icon_miaosha@2x.png" alt="">
-                    <img src="__STATIC__/image/index/icon_miaoshachang@2x.png" alt="" class="lf">
-                    <img src="__STATIC__/image/index/icon_jijiangshangxian@2x.png" alt="" class="lf">
-                </div>
-                <div class="seckill_cutdown rt">
-                    <div class="cutdown clear rt" id="first" >
-                        <span class="cutdown_num details_hour">00</span>
-                        <span class="cutdown_mao">:</span>
-                        <span class="cutdown_num details_minute">00</span>
-                        <span class="cutdown_mao">:</span>
-                        <span class="cutdown_num details_second">00</span>
-                    </div>
-                    <!--<p>距离本场结束</p>-->
-                    <!--<p>超值商品敬请期待</p>-->
-
-                </div>
-                <img src="__STATIC__/image/index/icon_wenzi@2x.png" alt="" class="qidai rt">
-            </div>
-            <ul class="seckill_bottom clear">
-                <li class="seckill_item lf">
-                    <img src="__STATIC__/image/index/img1@2x.png" alt="">
-                    <p class="seckill_price">¥27.00</p>
-                    <p class="seckill_old_price">¥12377.00</p>
-                </li>
-                <li class="seckill_item lf">
-                    <img src="__STATIC__/image/index/img2@2x.png" alt="">
-                    <p class="seckill_price">¥87.00</p>
-                    <p class="seckill_old_price">¥15100.00</p>
-                </li>
-                <li class="seckill_item lf">
-                    <img src="__STATIC__/image/index/img3@2x.png" alt="">
-                    <p class="seckill_price">¥99.00</p>
-                    <p class="seckill_old_price">¥21800.00</p>
-                </li>
-            </ul>
-        </div>
-        <!-- </a> -->
-
-        <?php if(!(empty($cztg) || (($cztg instanceof \think\Collection || $cztg instanceof \think\Paginator ) && $cztg->isEmpty()))): ?>
-             <a href="/activity/index/index/code/<?php echo $cztg['activity']['a_code']; ?>">
-                <div class="picker lf" style="border-right: 0.01rem solid rgba(245,245,245,1);height:100%">
-                    <img src="__STATIC__/image/index/icon_fudai@2x.png" alt="" class="picker_img">
-                    <p class="title">参与必中 还有额外大奖</p>
-                    <!--<p class="title">精品捡漏 下单即揭晓</p>-->
-                    <ul class="seckill_bottom seckill_right_bottom clear">
-                        <?php if(!(empty($cztg['goods_list']) || (($cztg['goods_list'] instanceof \think\Collection || $cztg['goods_list'] instanceof \think\Paginator ) && $cztg['goods_list']->isEmpty()))): if(is_array($cztg['goods_list']) || $cztg['goods_list'] instanceof \think\Collection || $cztg['goods_list'] instanceof \think\Paginator): $i = 0; $__LIST__ = $cztg['goods_list'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                        <li class="seckill_item lf">
-                            <img src="<?php echo $vo['g_s_img']; ?>" alt="">
-                            <p class="seckill_price">¥<?php echo $vo['min_price']; ?></p>
-                            <p class="seckill_old_price">¥<?php echo $vo['gp_market_price']; ?></p>
-                        </li>
-                        <?php endforeach; endif; else: echo "" ;endif; endif; ?>
-                        <!--<li class="seckill_item lf">-->
-                            <!--<img src="__STATIC__/image/index/img4@2x.png" alt="">-->
-                            <!--<p class="seckill_price">¥288.00</p>-->
-                            <!--<p class="seckill_old_price">¥429.00</p>-->
-                        <!--</li>-->
+            <div class="index-notice-cont">
+                <div>
+                    <ul class="gdb">
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
                     </ul>
                 </div>
-             </a>
-        <?php endif; ?>
-    </div>
-
-    <!--以前的一折卡券以及积分-->
-    <!--<div class="index_area clear">-->
-    <!--<a href="/index/index/price_range/type/1">-->
-    <!--<div class="index_area_list lf ">-->
-    <!--<img src="__STATIC__/image/index/yiyuan@2x.png" alt=""/>-->
-    <!--</div>-->
-    <!--</a>-->
-    <!--<a href="/index/index/coiling">-->
-    <!--<div class="index_area_list lf ">-->
-    <!--<img src="__STATIC__/image/index/kajuan.png" alt=""/>-->
-    <!--</div>-->
-    <!--</a>-->
-    <!--<a href="/index/index/price_range/type/3">-->
-    <!--<div class="index_area_list lf ">-->
-    <!--<img src="__STATIC__/image/index/qianyuan@2x.png" alt=""/>-->
-    <!--</div>-->
-    <!--</a>-->
-    <!--&lt;!&ndash; <a href="/pointpai/pointgoods/goods_list">-->
-    <!--<div class="index_area_list lf ">-->
-    <!--<img src="__STATIC__/image/index/icon_jifen@2x.png" alt=""/>-->
-    <!--</div>-->
-    <!--</a> &ndash;&gt;-->
-    <!--&lt;!&ndash;<a href="/index/index/coiling">&ndash;&gt;-->
-    <!--&lt;!&ndash; <a href="/index/index/price_range/type/1">-->
-    <!--<div class="index_area_list lf">-->
-    <!--<img src="__STATIC__/image/index/icon_yizhe@2x.png" alt=""/>-->
-    <!--</div>-->
-    <!--</a> &ndash;&gt;-->
-    <!--&lt;!&ndash;<a href="/index/index/price_range/type/3">&ndash;&gt;-->
-
-    <!--&lt;!&ndash; <a href="/index/index/coiling">-->
-    <!--<div class="index_area_list lf">-->
-    <!--<img src="__STATIC__/image/index/icon_chognzhi@2x.png" alt=""/>-->
-    <!--</div>-->
-    <!--</a> &ndash;&gt;-->
-    <!--</div>-->
-    <!--大额商品，手机数码，家居家装-->
-    <div class="index_areas clear">
-        <div class="indez_areas_item lf">
-            <img src="__STATIC__/image/index/icon_daeshangpin@2x.png" alt="">
-            <p>高端商品 快来吖</p>
-            <div >
-                <img src="__STATIC__/image/index/img10@2x.png" alt="" class="detail_img">
-                <img src="__STATIC__/image/index/img11@2x.png" alt="" class="detail_img">
+                <div>
+                    <ul class="gdb">
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                        <li class="lis"><a href="#">第1条公告第1条公告第1条公告第1条公告第1条公告第1条公告</a></li>
+                    </ul>
+                </div>    
             </div>
+        </div> -->
+        <div class="details-act">
+            <span>吖吖<b>公告</b></span>
+            <!-- <span>吖吖b公告</span> -->
+            <small></small>
+            <div class="dowebok"></div>
         </div>
-        <div class="indez_areas_item lf">
-            <img src="__STATIC__/image/index/icon_shoujishuma.png" alt="">
-            <p>Iphone XS 新品</p>
-            <div >
-                <img src="__STATIC__/image/index/img8@2x.png" alt="" class="detail_img">
-                <img src="__STATIC__/image/index/img9@2x.png" alt="" class="detail_img">
-            </div>
-        </div>
-        <div class="indez_areas_item lf">
-            <img src="__STATIC__/image/index/icon_jijujiazhuang.png" alt="">
-            <p>低至一折！三折！</p>
-            <div style="margin-left: 0.14rem">
-                <img src="__STATIC__/image/index/img6@2x.png" alt="" class="detail_img">
-                <img src="__STATIC__/image/index/img7@2x.png" alt="" class="detail_img">
-            </div>
-        </div>
+        <!-- 公告 E -->
 
-    </div>
-
-    <div class="index_function" style="display:none">
-        <div class="index_function_view clear">
-            <!--不为空则循环-->
-            <?php if(!(empty($imgs['sydh']) || (($imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator ) && $imgs['sydh']->isEmpty()))): if(is_array($imgs['sydh']) || $imgs['sydh'] instanceof \think\Collection || $imgs['sydh'] instanceof \think\Paginator): $i = 0;$__LIST__ = is_array($imgs['sydh']) ? array_slice($imgs['sydh'],0,10, true) : $imgs['sydh']->slice(0,10, true); if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-            <a href="<?php echo $vo['wi_href']; ?>">
-                <div class="index_function_list lf">
-                    <div class="index_function_img">
-                        <img src="__STATIC__/image/index/pic_home_taplace@2x.png" data-original="<?php echo $vo['wi_imgurl']; ?>">
-                    </div>
-                    <p><?php echo $vo['wi_name']; ?></p>
+        <!-- 超值团购 S -->
+        <div class="index-buy">
+            <div class="index-buy-tit">
+                <img class="icons" src="/static/image/index/cz.png" />
+                <div class="index-buy-gd">
+                    <ul class="gdb">
+                            <?php if(!(empty($last_paimems) || (($last_paimems instanceof \think\Collection || $last_paimems instanceof \think\Paginator ) && $last_paimems->isEmpty()))): if(is_array($last_paimems) || $last_paimems instanceof \think\Collection || $last_paimems instanceof \think\Paginator): $i = 0; $__LIST__ = $last_paimems;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                                    <li class="lis"><img src="<?php echo (isset($vo['m_s_avatar']) && ($vo['m_s_avatar'] !== '')?$vo['m_s_avatar']:'__STATIC__/image/index/pic_home_taplace@2x.png'); ?>" /><p><?php echo $vo['s_name']; ?>刚刚参了团</p></li>
+                                <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                        <!-- <li class="lis"><img src="/static/image/index/pic_home_taplace@2x.png" /><p>小**七刚刚参了团</p></li> -->
+                        <!-- <li class="lis"><img src="/static/image/index/pic_home_taplace@2x.png" /><p>小**七刚刚参了团</p></li> -->
+                        <!-- <li class="lis"><img src="/static/image/index/pic_home_taplace@2x.png" /><p>小**七刚刚参了团</p></li> -->
+                    </ul>
                 </div>
-            </a>
-            <?php endforeach; endif; else: echo "" ;endif; endif; ?>
-        </div>
-    </div>
-    <!-- <?php if(!(empty($imgs['syad']) || (($imgs['syad'] instanceof \think\Collection || $imgs['syad'] instanceof \think\Paginator ) && $imgs['syad']->isEmpty()))): if(is_array($imgs['syad']) || $imgs['syad'] instanceof \think\Collection || $imgs['syad'] instanceof \think\Paginator): $i = 0; $__LIST__ = $imgs['syad'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-    <a data="<?php echo $vo['wi_href']; ?>" class="ads">
-    <div class="index_placeholder_banner">
-    <img src="<?php echo $vo['wi_imgurl']; ?>">
-    </div>
-    </a>
-    <?php endforeach; endif; else: echo "" ;endif; endif; ?> -->
-    <div class="index_select_drop">
-        <div class="index_choice">
-            <!--<img src="__STATIC__/image/index/jingxuan@2x.png" alt=""/>-->
-            <img src="__STATIC__/image/index/icon_tuijian@2x.png" alt="" class="index_tuijian"/>
-        </div>
-        <div>
-            <div class="index_select_drop_view dataList" id="dataList">
-
+                <a href="/activity/index/index/code/<?php echo isset($cztg['activity']['a_code']) ? $cztg['activity']['a_code'] :  0; ?>" class="index-buy-link">进入会场</a>
             </div>
         </div>
+        <div class="swiper-container swiper-container2">
+            <div class="swiper-wrapper">
+                <?php if(!(empty($cztg['goods_list']) || (($cztg['goods_list'] instanceof \think\Collection || $cztg['goods_list'] instanceof \think\Paginator ) && $cztg['goods_list']->isEmpty()))): if(is_array($cztg['goods_list']) || $cztg['goods_list'] instanceof \think\Collection || $cztg['goods_list'] instanceof \think\Paginator): $i = 0; $__LIST__ = $cztg['goods_list'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                        <div class="swiper-slide">
+                            <div>
+                                <a href="/member/goodsproduct/index/g_id/<?php echo isset($vo['g_id']) ? $vo['g_id'] :  0; ?>">
+                                    <img src="<?php echo (isset($vo['g_s_img']) && ($vo['g_s_img'] !== '')?$vo['g_s_img']:'__STATIC__/image/index/pic_home_taplace@2x.png'); ?>">
+                                    <p>仅剩<?php echo isset($vo['left_num']) ? $vo['left_num'] :  0; ?>人</p>
+                                </a>
+                            </div>
+                            <small>￥<span><?php echo isset($vo['min_price']) ? $vo['min_price'] :  0; ?></span></small>
+                            <del>￥<?php echo isset($vo['gp_market_price']) ? $vo['gp_market_price'] :  0; ?></del>
+                        </div>
+                    <?php endforeach; endif; else: echo "" ;endif; endif; ?>
+                <!-- <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div>
+                <div class="swiper-slide">
+                    <div>
+                        <a href="#">
+                            <img src="/static/image/index/pic_home_taplace@2x.png">
+                            <p>仅剩17人</p>
+                        </a>
+                    </div>
+                    <small>￥<span>800.00</span></small>
+                    <del>￥8000.00</del>
+                </div> -->
+            </div>
+        </div>        
+        <!-- 超值团购 E -->
     </div>
-    <img class='red dd' src="__STATIC__/image/index/icon_hongbao@2x.png" alt="">
-    <!-- <form action="/index/index/search_index/" method="post"> -->
-    <div class="index_search_pop">
-        <!--搜索框-->
+
+    <!-- 活动模块 S -->
+    <div class="index-act">
+        <div class="index-act-list">
+            <!-- <div class="index-act-item1">
+                <a href="#"><img src="/static/image/index/hd1.png"></a>
+            </div> -->
+            <div class="index-act-item2">
+                <a href="/popularity/popularitygoods/share_list"><img src="/static/image/index/hd3.png"></a>
+            </div>
+        </div>    
+        <div class="index-act-list">    
+            <!-- <div class="index-act-item2">
+                <a href="#"><img src="/static/image/index/hd3.png"></a>
+            </div>
+            <div class="index-act-item2">
+                <a href="#"><img src="/static/image/index/hd4.png"></a>
+            </div> -->
+            <div class="index-act-item2">
+                <a href="/index/index/price_range/type/1"><img src="/static/image/index/hd5.png"></a>
+            </div>
+        </div>
+    </div>    
+    <!-- 活动模块 E -->
+
+    <!-- 精品推荐 S -->
+    <div class="index-pro">
+        <h3><img src="/static/image/index/pro.png"></h3>
+        <div class="index-pro-list">
+            <div class="dataList" id="dataList">
+
+            </div>
+            <!-- <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div>
+            <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div>
+            <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div>
+            <div class="index-pro-item">
+                <div class="index-pro-item-img">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                </div>
+                <div class="index-pro-item-name">Beats 蓝牙无线头戴式运动魔音降噪苹果耳机 黑色</div>
+                <div class="index-pro-item-price">￥<span>781.00</span>&nbsp;<del>￥1000.00</del></div>
+                <div class="index-pro-item-num">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <img src="/static/image/index/pic_home_taplace@2x.png">
+                    <p>等271人参团</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- 精品推荐 E -->
+
+    <!-- 抖动红包 S -->
+    <img class="red dd" src="__STATIC__/image/index/icon_hongbao@2x.png" alt="">
+    <!-- 抖动红包 E -->
+
+    <!-- 领取红包弹窗 S -->
+    <div class="new_pop">
+        <div class="new_pop_con">
+            <img src="__STATIC__/image/index/icon_x@2x.png" alt=""/>
+            <p>恭喜！获得新人红包</p>
+            <a>￥
+                <small>10</small>
+            </a>
+            <div class="new_pop_btn" id="new_pop_btn">立即下载并领取红包</div>
+        </div>
+    </div>
+    <!-- 领取红包弹窗 E -->
+
+    <!-- 搜索弹窗 S -->
+    <div class="index_search_pop">        
         <div class="index_search_pop_top clear">
             <div class="index_pop_text lf">
                 <img src="__STATIC__/icon/publish/icon_nav_back@2x.png" alt=""/>
@@ -464,7 +356,6 @@
                     <img src="__STATIC__/image/index/icon_qingchu1@2x.png" alt="">
                 </div>
             </div>
-            <!-- <button type="submit" class="index_pop_sousuo rt"> 搜索</button> -->
             <a class="index_pop_sousuo rt"> 搜索</a>
         </div>
         <!--tab切换-->
@@ -501,7 +392,6 @@
             </div>
             <div class="index_pop_history_main clear">
                 <?php if(is_array($searchs['hot']) || $searchs['hot'] instanceof \think\Collection || $searchs['hot'] instanceof \think\Paginator): $i = 0; $__LIST__ = $searchs['hot'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-                <!-- <a href="/index/index/search_index/keyword/<?php echo $vo; ?>"> -->
                 <a onClick="hclic(this)">
                     <div class="lf"><?php echo $vo; ?></div>
                 </a>
@@ -512,42 +402,12 @@
         <!--搜索出的列表-->
         <div class="index_pop_search_main">
             <ul class="index_pop_search_ul">
-
             </ul>
         </div>
     </div>
-    <!-- </form> -->
-    <div class="new_pop">
-        <div class="new_pop_con">
-            <img src="__STATIC__/image/index/icon_x@2x.png" alt=""/>
-            <p>恭喜！获得新人红包</p>
-            <!--<span>领取后在钱包查看，可用于拍购</span>-->
-            <a>￥
-                <small>10</small>
-            </a>
-            <div class="new_pop_btn" id="new_pop_btn">立即下载并领取红包</div>
-        </div>
-    </div>
+    <!-- 搜索弹窗 E -->
+
     <input type="hidden" id="app">
-
-
-    <!--是否开启准点提醒弹框-->
-    <div class="intime_alert">
-        <div class="alert_content">
-            <p class="alert_msg">是否开启准点提醒</p>
-            <p class="alert_contnet">当前时段商品已被秒完啦距离下场开始还剩<span>07:24:45</span></p>
-            <div class="alert_btns">
-                <span class="alert_no">暂不提醒</span>
-                <span class="alert_yes">开启提醒</span>
-            </div>
-        </div>
-        <!--成功开启提醒弹框-->
-        <div class="alert_success">
-            <img src="__STATIC__/image/index/icon_chenggong@2x.png" alt="">
-            <span>成功开启提醒</span>
-            <p>每场都将在开始前5分钟提醒您提醒信息在“消息中心”中查看</p>
-        </div>
-    </div>
 </main>
 
         <footer>
@@ -716,7 +576,7 @@
 
             <a href="/popularity/popularitygoods/share_list">
                 <div class="footer_tab_list footer_pub lf">
-                    <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                    <img src="__STATIC__/image/myhome/icon_fabu@2x(1).png">
                 </div>
             </a>
 
@@ -788,7 +648,7 @@
 
         <a href="/popularity/popularitygoods/share_list">
             <div class="footer_tab_list footer_pub lf">
-                <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                <img src="__STATIC__/image/myhome/icon_fabu@2x(1).png">
             </div>
         </a>
 
@@ -939,22 +799,13 @@
 <script src="__JS__/index/swiper.min.js"></script>
 <script src="__JS__/mescroll/mescroll.min.js"></script>
 <script type="text/javascript" src="__JS__/liMarquee/jquery.liMarquee.js"></script>
-<script src="__JS__/index/index.js"></script>
 <script src="__JS__/cookie/jquery.cookie.js"></script>
+<script src="__JS__/index/index.js"></script>
 <script>
-    // $(window).scroll(function () {
-    //     console.log($(window).scrollTop());
-    //     var scrol=$(window).scrollTop();
-    //     window.sessionStorage.setItem("scrol",scrol);//存数据到sessionStorage
-    // })
-    // var offs=window.sessionStorage.getItem("scrol")//从sessionStorage中取数据
-    //  $(window).scrollTop(offs);
-    
     //安卓app显示扫码位置
     if(getCookie("versionScan") != null) {
-        $('.index_search').addClass('smjk');
-        $('.index_searsh_top').addClass('smapp');
-        $('.sm-icon').show();
+        $('.index-top').addClass('sm-app');
+        $('.smicon').show();
     }
 
     function hclic(id){
@@ -963,13 +814,30 @@
         window.location.href="/index/index/search_index/type/"+typ+"/keyword/"+vo;
     }
     //点击搜索
-        $(".index_pop_sousuo").click(function () {
-            var keyword = $("input[name='keyword']").val();
-            var typ = $("input[name='type']").val();
-            window.location.href = "/index/index/search_index/type/" + typ + "/keyword/" + keyword;
-            $("input[name='keyword']").val('')
-        })
-
+    $(".index_pop_sousuo").click(function () {
+        var keyword = $("input[name='keyword']").val();
+        var typ = $("input[name='type']").val();
+        window.location.href = "/index/index/search_index/type/" + typ + "/keyword/" + keyword;
+    })
+//获取公告内容
+$.ajax({
+        type: 'post',
+        url: '/index/index/notice',
+        success: function (res) {
+            console.log(res)
+            if (res.data.length > 0) {
+                for (i = 0; i < res.data.length; i++) {
+                    $('.dowebok').append('<a>' + res.data[i] + '</a>');
+                }
+                $('.dowebok').liMarquee({
+                    runshort: false
+                });
+            } else {
+                $('.details-act').hide();
+            }
+            
+        }
+    })
     //判断是否登录(1已登录，0未登录)
     var isLogin = "<?php echo $is_login; ?>";
     //判断是否领取了红包（1可领取，2已领取）
@@ -993,7 +861,6 @@
                     sessionStorage.removeItem('hb');
                 });
             })
-
         }
     }
 
@@ -1023,9 +890,8 @@
             $('#app').val(str);
             //ios app显示扫码位置
             if(str == '1.0') {
-                $('.index_search').addClass('smjk');
-                $('.index_searsh_top').addClass('smapp');
-                $('.sm-icon').show();
+                $('.index-top').addClass('sm-app');
+                $('.smicon').show();
             }            
             
             //ios app领取红包
@@ -1099,107 +965,6 @@
         }
     })
 
-    //var timeout;
-
-    //安卓和ios以及微信和qq的打开app协议和跳转到下载app市场的协议可能不同
-    // document.getElementById('cs').onclick = function (e) {
-
-    //         // alert(3)
-    //         var locationHref = window.location;
-    //         if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
-    //             // 我们还需要知道的一点是，微信里屏蔽了schema协议。除非你是微信的合作伙伴之类的，他们专门给你配置进白名单，否则我们就没办法通过这个协议在微信中直接唤起app。
-    //             // 因此我们会判断页面场景是否在微信中，如果在微信中，则会提示用户在浏览器中打开。
-    //             // 如何判断本地是否安装了app
-    //             var ifr = document.createElement("iframe");
-    //             ifr.src = "com.zhisheng.paiyayallll"; /***打开app的协议，有ios同事提供 itms-apps://itunes.apple.com/app/apple-store/id432274380***/
-    //             ifr.style.display = "none";
-    //             document.body.appendChild(ifr);
-    //             timeout = setTimeout(function () {
-    //             document.body.removeChild(ifr);
-    //             window.location.href = "itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/tiger50906/paiyy/master/final/paiyy.plist"; /***下载app的地址***/
-    //             }, 500)
-    //         } 
-    //         // else if (navigator.userAgent.match(/android/i)) {
-    //         //     //在安卓下有弹层提示是否进去下载应用商店，并且如果已经安装进去app后返回 浏览器进去浏览器进入下载页面并且刷新页面时又进如app，知乎appye
-    //         //     var ifr = document.createElement('iframe');
-    //         //     ifr.src = 'schemepaiyaya://paiyy:8080/app?m_id=1&phone=15676246642'; // shoule configure at AndroidManifest.xml
-    //         //     ifr.style.display = 'none';
-    //         //     document.body.appendChild(ifr);
-
-    //         //     // var t ="zhihu://articles/27494849";
-    //         //     // t += "backupurl=" +  encodeURIComponent("mstore://details?package_name=com.zhihu.android&source_apkname=com.zhihu.android&source_info=zhihu")
-    //         //     timeout = setTimeout(function () {
-    //         //     document.body.removeChild(ifr);
-    //         //     window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=b2c.zhisheng.com.zhisheng&fromcase=40002";//android 下载地址 安卓的下载地址和ios不同,安卓的下载地址最好不要跳转到另外一页，最好在当前页面，不然安卓下不管是否安装该app总是先跳转到该下载页面并且跳转app后再回来的时候浏览器停留在下载页面，因为有时候网络慢或者打开app的时间过长就会导致跳转到了下载页面，即使也打开了app，但是在回到浏览器就跳转到了下载页面，所以安卓下最好下载地址不要重新定义一个页面
-    //         //     //安卓或者直接下载app  e.Wechat || e.Weibo ? s(t) : e.QQ || (window.location = 'https://api.zhihu.com/client/download/apk/latest')
-    //         //     }, 800);
-    //         //     if (document.addEventListener) {
-    //         //         document.addEventListener("webkitvisibilitychange", clean);
-    //         //         document.addEventListener("visibilitychange", clean);
-    //         //         document.addEventListener("pagehide", clean);
-    //         //     } else if (document.attachEvent) {
-    //         //         //document.attachEvent("onclick", myFunction);
-    //         //     }
-    //         // }
-    //     }        
-
-
-    //安卓和ios以及微信和qq的打开app协议和跳转到下载app市场的协议可能不同
-    // document.getElementById('new_pop_btn').onclick = function (e) {
-    //     if($('#app').val() != '') {
-    //         //alert(1)
-    //         getData();
-    //     }else if(hideFlag){
-    //         if (typeof(window.android) !== 'undefined') {
-    //             if (androidIos() == 'android') {
-    //                 getData();
-    //             }
-    //         }
-    //         //alert(2)
-    //     }else {
-    //         //alert(3)
-    //         var locationHref = window.location;
-    //         if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
-    //             // 我们还需要知道的一点是，微信里屏蔽了schema协议。除非你是微信的合作伙伴之类的，他们专门给你配置进白名单，否则我们就没办法通过这个协议在微信中直接唤起app。
-    //             // 因此我们会判断页面场景是否在微信中，如果在微信中，则会提示用户在浏览器中打开。
-    //             // 如何判断本地是否安装了app
-    //             var ifr = document.createElement("iframe");
-    //             ifr.src = "PaiYaYa://kanmei.zsj.com"; /***打开app的协议，有ios同事提供 itms-apps://itunes.apple.com/app/apple-store/id432274380***/
-    //             ifr.style.display = "none";
-    //             document.body.appendChild(ifr);
-    //             timeout = setTimeout(function () {
-    //             document.body.removeChild(ifr);
-    //             window.location.href = "itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/tiger50906/paiyy/master/final/paiyy.plist"; /***下载app的地址***/
-    //             }, 500)
-    //         } else if (navigator.userAgent.match(/android/i)) {
-    //             //在安卓下有弹层提示是否进去下载应用商店，并且如果已经安装进去app后返回 浏览器进去浏览器进入下载页面并且刷新页面时又进如app，知乎appye
-    //             var ifr = document.createElement('iframe');
-    //             ifr.src = 'schemepaiyaya://paiyy:8080/app?m_id=1&phone=15676246642'; // shoule configure at AndroidManifest.xml
-    //             ifr.style.display = 'none';
-    //             document.body.appendChild(ifr);
-
-    //             // var t ="zhihu://articles/27494849";
-    //             // t += "backupurl=" +  encodeURIComponent("mstore://details?package_name=com.zhihu.android&source_apkname=com.zhihu.android&source_info=zhihu")
-    //             timeout = setTimeout(function () {
-    //             document.body.removeChild(ifr);
-    //             window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=b2c.zhisheng.com.zhisheng&fromcase=40002";//android 下载地址 安卓的下载地址和ios不同,安卓的下载地址最好不要跳转到另外一页，最好在当前页面，不然安卓下不管是否安装该app总是先跳转到该下载页面并且跳转app后再回来的时候浏览器停留在下载页面，因为有时候网络慢或者打开app的时间过长就会导致跳转到了下载页面，即使也打开了app，但是在回到浏览器就跳转到了下载页面，所以安卓下最好下载地址不要重新定义一个页面
-    //             //安卓或者直接下载app  e.Wechat || e.Weibo ? s(t) : e.QQ || (window.location = 'https://api.zhihu.com/client/download/apk/latest')
-    //             }, 800);
-    //             if (document.addEventListener) {
-    //                 document.addEventListener("webkitvisibilitychange", clean);
-    //                 document.addEventListener("visibilitychange", clean);
-    //                 document.addEventListener("pagehide", clean);
-    //             } else if (document.attachEvent) {
-    //                 //document.attachEvent("onclick", myFunction);
-    //             }
-    //         }
-    //     }        
-    // }
-    // function clean() {
-    //     clearTimeout(timeout);
-    //     window.location.href = locationHref;
-    // }
-
     //点击显示红包弹窗
     $('.red').on('click', function () {
         if (isLogin == 1) {
@@ -1234,13 +999,8 @@
         }
     }
 
-    //邀请好友登录
-    $('.ads').click(function () {
-        window.location.href = $(this).attr('data')
-    })
-
     //banner图轮播
-    var mySwiper = new Swiper('.swiper-container', {
+    var mySwiper = new Swiper('.swiper-container1', {
         direction: 'horizontal',//滚动方向
         loop: true,//循环
         pagination: {
@@ -1253,17 +1013,65 @@
         disableOnInteraction: false//用户操作swiper之后，是否禁止autoplay。默认为 true：停止。false是播放
     })
 
-    //滚动屏幕
-    // $(window).scroll(function () {
-    //     var scro = $(window).scrollTop();
-    //     if (scro > 50) {
-    //         $(".index_searsh_top").css({background: "#FFD400"});
-    //     } else {
-    //         $(".index_searsh_top").css({background: "background:linear-gradient(90deg,rgba(255,231,68,1),rgba(255,172,28,1));"});
-    //     }
-    // })
+    //滚动公告
+    // var lenlen = $(".gdb").length;
+    function notice() {
+        $(".gdb").each(function (i) {
+            setTimeout(function () {
+                $(".gdb").eq(i).stop(true, true).animate({ marginTop: "-0.43rem" }, 1000, function () {
+                    $(".gdb").css({ marginTop: "0rem" });
+                    $(".gdb").eq(i).find(".lis:last").after($(".gdb").eq(i).find(".lis:first"));
+                })
+            }, 2000 * i)
+        })
+    }
+    // notice();
+    var time1=setInterval(notice, 2000);
+    setInterval(function(){
+        $.ajax("/activity/index/get_last_pai_mem/a_id/<?php echo isset($cztg['activity']['a_id']) ? $cztg['activity']['a_id'] :  0; ?>",{
+            dataType:"json",
+            type:"post",
+            success:function(data){
+                if(data.status==0){
+                   
+                }else{
+                    var lis="";
+                    $(".gdb li").last().siblings().remove();
+                    // console.log(data.data);
+                    for(var i=0;i<data.data.length;i++){
+                        if(data.data[i].m_s_avatar==""){
+                            data.data[i].m_s_avatar="__STATIC__/image/index/pic_home_taplace@2x.png"
+                        }
+                        lis+='<li class="lis">'
+                        lis+='<img src="'+data.data[i].m_s_avatar+'"/>'
+                        lis+='<p>'+data.data[i].s_name+'刚刚参了团</p>'
+                        lis+='</li>'
+                    }
+                    $(".gdb").append(lis);
+                }
+                $(".lis img").error(function(){
+                    $(this).attr("src","__STATIC__/image/index/pic_home_taplace@2x.png")
+                })
+            }
+        })
+    },20000)
 
-    //精选拍品的下拉加载数据
+    $(".lis img").error(function(){
+        $(this).attr("src","__STATIC__/image/index/pic_home_taplace@2x.png")
+    })
+    //超值团购滑动效果
+    var swiper = new Swiper('.swiper-container2', {
+        slidesPerView: 3.2,
+        spaceBetween: 10
+    });
+    //活动模块滑动效果
+    var swiper = new Swiper('.swiper-container3', {
+        slidesPerView: 5,
+        spaceBetween: 10,
+        slidesPerGroup: 5
+    });
+
+     //精选拍品的下拉加载数据
     //创建MeScroll对象,内部已默认开启下拉刷新,自动执行up.callback,刷新列表数据;
     var mescroll = new MeScroll("body", {
         //下拉刷新
@@ -1312,18 +1120,18 @@
         for (var i = 0; i < curPageData.length; i++) {
             var pd = curPageData[i];
             var num;
-            if (pd.max_num == 0) {
-                num = 0;
-            } else {
-                num = pd.max_num / pd.gdr_membernum * 100;
-                if (num >= 100) {
-                    num = 100;
-                } else if (num >= 99 && num < 100) {
-                    num = 99;
-                } else {
-                    num = Math.ceil(num);
-                }
-            }
+            // if (pd.max_num == 0) {
+            //     num = 0;
+            // } else {
+            //     num = pd.max_num / pd.gdr_membernum * 100;
+            //     if (num >= 100) {
+            //         num = 100;
+            //     } else if (num >= 99 && num < 100) {
+            //         num = 99;
+            //     } else {
+            //         num = Math.ceil(num);
+            //     }
+            // }
             var img = '';
             // if (pd.gp_market_price >= 0 && pd.gp_market_price <= 1000) {
             //     img = '<img src="__STATIC__/image/index/icon_home_hundred@2x.png" alt="">'
@@ -1334,39 +1142,27 @@
             // if (pd.gp_market_price >= 10001) {
             //     img = '<img src="__STATIC__/image/index/icon_home_wan@2x.png" alt="">'
             // }
-            var str = '<div class="index_module_main clear">';
-            str += '<div class="index_module_img_view lf">';
-            str += '<div class="index_module_img">';
-            str += '<img src="' + pd.g_s_img + '" alt="">';
-            str += '</div>';
-            str += '<div class="index_module_pic">';
-            str += img;
-            str += '</div>';
-            str += '</div>';
-            str += '<div class="index_module_text lf">';
-            str += '<p>' + pd.g_name + '</p>';
-            
-            str += '<div class="index_module_progress_view clear">';
-            str += '<div class="index_module_progress lf">';
-            str += '<div class="index_module_progressbar" style="width: ' + num + '%"></div>';
-            str += '</div>';
-            str += '<div class="index_module_progress_hint lf">' + num + '%</div>';
-            str += '</div>';
-            str += '<span>￥<i>' + pd.gdr_price + '</i>&nbsp;&nbsp;<del>￥' + pd.gp_market_price + '</del></span>';
-            str += '<div class="index_module_progress_bottom clear">';
-            str += '<span class="lf">' + pd.total_num + '人已参与</span>';
-            // str += '<div class="index_module_progress_canyu rt">立即参团</div>';
-
-            str += '</div>';
-            str += '</div>';
-            str += '</div>';
-            str += '<div class="index_module_progress_canyu index_module_progress_canyu2 rt"><img src="__STATIC__/image/index/icon_bt@2x.png" alt=""></div>';
+            var str='<div class="index-pro-item">'
+                str+='<div class="index-pro-item-img">'
+                str+='<img src="' + pd.g_s_img + '">'
+                str+='</div>'
+                str+='<div class="index-pro-item-name">' + pd.g_name + '</div>'
+                str+='<div class="index-pro-item-price">￥<span>' + pd.gdr_price + '</span>&nbsp;<del>￥' + pd.gp_market_price + '</del></div>'
+                str+='<div class="index-pro-item-num">'
+                // str+='<img src="/static/image/index/pic_home_taplace@2x.png">'
+                // str+='<img src="/static/image/index/pic_home_taplace@2x.png">'
+                str+='<p>等' + pd.total_num + '人参团</p>'
+                str+='</div>'
+                str+='</div>'
             var liDom = document.createElement("a");
             liDom.setAttribute("href", '/member/goodsproduct/index/g_id/' + pd.g_id);
             liDom.innerHTML = str;
             listDom.appendChild(liDom);
             
         }
+        $(".index-pro-item-img img").error(function(){
+            $(this).attr("src","__STATIC__/image/index/pic_home_taplace@2x.png")
+        })
     }
 
     /*联网加载列表数据
@@ -1393,110 +1189,7 @@
             });
         }, 1000)
     }
-
-    //获取公告内容
-    $.ajax({
-        type: 'post',
-        url: '/index/index/notice',
-        success: function (res) {
-            console.log(res)
-            if (res.data.length > 0) {
-                for (i = 0; i < res.data.length; i++) {
-                    $('.dowebok').append('<a>' + res.data[i] + '</a>');
-                }
-                $('.dowebok').liMarquee({
-                    runshort: false
-                });
-            } else {
-                $('.details-act').hide();
-            }
-        }
-    })
-    // $('.index_area_list').click(function () {
-    //     // console.log($(this).index());
-    //     var i = $(this).index()
-    //     // alert(i);
-    //     window.location.href = "/index/index/price_range/type/" + (i + 1);
-    //     $.cookie('zhekou_type', i, {expire: 10000, path: '/'})
-    // })
-    // 大牌折扣倒计时
-    var nowTime = parseInt(new Date().getTime());
-
-    function timer(intDiff, idName) {
-        window.setInterval(function (e) {
-            var day = 0,
-                hour = 0,
-                minute = 0,
-                second = 0;
-            /*时间默认值*/
-            if (intDiff > 0) {
-                day = Math.floor(intDiff / 1000 / 60 / 60 / 24);
-                hour = Math.floor(intDiff / 1000 / 60 / 60 - (day * 24));
-                minute = Math.floor((intDiff / 1000 / 60) - (day * 24 * 60) - (hour * 60));
-                second = Math.floor((intDiff / 1000) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60));
-                if (day == 0 && hour == 0 && minute == 0 && second == 0) {
-                    clearInterval(setInterval(e));
-                    location.reload();
-                }
-            }
-            if (hour <= 9) hour = '0' + hour;
-            if (minute <= 9) minute = '0' + minute;
-            if (second <= 9) second = '0' + second;
-
-            // $(idName + ' .details_day').html(' <span>' + 00 + '</span>天');
-            // $(idName + ' .details_hour').html('<span>' + 00 + '</span>');
-            // $(idName + ' .details_minute').html('<span>' + 00 + '</span>');
-            // $(idName + ' .details_second').html('<span>' + 00 + '</span>');
-            intDiff -= 1000;
-        }, 1000);
-    }
-    // var end_time = 12345 * 1000 - nowTime;
-    timer(12345000, '#first');
-
-
-    // 开启提醒弹框逻辑
-    // 模拟定时器，显示
-    // setTimeout(function(){
-    //     $('.intime_alert').css('display','block');
-    // },5000)
-    $('.alert_no').click(function(){
-        $('.intime_alert').css('display','none');
-    })
-    $('.alert_yes').click(function(){
-        $('.alert_content').css('display','none');
-        $('.alert_success').css('display','block');
-        setTimeout(function(){
-            $('.intime_alert').css('display','none');
-        },5000)
-    })
-    // 秒杀
-    $(".seckill").click(function(){
-        layer.msg("<span style='color:#fff'>暂未开放，敬请期待！</span>",{
-            time:2000
-        });
-    })
-    // 捡漏
-    // $(".picker").click(function(){
-    //     layer.msg("<span style='color:#fff'>暂未开放，敬请期待！</span>",{
-    //         time:2000
-    //     });
-    // })
-
-    // 大额
-    $(".index_areas").click(function(){
-        layer.msg("<span style='color:#fff'>暂未开放，敬请期待！</span>",{
-            time:2000
-        });
-    })
-    // 二手
-    // $(".index_ershou").click(function(){
-    //     layer.msg("<span style='color:#fff'>暂未开放，敬请期待！</span>",{
-    //         time:2000
-    //     });
-    // })
-
-
-    $('.index_items li').click(function(){
+    $('.index_items .index_con_nav_view').click(function(){
         var aHref =  $(this).parent('a').attr('href');
         if(aHref == '' || aHref == null){
             $(this).parent('a').attr('href','javascript:;');
@@ -1513,7 +1206,6 @@
     })
  
 </script>
-
 
     <!-- 调用登陆的sdk -->
     <!-- <script>

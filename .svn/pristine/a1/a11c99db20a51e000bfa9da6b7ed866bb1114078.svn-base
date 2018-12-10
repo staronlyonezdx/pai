@@ -1,0 +1,43 @@
+{extend name="common/base" /}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__CSS__/wallet/recharge_transition.css">
+{/block}
+{block name="header"}
+{include file="common/header" /}
+{/block}
+{block name="content"}
+<main>
+    <div class="recharge_transition">
+        <div class="recharge_transition_card clear">
+            <div class="lf">
+                <div class="recharge_transition_yuer">账户余额</div>
+                <p>￥<span>{$info.m_money}</span></p>
+            </div>
+            <a href="/member/wallet/recharge">
+                <div class="recharge_transition_yuerbtn rt">
+                    充值余额
+                </div>
+            </a>
+
+        </div>
+        <div class="recharge_transition_card recharge_transition_card_huasheng clear">
+            <div class="lf">
+                <div class="recharge_transition_yuer">当前花生</div>
+                <p>￥<span>{$info.peanut}</span></p>
+            </div>
+            <a href="/member/myhome/recharge_peanut">
+                <div class="recharge_transition_yuerbtn rt">
+                    充值花生
+                </div>
+            </a>
+
+        </div>
+        <a href="tel:400-027-1888" class="recharge_transition_kefu">
+            充值未到账？ 联系客服
+        </a>
+    </div>
+</main>
+{/block}
+{block name="script"}
+{include file="common/js_sdk" /}
+{/block}

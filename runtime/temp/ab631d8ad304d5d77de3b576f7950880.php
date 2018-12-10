@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:66:"D:\project\pai\public/../application/member/view/myhome/index.html";i:1542704491;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1543280491;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1541986719;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:66:"D:\project\pai\public/../application/member/view/myhome/index.html";i:1544167555;s:65:"D:\project\pai\public/../application/member/view/common/base.html";i:1544154864;s:67:"D:\project\pai\public/../application/member/view/common/footer.html";i:1544402806;s:67:"D:\project\pai\public/../application/member/view/common/js_sdk.html";i:1541491283;}*/ ?>
 
 <!DOCTYPE html>
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -36,7 +36,7 @@
         <!--<script type="text/javascript" src="__STATIC__/lib/bootstrap-fileinput-master/js/locales/zh.js"></script>-->
         <script src="__STATIC__/lib/layui/layui.js"></script>
         <script src="__JS__/common/popups.js"></script>
-        <script src="__JS__/common/vconsole.min.js"></script>
+        <!-- <script src="__JS__/common/vconsole.min.js"></script> -->
         <!-- <script src="__JS__/imsdk/sdk/webim.js" type="text/javascript"></script> -->
         <!--web im sdk 登录 示例代码-->
         <!-- <script src="__JS__/imsdk/js/login/login.js" type="text/javascript"></script> -->
@@ -493,7 +493,7 @@
             <!--</div>-->
             <!--</a>-->
             <a href="/member/modifydata/use_help/">
-                <div class="mine_tab_list lf">
+                <div class="mine_tab_list lf help">
                     <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
                          data-original="__STATIC__/image/myhome/icon_kefu@2x.png">
                     <p>帮助中心</p>
@@ -567,7 +567,7 @@
                 </div>
             </a>
             <a href="/member/modifydata/use_help/">
-                <div class="mine_tab_list lf">
+                <div class="mine_tab_list lf help">
                     <img src="__STATIC__/image/index/pic_home_taplace@2x.png"
                          data-original="__STATIC__/image/myhome/icon_kefu@2x.png">
                     <p>帮助中心</p>
@@ -805,7 +805,7 @@
 
             <a href="/popularity/popularitygoods/share_list">
                 <div class="footer_tab_list footer_pub lf">
-                    <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                    <img src="__STATIC__/image/myhome/icon_fabu@2x(1).png">
                 </div>
             </a>
 
@@ -876,7 +876,7 @@
         </a>
         <a href="/popularity/popularitygoods/share_list">
             <div class="footer_tab_list footer_pub lf">
-                <img src="__STATIC__/image/myhome/icon_fabu1@2x.png">
+                <img src="__STATIC__/image/myhome/icon_fabu@2x(1).png">
             </div>
         </a>
         <a href="/member/myhome/index">
@@ -1026,6 +1026,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/2.7.0/idangerous.swiper.js"></script>
 <script src="__JS__/cookie/jquery.cookie.js"></script>
 <script>
+    $.ajax({
+        type:'post',
+        url:'/api/Audit/audit_period',
+        dataType:'json',
+        success:function(data){
+            console.log(data);
+            var res=  $.parseJSON(data);
+            console.log(res);
+            if(res.data.status == 0){
+              $('.help').hide()
+            }
+        }
+    })
+
+
     $.ajax({
         type: 'POST',
         url: '/popularity/popularityorder/find_no_address_aworder',
